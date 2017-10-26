@@ -8,7 +8,7 @@ class TextButton : public QPushButton
     Q_OBJECT
 
 public:
-    TextButton(QPushButton *parent=0);
+    TextButton(const QString &text);
     ~TextButton(); 
 };
 

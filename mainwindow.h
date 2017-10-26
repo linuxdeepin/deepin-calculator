@@ -22,6 +22,26 @@ private:
     QGridLayout *mainLayout;
     TitleBar *titleBar;
     DisplayArea *displayArea;
+    TextButton *clearButton;
+    TextButton *backButton;
+    TextButton *modButton;
+    TextButton *divButton;
+    TextButton *num7Button;
+    TextButton *num8Button;
+    TextButton *num9Button;
+    TextButton *multButton;
+    TextButton *num4Button;
+    TextButton *num5Button;
+    TextButton *num6Button;
+    TextButton *minButton;
+    TextButton *num1Button;
+    TextButton *num2Button;
+    TextButton *num3Button;
+    TextButton *plusButton;
+    TextButton *zeroButton;
+    TextButton *pointButton;
+    TextButton *bracketsButton;
+    TextButton *equalButton;
 };	
 
 #endif

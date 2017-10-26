@@ -1,8 +1,9 @@
 #include "textbutton.h"
 
-TextButton::TextButton(QPushButton *parent) : QPushButton(parent)
+TextButton::TextButton(const QString &text)
 {
-    
+    setText(text);
+    setFixedHeight(65);
 }
 
 TextButton::~TextButton()
