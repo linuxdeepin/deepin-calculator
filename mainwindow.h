@@ -5,6 +5,7 @@
 #include <QGridLayout>
 #include "titlebar.h"
 #include "displayarea.h"
+#include "textbutton.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -14,7 +15,7 @@ class MainWindow : public DMainWindow
     
 public:
     MainWindow(DMainWindow *parent=0);
-	~MainWindow();
+    ~MainWindow();
 
 private:
     QWidget *mainWidget;
