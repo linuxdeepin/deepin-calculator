@@ -6,7 +6,7 @@ TitleBar::TitleBar(QWidget *parent) : QWidget(parent)
     iconWidget = new QSvgWidget(":/images/icon.svg");
 
     iconWidget->setFixedSize(22, 22);
-    
+
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(iconWidget);
     layout->addStretch();

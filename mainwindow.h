@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <DMainWindow>
-#include <QVBoxLayout>
+#include <QGridLayout>
 #include "titlebar.h"
 #include "displayarea.h"
 
@@ -18,7 +18,7 @@ public:
 
 private:
     QWidget *mainWidget;
-    QVBoxLayout *mainLayout;
+    QGridLayout *mainLayout;
     TitleBar *titleBar;
     DisplayArea *displayArea;
 };	
