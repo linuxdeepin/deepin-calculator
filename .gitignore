@@ -12,8 +12,7 @@
 *.la
 *.a
 
-build
-build*/
+build/
 *.pro.user*
 *.DS_Store
 dde-control-center
