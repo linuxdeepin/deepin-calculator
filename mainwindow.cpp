@@ -62,7 +62,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     mainLayout->setMargin(0);
     mainLayout->setSpacing(0);
     
-    setFixedSize(325, 475);
+    setFixedSize(330, 480);
     setCentralWidget(mainWidget);
 }
 

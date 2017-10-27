@@ -13,6 +13,10 @@ public:
     
 protected:
     void paintEvent(QPaintEvent *);
+
+private:
+    int rowHeight;
+    int padding;
 };	
 
 #endif
