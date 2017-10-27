@@ -2,6 +2,7 @@
 #define LISTITEM_H
 
 #include <QObject>
+#include <QPainter>
 
 class ListItem : public QObject
 {
@@ -10,6 +11,12 @@ class ListItem : public QObject
 public:
     ListItem();
     ~ListItem(); 
+
+    void drawBackground(QRect rect, QPainter *painter);
+    void drawContent(QRect rect, QPainter *painter);
+
+private:
+    QString express;
 };
 
 #endif

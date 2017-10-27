@@ -6,10 +6,37 @@ ListView::ListView(QWidget *parent) : QWidget(parent)
 {
     rowHeight = 41;
     padding = 10;
+    offsetY = 40;
+    scrollBarWidth = 6;
+    scrollBarPadding = 8;
+
+    setMouseTracking(true);
 }
 
 ListView::~ListView()
 {
+}
+
+void ListView::addItem(ListItem *item)
+{
+    items << item;
+
+    repaint();
+}
+
+int ListView::getItemsTotalHeight() const
+{
+    return items.count() * rowHeight;
+}
+
+int ListView::getScrollBarY() const
+{
+    return offsetY / (getItemsTotalHeight() * 1.0) * rect().height();
+}
+
+int ListView::getScrollBarHeight() const
+{
+    return rect().height() * 1.0 / getItemsTotalHeight() * rect().height();
 }
 
 void ListView::paintEvent(QPaintEvent *)
@@ -23,21 +50,30 @@ void ListView::paintEvent(QPaintEvent *)
 
     painter.setPen("#333333");
 
-    QFont font;
-
-    for (int i = 0; i < 10; ++i) {
-        QPainterPath itemPath;
-        itemPath.addRect(QRect(0, i * rowHeight, width(), rowHeight));
-
-        QString express("1234+12123-22+21312*211-221/222");
-        
-        if (i == 10) {
-            font.setPointSize(15);
-            painter.setFont(font);
-            express = "23432+2343-213";
+    // Draw background and content.
+    int drawHeight = 0;
+    int count = 0;
+    
+    for (ListItem *item : items) {
+        if (count >= offsetY / rowHeight) {
+            item->drawBackground(QRect(0, count * rowHeight - offsetY, width(), rowHeight), &painter);
+            item->drawContent(QRect(padding + scrollBarPadding,
+                                    count * rowHeight - offsetY,
+                                    width() - padding * 2 - scrollBarPadding,
+                                    rowHeight), &painter);
         }
 
-        painter.fillPath(itemPath, QColor("#FFFFFF"));
-        painter.drawText(QRect(padding, i * rowHeight, width() - padding * 2, rowHeight), Qt::AlignVCenter | Qt::AlignRight, express);
+        drawHeight += rowHeight;
+
+        if (drawHeight > rect().height())
+            break;
+
+        ++count;
     }
+
+    // Draw scrollbar.
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QColor("#000000"));
+    painter.setOpacity(0.5);
+    painter.drawRoundedRect(QRect(width() - scrollBarPadding, getScrollBarY(), scrollBarWidth, getScrollBarHeight() - scrollBarPadding), 5, 5);
 }
