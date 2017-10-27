@@ -24,17 +24,17 @@ private:
     int offsetY;
     int scrollBarWidth;
     int scrollBarPadding;
-    
-    int getItemsTotalHeight() const;
-    int getScrollBarY() const;
-    int getScrollBarHeight() const;
-    int getScrollBarX() const;
 
 protected:
     void paintEvent(QPaintEvent *);
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
+
+    int getItemsTotalHeight() const;
+    int getScrollBarHeight() const;
+    int getScrollBarX() const;
+    int getScrollBarY() const;
 };	
 
 #endif

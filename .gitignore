@@ -1,8 +1,7 @@
 Makefile
 moc_*.o
 moc_*.cpp
-build/
+*.o
 *.qm
-!nethogs/Makefile
-*.user
-*.user.*
+build/
+*.pro.user

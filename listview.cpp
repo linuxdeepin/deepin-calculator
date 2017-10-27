@@ -25,26 +25,6 @@ void ListView::addItem(ListItem *item)
     repaint();
 }
 
-int ListView::getItemsTotalHeight() const
-{
-    return items.count() * rowHeight;
-}
-
-int ListView::getScrollBarY() const
-{
-    return offsetY / (getItemsTotalHeight() * 1.0) * rect().height();
-}
-
-int ListView::getScrollBarHeight() const
-{
-    return rect().height() * 1.0 / getItemsTotalHeight() * rect().height();
-}
-
-int ListView::getScrollBarX() const
-{
-    return rect().width() - scrollBarWidth - scrollBarPadding;
-}
-
 void ListView::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
@@ -112,4 +92,24 @@ void ListView::mouseReleaseEvent(QMouseEvent *e)
     isDragScrollBar = false;
 
     repaint();
+}
+
+int ListView::getItemsTotalHeight() const
+{
+    return items.count() * rowHeight;
+}
+
+int ListView::getScrollBarHeight() const
+{
+    return rect().height() * 1.0 / getItemsTotalHeight() * rect().height();
+}
+
+int ListView::getScrollBarX() const
+{
+    return rect().width() - scrollBarWidth - scrollBarPadding;
+}
+
+int ListView::getScrollBarY() const
+{
+    return offsetY / (getItemsTotalHeight() * 1.0) * rect().height();
 }

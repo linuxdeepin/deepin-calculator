@@ -1,7 +1,7 @@
 #TextButton {
     font-size: 17px;
     color: #545454;
-    border: 1px solid #F3F3F3;
+    border: 1px solid #ECECEC;
     background-color: #FFFFFF;
 }
 #TextButton:hover {
@@ -27,8 +27,9 @@
 }
 
 #EqualButton {
-    background-color: #2CA7F8;
-    color: #2CA7F8;
+    background: #2CA7F8;
+    border: 1px solid #2CA7F8;
+    color: #FFFFFF;
     font-size: 18px;
 }
 #EqualButton:hover{
