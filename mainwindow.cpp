@@ -58,6 +58,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     
     titlebar()->setCustomWidget(titleBar, Qt::AlignVCenter, false);
     titlebar()->setWindowFlags(titlebar()->windowFlags() & ~Qt::WindowMaximizeButtonHint);
+    titlebar()->setSeparatorVisible(true);
 
     mainLayout->setMargin(0);
     mainLayout->setSpacing(0);
