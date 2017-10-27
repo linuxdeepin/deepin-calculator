@@ -12,8 +12,8 @@ public:
     ListItem();
     ~ListItem(); 
 
-    void drawBackground(QRect rect, QPainter *painter);
-    void drawContent(QRect rect, QPainter *painter);
+    void drawBackground(const QRect &rect, QPainter *painter);
+    void drawContent(const QRect &rect, QPainter *painter);
 
 private:
     QString express;

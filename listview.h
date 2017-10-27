@@ -2,6 +2,7 @@
 #define LISTVIEW_H
 
 #include <QWidget>
+#include <QMouseEvent>
 #include "listitem.h"
 
 class ListView : public QWidget
@@ -16,6 +17,7 @@ public:
 
 private:
     QList<ListItem *> items;
+    bool isDragScrollBar;
     
     int rowHeight;
     int padding;
@@ -26,9 +28,13 @@ private:
     int getItemsTotalHeight() const;
     int getScrollBarY() const;
     int getScrollBarHeight() const;
+    int getScrollBarX() const;
 
 protected:
     void paintEvent(QPaintEvent *);
+    void mouseMoveEvent(QMouseEvent *);
+    void mousePressEvent(QMouseEvent *);
+    void mouseReleaseEvent(QMouseEvent *);
 };	
 
 #endif
