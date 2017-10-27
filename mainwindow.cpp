@@ -33,6 +33,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     multButton->setObjectName("SymbolButton");
     minButton->setObjectName("SymbolButton");
     plusButton->setObjectName("SymbolButton");
+    equalButton->setObjectName("EqualButton");
 
     mainLayout->addWidget(displayArea, 0, 0, 1, 4);
     mainLayout->addWidget(clearButton, 1, 0);
