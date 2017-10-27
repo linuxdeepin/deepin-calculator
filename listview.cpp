@@ -1,12 +1,13 @@
 #include "listview.h"
 #include <QPainter>
+#include <QDebug>
 
 ListView::ListView(QWidget *parent) : QWidget(parent)
 {
-    rowHeight = 40;
+    rowHeight = 41;
     padding = 10;
 
-    setFixedHeight(175);
+    qDebug() << rect().height();
 }
 
 ListView::~ListView()
@@ -19,16 +20,26 @@ void ListView::paintEvent(QPaintEvent *)
     painter.setRenderHint(QPainter::Antialiasing, true);
 
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor("#D6D6D6"));
+    painter.setBrush(QColor("#E7E7E7"));
     painter.drawRect(rect());
 
     painter.setPen("#333333");
-    
-    for (int i = 0; i < 5; ++i) {
+
+    QFont font;
+
+    for (int i = 0; i < 4; ++i) {
         QPainterPath itemPath;
         itemPath.addRect(QRect(0, i * rowHeight, width(), rowHeight));
+
+        QString express("1234+12123-22+21312*211-221/222");
         
+        if (i == 3) {
+            font.setPointSize(15);
+            painter.setFont(font);
+            express = "23432+2343-213";
+        }
+
         painter.fillPath(itemPath, QColor("#FFFFFF"));
-        painter.drawText(QRect(padding, i * rowHeight, width() - padding * 2, rowHeight), Qt::AlignVCenter | Qt::AlignRight, "1+1+2+3*(2-3)+1+1+1+1+1+1+1+1+1+1+1+1+1");
+        painter.drawText(QRect(padding, i * rowHeight, width() - padding * 2, rowHeight), Qt::AlignVCenter | Qt::AlignRight, express);
     }
 }

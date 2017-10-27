@@ -33,7 +33,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     multButton->setObjectName("SymbolButton");
     minButton->setObjectName("SymbolButton");
     plusButton->setObjectName("SymbolButton");
-    
+
     mainLayout->addWidget(displayArea, 0, 0, 1, 4);
     mainLayout->addWidget(clearButton, 1, 0);
     mainLayout->addWidget(backButton, 1, 1);
@@ -55,14 +55,14 @@ MainWindow::MainWindow(DMainWindow *parent)
     mainLayout->addWidget(pointButton, 5, 1);
     mainLayout->addWidget(bracketsButton, 5, 2);
     mainLayout->addWidget(equalButton, 5, 3);
-    
+
     titlebar()->setCustomWidget(titleBar, Qt::AlignVCenter, false);
     titlebar()->setWindowFlags(titlebar()->windowFlags() & ~Qt::WindowMaximizeButtonHint);
     titlebar()->setSeparatorVisible(true);
 
     mainLayout->setMargin(0);
     mainLayout->setSpacing(0);
-    
+
     setFixedSize(330, 480);
     setCentralWidget(mainWidget);
 }
