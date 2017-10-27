@@ -1,6 +1,7 @@
 #include <DApplication>
 #include <DWidgetUtil>
 #include "mainwindow.h"
+#include "utils.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -14,7 +15,8 @@ int main(int argc, char *argv[])
     w.show();
 
     Dtk::Widget::moveToCenter(&w);
-
+    qApp->setStyleSheet(Utils::getQssContent(":/qss/style.qss"));
+    
     return app.exec();
 }
 

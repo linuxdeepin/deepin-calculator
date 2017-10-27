@@ -1,0 +1,12 @@
+#TextButton {
+    font-size: 15px;
+    color: #393939;
+}
+
+#SymbolButton {
+    color: #2CA7F8;
+}
+
+#EqualButton {
+    background-color: #2CA7F8;
+}

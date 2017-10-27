@@ -2,7 +2,7 @@
 
 DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
 {
-    setFixedHeight(155);
+    setFixedHeight(175);
 }
 
 DisplayArea::~DisplayArea()

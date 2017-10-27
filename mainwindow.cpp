@@ -29,6 +29,11 @@ MainWindow::MainWindow(DMainWindow *parent)
     bracketsButton= new TextButton("( )");
     equalButton= new TextButton("＝");
 
+    divButton->setObjectName("SymbolButton");
+    multButton->setObjectName("SymbolButton");
+    minButton->setObjectName("SymbolButton");
+    plusButton->setObjectName("SymbolButton");
+    
     mainLayout->addWidget(displayArea, 0, 0, 1, 4);
     mainLayout->addWidget(clearButton, 1, 0);
     mainLayout->addWidget(backButton, 1, 1);

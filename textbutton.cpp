@@ -3,8 +3,9 @@
 TextButton::TextButton(const QString &text)
 {
     setText(text);
-    setFixedHeight(64);
+    setFixedHeight(60);
     setFocusPolicy(Qt::NoFocus);
+    setObjectName("TextButton");
 }
 
 TextButton::~TextButton()
