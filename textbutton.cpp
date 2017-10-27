@@ -3,7 +3,7 @@
 TextButton::TextButton(const QString &text)
 {
     setText(text);
-    setFixedHeight(65);
+    setFixedHeight(64);
     setFocusPolicy(Qt::NoFocus);
 }
 

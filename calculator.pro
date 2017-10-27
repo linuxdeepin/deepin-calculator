@@ -12,7 +12,7 @@ TARGET = calculator
 INCLUDEPATH += .
 
 # Input
-HEADERS += mainwindow.h titlebar.h displayarea.h textbutton.h
-SOURCES += main.cpp mainwindow.cpp titlebar.cpp displayarea.cpp textbutton.cpp
+HEADERS += mainwindow.h titlebar.h displayarea.h textbutton.h listview.h listitem.h
+SOURCES += main.cpp mainwindow.cpp titlebar.cpp displayarea.cpp textbutton.cpp listview.cpp listitem.cpp
 
 RESOURCES += calculator.qrc

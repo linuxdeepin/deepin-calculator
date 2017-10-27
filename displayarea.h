@@ -1,18 +1,15 @@
 #ifndef DISPLAYAREA_H
 #define DISPLAYAREA_H
 
-#include <QWidget>
+#include "listview.h"
 
-class DisplayArea : public QWidget
+class DisplayArea : public ListView
 {
     Q_OBJECT
 
 public:
     DisplayArea(QWidget *parent=0);
-	~DisplayArea(); 
-
-protected:
-    void paintEvent(QPaintEvent *);
+    ~DisplayArea(); 
 };	
 
 #endif
