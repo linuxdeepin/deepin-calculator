@@ -14,11 +14,12 @@ public:
     ~ListView();
 
     void addItem(ListItem *item);
+    void clearItems();
 
 private:
     QList<ListItem *> items;
     bool isDragScrollBar;
-    
+
     int rowHeight;
     int padding;
     int offsetY;
@@ -35,6 +36,6 @@ protected:
     int getScrollBarHeight() const;
     int getScrollBarX() const;
     int getScrollBarY() const;
-};	
+};
 
 #endif

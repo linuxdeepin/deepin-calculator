@@ -25,6 +25,13 @@ void ListView::addItem(ListItem *item)
     repaint();
 }
 
+void ListView::clearItems()
+{
+    items.clear();
+
+    repaint();
+}
+
 void ListView::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
@@ -39,7 +46,7 @@ void ListView::paintEvent(QPaintEvent *)
     // Draw background and content.
     int drawHeight = 0;
     int count = 0;
-    
+
     for (ListItem *item : items) {
         if (count >= offsetY / rowHeight) {
             item->drawBackground(QRect(0, count * rowHeight - offsetY, width(), rowHeight), &painter);
@@ -60,13 +67,13 @@ void ListView::paintEvent(QPaintEvent *)
     // Draw scrollbar.
     painter.setPen(Qt::NoPen);
     painter.setBrush(QColor("#000000"));
-    
+
     if (isDragScrollBar) {
         painter.setOpacity(0.7);
     }else {
         painter.setOpacity(0.5);
     }
-    
+
     painter.drawRoundedRect(QRect(width() - scrollBarPadding, getScrollBarY(), scrollBarWidth, getScrollBarHeight()), 5, 5);
 }
 
