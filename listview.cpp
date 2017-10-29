@@ -91,12 +91,15 @@ void ListView::mousePressEvent(QMouseEvent *e)
     if (e->button() == Qt::LeftButton) {
         if (e->x() >= getScrollBarX())
             isDragScrollBar = true;
+
+        repaint();
     }
 }
 
 void ListView::mouseReleaseEvent(QMouseEvent *e)
 {
-    isDragScrollBar = false;
+    if (isDragScrollBar)
+        isDragScrollBar = false;
 
     repaint();
 }
