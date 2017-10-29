@@ -80,7 +80,8 @@ void ListView::paintEvent(QPaintEvent *)
 void ListView::mouseMoveEvent(QMouseEvent *e)
 {
     if (isDragScrollBar) {
-        offsetY = qMax(0, qMin(e->y(), getItemsTotalHeight() - rect().height()));
+        const int offset = e->y() / (rect().height() * 1.0) * getItemsTotalHeight();
+        offsetY = qMin(offset, getItemsTotalHeight() - rect().height());
 
         repaint();
     }
