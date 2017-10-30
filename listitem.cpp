@@ -42,3 +42,8 @@ void ListItem::backspace()
 {
     expression = expression.left(expression.count() - 1);
 }
+
+QString ListItem::getExpression() const
+{
+    return expression;
+}

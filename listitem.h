@@ -16,6 +16,7 @@ public:
     void drawContent(const QRect &rect, QPainter *painter, bool isLast);
     void insert(const QString &str);
     void backspace();
+    QString getExpression() const;
 
 private:
     QString expression;
