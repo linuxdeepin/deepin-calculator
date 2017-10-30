@@ -100,6 +100,18 @@ MainWindow::MainWindow(DMainWindow *parent)
     connect(num9Button, &QPushButton::clicked, this, [=]{
         onNumberButtonClicked("9");
     });
+    connect(plusButton, &QPushButton::clicked, this, [=]{
+        onSymbolButtonClicked("+");
+    });
+    connect(minButton, &QPushButton::clicked, this, [=]{
+        onSymbolButtonClicked("-"); 
+    });
+    connect(multButton, &QPushButton::clicked, this, [=]{
+        onSymbolButtonClicked("*");
+    });
+    connect(divButton, &QPushButton::clicked, this, [=]{
+        onSymbolButtonClicked("/"); 
+    });
     connect(equalButton, &QPushButton::clicked, this, [=]{
         displayArea->addItem(new ListItem);
         displayArea->scrollToBottom();
@@ -126,5 +138,11 @@ void MainWindow::onBackButtonClicked()
 void MainWindow::onPointButtonClicked()
 {
     displayArea->insertStrToItem(".");
+    displayArea->scrollToBottom();
+}
+
+void MainWindow::onSymbolButtonClicked(const QString &str)
+{
+    displayArea->insertStrToItem(str);
     displayArea->scrollToBottom();
 }
