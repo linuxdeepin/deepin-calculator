@@ -12,7 +12,6 @@ ListView::ListView(QWidget *parent) : QWidget(parent)
     isDragScrollBar = false;
 
     setMouseTracking(true);
-    setFixedHeight(164);
 }
 
 ListView::~ListView()
@@ -81,9 +80,8 @@ void ListView::paintEvent(QPaintEvent *)
 void ListView::mouseMoveEvent(QMouseEvent *e)
 {
     if (isDragScrollBar) {
-        const int offset = e->y() / (rect().height() * 1.0) * getItemsTotalHeight();
-        offsetY = qMax(0, qMin(offset, getItemsTotalHeight() - rect().height()));
-        
+        offsetY = adjustOffsetY(e->y() / (rect().height() * 1.0) * getItemsTotalHeight());
+
         repaint();
     }
 }
@@ -91,8 +89,11 @@ void ListView::mouseMoveEvent(QMouseEvent *e)
 void ListView::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton) {
-        if (e->x() >= getScrollBarX())
+        if (e->x() >= getScrollBarX()) {
             isDragScrollBar = true;
+
+            offsetY = adjustOffsetY(e->y() / (rect().height() * 1.0) * getItemsTotalHeight());
+        }
 
         repaint();
     }
@@ -113,8 +114,6 @@ int ListView::getItemsTotalHeight() const
 
 int ListView::getScrollBarHeight() const
 {
-    qDebug() << rect().height();
-    
     return rect().height() * 1.0 / getItemsTotalHeight() * rect().height();
 }
 
@@ -126,4 +125,9 @@ int ListView::getScrollBarX() const
 int ListView::getScrollBarY() const
 {
     return offsetY / (getItemsTotalHeight() * 1.0) * rect().height();
+}
+
+int ListView::adjustOffsetY(const int &offset) const
+{
+    return qMax(0, qMin(offset, getItemsTotalHeight() - rect().height()));
 }

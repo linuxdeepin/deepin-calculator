@@ -36,6 +36,7 @@ protected:
     int getScrollBarHeight() const;
     int getScrollBarX() const;
     int getScrollBarY() const;
+    int adjustOffsetY(const int &offset) const;
 };
 
 #endif

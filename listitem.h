@@ -14,9 +14,6 @@ public:
 
     void drawBackground(const QRect &rect, QPainter *painter);
     void drawContent(const QRect &rect, QPainter *painter);
-
-private:
-    QString express;
 };
 
 #endif
