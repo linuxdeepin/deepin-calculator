@@ -14,6 +14,7 @@ ListView::ListView(QWidget *parent) : QWidget(parent)
     setMouseTracking(true);
 }
 
+
 ListView::~ListView()
 {
 }
@@ -32,7 +33,7 @@ void ListView::clearItems()
     repaint();
 }
 
-void ListView::scrollToEnd()
+void ListView::scrollToBottom()
 {
     offsetY = getItemsTotalHeight() - rect().height();
 
@@ -58,9 +59,9 @@ void ListView::paintEvent(QPaintEvent *)
     for (ListItem *item : items) {
         if (count >= offsetY / rowHeight) {
             item->drawBackground(QRect(0, count * rowHeight - offsetY, width(), rowHeight), &painter);
-            item->drawContent(QRect(padding * 3,
+            item->drawContent(QRect(padding,
                                     count * rowHeight - offsetY,
-                                    width() - padding * 3 - scrollBarPadding,
+                                    width() - padding * 2 - scrollBarPadding,
                                     rowHeight), &painter);
 
             drawHeight += rowHeight;

@@ -68,7 +68,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     setFixedSize(330, 480);
     setCentralWidget(mainWidget);
 
-    displayArea->scrollToEnd();
+    displayArea->scrollToBottom();
 
     connect(zeroButton, &QPushButton::clicked, this, [=]{
         onNumberButtonClicked("0");
@@ -100,6 +100,10 @@ MainWindow::MainWindow(DMainWindow *parent)
     connect(num9Button, &QPushButton::clicked, this, [=]{
         onNumberButtonClicked("9");
     });
+    connect(equalButton, &QPushButton::clicked, this, [=]{
+        displayArea->addItem(new ListItem);
+        displayArea->scrollToBottom();
+    });
 }
 
 MainWindow::~MainWindow()
@@ -109,4 +113,5 @@ MainWindow::~MainWindow()
 void MainWindow::onNumberButtonClicked(const QString &str)
 {
     displayArea->insertStrToItem(str);
+    displayArea->scrollToBottom();
 }
