@@ -66,6 +66,8 @@ MainWindow::MainWindow(DMainWindow *parent)
 
     setFixedSize(330, 480);
     setCentralWidget(mainWidget);
+
+    displayArea->scrollToEnd();
 }
 
 MainWindow::~MainWindow()

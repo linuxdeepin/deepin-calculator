@@ -32,6 +32,13 @@ void ListView::clearItems()
     repaint();
 }
 
+void ListView::scrollToEnd()
+{
+    offsetY = adjustOffsetY(getItemsTotalHeight() - rect().height());
+
+    repaint();
+}
+
 void ListView::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);

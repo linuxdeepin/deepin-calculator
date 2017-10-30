@@ -10,7 +10,7 @@ class ListItem : public QObject
 
 public:
     ListItem();
-    ~ListItem(); 
+    ~ListItem();
 
     void drawBackground(const QRect &rect, QPainter *painter);
     void drawContent(const QRect &rect, QPainter *painter);

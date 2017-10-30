@@ -15,6 +15,7 @@ public:
 
     void addItem(ListItem *item);
     void clearItems();
+    void scrollToEnd();
 
 private:
     QList<ListItem *> items;
