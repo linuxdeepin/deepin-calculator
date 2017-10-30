@@ -12,7 +12,7 @@ TARGET = deepin-calculator
 INCLUDEPATH += .
 
 # Input
-HEADERS += mainwindow.h titlebar.h displayarea.h textbutton.h listview.h listitem.h utils.h
-SOURCES += main.cpp mainwindow.cpp titlebar.cpp displayarea.cpp textbutton.cpp listview.cpp listitem.cpp utils.cpp
+HEADERS += mainwindow.h titlebar.h displayarea.h textbutton.h listview.h listitem.h utils.h algorithm.h
+SOURCES += main.cpp mainwindow.cpp titlebar.cpp displayarea.cpp textbutton.cpp listview.cpp listitem.cpp utils.cpp algorithm.cpp
 
 RESOURCES += deepin-calculator.qrc
