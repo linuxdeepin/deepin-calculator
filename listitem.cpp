@@ -27,5 +27,8 @@ void ListItem::drawContent(const QRect &rect, QPainter *painter)
 
 void ListItem::insert(const QString &str)
 {
+    if (expression == "0")
+        expression.clear();
+
     expression.append(str);
 }

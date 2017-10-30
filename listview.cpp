@@ -39,6 +39,13 @@ void ListView::scrollToEnd()
     repaint();
 }
 
+void ListView::insertStrToItem(const QString &str)
+{
+    items.last()->insert(str);
+
+    repaint();
+}
+
 void ListView::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
