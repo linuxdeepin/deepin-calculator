@@ -3,6 +3,7 @@
 
 #include <DMainWindow>
 #include <QGridLayout>
+#include <QKeyEvent>
 #include "titlebar.h"
 #include "displayarea.h"
 #include "textbutton.h"
@@ -49,6 +50,10 @@ private slots:
     void onPointButtonClicked();
     void onSymbolButtonClicked(const QString &str);
     void onClearButtonClicked();
-};	
+    void onEqualButtonClicked();
+
+protected:
+    void keyPressEvent(QKeyEvent *);
+};
 
 #endif

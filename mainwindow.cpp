@@ -112,10 +112,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     connect(divButton, &QPushButton::clicked, this, [=]{
         onSymbolButtonClicked("÷"); 
     });
-    connect(equalButton, &QPushButton::clicked, this, [=]{
-        displayArea->addItem(new ListItem);
-        displayArea->scrollToBottom();
-    });
+    connect(equalButton, &QPushButton::clicked, this, &MainWindow::onEqualButtonClicked);
     connect(clearButton, &QPushButton::clicked, this, &MainWindow::onClearButtonClicked);
     connect(backButton, &QPushButton::clicked, this, &MainWindow::onBackButtonClicked);
     connect(pointButton, &QPushButton::clicked, this, &MainWindow::onPointButtonClicked);
@@ -151,4 +148,45 @@ void MainWindow::onSymbolButtonClicked(const QString &str)
 void MainWindow::onClearButtonClicked()
 {
     displayArea->clearLastItem();
+}
+
+void MainWindow::onEqualButtonClicked()
+{
+    displayArea->addItem(new ListItem);
+    displayArea->scrollToBottom();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_0) {
+        onNumberButtonClicked("0");
+    }else if (e->key() == Qt::Key_1) {
+        onNumberButtonClicked("1");
+    }else if (e->key() == Qt::Key_2) {
+        onNumberButtonClicked("2");
+    }else if (e->key() == Qt::Key_3) {
+        onNumberButtonClicked("3");
+    }else if (e->key() == Qt::Key_4) {
+        onNumberButtonClicked("4");
+    }else if (e->key() == Qt::Key_5) {
+        onNumberButtonClicked("5");
+    }else if (e->key() == Qt::Key_6) {
+        onNumberButtonClicked("6");
+    }else if (e->key() == Qt::Key_7) {
+        onNumberButtonClicked("7");
+    }else if (e->key() == Qt::Key_8) {
+        onNumberButtonClicked("8");
+    }else if (e->key() == Qt::Key_9) {
+        onNumberButtonClicked("9");
+    }else if (e->key() == Qt::Key_Plus) {
+        onSymbolButtonClicked("＋");
+    }else if (e->key() == Qt::Key_Minus) {
+        onSymbolButtonClicked("－");
+    }else if (e->key() == Qt::Key_Asterisk) {
+        onSymbolButtonClicked("×");
+    }else if (e->key() == Qt::Key_Slash) {
+        onSymbolButtonClicked("÷");
+    }else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
+        onEqualButtonClicked();
+    }
 }

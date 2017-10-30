@@ -14,7 +14,6 @@ ListView::ListView(QWidget *parent) : QWidget(parent)
     setMouseTracking(true);
 }
 
-
 ListView::~ListView()
 {
 }
