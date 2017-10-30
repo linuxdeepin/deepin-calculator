@@ -22,43 +22,42 @@ void ListView::addItem(ListItem *item)
 {
     items << item;
 
-    repaint();
+    update();
 }
 
 void ListView::clearItems()
 {
     items.clear();
 
-    repaint();
+    update();
 }
 
 void ListView::clearLastItem()
 {
     items.removeLast();
 
-    repaint();
+    update();
 }
 
 void ListView::setScrollToBottom()
 {
     offsetY = getItemsTotalHeight() - rect().height();
 
-    repaint();
+    update();
 }
 
 void ListView::insert(const QString &str)
 {
     items.last()->insert(str);
 
-    repaint();
+    update();
 }
 
 void ListView::backspace()
 {
-    if (items.last()->getExpression().length() > 1)
-        items.last()->backspace();
+    items.last()->backspace();
 
-    repaint();
+    update();
 }
 
 void ListView::paintEvent(QPaintEvent *)
@@ -108,7 +107,7 @@ void ListView::mouseMoveEvent(QMouseEvent *e)
     if (isDragScrollBar) {
         offsetY = adjustOffsetY(e->y() / (rect().height() * 1.0) * getItemsTotalHeight());
 
-        repaint();
+        update();
     }
 }
 
@@ -121,7 +120,7 @@ void ListView::mousePressEvent(QMouseEvent *e)
             offsetY = adjustOffsetY(e->y() / (rect().height() * 1.0) * getItemsTotalHeight());
         }
 
-        repaint();
+        update();
     }
 }
 
@@ -130,7 +129,7 @@ void ListView::mouseReleaseEvent(QMouseEvent *e)
     if (isDragScrollBar)
         isDragScrollBar = false;
 
-    repaint();
+    update();
 }
 
 int ListView::getItemsTotalHeight() const

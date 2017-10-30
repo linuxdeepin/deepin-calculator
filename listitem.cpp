@@ -42,7 +42,8 @@ void ListItem::insert(const QString &str)
 
 void ListItem::backspace()
 {
-    expression = expression.left(expression.count() - 1);
+    if (expression.count() > 1)
+        expression = expression.left(expression.count() - 1);
 }
 
 QString ListItem::getExpression() const
