@@ -2,6 +2,7 @@
 #define DISPLAYAREA_H
 
 #include "listview.h"
+#include "listitem.h"
 
 class DisplayArea : public ListView
 {
@@ -9,7 +10,12 @@ class DisplayArea : public ListView
 
 public:
     DisplayArea(QWidget *parent=0);
-    ~DisplayArea(); 
+    ~DisplayArea();
+
+    void addNextLine(const QString &str);
+
+private:
+    QList<ListItem *> listItems;
 };	
 
 #endif

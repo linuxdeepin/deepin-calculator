@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include <dtitlebar.h>
-#include "listitem.h"
 
 MainWindow::MainWindow(DMainWindow *parent)
     : DMainWindow(parent)                                         
@@ -67,9 +66,7 @@ MainWindow::MainWindow(DMainWindow *parent)
 
     setFixedSize(330, 490);
     setCentralWidget(mainWidget);
-
-    displayArea->scrollToBottom();
-
+    
     connect(zeroButton, &QPushButton::clicked, this, [=]{
         onNumberButtonClicked("0");
     });
@@ -101,10 +98,10 @@ MainWindow::MainWindow(DMainWindow *parent)
         onNumberButtonClicked("9");
     });
     connect(plusButton, &QPushButton::clicked, this, [=]{
-        onSymbolButtonClicked("＋");
+        onSymbolButtonClicked("+");
     });
     connect(minButton, &QPushButton::clicked, this, [=]{
-        onSymbolButtonClicked("－"); 
+        onSymbolButtonClicked("-"); 
     });
     connect(multButton, &QPushButton::clicked, this, [=]{
         onSymbolButtonClicked("×");
@@ -148,11 +145,12 @@ void MainWindow::onSymbolButtonClicked(const QString &str)
 void MainWindow::onClearButtonClicked()
 {
     displayArea->clearLastItem();
+    displayArea->addNextLine("0");
 }
 
 void MainWindow::onEqualButtonClicked()
 {
-    displayArea->addItem(new ListItem);
+    displayArea->addNextLine("0");
     displayArea->scrollToBottom();
 }
 
@@ -179,14 +177,16 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     }else if (e->key() == Qt::Key_9) {
         onNumberButtonClicked("9");
     }else if (e->key() == Qt::Key_Plus) {
-        onSymbolButtonClicked("＋");
+        onSymbolButtonClicked("+");
     }else if (e->key() == Qt::Key_Minus) {
-        onSymbolButtonClicked("－");
+        onSymbolButtonClicked("-");
     }else if (e->key() == Qt::Key_Asterisk) {
         onSymbolButtonClicked("×");
     }else if (e->key() == Qt::Key_Slash) {
         onSymbolButtonClicked("÷");
     }else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
         onEqualButtonClicked();
+    }else if (e->key() == Qt::Key_Backspace) {
+        displayArea->backspace();
     }
 }

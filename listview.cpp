@@ -55,7 +55,8 @@ void ListView::insertStrToItem(const QString &str)
 
 void ListView::backspace()
 {
-    items.last()->backspace();
+    if (items.last()->getExpression().length() > 1)
+        items.last()->backspace();
 
     repaint();
 }
