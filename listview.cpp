@@ -12,6 +12,7 @@ ListView::ListView(QWidget *parent) : QWidget(parent)
     isDragScrollBar = false;
 
     setMouseTracking(true);
+    setFixedHeight(164);
 }
 
 ListView::~ListView()
@@ -52,14 +53,14 @@ void ListView::paintEvent(QPaintEvent *)
             item->drawBackground(QRect(0, count * rowHeight - offsetY, width(), rowHeight), &painter);
             item->drawContent(QRect(padding + scrollBarPadding,
                                     count * rowHeight - offsetY,
-                                    width() - padding * 2 - scrollBarPadding,
+                                    width() - padding * 3 - scrollBarPadding,
                                     rowHeight), &painter);
+
+            drawHeight += rowHeight;
+
+            if (drawHeight > rect().height())
+                break;
         }
-
-        drawHeight += rowHeight;
-
-        if (drawHeight > rect().height())
-            break;
 
         ++count;
     }
@@ -81,8 +82,8 @@ void ListView::mouseMoveEvent(QMouseEvent *e)
 {
     if (isDragScrollBar) {
         const int offset = e->y() / (rect().height() * 1.0) * getItemsTotalHeight();
-        offsetY = qMin(offset, getItemsTotalHeight() - rect().height());
-
+        offsetY = qMax(0, qMin(offset, getItemsTotalHeight() - rect().height()));
+        
         repaint();
     }
 }
@@ -112,6 +113,8 @@ int ListView::getItemsTotalHeight() const
 
 int ListView::getScrollBarHeight() const
 {
+    qDebug() << rect().height();
+    
     return rect().height() * 1.0 / getItemsTotalHeight() * rect().height();
 }
 
