@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <dtitlebar.h>
+#include "listitem.h"
 
 MainWindow::MainWindow(DMainWindow *parent)
     : DMainWindow(parent)                                         
@@ -68,6 +69,11 @@ MainWindow::MainWindow(DMainWindow *parent)
     setCentralWidget(mainWidget);
 
     displayArea->scrollToEnd();
+
+    connect(equalButton, &QPushButton::clicked, this, [=]{
+                                                          displayArea->addItem(new ListItem);
+                                                          displayArea->scrollToEnd();
+                                                      });
 }
 
 MainWindow::~MainWindow()

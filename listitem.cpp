@@ -2,6 +2,7 @@
 
 ListItem::ListItem()
 {
+    expression = nullptr;
 }
 
 ListItem::~ListItem()
@@ -18,5 +19,8 @@ void ListItem::drawBackground(const QRect &rect, QPainter *painter)
 
 void ListItem::drawContent(const QRect &rect, QPainter *painter)
 {
-    painter->drawText(rect, Qt::AlignVCenter | Qt::AlignRight, "111+222+87331283*12+2323=3488984897");
+    QFont font;
+    font.setPointSize(13);
+    painter->setFont(font);
+    painter->drawText(rect, Qt::AlignVCenter | Qt::AlignRight, "1211+22+871283*12+2323=388982247");
 }

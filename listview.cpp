@@ -4,7 +4,7 @@
 
 ListView::ListView(QWidget *parent) : QWidget(parent)
 {
-    rowHeight = 41;
+    rowHeight = 40;
     padding = 10;
     offsetY = 0;
     scrollBarWidth = 6;
@@ -34,7 +34,7 @@ void ListView::clearItems()
 
 void ListView::scrollToEnd()
 {
-    offsetY = adjustOffsetY(getItemsTotalHeight() - rect().height());
+    offsetY = getItemsTotalHeight() - rect().height();
 
     repaint();
 }
@@ -44,12 +44,6 @@ void ListView::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
 
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor("#E7E7E7"));
-    painter.drawRect(rect());
-
-    painter.setPen("#333333");
-
     // Draw background and content.
     int drawHeight = 0;
     int count = 0;
@@ -57,7 +51,7 @@ void ListView::paintEvent(QPaintEvent *)
     for (ListItem *item : items) {
         if (count >= offsetY / rowHeight) {
             item->drawBackground(QRect(0, count * rowHeight - offsetY, width(), rowHeight), &painter);
-            item->drawContent(QRect(padding + scrollBarPadding,
+            item->drawContent(QRect(padding * 2,
                                     count * rowHeight - offsetY,
                                     width() - padding * 3 - scrollBarPadding,
                                     rowHeight), &painter);
@@ -81,7 +75,8 @@ void ListView::paintEvent(QPaintEvent *)
         painter.setOpacity(0.5);
     }
 
-    painter.drawRoundedRect(QRect(width() - scrollBarPadding, getScrollBarY(), scrollBarWidth, getScrollBarHeight()), 5, 5);
+    if (items.count() > 4)
+        painter.drawRoundedRect(QRect(width() - scrollBarPadding, getScrollBarY(), scrollBarWidth, getScrollBarHeight()), 5, 5);
 }
 
 void ListView::mouseMoveEvent(QMouseEvent *e)
