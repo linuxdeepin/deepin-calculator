@@ -15,6 +15,7 @@ public:
 
     void addItem(ListItem *item);
     void clearItems();
+    void clearLastItem();
     void scrollToBottom();
     void insertStrToItem(const QString &str);
     void backspace();

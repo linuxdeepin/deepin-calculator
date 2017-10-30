@@ -5,7 +5,7 @@ DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
 {
     addItem(new ListItem);
 
-    setFixedHeight(165);
+    setFixedHeight(175);
 }
 
 DisplayArea::~DisplayArea()

@@ -48,6 +48,7 @@ private slots:
     void onBackButtonClicked();
     void onPointButtonClicked();
     void onSymbolButtonClicked(const QString &str);
+    void onClearButtonClicked();
 };	
 
 #endif

@@ -4,7 +4,7 @@
 
 ListView::ListView(QWidget *parent) : QWidget(parent)
 {
-    rowHeight = 40;
+    rowHeight = 44;
     padding = 10;
     offsetY = 0;
     scrollBarWidth = 6;
@@ -29,6 +29,13 @@ void ListView::addItem(ListItem *item)
 void ListView::clearItems()
 {
     items.clear();
+
+    repaint();
+}
+
+void ListView::clearLastItem()
+{
+    items.removeLast();
 
     repaint();
 }
@@ -65,11 +72,13 @@ void ListView::paintEvent(QPaintEvent *)
 
     for (ListItem *item : items) {
         if (count >= offsetY / rowHeight) {
+            bool isLast = true;
+
             item->drawBackground(QRect(0, count * rowHeight - offsetY, width(), rowHeight), &painter);
             item->drawContent(QRect(padding,
                                     count * rowHeight - offsetY,
                                     width() - padding * 2 - scrollBarPadding,
-                                    rowHeight), &painter);
+                                    rowHeight), &painter, isLast);
 
             drawHeight += rowHeight;
 

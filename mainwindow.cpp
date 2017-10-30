@@ -65,7 +65,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     mainLayout->setMargin(0);
     mainLayout->setSpacing(0);
 
-    setFixedSize(330, 480);
+    setFixedSize(330, 490);
     setCentralWidget(mainWidget);
 
     displayArea->scrollToBottom();
@@ -101,21 +101,22 @@ MainWindow::MainWindow(DMainWindow *parent)
         onNumberButtonClicked("9");
     });
     connect(plusButton, &QPushButton::clicked, this, [=]{
-        onSymbolButtonClicked("+");
+        onSymbolButtonClicked("＋");
     });
     connect(minButton, &QPushButton::clicked, this, [=]{
-        onSymbolButtonClicked("-"); 
+        onSymbolButtonClicked("－"); 
     });
     connect(multButton, &QPushButton::clicked, this, [=]{
-        onSymbolButtonClicked("*");
+        onSymbolButtonClicked("×");
     });
     connect(divButton, &QPushButton::clicked, this, [=]{
-        onSymbolButtonClicked("/"); 
+        onSymbolButtonClicked("÷"); 
     });
     connect(equalButton, &QPushButton::clicked, this, [=]{
         displayArea->addItem(new ListItem);
         displayArea->scrollToBottom();
     });
+    connect(clearButton, &QPushButton::clicked, this, &MainWindow::onClearButtonClicked);
     connect(backButton, &QPushButton::clicked, this, &MainWindow::onBackButtonClicked);
     connect(pointButton, &QPushButton::clicked, this, &MainWindow::onPointButtonClicked);
 }
@@ -145,4 +146,9 @@ void MainWindow::onSymbolButtonClicked(const QString &str)
 {
     displayArea->insertStrToItem(str);
     displayArea->scrollToBottom();
+}
+
+void MainWindow::onClearButtonClicked()
+{
+    displayArea->clearLastItem();
 }

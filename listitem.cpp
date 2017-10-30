@@ -17,10 +17,15 @@ void ListItem::drawBackground(const QRect &rect, QPainter *painter)
     painter->fillPath(path, QColor("#FFFFFF"));
 }
 
-void ListItem::drawContent(const QRect &rect, QPainter *painter)
+void ListItem::drawContent(const QRect &rect, QPainter *painter, bool isLast)
 {
     QFont font;
-    font.setPointSize(20);
+
+    if (isLast)
+        font.setPointSize(16);
+    else
+        font.setPointSize(12);
+
     painter->setFont(font);
     painter->drawText(rect, Qt::AlignVCenter | Qt::AlignRight, expression);
 }

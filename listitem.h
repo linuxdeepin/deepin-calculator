@@ -13,7 +13,7 @@ public:
     ~ListItem();
 
     void drawBackground(const QRect &rect, QPainter *painter);
-    void drawContent(const QRect &rect, QPainter *painter);
+    void drawContent(const QRect &rect, QPainter *painter, bool isLast);
     void insert(const QString &str);
     void backspace();
 
