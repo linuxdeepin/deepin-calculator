@@ -17,9 +17,11 @@ public:
     void insert(const QString &str);
     void backspace();
     QString getExpression() const;
+    QString getResult() const;
 
 private:
     QString expression;
+    QString result;
 };
 
 #endif

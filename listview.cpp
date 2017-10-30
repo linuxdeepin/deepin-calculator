@@ -46,7 +46,7 @@ void ListView::scrollToBottom()
     repaint();
 }
 
-void ListView::insertStrToItem(const QString &str)
+void ListView::insert(const QString &str)
 {
     items.last()->insert(str);
 

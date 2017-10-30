@@ -28,6 +28,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     pointButton= new TextButton(".");
     bracketsButton= new TextButton("( )");
     equalButton= new TextButton("＝");
+    isLeftBrackets = true;
 
     divButton->setObjectName("SymbolButton");
     multButton->setObjectName("SymbolButton");
@@ -109,6 +110,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     connect(divButton, &QPushButton::clicked, this, [=]{
         onSymbolButtonClicked("÷"); 
     });
+    connect(bracketsButton, &QPushButton::clicked, this, &MainWindow::onBracketButtonClicked);
     connect(equalButton, &QPushButton::clicked, this, &MainWindow::onEqualButtonClicked);
     connect(clearButton, &QPushButton::clicked, this, &MainWindow::onClearButtonClicked);
     connect(backButton, &QPushButton::clicked, this, &MainWindow::onBackButtonClicked);
@@ -121,7 +123,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::onNumberButtonClicked(const QString &str)
 {
-    displayArea->insertStrToItem(str);
+    displayArea->insert(str);
     displayArea->scrollToBottom();
 }
 
@@ -132,13 +134,13 @@ void MainWindow::onBackButtonClicked()
 
 void MainWindow::onPointButtonClicked()
 {
-    displayArea->insertStrToItem(".");
+    displayArea->insert(".");
     displayArea->scrollToBottom();
 }
 
 void MainWindow::onSymbolButtonClicked(const QString &str)
 {
-    displayArea->insertStrToItem(str);
+    displayArea->insert(str);
     displayArea->scrollToBottom();
 }
 
@@ -151,6 +153,19 @@ void MainWindow::onClearButtonClicked()
 void MainWindow::onEqualButtonClicked()
 {
     displayArea->addNextLine("0");
+    displayArea->scrollToBottom();
+}
+
+void MainWindow::onBracketButtonClicked()
+{
+    if (isLeftBrackets) {
+        displayArea->insert("(");
+        isLeftBrackets = false;
+    }else {
+        displayArea->insert(")");
+        isLeftBrackets = true;
+    }
+
     displayArea->scrollToBottom();
 }
 

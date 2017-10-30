@@ -12,9 +12,9 @@ using namespace std;
 class Algorithm
 {
 public:
-    string InfixToPostfix(string infix);
-    double posfixCompute(string s);
-    double getResult(string s);
+    static string InfixToPostfix(string infix);
+    static double posfixCompute(string s);
+    static double getResult(string s);
 };
 
 #endif // ALGORITHM_H

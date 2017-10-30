@@ -1,8 +1,10 @@
 #include "listitem.h"
+#include "algorithm.h"
 
 ListItem::ListItem()
 {
     expression = "0";
+    result = "0";
 }
 
 ListItem::~ListItem()
@@ -46,4 +48,9 @@ void ListItem::backspace()
 QString ListItem::getExpression() const
 {
     return expression;
+}
+
+QString ListItem::getResult() const
+{
+    return result;
 }

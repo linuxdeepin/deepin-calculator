@@ -43,6 +43,7 @@ private:
     TextButton *pointButton;
     TextButton *bracketsButton;
     TextButton *equalButton;
+    bool isLeftBrackets;
 
 private slots:
     void onNumberButtonClicked(const QString &str);
@@ -51,6 +52,7 @@ private slots:
     void onSymbolButtonClicked(const QString &str);
     void onClearButtonClicked();
     void onEqualButtonClicked();
+    void onBracketButtonClicked();
 
 protected:
     void keyPressEvent(QKeyEvent *);

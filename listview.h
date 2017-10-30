@@ -17,7 +17,7 @@ public:
     void clearItems();
     void clearLastItem();
     void scrollToBottom();
-    void insertStrToItem(const QString &str);
+    void insert(const QString &str);
     void backspace();
 
 private:
