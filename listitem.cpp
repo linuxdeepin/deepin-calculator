@@ -32,3 +32,8 @@ void ListItem::insert(const QString &str)
 
     expression.append(str);
 }
+
+void ListItem::backspace()
+{
+    expression = expression.left(expression.count() - 1);
+}

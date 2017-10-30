@@ -47,6 +47,13 @@ void ListView::insertStrToItem(const QString &str)
     repaint();
 }
 
+void ListView::backspace()
+{
+    items.last()->backspace();
+
+    repaint();
+}
+
 void ListView::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);

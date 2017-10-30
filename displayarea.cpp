@@ -3,9 +3,7 @@
 
 DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
 {
-    for (int i = 0; i < 1; ++i) {
-        addItem(new ListItem);
-    }
+    addItem(new ListItem);
 
     setFixedHeight(165);
 }

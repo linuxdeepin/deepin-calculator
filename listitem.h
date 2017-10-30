@@ -15,6 +15,7 @@ public:
     void drawBackground(const QRect &rect, QPainter *painter);
     void drawContent(const QRect &rect, QPainter *painter);
     void insert(const QString &str);
+    void backspace();
 
 private:
     QString expression;
