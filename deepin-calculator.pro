@@ -8,11 +8,11 @@ CONFIG += c++11 link_pkgconfig
 PKGCONFIG += dtkwidget
 
 TEMPLATE = app
-TARGET = calculator
+TARGET = deepin-calculator
 INCLUDEPATH += .
 
 # Input
 HEADERS += mainwindow.h titlebar.h displayarea.h textbutton.h listview.h listitem.h utils.h
 SOURCES += main.cpp mainwindow.cpp titlebar.cpp displayarea.cpp textbutton.cpp listview.cpp listitem.cpp utils.cpp
 
-RESOURCES += calculator.qrc
+RESOURCES += deepin-calculator.qrc
