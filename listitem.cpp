@@ -20,7 +20,7 @@ void ListItem::drawBackground(const QRect &rect, QPainter *painter)
 void ListItem::drawContent(const QRect &rect, QPainter *painter)
 {
     QFont font;
-    font.setPointSize(25);
+    font.setPointSize(22);
     painter->setFont(font);
     painter->drawText(rect, Qt::AlignVCenter | Qt::AlignRight, expression);
 }

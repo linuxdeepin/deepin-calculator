@@ -58,7 +58,7 @@ void ListView::paintEvent(QPaintEvent *)
     for (ListItem *item : items) {
         if (count >= offsetY / rowHeight) {
             item->drawBackground(QRect(0, count * rowHeight - offsetY, width(), rowHeight), &painter);
-            item->drawContent(QRect(padding * 2,
+            item->drawContent(QRect(padding * 3,
                                     count * rowHeight - offsetY,
                                     width() - padding * 3 - scrollBarPadding,
                                     rowHeight), &painter);

@@ -42,6 +42,9 @@ private:
     TextButton *pointButton;
     TextButton *bracketsButton;
     TextButton *equalButton;
+
+private slots:
+    void onNumberButtonClicked(const QString &str);
 };	
 
 #endif

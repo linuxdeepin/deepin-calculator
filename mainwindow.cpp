@@ -70,12 +70,43 @@ MainWindow::MainWindow(DMainWindow *parent)
 
     displayArea->scrollToEnd();
 
-    connect(equalButton, &QPushButton::clicked, this, [=]{
-                                                          displayArea->addItem(new ListItem);
-                                                          displayArea->scrollToEnd();
-                                                      });
+    connect(zeroButton, &QPushButton::clicked, this, [=]{
+        onNumberButtonClicked("0");
+    });
+    connect(num1Button, &QPushButton::clicked, this, [=]{
+        onNumberButtonClicked("1");
+    });
+    connect(num2Button, &QPushButton::clicked, this, [=]{
+        onNumberButtonClicked("2");
+    });
+    connect(num3Button, &QPushButton::clicked, this, [=]{
+        onNumberButtonClicked("3");
+    });
+    connect(num4Button, &QPushButton::clicked, this, [=]{
+        onNumberButtonClicked("4");
+    });
+    connect(num5Button, &QPushButton::clicked, this, [=]{
+        onNumberButtonClicked("5");
+    });
+    connect(num6Button, &QPushButton::clicked, this, [=]{
+        onNumberButtonClicked("6");
+    });
+    connect(num7Button, &QPushButton::clicked, this, [=]{
+        onNumberButtonClicked("7");
+    });
+    connect(num8Button, &QPushButton::clicked, this, [=]{
+        onNumberButtonClicked("8");
+    });
+    connect(num9Button, &QPushButton::clicked, this, [=]{
+        onNumberButtonClicked("9");
+    });
 }
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::onNumberButtonClicked(const QString &str)
+{
+    displayArea->insertStrToItem(str);
 }
