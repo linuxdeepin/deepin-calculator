@@ -105,6 +105,7 @@ MainWindow::MainWindow(DMainWindow *parent)
         displayArea->scrollToBottom();
     });
     connect(backButton, &QPushButton::clicked, this, &MainWindow::onBackButtonClicked);
+    connect(pointButton, &QPushButton::clicked, this, &MainWindow::onPointButtonClicked);
 }
 
 MainWindow::~MainWindow()
@@ -120,4 +121,10 @@ void MainWindow::onNumberButtonClicked(const QString &str)
 void MainWindow::onBackButtonClicked()
 {
     displayArea->backspace();
+}
+
+void MainWindow::onPointButtonClicked()
+{
+    displayArea->insertStrToItem(".");
+    displayArea->scrollToBottom();
 }
