@@ -124,7 +124,7 @@ MainWindow::~MainWindow()
 void MainWindow::onNumberButtonClicked(const QString &str)
 {
     displayArea->insert(str);
-    displayArea->scrollToBottom();
+    displayArea->setScrollToBottom();
 }
 
 void MainWindow::onBackButtonClicked()
@@ -135,13 +135,13 @@ void MainWindow::onBackButtonClicked()
 void MainWindow::onPointButtonClicked()
 {
     displayArea->insert(".");
-    displayArea->scrollToBottom();
+    displayArea->setScrollToBottom();
 }
 
 void MainWindow::onSymbolButtonClicked(const QString &str)
 {
     displayArea->insert(str);
-    displayArea->scrollToBottom();
+    displayArea->setScrollToBottom();
 }
 
 void MainWindow::onClearButtonClicked()
@@ -153,7 +153,7 @@ void MainWindow::onClearButtonClicked()
 void MainWindow::onEqualButtonClicked()
 {
     displayArea->addNextLine("0");
-    displayArea->scrollToBottom();
+    displayArea->setScrollToBottom();
 }
 
 void MainWindow::onBracketButtonClicked()
@@ -166,7 +166,7 @@ void MainWindow::onBracketButtonClicked()
         isLeftBrackets = true;
     }
 
-    displayArea->scrollToBottom();
+    displayArea->setScrollToBottom();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
