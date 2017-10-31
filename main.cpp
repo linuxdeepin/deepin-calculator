@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
     Dtk::Widget::moveToCenter(&w);
     qApp->setStyleSheet(Utils::getQssContent(":/qss/style.qss"));
-    
+
     return app.exec();
 }
 

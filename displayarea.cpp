@@ -16,7 +16,6 @@ void DisplayArea::addNextLine(const QString &str)
 {
     ListItem *item = new ListItem;
     item->insert(str);
-    listItems << item;
 
     addItem(item);
 }

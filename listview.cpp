@@ -34,9 +34,10 @@ void ListView::clearAllItems()
 
 void ListView::clearLastItem()
 {
-    listItems.removeLast();
-
-    update();
+    if (!listItems.isEmpty()) {
+        listItems.removeLast();
+        update();
+    }
 }
 
 void ListView::setScrollToBottom()
