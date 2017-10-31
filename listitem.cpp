@@ -24,9 +24,9 @@ void ListItem::drawContent(const QRect &rect, QPainter *painter, bool isLast)
     QFont font;
 
     if (isLast)
-        font.setPointSize(16);
+        font.setPointSize(20);
     else
-        font.setPointSize(12);
+        font.setPointSize(13);
 
     painter->setFont(font);
     painter->drawText(rect, Qt::AlignVCenter | Qt::AlignRight, expression);

@@ -71,7 +71,10 @@ void ListView::paintEvent(QPaintEvent *)
 
     for (ListItem *item : items) {
         if (count >= offsetY / rowHeight) {
-            bool isLast = true;
+            const int lastIndex = items.indexOf(items.last());
+            bool isLast = lastIndex == count;
+
+            qDebug() << lastIndex;
 
             item->drawBackground(QRect(0, count * rowHeight - offsetY, width(), rowHeight), &painter);
             item->drawContent(QRect(padding,
