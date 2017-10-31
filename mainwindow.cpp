@@ -121,87 +121,76 @@ MainWindow::~MainWindow()
 {
 }
 
-void MainWindow::onNumberButtonClicked(const QString &str)
-{
-    displayArea->insert(str);
-    displayArea->setScrollToBottom();
-}
-
-void MainWindow::onBackButtonClicked()
-{
-    displayArea->backspace();
-}
-
-void MainWindow::onPointButtonClicked()
-{
-    displayArea->insert(".");
-    displayArea->setScrollToBottom();
-}
-
-void MainWindow::onSymbolButtonClicked(const QString &str)
-{
-    displayArea->insert(str);
-    displayArea->setScrollToBottom();
-}
-
-void MainWindow::onClearButtonClicked()
-{
-    displayArea->clearLastItem();
-    displayArea->addNextLine("0");
-}
-
-void MainWindow::onEqualButtonClicked()
-{
-    displayArea->addNextLine("0");
-    displayArea->setScrollToBottom();
-}
-
-void MainWindow::onBracketButtonClicked()
-{
-    if (isLeftBrackets) {
-        displayArea->insert("(");
-        isLeftBrackets = false;
-    }else {
-        displayArea->insert(")");
-        isLeftBrackets = true;
-    }
-
-    displayArea->setScrollToBottom();
-}
-
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_0) {
         onNumberButtonClicked("0");
-    }else if (e->key() == Qt::Key_1) {
+    } else if (e->key() == Qt::Key_1) {
         onNumberButtonClicked("1");
-    }else if (e->key() == Qt::Key_2) {
+    } else if (e->key() == Qt::Key_2) {
         onNumberButtonClicked("2");
-    }else if (e->key() == Qt::Key_3) {
+    } else if (e->key() == Qt::Key_3) {
         onNumberButtonClicked("3");
-    }else if (e->key() == Qt::Key_4) {
+    } else if (e->key() == Qt::Key_4) {
         onNumberButtonClicked("4");
-    }else if (e->key() == Qt::Key_5) {
+    } else if (e->key() == Qt::Key_5) {
         onNumberButtonClicked("5");
-    }else if (e->key() == Qt::Key_6) {
+    } else if (e->key() == Qt::Key_6) {
         onNumberButtonClicked("6");
-    }else if (e->key() == Qt::Key_7) {
+    } else if (e->key() == Qt::Key_7) {
         onNumberButtonClicked("7");
-    }else if (e->key() == Qt::Key_8) {
+    } else if (e->key() == Qt::Key_8) {
         onNumberButtonClicked("8");
-    }else if (e->key() == Qt::Key_9) {
+    } else if (e->key() == Qt::Key_9) {
         onNumberButtonClicked("9");
-    }else if (e->key() == Qt::Key_Plus) {
+    } else if (e->key() == Qt::Key_Plus) {
         onSymbolButtonClicked("+");
-    }else if (e->key() == Qt::Key_Minus) {
+    } else if (e->key() == Qt::Key_Minus) {
         onSymbolButtonClicked("-");
-    }else if (e->key() == Qt::Key_Asterisk) {
+    } else if (e->key() == Qt::Key_Asterisk) {
         onSymbolButtonClicked("×");
-    }else if (e->key() == Qt::Key_Slash) {
+    } else if (e->key() == Qt::Key_Slash) {
         onSymbolButtonClicked("÷");
-    }else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
+    } else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
         onEqualButtonClicked();
-    }else if (e->key() == Qt::Key_Backspace) {
-        displayArea->backspace();
+    } else if (e->key() == Qt::Key_Backspace) {
+        onBackButtonClicked();
+    } else if (e->key() == Qt::Key_Period) {
+        onPointButtonClicked();
     }
+}
+
+void MainWindow::onNumberButtonClicked(const QString &str)
+{
+    displayArea->enterNumberEvent(str);
+}
+
+void MainWindow::onBackButtonClicked()
+{
+    displayArea->enterBackspaceEvent();
+}
+
+void MainWindow::onPointButtonClicked()
+{
+    displayArea->enterPointEvent();
+}
+
+void MainWindow::onSymbolButtonClicked(const QString &str)
+{
+    displayArea->enterSymbolEvent(str);
+}
+
+void MainWindow::onClearButtonClicked()
+{
+    displayArea->enterClearEvent();
+}
+
+void MainWindow::onEqualButtonClicked()
+{
+    displayArea->enterEqualEvent();
+}
+
+void MainWindow::onBracketButtonClicked()
+{
+    displayArea->enterBracketsEvent();
 }

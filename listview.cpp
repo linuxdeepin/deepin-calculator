@@ -47,21 +47,6 @@ void ListView::setScrollToBottom()
     update();
 }
 
-void ListView::insert(const QString &str)
-{
-    if (!listItems.isEmpty()) {
-        listItems.last()->insert(str);
-        update();
-    }
-}
-
-void ListView::backspace()
-{
-    listItems.last()->backspace();
-
-    update();
-}
-
 void ListView::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
@@ -117,7 +102,7 @@ void ListView::mouseMoveEvent(QMouseEvent *e)
 void ListView::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton) {
-        if (e->x() >= getScrollBarX()) {
+        if (e->x() > getScrollBarX()) {
             isDragScrollBar = true;
 
             offsetY = adjustOffsetY(e->y() / (rect().height() * 1.0) * getItemsTotalHeight());

@@ -11,7 +11,16 @@ public:
     DisplayArea(QWidget *parent=0);
     ~DisplayArea();
 
-    void addNextLine(const QString &str);
-};	
+    void enterNumberEvent(const QString &num);
+    void enterPointEvent();
+    void enterSymbolEvent(const QString &str);
+    void enterBracketsEvent();
+    void enterBackspaceEvent();
+    void enterClearEvent();
+    void enterEqualEvent();
+
+private:
+    bool isLeftBracket;
+};
 
 #endif

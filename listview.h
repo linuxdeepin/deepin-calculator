@@ -17,13 +17,11 @@ public:
     void clearAllItems();
     void clearLastItem();
     void setScrollToBottom();
-    void insert(const QString &str);
-    void backspace();
+
+    QList<ListItem *> listItems;
 
 private:
-    QList<ListItem *> listItems;
     bool isDragScrollBar;
-
     int rowHeight;
     int padding;
     int offsetY;

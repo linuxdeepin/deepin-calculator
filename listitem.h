@@ -14,13 +14,7 @@ public:
 
     void drawBackground(const QRect &rect, QPainter *painter);
     void drawContent(const QRect &rect, QPainter *painter, bool isLast);
-    void insert(const QString &str);
-    void backspace();
-    QString getExpression() const;
-    QString getResult() const;
-    void setResult(const QString &str);
 
-private:
     QString expression;
     QString result;
 };
