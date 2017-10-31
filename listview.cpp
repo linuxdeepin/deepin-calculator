@@ -20,21 +20,21 @@ ListView::~ListView()
 
 void ListView::addItem(ListItem *item)
 {
-    items << item;
+    listItems << item;
 
     update();
 }
 
-void ListView::clearItems()
+void ListView::clearAllItems()
 {
-    items.clear();
+    listItems.clear();
 
     update();
 }
 
 void ListView::clearLastItem()
 {
-    items.removeLast();
+    listItems.removeLast();
 
     update();
 }
@@ -48,14 +48,15 @@ void ListView::setScrollToBottom()
 
 void ListView::insert(const QString &str)
 {
-    items.last()->insert(str);
-
-    update();
+    if (!listItems.isEmpty()) {
+        listItems.last()->insert(str);
+        update();
+    }
 }
 
 void ListView::backspace()
 {
-    items.last()->backspace();
+    listItems.last()->backspace();
 
     update();
 }
@@ -69,17 +70,15 @@ void ListView::paintEvent(QPaintEvent *)
     int drawHeight = 0;
     int count = 0;
 
-    for (ListItem *item : items) {
+    for (ListItem *item : listItems) {
         if (count >= offsetY / rowHeight) {
-            const int lastIndex = items.indexOf(items.last());
-            bool isLast = lastIndex == count;
+            const int lastIndex = listItems.indexOf(listItems.last());
+            const bool isLast = lastIndex == count;
 
-            qDebug() << lastIndex;
-
-            item->drawBackground(QRect(0, count * rowHeight - offsetY, width(), rowHeight), &painter);
+            item->drawBackground(QRect(0, count * rowHeight - offsetY, rect().width(), rowHeight), &painter);
             item->drawContent(QRect(padding,
                                     count * rowHeight - offsetY,
-                                    width() - padding * 2 - scrollBarPadding,
+                                    rect().width() - padding * 2 - scrollBarPadding,
                                     rowHeight), &painter, isLast);
 
             drawHeight += rowHeight;
@@ -101,7 +100,7 @@ void ListView::paintEvent(QPaintEvent *)
         painter.setOpacity(0.5);
     }
 
-    if (items.count() > 4)
+    if (listItems.count() > 4)
         painter.drawRoundedRect(QRect(width() - scrollBarPadding, getScrollBarY(), scrollBarWidth, getScrollBarHeight()), 5, 5);
 }
 
@@ -137,7 +136,7 @@ void ListView::mouseReleaseEvent(QMouseEvent *e)
 
 int ListView::getItemsTotalHeight() const
 {
-    return items.count() * rowHeight;
+    return listItems.count() * rowHeight;
 }
 
 int ListView::getScrollBarHeight() const

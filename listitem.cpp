@@ -26,7 +26,7 @@ void ListItem::drawContent(const QRect &rect, QPainter *painter, bool isLast)
     if (isLast)
         font.setPointSize(20);
     else
-        font.setPointSize(13);
+        font.setPointSize(14);
 
     painter->setFont(font);
     painter->drawText(rect, Qt::AlignVCenter | Qt::AlignRight, expression);
@@ -54,4 +54,9 @@ QString ListItem::getExpression() const
 QString ListItem::getResult() const
 {
     return result;
+}
+
+void ListItem::setResult(const QString &str)
+{
+    result = str;
 }

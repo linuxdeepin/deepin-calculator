@@ -18,6 +18,7 @@ public:
     void backspace();
     QString getExpression() const;
     QString getResult() const;
+    void setResult(const QString &str);
 
 private:
     QString expression;

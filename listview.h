@@ -14,14 +14,14 @@ public:
     ~ListView();
 
     void addItem(ListItem *item);
-    void clearItems();
+    void clearAllItems();
     void clearLastItem();
     void setScrollToBottom();
     void insert(const QString &str);
     void backspace();
 
 private:
-    QList<ListItem *> items;
+    QList<ListItem *> listItems;
     bool isDragScrollBar;
 
     int rowHeight;
