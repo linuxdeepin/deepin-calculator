@@ -23,10 +23,13 @@ void ListItem::drawContent(const QRect &rect, QPainter *painter, bool isLast)
 {
     QFont font;
 
-    if (isLast)
+    if (isLast) {
+        painter->setPen(QColor("#3A3A3A"));
         font.setPointSize(20);
-    else
+    } else {
+        painter->setPen(QColor("#636363"));
         font.setPointSize(14);
+    }
 
     painter->setFont(font);
     painter->drawText(rect, Qt::AlignVCenter | Qt::AlignRight, expression);
