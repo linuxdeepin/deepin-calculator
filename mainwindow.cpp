@@ -151,7 +151,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         onSymbolButtonClicked("×");
     } else if (e->key() == Qt::Key_Slash) {
         onSymbolButtonClicked("÷");
-    } else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
+    } else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return || e->key() == Qt::Key_Equal) {
         onEqualButtonClicked();
     } else if (e->key() == Qt::Key_Backspace) {
         onBackButtonClicked();

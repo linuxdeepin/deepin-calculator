@@ -1,5 +1,6 @@
 #include "displayarea.h"
 #include "listitem.h"
+#include "algorithm.h"
 
 DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
 {
@@ -76,8 +77,16 @@ void DisplayArea::enterClearEvent()
 
 void DisplayArea::enterEqualEvent()
 {
-    ListItem *item = new ListItem;
-    listItems << item;
+    if (listItems.last()->expression != "0") {
+        QString exp = listItems.last()->expression;
+        const double result = Algorithm::getResult(exp.replace("×", "*").replace("÷", "/").toStdString());
+        listItems.last()->expression.append(" = " + QString::number(result));
+
+        ListItem *item = new ListItem;
+        listItems << item;
+
+        listItems.last()->expression = QString::number(result);
+    }
 
     setScrollToBottom();
 }
