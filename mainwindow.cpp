@@ -157,6 +157,8 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         onBackButtonClicked();
     } else if (e->key() == Qt::Key_Period) {
         onPointButtonClicked();
+    } else if (e->key() == Qt::Key_Escape) {
+        onClearButtonClicked();
     }
 }
 
