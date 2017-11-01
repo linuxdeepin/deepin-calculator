@@ -8,26 +8,26 @@ MainWindow::MainWindow(DMainWindow *parent)
     mainLayout = new QGridLayout(mainWidget);
     titleBar = new TitleBar;
     displayArea = new DisplayArea;
-    clearButton= new TextButton("C");
-    backButton= new TextButton("←");
-    modButton= new TextButton("%");
-    divButton= new TextButton("÷");
-    num7Button= new TextButton("7");
-    num8Button= new TextButton("8");
-    num9Button= new TextButton("9");
-    multButton= new TextButton("×");
-    num4Button= new TextButton("4");
-    num5Button= new TextButton("5");
-    num6Button= new TextButton("6");
-    minButton= new TextButton("－");
-    num1Button= new TextButton("1");
-    num2Button= new TextButton("2");
-    num3Button= new TextButton("3");
-    plusButton= new TextButton("＋");
-    zeroButton= new TextButton("0");
-    pointButton= new TextButton(".");
-    bracketsButton= new TextButton("( )");
-    equalButton= new TextButton("＝");
+    clearButton = new TextButton("C");
+    backButton = new TextButton("←");
+    modButton = new TextButton("%");
+    divButton = new TextButton("÷");
+    num7Button = new TextButton("7");
+    num8Button = new TextButton("8");
+    num9Button = new TextButton("9");
+    multButton = new TextButton("×");
+    num4Button = new TextButton("4");
+    num5Button = new TextButton("5");
+    num6Button = new TextButton("6");
+    minButton = new TextButton("－");
+    num1Button = new TextButton("1");
+    num2Button = new TextButton("2");
+    num3Button = new TextButton("3");
+    plusButton = new TextButton("＋");
+    zeroButton = new TextButton("0");
+    pointButton = new TextButton(".");
+    bracketsButton = new TextButton("( )");
+    equalButton = new TextButton("＝");
 
     divButton->setObjectName("SymbolButton");
     multButton->setObjectName("SymbolButton");
@@ -67,46 +67,46 @@ MainWindow::MainWindow(DMainWindow *parent)
     setFixedSize(330, 490);
     setCentralWidget(mainWidget);
     
-    connect(zeroButton, &QPushButton::clicked, this, [=]{
+    connect(zeroButton, &QPushButton::clicked, this, [=] {
         onNumberButtonClicked("0");
     });
-    connect(num1Button, &QPushButton::clicked, this, [=]{
+    connect(num1Button, &QPushButton::clicked, this, [=] {
         onNumberButtonClicked("1");
     });
-    connect(num2Button, &QPushButton::clicked, this, [=]{
+    connect(num2Button, &QPushButton::clicked, this, [=] {
         onNumberButtonClicked("2");
     });
-    connect(num3Button, &QPushButton::clicked, this, [=]{
+    connect(num3Button, &QPushButton::clicked, this, [=] {
         onNumberButtonClicked("3");
     });
-    connect(num4Button, &QPushButton::clicked, this, [=]{
+    connect(num4Button, &QPushButton::clicked, this, [=] {
         onNumberButtonClicked("4");
     });
-    connect(num5Button, &QPushButton::clicked, this, [=]{
+    connect(num5Button, &QPushButton::clicked, this, [=] {
         onNumberButtonClicked("5");
     });
-    connect(num6Button, &QPushButton::clicked, this, [=]{
+    connect(num6Button, &QPushButton::clicked, this, [=] {
         onNumberButtonClicked("6");
     });
-    connect(num7Button, &QPushButton::clicked, this, [=]{
+    connect(num7Button, &QPushButton::clicked, this, [=] {
         onNumberButtonClicked("7");
     });
-    connect(num8Button, &QPushButton::clicked, this, [=]{
+    connect(num8Button, &QPushButton::clicked, this, [=] {
         onNumberButtonClicked("8");
     });
-    connect(num9Button, &QPushButton::clicked, this, [=]{
+    connect(num9Button, &QPushButton::clicked, this, [=] {
         onNumberButtonClicked("9");
     });
-    connect(plusButton, &QPushButton::clicked, this, [=]{
+    connect(plusButton, &QPushButton::clicked, this, [=] {
         onSymbolButtonClicked("+");
     });
-    connect(minButton, &QPushButton::clicked, this, [=]{
+    connect(minButton, &QPushButton::clicked, this, [=] {
         onSymbolButtonClicked("-"); 
     });
-    connect(multButton, &QPushButton::clicked, this, [=]{
+    connect(multButton, &QPushButton::clicked, this, [=] {
         onSymbolButtonClicked("×");
     });
-    connect(divButton, &QPushButton::clicked, this, [=]{
+    connect(divButton, &QPushButton::clicked, this, [=] {
         onSymbolButtonClicked("÷"); 
     });
     connect(bracketsButton, &QPushButton::clicked, this, &MainWindow::onBracketButtonClicked);
