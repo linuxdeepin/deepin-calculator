@@ -163,7 +163,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         bracketsButton->animateClick();
     } else if (e->key() == Qt::Key_Percent) {
         modButton->animateClick();
-    } 
+    }
 }
 
 void MainWindow::onNumberButtonClicked(const QString &str)

@@ -26,6 +26,7 @@ private:
     bool isAllClear;
 
     QChar getLastChar();
+    bool isEnding();
 };
 
 #endif

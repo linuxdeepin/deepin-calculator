@@ -27,6 +27,9 @@ void DisplayArea::addNewRow()
 
 void DisplayArea::enterNumberEvent(const QString &num)
 {
+    if (isEnding())
+        return;
+
     if (listItems.last()->expression == "0") {
         listItems.last()->expression = nullptr;
     }
@@ -43,6 +46,9 @@ void DisplayArea::enterNumberEvent(const QString &num)
 
 void DisplayArea::enterPointEvent()
 {
+    if (isEnding())
+        return;
+
     const QChar lastChar = getLastChar();
     if (lastChar != '.') {
         if (lastChar == '0')
@@ -55,6 +61,9 @@ void DisplayArea::enterPointEvent()
 
 void DisplayArea::enterSymbolEvent(const QString &str)
 {
+    if (isEnding())
+        return;
+
     isContinue = true;
 
     const QChar lastChar = getLastChar();
@@ -69,6 +78,9 @@ void DisplayArea::enterSymbolEvent(const QString &str)
 
 void DisplayArea::enterBracketsEvent()
 {
+    if (isEnding())
+        return;
+
     if (!isContinue) {
         listItems.last()->expression = nullptr;
         isContinue = true;
@@ -143,4 +155,9 @@ QChar DisplayArea::getLastChar()
     laster--;
 
     return *laster;
+}
+
+bool DisplayArea::isEnding()
+{
+    return listItems.last()->expression.count() > 35 ? true : false;
 }
