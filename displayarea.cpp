@@ -5,6 +5,7 @@
 DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
 {
     isLeftBracket = true;
+    isContinue = true;
 
     ListItem *item = new ListItem;
     addItem(item);
@@ -23,8 +24,13 @@ void DisplayArea::enterNumberEvent(const QString &num)
         listItems.last()->expression = nullptr;
     }
 
-    listItems.last()->expression.append(num);
+    if (!isContinue) {
+        listItems.last()->expression = nullptr;
 
+        isContinue = true;
+    }
+
+    listItems.last()->expression.append(num);
     scrollToBottom();
 }
 
@@ -37,6 +43,8 @@ void DisplayArea::enterPointEvent()
 
 void DisplayArea::enterSymbolEvent(const QString &str)
 {
+    isContinue = true;
+
     listItems.last()->expression.append(str);
 
     scrollToBottom();
@@ -86,6 +94,8 @@ void DisplayArea::enterEqualEvent()
         listItems << item;
 
         listItems.last()->expression = QString::number(result);
+
+        isContinue = false;
     }
 
     scrollToBottom();
