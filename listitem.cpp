@@ -1,5 +1,4 @@
 #include "listitem.h"
-#include "algorithm.h"
 
 ListItem::ListItem()
 {

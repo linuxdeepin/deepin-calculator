@@ -28,7 +28,6 @@ MainWindow::MainWindow(DMainWindow *parent)
     pointButton= new TextButton(".");
     bracketsButton= new TextButton("( )");
     equalButton= new TextButton("＝");
-    isLeftBrackets = true;
 
     divButton->setObjectName("SymbolButton");
     multButton->setObjectName("SymbolButton");
@@ -115,6 +114,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     connect(clearButton, &QPushButton::clicked, this, &MainWindow::onClearButtonClicked);
     connect(backButton, &QPushButton::clicked, this, &MainWindow::onBackButtonClicked);
     connect(pointButton, &QPushButton::clicked, this, &MainWindow::onPointButtonClicked);
+    connect(modButton, &QPushButton::clicked, this, &MainWindow::onModButtonClicked);
 }
 
 MainWindow::~MainWindow()
@@ -145,9 +145,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         onNumberButtonClicked("9");
     } else if (e->key() == Qt::Key_Plus) {
         onSymbolButtonClicked("+");
-    } else if (e->key() == Qt::Key_Minus) {
+    } else if (e->key() == Qt::Key_Minus || e->key() == Qt::Key_Underscore) {
         onSymbolButtonClicked("-");
-    } else if (e->key() == Qt::Key_Asterisk) {
+    } else if (e->key() == Qt::Key_Asterisk || e->key() == Qt::Key_X) {
         onSymbolButtonClicked("×");
     } else if (e->key() == Qt::Key_Slash) {
         onSymbolButtonClicked("÷");
@@ -159,7 +159,11 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         onPointButtonClicked();
     } else if (e->key() == Qt::Key_Escape) {
         onClearButtonClicked();
-    }
+    } else if (e->key() == Qt::Key_ParenLeft || e->key() == Qt::Key_ParenRight) {
+        onBracketButtonClicked();
+    } else if (e->key() == Qt::Key_Percent) {
+        onModButtonClicked();
+    } 
 }
 
 void MainWindow::onNumberButtonClicked(const QString &str)
@@ -195,4 +199,9 @@ void MainWindow::onEqualButtonClicked()
 void MainWindow::onBracketButtonClicked()
 {
     displayArea->enterBracketsEvent();
+}
+
+void MainWindow::onModButtonClicked()
+{
+    
 }

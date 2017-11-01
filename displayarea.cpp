@@ -8,7 +8,7 @@ DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
     isContinue = true;
 
     ListItem *item = new ListItem;
-    addItem(item);
+    listItems << item;
 
     scrollToBottom();
     setFixedHeight(175);
@@ -72,6 +72,8 @@ void DisplayArea::enterBackspaceEvent()
     }else {
         listItems.last()->expression = exp.left(exp.length() - 1);
     }
+
+    isContinue = true;
 
     scrollToBottom();
 }
