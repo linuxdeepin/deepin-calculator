@@ -1,6 +1,7 @@
 #include "displayarea.h"
 #include "listitem.h"
 #include "algorithm.h"
+#include <QDebug>
 
 DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
 {
@@ -8,10 +9,10 @@ DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
     isContinue = true;
 
     ListItem *item = new ListItem;
-    listItems << item;
+    addItem(item);
 
-    scrollToBottom();
     setFixedHeight(175);
+    scrollToBottom();
 }
 
 DisplayArea::~DisplayArea()
