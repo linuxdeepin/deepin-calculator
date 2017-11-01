@@ -46,6 +46,10 @@ void DisplayArea::enterSymbolEvent(const QString &str)
 {
     isContinue = true;
 
+    if (str == "-") {
+        
+    }
+
     listItems.last()->expression.append(str);
 
     scrollToBottom();
@@ -53,6 +57,11 @@ void DisplayArea::enterSymbolEvent(const QString &str)
 
 void DisplayArea::enterBracketsEvent()
 {
+    if (!isContinue) {
+        listItems.last()->expression = nullptr;
+        isContinue = true;
+    }
+
     if (isLeftBracket) {
         listItems.last()->expression.append("(");
         isLeftBracket = false;
