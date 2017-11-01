@@ -11,6 +11,7 @@ public:
     DisplayArea(QWidget *parent=0);
     ~DisplayArea();
 
+    void addNewRow();
     void enterNumberEvent(const QString &num);
     void enterPointEvent();
     void enterSymbolEvent(const QString &str);
@@ -22,6 +23,7 @@ public:
 private:
     bool isLeftBracket;
     bool isContinue;
+    bool isAllClear;
 
     QChar getLastChar();
 };

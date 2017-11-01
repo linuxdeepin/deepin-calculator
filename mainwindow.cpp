@@ -64,7 +64,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     mainLayout->setMargin(0);
     mainLayout->setSpacing(0);
 
-    setFixedSize(330, 490);
+    setFixedSize(330, 500);
     setCentralWidget(mainWidget);
     
     connect(zeroButton, &QPushButton::clicked, this, [=] {

@@ -7,16 +7,22 @@ DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
 {
     isLeftBracket = true;
     isContinue = true;
-
-    ListItem *item = new ListItem;
-    addItem(item);
+    isAllClear = false;
 
     setFixedHeight(175);
-    scrollToBottom();
+    addNewRow();
 }
 
 DisplayArea::~DisplayArea()
 {
+}
+
+void DisplayArea::addNewRow()
+{
+    ListItem *item = new ListItem;
+    addItem(item);
+
+    scrollToBottom();
 }
 
 void DisplayArea::enterNumberEvent(const QString &num)
