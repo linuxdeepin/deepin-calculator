@@ -44,8 +44,11 @@ void DisplayArea::enterNumberEvent(const QString &num)
 void DisplayArea::enterPointEvent()
 {
     const QChar lastChar = getLastChar();
-    if (lastChar != '.')
+    if (lastChar != '.') {
+        if (lastChar == '0')
+            isContinue = true;
         listItems.last()->expression.append(".");
+    }
 
     scrollToBottom();
 }
@@ -85,10 +88,14 @@ void DisplayArea::enterBracketsEvent()
 void DisplayArea::enterBackspaceEvent()
 {
     const QString exp = listItems.last()->expression;
-
+    const QChar lastChar = getLastChar();
+    
     if (exp.length() == 1) {
         listItems.last()->expression = "0";
     }else {
+        if (lastChar == '(')
+            isLeftBracket = true;
+
         listItems.last()->expression = exp.left(exp.length() - 1);
     }
 
@@ -106,6 +113,7 @@ void DisplayArea::enterClearEvent()
         listItems.last()->expression = "0";
     }
 
+    isLeftBracket = true;
     scrollToBottom();
 }
 
@@ -122,6 +130,7 @@ void DisplayArea::enterEqualEvent()
         listItems.last()->expression = QString::number(result);
 
         isContinue = false;
+        isLeftBracket = true;
     }
 
     scrollToBottom();
