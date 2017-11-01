@@ -37,7 +37,9 @@ void DisplayArea::enterNumberEvent(const QString &num)
 
 void DisplayArea::enterPointEvent()
 {
-    listItems.last()->expression.append(".");
+    const QChar lastChar = getLastChar();
+    if (lastChar != '.')
+        listItems.last()->expression.append(".");
 
     scrollToBottom();
 }
