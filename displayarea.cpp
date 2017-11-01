@@ -98,8 +98,13 @@ void DisplayArea::enterBackspaceEvent()
 }
 
 void DisplayArea::enterClearEvent()
-{
-    listItems.last()->expression = "0";
+{   
+    if (isAllClear) {
+        clearAllItems();
+        addNewRow();
+    } else {
+        listItems.last()->expression = "0";
+    }
 
     scrollToBottom();
 }

@@ -24,10 +24,19 @@ void ListItem::drawContent(const QRect &rect, QPainter *painter, bool isLast)
 
     if (isLast) {
         painter->setPen(QColor("#3A3A3A"));
-        font.setPointSize(20);
+        if (expression.length() < 15)
+            font.setPointSize(20);
+        else if (expression.length() >= 15 && expression.length() < 20)
+            font.setPointSize(17);
+        else if (expression.length() >= 20 && expression.length() < 25)
+            font.setPointSize(15);
+        else if (expression.length() >= 25 && expression.length() < 30)
+            font.setPointSize(13);
+        else
+            font.setPointSize(11);
     } else {
         painter->setPen(QColor("#636363"));
-        font.setPointSize(14);
+        font.setPointSize(13);
     }
 
     painter->setFont(font);
