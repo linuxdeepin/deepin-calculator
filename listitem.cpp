@@ -36,7 +36,7 @@ void ListItem::drawContent(const QRect &rect, QPainter *painter, bool isLast)
             font.setPointSize(11);
     } else {
         painter->setPen(QColor("#636363"));
-        font.setPointSize(13);
+        font.setPointSize(12);
     }
 
     painter->setFont(font);
