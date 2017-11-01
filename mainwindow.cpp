@@ -127,6 +127,8 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         zeroButton->animateClick();
     } else if (e->key() == Qt::Key_1) {
         num1Button->animateClick();
+    } else if (e->key() == Qt::Key_2) {
+        num2Button->animateClick();
     } else if (e->key() == Qt::Key_3) {
         num3Button->animateClick();
     } else if (e->key() == Qt::Key_4) {
