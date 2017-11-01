@@ -9,7 +9,7 @@ DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
     ListItem *item = new ListItem;
     addItem(item);
 
-    setScrollToBottom();
+    scrollToBottom();
     setFixedHeight(175);
 }
 
@@ -25,21 +25,21 @@ void DisplayArea::enterNumberEvent(const QString &num)
 
     listItems.last()->expression.append(num);
 
-    setScrollToBottom();
+    scrollToBottom();
 }
 
 void DisplayArea::enterPointEvent()
 {
     listItems.last()->expression.append(".");
 
-    setScrollToBottom();
+    scrollToBottom();
 }
 
 void DisplayArea::enterSymbolEvent(const QString &str)
 {
     listItems.last()->expression.append(str);
 
-    setScrollToBottom();
+    scrollToBottom();
 }
 
 void DisplayArea::enterBracketsEvent()
@@ -52,7 +52,7 @@ void DisplayArea::enterBracketsEvent()
         isLeftBracket = true;
     }
 
-    setScrollToBottom();
+    scrollToBottom();
 }
 
 void DisplayArea::enterBackspaceEvent()
@@ -65,14 +65,14 @@ void DisplayArea::enterBackspaceEvent()
         listItems.last()->expression = exp.left(exp.length() - 1);
     }
 
-    setScrollToBottom();
+    scrollToBottom();
 }
 
 void DisplayArea::enterClearEvent()
 {
     listItems.last()->expression = "0";
 
-    setScrollToBottom();
+    scrollToBottom();
 }
 
 void DisplayArea::enterEqualEvent()
@@ -88,5 +88,5 @@ void DisplayArea::enterEqualEvent()
         listItems.last()->expression = QString::number(result);
     }
 
-    setScrollToBottom();
+    scrollToBottom();
 }

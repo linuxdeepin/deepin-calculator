@@ -16,7 +16,7 @@ public:
     void addItem(ListItem *item);
     void clearAllItems();
     void clearLastItem();
-    void setScrollToBottom();
+    void scrollToBottom();
 
     QList<ListItem *> listItems;
 

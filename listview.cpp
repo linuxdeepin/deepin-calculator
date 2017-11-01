@@ -40,7 +40,7 @@ void ListView::clearLastItem()
     }
 }
 
-void ListView::setScrollToBottom()
+void ListView::scrollToBottom()
 {
     offsetY = getItemsTotalHeight() - rect().height();
 
