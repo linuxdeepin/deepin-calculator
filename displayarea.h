@@ -22,6 +22,8 @@ public:
 private:
     bool isLeftBracket;
     bool isContinue;
+
+    QChar getLastChar();
 };
 
 #endif

@@ -46,8 +46,9 @@ void DisplayArea::enterSymbolEvent(const QString &str)
 {
     isContinue = true;
 
-    if (str == "-") {
-        
+    const QChar lastChar = getLastChar();
+    if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/') {
+        enterBackspaceEvent();
     }
 
     listItems.last()->expression.append(str);
@@ -111,4 +112,13 @@ void DisplayArea::enterEqualEvent()
     }
 
     scrollToBottom();
+}
+
+QChar DisplayArea::getLastChar()
+{
+    QString exp = listItems.last()->expression;
+    QString::const_iterator laster = exp.replace("×", "*").replace("÷", "/").end();
+    laster--;
+
+    return *laster;
 }
