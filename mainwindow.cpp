@@ -124,45 +124,43 @@ MainWindow::~MainWindow()
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_0) {
-        onNumberButtonClicked("0");
+        zeroButton->animateClick();
     } else if (e->key() == Qt::Key_1) {
-        onNumberButtonClicked("1");
-    } else if (e->key() == Qt::Key_2) {
-        onNumberButtonClicked("2");
+        num1Button->animateClick();
     } else if (e->key() == Qt::Key_3) {
-        onNumberButtonClicked("3");
+        num3Button->animateClick();
     } else if (e->key() == Qt::Key_4) {
-        onNumberButtonClicked("4");
+        num4Button->animateClick();
     } else if (e->key() == Qt::Key_5) {
-        onNumberButtonClicked("5");
+        num5Button->animateClick();
     } else if (e->key() == Qt::Key_6) {
-        onNumberButtonClicked("6");
+        num6Button->animateClick();
     } else if (e->key() == Qt::Key_7) {
-        onNumberButtonClicked("7");
+        num7Button->animateClick();
     } else if (e->key() == Qt::Key_8) {
-        onNumberButtonClicked("8");
+        num8Button->animateClick();
     } else if (e->key() == Qt::Key_9) {
-        onNumberButtonClicked("9");
+        num9Button->animateClick();
     } else if (e->key() == Qt::Key_Plus) {
-        onSymbolButtonClicked("+");
+        plusButton->animateClick();
     } else if (e->key() == Qt::Key_Minus || e->key() == Qt::Key_Underscore) {
-        onSymbolButtonClicked("-");
+        minButton->animateClick();
     } else if (e->key() == Qt::Key_Asterisk || e->key() == Qt::Key_X) {
-        onSymbolButtonClicked("×");
+        multButton->animateClick();
     } else if (e->key() == Qt::Key_Slash) {
-        onSymbolButtonClicked("÷");
+        divButton->animateClick();
     } else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return || e->key() == Qt::Key_Equal) {
-        onEqualButtonClicked();
+        equalButton->animateClick();
     } else if (e->key() == Qt::Key_Backspace) {
-        onBackButtonClicked();
+        backButton->animateClick();
     } else if (e->key() == Qt::Key_Period) {
-        onPointButtonClicked();
+        pointButton->animateClick();
     } else if (e->key() == Qt::Key_Escape) {
-        onClearButtonClicked();
+        clearButton->animateClick();
     } else if (e->key() == Qt::Key_ParenLeft || e->key() == Qt::Key_ParenRight) {
-        onBracketButtonClicked();
+        bracketsButton->animateClick();
     } else if (e->key() == Qt::Key_Percent) {
-        onModButtonClicked();
+        modButton->animateClick();
     } 
 }
 
