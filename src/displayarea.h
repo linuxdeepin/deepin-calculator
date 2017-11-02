@@ -28,6 +28,7 @@ private:
     bool isAllClear;
 
     QChar getLastChar();
+    bool lastCharIsNumber();
     bool lastCharIsSymbol();
     bool lastCharIsPoint();
     bool lastCharIsLeftBracket();

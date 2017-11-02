@@ -3,6 +3,7 @@
 #include "displayarea.h"
 #include "listitem.h"
 #include "algorithm.h"
+#include <QDebug>
 
 DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
 {
@@ -44,19 +45,39 @@ void DisplayArea::enterNumberEvent(const QString &num)
 
 void DisplayArea::enterPointEvent()
 {
-    if (!isEnding()) {
-        if (lastCharIsSymbol()) {
-            listItems.last()->expression.append("0");
-        }else if (lastCharIsLeftBracket()) {
-            listItems.last()->expression.append("0.");
-        }
-        if (!lastCharIsPoint()) {
-            listItems.last()->expression.append(".");
-            isContinue = true;
+    if (isEnding())
+        return;
+
+    if (lastCharIsNumber()) {
+        bool flag = false;
+        QString exp = listItems.last()->expression;
+        for (int i = 0; i < exp.count(); ++i) {
+            if (exp.at(exp.count() - 1 - i) == QString("+") ||
+                exp.at(exp.count() - 1 - i) == QString("-") ||
+                exp.at(exp.count() - 1 - i) == QString("×") ||
+                exp.at(exp.count() - 1 - i) == QString("÷")) {
+                flag = true;
+                break;
+            } else if (exp.at(exp.count() - 1 - i) == QString(".")) {
+                flag = false;
+                break;
+            } else {
+                flag = true;
+            }
         }
 
-        scrollToBottom();
+        if (flag) {
+            listItems.last()->expression.append(".");
+            isContinue = true;
+            isAllClear = false;
+        }
+    } else if (lastCharIsSymbol() || lastCharIsLeftBracket()) {
+        listItems.last()->expression.append("0.");
+    } else if (lastCharIsRightBracket()) {
+        listItems.last()->expression.append("×0.");
     }
+
+    scrollToBottom();
 }
 
 void DisplayArea::enterSymbolEvent(const QString &str)
@@ -67,7 +88,7 @@ void DisplayArea::enterSymbolEvent(const QString &str)
         } else if (lastCharIsPoint()) {
             listItems.last()->expression.append("0");
         }
-        
+
         isContinue = true;
         isAllClear = false;
         listItems.last()->expression.append(str);
@@ -82,7 +103,7 @@ void DisplayArea::enterBracketsEvent()
             listItems.last()->expression = nullptr;
             isContinue = true;
         }
-        
+
         if (listItems.last()->expression == "0") {
             listItems.last()->expression = nullptr;
         }
@@ -139,6 +160,7 @@ void DisplayArea::enterEqualEvent()
 {
     if (listItems.last()->expression != "0") {
         const QString result = getResult();
+
         if (result == "inf" || result == "-inf")
             return;
 
@@ -167,17 +189,27 @@ void DisplayArea::copyResultToClipboard()
 QChar DisplayArea::getLastChar()
 {
     QString exp = listItems.last()->expression;
-    QString::const_iterator laster = exp.replace("×", "*").replace("÷", "/").end();
-    laster--;
+    QString formatExp = exp.replace("×", "*").replace("÷", "/");;
 
-    return *laster;
+    return formatExp.at(formatExp.count() - 1);
+}
+
+bool DisplayArea::lastCharIsNumber()
+{
+    const QChar lastChar = getLastChar();
+
+    if (lastChar == '0' || lastChar == '1' || lastChar == '2' || lastChar == '3' || lastChar == '4' || lastChar == '5' || lastChar == '6' || lastChar == '7' || lastChar == '8' || lastChar == '9') {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool DisplayArea::lastCharIsSymbol()
 {
     const QChar lastChar = getLastChar();
 
-    if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/')
+    if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/' || lastChar == '%')
         return true;
     else
         return false;
