@@ -1,0 +1,13 @@
+[Desktop Entry]
+Categories=Calculator;
+Comment=Calculator
+Exec=deepin-calculator
+Icon=deepin-calculator
+Name=Deepin Calculator
+StartupNotify=true
+TryExec=deepin-calculator
+Type=Application
+
+# Translations
+Name[zh_CN]=深度计算器
+Comment[zh_CN]=计算工具

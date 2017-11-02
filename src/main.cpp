@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
         app.setProductName(QObject::tr("Deepin Calculator"));
         app.setApplicationDescription(QObject::tr("Deepin calculator is an easy to use calculator for ordinary users."));
         app.setTheme("light");
+        app.loadTranslator();
 
         MainWindow w;
         w.show();

@@ -14,7 +14,7 @@ string Algorithm::InfixToPostfix(string infix)
     priority['/'] = 1;
     priority['%'] = 1;
 
-    for(int i = 0;i < infix.size(); ++i)
+    for(int i = 0; i < infix.size(); ++i)
     {
         current = infix[i];
         switch(current)
@@ -23,6 +23,7 @@ string Algorithm::InfixToPostfix(string infix)
         case '6':case '7':case '8':case '9':case '.':
             postfix.push_back(current);
             break;
+
         case '+':case '-':case '*':case '/':case '%':
             if(infix[i-1] != ')')
                 postfix.push_back('#');
@@ -41,27 +42,30 @@ string Algorithm::InfixToPostfix(string infix)
                 }
                 mark.push(current);
                 break;
-            case '(':
-                if(infix[i-1] >= '0' && infix[i-1] <= '9')
-                {
-                    postfix.push_back('#');
-                    mark.push('*');
-                }
-                mark.push(current);
-                break;
-            case ')':
+
+        case '(':
+            if(infix[i-1] >= '0' && infix[i-1] <= '9')
+            {
                 postfix.push_back('#');
-                while(mark.top() != '(')
-                {
-                    postfix.push_back(mark.top());
-                    mark.pop();
-                }
-                mark.pop();
-                break;
-            default:
-                break;
+                mark.push('*');
             }
+            mark.push(current);
+            break;
+
+        case ')':
+            postfix.push_back('#');
+            while(mark.top() != '(')
+            {
+                postfix.push_back(mark.top());
+                mark.pop();
+            }
+            mark.pop();
+                break;
+
+        default:
+            break;
         }
+    }
     if(infix[infix.size()-1] != ')')
         postfix.push_back('#');
     while(!mark.empty())
@@ -75,19 +79,27 @@ string Algorithm::InfixToPostfix(string infix)
 
 double Algorithm::posfixCompute(string s)
 {
-    stack<float> tempResult;
+    stack<double> tempResult;
 
     string strNum;
     double currNum = 0;
-
     double tempNum = 0;
-    for(string::const_iterator i = s.begin(); i != s.end(); ++i)
+
+    for (string::const_iterator i = s.begin(); i != s.end(); ++i)
     {
         switch(*i)
         {
         case '0':case '1':case '2':case '3':case '4':case '5':
         case '6':case '7':case '8':case '9':case '.':
             strNum.push_back(*i);
+            break;
+
+        case '%':
+            tempNum = tempResult.top();
+            tempResult.pop();
+            tempNum = (int)tempResult.top() % (int)tempNum;
+            tempResult.pop();
+            tempResult.push(tempNum);
             break;
 
         case '+':
@@ -122,7 +134,6 @@ double Algorithm::posfixCompute(string s)
             tempResult.push(tempNum);
             break;
 
-
         case '#':
             currNum = atof(strNum.c_str());
             strNum.clear();
@@ -130,6 +141,7 @@ double Algorithm::posfixCompute(string s)
             break;
         }
     }
+
     return tempResult.top();
 }
 
