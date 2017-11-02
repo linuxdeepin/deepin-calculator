@@ -2,6 +2,8 @@
 #include "listitem.h"
 #include "algorithm.h"
 #include <QDebug>
+#include <QApplication>
+#include <QClipboard>
 
 DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
 {
@@ -146,6 +148,11 @@ void DisplayArea::enterEqualEvent()
     }
 
     scrollToBottom();
+}
+
+void DisplayArea::copyResultToClipboard()
+{
+    QApplication::clipboard()->setText(listItems.last()->expression);
 }
 
 QChar DisplayArea::getLastChar()

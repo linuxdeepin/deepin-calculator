@@ -19,6 +19,7 @@ public:
     void enterBackspaceEvent();
     void enterClearEvent();
     void enterEqualEvent();
+    void copyResultToClipboard();
 
 private:
     bool isLeftBracket;

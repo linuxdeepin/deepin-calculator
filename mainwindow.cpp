@@ -163,6 +163,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         bracketsButton->animateClick();
     } else if (e->key() == Qt::Key_Percent) {
         modButton->animateClick();
+    } else if (e->key() == Qt::Key_C) {
+        if (e->modifiers() == Qt::ControlModifier)
+            displayArea->copyResultToClipboard();
     }
 }
 
