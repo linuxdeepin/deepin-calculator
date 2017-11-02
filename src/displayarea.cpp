@@ -71,6 +71,8 @@ void DisplayArea::enterSymbolEvent(const QString &str)
     const QChar lastChar = getLastChar();
     if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/' || lastChar == '%') {
         enterBackspaceEvent();
+    } else if (lastChar == '.') {
+        listItems.last()->expression.append("0");
     }
 
     isAllClear = false;
