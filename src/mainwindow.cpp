@@ -64,6 +64,8 @@ MainWindow::MainWindow(DMainWindow *parent)
     mainLayout->setMargin(0);
     mainLayout->setSpacing(0);
 
+    setWindowIcon(QIcon(":/images/icon.svg"));
+    setWindowTitle(tr("Deepin Calculator"));
     setFixedSize(330, 490);
     setCentralWidget(mainWidget);
     
