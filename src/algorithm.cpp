@@ -23,7 +23,7 @@ string Algorithm::InfixToPostfix(string infix)
         case '6':case '7':case '8':case '9':case '.':
             postfix.push_back(current);
             break;
-        case '+':case '-':case '*':case '/':
+        case '+':case '-':case '*':case '/':case '%':
             if(infix[i-1] != ')')
                 postfix.push_back('#');
 
@@ -121,6 +121,7 @@ double Algorithm::posfixCompute(string s)
             tempResult.pop();
             tempResult.push(tempNum);
             break;
+
 
         case '#':
             currNum = atof(strNum.c_str());
