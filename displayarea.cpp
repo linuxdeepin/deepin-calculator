@@ -53,9 +53,8 @@ void DisplayArea::enterPointEvent()
 
     const QChar lastChar = getLastChar();
     if (lastChar != '.') {
-        if (lastChar == '0')
-            isContinue = true;
         listItems.last()->expression.append(".");
+        isContinue = true;
     }
 
     scrollToBottom();
