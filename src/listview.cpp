@@ -86,6 +86,7 @@ void ListView::paintEvent(QPaintEvent *)
 
     if (isDragScrollBar) {
         painter.setOpacity(0.7);
+        isShowScrollBar = true;
     }else {
         painter.setOpacity(0.5);
     }

@@ -68,7 +68,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     setWindowTitle(tr("Deepin Calculator"));
     setFixedSize(330, 490);
     setCentralWidget(mainWidget);
-    
+
     connect(zeroButton, &QPushButton::clicked, this, [=] {
         onNumberButtonClicked("0");
     });
