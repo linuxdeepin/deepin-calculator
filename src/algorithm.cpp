@@ -12,6 +12,7 @@ string Algorithm::InfixToPostfix(string infix)
     priority['-'] = 0;
     priority['*'] = 1;
     priority['/'] = 1;
+    priority['%'] = 1;
 
     for(int i = 0;i < infix.size(); ++i)
     {
@@ -37,30 +38,30 @@ string Algorithm::InfixToPostfix(string infix)
                         break;
                     tempTop = mark.top();
                 }
-            }
-            mark.push(current);
-            break;
-        case '(':
-            if(infix[i-1] >= '0' && infix[i-1] <= '9')
-            {
+                }
+                mark.push(current);
+                break;
+            case '(':
+                if(infix[i-1] >= '0' && infix[i-1] <= '9')
+                {
+                    postfix.push_back('#');
+                    mark.push('*');
+                }
+                mark.push(current);
+                break;
+            case ')':
                 postfix.push_back('#');
-                mark.push('*');
-            }
-            mark.push(current);
-            break;
-        case ')':
-            postfix.push_back('#');
-            while(mark.top() != '(')
-            {
-                postfix.push_back(mark.top());
+                while(mark.top() != '(')
+                {
+                    postfix.push_back(mark.top());
+                    mark.pop();
+                }
                 mark.pop();
+                break;
+            default:
+                break;
             }
-            mark.pop();
-            break;
-        default:
-            break;
         }
-    }
     if(infix[infix.size()-1] != ')')
         postfix.push_back('#');
     while(!mark.empty())

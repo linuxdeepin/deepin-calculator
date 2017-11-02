@@ -73,7 +73,7 @@ void ListView::paintEvent(QPaintEvent *)
 
             drawHeight += rowHeight;
 
-            if (drawHeight > rect().height())
+            if (drawHeight > rect().height() + rowHeight)
                 break;
         }
 

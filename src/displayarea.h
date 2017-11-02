@@ -19,6 +19,7 @@ public:
     void enterBackspaceEvent();
     void enterClearEvent();
     void enterEqualEvent();
+    QString getResult();
     void copyResultToClipboard();
 
 private:

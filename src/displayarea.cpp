@@ -73,7 +73,7 @@ void DisplayArea::enterSymbolEvent(const QString &str)
     } else if (lastCharIsPoint()) {
         listItems.last()->expression.append("0");
     }
-    
+
     listItems.last()->expression.append(str);
 
     isContinue = true;
@@ -145,14 +145,16 @@ void DisplayArea::enterClearEvent()
 void DisplayArea::enterEqualEvent()
 {
     if (listItems.last()->expression != "0") {
-        QString exp = listItems.last()->expression;
-        const double result = Algorithm::getResult(exp.replace("×", "*").replace("÷", "/").toStdString());
-        listItems.last()->expression.append(" = " + QString::number(result));
+        const QString result = getResult();
+        if (result == "inf")
+            return;
+
+        listItems.last()->expression.append(" = " + result);
 
         ListItem *item = new ListItem;
         listItems << item;
 
-        listItems.last()->expression = QString::number(result);
+        listItems.last()->expression = result;
 
         isContinue = false;
         isLeftBracket = true;
@@ -161,9 +163,17 @@ void DisplayArea::enterEqualEvent()
     scrollToBottom();
 }
 
+QString DisplayArea::getResult()
+{
+    QString exp = listItems.last()->expression;
+    const double result = Algorithm::getResult(exp.replace("×", "*").replace("÷", "/").toStdString());
+
+    return QString::number(result);
+}
+
 void DisplayArea::copyResultToClipboard()
 {
-    QApplication::clipboard()->setText(listItems.last()->expression);
+    QApplication::clipboard()->setText(getResult());
 }
 
 QChar DisplayArea::getLastChar()
