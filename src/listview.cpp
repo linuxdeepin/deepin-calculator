@@ -1,6 +1,7 @@
 #include "listview.h"
 #include <QPainter>
 #include <QDebug>
+#include <QWheelEvent>
 
 ListView::ListView(QWidget *parent) : QWidget(parent)
 {
@@ -115,14 +116,16 @@ void ListView::mouseMoveEvent(QMouseEvent *e)
 
 void ListView::mousePressEvent(QMouseEvent *e)
 {
-    if (e->button() == Qt::LeftButton) {
-        if (e->x() > getScrollBarX()) {
-            isDragScrollBar = true;
+    if (listItems.count() > 4) {
+        if (e->button() == Qt::LeftButton) {
+            if (e->x() > getScrollBarX()) {
+                isDragScrollBar = true;
 
-            offsetY = adjustOffsetY(e->y() / (rect().height() * 1.0) * getItemsTotalHeight());
+                offsetY = adjustOffsetY(e->y() / (rect().height() * 1.0) * getItemsTotalHeight());
+            }
+
+            update();
         }
-
-        update();
     }
 }
 
@@ -134,9 +137,26 @@ void ListView::mouseReleaseEvent(QMouseEvent *e)
     update();
 }
 
+void ListView::wheelEvent(QWheelEvent *e)
+{
+    if (listItems.count() < 4)
+        return;
+
+    if (e->delta() == -120) {
+        offsetY = adjustOffsetY(offsetY + rowHeight);
+    } else {
+        offsetY = adjustOffsetY(offsetY - rowHeight);
+    }
+
+    isShowScrollBar = true;
+
+    update();
+}
+
 void ListView::leaveEvent(QEvent *)
 {
     isShowScrollBar = false;
+
     update();
 }
 

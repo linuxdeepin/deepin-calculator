@@ -30,6 +30,8 @@ private:
     QChar getLastChar();
     bool lastCharIsSymbol();
     bool lastCharIsPoint();
+    bool lastCharIsLeftBracket();
+    bool lastCharIsRightBracket();
     bool isEnding();
 };
 
