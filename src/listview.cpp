@@ -10,6 +10,7 @@ ListView::ListView(QWidget *parent) : QWidget(parent)
     scrollBarWidth = 6;
     scrollBarPadding = 8;
     isDragScrollBar = false;
+    isShowScrollBar = true;
 
     setMouseTracking(true);
 }
@@ -21,8 +22,6 @@ ListView::~ListView()
 void ListView::addItem(ListItem *item)
 {
     listItems << item;
-
-    update();
 }
 
 void ListView::clearAllItems()
@@ -87,11 +86,20 @@ void ListView::paintEvent(QPaintEvent *)
     }
 
     if (listItems.count() > 4)
-        painter.drawRoundedRect(QRect(width() - scrollBarPadding, getScrollBarY(), scrollBarWidth, getScrollBarHeight()), 5, 5);
+        if (isShowScrollBar)
+            painter.drawRoundedRect(QRect(width() - scrollBarPadding, getScrollBarY(), scrollBarWidth, getScrollBarHeight()), 5, 5);
 }
 
 void ListView::mouseMoveEvent(QMouseEvent *e)
 {
+    if (e->x() > getScrollBarX()) {
+        isShowScrollBar = true;
+        update();
+    } else {
+        isShowScrollBar = false;
+        update();
+    }
+
     if (isDragScrollBar) {
         offsetY = adjustOffsetY(e->y() / (rect().height() * 1.0) * getItemsTotalHeight());
 
@@ -117,6 +125,12 @@ void ListView::mouseReleaseEvent(QMouseEvent *e)
     if (isDragScrollBar)
         isDragScrollBar = false;
 
+    update();
+}
+
+void ListView::leaveEvent(QEvent *)
+{
+    isShowScrollBar = false;
     update();
 }
 

@@ -117,7 +117,6 @@ void DisplayArea::enterBackspaceEvent()
     }
 
     isContinue = true;
-
     scrollToBottom();
 }
 

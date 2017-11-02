@@ -22,6 +22,7 @@ public:
 
 private:
     bool isDragScrollBar;
+    bool isShowScrollBar;
     int rowHeight;
     int padding;
     int offsetY;
@@ -33,6 +34,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
+    void leaveEvent(QEvent *);
 
     int getItemsTotalHeight() const;
     int getScrollBarHeight() const;
