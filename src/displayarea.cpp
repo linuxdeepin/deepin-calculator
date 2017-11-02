@@ -1,9 +1,8 @@
+#include <QApplication>
+#include <QClipboard>
 #include "displayarea.h"
 #include "listitem.h"
 #include "algorithm.h"
-#include <QDebug>
-#include <QApplication>
-#include <QClipboard>
 
 DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
 {
@@ -53,6 +52,9 @@ void DisplayArea::enterPointEvent()
         return;
 
     const QChar lastChar = getLastChar();
+    if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/') {
+        listItems.last()->expression.append("0");
+    }
     if (lastChar != '.') {
         listItems.last()->expression.append(".");
         isContinue = true;
