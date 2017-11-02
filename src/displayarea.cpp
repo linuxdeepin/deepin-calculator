@@ -51,11 +51,10 @@ void DisplayArea::enterPointEvent()
     if (isEnding())
         return;
 
-    const QChar lastChar = getLastChar();
-    if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/') {
+    if (lastCharIsSymbol()) {
         listItems.last()->expression.append("0");
     }
-    if (lastChar != '.') {
+    if (!lastCharIsPoint()) {
         listItems.last()->expression.append(".");
         isContinue = true;
     }
@@ -68,17 +67,16 @@ void DisplayArea::enterSymbolEvent(const QString &str)
     if (isEnding())
         return;
 
-    isContinue = true;
-
-    const QChar lastChar = getLastChar();
-    if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/' || lastChar == '%') {
+    if (lastCharIsSymbol()) {
         enterBackspaceEvent();
-    } else if (lastChar == '.') {
+    } else if (lastCharIsPoint()) {
         listItems.last()->expression.append("0");
     }
-
-    isAllClear = false;
+    
     listItems.last()->expression.append(str);
+
+    isContinue = true;
+    isAllClear = false;
     scrollToBottom();
 }
 
@@ -171,6 +169,21 @@ QChar DisplayArea::getLastChar()
     laster--;
 
     return *laster;
+}
+
+bool DisplayArea::lastCharIsSymbol()
+{
+    const QChar lastChar = getLastChar();
+
+    if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/')
+        return true;
+    else
+        return false;
+}
+
+bool DisplayArea::lastCharIsPoint()
+{
+    return getLastChar() == '.' ? true : false;
 }
 
 bool DisplayArea::isEnding()

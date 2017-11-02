@@ -27,6 +27,8 @@ private:
     bool isAllClear;
 
     QChar getLastChar();
+    bool lastCharIsSymbol();
+    bool lastCharIsPoint();
     bool isEnding();
 };
 
