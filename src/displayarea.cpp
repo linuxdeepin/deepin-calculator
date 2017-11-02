@@ -42,6 +42,7 @@ void DisplayArea::enterNumberEvent(const QString &num)
         isContinue = true;
     }
 
+    isAllClear = false;
     listItems.last()->expression.append(num);
     scrollToBottom();
 }
@@ -72,8 +73,8 @@ void DisplayArea::enterSymbolEvent(const QString &str)
         enterBackspaceEvent();
     }
 
+    isAllClear = false;
     listItems.last()->expression.append(str);
-
     scrollToBottom();
 }
 
@@ -95,6 +96,7 @@ void DisplayArea::enterBracketsEvent()
         isLeftBracket = true;
     }
 
+    isAllClear = false;
     scrollToBottom();
 }
 
@@ -122,8 +124,12 @@ void DisplayArea::enterClearEvent()
     if (isAllClear) {
         clearAllItems();
         addNewRow();
+
+        isAllClear = false;
     } else {
         listItems.last()->expression = "0";
+
+        isAllClear = true;
     }
 
     isLeftBracket = true;
