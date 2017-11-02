@@ -203,5 +203,5 @@ void MainWindow::onBracketButtonClicked()
 
 void MainWindow::onModButtonClicked()
 {
-    
+    displayArea->enterSymbolEvent("%");
 }
