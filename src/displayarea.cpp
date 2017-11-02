@@ -54,6 +54,7 @@ void DisplayArea::enterPointEvent()
     if (lastCharIsSymbol()) {
         listItems.last()->expression.append("0");
     }
+
     if (!lastCharIsPoint()) {
         listItems.last()->expression.append(".");
         isContinue = true;
@@ -88,6 +89,10 @@ void DisplayArea::enterBracketsEvent()
     if (!isContinue) {
         listItems.last()->expression = nullptr;
         isContinue = true;
+    }
+
+    if (listItems.last()->expression == "0") {
+        listItems.last()->expression = nullptr;
     }
 
     if (isLeftBracket) {

@@ -10,7 +10,7 @@ ListView::ListView(QWidget *parent) : QWidget(parent)
     scrollBarWidth = 6;
     scrollBarPadding = 8;
     isDragScrollBar = false;
-    isShowScrollBar = true;
+    isShowScrollBar = false;
 
     setMouseTracking(true);
 }
@@ -51,7 +51,12 @@ void ListView::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
 
-    // Draw background and content.
+    // Draw background
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QColor("#FBFBFB"));
+    painter.drawRect(rect());
+
+    // Draw content.
     int drawHeight = 0;
     int count = 0;
 
