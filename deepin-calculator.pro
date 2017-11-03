@@ -47,8 +47,8 @@ desktop.files = deepin-calculator.desktop
 
 INSTALLS += target icon desktop
 
-isEmpty(TRANSLATIONS) {
-     include(translations.pri)
+isEmpty (TRANSLATIONS) {
+    include(translations.pri)
 }
 
 TRANSLATIONS_COMPILED = $$TRANSLATIONS
