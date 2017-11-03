@@ -206,9 +206,10 @@ void DisplayArea::copyResultToClipboard()
 QChar DisplayArea::getLastChar()
 {
     QString exp = listItems.last()->expression;
-    QString formatExp = exp.replace("×", "*").replace("÷", "/");;
+    QString::const_iterator laster = exp.replace("×", "*").replace("÷", "/").end();
+    laster--;
 
-    return formatExp.at(formatExp.count() - 1);
+    return *laster;
 }
 
 bool DisplayArea::lastCharIsNumber()
