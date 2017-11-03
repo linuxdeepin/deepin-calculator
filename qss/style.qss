@@ -16,27 +16,30 @@
 #SymbolButton {
     font-size: 18px;
     color: #2CA7F8;
+    border: 1px solid #ECECEC;
+    background-color: #FFFFFF;
 }
-#SymbolButton:hover{
+#SymbolButton:hover {
     background-color: #D8D8D8;
-    border: 1px solid #D8D8D8; 
+    border: 1px solid #D8D8D8;
 }
 #SymbolButton:pressed {
-   background-color: #ADADAD;
-   border: 1px solid #ADADAD;
+    background-color: #ADADAD;
+    border: 1px solid #ADADAD;
 }
 
 #EqualButton {
-    background: #2CA7F8;
-    border: 1px solid #2CA7F8;
-    color: #FFFFFF;
     font-size: 18px;
+    color: #FFFFFF;
+    border: 1px solid #2CA7F8;
+    background-color: #2CA7F8;
 }
-#EqualButton:hover{
+#EqualButton:hover {
     background-color: #54BBFF;
-    border: 1px solid #54BBFF; 
+    border: 1px solid #54BBFF;
 }
 #EqualButton:pressed {
-   background-color: #0085DB;
-   border: 1px solid #0085DB;
+    background-color: #0085DB;
+    border: 1px solid #0085DB;
 }
+
