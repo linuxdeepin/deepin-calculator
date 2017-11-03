@@ -29,18 +29,21 @@ void DisplayArea::addNewRow()
 
 void DisplayArea::enterNumberEvent(const QString &num)
 {
-    if (!isEnding()) {
-        if (listItems.last()->expression == "0")
-            listItems.last()->expression = nullptr;
-        if (!isContinue) {
-            listItems.last()->expression = nullptr;
-            isContinue = true;
-        }
+    if (isEnding())
+        return;
 
-        isAllClear = false;
-        listItems.last()->expression.append(num);
-        scrollToBottom();
+    if (!isContinue || listItems.last()->expression == "0") {
+        listItems.last()->expression = nullptr;
+        isContinue = true;
     }
+
+    if (lastCharIsRightBracket()) {
+        listItems.last()->expression.append("×0");
+    }
+
+    isAllClear = false;
+    listItems.last()->expression.append(num);
+    scrollToBottom();
 }
 
 void DisplayArea::enterPointEvent()
@@ -82,55 +85,65 @@ void DisplayArea::enterPointEvent()
 
 void DisplayArea::enterSymbolEvent(const QString &str)
 {
-    if (!isEnding()) {
-        if (lastCharIsSymbol()) {
-            enterBackspaceEvent();
-        } else if (lastCharIsPoint()) {
-            listItems.last()->expression.append("0");
-        }
+    if (isEnding())
+        return;
 
-        isContinue = true;
-        isAllClear = false;
-        listItems.last()->expression.append(str);
-        scrollToBottom();
+    if (lastCharIsSymbol()) {
+        enterBackspaceEvent();
+    } else if (lastCharIsPoint() || lastCharIsLeftBracket()) {
+        listItems.last()->expression.append("0");
     }
+
+    isContinue = true;
+    isAllClear = false;
+    listItems.last()->expression.append(str);
+    scrollToBottom();
 }
 
 void DisplayArea::enterBracketsEvent()
-{   
-    if (!isEnding()) {
-        if (!isContinue) {
-            listItems.last()->expression = nullptr;
-            isContinue = true;
-        }
+{
+    if (isEnding())
+        return;
 
-        if (listItems.last()->expression == "0") {
-            listItems.last()->expression = nullptr;
-        }
-
-        if (isLeftBracket) {
-            listItems.last()->expression.append("(");
-            isLeftBracket = false;
-        }else {
-            listItems.last()->expression.append(")");
-            isLeftBracket = true;
-        }
-
-        isAllClear = false;
-        scrollToBottom();
+    if (!isContinue || listItems.last()->expression == "0") {
+        listItems.last()->expression = nullptr;
+        isContinue = true;
     }
+
+    if (isLeftBracket) {
+        if (lastCharIsNumber()) {
+            listItems.last()->expression.append("×");
+        } else if (lastCharIsPoint()) {
+            listItems.last()->expression.append("0×");
+        }
+
+        listItems.last()->expression.append("(");
+        isLeftBracket = false;
+    } else {
+        if (lastCharIsPoint() || lastCharIsSymbol()) {
+            listItems.last()->expression.append("0");
+        }
+
+        listItems.last()->expression.append(")");
+        isLeftBracket = true;
+    }
+
+    isAllClear = false;
+    scrollToBottom();
 }
 
 void DisplayArea::enterBackspaceEvent()
 {
     const QString exp = listItems.last()->expression;
-    const QChar lastChar = getLastChar();
 
     if (exp.length() == 1) {
         listItems.last()->expression = "0";
     }else {
-        if (lastChar == '(')
+        if (lastCharIsLeftBracket()) {
             isLeftBracket = true;
+        } else if (lastCharIsRightBracket()) {
+            isLeftBracket = false;
+        }
 
         listItems.last()->expression = exp.left(exp.length() - 1);
     }
@@ -198,7 +211,9 @@ bool DisplayArea::lastCharIsNumber()
 {
     const QChar lastChar = getLastChar();
 
-    if (lastChar == '0' || lastChar == '1' || lastChar == '2' || lastChar == '3' || lastChar == '4' || lastChar == '5' || lastChar == '6' || lastChar == '7' || lastChar == '8' || lastChar == '9') {
+    if (lastChar == '0' || lastChar == '1' || lastChar == '2' || lastChar == '3' ||
+        lastChar == '4' || lastChar == '5' || lastChar == '6' || lastChar == '7' ||
+        lastChar == '8' || lastChar == '9') {
         return true;
     } else {
         return false;
