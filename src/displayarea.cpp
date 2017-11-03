@@ -137,6 +137,10 @@ void DisplayArea::enterBackspaceEvent()
     const QString exp = listItems.last()->expression;
 
     if (exp.length() == 1) {
+        if (lastCharIsLeftBracket()) {
+            isLeftBracket = true;
+        }
+    
         listItems.last()->expression = "0";
     }else {
         if (lastCharIsLeftBracket()) {
