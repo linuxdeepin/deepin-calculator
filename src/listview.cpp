@@ -91,6 +91,10 @@ void ListView::paintEvent(QPaintEvent *)
 void ListView::drawScrollbar(QPainter *painter)
 {
     if (getItemsTotalHeight() > rect().height()) {
+        if (!isShowScrollbar) {
+            return;
+        }
+
         if (isDragScrollbar) {
             painter->setOpacity(0.7);
         } else {
@@ -112,11 +116,7 @@ void ListView::mouseMoveEvent(QMouseEvent *e)
             offsetY = adjustOffsetY((e->y() - getScrollbarHeight() / 2) / (rect().height() * 1.0) * getItemsTotalHeight());
             isShowScrollbar = true;
             update();
-
-            return;
-        }
-
-        if (e->y() > getScrollbarX()) {
+        } else if (e->x() > getScrollbarX()) {
             isShowScrollbar = true;
             update();
         } else {
@@ -166,7 +166,9 @@ void ListView::wheelEvent(QWheelEvent *e)
 
 void ListView::leaveEvent(QEvent *)
 {
+    isShowScrollbar = false;
 
+    update();
 }
 
 int ListView::getItemsTotalHeight() const
