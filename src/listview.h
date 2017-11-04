@@ -17,10 +17,10 @@ public:
     void clearAllItems();
     void clearLastItem();
     void scrollToBottom();
-
-    QList<ListItem *> listItems;
+    ListItem* lastItem();
 
 private:
+    QList<ListItem *> listItems;
     bool isDragScrollbar;
     bool isShowScrollbar;
     int rowHeight;

@@ -29,20 +29,21 @@ void DisplayArea::addNewRow()
 
 void DisplayArea::enterNumberEvent(const QString &num)
 {
-    if (isEnding())
+    if (isEnding()) {
         return;
+    }
 
-    if (!isContinue || listItems.last()->expression == "0") {
-        listItems.last()->expression = nullptr;
+    if (!isContinue || lastItem()->expression == "0") {
+        lastItem()->expression = nullptr;
         isContinue = true;
     }
 
     if (lastCharIsRightBracket()) {
-        listItems.last()->expression.append("×0");
+        lastItem()->expression.append("×0");
     }
 
     isAllClear = false;
-    listItems.last()->expression.append(num);
+    lastItem()->expression.append(num);
     scrollToBottom();
 }
 
@@ -53,7 +54,7 @@ void DisplayArea::enterPointEvent()
 
     if (lastCharIsNumber()) {
         bool flag = false;
-        QString exp = listItems.last()->expression;
+        QString exp = lastItem()->expression;
         for (int i = 0; i < exp.count(); ++i) {
             if (exp.at(exp.count() - 1 - i) == QString("+") ||
                 exp.at(exp.count() - 1 - i) == QString("-") ||
@@ -70,14 +71,14 @@ void DisplayArea::enterPointEvent()
         }
 
         if (flag) {
-            listItems.last()->expression.append(".");
+            lastItem()->expression.append(".");
             isContinue = true;
             isAllClear = false;
         }
     } else if (lastCharIsSymbol() || lastCharIsLeftBracket()) {
-        listItems.last()->expression.append("0.");
+        lastItem()->expression.append("0.");
     } else if (lastCharIsRightBracket()) {
-        listItems.last()->expression.append("×0.");
+        lastItem()->expression.append("×0.");
     }
 
     scrollToBottom();
@@ -85,18 +86,19 @@ void DisplayArea::enterPointEvent()
 
 void DisplayArea::enterSymbolEvent(const QString &str)
 {
-    if (isEnding())
+    if (isEnding()) {
         return;
+    }
 
     if (lastCharIsSymbol()) {
         enterBackspaceEvent();
     } else if (lastCharIsPoint() || lastCharIsLeftBracket()) {
-        listItems.last()->expression.append("0");
+        lastItem()->expression.append("0");
     }
 
     isContinue = true;
     isAllClear = false;
-    listItems.last()->expression.append(str);
+    lastItem()->expression.append(str);
     scrollToBottom();
 }
 
@@ -105,26 +107,26 @@ void DisplayArea::enterBracketsEvent()
     if (isEnding())
         return;
 
-    if (!isContinue || listItems.last()->expression == "0") {
-        listItems.last()->expression = nullptr;
+    if (!isContinue || lastItem()->expression == "0") {
+        lastItem()->expression = nullptr;
         isContinue = true;
     }
 
     if (isLeftBracket) {
         if (lastCharIsNumber()) {
-            listItems.last()->expression.append("×");
+            lastItem()->expression.append("×");
         } else if (lastCharIsPoint()) {
-            listItems.last()->expression.append("0×");
+            lastItem()->expression.append("0×");
         }
 
-        listItems.last()->expression.append("(");
+        lastItem()->expression.append("(");
         isLeftBracket = false;
     } else {
         if (lastCharIsPoint() || lastCharIsSymbol()) {
-            listItems.last()->expression.append("0");
+            lastItem()->expression.append("0");
         }
 
-        listItems.last()->expression.append(")");
+        lastItem()->expression.append(")");
         isLeftBracket = true;
     }
 
@@ -134,22 +136,20 @@ void DisplayArea::enterBracketsEvent()
 
 void DisplayArea::enterBackspaceEvent()
 {
-    const QString exp = listItems.last()->expression;
+    const QString exp = lastItem()->expression;
 
     if (exp.length() == 1) {
         if (lastCharIsLeftBracket()) {
             isLeftBracket = true;
         }
-    
-        listItems.last()->expression = "0";
+        lastItem()->expression = "0";
     }else {
         if (lastCharIsLeftBracket()) {
             isLeftBracket = true;
         } else if (lastCharIsRightBracket()) {
             isLeftBracket = false;
         }
-
-        listItems.last()->expression = exp.left(exp.length() - 1);
+        lastItem()->expression = exp.left(exp.length() - 1);
     }
 
     isContinue = true;
@@ -159,15 +159,15 @@ void DisplayArea::enterBackspaceEvent()
 void DisplayArea::enterClearEvent()
 {   
     if (isAllClear) {
+        isAllClear = false;
+
         clearAllItems();
         addNewRow();
-
-        isAllClear = false;
     } else {
-        listItems.last()->initFontSize();
-        listItems.last()->expression = "0";
-
         isAllClear = true;
+
+        lastItem()->initFontSize();
+        lastItem()->expression = "0";
     }
 
     isLeftBracket = true;
@@ -176,22 +176,21 @@ void DisplayArea::enterClearEvent()
 
 void DisplayArea::enterEqualEvent()
 {
-    if (listItems.last()->expression != "0") {
+    if (lastItem()->expression != "0") {
         const QString result = getResult();
 
-        if (result == "inf" || result == "-inf")
+        if (result == "inf" || result == "-inf") {
             return;
+        }
 
-        listItems.last()->expression.append(" = " + result);
+        lastItem()->expression.append(" = " + result);
         addNewRow();
-        listItems.last()->expression = result;
+        lastItem()->expression = result;
 
         isContinue = false;
         isLeftBracket = true;
     }
 }
-
-
 
 void DisplayArea::copyResultToClipboard()
 {
@@ -200,7 +199,7 @@ void DisplayArea::copyResultToClipboard()
 
 QString DisplayArea::getResult()
 {
-    QString exp = listItems.last()->expression;
+    QString exp = lastItem()->expression;
     const double result = Algorithm::getResult(exp.replace("×", "*").replace("÷", "/").toStdString());
 
     return QString::number(result);
@@ -208,7 +207,7 @@ QString DisplayArea::getResult()
 
 QChar DisplayArea::getLastChar()
 {
-    QString exp = listItems.last()->expression;
+    QString exp = lastItem()->expression;
     QString::const_iterator laster = exp.replace("×", "*").replace("÷", "/").end();
     laster--;
 
@@ -232,10 +231,11 @@ bool DisplayArea::lastCharIsSymbol()
 {
     const QChar lastChar = getLastChar();
 
-    if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/' || lastChar == '%')
+    if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/' || lastChar == '%') {
         return true;
-    else
+    } else {
         return false;
+    }
 }
 
 bool DisplayArea::lastCharIsPoint()
@@ -255,5 +255,5 @@ bool DisplayArea::lastCharIsRightBracket()
 
 bool DisplayArea::isEnding()
 {
-    return listItems.last()->expression.count() > 35 ? true : false;
+    return lastItem()->expression.count() > 35 ? true : false;
 }

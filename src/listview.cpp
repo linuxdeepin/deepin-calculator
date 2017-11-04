@@ -48,6 +48,11 @@ void ListView::scrollToBottom()
     update();
 }
 
+ListItem* ListView::lastItem()
+{
+    return listItems.last();
+}
+
 void ListView::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
@@ -150,8 +155,9 @@ void ListView::mouseReleaseEvent(QMouseEvent *e)
 
 void ListView::wheelEvent(QWheelEvent *e)
 {
-    if (getItemsTotalHeight() < rect().height())
+    if (getItemsTotalHeight() < rect().height()) {
         return;
+    }
 
     if (e->delta() == -120) {
         offsetY = adjustOffsetY(offsetY + rowHeight);
