@@ -21,16 +21,17 @@ public:
     QList<ListItem *> listItems;
 
 private:
-    bool isDragScrollBar;
-    bool isShowScrollBar;
+    bool isDragScrollbar;
+    bool isShowScrollbar;
     int rowHeight;
     int padding;
     int offsetY;
-    int scrollBarWidth;
-    int scrollBarPadding;
+    int scrollbarWidth;
+    int scrollbarPadding;
 
 protected:
     void paintEvent(QPaintEvent *);
+    void drawScrollbar(QPainter *);
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
@@ -38,9 +39,9 @@ protected:
     void leaveEvent(QEvent *);
 
     int getItemsTotalHeight() const;
-    int getScrollBarHeight() const;
-    int getScrollBarX() const;
-    int getScrollBarY() const;
+    int getScrollbarHeight() const;
+    int getScrollbarX() const;
+    int getScrollbarY() const;
     int adjustOffsetY(const int &offset) const;
 };
 

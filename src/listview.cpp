@@ -8,10 +8,10 @@ ListView::ListView(QWidget *parent) : QWidget(parent)
     rowHeight = 44;
     padding = 10;
     offsetY = 0;
-    scrollBarWidth = 6;
-    scrollBarPadding = 8;
-    isDragScrollBar = false;
-    isShowScrollBar = false;
+    scrollbarWidth = 6;
+    scrollbarPadding = 8;
+    isDragScrollbar = false;
+    isShowScrollbar = false;
 
     setMouseTracking(true);
 }
@@ -27,9 +27,10 @@ void ListView::addItem(ListItem *item)
 
 void ListView::clearAllItems()
 {
-    listItems.clear();
-
-    update();
+    if (!listItems.isEmpty()) {
+        listItems.clear();
+        update();
+    }
 }
 
 void ListView::clearLastItem()
@@ -54,7 +55,7 @@ void ListView::paintEvent(QPaintEvent *)
 
     // Draw background
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor("#FBFBFB"));
+    painter.setBrush(QColor("#FFFFFF"));
     painter.drawRect(rect());
 
     // Draw content.
@@ -69,7 +70,7 @@ void ListView::paintEvent(QPaintEvent *)
             item->drawBackground(QRect(0, count * rowHeight - offsetY, rect().width(), rowHeight), &painter);
             item->drawContent(QRect(padding,
                                     count * rowHeight - offsetY,
-                                    rect().width() - padding * 2 - scrollBarPadding,
+                                    rect().width() - padding * 2 - scrollbarPadding,
                                     rowHeight), &painter, isLast);
 
             drawHeight += rowHeight;
@@ -84,62 +85,72 @@ void ListView::paintEvent(QPaintEvent *)
     // Draw scrollbar.
     painter.setPen(Qt::NoPen);
     painter.setBrush(QColor("#000000"));
+    drawScrollbar(&painter);
+}
 
-    if (isDragScrollBar) {
-        painter.setOpacity(0.7);
-        isShowScrollBar = true;
-    }else {
-        painter.setOpacity(0.5);
+void ListView::drawScrollbar(QPainter *painter)
+{
+    if (getItemsTotalHeight() > rect().height()) {
+        if (isDragScrollbar) {
+            painter->setOpacity(0.7);
+        } else {
+            painter->setOpacity(0.5);
+        }
+
+        const int barRadius = 4;
+        painter->drawRoundedRect(QRect(rect().width() - scrollbarPadding,
+                                       getScrollbarY(),
+                                       scrollbarWidth,
+                                       getScrollbarHeight()), barRadius, barRadius);
     }
-
-    if (listItems.count() > 4)
-        if (isShowScrollBar)
-            painter.drawRoundedRect(QRect(width() - scrollBarPadding, getScrollBarY(), scrollBarWidth, getScrollBarHeight()), 5, 5);
 }
 
 void ListView::mouseMoveEvent(QMouseEvent *e)
 {
-    if (e->x() > getScrollBarX()) {
-        isShowScrollBar = true;
-        update();
-    } else {
-        isShowScrollBar = false;
-        update();
-    }
+    if (getItemsTotalHeight() > rect().height()) {
+        if (isDragScrollbar) {
+            offsetY = adjustOffsetY((e->y() - getScrollbarHeight() / 2) / (rect().height() * 1.0) * getItemsTotalHeight());
+            isShowScrollbar = true;
+            update();
 
-    if (isDragScrollBar) {
-        offsetY = adjustOffsetY(e->y() / (rect().height() * 1.0) * getItemsTotalHeight());
+            return;
+        }
 
-        update();
+        if (e->y() > getScrollbarX()) {
+            isShowScrollbar = true;
+            update();
+        } else {
+            isShowScrollbar = false;
+            update();
+        }
     }
 }
 
 void ListView::mousePressEvent(QMouseEvent *e)
 {
-    if (listItems.count() > 4) {
+    if (getItemsTotalHeight() > rect().height()) {
         if (e->button() == Qt::LeftButton) {
-            if (e->x() > getScrollBarX()) {
-                isDragScrollBar = true;
-
-                offsetY = adjustOffsetY(e->y() / (rect().height() * 1.0) * getItemsTotalHeight());
+            if (e->x() > getScrollbarX()) {
+                isDragScrollbar = true;
+                offsetY = adjustOffsetY((e->y() - getScrollbarHeight() / 2) / (rect().height() * 1.0) * getItemsTotalHeight());
+                update();
             }
-
-            update();
         }
     }
 }
 
 void ListView::mouseReleaseEvent(QMouseEvent *e)
 {
-    if (isDragScrollBar)
-        isDragScrollBar = false;
+    if (isDragScrollbar) {
+        isDragScrollbar = false;
+    }
 
     update();
 }
 
 void ListView::wheelEvent(QWheelEvent *e)
 {
-    if (listItems.count() < 4)
+    if (getItemsTotalHeight() < rect().height())
         return;
 
     if (e->delta() == -120) {
@@ -148,16 +159,14 @@ void ListView::wheelEvent(QWheelEvent *e)
         offsetY = adjustOffsetY(offsetY - rowHeight);
     }
 
-    isShowScrollBar = true;
+    isShowScrollbar = true;
 
     update();
 }
 
 void ListView::leaveEvent(QEvent *)
 {
-    isShowScrollBar = false;
 
-    update();
 }
 
 int ListView::getItemsTotalHeight() const
@@ -165,19 +174,19 @@ int ListView::getItemsTotalHeight() const
     return listItems.count() * rowHeight;
 }
 
-int ListView::getScrollBarHeight() const
+int ListView::getScrollbarHeight() const
 {
-    return rect().height() * 1.0 / getItemsTotalHeight() * rect().height();
+    return static_cast<int>(rect().height() * 1.0 / getItemsTotalHeight() * rect().height());
 }
 
-int ListView::getScrollBarX() const
+int ListView::getScrollbarX() const
 {
-    return rect().width() - scrollBarWidth - scrollBarPadding;
+    return rect().width() - scrollbarWidth - scrollbarPadding;
 }
 
-int ListView::getScrollBarY() const
+int ListView::getScrollbarY() const
 {
-    return offsetY / (getItemsTotalHeight() * 1.0) * rect().height();
+    return static_cast<int>(offsetY / (getItemsTotalHeight() * 1.0) * rect().height());
 }
 
 int ListView::adjustOffsetY(const int &offset) const

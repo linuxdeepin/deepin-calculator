@@ -19,7 +19,6 @@ public:
     void enterBackspaceEvent();
     void enterClearEvent();
     void enterEqualEvent();
-    QString getResult();
     void copyResultToClipboard();
 
 private:
@@ -27,6 +26,7 @@ private:
     bool isContinue;
     bool isAllClear;
 
+    QString getResult();
     QChar getLastChar();
     bool lastCharIsNumber();
     bool lastCharIsSymbol();

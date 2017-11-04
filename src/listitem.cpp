@@ -18,7 +18,9 @@ void ListItem::drawBackground(const QRect &rect, QPainter *painter)
     QPainterPath path;
     path.addRect(rect);
 
-    painter->fillPath(path, QColor("#FBFBFB"));
+    painter->setPen(QColor("#EFEFEF"));
+//    painter->fillPath(path, QColor("#FBFBFB"));
+    painter->drawPath(path);
 }
 
 void ListItem::drawContent(const QRect &rect, QPainter *painter, bool isLast)

@@ -191,17 +191,19 @@ void DisplayArea::enterEqualEvent()
     }
 }
 
+
+
+void DisplayArea::copyResultToClipboard()
+{
+    QApplication::clipboard()->setText(getResult());
+}
+
 QString DisplayArea::getResult()
 {
     QString exp = listItems.last()->expression;
     const double result = Algorithm::getResult(exp.replace("×", "*").replace("÷", "/").toStdString());
 
     return QString::number(result);
-}
-
-void DisplayArea::copyResultToClipboard()
-{
-    QApplication::clipboard()->setText(getResult());
 }
 
 QChar DisplayArea::getLastChar()
