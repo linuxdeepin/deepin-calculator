@@ -164,6 +164,7 @@ void DisplayArea::enterClearEvent()
 
         isAllClear = false;
     } else {
+        listItems.last()->initFontSize();
         listItems.last()->expression = "0";
 
         isAllClear = true;
