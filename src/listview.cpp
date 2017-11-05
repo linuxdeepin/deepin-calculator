@@ -60,7 +60,7 @@ void ListView::paintEvent(QPaintEvent *)
 
     // Draw background
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor("#FFFFFF"));
+    painter.setBrush(QColor("#FBFBFB"));
     painter.drawRect(rect());
 
     // Draw content.
@@ -95,7 +95,7 @@ void ListView::paintEvent(QPaintEvent *)
 
 void ListView::drawScrollbar(QPainter *painter)
 {
-    if (getItemsTotalHeight() > rect().height()) {
+    if (getItemsTotalHeight() > rect().height() + rowHeight) {
         if (!isShowScrollbar) {
             return;
         }
@@ -116,7 +116,7 @@ void ListView::drawScrollbar(QPainter *painter)
 
 void ListView::mouseMoveEvent(QMouseEvent *e)
 {
-    if (getItemsTotalHeight() > rect().height()) {
+    if (getItemsTotalHeight() > rect().height() + rowHeight) {
         if (isDragScrollbar) {
             offsetY = adjustOffsetY((e->y() - getScrollbarHeight() / 2) / (rect().height() * 1.0) * getItemsTotalHeight());
             isShowScrollbar = true;
@@ -133,7 +133,7 @@ void ListView::mouseMoveEvent(QMouseEvent *e)
 
 void ListView::mousePressEvent(QMouseEvent *e)
 {
-    if (getItemsTotalHeight() > rect().height()) {
+    if (getItemsTotalHeight() > rect().height() + rowHeight) {
         if (e->button() == Qt::LeftButton) {
             if (e->x() > getScrollbarX()) {
                 isDragScrollbar = true;
@@ -155,7 +155,7 @@ void ListView::mouseReleaseEvent(QMouseEvent *e)
 
 void ListView::wheelEvent(QWheelEvent *e)
 {
-    if (getItemsTotalHeight() < rect().height()) {
+    if (getItemsTotalHeight() < rect().height() + rowHeight) {
         return;
     }
 
