@@ -179,7 +179,7 @@ void DisplayArea::enterEqualEvent()
     if (lastItem()->expression != "0") {
         const QString result = getResult();
 
-        if (result == "inf" || result == "-inf") {
+        if (result == "inf" || result == "-inf" || lastItem()->expression == result) {
             return;
         }
 
