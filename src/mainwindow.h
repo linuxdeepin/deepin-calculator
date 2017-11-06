@@ -23,6 +23,7 @@ private:
     QGridLayout *mainLayout;
     TitleBar *titleBar;
     DisplayArea *displayArea;
+    QWidget *separatorWidget;
     TextButton *clearButton;
     TextButton *backButton;
     TextButton *modButton;
