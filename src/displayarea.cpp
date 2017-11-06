@@ -2,7 +2,7 @@
 #include <QClipboard>
 #include "displayarea.h"
 #include "listitem.h"
-#include "algorithm.h"
+#include "utils.h"
 #include <QDebug>
 
 DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
@@ -200,7 +200,7 @@ void DisplayArea::copyResultToClipboard()
 QString DisplayArea::getResult()
 {
     QString exp = lastItem()->expression;
-    const double result = Algorithm::getResult(exp.replace("×", "*").replace("÷", "/").toStdString());
+    const double result = Utils::getResult(exp.replace("×", "*").replace("÷", "/").toStdString());
 
     return QString::number(result);
 }

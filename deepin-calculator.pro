@@ -11,7 +11,7 @@ TARGET = deepin-calculator
 INCLUDEPATH += .
 
 # Input
-HEADERS += src/algorithm.h \
+HEADERS += \
            src/displayarea.h \
            src/listitem.h \
            src/listview.h \
@@ -19,7 +19,7 @@ HEADERS += src/algorithm.h \
            src/textbutton.h \
            src/titlebar.h \
            src/utils.h
-SOURCES += src/algorithm.cpp \
+SOURCES += \
            src/displayarea.cpp \
            src/listitem.cpp \
            src/listview.cpp \
