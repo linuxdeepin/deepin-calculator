@@ -48,8 +48,9 @@ void DisplayArea::enterNumberEvent(const QString &num)
 
 void DisplayArea::enterPointEvent()
 {
-    if (isEnding())
+    if (isEnding()) {
         return;
+    }
 
     if (lastCharIsNumber()) {
         bool flag = false;
@@ -103,8 +104,9 @@ void DisplayArea::enterSymbolEvent(const QString &str)
 
 void DisplayArea::enterBracketsEvent()
 {
-    if (isEnding())
+    if (isEnding()) {
         return;
+    }
 
     if (!isContinue || lastItem()->expression == "0") {
         lastItem()->expression = nullptr;
@@ -176,7 +178,7 @@ void DisplayArea::enterClearEvent()
 void DisplayArea::enterEqualEvent()
 {
     if (lastItem()->expression != "0") {
-        if (lastCharIsSymbol() || lastCharIsLeftBracket() || lastCharIsPoint()) {
+        if (!isContinue || lastCharIsSymbol() || lastCharIsLeftBracket() || lastCharIsPoint()) {
             return;
         }
 

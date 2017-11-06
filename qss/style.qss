@@ -1,31 +1,34 @@
 #TextButton {
-    font-size: 17px;
+    font-size: 18px;
+    font-weight: 300;
     color: #545454;
-    border: 1px solid #ECECEC;
     background-color: #FFFFFF;
+    border: 1px solid #F2F2F2;
+    margin: 0px;
 }
 #TextButton:hover {
-    background-color: #D8D8D8;
-    border: 1px solid #D8D8D8;
+    font-size: 20px;
+    font-weight: 400;
+    background-color: #FFFFFF;
 }
 #TextButton:pressed {
-    background-color: #ADADAD;
-    border: 1px solid #ADADAD;
+    color: #ABABAB;
+    background-color: #F7F7F7;
+    border: 1px solid #F7F7F7;
 }
 
 #SymbolButton {
     font-size: 18px;
     color: #2CA7F8;
-    border: 1px solid #ECECEC;
     background-color: #FFFFFF;
+    border: 1px solid #F2F2F2;
 }
 #SymbolButton:hover {
-    background-color: #D8D8D8;
-    border: 1px solid #D8D8D8;
+    background-color: #FFFFFF;
 }
 #SymbolButton:pressed {
-    background-color: #ADADAD;
-    border: 1px solid #ADADAD;
+    background-color: #F7F7F7;
+    border: 1px solid #F7F7F7;
 }
 
 #EqualButton {
@@ -35,11 +38,10 @@
     background-color: #2CA7F8;
 }
 #EqualButton:hover {
-    background-color: #54BBFF;
-    border: 1px solid #54BBFF;
+    background-color: qlineargradient(x1:0 y1:0, x2:0 y2:1, stop:0 #31c9ff, stop:1 #00abff);
 }
 #EqualButton:pressed {
-    background-color: #0085DB;
-    border: 1px solid #0085DB;
+    color: #A8CFF8;
+    background-color: qlineargradient(x1:0 y1:0, x2:0 y2:1, stop:0 #2472e8, stop:1 #2ca7fb);
 }
 

@@ -8,9 +8,9 @@ MainWindow::MainWindow(DMainWindow *parent)
     mainLayout = new QGridLayout(mainWidget);
     titleBar = new TitleBar;
     displayArea = new DisplayArea;
-    separatorWidget = new QWidget;
+    separatorWidget = new Separator;
     clearButton = new TextButton("C");
-    backButton = new TextButton("←");
+    backButton = new TextButton("");
     modButton = new TextButton("%");
     divButton = new TextButton("÷");
     num7Button = new TextButton("7");
@@ -33,8 +33,8 @@ MainWindow::MainWindow(DMainWindow *parent)
     mainLayout->addWidget(displayArea, 0, 0, 1, 4);
     mainLayout->addWidget(separatorWidget, 1, 0, 1, 4);
     mainLayout->addWidget(clearButton, 2, 0);
-    mainLayout->addWidget(backButton, 2, 1);
-    mainLayout->addWidget(modButton, 2, 2);
+    mainLayout->addWidget(backButton, 2, 2);
+    mainLayout->addWidget(modButton, 2, 1);
     mainLayout->addWidget(divButton, 2, 3);
     mainLayout->addWidget(num7Button, 3, 0);
     mainLayout->addWidget(num8Button, 3, 1);
@@ -59,6 +59,8 @@ MainWindow::MainWindow(DMainWindow *parent)
     plusButton->setObjectName("SymbolButton");
     equalButton->setObjectName("EqualButton");
     separatorWidget->setFixedHeight(5);
+    backButton->setIcon(QIcon(":/images/delete_normal.svg"));
+    backButton->setIconSize(QSize(30, 23));
 
     titlebar()->setCustomWidget(titleBar, Qt::AlignVCenter, false);
     titlebar()->setWindowFlags(titlebar()->windowFlags() & ~Qt::WindowMaximizeButtonHint);

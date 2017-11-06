@@ -18,7 +18,8 @@ HEADERS += \
            src/mainwindow.h \
            src/textbutton.h \
            src/titlebar.h \
-           src/utils.h
+           src/utils.h \
+	   src/separator.h
 SOURCES += \
            src/displayarea.cpp \
            src/listitem.cpp \
@@ -27,7 +28,8 @@ SOURCES += \
            src/mainwindow.cpp \
            src/textbutton.cpp \
            src/titlebar.cpp \
-           src/utils.cpp
+           src/utils.cpp \
+	   src/separator.cpp
 
 RESOURCES += deepin-calculator.qrc
 

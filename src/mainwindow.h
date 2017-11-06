@@ -6,6 +6,7 @@
 #include <QKeyEvent>
 #include "titlebar.h"
 #include "displayarea.h"
+#include "separator.h"
 #include "textbutton.h"
 
 DWIDGET_USE_NAMESPACE
@@ -23,7 +24,7 @@ private:
     QGridLayout *mainLayout;
     TitleBar *titleBar;
     DisplayArea *displayArea;
-    QWidget *separatorWidget;
+    Separator *separatorWidget;
     TextButton *clearButton;
     TextButton *backButton;
     TextButton *modButton;

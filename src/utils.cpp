@@ -88,16 +88,13 @@ string Utils::InfixToPostfix(string infix)
             break;
         }
     }
-
     if(infix[infix.size()-1] != ')')
         postfix.push_back('#');
-
     while(!mark.empty())
     {
         postfix.push_back(mark.top());
         mark.pop();
     }
-
     return postfix;
 }
 

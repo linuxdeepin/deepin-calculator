@@ -1,6 +1,5 @@
 #include "listitem.h"
 #include <QFontMetrics>
-#include <QDebug>
 
 ListItem::ListItem()
 {
@@ -24,10 +23,12 @@ void ListItem::drawBackground(const QRect &rect, QPainter *painter)
 void ListItem::drawContent(const QRect &rect, QPainter *painter, bool isLast)
 {
     QFont font;
+    font.setWeight(300);
 
     if (isLast) {
         painter->setPen(QColor("#3A3A3A"));
         font.setPointSize(fontSize);
+
         QFontMetrics fontMetrics(font);
         int fontWidth = fontMetrics.width(expression);
 
