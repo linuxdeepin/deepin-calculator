@@ -30,7 +30,6 @@ MainWindow::MainWindow(DMainWindow *parent)
     bracketsButton = new TextButton("( )");
     equalButton = new TextButton("＝");
 
-
     mainLayout->addWidget(displayArea, 0, 0, 1, 4);
     mainLayout->addWidget(separatorWidget, 1, 0, 1, 4);
     mainLayout->addWidget(clearButton, 2, 0);
@@ -59,7 +58,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     minButton->setObjectName("SymbolButton");
     plusButton->setObjectName("SymbolButton");
     equalButton->setObjectName("EqualButton");
-    separatorWidget->setFixedHeight(10);
+    separatorWidget->setFixedHeight(5);
 
     titlebar()->setCustomWidget(titleBar, Qt::AlignVCenter, false);
     titlebar()->setWindowFlags(titlebar()->windowFlags() & ~Qt::WindowMaximizeButtonHint);
@@ -70,7 +69,7 @@ MainWindow::MainWindow(DMainWindow *parent)
 
     setWindowIcon(QIcon(":/images/icon.svg"));
     setWindowTitle(tr("Deepin Calculator"));
-    setFixedSize(330, 500);
+    setFixedSize(330, 495);
     setCentralWidget(mainWidget);
 
     connect(zeroButton, &QPushButton::clicked, this, [=] {
