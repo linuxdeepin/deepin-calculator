@@ -6,7 +6,7 @@
 ListView::ListView(QWidget *parent) : QWidget(parent)
 {
     rowHeight = 44;
-    padding = 10;
+    padding = 8;
     offsetY = 0;
     scrollbarWidth = 6;
     scrollbarPadding = 8;
