@@ -88,13 +88,16 @@ string Utils::InfixToPostfix(string infix)
             break;
         }
     }
+
     if(infix[infix.size()-1] != ')')
         postfix.push_back('#');
+
     while(!mark.empty())
     {
         postfix.push_back(mark.top());
         mark.pop();
     }
+
     return postfix;
 }
 
@@ -157,7 +160,7 @@ double Utils::posfixCompute(string s)
             break;
 
         case '#':
-            currNum = stof(strNum);
+            currNum = atof(strNum.c_str());
             strNum.clear();
             tempResult.push(currNum);
             break;

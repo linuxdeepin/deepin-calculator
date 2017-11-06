@@ -3,7 +3,6 @@
 #include "displayarea.h"
 #include "listitem.h"
 #include "utils.h"
-#include <QDebug>
 
 DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
 {
@@ -177,6 +176,10 @@ void DisplayArea::enterClearEvent()
 void DisplayArea::enterEqualEvent()
 {
     if (lastItem()->expression != "0") {
+        if (lastCharIsSymbol() || lastCharIsLeftBracket() || lastCharIsPoint()) {
+            return;
+        }
+
         const QString result = getResult();
 
         if (result == "inf" || result == "-inf" || lastItem()->expression == result) {
@@ -194,6 +197,10 @@ void DisplayArea::enterEqualEvent()
 
 void DisplayArea::copyResultToClipboard()
 {
+    if (lastCharIsSymbol() || lastCharIsLeftBracket() || lastCharIsPoint()) {
+        return;
+    }
+
     QApplication::clipboard()->setText(getResult());
 }
 
