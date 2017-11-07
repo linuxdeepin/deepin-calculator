@@ -47,6 +47,7 @@ private:
     TextButton *equalButton;
 
 protected:
+    void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *);
 
 private slots:

@@ -63,11 +63,11 @@ MainWindow::MainWindow(DMainWindow *parent)
     backButton->setIconSize(QSize(30, 23));
 
     titlebar()->setCustomWidget(titleBar, Qt::AlignVCenter, false);
-    titlebar()->setWindowFlags(titlebar()->windowFlags() & ~Qt::WindowMaximizeButtonHint);
+    // titlebar()->setWindowFlags(titlebar()->windowFlags() & ~Qt::WindowMaximizeButtonHint);
     titlebar()->setSeparatorVisible(true);
 
     mainLayout->setMargin(0);
-    mainLayout->setSpacing(0);
+    mainLayout->setSpacing(1);
 
     setWindowIcon(QIcon(":/images/icon.svg"));
     setWindowTitle(tr("Deepin Calculator"));
@@ -126,6 +126,15 @@ MainWindow::MainWindow(DMainWindow *parent)
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::paintEvent(QPaintEvent *)
+{
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QColor("#F2F2F2"));
+    painter.drawRect(rect());
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e)

@@ -3,7 +3,7 @@
     font-weight: 300;
     color: #545454;
     background-color: #FFFFFF;
-    border: 1px solid #F2F2F2;
+    border: 1px solid #FFFFFF;
     margin: 0px;
 }
 #TextButton:hover {
@@ -21,7 +21,7 @@
     font-size: 18px;
     color: #2CA7F8;
     background-color: #FFFFFF;
-    border: 1px solid #F2F2F2;
+    border: 1px solid #FFFFFF;
 }
 #SymbolButton:hover {
     background-color: #FFFFFF;

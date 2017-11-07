@@ -2,6 +2,7 @@
 #define TEXTBUTTON_H
 
 #include <QPushButton>
+#include <QGraphicsDropShadowEffect>
 
 class TextButton : public QPushButton
 {
@@ -9,7 +10,14 @@ class TextButton : public QPushButton
 
 public:
     TextButton(const QString &text);
-    ~TextButton(); 
+    ~TextButton();
+
+protected:
+    void enterEvent(QEvent *);
+    void leaveEvent(QEvent *);
+
+private:
+    QGraphicsDropShadowEffect *effect;
 };
 
 #endif
