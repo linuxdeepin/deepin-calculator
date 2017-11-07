@@ -60,7 +60,7 @@ void ListView::paintEvent(QPaintEvent *)
 
     // Draw background
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor("#FFFFFF"));
+    painter.setBrush(QColor("#FBFBFB"));
     painter.drawRect(rect());
 
     // Draw content.

@@ -62,8 +62,8 @@ MainWindow::MainWindow(DMainWindow *parent)
     backButton->setIcon(QIcon(":/images/delete_normal.svg"));
     backButton->setIconSize(QSize(30, 23));
 
+    titlebar()->setFixedHeight(30);
     titlebar()->setCustomWidget(titleBar, Qt::AlignVCenter, false);
-    // titlebar()->setWindowFlags(titlebar()->windowFlags() & ~Qt::WindowMaximizeButtonHint);
     titlebar()->setSeparatorVisible(true);
 
     mainLayout->setMargin(0);
@@ -71,7 +71,7 @@ MainWindow::MainWindow(DMainWindow *parent)
 
     setWindowIcon(QIcon(":/images/icon.svg"));
     setWindowTitle(tr("Deepin Calculator"));
-    setFixedSize(330, 495);
+    setFixedSize(330, 485);
     setCentralWidget(mainWidget);
 
     connect(zeroButton, &QPushButton::clicked, this, [=] {

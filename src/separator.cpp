@@ -16,6 +16,6 @@ void Separator::paintEvent(QPaintEvent *)
     painter.setRenderHint(QPainter::Antialiasing, true);
 
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor("#FFFFFF"));
+    painter.setBrush(QColor("#FBFBFB"));
     painter.drawRect(rect());
 }
