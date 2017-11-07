@@ -8,7 +8,7 @@
 class TitleBar : public QWidget
 {
     Q_OBJECT
-    
+
 public:
     TitleBar(QWidget *parent=0);
 	~TitleBar();

@@ -6,7 +6,7 @@ TextButton::TextButton(const QString &text)
     effect = new QGraphicsDropShadowEffect(this);
     effect->setColor(QColor("#2CA7F8"));
     effect->setOffset(0);
-    effect->setBlurRadius(20);
+    effect->setBlurRadius(15);
     effect->setEnabled(false);
     setGraphicsEffect(effect);
 

@@ -3,11 +3,9 @@
 
 #include <DMainWindow>
 #include <QGridLayout>
-#include <QVBoxLayout>
 #include <QKeyEvent>
 #include "titlebar.h"
 #include "expressionlist.h"
-#include "separator.h"
 #include "textbutton.h"
 
 DWIDGET_USE_NAMESPACE
@@ -15,22 +13,16 @@ DWIDGET_USE_NAMESPACE
 class MainWindow : public DMainWindow
 {
     Q_OBJECT
-    
+
 public:
     MainWindow(DMainWindow *parent=0);
     ~MainWindow();
 
 private:
     QWidget *mainWidget;
-    QVBoxLayout *mainLayout;
-    QHBoxLayout *firstLayout;
-    QHBoxLayout *secondLayout;
-    QHBoxLayout *thirdLayout;
-    QHBoxLayout *fourthLayout;
-    QHBoxLayout *fifthLayout;
+    QGridLayout *mainLayout;
     TitleBar *titleBar;
     ExpressionList *expList;
-    Separator *separatorWidget;
     TextButton *clearButton;
     TextButton *backButton;
     TextButton *modButton;

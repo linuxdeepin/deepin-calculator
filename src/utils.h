@@ -13,7 +13,7 @@ using namespace std;
 class Utils : public QObject
 {
     Q_OBJECT
-    
+
 public:
     Utils();
     ~Utils();
