@@ -8,6 +8,7 @@ DWIDGET_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
+//    qputenv("QT_SCALE_FACTOR", "2");
     DApplication::loadDXcbPlugin();
 
     DApplication app(argc, argv);

@@ -3,6 +3,7 @@
 
 #include <DMainWindow>
 #include <QGridLayout>
+#include <QVBoxLayout>
 #include <QKeyEvent>
 #include "titlebar.h"
 #include "displayarea.h"
@@ -21,7 +22,12 @@ public:
 
 private:
     QWidget *mainWidget;
-    QGridLayout *mainLayout;
+    QVBoxLayout *mainLayout;
+    QHBoxLayout *firstLayout;
+    QHBoxLayout *secondLayout;
+    QHBoxLayout *thirdLayout;
+    QHBoxLayout *fourthLayout;
+    QHBoxLayout *fifthLayout;
     TitleBar *titleBar;
     DisplayArea *displayArea;
     Separator *separatorWidget;

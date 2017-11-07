@@ -5,7 +5,12 @@ MainWindow::MainWindow(DMainWindow *parent)
     : DMainWindow(parent)                                         
 {
     mainWidget = new QWidget;
-    mainLayout = new QGridLayout(mainWidget);
+    mainLayout = new QVBoxLayout(mainWidget);
+    firstLayout = new QHBoxLayout;
+    secondLayout = new QHBoxLayout;
+    thirdLayout = new QHBoxLayout;
+    fourthLayout = new QHBoxLayout;
+    fifthLayout = new QHBoxLayout;
     titleBar = new TitleBar;
     displayArea = new DisplayArea;
     separatorWidget = new Separator;
@@ -30,28 +35,40 @@ MainWindow::MainWindow(DMainWindow *parent)
     bracketsButton = new TextButton("( )");
     equalButton = new TextButton("＝");
 
-    mainLayout->addWidget(displayArea, 0, 0, 1, 4);
-    mainLayout->addWidget(separatorWidget, 1, 0, 1, 4);
-    mainLayout->addWidget(clearButton, 2, 0);
-    mainLayout->addWidget(backButton, 2, 2);
-    mainLayout->addWidget(modButton, 2, 1);
-    mainLayout->addWidget(divButton, 2, 3);
-    mainLayout->addWidget(num7Button, 3, 0);
-    mainLayout->addWidget(num8Button, 3, 1);
-    mainLayout->addWidget(num9Button, 3, 2);
-    mainLayout->addWidget(multButton, 3, 3);
-    mainLayout->addWidget(num4Button, 4, 0);
-    mainLayout->addWidget(num5Button, 4, 1);
-    mainLayout->addWidget(num6Button, 4, 2);
-    mainLayout->addWidget(minButton, 4, 3);
-    mainLayout->addWidget(num1Button, 5, 0);
-    mainLayout->addWidget(num2Button, 5, 1);
-    mainLayout->addWidget(num3Button, 5, 2);
-    mainLayout->addWidget(plusButton, 5, 3);
-    mainLayout->addWidget(zeroButton, 6, 0);
-    mainLayout->addWidget(pointButton, 6, 1);
-    mainLayout->addWidget(bracketsButton, 6, 2);
-    mainLayout->addWidget(equalButton, 6, 3);
+    firstLayout->addWidget(clearButton);
+    firstLayout->addWidget(modButton);
+    firstLayout->addWidget(backButton);
+    firstLayout->addWidget(divButton);
+
+    secondLayout->addWidget(num7Button);
+    secondLayout->addWidget(num8Button);
+    secondLayout->addWidget(num9Button);
+    secondLayout->addWidget(multButton);
+
+    thirdLayout->addWidget(num4Button);
+    thirdLayout->addWidget(num5Button);
+    thirdLayout->addWidget(num6Button);
+    thirdLayout->addWidget(minButton);
+
+    fourthLayout->addWidget(num1Button);
+    fourthLayout->addWidget(num2Button);
+    fourthLayout->addWidget(num3Button);
+    fourthLayout->addWidget(plusButton);
+
+    fifthLayout->addWidget(zeroButton);
+    fifthLayout->addWidget(pointButton);
+    fifthLayout->addWidget(bracketsButton);
+    fifthLayout->addWidget(equalButton);
+
+    mainLayout->addWidget(displayArea);
+    mainLayout->addLayout(firstLayout);
+    mainLayout->addLayout(secondLayout);
+    mainLayout->addLayout(thirdLayout);
+    mainLayout->addLayout(fourthLayout);
+    mainLayout->addLayout(fifthLayout);
+
+    mainLayout->setMargin(0);
+    mainLayout->setSpacing(2);
 
     divButton->setObjectName("SymbolButton");
     multButton->setObjectName("SymbolButton");
@@ -66,12 +83,9 @@ MainWindow::MainWindow(DMainWindow *parent)
     titlebar()->setCustomWidget(titleBar, Qt::AlignVCenter, false);
     titlebar()->setSeparatorVisible(true);
 
-    mainLayout->setMargin(0);
-    mainLayout->setSpacing(1);
-
     setWindowIcon(QIcon(":/images/icon.svg"));
     setWindowTitle(tr("Deepin Calculator"));
-    setFixedSize(330, 485);
+    setFixedSize(330, 490);
     setCentralWidget(mainWidget);
 
     connect(zeroButton, &QPushButton::clicked, this, [=] {
