@@ -3,13 +3,13 @@
 
 #include "listview.h"
 
-class DisplayArea : public ListView
+class ExpressionList : public ListView
 {
     Q_OBJECT
 
 public:
-    DisplayArea(QWidget *parent=0);
-    ~DisplayArea();
+    ExpressionList(QWidget *parent=0);
+    ~ExpressionList();
 
     void addNewRow();
     void enterNumberEvent(const QString &num);

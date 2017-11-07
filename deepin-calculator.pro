@@ -12,16 +12,15 @@ INCLUDEPATH += .
 
 # Input
 HEADERS += \
-           src/displayarea.h \
            src/listitem.h \
            src/listview.h \
            src/mainwindow.h \
            src/textbutton.h \
            src/titlebar.h \
            src/utils.h \
-	   src/separator.h
+	   src/separator.h \
+    src/expressionlist.h
 SOURCES += \
-           src/displayarea.cpp \
            src/listitem.cpp \
            src/listview.cpp \
            src/main.cpp \
@@ -29,7 +28,8 @@ SOURCES += \
            src/textbutton.cpp \
            src/titlebar.cpp \
            src/utils.cpp \
-	   src/separator.cpp
+	   src/separator.cpp \
+    src/expressionlist.cpp
 
 RESOURCES += deepin-calculator.qrc
 

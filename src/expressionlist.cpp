@@ -1,24 +1,24 @@
 #include <QApplication>
 #include <QClipboard>
-#include "displayarea.h"
+#include "expressionlist.h"
 #include "listitem.h"
 #include "utils.h"
 
-DisplayArea::DisplayArea(QWidget *parent) : ListView(parent)
+ExpressionList::ExpressionList(QWidget *parent) : ListView(parent)
 {
     isLeftBracket = true;
     isContinue = true;
     isAllClear = false;
 
-    setFixedHeight(175);
+    setFixedHeight(160);
     addNewRow();
 }
 
-DisplayArea::~DisplayArea()
+ExpressionList::~ExpressionList()
 {
 }
 
-void DisplayArea::addNewRow()
+void ExpressionList::addNewRow()
 {
     ListItem *item = new ListItem;
     addItem(item);
@@ -26,7 +26,7 @@ void DisplayArea::addNewRow()
     scrollToBottom();
 }
 
-void DisplayArea::enterNumberEvent(const QString &num)
+void ExpressionList::enterNumberEvent(const QString &num)
 {
     if (isEnding()) {
         return;
@@ -46,7 +46,7 @@ void DisplayArea::enterNumberEvent(const QString &num)
     scrollToBottom();
 }
 
-void DisplayArea::enterPointEvent()
+void ExpressionList::enterPointEvent()
 {
     if (isEnding()) {
         return;
@@ -84,7 +84,7 @@ void DisplayArea::enterPointEvent()
     scrollToBottom();
 }
 
-void DisplayArea::enterSymbolEvent(const QString &str)
+void ExpressionList::enterSymbolEvent(const QString &str)
 {
     if (isEnding()) {
         return;
@@ -102,7 +102,7 @@ void DisplayArea::enterSymbolEvent(const QString &str)
     scrollToBottom();
 }
 
-void DisplayArea::enterBracketsEvent()
+void ExpressionList::enterBracketsEvent()
 {
     if (isEnding()) {
         return;
@@ -135,7 +135,7 @@ void DisplayArea::enterBracketsEvent()
     scrollToBottom();
 }
 
-void DisplayArea::enterBackspaceEvent()
+void ExpressionList::enterBackspaceEvent()
 {
     const QString exp = lastItem()->expression;
 
@@ -157,7 +157,7 @@ void DisplayArea::enterBackspaceEvent()
     scrollToBottom();
 }
 
-void DisplayArea::enterClearEvent()
+void ExpressionList::enterClearEvent()
 {   
     if (isAllClear) {
         isAllClear = false;
@@ -175,7 +175,7 @@ void DisplayArea::enterClearEvent()
     scrollToBottom();
 }
 
-void DisplayArea::enterEqualEvent()
+void ExpressionList::enterEqualEvent()
 {
     if (lastItem()->expression != "0") {
         if (!isContinue || lastCharIsSymbol() || lastCharIsLeftBracket() || lastCharIsPoint()) {
@@ -197,7 +197,7 @@ void DisplayArea::enterEqualEvent()
     }
 }
 
-void DisplayArea::copyResultToClipboard()
+void ExpressionList::copyResultToClipboard()
 {
     if (lastCharIsSymbol() || lastCharIsLeftBracket() || lastCharIsPoint()) {
         return;
@@ -206,7 +206,7 @@ void DisplayArea::copyResultToClipboard()
     QApplication::clipboard()->setText(getResult());
 }
 
-QString DisplayArea::getResult()
+QString ExpressionList::getResult()
 {
     QString exp = lastItem()->expression;
     const double result = Utils::getResult(exp.replace("×", "*").replace("÷", "/").toStdString());
@@ -214,7 +214,7 @@ QString DisplayArea::getResult()
     return QString::number(result);
 }
 
-QChar DisplayArea::getLastChar()
+QChar ExpressionList::getLastChar()
 {
     QString exp = lastItem()->expression;
     QString::const_iterator laster = exp.replace("×", "*").replace("÷", "/").end();
@@ -223,7 +223,7 @@ QChar DisplayArea::getLastChar()
     return *laster;
 }
 
-bool DisplayArea::lastCharIsNumber()
+bool ExpressionList::lastCharIsNumber()
 {
     const QChar lastChar = getLastChar();
 
@@ -236,7 +236,7 @@ bool DisplayArea::lastCharIsNumber()
     }
 }
 
-bool DisplayArea::lastCharIsSymbol()
+bool ExpressionList::lastCharIsSymbol()
 {
     const QChar lastChar = getLastChar();
 
@@ -247,22 +247,22 @@ bool DisplayArea::lastCharIsSymbol()
     }
 }
 
-bool DisplayArea::lastCharIsPoint()
+bool ExpressionList::lastCharIsPoint()
 {
     return getLastChar() == '.' ? true : false;
 }
 
-bool DisplayArea::lastCharIsLeftBracket()
+bool ExpressionList::lastCharIsLeftBracket()
 {
     return getLastChar() == '(' ? true : false;
 }
 
-bool DisplayArea::lastCharIsRightBracket()
+bool ExpressionList::lastCharIsRightBracket()
 {
     return getLastChar() == ')' ? true : false;
 }
 
-bool DisplayArea::isEnding()
+bool ExpressionList::isEnding()
 {
     return lastItem()->expression.count() > 35 ? true : false;
 }

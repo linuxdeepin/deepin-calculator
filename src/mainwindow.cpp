@@ -12,7 +12,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     fourthLayout = new QHBoxLayout;
     fifthLayout = new QHBoxLayout;
     titleBar = new TitleBar;
-    displayArea = new DisplayArea;
+    expList = new ExpressionList;
     separatorWidget = new Separator;
     clearButton = new TextButton("C");
     backButton = new TextButton("");
@@ -60,7 +60,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     fifthLayout->addWidget(bracketsButton);
     fifthLayout->addWidget(equalButton);
 
-    mainLayout->addWidget(displayArea);
+    mainLayout->addWidget(expList);
     mainLayout->addLayout(firstLayout);
     mainLayout->addLayout(secondLayout);
     mainLayout->addLayout(thirdLayout);
@@ -68,7 +68,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     mainLayout->addLayout(fifthLayout);
 
     mainLayout->setMargin(0);
-    mainLayout->setSpacing(2);
+    mainLayout->setSpacing(0);
 
     divButton->setObjectName("SymbolButton");
     multButton->setObjectName("SymbolButton");
@@ -81,11 +81,10 @@ MainWindow::MainWindow(DMainWindow *parent)
 
     titlebar()->setFixedHeight(30);
     titlebar()->setCustomWidget(titleBar, Qt::AlignVCenter, false);
-    titlebar()->setSeparatorVisible(true);
 
     setWindowIcon(QIcon(":/images/icon.svg"));
     setWindowTitle(tr("Deepin Calculator"));
-    setFixedSize(330, 490);
+    setFixedSize(320, 490);
     setCentralWidget(mainWidget);
 
     connect(zeroButton, &QPushButton::clicked, this, [=] {
@@ -147,7 +146,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor("#F2F2F2"));
+    painter.setBrush(QColor("#FBFBFB"));
     painter.drawRect(rect());
 }
 
@@ -195,47 +194,47 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         modButton->animateClick();
     } else if (e->key() == Qt::Key_C) {
         if (e->modifiers() == Qt::ControlModifier) {
-            displayArea->copyResultToClipboard();
+            expList->copyResultToClipboard();
         }
     }
 }
 
 void MainWindow::onNumberButtonClicked(const QString &str)
 {
-    displayArea->enterNumberEvent(str);
+    expList->enterNumberEvent(str);
 }
 
 void MainWindow::onBackButtonClicked()
 {
-    displayArea->enterBackspaceEvent();
+    expList->enterBackspaceEvent();
 }
 
 void MainWindow::onPointButtonClicked()
 {
-    displayArea->enterPointEvent();
+    expList->enterPointEvent();
 }
 
 void MainWindow::onSymbolButtonClicked(const QString &str)
 {
-    displayArea->enterSymbolEvent(str);
+    expList->enterSymbolEvent(str);
 }
 
 void MainWindow::onClearButtonClicked()
 {
-    displayArea->enterClearEvent();
+    expList->enterClearEvent();
 }
 
 void MainWindow::onEqualButtonClicked()
 {
-    displayArea->enterEqualEvent();
+    expList->enterEqualEvent();
 }
 
 void MainWindow::onBracketButtonClicked()
 {
-    displayArea->enterBracketsEvent();
+    expList->enterBracketsEvent();
 }
 
 void MainWindow::onModButtonClicked()
 {
-    displayArea->enterSymbolEvent("%");
+    expList->enterSymbolEvent("%");
 }

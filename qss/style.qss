@@ -3,12 +3,13 @@
     font-weight: 300;
     color: #545454;
     background-color: #FFFFFF;
-    border: 1px solid #FFFFFF;
+    border: 1px solid #F2F2F2;
     margin: 0px;
 }
 #TextButton:hover {
     font-size: 20px;
     font-weight: 400;
+    border: 1px solid #FFFFFF;
     background-color: #FFFFFF;
 }
 #TextButton:pressed {
@@ -21,12 +22,13 @@
     font-size: 18px;
     color: #2CA7F8;
     background-color: #FFFFFF;
-    border: 1px solid #FFFFFF;
+    border: 1px solid #F2F2F2;
 }
 #SymbolButton:hover {
     font-size: 20px;
     font-weight: 400;
     background-color: #FFFFFF;
+    border: 1px solid #F2F2F2;
 }
 #SymbolButton:pressed {
     background-color: #F7F7F7;

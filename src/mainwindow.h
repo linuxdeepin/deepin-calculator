@@ -6,7 +6,7 @@
 #include <QVBoxLayout>
 #include <QKeyEvent>
 #include "titlebar.h"
-#include "displayarea.h"
+#include "expressionlist.h"
 #include "separator.h"
 #include "textbutton.h"
 
@@ -29,7 +29,7 @@ private:
     QHBoxLayout *fourthLayout;
     QHBoxLayout *fifthLayout;
     TitleBar *titleBar;
-    DisplayArea *displayArea;
+    ExpressionList *expList;
     Separator *separatorWidget;
     TextButton *clearButton;
     TextButton *backButton;
