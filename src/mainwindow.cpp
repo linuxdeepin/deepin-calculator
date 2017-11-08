@@ -136,11 +136,12 @@ void MainWindow::paintEvent(QPaintEvent *)
     painter.setBrush(QColor("#FBFBFB"));
     painter.drawRect(QRect(0, 0, rect().width(), 30));
 
+    // Draw separator line.
     painter.setBrush(QColor("#E1E1E1"));
     painter.drawRect(QRect(0, titlebar()->height() + expList->height() + 5, rect().width(), 1));
 
     painter.setBrush(QColor(0, 0, 0, 0.05 * 255));
-    painter.drawRect(QRect(0, titlebar()->height() + expList->height() + 10, rect().width(), height()));
+    painter.drawRect(QRect(0, titlebar()->height() + expList->height(), rect().width(), rect().height()));
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
