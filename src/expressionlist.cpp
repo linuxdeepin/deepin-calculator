@@ -3,6 +3,7 @@
 #include "expressionlist.h"
 #include "listitem.h"
 #include "utils.h"
+#include <QDebug>
 
 ExpressionList::ExpressionList(QWidget *parent) : ListView(parent)
 {
@@ -94,6 +95,8 @@ void ExpressionList::enterSymbolEvent(const QString &str)
         enterBackspaceEvent();
     } else if (lastCharIsPoint() || lastCharIsLeftBracket()) {
         lastItem()->expression.append("0");
+    } else if (str == "-" && lastItem()->expression == "0") {
+        lastItem()->expression = nullptr;
     }
 
     isContinue = true;
@@ -209,7 +212,7 @@ void ExpressionList::copyResultToClipboard()
 QString ExpressionList::getResult()
 {
     QString exp = lastItem()->expression;
-    const double result = Utils::expressionCalculate(exp.replace("×", "*").replace("÷", "/"));
+    const double result = Utils::expressionCalculate(exp.replace("×", "*").replace("÷", "/").toStdString());
 
     return QString::number(result);
 }

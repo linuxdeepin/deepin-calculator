@@ -1,7 +1,5 @@
 #include "utils.h"
 #include <QFile>
-#include <QStack>
-#include <QMap>
 
 Utils::Utils()
 {
@@ -24,117 +22,155 @@ QString Utils::getQssContent(const QString &filePath)
     return qss;
 }
 
-QString Utils::infixToPostfix(const QString &infix)
+std::string Utils::infixToPostfix(std::string infix)
 {
-    QChar current = 0;
-    QString postfix;
-    QStack<QChar> mark;
-    QMap<QChar, int> priority;
+    char current = 0;
+    std::string postfix;
+
+    std::stack<char> mark;
+
+    std::map<char,int> priority;
     priority['+'] = 0;
     priority['-'] = 0;
     priority['*'] = 1;
     priority['/'] = 1;
+    priority['%'] = 1;
 
-    for (int i = 0; i < infix.count(); ++i)
+    for(int i = 0;i < infix.size(); ++i)
     {
-        current = infix.at(i);
+        current = infix[i];
+        switch(current)
+        {
+            case '0': case '1': case '2': case '3': case '4': case '5':
+            case '6': case '7': case '8': case '9': case '.':
+                postfix.push_back(current);
+                break;
 
-        if (current == '0' || current == '1' || current == '2' || current == '3' ||
-            current == '4' || current == '5' || current == '6' || current == '7' ||
-            current == '8' || current == '9' || current == '.') {
-            postfix.append(current);
+            case '+': case '-': case '*': case '/': case '%':
 
-        } else if (current == '+' || current == '-' || current == '*' || current == '/') {
-            if (infix.at(i - 1) != ')') {
-                postfix.push_back('#');
-            }
+                if (infix[i-1] != ')')
+                    postfix.push_back('#');
 
-            if (!mark.empty()) {
-                QChar tempTop = mark.top();
-                while (tempTop != '(' && priority[current] <= priority[tempTop]) {
-                    postfix.append(tempTop);
-                    mark.pop();
-                    if (mark.empty()) {
-                        break;
+                if (!mark.empty())
+                {
+                    char tempTop = mark.top();
+                    while(tempTop != '(' && priority[current] <= priority[tempTop])
+                    {
+                        postfix.push_back(tempTop);
+                        mark.pop();
+                        if (mark.empty())
+                            break;
+                        tempTop = mark.top();
                     }
-                    tempTop = mark.top();
                 }
-            }
+                mark.push(current);
+                break;
 
-            mark.push(current);
-        } else if (current == '(') {
-            if (infix.at(i - 1) >= '0' && infix.at(i - 1) <= '9') {
-                postfix.append('#');
-                mark.push('*');
-            }
-            mark.push(current);
-        } else if (current == ')') {
-            postfix.append('#');
-            while (mark.top() != '(') {
-                postfix.append(mark.top());
+            case '(':
+                if(infix[i-1] >= '0' && infix[i-1] <= '9')
+                {
+                    postfix.push_back('#');
+                    mark.push('*');
+                }
+                mark.push(current);
+                break;
+
+            case ')':
+                postfix.push_back('#');
+                while(mark.top() != '(')
+                {
+                    postfix.push_back(mark.top());
+                    mark.pop();
+                }
                 mark.pop();
-            }
-            mark.pop();
+                break;
+
+            default:
+                break;
         }
     }
 
-    if (infix.at(infix.count() - 1) != ')') {
-        postfix.append('#');
-    }
+    if (infix[infix.size()-1] != ')')
+        postfix.push_back('#');
 
-    while (!mark.empty()) {
-        postfix.append(mark.top());
+    while (!mark.empty())
+    {
+        postfix.push_back(mark.top());
         mark.pop();
     }
 
     return postfix;
 }
 
-double Utils::posfixCompute(const QString &posfix)
+double Utils::posfixCompute(std::string s)
 {
-    QStack<double> tempResult;
-    QString strNum;
-    double currentNum = 0;
+    std::stack<double> tempResult;
+    std::string strNum;
+    double currNum = 0;
     double tempNum = 0;
 
-    for (QString::const_iterator i = posfix.begin(); i != posfix.end(); ++i) {
-        if (*i == '0' || *i == '1' || *i == '2' || *i == '3' || *i == '4' || *i == '5' || *i == '6' || *i == '7' || *i == '8' || *i == '9' || *i == '.') {
-        strNum.append(*i);
-        } else if (*i == '+') {
-            tempNum = tempResult.top();
-            tempResult.pop();
-            tempNum += tempResult.top();
-            tempResult.pop();
-            tempResult.push(tempNum);
-        } else if (*i == '-') {
-            tempNum = tempResult.top();
-            tempResult.pop();
-            tempNum = tempResult.top() - tempNum;
-            tempResult.pop();
-            tempResult.push(tempNum);
-        } else if (*i == '*') {
-            tempNum = tempResult.top();
-            tempResult.pop();
-            tempNum *= tempResult.top();
-            tempResult.pop();
-            tempResult.push(tempNum);
-        } else if (*i == '/') {
-            tempNum = tempResult.top();
-            tempResult.pop();
-            tempNum = tempResult.top() / tempNum;
-            tempResult.pop();
-            tempResult.push(tempNum);
-        } else if (*i == '#') {
-            currentNum = strNum.toDouble();
-            strNum.clear();
-            tempResult.push(currentNum);
+    for (std::string::const_iterator i = s.begin(); i != s.end(); ++i)
+    {
+        switch (*i)
+        {
+            case '0':case '1':case '2':case '3':case '4':case '5':
+            case '6':case '7':case '8':case '9':case '.':
+                strNum.push_back(*i);
+                break;
+
+            case '+':
+                tempNum = tempResult.top();
+                tempResult.pop();
+                tempNum += tempResult.top();
+                tempResult.pop();
+                tempResult.push(tempNum);
+                break;
+
+            case '-':
+                tempNum = tempResult.top();
+                tempResult.pop();
+                tempNum = tempResult.top() - tempNum;
+                tempResult.pop();
+                tempResult.push(tempNum);
+                break;
+
+            case '*':
+                tempNum = tempResult.top();
+                tempResult.pop();
+                tempNum *= tempResult.top();
+                tempResult.pop();
+                tempResult.push(tempNum);
+                break;
+
+            case '/':
+                tempNum = tempResult.top();
+                tempResult.pop();
+                tempNum = tempResult.top() / tempNum;
+                tempResult.pop();
+                tempResult.push(tempNum);
+                break;
+
+            case '%':
+                tempNum = tempResult.top();
+                tempResult.pop();
+                tempNum = (int)tempResult.top() % (int)tempNum;
+                tempResult.pop();
+                tempResult.push(tempNum);
+                break;
+
+            case '#':
+                currNum = atof(strNum.c_str());
+                strNum.clear();
+                tempResult.push(currNum);
+                break;
         }
     }
 
     return tempResult.top();
 }
 
-double Utils::expressionCalculate(const QString &expression)
+double Utils::expressionCalculate(std::string s)
 {
-    return posfixCompute(infixToPostfix(expression));
+    return posfixCompute(infixToPostfix(s));
 }
+

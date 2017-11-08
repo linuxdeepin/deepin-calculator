@@ -2,6 +2,11 @@
 #define UTILS_H
 
 #include <QObject>
+#include <iostream>
+#include <string>
+#include <stack>
+#include <cstdlib>
+#include <map>
 
 using namespace std;
 
@@ -14,9 +19,9 @@ public:
     ~Utils();
 
     static QString getQssContent(const QString &filePath);
-    static QString infixToPostfix(const QString &infix);
-    static double posfixCompute(const QString &posfix);
-    static double expressionCalculate(const QString &expression);
+    static std::string infixToPostfix(std::string infix);
+    static double posfixCompute(std::string s);
+    static double expressionCalculate(std::string s);
 };	
 
 #endif
