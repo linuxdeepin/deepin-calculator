@@ -9,7 +9,7 @@
 #TextButton:hover {
     font-size: 20px;
     font-weight: 400;
-    border: 1px solid #FFFFFF;
+    border: 1px solid rgba(0, 166, 255, 0.2);
     background-color: #FFFFFF;
 }
 #TextButton:pressed {
@@ -47,7 +47,7 @@
 }
 #EqualButton:pressed {
     color: #A8CFF8;
-    border: 1px solid #2CA7F8;
+    border: 1px solid #2ca7fb;
     background-color: qlineargradient(x1:0 y1:0, x2:0 y2:1, stop:0 #2472e8, stop:1 #2ca7fb);
 }
 

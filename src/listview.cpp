@@ -146,6 +146,8 @@ void ListView::mousePressEvent(QMouseEvent *e)
 
 void ListView::mouseReleaseEvent(QMouseEvent *e)
 {
+    Q_UNUSED(e)
+
     if (isDragScrollbar) {
         isDragScrollbar = false;
     }

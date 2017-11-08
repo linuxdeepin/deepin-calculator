@@ -3,11 +3,12 @@
 
 TextButton::TextButton(const QString &text)
 {    
-    effect = new QGraphicsDropShadowEffect(this);
-    effect->setColor(QColor("#2CA7F8"));
-    effect->setOffset(0);
-    effect->setBlurRadius(15);
+    effect = new DGraphicsGlowEffect(this);
+    effect->setColor(QColor(12, 155, 246, 255 * 0.2));
+    effect->setOffset(0, 4);
+    effect->setBlurRadius(10);
     effect->setEnabled(false);
+    effect->setDistance(3);
     setGraphicsEffect(effect);
 
     setText(text);
@@ -21,6 +22,9 @@ TextButton::~TextButton()
 }
 void TextButton::enterEvent(QEvent *)
 {
+    if (text() == "＝")
+        return;
+
     effect->setEnabled(true);
     raise();
 }

@@ -36,7 +36,7 @@ string Utils::InfixToPostfix(string infix)
     priority['/'] = 1;
     priority['%'] = 1;
 
-    for(int i = 0; i < infix.size(); ++i)
+    for(unsigned int i = 0; i < infix.size(); ++i)
     {
         current = infix[i];
         switch(current)

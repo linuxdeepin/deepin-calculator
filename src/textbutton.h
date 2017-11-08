@@ -2,7 +2,9 @@
 #define TEXTBUTTON_H
 
 #include <QPushButton>
-#include <QGraphicsDropShadowEffect>
+#include <dgraphicsgloweffect.h>
+
+DWIDGET_USE_NAMESPACE
 
 class TextButton : public QPushButton
 {
@@ -17,7 +19,7 @@ protected:
     void leaveEvent(QEvent *);
 
 private:
-    QGraphicsDropShadowEffect *effect;
+    DGraphicsGlowEffect *effect;
 };
 
 #endif
