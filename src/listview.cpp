@@ -1,6 +1,5 @@
 #include "listview.h"
 #include <QPainter>
-#include <QDebug>
 #include <QWheelEvent>
 
 ListView::ListView(QWidget *parent) : QWidget(parent)

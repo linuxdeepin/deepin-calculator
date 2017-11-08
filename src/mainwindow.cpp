@@ -53,7 +53,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     mainLayout->addWidget(bracketsButton, 6, 2);
     mainLayout->addWidget(equalButton, 6, 3);
     mainLayout->setMargin(0);
-    mainLayout->setSpacing(0);
+    mainLayout->setSpacing(1);
 
     divButton->setObjectName("SymbolButton");
     multButton->setObjectName("SymbolButton");
@@ -69,7 +69,7 @@ MainWindow::MainWindow(DMainWindow *parent)
 
     setWindowIcon(QIcon(":/images/icon.svg"));
     setWindowTitle(tr("Deepin Calculator"));
-    setFixedSize(320, 495);
+    setFixedSize(323, 500);
     setCentralWidget(mainWidget);
 
     connect(zeroButton, &QPushButton::clicked, this, [=] {
@@ -132,7 +132,9 @@ void MainWindow::paintEvent(QPaintEvent *)
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
     painter.setBrush(QColor("#FBFBFB"));
-    painter.drawRect(rect());
+    painter.drawRect(QRect(0, 0, rect().width(), 30));
+    painter.setBrush(QColor(0, 0, 0, 0.05 * 255));
+    painter.drawRect(QRect(rect().x(), 30, rect().width(), height() - 30));
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e)

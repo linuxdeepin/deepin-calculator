@@ -11,8 +11,8 @@ class TitleBar : public QWidget
 
 public:
     TitleBar(QWidget *parent=0);
-	~TitleBar();
-
+    ~TitleBar();
+    
 private:
     QHBoxLayout *layout;
     QSvgWidget *iconWidget;

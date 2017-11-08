@@ -3,12 +3,18 @@
 
 TextButton::TextButton(const QString &text)
 {    
-    effect = new DGraphicsGlowEffect(this);
+    effect = new QGraphicsDropShadowEffect(this);
     effect->setColor(QColor(12, 155, 246, 255 * 0.2));
-    effect->setOffset(0, 4);
-    effect->setBlurRadius(10);
+    effect->setXOffset(0);
+    effect->setYOffset(4);
+    effect->setBlurRadius(12);
+
+    if (text == "＝") {
+        effect->setColor(QColor(12, 155, 246, 255 * 0.8));
+        effect->setBlurRadius(20);
+    }
+
     effect->setEnabled(false);
-    effect->setDistance(3);
     setGraphicsEffect(effect);
 
     setText(text);
@@ -22,18 +28,32 @@ TextButton::~TextButton()
 {
 }
 
-void TextButton::enterEvent(QEvent *)
-{
-    if (text() == "＝") {
-        return;
-    }
-
-    showShadowEffect();
-}
-
-void TextButton::leaveEvent(QEvent *)
+void TextButton::mousePressEvent(QMouseEvent *e)
 {
     hideShadowEffect();
+
+    QPushButton::mousePressEvent(e);
+}
+
+void TextButton::mouseReleaseEvent(QMouseEvent *e)
+{
+    showShadowEffect();
+
+    QPushButton::mouseReleaseEvent(e);
+}
+
+void TextButton::enterEvent(QEvent *e)
+{
+    showShadowEffect();
+
+    QPushButton::enterEvent(e);
+}
+
+void TextButton::leaveEvent(QEvent *e)
+{
+    hideShadowEffect();
+
+    QPushButton::leaveEvent(e);
 }
 
 void TextButton::showShadowEffect()
