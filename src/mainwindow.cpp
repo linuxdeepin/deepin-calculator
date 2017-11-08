@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "separator.h"
 #include <dtitlebar.h>
 
 MainWindow::MainWindow(DMainWindow *parent)
@@ -30,6 +31,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     equalButton = new TextButton("＝");
 
     mainLayout->addWidget(expList, 0, 0, 1, 4);
+    mainLayout->addWidget(new Separator, 1, 0, 1, 4);
     mainLayout->addWidget(clearButton, 2, 0);
     mainLayout->addWidget(modButton, 2, 1);
     mainLayout->addWidget(backButton, 2, 2);
@@ -67,7 +69,7 @@ MainWindow::MainWindow(DMainWindow *parent)
 
     setWindowIcon(QIcon(":/images/icon.svg"));
     setWindowTitle(tr("Deepin Calculator"));
-    setFixedSize(320, 490);
+    setFixedSize(320, 495);
     setCentralWidget(mainWidget);
 
     connect(zeroButton, &QPushButton::clicked, this, [=] {

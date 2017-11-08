@@ -17,6 +17,8 @@ public:
 protected:
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
+    void showShadowEffect();
+    void hideShadowEffect();
 
 private:
     DGraphicsGlowEffect *effect;

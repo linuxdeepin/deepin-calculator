@@ -13,6 +13,7 @@ TextButton::TextButton(const QString &text)
 
     setText(text);
     setFixedSize(80, 60);
+    setMouseTracking(true);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");
 }
@@ -20,16 +21,28 @@ TextButton::TextButton(const QString &text)
 TextButton::~TextButton()
 {
 }
+
 void TextButton::enterEvent(QEvent *)
 {
-    if (text() == "＝")
+    if (text() == "＝") {
         return;
+    }
 
+    showShadowEffect();
+}
+
+void TextButton::leaveEvent(QEvent *)
+{
+    hideShadowEffect();
+}
+
+void TextButton::showShadowEffect()
+{
     effect->setEnabled(true);
     raise();
 }
 
-void TextButton::leaveEvent(QEvent *)
+void TextButton::hideShadowEffect()
 {
     effect->setEnabled(false);
 }
