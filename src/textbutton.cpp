@@ -1,5 +1,4 @@
 #include "textbutton.h"
-#include <QDebug>
 
 TextButton::TextButton(const QString &text)
 {    
@@ -8,20 +7,20 @@ TextButton::TextButton(const QString &text)
     effect->setXOffset(0);
     effect->setYOffset(4);
     effect->setBlurRadius(12);
+    setGraphicsEffect(effect);
 
     if (text == "＝") {
         effect->setColor(QColor(12, 155, 246, 255 * 0.8));
         effect->setBlurRadius(20);
     }
 
-    effect->setEnabled(false);
-    setGraphicsEffect(effect);
-
     setText(text);
     setFixedSize(80, 60);
     setMouseTracking(true);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");
+
+    hideShadowEffect();
 }
 
 TextButton::~TextButton()

@@ -69,7 +69,7 @@ MainWindow::MainWindow(DMainWindow *parent)
 
     setWindowIcon(QIcon(":/images/icon.svg"));
     setWindowTitle(tr("Deepin Calculator"));
-    setFixedSize(323, 500);
+    setFixedSize(322, 500);
     setCentralWidget(mainWidget);
 
     connect(zeroButton, &QPushButton::clicked, this, [=] {
@@ -131,10 +131,16 @@ void MainWindow::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
+
+    // Draw titlebar background color.
     painter.setBrush(QColor("#FBFBFB"));
     painter.drawRect(QRect(0, 0, rect().width(), 30));
+
+    painter.setBrush(QColor("#E1E1E1"));
+    painter.drawRect(QRect(0, titlebar()->height() + expList->height() + 5, rect().width(), 1));
+
     painter.setBrush(QColor(0, 0, 0, 0.05 * 255));
-    painter.drawRect(QRect(rect().x(), 30, rect().width(), height() - 30));
+    painter.drawRect(QRect(0, titlebar()->height() + expList->height() + 10, rect().width(), height()));
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
