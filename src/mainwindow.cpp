@@ -138,15 +138,15 @@ void MainWindow::paintEvent(QPaintEvent *)
 
     // Draw separator line.
     painter.setBrush(QColor("#E1E1E1"));
-    painter.drawRect(QRect(0, titlebar()->height() + expList->height() + 5, rect().width(), 1));
+    painter.drawRect(QRect(0, titlebar()->height() + expList->height() + 5, width(), 1));
 
     painter.setBrush(QColor(0, 0, 0, 0.05 * 255));
-    painter.drawRect(QRect(0, titlebar()->height() + expList->height(), rect().width(), rect().height()));
+    painter.drawRect(QRect(0, titlebar()->height() + expList->height(), width(), height()));
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
-    if (e->key() == Qt::Key_0) {
+    if (e->key() == Qt::Key_0) {        
         zeroButton->animateClick();
     } else if (e->key() == Qt::Key_1) {
         num1Button->animateClick();

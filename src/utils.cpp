@@ -1,5 +1,7 @@
 #include "utils.h"
 #include <QFile>
+#include <QStack>
+#include <QMap>
 
 Utils::Utils()
 {
@@ -22,152 +24,117 @@ QString Utils::getQssContent(const QString &filePath)
     return qss;
 }
 
-string Utils::InfixToPostfix(string infix)
+QString Utils::infixToPostfix(const QString &infix)
 {
-    char current = 0;
-    string postfix;
-
-    stack<char> mark;
-
-    map<char,int> priority;
+    QChar current = 0;
+    QString postfix;
+    QStack<QChar> mark;
+    QMap<QChar, int> priority;
     priority['+'] = 0;
     priority['-'] = 0;
     priority['*'] = 1;
     priority['/'] = 1;
-    priority['%'] = 1;
 
-    for(unsigned int i = 0; i < infix.size(); ++i)
+    for (int i = 0; i < infix.count(); ++i)
     {
-        current = infix[i];
-        switch(current)
-        {
-        case '0':case '1':case '2':case '3':case '4':case '5':
-        case '6':case '7':case '8':case '9':case '.':
-            postfix.push_back(current);
-            break;
+        current = infix.at(i);
 
-        case '+':case '-':case '*':case '/':case '%':
-            if(infix[i-1] != ')')
+        if (current == '0' || current == '1' || current == '2' || current == '3' ||
+            current == '4' || current == '5' || current == '6' || current == '7' ||
+            current == '8' || current == '9' || current == '.') {
+            postfix.append(current);
+
+        } else if (current == '+' || current == '-' || current == '*' || current == '/') {
+            if (infix.at(i - 1) != ')') {
                 postfix.push_back('#');
+            }
 
-            if(!mark.empty())
-            {
-                char tempTop = mark.top();
-                while(tempTop != '(' && priority[current] <= priority[tempTop])
-                {
-                    postfix.push_back(tempTop);
+            if (!mark.empty()) {
+                QChar tempTop = mark.top();
+                while (tempTop != '(' && priority[current] <= priority[tempTop]) {
+                    postfix.append(tempTop);
                     mark.pop();
-                    if(mark.empty())
+                    if (mark.empty()) {
                         break;
+                    }
                     tempTop = mark.top();
                 }
-                }
-                mark.push(current);
-                break;
+            }
 
-        case '(':
-            if(infix[i-1] >= '0' && infix[i-1] <= '9')
-            {
-                postfix.push_back('#');
+            mark.push(current);
+        } else if (current == '(') {
+            if (infix.at(i - 1) >= '0' && infix.at(i - 1) <= '9') {
+                postfix.append('#');
                 mark.push('*');
             }
             mark.push(current);
-            break;
-
-        case ')':
-            postfix.push_back('#');
-            while(mark.top() != '(')
-            {
-                postfix.push_back(mark.top());
+        } else if (current == ')') {
+            postfix.append('#');
+            while (mark.top() != '(') {
+                postfix.append(mark.top());
                 mark.pop();
             }
             mark.pop();
-                break;
-
-        default:
-            break;
         }
     }
-    if(infix[infix.size()-1] != ')')
-        postfix.push_back('#');
-    while(!mark.empty())
-    {
-        postfix.push_back(mark.top());
+
+    if (infix.at(infix.count() - 1) != ')') {
+        postfix.append('#');
+    }
+
+    while (!mark.empty()) {
+        postfix.append(mark.top());
         mark.pop();
     }
+
     return postfix;
 }
 
-
-double Utils::posfixCompute(string s)
+double Utils::posfixCompute(const QString &posfix)
 {
-    stack<double> tempResult;
-
-    string strNum;
-    double currNum = 0;
+    QStack<double> tempResult;
+    QString strNum;
+    double currentNum = 0;
     double tempNum = 0;
 
-    for (string::const_iterator i = s.begin(); i != s.end(); ++i)
-    {
-        switch(*i)
-        {
-        case '0':case '1':case '2':case '3':case '4':case '5':
-        case '6':case '7':case '8':case '9':case '.':
-            strNum.push_back(*i);
-            break;
-
-        case '%':
-            tempNum = tempResult.top();
-            tempResult.pop();
-            tempNum = (int)tempResult.top() % (int)tempNum;
-            tempResult.pop();
-            tempResult.push(tempNum);
-            break;
-
-        case '+':
+    for (QString::const_iterator i = posfix.begin(); i != posfix.end(); ++i) {
+        if (*i == '0' || *i == '1' || *i == '2' || *i == '3' || *i == '4' || *i == '5' || *i == '6' || *i == '7' || *i == '8' || *i == '9' || *i == '.') {
+        strNum.append(*i);
+        } else if (*i == '+') {
             tempNum = tempResult.top();
             tempResult.pop();
             tempNum += tempResult.top();
             tempResult.pop();
             tempResult.push(tempNum);
-            break;
-
-        case '-':
+        } else if (*i == '-') {
             tempNum = tempResult.top();
             tempResult.pop();
             tempNum = tempResult.top() - tempNum;
             tempResult.pop();
             tempResult.push(tempNum);
-            break;
-
-        case '*':
+        } else if (*i == '*') {
             tempNum = tempResult.top();
             tempResult.pop();
             tempNum *= tempResult.top();
             tempResult.pop();
             tempResult.push(tempNum);
-            break;
-
-        case '/':
+        } else if (*i == '/') {
             tempNum = tempResult.top();
             tempResult.pop();
             tempNum = tempResult.top() / tempNum;
             tempResult.pop();
             tempResult.push(tempNum);
-            break;
-
-        case '#':
-            currNum = atof(strNum.c_str());
+        } else if (*i == '#') {
+            currentNum = strNum.toDouble();
             strNum.clear();
-            tempResult.push(currNum);
-            break;
+            tempResult.push(currentNum);
         }
     }
 
     return tempResult.top();
 }
 
-double Utils::getResult(string s)
+double Utils::expressionCalculate(const QString &expression)
 {
-    return posfixCompute(InfixToPostfix(s));
+    return posfixCompute(infixToPostfix(expression));
 }
