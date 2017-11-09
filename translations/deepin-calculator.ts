@@ -18,5 +18,9 @@
         <source>Deepin Calculator</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Dark theme</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

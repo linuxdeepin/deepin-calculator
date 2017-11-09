@@ -19,7 +19,9 @@ HEADERS += \
            src/titlebar.h \
            src/utils.h \
 	   src/separator.h \
-    src/expressionlist.h
+	   src/expressionlist.h \
+	   src/settings.h
+
 SOURCES += \
            src/listitem.cpp \
            src/listview.cpp \
@@ -29,7 +31,8 @@ SOURCES += \
            src/titlebar.cpp \
            src/utils.cpp \
 	   src/separator.cpp \
-    src/expressionlist.cpp
+	   src/expressionlist.cpp \
+	   src/settings.cpp
 
 RESOURCES += deepin-calculator.qrc
 

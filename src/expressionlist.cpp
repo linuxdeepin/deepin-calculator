@@ -1,8 +1,11 @@
 #include <QApplication>
 #include <QClipboard>
+#include "dthememanager.h"
 #include "expressionlist.h"
 #include "listitem.h"
 #include "utils.h"
+
+DWIDGET_USE_NAMESPACE
 
 ExpressionList::ExpressionList(QWidget *parent) : ListView(parent)
 {
@@ -11,11 +14,34 @@ ExpressionList::ExpressionList(QWidget *parent) : ListView(parent)
     isAllClear = false;
 
     setFixedHeight(160);
+    initTheme();
     addNewRow();
+
+    connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, [=] {
+        initTheme();
+    });
 }
 
 ExpressionList::~ExpressionList()
 {
+}
+
+void ExpressionList::initTheme()
+{
+    if (DThemeManager::instance()->theme() == "light") {
+        backgroundColor = "#FBFBFB";
+        lastFontColor = "#3A3A3A";
+        fontColor = "#636363";
+    } else {
+        backgroundColor = "#2D2D2D";
+        lastFontColor = "#FFFFFF";
+        fontColor = "#C3C3C3";
+    }
+}
+
+void ExpressionList::changeTheme()
+{
+    initTheme();
 }
 
 void ExpressionList::addNewRow()
@@ -160,7 +186,7 @@ void ExpressionList::enterBackspaceEvent()
 }
 
 void ExpressionList::enterClearEvent()
-{   
+{
     if (isAllClear) {
         isAllClear = false;
 
@@ -186,7 +212,7 @@ void ExpressionList::enterEqualEvent()
 
         const QString result = getResult();
 
-        if (result == "inf" || result == "-inf" || lastItem()->expression == result) {
+        if (result == "nan" || result == "inf" || result == "-inf" || lastItem()->expression == result) {
             return;
         }
 

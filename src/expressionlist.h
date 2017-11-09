@@ -11,6 +11,8 @@ public:
     ExpressionList(QWidget *parent=0);
     ~ExpressionList();
 
+    void initTheme();
+    void changeTheme();
     void addNewRow();
     void enterNumberEvent(const QString &num);
     void enterPointEvent();

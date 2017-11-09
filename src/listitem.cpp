@@ -12,21 +12,21 @@ ListItem::~ListItem()
 {
 }
 
-void ListItem::drawBackground(const QRect &rect, QPainter *painter)
+void ListItem::drawBackground(const QRect &rect, QPainter *painter, QString color)
 {
     QPainterPath path;
     path.addRect(rect);
 
-    painter->fillPath(path, QColor("#FBFBFB"));
+    painter->fillPath(path, QColor(color));
 }
 
-void ListItem::drawContent(const QRect &rect, QPainter *painter, bool isLast)
+void ListItem::drawContent(const QRect &rect, QPainter *painter, QString fontColor, QString lastFontColor, bool isLast)
 {
     QFont font;
     font.setWeight(300);
 
     if (isLast) {
-        painter->setPen(QColor("#3A3A3A"));
+        painter->setPen(QColor(lastFontColor));
         font.setPointSize(fontSize);
 
         QFontMetrics fontMetrics(font);
@@ -37,7 +37,7 @@ void ListItem::drawContent(const QRect &rect, QPainter *painter, bool isLast)
             font.setPointSize(fontSize);
         }
     } else {
-        painter->setPen(QColor("#636363"));
+        painter->setPen(QColor(fontColor));
     }
 
     painter->setFont(font);

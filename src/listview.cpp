@@ -59,7 +59,7 @@ void ListView::paintEvent(QPaintEvent *)
 
     // Draw background
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor("#FBFBFB"));
+    painter.setBrush(QColor(backgroundColor));
     painter.drawRect(rect());
 
     // Draw content.
@@ -71,11 +71,11 @@ void ListView::paintEvent(QPaintEvent *)
             const int lastIndex = listItems.indexOf(listItems.last());
             const bool isLast = lastIndex == count;
 
-            item->drawBackground(QRect(0, count * rowHeight - offsetY, rect().width(), rowHeight), &painter);
+            item->drawBackground(QRect(0, count * rowHeight - offsetY, rect().width(), rowHeight), &painter, backgroundColor);
             item->drawContent(QRect(padding,
                                     count * rowHeight - offsetY,
                                     rect().width() - padding * 2 - scrollbarPadding,
-                                    rowHeight), &painter, isLast);
+                                    rowHeight), &painter, fontColor, lastFontColor, isLast);
 
             drawHeight += rowHeight;
 

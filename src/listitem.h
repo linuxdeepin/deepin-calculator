@@ -12,8 +12,8 @@ public:
     ListItem();
     ~ListItem();
 
-    void drawBackground(const QRect &rect, QPainter *painter);
-    void drawContent(const QRect &rect, QPainter *painter, bool isLast);
+    void drawBackground(const QRect &rect, QPainter *painter, QString color);
+    void drawContent(const QRect &rect, QPainter *painter, QString fontColor, QString lastFontColor, bool isLast);
     void initFontSize();
 
     QString expression;

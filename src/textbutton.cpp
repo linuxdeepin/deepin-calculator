@@ -1,7 +1,10 @@
 #include "textbutton.h"
+#include "dthememanager.h"
+
+DWIDGET_USE_NAMESPACE
 
 TextButton::TextButton(const QString &text)
-{    
+{
     effect = new QGraphicsDropShadowEffect(this);
     effect->setColor(QColor(12, 155, 246, 255 * 0.2));
     effect->setXOffset(0);

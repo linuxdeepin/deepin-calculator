@@ -4,9 +4,11 @@
 #include <DMainWindow>
 #include <QGridLayout>
 #include <QKeyEvent>
+#include <QMenu>
 #include "titlebar.h"
 #include "expressionlist.h"
 #include "textbutton.h"
+#include "settings.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -20,6 +22,9 @@ public:
 
 private:
     QWidget *mainWidget;
+    QMenu *menu;
+    QAction *themeAction;
+    Settings *settings;
     QGridLayout *mainLayout;
     TitleBar *titleBar;
     ExpressionList *expList;
@@ -43,12 +48,19 @@ private:
     TextButton *pointButton;
     TextButton *bracketsButton;
     TextButton *equalButton;
+    QString titlebarColor;
+    QString separatorColor;
+    QColor backgroundColor;
 
 protected:
     void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *);
 
 private slots:
+    void initTheme();
+    void initThemeAction();
+    void switchTheme();
+    void changeTheme(QString theme);
     void onNumberButtonClicked(const QString &str);
     void onBackButtonClicked();
     void onPointButtonClicked();

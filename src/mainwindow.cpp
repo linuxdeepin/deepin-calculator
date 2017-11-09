@@ -1,12 +1,17 @@
 #include "mainwindow.h"
-#include "separator.h"
+#include <QApplication>
 #include <dtitlebar.h>
+#include "dthememanager.h"
+#include "dwindowmanagerhelper.h"
+#include "separator.h"
+#include "utils.h"
 
 MainWindow::MainWindow(DMainWindow *parent)
-    : DMainWindow(parent)                                         
+    : DMainWindow(parent)
 {
     mainWidget = new QWidget;
     mainLayout = new QGridLayout(mainWidget);
+    settings = new Settings;
     titleBar = new TitleBar;
     expList = new ExpressionList;
     clearButton = new TextButton("C");
@@ -31,7 +36,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     equalButton = new TextButton("＝");
 
     mainLayout->addWidget(expList, 0, 0, 1, 4);
-    mainLayout->addWidget(new Separator, 1, 0, 1, 4);
+    // mainLayout->addWidget(new Separator, 1, 0, 1, 4);
     mainLayout->addWidget(clearButton, 2, 0);
     mainLayout->addWidget(modButton, 2, 1);
     mainLayout->addWidget(backButton, 2, 2);
@@ -64,12 +69,30 @@ MainWindow::MainWindow(DMainWindow *parent)
     backButton->setIcon(QIcon(":/images/delete_normal.svg"));
     backButton->setIconSize(QSize(30, 23));
 
-    titlebar()->setFixedHeight(30);
-    titlebar()->setCustomWidget(titleBar, Qt::AlignVCenter, false);
+    if (titlebar()) {
+        menu = new QMenu;
+        themeAction = new QAction(tr("Dark theme"), this);
+        themeAction->setCheckable(true);
+
+        menu->addAction(themeAction);
+        menu->addSeparator();
+
+        titlebar()->setMenu(menu);
+        titlebar()->setFixedHeight(30);
+        titlebar()->setCustomWidget(titleBar, Qt::AlignVCenter, false);
+        initTheme();
+        initThemeAction();
+
+        connect(themeAction, &QAction::triggered, this, &MainWindow::switchTheme);
+        connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &MainWindow::changeTheme);
+        connect(DWindowManagerHelper::instance(), &DWindowManagerHelper::hasCompositeChanged, this, [=] {
+            changeTheme(DThemeManager::instance()->theme());
+        });
+    }
 
     setWindowIcon(QIcon(":/images/icon.svg"));
     setWindowTitle(tr("Deepin Calculator"));
-    setFixedSize(322, 500);
+    setFixedSize(322, 495);
     setCentralWidget(mainWidget);
 
     connect(zeroButton, &QPushButton::clicked, this, [=] {
@@ -106,13 +129,13 @@ MainWindow::MainWindow(DMainWindow *parent)
         onSymbolButtonClicked("+");
     });
     connect(minButton, &QPushButton::clicked, this, [=] {
-        onSymbolButtonClicked("-"); 
+        onSymbolButtonClicked("-");
     });
     connect(multButton, &QPushButton::clicked, this, [=] {
         onSymbolButtonClicked("×");
     });
     connect(divButton, &QPushButton::clicked, this, [=] {
-        onSymbolButtonClicked("÷"); 
+        onSymbolButtonClicked("÷");
     });
     connect(bracketsButton, &QPushButton::clicked, this, &MainWindow::onBracketButtonClicked);
     connect(equalButton, &QPushButton::clicked, this, &MainWindow::onEqualButtonClicked);
@@ -133,20 +156,20 @@ void MainWindow::paintEvent(QPaintEvent *)
     painter.setPen(Qt::NoPen);
 
     // Draw titlebar background color.
-    painter.setBrush(QColor("#FBFBFB"));
+    painter.setBrush(QColor(titlebarColor));
     painter.drawRect(QRect(0, 0, rect().width(), 30));
 
     // Draw separator line.
-    painter.setBrush(QColor("#E1E1E1"));
-    painter.drawRect(QRect(0, titlebar()->height() + expList->height() + 5, width(), 1));
+    painter.setBrush(QColor(separatorColor));
+    painter.drawRect(QRect(0, titlebar()->height() + expList->height(), width(), 1));
 
-    painter.setBrush(QColor(0, 0, 0, 0.05 * 255));
+    painter.setBrush(backgroundColor);
     painter.drawRect(QRect(0, titlebar()->height() + expList->height(), width(), height()));
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
-    if (e->key() == Qt::Key_0) {        
+    if (e->key() == Qt::Key_0) {
         zeroButton->animateClick();
     } else if (e->key() == Qt::Key_1) {
         num1Button->animateClick();
@@ -191,6 +214,58 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
             expList->copyResultToClipboard();
         }
     }
+}
+
+void MainWindow::initTheme()
+{
+    QString theme = settings->getOption("theme");
+    DThemeManager::instance()->setTheme(theme);
+    if (theme == "light") {
+        qApp->setStyleSheet(Utils::getQssContent(":/qss/light.qss"));
+    } else {
+        qApp->setStyleSheet(Utils::getQssContent(":/qss/dark.qss"));
+    }
+
+    changeTheme(theme);
+}
+
+void MainWindow::initThemeAction()
+{
+    themeAction->setChecked(settings->getOption("theme") == "dark");
+}
+
+void MainWindow::switchTheme()
+{
+    const QString theme = settings->getOption("theme");
+
+    if (settings->getOption("theme") == "dark") {
+        settings->setOption("theme", "light");
+        DThemeManager::instance()->setTheme("light");
+        qApp->setStyleSheet(Utils::getQssContent(":/qss/light.qss"));
+        themeAction->setChecked(false);
+    } else {
+        settings->setOption("theme", "dark");
+        DThemeManager::instance()->setTheme("dark");
+        themeAction->setChecked(true);
+        qApp->setStyleSheet(Utils::getQssContent(":/qss/dark.qss"));
+    }
+
+    repaint();
+}
+
+void MainWindow::changeTheme(QString theme)
+{
+    if (theme == "light") {
+        titlebarColor = "#FBFBFB";
+        separatorColor = "#E1E1E1";
+        backgroundColor = QColor(0, 0, 0, 0.05 * 255);
+    } else {
+        titlebarColor = "#000000";
+        separatorColor = "#000000";
+        backgroundColor = QColor("#2D2D2D");
+    }
+
+    initThemeAction();
 }
 
 void MainWindow::onNumberButtonClicked(const QString &str)

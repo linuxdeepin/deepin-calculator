@@ -19,6 +19,10 @@ public:
     void scrollToBottom();
     ListItem* lastItem();
 
+    QString backgroundColor;
+    QString fontColor;
+    QString lastFontColor;
+
 private:
     QList<ListItem *> listItems;
     bool isDragScrollbar;
