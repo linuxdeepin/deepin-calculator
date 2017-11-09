@@ -237,7 +237,7 @@ void ExpressionList::copyResultToClipboard()
 QString ExpressionList::getResult()
 {
     QString exp = lastItem()->expression;
-    const double result = Utils::expressionCalculate(exp.replace("×", "*").replace("÷", "/").toStdString());
+    const double result = Utils::compute(exp.replace("×", "*").replace("÷", "/").toStdString());
 
     return QString::number(result);
 }
