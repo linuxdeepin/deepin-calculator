@@ -6,7 +6,7 @@
 class Settings : public QObject
 {
     Q_OBJECT
-    
+
 public:
     Settings(QObject *parent=0);
     ~Settings();
@@ -17,6 +17,6 @@ public:
 
 private:
     QSettings *settings;
-};	
+};
 
 #endif
