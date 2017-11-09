@@ -3,7 +3,6 @@
 #include "expressionlist.h"
 #include "listitem.h"
 #include "utils.h"
-#include <QDebug>
 
 ExpressionList::ExpressionList(QWidget *parent) : ListView(parent)
 {

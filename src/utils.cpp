@@ -26,21 +26,18 @@ std::string Utils::infixToPostfix(std::string infix)
 {
     char current = 0;
     std::string postfix;
-
     std::stack<char> mark;
-
     std::map<char,int> priority;
+
     priority['+'] = 0;
     priority['-'] = 0;
     priority['*'] = 1;
     priority['/'] = 1;
     priority['%'] = 1;
 
-    for(int i = 0;i < infix.size(); ++i)
-    {
+    for (int i = 0;i < infix.size(); ++i) {
         current = infix[i];
-        switch(current)
-        {
+        switch (current) {
             case '0': case '1': case '2': case '3': case '4': case '5':
             case '6': case '7': case '8': case '9': case '.':
                 postfix.push_back(current);
@@ -51,11 +48,9 @@ std::string Utils::infixToPostfix(std::string infix)
                 if (infix[i-1] != ')')
                     postfix.push_back('#');
 
-                if (!mark.empty())
-                {
+                if (!mark.empty()) {
                     char tempTop = mark.top();
-                    while(tempTop != '(' && priority[current] <= priority[tempTop])
-                    {
+                    while (tempTop != '(' && priority[current] <= priority[tempTop]) {
                         postfix.push_back(tempTop);
                         mark.pop();
                         if (mark.empty())
@@ -67,8 +62,7 @@ std::string Utils::infixToPostfix(std::string infix)
                 break;
 
             case '(':
-                if(infix[i-1] >= '0' && infix[i-1] <= '9')
-                {
+                if(infix[i-1] >= '0' && infix[i-1] <= '9') {
                     postfix.push_back('#');
                     mark.push('*');
                 }
@@ -77,8 +71,7 @@ std::string Utils::infixToPostfix(std::string infix)
 
             case ')':
                 postfix.push_back('#');
-                while(mark.top() != '(')
-                {
+                while(mark.top() != '(') {
                     postfix.push_back(mark.top());
                     mark.pop();
                 }
@@ -93,8 +86,7 @@ std::string Utils::infixToPostfix(std::string infix)
     if (infix[infix.size()-1] != ')')
         postfix.push_back('#');
 
-    while (!mark.empty())
-    {
+    while (!mark.empty()) {
         postfix.push_back(mark.top());
         mark.pop();
     }
@@ -109,10 +101,8 @@ double Utils::posfixCompute(std::string s)
     double currNum = 0;
     double tempNum = 0;
 
-    for (std::string::const_iterator i = s.begin(); i != s.end(); ++i)
-    {
-        switch (*i)
-        {
+    for (std::string::const_iterator i = s.begin(); i != s.end(); ++i) {
+        switch (*i) {
             case '0':case '1':case '2':case '3':case '4':case '5':
             case '6':case '7':case '8':case '9':case '.':
                 strNum.push_back(*i);
