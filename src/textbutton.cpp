@@ -33,10 +33,12 @@ void TextButton::initShadow()
         effect->setXOffset(0);
         effect->setYOffset(4);
         effect->setBlurRadius(12);
+
         if (text() == "＝") {
             effect->setColor(QColor(12, 155, 246, 255 * 0.8));
             effect->setBlurRadius(20);
         }
+
     } else {
         effect->setColor(QColor(0, 0, 0, 255 * 0.2));
         effect->setXOffset(0);
