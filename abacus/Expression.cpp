@@ -9,7 +9,7 @@ using namespace std;
 
 Expression::Expression(string str, int precision)
 {
-	raw_exp = str;
+    raw_exp = str;
     mathEx.set_eps(precision);
 }
 
@@ -19,43 +19,43 @@ Expression::~Expression()
 
 bool Expression::simpleCheck()
 {
-	string temp;
+    string temp;
     bool getWord = false;
     int isAlpha = 0;
-	for (auto &i : raw_exp)
-	{
+    for (auto &i : raw_exp)
+    {
         isAlpha = isalpha(i);
         if (getWord)
-		{
-			if (isAlpha)
-			{
-				temp += i;
-                continue;
-			}
-		}
-		else
-		{
-			if (isAlpha)
-			{
-				getWord = true;
-				temp += i;
-                continue;
-			}
-			else
+        {
+            if (isAlpha)
+            {
                 temp += i;
-		}
+                continue;
+            }
+        }
+        else
+        {
+            if (isAlpha)
+            {
+                getWord = true;
+                temp += i;
+                continue;
+            }
+            else
+                temp += i;
+        }
 
         if (METACHARACTERS.find(temp) == METACHARACTERS.end() || temp == "$")
             throw runtime_error(ExpressionError::ILLEGAL_CHARACTER_ERROR + temp);
 
-		if (getWord)
-		{
-			getWord = false;
-		}
+        if (getWord)
+        {
+            getWord = false;
+        }
         temp = "";
-	}
+    }
 
-	if (getWord)
+    if (getWord)
 		throw runtime_error(ExpressionError::ILLEGAL_BRACKET_ERROR);
 	return true;
 }
@@ -66,110 +66,112 @@ bool Expression::split()
 	string::size_type temp = 0;
 	while (i<raw_exp.size())
 	{
-		string str_temp;
-		str_temp += raw_exp[i];
-        bool getPoint = false;
-        if (isdigit(raw_exp[i]))
-		{
-			temp = i;
-			do
-			{
-                if(raw_exp[i] == '.')
-                    getPoint = true;
-				if (++i >= raw_exp.size())
-					break;
-            } while (isdigit(raw_exp[i]) || ((!getPoint) && raw_exp[i] == '.'));
-            exp.push_back(Metacharacter{ 0,0,0,0,0, raw_exp.substr(temp, i - temp) });
-		}
+            string str_temp;
+            str_temp += raw_exp[i];
+            bool getPoint = false;
+
+            if (isdigit(raw_exp[i]))
+            {
+                temp = i;
+                do
+                {
+                    if(raw_exp[i] == '.')
+                        getPoint = true;
+                    if (++i >= raw_exp.size())
+                        break;
+                } while (isdigit(raw_exp[i]) || ((!getPoint) && raw_exp[i] == '.'));
+                exp.push_back(Metacharacter{ 0,0,0,0,0, raw_exp.substr(temp, i - temp) });
+            }
         else if (raw_exp[i] == '.')
 			throw runtime_error(ExpressionError::ILLEGAL_CHARACTER_ERROR + ".");
         else if (METACHARACTERS.find(str_temp)!=METACHARACTERS.end())
-		{
+        {
             exp.push_back(METACHARACTERS.at(str_temp));
-			++i;
-		}
+            ++i;
+        }
         else if (isalpha(raw_exp[i]))
-		{
-			temp = i;
-			do
-			{
-				if (++i >= raw_exp.size())
-					break;
-			} while (isalpha(raw_exp[i]));
-			str_temp = raw_exp.substr(temp, i - temp);
+        {
+            temp = i;
+            do
+            {
+                if (++i >= raw_exp.size())
+                    break;
+            } while (isalpha(raw_exp[i]));
+            str_temp = raw_exp.substr(temp, i - temp);
             exp.push_back(METACHARACTERS.at(str_temp));
-		}
+        }
 	}
+
 	return true;
 }
 
 void Expression::negativeOperatorPreprocessing()
 {
     for (list<Metacharacter>::iterator i = exp.begin(); i != exp.end(); ++i)
-	{
-		if ((*i).e == "-")
-		{
-			if (i == exp.begin())
-			{
+    {
+        if ((*i).e == "-")
+        {
+            if (i == exp.begin())
+            {
                 i = exp.insert(i, METACHARACTERS.at("0"));
-			}
-			else
-			{
-				--i;
-				if ((*i).out_priority >= 100)
-				{
-					++i;
+            }
+            else
+            {
+                --i;
+                if ((*i).out_priority >= 100)
+                {
+                    ++i;
                     i = exp.insert(i, METACHARACTERS.at("0"));
-				}
-				++i;
-			}
-		}
+                }
+                ++i;
+            }
+        }
 	}
 }
 
 void Expression::sqrtOperatorPreprocessing()
 {
     for (list<Metacharacter>::iterator i = exp.begin(); i != exp.end(); ++i)
-	{
-		if ((*i).e == "#")
-		{
-			if (i == exp.begin())
-			{
+    {
+        if ((*i).e == "#")
+        {
+            if (i == exp.begin())
+            {
                 *i = METACHARACTERS.at("<");
-			}
-			else
-			{
-				--i;
+            }
+            else
+            {
+                --i;
                 if ((*i).out_priority >= 100 || (*i).position == 1 || (*i).position == 2)
                 {
                     if(i->type == 1 && i->in_priority >= METACHARACTERS.at("<").in_priority)
                         throw runtime_error(ExpressionError::SQUARE_ROOT_ERROR);
                     ++i;
                     *i = METACHARACTERS.at("<");
-				}
+                }
                 else
                     ++i;
-			}
-		}
+            }
+        }
 	}
 }
 
 void Expression::percentOperatorPreprocessing()
 {
     for (list<Metacharacter>::iterator i = exp.begin(); i != exp.end(); ++i)
-	{
-		if ((*i).e == "%")
-		{
-			++i;
-			if (i == exp.end() || (*i).position == 2 || (*i).position == 3)
-			{
+    {
+        if ((*i).e == "%")
+        {
+            ++i;
+            if (i == exp.end() || (*i).position == 2 || (*i).position == 3)
+            {
                 --i;--i;
                 if(i->type!=0 && i->in_priority<=100)
                     throw runtime_error(ExpressionError::PERCENT_OPERATOR_ERROR);
                 ++i;
                 *i = METACHARACTERS.at(">");
-			}
-		}
+            }
+        }
     }
 }
 
@@ -190,12 +192,12 @@ void Expression::degreeOperatorPreprocessing()
 void Expression::bracketPreprocessing()
 {
     for (list<Metacharacter>::iterator i = exp.begin(); i != exp.end(); ++i)
-	{
-		if ((*i).out_priority ==101 || (*i).out_priority == 102)
-		{
-			i = exp.erase(i);
+    {
+        if ((*i).out_priority ==101 || (*i).out_priority == 102)
+        {
+            i = exp.erase(i);
             i = exp.insert(i, METACHARACTERS.at("("));
-		}
+        }
         else if ((*i).in_priority == 101 || (*i).in_priority == 102)
 		{
 			i = exp.erase(i);
@@ -206,31 +208,32 @@ void Expression::bracketPreprocessing()
 
 void Expression::preprocessing()
 {
-	negativeOperatorPreprocessing();
-	sqrtOperatorPreprocessing();
-	percentOperatorPreprocessing();
-	bracketPreprocessing();
+    negativeOperatorPreprocessing();
+    sqrtOperatorPreprocessing();
+    percentOperatorPreprocessing();
+    bracketPreprocessing();
     degreeOperatorPreprocessing();
 }
 
 void Expression::operation()
 {
     if (op.top().operand == 1)  //若为一元运算符
-	{
-		double op1; if (op.empty())
-			throw runtime_error(ExpressionError::MISSING_OPERAND_ERROR);
-		else
-			calc(op.top(), op1);
-	}
+    {
+        double op1;
+        if (op.empty())
+            throw runtime_error(ExpressionError::MISSING_OPERAND_ERROR);
+        else
+            calc(op.top(), op1);
+    }
     else    //若为二元运算符
-	{
-		double op1, op2;
-		if (op.empty())
-			throw runtime_error(ExpressionError::MISSING_OPERAND_ERROR);
-		else
-			calc(op.top(), op1, op2);
-	}
-	op.pop();
+    {
+        double op1, op2;
+        if (op.empty())
+            throw runtime_error(ExpressionError::MISSING_OPERAND_ERROR);
+        else
+            calc(op.top(), op1, op2);
+    }
+    op.pop();
 }
 
 
