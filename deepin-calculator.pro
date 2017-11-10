@@ -11,18 +11,9 @@ TARGET = deepin-calculator
 INCLUDEPATH += .
 
 # Input
-HEADERS += abacus/ErrorManager.h \
-           abacus/Express.h \
-           abacus/ExpressPart.h \
-           abacus/includes.h \
-           abacus/IService.h \
-           abacus/Logger.h \
-           abacus/OperatorFunction.h \
-           abacus/parser.h \
-           abacus/Session.h \
-           abacus/shell.h \
-           abacus/Singleton.h \
-           abacus/UserFunctor.h \
+HEADERS += abacus/Expression.h \
+           abacus/MathEx.h \
+           abacus/metacharacter.h \
            src/expressionlist.h \
            src/listitem.h \
            src/listview.h \
@@ -32,13 +23,9 @@ HEADERS += abacus/ErrorManager.h \
            src/textbutton.h \
            src/titlebar.h \
            src/utils.h
-SOURCES += abacus/Express.cpp \
-           abacus/ExpressPart.cpp \
-           abacus/Logger.cpp \
-           abacus/OperatorFunction.cpp \
-           abacus/parser.cpp \
-           abacus/Session.cpp \
-           abacus/UserFunctor.cpp \
+
+SOURCES += abacus/Expression.cpp \
+           abacus/MathEx.cpp \
            src/expressionlist.cpp \
            src/listitem.cpp \
            src/listview.cpp \

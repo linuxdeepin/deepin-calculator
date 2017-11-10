@@ -260,8 +260,8 @@ void MainWindow::changeTheme(QString theme)
         separatorColor = "#E1E1E1";
         backgroundColor = QColor(0, 0, 0, 0.05 * 255);
     } else {
-        titlebarColor = "#000000";
-        separatorColor = "#000000";
+        titlebarColor = "#111111";
+        separatorColor = "#454545";
         backgroundColor = QColor("#2D2D2D");
     }
 

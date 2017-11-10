@@ -13,6 +13,7 @@ public:
     ~TextButton();
 
 protected:
+    void initShadow();
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     void enterEvent(QEvent *);

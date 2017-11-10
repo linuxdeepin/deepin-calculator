@@ -1,10 +1,6 @@
 #include "utils.h"
-#include "abacus/Express.h"
-#include "abacus/Logger.h"
-#include "abacus/Session.h"
+#include "abacus/Expression.h"
 #include <QFile>
-
-using namespace zhcosin;
 
 Utils::Utils()
 {
@@ -29,20 +25,11 @@ QString Utils::getQssContent(const QString &filePath)
 
 double Utils::compute(const std::string &expression)
 {
-    Express a;
+    Expression e(expression, 10);
 
-    if (0 !=
-        a.WordParse(expression, Session::GetInstance()->GetUserVariables(), Session::GetInstance()->GetUserFunctions())) {
-        a.Destroy();
-        return -1;
+    try {
+        return e.getResult();
+    } catch (runtime_error err) {
+        //qDebug() << err.what();
     }
-
-    if (0 != a.SyntaxParse()) {
-        a.Destroy();
-        return -2;
-    }
-
-    double value = a.Value();
-
-    return value;
 }

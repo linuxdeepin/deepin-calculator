@@ -88,7 +88,7 @@ void ListView::paintEvent(QPaintEvent *)
 
     // Draw scrollbar.
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor("#000000"));
+    painter.setBrush(QColor(scrollbarColor));
     drawScrollbar(&painter);
 }
 

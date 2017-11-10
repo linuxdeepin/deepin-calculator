@@ -32,10 +32,12 @@ void ExpressionList::initTheme()
         backgroundColor = "#FBFBFB";
         lastFontColor = "#3A3A3A";
         fontColor = "#636363";
+        scrollbarColor = "#000000";
     } else {
-        backgroundColor = "#2D2D2D";
+        backgroundColor = "#111111";
         lastFontColor = "#FFFFFF";
         fontColor = "#C3C3C3";
+        scrollbarColor = "#FFFFFF";
     }
 }
 

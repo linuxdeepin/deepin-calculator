@@ -22,6 +22,7 @@ public:
     QString backgroundColor;
     QString fontColor;
     QString lastFontColor;
+    QString scrollbarColor;
 
 private:
     QList<ListItem *> listItems;

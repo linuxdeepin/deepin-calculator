@@ -1,8 +1,8 @@
 #TextButton {
     font-size: 18px;
     font-weight: 300;
-    color: #FFFFFF;
-    background-color: #333333;
+    color: #E0E0E0;
+    background-color: #202020;
     border: none;
     margin: 0px;
 }
@@ -10,34 +10,34 @@
     color: #FFFFFF;
     font-size: 20px;
     font-weight: 400;
-    border: 1px solid #2D2D2D;
-    background-color: #585858;
+    border: 1px solid #484848;
+    background-color: #303030;
 }
 #TextButton:pressed {
     font-size: 18px;
     color: #606060;
-    background-color: #313131;
-    border: 1px solid #313131;
+    background-color: #101010;
+    border: none;
 }
 
 #SymbolButton {
     font-weight: 400;
     font-size: 22px;
     color: #2CA7F8;
-    background-color: #333333;
+    background-color: #202020;
     border: none;
 }
 #SymbolButton:hover {
     font-weight: 500;
     font-size: 24px;
-    background-color: #2D2D2D;
-    border: 1px solid #585858;
+    background-color: #303030;
+    border: 1px solid #484848;
 }
 #SymbolButton:pressed {
     font-weight: 400;
     font-size: 22px;
-    background-color: #313131;
-    border: 1px solid #313131;
+    background-color: #202020;
+    border: none;
 }
 
 #EqualButton {
