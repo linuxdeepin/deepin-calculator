@@ -66,9 +66,6 @@ MainWindow::MainWindow(DMainWindow *parent)
     plusButton->setObjectName("SymbolButton");
     equalButton->setObjectName("EqualButton");
 
-    backButton->setIcon(QIcon(":/images/delete_normal.svg"));
-    backButton->setIconSize(QSize(30, 23));
-
     if (titlebar()) {
         menu = new QMenu;
         themeAction = new QAction(tr("Dark theme"), this);
@@ -259,10 +256,14 @@ void MainWindow::changeTheme(QString theme)
         titlebarColor = "#FBFBFB";
         separatorColor = "#E1E1E1";
         backgroundColor = QColor(0, 0, 0, 0.05 * 255);
+        backButton->setIcon(QIcon(":/images/delete_normal.svg"));
+        backButton->setIconSize(QSize(30, 23));
     } else {
         titlebarColor = "#111111";
         separatorColor = "#454545";
         backgroundColor = QColor("#2D2D2D");
+        backButton->setIcon(QIcon(":/images/delete_dark_normal.svg"));
+        backButton->setIconSize(QSize(30, 23));
     }
 
     initThemeAction();
