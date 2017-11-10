@@ -30,13 +30,13 @@
 #SymbolButton:hover {
     font-weight: 500;
     font-size: 24px;
-    background-color: #303030;
     border: 1px solid #484848;
+    background-color: #303030;
 }
 #SymbolButton:pressed {
     font-weight: 400;
     font-size: 22px;
-    background-color: #202020;
+    background-color: #101010;
     border: none;
 }
 
