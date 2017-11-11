@@ -15,10 +15,8 @@ HEADERS += abacus/Expression.h \
            abacus/MathEx.h \
            abacus/metacharacter.h \
            src/expressionlist.h \
-           src/listitem.h \
            src/listview.h \
            src/mainwindow.h \
-           src/separator.h \
            src/settings.h \
            src/textbutton.h \
            src/titlebar.h \
@@ -27,11 +25,9 @@ HEADERS += abacus/Expression.h \
 SOURCES += abacus/Expression.cpp \
            abacus/MathEx.cpp \
            src/expressionlist.cpp \
-           src/listitem.cpp \
            src/listview.cpp \
            src/main.cpp \
            src/mainwindow.cpp \
-           src/separator.cpp \
            src/settings.cpp \
            src/textbutton.cpp \
            src/titlebar.cpp \

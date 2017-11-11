@@ -1,253 +1,146 @@
+#include <QVBoxLayout>
 #include <QApplication>
 #include <QClipboard>
 #include "dthememanager.h"
 #include "expressionlist.h"
-#include "listitem.h"
 #include "utils.h"
+#include "abacus/Expression.h"
+#include <QDebug>
 
 DWIDGET_USE_NAMESPACE
 
-ExpressionList::ExpressionList(QWidget *parent) : ListView(parent)
+ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
 {
+    QVBoxLayout *layout = new QVBoxLayout(this);
+    listView = new ListView;
+    inputEdit = new QLineEdit;
+
+    layout->setMargin(0);
+    layout->setSpacing(0);
+    layout->addWidget(listView);
+    layout->addWidget(inputEdit);
+
+    inputEdit->setFixedHeight(55);
+    inputEdit->setAlignment(Qt::AlignRight);
+    inputEdit->setReadOnly(true);
+    inputEdit->setFocusPolicy(Qt::NoFocus);
+    inputEdit->setEnabled(false);
+    inputEdit->setText("0");
+
     isLeftBracket = true;
     isContinue = true;
     isAllClear = false;
 
     setFixedHeight(160);
-    initTheme();
-    addNewRow();
-
-    connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, [=] {
-        initTheme();
-    });
 }
 
 ExpressionList::~ExpressionList()
 {
 }
 
-void ExpressionList::initTheme()
-{
-    if (DThemeManager::instance()->theme() == "light") {
-        backgroundColor = "#FBFBFB";
-        lastFontColor = "#3A3A3A";
-        fontColor = "#636363";
-        scrollbarColor = "#000000";
-    } else {
-        backgroundColor = "#111111";
-        lastFontColor = "#FFFFFF";
-        fontColor = "#C3C3C3";
-        scrollbarColor = "#FFFFFF";
-    }
-}
-
-void ExpressionList::changeTheme()
-{
-    initTheme();
-}
-
-void ExpressionList::addNewRow()
-{
-    ListItem *item = new ListItem;
-    addItem(item);
-
-    scrollToBottom();
-}
-
 void ExpressionList::enterNumberEvent(const QString &num)
 {
-    if (isEnding()) {
-        return;
-    }
-
-    if (!isContinue || lastItem()->expression == "0") {
-        lastItem()->expression = nullptr;
+    if (!isContinue || inputEdit->text() == "0") {
+        inputEdit->setText("");
         isContinue = true;
     }
 
-    if (lastCharIsRightBracket()) {
-        lastItem()->expression.append("×0");
-    }
-
+    inputEdit->insert(num);
     isAllClear = false;
-    lastItem()->expression.append(num);
-    scrollToBottom();
 }
 
 void ExpressionList::enterPointEvent()
 {
-    if (isEnding()) {
-        return;
+    if (lastCharIsSymbol()) {
+        inputEdit->insert("0");
     }
 
-    if (lastCharIsNumber()) {
-        bool flag = false;
-        QString exp = lastItem()->expression;
-        for (int i = 0; i < exp.count(); ++i) {
-            if (exp.at(exp.count() - 1 - i) == QString("+") ||
-                exp.at(exp.count() - 1 - i) == QString("-") ||
-                exp.at(exp.count() - 1 - i) == QString("×") ||
-                exp.at(exp.count() - 1 - i) == QString("÷")) {
-                flag = true;
-                break;
-            } else if (exp.at(exp.count() - 1 - i) == QString(".")) {
-                flag = false;
-                break;
-            } else {
-                flag = true;
-            }
-        }
-
-        if (flag) {
-            lastItem()->expression.append(".");
-            isContinue = true;
-            isAllClear = false;
-        }
-    } else if (lastCharIsSymbol() || lastCharIsLeftBracket()) {
-        lastItem()->expression.append("0.");
-    } else if (lastCharIsRightBracket()) {
-        lastItem()->expression.append("×0.");
-    }
-
-    scrollToBottom();
+    inputEdit->insert(".");
 }
 
 void ExpressionList::enterSymbolEvent(const QString &str)
 {
-    if (isEnding()) {
-        return;
-    }
-
     if (lastCharIsSymbol()) {
         enterBackspaceEvent();
     } else if (lastCharIsPoint() || lastCharIsLeftBracket()) {
-        lastItem()->expression.append("0");
-    } else if (str == "-" && lastItem()->expression == "0") {
-        lastItem()->expression = nullptr;
+        inputEdit->insert("0");
+    } else if (str == "－" && inputEdit->text() == "0") {
+        inputEdit->clear();
     }
 
+    inputEdit->insert(str);
     isContinue = true;
     isAllClear = false;
-    lastItem()->expression.append(str);
-    scrollToBottom();
 }
 
 void ExpressionList::enterBracketsEvent()
 {
-    if (isEnding()) {
-        return;
-    }
-
-    if (!isContinue || lastItem()->expression == "0") {
-        lastItem()->expression = nullptr;
-        isContinue = true;
-    }
-
-    if (isLeftBracket) {
-        if (lastCharIsNumber()) {
-            lastItem()->expression.append("×");
-        } else if (lastCharIsPoint()) {
-            lastItem()->expression.append("0×");
-        }
-
-        lastItem()->expression.append("(");
-        isLeftBracket = false;
-    } else {
-        if (lastCharIsPoint() || lastCharIsSymbol()) {
-            lastItem()->expression.append("0");
-        }
-
-        lastItem()->expression.append(")");
-        isLeftBracket = true;
-    }
-
-    isAllClear = false;
-    scrollToBottom();
 }
 
 void ExpressionList::enterBackspaceEvent()
 {
-    const QString exp = lastItem()->expression;
-
-    if (exp.length() == 1) {
-        if (lastCharIsLeftBracket()) {
-            isLeftBracket = true;
-        }
-        lastItem()->expression = "0";
-    }else {
-        if (lastCharIsLeftBracket()) {
-            isLeftBracket = true;
-        } else if (lastCharIsRightBracket()) {
-            isLeftBracket = false;
-        }
-        lastItem()->expression = exp.left(exp.length() - 1);
+    if (inputEdit->text() == "0") {
+        return;
     }
 
-    isContinue = true;
-    scrollToBottom();
+    inputEdit->backspace();
 }
 
 void ExpressionList::enterClearEvent()
 {
     if (isAllClear) {
+        listView->clearItems();
         isAllClear = false;
-
-        clearAllItems();
-        addNewRow();
     } else {
+        inputEdit->setText("0");
         isAllClear = true;
-
-        lastItem()->initFontSize();
-        lastItem()->expression = "0";
     }
-
-    isLeftBracket = true;
-    scrollToBottom();
 }
 
 void ExpressionList::enterEqualEvent()
 {
-    if (lastItem()->expression != "0") {
-        if (!isContinue || lastCharIsSymbol() || lastCharIsLeftBracket() || lastCharIsPoint()) {
-            return;
-        }
-
-        const QString result = getResult();
-
-        if (result == "nan" || result == "inf" || result == "-inf" || lastItem()->expression == result) {
-            return;
-        }
-
-        lastItem()->expression.append(" = " + result);
-        addNewRow();
-        lastItem()->expression = result;
-
-        isContinue = false;
-        isLeftBracket = true;
-    }
-}
-
-void ExpressionList::copyResultToClipboard()
-{
-    if (lastCharIsSymbol() || lastCharIsLeftBracket() || lastCharIsPoint()) {
+    if (inputEdit->text() == "0" || !isContinue || lastCharIsLeftBracket() || lastCharIsPoint()) {
         return;
     }
+ 
+    Expression e(formatExp(inputEdit->text()).toStdString(), 10);
 
-    QApplication::clipboard()->setText(getResult());
+    try {
+        const QString result = QString::number(e.getResult());
+
+        if (inputEdit->text() == result) {
+            return;
+        }
+
+        listView->addItem(inputEdit->text() + " = " + result);
+        inputEdit->setText(result);
+
+        isContinue = false;
+    } catch (runtime_error err) {
+        qDebug() << err.what();
+    }
+
+}   
+    
+void ExpressionList::copyResultToClipboard()
+{   
+    
+}
+    
+QString ExpressionList::getResult()
+{   
+    
 }
 
-QString ExpressionList::getResult()
+QString ExpressionList::formatExp(const QString &exp)
 {
-    QString exp = lastItem()->expression;
-    const double result = Utils::compute(exp.replace("×", "*").replace("÷", "/").toStdString());
-
-    return QString::number(result);
+    return QString(exp).replace("＋", "+").replace("－", "-").replace("×", "*").replace("÷", "/");
 }
 
 QChar ExpressionList::getLastChar()
 {
-    QString exp = lastItem()->expression;
-    QString::const_iterator laster = exp.replace("×", "*").replace("÷", "/").end();
+    QString exp = formatExp(inputEdit->text());
+    QString::const_iterator laster = exp.end();
     laster--;
 
     return *laster;
@@ -270,7 +163,7 @@ bool ExpressionList::lastCharIsSymbol()
 {
     const QChar lastChar = getLastChar();
 
-    if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/' || lastChar == '%') {
+    if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/') {
         return true;
     } else {
         return false;
@@ -290,9 +183,4 @@ bool ExpressionList::lastCharIsLeftBracket()
 bool ExpressionList::lastCharIsRightBracket()
 {
     return getLastChar() == ')' ? true : false;
-}
-
-bool ExpressionList::isEnding()
-{
-    return lastItem()->expression.count() > 35 ? true : false;
 }

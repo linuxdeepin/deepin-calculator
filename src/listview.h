@@ -2,52 +2,42 @@
 #define LISTVIEW_H
 
 #include <QWidget>
-#include <QMouseEvent>
-#include "listitem.h"
 
 class ListView : public QWidget
 {
     Q_OBJECT
-
+    
 public:
     ListView(QWidget *parent=0);
     ~ListView();
 
-    void addItem(ListItem *item);
-    void clearAllItems();
-    void clearLastItem();
+    void initTheme();
+    void addItem(const QString &text);
+    void clearItems();
     void scrollToBottom();
-    ListItem* lastItem();
-
-    QString backgroundColor;
-    QString fontColor;
-    QString lastFontColor;
-    QString scrollbarColor;
-
-private:
-    QList<ListItem *> listItems;
-    bool isDragScrollbar;
-    bool isShowScrollbar;
-    int rowHeight;
-    int padding;
-    int offsetY;
-    int scrollbarWidth;
-    int scrollbarPadding;
 
 protected:
     void paintEvent(QPaintEvent *);
-    void drawScrollbar(QPainter *);
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     void wheelEvent(QWheelEvent *);
     void leaveEvent(QEvent *);
+    int getItemsTotalHeight();
+    int getScrollbarHeight();
+    int getScrollbarX();
+    int getScrollbarY();
+    int adjustOffset(const int &offset);
 
-    int getItemsTotalHeight() const;
-    int getScrollbarHeight() const;
-    int getScrollbarX() const;
-    int getScrollbarY() const;
-    int adjustOffsetY(const int &offset) const;
+private:
+    QList<QString> listItems;
+    int rowHeight;
+    int offset;
+    bool isPress;
+    bool isShowScrollbar;
+    QString backgroundColor;
+    QString fontColor;
+    QString scrollbarColor;
 };
 
 #endif

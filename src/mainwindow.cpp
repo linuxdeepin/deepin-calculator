@@ -1,9 +1,9 @@
 #include "mainwindow.h"
 #include <QApplication>
+#include <QPainter>
 #include <dtitlebar.h>
 #include "dthememanager.h"
 #include "dwindowmanagerhelper.h"
-#include "separator.h"
 #include "utils.h"
 
 MainWindow::MainWindow(DMainWindow *parent)
@@ -36,7 +36,6 @@ MainWindow::MainWindow(DMainWindow *parent)
     equalButton = new TextButton("＝");
 
     mainLayout->addWidget(expList, 0, 0, 1, 4);
-    // mainLayout->addWidget(new Separator, 1, 0, 1, 4);
     mainLayout->addWidget(clearButton, 2, 0);
     mainLayout->addWidget(modButton, 2, 1);
     mainLayout->addWidget(backButton, 2, 2);
@@ -123,10 +122,10 @@ MainWindow::MainWindow(DMainWindow *parent)
         onNumberButtonClicked("9");
     });
     connect(plusButton, &QPushButton::clicked, this, [=] {
-        onSymbolButtonClicked("+");
+        onSymbolButtonClicked("＋");
     });
     connect(minButton, &QPushButton::clicked, this, [=] {
-        onSymbolButtonClicked("-");
+        onSymbolButtonClicked("－");
     });
     connect(multButton, &QPushButton::clicked, this, [=] {
         onSymbolButtonClicked("×");
