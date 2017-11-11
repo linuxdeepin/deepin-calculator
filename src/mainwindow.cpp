@@ -139,6 +139,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     connect(backButton, &QPushButton::clicked, this, &MainWindow::onBackButtonClicked);
     connect(pointButton, &QPushButton::clicked, this, &MainWindow::onPointButtonClicked);
     connect(modButton, &QPushButton::clicked, this, &MainWindow::onModButtonClicked);
+    connect(expList, &ExpressionList::clearStateChanged, this, &MainWindow::clearButtonStateChanged);
 }
 
 MainWindow::~MainWindow()
@@ -306,4 +307,15 @@ void MainWindow::onBracketButtonClicked()
 void MainWindow::onModButtonClicked()
 {
     expList->enterSymbolEvent("%");
+}
+
+void MainWindow::clearButtonStateChanged(bool isAllClear)
+{
+    if (isAllClear) {
+        if (expList->getItemsCount() > 0) {
+            clearButton->setText("AC");
+        }
+    } else {
+        clearButton->setText("C");
+    }
 }

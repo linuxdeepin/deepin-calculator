@@ -21,6 +21,10 @@ public:
     void enterClearEvent();
     void enterEqualEvent();
     void copyResultToClipboard();
+    int getItemsCount();
+
+signals:
+    void clearStateChanged(bool isAllClear);
 
 private:
     bool isLeftBracket;

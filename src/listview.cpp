@@ -61,6 +61,11 @@ void ListView::scrollToBottom()
     update();
 }
 
+int ListView::getItemsCount()
+{
+    return listItems.count();
+}
+
 void ListView::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);

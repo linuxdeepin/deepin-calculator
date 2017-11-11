@@ -69,6 +69,7 @@ private slots:
     void onEqualButtonClicked();
     void onBracketButtonClicked();
     void onModButtonClicked();
+    void clearButtonStateChanged(bool isAllClear);
 };
 
 #endif

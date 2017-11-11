@@ -47,6 +47,8 @@ void ExpressionList::enterNumberEvent(const QString &num)
 
     inputEdit->insert(num);
     isAllClear = false;
+
+    emit clearStateChanged(false);
 }
 
 void ExpressionList::enterPointEvent()
@@ -57,6 +59,7 @@ void ExpressionList::enterPointEvent()
 
     inputEdit->insert(".");
     isContinue = true;
+    isAllClear = false;
 }
 
 void ExpressionList::enterSymbolEvent(const QString &str)
@@ -72,6 +75,8 @@ void ExpressionList::enterSymbolEvent(const QString &str)
     inputEdit->insert(str);
     isContinue = true;
     isAllClear = false;
+
+    emit clearStateChanged(false);
 }
 
 void ExpressionList::enterBracketsEvent()
@@ -81,6 +86,9 @@ void ExpressionList::enterBracketsEvent()
 void ExpressionList::enterBackspaceEvent()
 {
     if (inputEdit->text() == "0") {
+        return;
+    } else if (inputEdit->text().count() == 1) {
+        inputEdit->setText("0");
         return;
     }
 
@@ -92,9 +100,13 @@ void ExpressionList::enterClearEvent()
     if (isAllClear) {
         listView->clearItems();
         isAllClear = false;
+
+        emit clearStateChanged(false);
     } else {
         inputEdit->setText("0");
         isAllClear = true;
+
+        emit clearStateChanged(true);
     }
 }
 
@@ -133,8 +145,13 @@ void ExpressionList::copyResultToClipboard()
     }
 }
 
+int ExpressionList::getItemsCount()
+{
+    return listView->getItemsCount();
+}
+
 QString ExpressionList::getResult()
-{   
+{
 
 }
 

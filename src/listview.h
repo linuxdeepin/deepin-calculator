@@ -15,6 +15,7 @@ public:
     void addItem(const QString &text);
     void clearItems();
     void scrollToBottom();
+    int getItemsCount();
 
 protected:
     void paintEvent(QPaintEvent *);
