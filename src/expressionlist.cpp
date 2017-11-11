@@ -56,6 +56,7 @@ void ExpressionList::enterPointEvent()
     }
 
     inputEdit->insert(".");
+    isContinue = true;
 }
 
 void ExpressionList::enterSymbolEvent(const QString &str)
@@ -102,7 +103,7 @@ void ExpressionList::enterEqualEvent()
     if (inputEdit->text() == "0" || !isContinue || lastCharIsLeftBracket() || lastCharIsPoint()) {
         return;
     }
- 
+
     Expression e(formatExp(inputEdit->text()).toStdString(), 10);
 
     try {
@@ -119,17 +120,22 @@ void ExpressionList::enterEqualEvent()
     } catch (runtime_error err) {
         qDebug() << err.what();
     }
-
-}   
-    
-void ExpressionList::copyResultToClipboard()
-{   
-    
 }
-    
+
+void ExpressionList::copyResultToClipboard()
+{
+    Expression e(formatExp(inputEdit->text()).toStdString(), 10);
+
+    try {
+        QApplication::clipboard()->setText(QString::number(e.getResult()));
+    } catch (runtime_error err) {
+
+    }
+}
+
 QString ExpressionList::getResult()
 {   
-    
+
 }
 
 QString ExpressionList::formatExp(const QString &exp)

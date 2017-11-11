@@ -6,7 +6,7 @@
 class ListView : public QWidget
 {
     Q_OBJECT
-    
+
 public:
     ListView(QWidget *parent=0);
     ~ListView();
@@ -32,6 +32,7 @@ protected:
 private:
     QList<QString> listItems;
     int rowHeight;
+    int padding;
     int offset;
     bool isPress;
     bool isShowScrollbar;

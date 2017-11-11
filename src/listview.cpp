@@ -9,6 +9,7 @@ DWIDGET_USE_NAMESPACE
 ListView::ListView(QWidget *parent) : QWidget(parent)
 {
     rowHeight = 35;
+    padding = 10;
     offset = 0;
     isPress = false;
     isShowScrollbar = false;
@@ -77,7 +78,7 @@ void ListView::paintEvent(QPaintEvent *)
     int count = 0;
     for (QString item : listItems) {
         if (count >= offset / rowHeight) {
-            QRect itemRect(0, count * rowHeight - offset, rect().width() - 15, rowHeight);
+            QRect itemRect(padding, count * rowHeight - offset, rect().width() - padding - 15, rowHeight);
             painter.drawText(itemRect, Qt::AlignVCenter | Qt::AlignRight, item);
 
             drawHeight += rowHeight;
@@ -134,9 +135,8 @@ void ListView::mousePressEvent(QMouseEvent *e)
             if (e->x() > getScrollbarX()) {
                 isPress = true;
                 offset = adjustOffset((e->y() - getScrollbarHeight() / 2) / (rect().height() * 1.0) * getItemsTotalHeight());
-                update(); 
-            }  
-               
+                update();
+            }
         }
     }
 }
