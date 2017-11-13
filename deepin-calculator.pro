@@ -20,7 +20,8 @@ HEADERS += abacus/Expression.h \
            src/settings.h \
            src/textbutton.h \
            src/titlebar.h \
-           src/utils.h
+           src/utils.h \
+	   src/inputedit.h
 
 SOURCES += abacus/Expression.cpp \
            abacus/MathEx.cpp \
@@ -31,7 +32,8 @@ SOURCES += abacus/Expression.cpp \
            src/settings.cpp \
            src/textbutton.cpp \
            src/titlebar.cpp \
-           src/utils.cpp
+           src/utils.cpp \
+	   src/inputedit.cpp
 
 RESOURCES += deepin-calculator.qrc
 
