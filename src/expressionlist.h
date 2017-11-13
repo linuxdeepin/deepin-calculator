@@ -1,5 +1,5 @@
-#ifndef DISPLAYAREA_H
-#define DISPLAYAREA_H
+#ifndef EXPRESSIONLIST_H
+#define EXPRESSIONLIST_H
 
 #include <QWidget>
 #include <QVBoxLayout>
