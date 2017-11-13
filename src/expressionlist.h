@@ -3,8 +3,8 @@
 
 #include <QWidget>
 #include <QVBoxLayout>
-#include <QLineEdit>
 #include "listview.h"
+#include "inputedit.h"
 
 class ExpressionList : public QWidget
 {
@@ -39,7 +39,7 @@ private:
     bool isAllClear;
     QVBoxLayout *layout;
     ListView *listView;
-    QLineEdit *inputEdit;
+    InputEdit *inputEdit;
     void initFontSize();
     QString formatExp(const QString &exp);
     QChar getLastChar();

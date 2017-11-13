@@ -13,7 +13,7 @@ ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
 {
     layout = new QVBoxLayout(this);
     listView = new ListView;
-    inputEdit = new QLineEdit;
+    inputEdit = new InputEdit;
 
     layout->setMargin(0);
     layout->setSpacing(0);
@@ -23,11 +23,9 @@ ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
     inputEdit->setTextMargins(10, 0, 10, 8);
     inputEdit->setFixedHeight(55);
     inputEdit->setAlignment(Qt::AlignRight);
-    inputEdit->setReadOnly(true);
-    inputEdit->setText("0");
 
     defaultFontSize = 25;
-    minFontSize = 15;
+    minFontSize = 10;
     fontSize = defaultFontSize;
     isLeftBracket = true;
     isContinue = true;
@@ -51,7 +49,6 @@ void ExpressionList::enterNumberEvent(const QString &num)
     }
 
     inputEdit->insert(num);
-    isAllClear = false;
 
     emit clearStateChanged(false);
 }
@@ -63,8 +60,6 @@ void ExpressionList::enterPointEvent()
     }
 
     inputEdit->insert(".");
-    isContinue = true;
-    isAllClear = false;
 }
 
 void ExpressionList::enterSymbolEvent(const QString &str)
@@ -91,14 +86,9 @@ void ExpressionList::enterBracketsEvent()
 
 void ExpressionList::enterBackspaceEvent()
 {
-    if (inputEdit->text() == "0") {
-        return;
-    } else if (inputEdit->text().count() == 1) {
-        inputEdit->setText("0");
-        return;
-    }
-
     inputEdit->backspace();
+
+    isContinue = true;
 }
 
 void ExpressionList::enterClearEvent()
@@ -109,18 +99,18 @@ void ExpressionList::enterClearEvent()
 
         emit clearStateChanged(false);
     } else {
-        inputEdit->setText("0");
+        inputEdit->setText("");
         isAllClear = true;
 
+        initFontSize();
         emit clearStateChanged(true);
     }
 
-    initFontSize();
 }
 
 void ExpressionList::enterEqualEvent()
 {
-    if (inputEdit->text() == "0" || !isContinue || lastCharIsLeftBracket() || lastCharIsPoint()) {
+    if (inputEdit->text() == "0" || inputEdit->text().isEmpty() || !isContinue || lastCharIsLeftBracket() || lastCharIsPoint()) {
         return;
     }
 
@@ -160,14 +150,47 @@ int ExpressionList::getItemsCount()
 
 void ExpressionList::inputEditChanged(const QString &text)
 {
-    QFontMetrics fm = inputEdit->fontMetrics();
-    int w = fm.boundingRect(text).width();
+    // using setText() will move the cursor pos to end.
+    const int currentPos = inputEdit->cursorPosition();
 
-    if (w > inputEdit->width() - 20) {
+    // replace string.
+    inputEdit->setText(QString(text).replace("+", "＋").replace("-", "－")
+                                    .replace(QRegExp("[x|X|*]"), "×").replace("/", "÷")
+                                    .replace("（", "(").replace("）", ")")
+                                    .replace("。", "."));
+    inputEdit->setCursorPosition(currentPos);
+
+    // make font size of inputEdit fit text content.
+    QFontMetrics fm = inputEdit->fontMetrics();
+    int w = fm.boundingRect(inputEdit->text()).width();
+
+    if (w >= inputEdit->width() - 30) {
         fontSize -= 2;
         QFont font;
         font.setPointSize(qMax(fontSize, minFontSize));
         inputEdit->setFont(font);
+    }
+
+    // get current input char.
+    QChar currentInputChar = formatExp(inputEdit->text()).at(currentPos - 1);
+
+    if (currentInputChar == '+' || currentInputChar == '-' || currentInputChar == '*' || currentInputChar == '/') {
+        isContinue = true;
+    } else if (currentInputChar == '0' || currentInputChar == '1' || currentInputChar == '2' || currentInputChar == '3' || currentInputChar == '4' || currentInputChar == '5' || currentInputChar == '6' || currentInputChar == '7' || currentInputChar == '8' || currentInputChar == '9' || currentInputChar == '.') {
+        if (!isContinue) {
+            inputEdit->clear();
+            isContinue = true;
+        }
+    }
+
+    // when text is empty, the clear button status will changed.
+    if (text.isEmpty()) {
+        isAllClear = true;
+        initFontSize();
+        emit clearStateChanged(true);
+    } else {
+        isAllClear = false;
+        emit clearStateChanged(false);
     }
 }
 
