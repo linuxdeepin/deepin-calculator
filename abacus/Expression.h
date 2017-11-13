@@ -27,28 +27,28 @@ class Expression
 
 public:
     Expression(string str, int precision = 5);
-	~Expression();
-	double getResult();
+    ~Expression();
+    double getResult();
 
 private:
-	MathEx mathEx;
-	string raw_exp;
+    MathEx mathEx;
+    string raw_exp;
     list<Metacharacter> exp;
     stack<Metacharacter> op;
-	stack<double> number;
+    stack<double> number;
 
-	double result = 0;
+    double result = 0;
 
-	bool simpleCheck();
-	bool split();
-	void negativeOperatorPreprocessing();
-	void sqrtOperatorPreprocessing();
-	void percentOperatorPreprocessing();
+    bool simpleCheck();
+    bool split();
+    void negativeOperatorPreprocessing();
+    void sqrtOperatorPreprocessing();
+    void percentOperatorPreprocessing();
     void degreeOperatorPreprocessing();
-	void bracketPreprocessing();
-	void preprocessing();
-	void operation();
-	void transToPostfix();
+    void bracketPreprocessing();
+    void preprocessing();
+    void operation();
+    void transToPostfix();
     void calc(Metacharacter mc, double &op1);
     void calc(Metacharacter mc, double &op1, double &op2);
 };

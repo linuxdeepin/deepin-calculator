@@ -14,6 +14,7 @@ public:
     ExpressionList(QWidget *parent=0);
     ~ExpressionList();
 
+public slots:
     void enterNumberEvent(const QString &num);
     void enterPointEvent();
     void enterSymbolEvent(const QString &str);
@@ -29,6 +30,7 @@ private slots:
 
 signals:
     void clearStateChanged(bool isAllClear);
+    void inputKeyPressEvent(QKeyEvent *);
 
 private:
     int defaultFontSize;

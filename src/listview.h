@@ -35,6 +35,7 @@ private:
     int rowHeight;
     int padding;
     int offset;
+    int scrollbarMinHeight;
     bool isPress;
     bool isShowScrollbar;
     QString backgroundColor;

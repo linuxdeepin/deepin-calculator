@@ -38,24 +38,20 @@ SOURCES += abacus/Expression.cpp \
 RESOURCES += deepin-calculator.qrc
 
 isEmpty(BINDIR):BINDIR=/usr/bin
-isEmpty(ICONDIR):ICONDIR=/usr/share/icons/hicolor/scalable/apps
 isEmpty(APPDIR):APPDIR=/usr/share/applications
 isEmpty(DSRDIR):DSRDIR=/usr/share/deepin-calculator
 
 target.path = $$INSTROOT$$BINDIR
-icon.path = $$INSTROOT$$ICONDIR
 desktop.path = $$INSTROOT$$APPDIR
 translations.path = $$INSTROOT$$DSRDIR/translations
 manual.path = $$INSTROOT$$DOCDIR
 
-icon.files = images/deepin-calculator.svg
 desktop.files = deepin-calculator.desktop
 
-INSTALLS += target icon desktop
+INSTALLS += target desktop
 
 isEmpty(TRANSLATIONS) {
      include(translations.pri)
-
 }
 
 TRANSLATIONS_COMPILED = $$TRANSLATIONS

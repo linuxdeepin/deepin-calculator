@@ -11,6 +11,9 @@ public:
     InputEdit(QLineEdit *parent=0);
     ~InputEdit();
 
+signals:
+    void inputKeyPressEvent(QKeyEvent *e);
+
 protected:
     void keyPressEvent(QKeyEvent *);
 };

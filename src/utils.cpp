@@ -1,5 +1,4 @@
 #include "utils.h"
-#include "abacus/Expression.h"
 #include <QFile>
 
 Utils::Utils()
@@ -21,15 +20,4 @@ QString Utils::getQssContent(const QString &filePath)
     }
 
     return qss;
-}
-
-double Utils::compute(const std::string &expression)
-{
-    Expression e(expression, 10);
-
-    try {
-        return e.getResult();
-    } catch (runtime_error err) {
-        //qDebug() << err.what();
-    }
 }

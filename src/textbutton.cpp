@@ -40,7 +40,7 @@ void TextButton::initShadow()
         }
 
     } else {
-        effect->setColor(QColor(0, 0, 0, 255 * 0.2));
+        effect->setColor(QColor(0, 0, 0, 255 * 0.1));
         effect->setXOffset(0);
         effect->setYOffset(4);
         effect->setBlurRadius(12);
@@ -52,8 +52,6 @@ void TextButton::initShadow()
             effect->setYOffset(-4);
         }
     }
-    
-    
 }
 
 void TextButton::mousePressEvent(QMouseEvent *e)

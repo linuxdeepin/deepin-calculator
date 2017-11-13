@@ -3,7 +3,7 @@
 TitleBar::TitleBar(QWidget *parent) : QWidget(parent)
 {
     layout = new QHBoxLayout(this);
-    iconWidget = new QSvgWidget(":/images/icon.svg");
+    iconWidget = new QSvgWidget(":/images/deepin-calculator.svg");
 
     iconWidget->setFixedSize(22, 22);
 

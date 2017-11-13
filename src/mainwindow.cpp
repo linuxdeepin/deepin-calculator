@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <QPainter>
+#include <QDebug>
 #include <dtitlebar.h>
 #include "dthememanager.h"
 #include "dwindowmanagerhelper.h"
@@ -140,6 +141,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     connect(pointButton, &QPushButton::clicked, this, &MainWindow::onPointButtonClicked);
     connect(modButton, &QPushButton::clicked, this, &MainWindow::onModButtonClicked);
     connect(expList, &ExpressionList::clearStateChanged, this, &MainWindow::clearButtonStateChanged);
+    connect(expList, &ExpressionList::inputKeyPressEvent, this, &MainWindow::keyPressEvent);
 }
 
 MainWindow::~MainWindow()
@@ -167,50 +169,72 @@ void MainWindow::paintEvent(QPaintEvent *)
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
-    if (e->key() == Qt::Key_0) {
+    switch (e->key()) {
+    case Qt::Key_0:
         zeroButton->animateClick();
-    } else if (e->key() == Qt::Key_1) {
+        break;
+    case Qt::Key_1:
         num1Button->animateClick();
-    } else if (e->key() == Qt::Key_2) {
+        break;
+    case Qt::Key_2:
         num2Button->animateClick();
-    } else if (e->key() == Qt::Key_3) {
+        break;
+    case Qt::Key_3:
         num3Button->animateClick();
-    } else if (e->key() == Qt::Key_4) {
+        break;
+    case Qt::Key_4:
         num4Button->animateClick();
-    } else if (e->key() == Qt::Key_5) {
+        break;
+    case Qt::Key_5:
         num5Button->animateClick();
-    } else if (e->key() == Qt::Key_6) {
+        break;
+    case Qt::Key_6:
         num6Button->animateClick();
-    } else if (e->key() == Qt::Key_7) {
+        break;
+    case Qt::Key_7:
         num7Button->animateClick();
-    } else if (e->key() == Qt::Key_8) {
+        break;
+    case Qt::Key_8:
         num8Button->animateClick();
-    } else if (e->key() == Qt::Key_9) {
+        break;
+    case Qt::Key_9:
         num9Button->animateClick();
-    } else if (e->key() == Qt::Key_Plus) {
+        break;
+    case Qt::Key_Plus:
         plusButton->animateClick();
-    } else if (e->key() == Qt::Key_Minus || e->key() == Qt::Key_Underscore) {
+        break;
+    case Qt::Key_Minus: case Qt::Key_Underscore:
         minButton->animateClick();
-    } else if (e->key() == Qt::Key_Asterisk || e->key() == Qt::Key_X) {
+        break;
+    case Qt::Key_Asterisk: case Qt::Key_X:
         multButton->animateClick();
-    } else if (e->key() == Qt::Key_Slash) {
+        break;
+    case Qt::Key_Slash:
         divButton->animateClick();
-    } else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return || e->key() == Qt::Key_Equal) {
+        break;
+    case Qt::Key_Enter: case Qt::Key_Return: case Qt::Key_Equal:
         equalButton->animateClick();
-    } else if (e->key() == Qt::Key_Backspace) {
+        break;
+    case Qt::Key_Backspace:
         backButton->animateClick();
-    } else if (e->key() == Qt::Key_Period) {
+        break;
+    case Qt::Key_Period:
         pointButton->animateClick();
-    } else if (e->key() == Qt::Key_Escape) {
+        break;
+    case Qt::Key_Escape:
         clearButton->animateClick();
-    } else if (e->key() == Qt::Key_ParenLeft || e->key() == Qt::Key_ParenRight) {
+        break;
+    case Qt::Key_ParenLeft: case Qt::Key_ParenRight:
         bracketsButton->animateClick();
-    } else if (e->key() == Qt::Key_Percent) {
+        break;
+    case Qt::Key_Percent:
         modButton->animateClick();
-    } else if (e->key() == Qt::Key_C) {
+        break;
+    case Qt::Key_C:
         if (e->modifiers() == Qt::ControlModifier) {
             expList->copyResultToClipboard();
         }
+        break;
     }
 }
 

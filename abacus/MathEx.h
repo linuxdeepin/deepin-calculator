@@ -28,31 +28,31 @@ class MathEx
 private:
     double EPS = 1e-4;
 public:
-	MathEx();
-	~MathEx();
+    MathEx();
+    ~MathEx();
 
     void set_eps(int e);
     double getRound(double d) const;
 
-	double op_add(const double &op1, const double &op2) const;
-	double op_subtract(const double &op1, const double &op2) const;
-	double op_multiply(const double &op1, const double &op2) const;
-	double op_divide(const double &op1, const double &op2) const;
-	double op_mod(const double &op1, const double &op2) const;
-	double op_pow(const double &op1, const double &op2) const;
+    double op_add(const double &op1, const double &op2) const;
+    double op_subtract(const double &op1, const double &op2) const;
+    double op_multiply(const double &op1, const double &op2) const;
+    double op_divide(const double &op1, const double &op2) const;
+    double op_mod(const double &op1, const double &op2) const;
+    double op_pow(const double &op1, const double &op2) const;
     double op_square_root(const double &op) const;
-	double op_extract_root(const double &op1, const double &op2) const;
-	double op_factorial(const double &op) const;
+    double op_extract_root(const double &op1, const double &op2) const;
+    double op_factorial(const double &op) const;
     double op_percent(const double &op) const;
     double op_degree_to_radian(const double &op) const;
-	double op_sin(const double &op) const;
-	double op_cos(const double &op) const;
-	double op_tan(const double &op) const;
-	double op_arcsin(const double &op) const;
-	double op_arccos(const double &op) const;
-	double op_arctan(const double &op) const;
-	double op_lg(const double &op) const;
-	double op_ln(const double &op) const;
+    double op_sin(const double &op) const;
+    double op_cos(const double &op) const;
+    double op_tan(const double &op) const;
+    double op_arcsin(const double &op) const;
+    double op_arccos(const double &op) const;
+    double op_arctan(const double &op) const;
+    double op_lg(const double &op) const;
+    double op_ln(const double &op) const;
 };
 
 #endif // !MATHEX_H

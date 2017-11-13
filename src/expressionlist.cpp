@@ -6,6 +6,7 @@
 #include "utils.h"
 #include "abacus/Expression.h"
 #include <QDebug>
+#include <QKeyEvent>
 
 DWIDGET_USE_NAMESPACE
 
@@ -34,7 +35,8 @@ ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
     setFixedHeight(160);
     initFontSize();
 
-    connect(inputEdit, &QLineEdit::textChanged, this, &ExpressionList::inputEditChanged);
+    connect(inputEdit, &InputEdit::textChanged, this, &ExpressionList::inputEditChanged);
+    connect(inputEdit, &InputEdit::inputKeyPressEvent, this, &ExpressionList::inputKeyPressEvent);
 }
 
 ExpressionList::~ExpressionList()
@@ -49,7 +51,7 @@ void ExpressionList::enterNumberEvent(const QString &num)
     }
 
     inputEdit->insert(num);
-
+    isAllClear = false;
     emit clearStateChanged(false);
 }
 
@@ -74,9 +76,6 @@ void ExpressionList::enterSymbolEvent(const QString &str)
 
     inputEdit->insert(str);
     isContinue = true;
-    isAllClear = false;
-
-    emit clearStateChanged(false);
 }
 
 void ExpressionList::enterBracketsEvent()
@@ -89,6 +88,7 @@ void ExpressionList::enterBackspaceEvent()
     inputEdit->backspace();
 
     isContinue = true;
+    isAllClear = false;
 }
 
 void ExpressionList::enterClearEvent()
@@ -105,7 +105,6 @@ void ExpressionList::enterClearEvent()
         initFontSize();
         emit clearStateChanged(true);
     }
-
 }
 
 void ExpressionList::enterEqualEvent()
@@ -117,13 +116,13 @@ void ExpressionList::enterEqualEvent()
     Expression e(formatExp(inputEdit->text()).toStdString(), 10);
 
     try {
-        const QString result = QString::number(e.getResult());
+        const QString result = QString::number(e.getResult()).replace("-", "－");
 
         if (inputEdit->text() == result) {
             return;
         }
 
-        listView->addItem(inputEdit->text() + " = " + result);
+        listView->addItem(inputEdit->text() + " ＝ " + result);
         inputEdit->setText(result);
 
         isContinue = false;
@@ -160,38 +159,29 @@ void ExpressionList::inputEditChanged(const QString &text)
                                     .replace("。", "."));
     inputEdit->setCursorPosition(currentPos);
 
-    // make font size of inputEdit fit text content.
-    QFontMetrics fm = inputEdit->fontMetrics();
-    int w = fm.boundingRect(inputEdit->text()).width();
+    // // make font size of inputEdit fit text content.
+    // QFontMetrics fm = inputEdit->fontMetrics();
+    // int w = fm.boundingRect(inputEdit->text()).width();
 
-    if (w >= inputEdit->width() - 30) {
-        fontSize -= 2;
-        QFont font;
-        font.setPointSize(qMax(fontSize, minFontSize));
-        inputEdit->setFont(font);
-    }
-
-    // get current input char.
-    QChar currentInputChar = formatExp(inputEdit->text()).at(currentPos - 1);
-
-    if (currentInputChar == '+' || currentInputChar == '-' || currentInputChar == '*' || currentInputChar == '/') {
-        isContinue = true;
-    } else if (currentInputChar == '0' || currentInputChar == '1' || currentInputChar == '2' || currentInputChar == '3' || currentInputChar == '4' || currentInputChar == '5' || currentInputChar == '6' || currentInputChar == '7' || currentInputChar == '8' || currentInputChar == '9' || currentInputChar == '.') {
-        if (!isContinue) {
-            inputEdit->clear();
-            isContinue = true;
-        }
-    }
+    // if (w >= inputEdit->width() - 30) {
+    //     fontSize -= 2;
+    //     QFont font;
+    //     font.setPointSize(qMax(fontSize, minFontSize));
+    //     inputEdit->setFont(font);
+    // }
 
     // when text is empty, the clear button status will changed.
-    if (text.isEmpty()) {
-        isAllClear = true;
-        initFontSize();
-        emit clearStateChanged(true);
-    } else {
-        isAllClear = false;
-        emit clearStateChanged(false);
-    }
+    // if (text.isEmpty()) {
+    //     isAllClear = true;
+    //     initFontSize();
+    //     emit clearStateChanged(true);
+    // } else {
+    //     isAllClear = false;
+    //     emit clearStateChanged(false);
+    // }
+
+    isAllClear = false;
+    emit clearStateChanged(false);
 }
 
 void ExpressionList::initFontSize()

@@ -36,8 +36,8 @@ QLineEdit {
 #SymbolButton:hover {
     font-weight: 500;
     font-size: 24px;
-    background-color: #FFFFFF;
     border: 1px solid #A7E0FF;
+    background-color: #FFFFFF;
 }
 #SymbolButton:pressed {
     font-weight: 400;
