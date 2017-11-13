@@ -160,8 +160,9 @@ void MainWindow::paintEvent(QPaintEvent *)
     painter.setBrush(QColor(separatorColor));
     painter.drawRect(QRect(0, titlebar()->height() + expList->height(), width(), 1));
 
+    const int buttonsTotalHeight = height() - titlebar()->height() - expList->height();
     painter.setBrush(backgroundColor);
-    painter.drawRect(QRect(0, titlebar()->height() + expList->height(), width(), height()));
+    painter.drawRect(QRect(0, height() - buttonsTotalHeight + 1, width(), buttonsTotalHeight));
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
@@ -260,7 +261,7 @@ void MainWindow::changeTheme(QString theme)
         backButton->setIconSize(QSize(30, 23));
     } else {
         titlebarColor = "#111111";
-        separatorColor = "#454545";
+        separatorColor = "#303030";
         backgroundColor = QColor("#2D2D2D");
         backButton->setIcon(QIcon(":/images/delete_dark_normal.svg"));
         backButton->setIconSize(QSize(30, 23));

@@ -2,6 +2,7 @@
 #define DISPLAYAREA_H
 
 #include <QWidget>
+#include <QVBoxLayout>
 #include <QLineEdit>
 #include "listview.h"
 
@@ -23,17 +24,23 @@ public:
     void copyResultToClipboard();
     int getItemsCount();
 
+private slots:
+    void inputEditChanged(const QString &text);
+
 signals:
     void clearStateChanged(bool isAllClear);
 
 private:
+    int defaultFontSize;
+    int minFontSize;
+    int fontSize;
     bool isLeftBracket;
     bool isContinue;
     bool isAllClear;
-
+    QVBoxLayout *layout;
     ListView *listView;
     QLineEdit *inputEdit;
-    QString getResult();
+    void initFontSize();
     QString formatExp(const QString &exp);
     QChar getLastChar();
     bool lastCharIsNumber();

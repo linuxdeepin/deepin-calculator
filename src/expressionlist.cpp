@@ -11,7 +11,7 @@ DWIDGET_USE_NAMESPACE
 
 ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
 {
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    layout = new QVBoxLayout(this);
     listView = new ListView;
     inputEdit = new QLineEdit;
 
@@ -20,18 +20,23 @@ ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
     layout->addWidget(listView);
     layout->addWidget(inputEdit);
 
+    inputEdit->setTextMargins(10, 0, 10, 8);
     inputEdit->setFixedHeight(55);
     inputEdit->setAlignment(Qt::AlignRight);
     inputEdit->setReadOnly(true);
-    inputEdit->setFocusPolicy(Qt::NoFocus);
-    inputEdit->setEnabled(false);
     inputEdit->setText("0");
 
+    defaultFontSize = 25;
+    minFontSize = 15;
+    fontSize = defaultFontSize;
     isLeftBracket = true;
     isContinue = true;
     isAllClear = false;
 
     setFixedHeight(160);
+    initFontSize();
+
+    connect(inputEdit, &QLineEdit::textChanged, this, &ExpressionList::inputEditChanged);
 }
 
 ExpressionList::~ExpressionList()
@@ -81,6 +86,7 @@ void ExpressionList::enterSymbolEvent(const QString &str)
 
 void ExpressionList::enterBracketsEvent()
 {
+
 }
 
 void ExpressionList::enterBackspaceEvent()
@@ -108,6 +114,8 @@ void ExpressionList::enterClearEvent()
 
         emit clearStateChanged(true);
     }
+
+    initFontSize();
 }
 
 void ExpressionList::enterEqualEvent()
@@ -150,9 +158,25 @@ int ExpressionList::getItemsCount()
     return listView->getItemsCount();
 }
 
-QString ExpressionList::getResult()
+void ExpressionList::inputEditChanged(const QString &text)
 {
+    QFontMetrics fm = inputEdit->fontMetrics();
+    int w = fm.boundingRect(text).width();
 
+    if (w > inputEdit->width() - 20) {
+        fontSize -= 2;
+        QFont font;
+        font.setPointSize(qMax(fontSize, minFontSize));
+        inputEdit->setFont(font);
+    }
+}
+
+void ExpressionList::initFontSize()
+{
+    fontSize = defaultFontSize;
+    QFont font;
+    font.setPointSize(fontSize);
+    inputEdit->setFont(font);
 }
 
 QString ExpressionList::formatExp(const QString &exp)
