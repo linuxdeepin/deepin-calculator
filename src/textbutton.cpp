@@ -55,6 +55,13 @@ void TextButton::initShadow()
     }
 }
 
+void TextButton::mouseMoveEvent(QMouseEvent *e)
+{
+    showShadowEffect();
+
+    QPushButton::mouseMoveEvent(e);
+}
+
 void TextButton::mousePressEvent(QMouseEvent *e)
 {
     hideShadowEffect();
@@ -71,7 +78,7 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
 
 void TextButton::enterEvent(QEvent *e)
 {
-    showShadowEffect();
+    // showShadowEffect();
 
     QPushButton::enterEvent(e);
 }
@@ -80,7 +87,7 @@ void TextButton::leaveEvent(QEvent *e)
 {
     hideShadowEffect();
 
-    QPushButton::leaveEvent(e);
+    // QPushButton::leaveEvent(e);
 }
 
 void TextButton::showShadowEffect()

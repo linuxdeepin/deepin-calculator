@@ -8,7 +8,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Deepin calculator is an easy to use calculator for ordinary user.</source>
+        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication, division and remainder.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -19,7 +19,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Dark theme</source>
+        <source>Dark Theme</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

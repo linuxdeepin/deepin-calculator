@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     app.setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-calculator");
     app.setProductIcon(QIcon(":/images/deepin-calculator.svg"));
     app.setProductName(DApplication::translate("Main", "Deepin Calculator"));
-    app.setApplicationDescription(DApplication::translate("Main", "Deepin calculator is an easy to use calculator for ordinary user."));
+    app.setApplicationDescription(DApplication::translate("Main", "Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication, division and remainder."));
 
     MainWindow w;
     w.show();

@@ -68,7 +68,7 @@ MainWindow::MainWindow(DMainWindow *parent)
 
     if (titlebar()) {
         menu = new QMenu;
-        themeAction = new QAction(tr("Dark theme"), this);
+        themeAction = new QAction(tr("Dark Theme"), this);
         themeAction->setCheckable(true);
 
         menu->addAction(themeAction);
