@@ -9,8 +9,8 @@ BackButton::BackButton(QWidget *parent)
     init();
 
     connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, [=] {
-                                                                               init();
-                                                                           });
+        init();
+    });
 }
 
 BackButton::~BackButton()

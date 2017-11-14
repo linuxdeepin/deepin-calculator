@@ -14,6 +14,8 @@ public:
     ExpressionList(QWidget *parent=0);
     ~ExpressionList();
 
+    void setContinue(const bool &mark);
+
 public slots:
     void enterNumberEvent(const QString &num);
     void enterPointEvent();

@@ -14,7 +14,6 @@ public:
 
 protected:
     void initShadow();
-    void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     void enterEvent(QEvent *);

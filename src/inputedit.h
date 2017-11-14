@@ -15,6 +15,7 @@ signals:
     void inputKeyPressEvent(QKeyEvent *e);
 
 protected:
+    void mouseDoubleClickEvent(QMouseEvent *);
     void keyPressEvent(QKeyEvent *);
 };
 

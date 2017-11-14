@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <QPainter>
-#include <QDebug>
+#include <QTimer>
 #include <dtitlebar.h>
 #include "dthememanager.h"
 #include "dwindowmanagerhelper.h"
@@ -225,7 +225,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         clearButton->animateClick();
         break;
     case Qt::Key_ParenLeft: case Qt::Key_ParenRight:
-        bracketsButton->animateClick();
+        expList->setContinue(true);
+        bracketsButton->setDown(true);
+        QTimer::singleShot(100, this, [=] {  bracketsButton->setDown(false);  });
         break;
     case Qt::Key_Percent:
         modButton->animateClick();

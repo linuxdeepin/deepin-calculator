@@ -43,6 +43,11 @@ ExpressionList::~ExpressionList()
 {
 }
 
+void ExpressionList::setContinue(const bool &mark)
+{
+    isContinue = mark;
+}
+
 void ExpressionList::enterNumberEvent(const QString &num)
 {
     if (!isContinue || inputEdit->text() == "0") {
@@ -66,21 +71,32 @@ void ExpressionList::enterPointEvent()
 
 void ExpressionList::enterSymbolEvent(const QString &str)
 {
-    if (lastCharIsSymbol()) {
-        enterBackspaceEvent();
-    } else if (lastCharIsPoint() || lastCharIsLeftBracket()) {
-        inputEdit->insert("0");
-    } else if (str == "－" && inputEdit->text() == "0") {
-        inputEdit->clear();
-    }
-
     inputEdit->insert(str);
     isContinue = true;
 }
 
 void ExpressionList::enterBracketsEvent()
 {
+    if (isLeftBracket) {
+        if (lastCharIsNumber()) {
+            inputEdit->insert("×");
+        } else if (lastCharIsPoint()) {
+            inputEdit->insert("0×");
+        }
 
+        inputEdit->insert("(");
+        isLeftBracket = false;
+    } else {
+        if (lastCharIsPoint() || lastCharIsSymbol()) {
+            inputEdit->insert("0");
+        }
+
+        inputEdit->insert(")");
+        isLeftBracket = true;
+    }
+
+    isContinue = true;
+    isAllClear = false;
 }
 
 void ExpressionList::enterBackspaceEvent()
@@ -105,6 +121,8 @@ void ExpressionList::enterClearEvent()
         initFontSize();
         emit clearStateChanged(true);
     }
+
+    isLeftBracket = true;
 }
 
 void ExpressionList::enterEqualEvent()

@@ -19,8 +19,8 @@ TextButton::TextButton(const QString &text, QWidget *parent)
     hideShadowEffect();
 
     connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, [=] {
-                                                                            initShadow();
-                                                                           });
+        initShadow();
+    });
 }
 
 TextButton::~TextButton()
@@ -55,13 +55,6 @@ void TextButton::initShadow()
     }
 }
 
-void TextButton::mouseMoveEvent(QMouseEvent *e)
-{
-    showShadowEffect();
-
-    QPushButton::mouseMoveEvent(e);
-}
-
 void TextButton::mousePressEvent(QMouseEvent *e)
 {
     hideShadowEffect();
@@ -78,7 +71,7 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
 
 void TextButton::enterEvent(QEvent *e)
 {
-    // showShadowEffect();
+    showShadowEffect();
 
     QPushButton::enterEvent(e);
 }
@@ -87,7 +80,7 @@ void TextButton::leaveEvent(QEvent *e)
 {
     hideShadowEffect();
 
-    // QPushButton::leaveEvent(e);
+    QPushButton::leaveEvent(e);
 }
 
 void TextButton::showShadowEffect()
