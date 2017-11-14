@@ -19,6 +19,7 @@ HEADERS += abacus/Expression.h \
            src/mainwindow.h \
            src/settings.h \
            src/textbutton.h \
+	   src/backbutton.h \
            src/titlebar.h \
            src/utils.h \
 	   src/inputedit.h
@@ -31,6 +32,7 @@ SOURCES += abacus/Expression.cpp \
            src/mainwindow.cpp \
            src/settings.cpp \
            src/textbutton.cpp \
+	   src/backbutton.cpp \
            src/titlebar.cpp \
            src/utils.cpp \
 	   src/inputedit.cpp

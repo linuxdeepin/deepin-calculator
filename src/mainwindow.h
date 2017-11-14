@@ -8,6 +8,7 @@
 #include "titlebar.h"
 #include "expressionlist.h"
 #include "textbutton.h"
+#include "backbutton.h"
 #include "settings.h"
 
 DWIDGET_USE_NAMESPACE
@@ -29,7 +30,7 @@ private:
     TitleBar *titleBar;
     ExpressionList *expList;
     TextButton *clearButton;
-    TextButton *backButton;
+    BackButton *backButton;
     TextButton *modButton;
     TextButton *divButton;
     TextButton *num7Button;

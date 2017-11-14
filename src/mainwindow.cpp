@@ -16,7 +16,7 @@ MainWindow::MainWindow(DMainWindow *parent)
     titleBar = new TitleBar;
     expList = new ExpressionList;
     clearButton = new TextButton("C");
-    backButton = new TextButton("");
+    backButton = new BackButton;
     modButton = new TextButton("%");
     divButton = new TextButton("÷");
     num7Button = new TextButton("7");
@@ -281,14 +281,10 @@ void MainWindow::changeTheme(QString theme)
         titlebarColor = "#FBFBFB";
         separatorColor = "#E1E1E1";
         backgroundColor = QColor(0, 0, 0, 0.05 * 255);
-        backButton->setIcon(QIcon(":/images/delete_normal.svg"));
-        backButton->setIconSize(QSize(30, 23));
     } else {
         titlebarColor = "#111111";
         separatorColor = "#303030";
         backgroundColor = QColor("#2D2D2D");
-        backButton->setIcon(QIcon(":/images/delete_dark_normal.svg"));
-        backButton->setIconSize(QSize(30, 23));
     }
 
     initThemeAction();

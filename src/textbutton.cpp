@@ -3,7 +3,8 @@
 
 DWIDGET_USE_NAMESPACE
 
-TextButton::TextButton(const QString &text)
+TextButton::TextButton(const QString &text, QWidget *parent)
+    : QPushButton(parent)
 {
     effect = new QGraphicsDropShadowEffect(this);
 
@@ -18,8 +19,8 @@ TextButton::TextButton(const QString &text)
     hideShadowEffect();
 
     connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, [=] {
-        initShadow();
-    });
+                                                                            initShadow();
+                                                                           });
 }
 
 TextButton::~TextButton()
