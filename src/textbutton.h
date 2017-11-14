@@ -12,14 +12,15 @@ public:
     TextButton(const QString &text, QWidget *parent = 0);
     ~TextButton();
 
+    void showShadowEffect();
+    void hideShadowEffect();
+
 protected:
     void initShadow();
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
-    void showShadowEffect();
-    void hideShadowEffect();
 
 private:
     QGraphicsDropShadowEffect *effect;

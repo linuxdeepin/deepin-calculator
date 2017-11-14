@@ -50,22 +50,19 @@ void ExpressionList::setContinue(const bool &mark)
 
 void ExpressionList::enterNumberEvent(const QString &num)
 {
-    if (!isContinue || inputEdit->text() == "0") {
+    if (!isContinue) {
         inputEdit->setText("");
         isContinue = true;
     }
 
     inputEdit->insert(num);
     isAllClear = false;
+
     emit clearStateChanged(false);
 }
 
 void ExpressionList::enterPointEvent()
 {
-    if (lastCharIsSymbol()) {
-        inputEdit->insert("0");
-    }
-
     inputEdit->insert(".");
 }
 
@@ -78,19 +75,9 @@ void ExpressionList::enterSymbolEvent(const QString &str)
 void ExpressionList::enterBracketsEvent()
 {
     if (isLeftBracket) {
-        if (lastCharIsNumber()) {
-            inputEdit->insert("×");
-        } else if (lastCharIsPoint()) {
-            inputEdit->insert("0×");
-        }
-
         inputEdit->insert("(");
         isLeftBracket = false;
     } else {
-        if (lastCharIsPoint() || lastCharIsSymbol()) {
-            inputEdit->insert("0");
-        }
-
         inputEdit->insert(")");
         isLeftBracket = true;
     }
@@ -174,7 +161,7 @@ void ExpressionList::inputEditChanged(const QString &text)
     inputEdit->setText(QString(text).replace("+", "＋").replace("-", "－")
                                     .replace(QRegExp("[x|X|*]"), "×").replace("/", "÷")
                                     .replace("（", "(").replace("）", ")")
-                                    .replace("。", "."));
+                                    .replace("。", ".").replace("——", "－"));
     inputEdit->setCursorPosition(currentPos);
 
     // // make font size of inputEdit fit text content.

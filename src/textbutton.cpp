@@ -24,7 +24,18 @@ TextButton::TextButton(const QString &text, QWidget *parent)
 }
 
 TextButton::~TextButton()
+{;
+}
+
+void TextButton::showShadowEffect()
 {
+    effect->setEnabled(true);
+    raise();
+}
+
+void TextButton::hideShadowEffect()
+{
+    effect->setEnabled(false);
 }
 
 void TextButton::initShadow()
@@ -83,13 +94,3 @@ void TextButton::leaveEvent(QEvent *e)
     QPushButton::leaveEvent(e);
 }
 
-void TextButton::showShadowEffect()
-{
-    effect->setEnabled(true);
-    raise();
-}
-
-void TextButton::hideShadowEffect()
-{
-    effect->setEnabled(false);
-}

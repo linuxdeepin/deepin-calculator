@@ -36,7 +36,7 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
     case Qt::Key_4: case Qt::Key_5: case Qt::Key_6: case Qt::Key_7:
     case Qt::Key_8: case Qt::Key_9: case Qt::Key_Plus: case Qt::Key_Minus:
     case Qt::Key_Underscore: case Qt::Key_Asterisk: case Qt::Key_X: case Qt::Key_Slash:
-    case Qt::Key_Backspace: case Qt::Key_Period: case Qt::Key_Percent:
+    case Qt::Key_Backspace: case Qt::Key_Period: case Qt::Key_Percent: case Qt::Key_Equal:
         emit inputKeyPressEvent(e);
         return;
         break;
