@@ -1,9 +1,11 @@
 #include "inputedit.h"
 #include <QKeyEvent>
 #include <QDebug>
+#include <QRegExpValidator>
 
 InputEdit::InputEdit(QLineEdit *parent) : QLineEdit(parent)
 {
+    setValidator(new QRegExpValidator(QRegExp("[0-9|+|-|*|/|＋|－|×|÷|.|(|)|%]+"), this));
     setAttribute(Qt::WA_InputMethodEnabled, false);
 }
 
@@ -13,15 +15,15 @@ InputEdit::~InputEdit()
 
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    if (e->button() == Qt::LeftButton) {
-        const QString text = this->text();
-        QFontMetrics fm(this->fontMetrics());
+    // if (e->button() == Qt::LeftButton) {
+    //     const QString text = this->text();
+    //     QFontMetrics fm(this->fontMetrics());
 
-        int cursorPos = cursorPositionAt(QPoint(e->x(), e->y()));  // or cursorPosition()
-        QStringList list = text.split("[1-9]");
+    //     int cursorPos = cursorPositionAt(QPoint(e->x(), e->y()));  // or cursorPosition()
+    //     QStringList list = text.split("[1-9]");
 
-        qDebug() << list;
-    }
+    //     qDebug() << list;
+    // }
 
     // setSelection(0 , 1);
     // QLineEdit::mouseDoubleClickEvent(e);

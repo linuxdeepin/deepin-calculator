@@ -54,14 +54,17 @@ QString ExpressionList::getInputEditText() const
     return inputEdit->text();
 }
 
-void ExpressionList::enterNumberEvent(const QString &num)
+void ExpressionList::enterNumberEvent(const QString &num, bool isKeyPress)
 {
     if (!isContinue) {
         inputEdit->setText("");
         isContinue = true;
     }
 
-    inputEdit->insert(num);
+    if (!isKeyPress) {
+        inputEdit->insert(num);
+    }
+
     isAllClear = false;
 
     emit clearStateChanged(false);
@@ -120,10 +123,6 @@ void ExpressionList::enterClearEvent()
 
 void ExpressionList::enterEqualEvent()
 {
-    if (inputEdit->text() == "0" || inputEdit->text().isEmpty() || !isContinue || lastCharIsLeftBracket() || lastCharIsPoint()) {
-        return;
-    }
-
     Expression e(formatExp(inputEdit->text()).toStdString(), 10);
 
     try {
@@ -140,8 +139,8 @@ void ExpressionList::enterEqualEvent()
     } catch (runtime_error err) {
         inputEdit->setStyleSheet("QLineEdit { color: #FB6A6A }");
         QTimer::singleShot(200, this, [=] {
-                                          inputEdit->setStyleSheet("QLineEdit { color: 000000; }");
-                                      });
+            inputEdit->setStyleSheet("QLineEdit { color: 000000; }");
+        });
     }
 }
 
@@ -195,6 +194,7 @@ void ExpressionList::inputEditChanged(const QString &text)
     // }
 
     isAllClear = false;
+
     emit clearStateChanged(false);
 }
 

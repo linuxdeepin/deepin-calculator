@@ -18,7 +18,7 @@ public:
     QString getInputEditText() const;
 
 public slots:
-    void enterNumberEvent(const QString &num);
+    void enterNumberEvent(const QString &num, bool isKeyPress = false);
     void enterPointEvent();
     void enterSymbolEvent(const QString &str);
     void enterBracketsEvent();

@@ -171,42 +171,52 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 {
     switch (e->key()) {
     case Qt::Key_0:
+        expList->enterNumberEvent(nullptr, true);
         zeroButton->setDown(true);
         QTimer::singleShot(100, [=] { zeroButton->setDown(false); });
         break;
     case Qt::Key_1:
+        expList->enterNumberEvent(nullptr, true);
         num1Button->setDown(true);
         QTimer::singleShot(100, [=] { num1Button->setDown(false); });
         break;
     case Qt::Key_2:
+        expList->enterNumberEvent(nullptr, true);
         num2Button->setDown(true);
         QTimer::singleShot(100, [=] { num2Button->setDown(false); });
         break;
     case Qt::Key_3:
+        expList->enterNumberEvent(nullptr, true);
         num3Button->setDown(true);
         QTimer::singleShot(100, [=] { num3Button->setDown(false); });
         break;
     case Qt::Key_4:
+        expList->enterNumberEvent(nullptr, true);
         num4Button->setDown(true);
         QTimer::singleShot(100, [=] { num4Button->setDown(false); });
         break;
     case Qt::Key_5:
+        expList->enterNumberEvent(nullptr, true);
         num5Button->setDown(true);
         QTimer::singleShot(100, [=] { num5Button->setDown(false); });
         break;
     case Qt::Key_6:
+        expList->enterNumberEvent(nullptr, true);
         num6Button->setDown(true);
         QTimer::singleShot(100, [=] { num6Button->setDown(false); });
         break;
     case Qt::Key_7:
+        expList->enterNumberEvent(nullptr, true);
         num7Button->setDown(true);
         QTimer::singleShot(100, [=] { num7Button->setDown(false); });
         break;
     case Qt::Key_8:
+        expList->enterNumberEvent(nullptr, true);
         num8Button->setDown(true);
         QTimer::singleShot(100, [=] { num8Button->setDown(false); });
         break;
     case Qt::Key_9:
+        expList->enterNumberEvent(nullptr, true);
         num9Button->setDown(true);
         QTimer::singleShot(100, [=] { num9Button->setDown(false); });
         break;
@@ -228,7 +238,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Backspace:
         if (!expList->getInputEditText().isEmpty()) {
             backButton->setDown(true);
-            QTimer::singleShot(100, [=] { backButton->setDown(false); });            
+            QTimer::singleShot(100, [=] { backButton->setDown(false); });
         }
         break;
     case Qt::Key_Period:
