@@ -23,8 +23,8 @@ void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 
         qDebug() << list;
     }
-    // setSelection(0 , 1);
 
+    // setSelection(0 , 1);
     // QLineEdit::mouseDoubleClickEvent(e);
 }
 
@@ -47,8 +47,10 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
 
     case Qt::Key_C:
         if (e->modifiers() == Qt::ControlModifier) {
-            emit inputKeyPressEvent(e);
-            return;
+            if (!hasSelectedText()) {
+                emit inputKeyPressEvent(e);
+                return;
+            }
         }
         break;
     }
