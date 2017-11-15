@@ -7,6 +7,7 @@
 #include "abacus/Expression.h"
 #include <QDebug>
 #include <QKeyEvent>
+#include <QTimer>
 
 DWIDGET_USE_NAMESPACE
 
@@ -132,7 +133,10 @@ void ExpressionList::enterEqualEvent()
 
         isContinue = false;
     } catch (runtime_error err) {
-        qDebug() << err.what();
+        inputEdit->setStyleSheet("QLineEdit { color: #FB6A6A }");
+        QTimer::singleShot(200, this, [=] {
+                                          inputEdit->setStyleSheet("QLineEdit { color: 000000; }");
+                                      });
     }
 }
 

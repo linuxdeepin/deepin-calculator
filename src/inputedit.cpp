@@ -1,11 +1,10 @@
 #include "inputedit.h"
 #include <QKeyEvent>
 #include <QDebug>
-#include <QFontMetrics>
 
 InputEdit::InputEdit(QLineEdit *parent) : QLineEdit(parent)
 {
-
+    setAttribute(Qt::WA_InputMethodEnabled, false);
 }
 
 InputEdit::~InputEdit()
@@ -37,6 +36,7 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
     case Qt::Key_8: case Qt::Key_9: case Qt::Key_Plus: case Qt::Key_Minus:
     case Qt::Key_Underscore: case Qt::Key_Asterisk: case Qt::Key_X: case Qt::Key_Slash:
     case Qt::Key_Backspace: case Qt::Key_Period: case Qt::Key_Percent: case Qt::Key_Equal:
+    case Qt::Key_Escape: case Qt::Key_Enter: case Qt::Key_Return:
         emit inputKeyPressEvent(e);
         return;
         break;
@@ -50,10 +50,21 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
             if (!hasSelectedText()) {
                 emit inputKeyPressEvent(e);
                 return;
+            } else {
+                QLineEdit::keyPressEvent(e);
             }
+        }
+        break;
+
+    case Qt::Key_Left: case Qt::Key_Right: case Qt::Key_Home: case Qt::Key_End:
+        QLineEdit::keyPressEvent(e);
+        break;
+
+    case Qt::Key_A:
+        if (e->modifiers() == Qt::ControlModifier) {
+            QLineEdit::keyPressEvent(e);
         }
         break;
     }
 
-    QLineEdit::keyPressEvent(e);
 }
