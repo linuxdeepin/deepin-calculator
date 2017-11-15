@@ -87,7 +87,7 @@ MainWindow::MainWindow(DMainWindow *parent)
         });
     }
 
-    setWindowIcon(QIcon(":/images/icon.svg"));
+    setWindowIcon(QIcon(":/images/deepin-calculator.svg"));
     setWindowTitle(tr("Deepin Calculator"));
     setFixedSize(322, 495);
     setCentralWidget(mainWidget);

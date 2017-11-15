@@ -43,13 +43,13 @@ void ListView::initTheme()
 
 void ListView::addItem(const QString &text)
 {
-    if (!listItems.isEmpty()) {
-        if (text == listItems.last())
+    for (const QString &itemStr : listItems) {
+        if (itemStr == text) {
             return;
+        }
     }
 
     listItems << text;
-
     scrollToBottom();
 }
 
