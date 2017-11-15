@@ -15,6 +15,7 @@ public:
     ~ExpressionList();
 
     void setContinue(const bool &mark);
+    QString getInputEditText() const;
 
 public slots:
     void enterNumberEvent(const QString &num);

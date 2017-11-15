@@ -171,34 +171,44 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 {
     switch (e->key()) {
     case Qt::Key_0:
-        zeroButton->animateClick();
+        zeroButton->setDown(true);
+        QTimer::singleShot(100, [=] { zeroButton->setDown(false); });
         break;
     case Qt::Key_1:
-        num1Button->animateClick();
+        num1Button->setDown(true);
+        QTimer::singleShot(100, [=] { num1Button->setDown(false); });
         break;
     case Qt::Key_2:
-        num2Button->animateClick();
+        num2Button->setDown(true);
+        QTimer::singleShot(100, [=] { num2Button->setDown(false); });
         break;
     case Qt::Key_3:
-        num3Button->animateClick();
+        num3Button->setDown(true);
+        QTimer::singleShot(100, [=] { num3Button->setDown(false); });
         break;
     case Qt::Key_4:
-        num4Button->animateClick();
+        num4Button->setDown(true);
+        QTimer::singleShot(100, [=] { num4Button->setDown(false); });
         break;
     case Qt::Key_5:
-        num5Button->animateClick();
+        num5Button->setDown(true);
+        QTimer::singleShot(100, [=] { num5Button->setDown(false); });
         break;
     case Qt::Key_6:
-        num6Button->animateClick();
+        num6Button->setDown(true);
+        QTimer::singleShot(100, [=] { num6Button->setDown(false); });
         break;
     case Qt::Key_7:
-        num7Button->animateClick();
+        num7Button->setDown(true);
+        QTimer::singleShot(100, [=] { num7Button->setDown(false); });
         break;
     case Qt::Key_8:
-        num8Button->animateClick();
+        num8Button->setDown(true);
+        QTimer::singleShot(100, [=] { num8Button->setDown(false); });
         break;
     case Qt::Key_9:
-        num9Button->animateClick();
+        num9Button->setDown(true);
+        QTimer::singleShot(100, [=] { num9Button->setDown(false); });
         break;
     case Qt::Key_Plus:
         plusButton->animateClick();
@@ -216,7 +226,10 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         equalButton->animateClick();
         break;
     case Qt::Key_Backspace:
-        backButton->animateClick();
+        if (!expList->getInputEditText().isEmpty()) {
+            backButton->setDown(true);
+            QTimer::singleShot(100, [=] { backButton->setDown(false); });            
+        }
         break;
     case Qt::Key_Period:
         pointButton->animateClick();
@@ -227,7 +240,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     case Qt::Key_ParenLeft: case Qt::Key_ParenRight:
         expList->setContinue(true);
         bracketsButton->setDown(true);
-        QTimer::singleShot(100, this, [=] {  bracketsButton->setDown(false);  });
+        QTimer::singleShot(100, this, [=] { bracketsButton->setDown(false); });
         break;
     case Qt::Key_Percent:
         modButton->animateClick();

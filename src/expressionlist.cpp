@@ -49,6 +49,11 @@ void ExpressionList::setContinue(const bool &mark)
     isContinue = mark;
 }
 
+QString ExpressionList::getInputEditText() const
+{
+    return inputEdit->text();
+}
+
 void ExpressionList::enterNumberEvent(const QString &num)
 {
     if (!isContinue) {
@@ -168,7 +173,7 @@ void ExpressionList::inputEditChanged(const QString &text)
                                     .replace("。", ".").replace("——", "－"));
     inputEdit->setCursorPosition(currentPos);
 
-    // // make font size of inputEdit fit text content.
+    // make font size of inputEdit fit text content.
     // QFontMetrics fm = inputEdit->fontMetrics();
     // int w = fm.boundingRect(inputEdit->text()).width();
 
