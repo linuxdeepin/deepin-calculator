@@ -1,11 +1,10 @@
 #include "inputedit.h"
 #include <QKeyEvent>
 #include <QDebug>
-#include <QRegExpValidator>
 
 InputEdit::InputEdit(QLineEdit *parent) : QLineEdit(parent)
 {
-    setValidator(new QRegExpValidator(QRegExp("[0-9|+|-|*|/|＋|－|×|÷|.|(|)|%]+"), this));
+    // setValidator(new QRegExpValidator(QRegExp("[0-9|+|-|*|/|＋|－|×|÷|.|(|)|%|x|X]+|（|）"), this));
     setAttribute(Qt::WA_InputMethodEnabled, false);
 }
 
@@ -26,7 +25,7 @@ void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
     // }
 
     // setSelection(0 , 1);
-    // QLineEdit::mouseDoubleClickEvent(e);
+    QLineEdit::mouseDoubleClickEvent(e);
 }
 
 void InputEdit::keyPressEvent(QKeyEvent *e)
@@ -87,6 +86,12 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
             QLineEdit::keyPressEvent(e);
         } else {
             emit inputKeyPressEvent(e);
+        }
+        break;
+
+    case Qt::Key_Z:
+        if (isPressCtrl) {
+            QLineEdit::keyPressEvent(e);
         }
         break;
 

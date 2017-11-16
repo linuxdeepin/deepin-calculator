@@ -167,15 +167,14 @@ void ListView::wheelEvent(QWheelEvent *e)
         return;
     }
 
-    if (e->delta() == -120) {
-        offset = adjustOffset(offset + rowHeight);
-    } else {
-        offset = adjustOffset(offset - rowHeight);
+    if (e->orientation() == Qt::Vertical) {
+        qreal scrollStep = e->angleDelta().y() / 120.0;
+        offset = adjustOffset(offset - scrollStep * rowHeight);
+        isShowScrollbar = true;
+        update();
     }
 
-    isShowScrollbar = true;
-
-    update();
+    e->accept();
 }
 
 void ListView::leaveEvent(QEvent *)
@@ -192,7 +191,7 @@ int ListView::getItemsTotalHeight()
 
 int ListView::getScrollbarHeight()
 {
-    return qMax(scrollbarMinHeight, static_cast<int>(rect().height() * 1.0 / getItemsTotalHeight() * rect().height()));
+    return (rect().height() * 1.0) / getItemsTotalHeight() * rect().height();
 }
 
 int ListView::getScrollbarX()

@@ -4,7 +4,6 @@
 #include "dthememanager.h"
 #include "expressionlist.h"
 #include "utils.h"
-#include "abacus/Expression.h"
 #include <QDebug>
 #include <QKeyEvent>
 #include <QTimer>
@@ -13,6 +12,7 @@ DWIDGET_USE_NAMESPACE
 
 ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
 {
+    eval = Evaluator::instance();
     layout = new QVBoxLayout(this);
     listView = new ListView;
     inputEdit = new InputEdit;
@@ -83,13 +83,15 @@ void ExpressionList::enterSymbolEvent(const QString &str)
 
 void ExpressionList::enterBracketsEvent()
 {
-    if (isLeftBracket) {
-        inputEdit->insert("(");
-        isLeftBracket = false;
-    } else {
-        inputEdit->insert(")");
-        isLeftBracket = true;
-    }
+    // if (isLeftBracket) {
+    //     inputEdit->insert("(");
+    //     isLeftBracket = false;
+    // } else {
+    //     inputEdit->insert(")");
+    //     isLeftBracket = true;
+    // }
+
+    int curPos = inputEdit->cursorPosition();
 
     isContinue = true;
     isAllClear = false;
@@ -123,35 +125,38 @@ void ExpressionList::enterClearEvent()
 
 void ExpressionList::enterEqualEvent()
 {
-    Expression e(formatExp(inputEdit->text()).toStdString(), 10);
+    const auto str = eval->autoFix(formatExp(inputEdit->text()));
+    eval->setExpression(str);
+    auto quantity = eval->evalNoAssign();
 
-    try {
-        const QString result = QString::number(e.getResult()).replace("-", "－");
+    if (eval->error().isEmpty()) {
+        if (quantity.isNan() && eval->isUserFunctionAssign()) {
 
-        if (inputEdit->text() == result) {
-            return;
+        } else {
+            const QString result = DMath::format(eval->evalUpdateAns(), Quantity::Format::Precision(2));
+            if (result == inputEdit->text()) {
+                return;
+            }
+            listView->addItem(inputEdit->text() + " ＝ " + result);
+            inputEdit->setText(result);
+            isContinue = false;
         }
-
-        listView->addItem(inputEdit->text() + " ＝ " + result);
-        inputEdit->setText(result);
-
-        isContinue = false;
-    } catch (runtime_error err) {
+    } else {
         inputEdit->setStyleSheet("QLineEdit { color: #FB6A6A }");
-        QTimer::singleShot(200, this, [=] {
-            inputEdit->setStyleSheet("QLineEdit { color: 000000; }");
-        });
+        QTimer::singleShot(200, this, [=] { inputEdit->setStyleSheet("QLineEdit { color: 000000; }"); });
     }
 }
 
 void ExpressionList::copyResultToClipboard()
 {
-    Expression e(formatExp(inputEdit->text()).toStdString(), 10);
+    const auto str = eval->autoFix(formatExp(inputEdit->text()));
+    eval->setExpression(str);
 
-    try {
-        QApplication::clipboard()->setText(QString::number(e.getResult()));
-    } catch (runtime_error err) {
-
+    if (!eval->error().isEmpty()) {
+        QApplication::clipboard()->setText(inputEdit->text());
+    } else {
+        const QString result = DMath::format(eval->evalUpdateAns(), Quantity::Format::Fixed());
+        QApplication::clipboard()->setText(result);
     }
 }
 
@@ -169,7 +174,8 @@ void ExpressionList::inputEditChanged(const QString &text)
     inputEdit->setText(QString(text).replace("+", "＋").replace("-", "－")
                                     .replace(QRegExp("[x|X|*]"), "×").replace("/", "÷")
                                     .replace("（", "(").replace("）", ")")
-                                    .replace("。", ".").replace("——", "－"));
+                                    .replace("。", ".").replace("——", "－")
+                                    .replace(" ", ""));
     inputEdit->setCursorPosition(currentPos);
 
     // make font size of inputEdit fit text content.
@@ -208,7 +214,7 @@ void ExpressionList::initFontSize()
 
 QString ExpressionList::formatExp(const QString &exp)
 {
-    return QString(exp).replace("＋", "+").replace("－", "-").replace("×", "*").replace("÷", "/");
+    return QString(exp).replace("＋", "+").replace("－", "-").replace("×", "*").replace("÷", "/").replace("%", " percent ");
 }
 
 QChar ExpressionList::getLastChar()

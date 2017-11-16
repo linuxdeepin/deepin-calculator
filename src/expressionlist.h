@@ -5,6 +5,9 @@
 #include <QVBoxLayout>
 #include "listview.h"
 #include "inputedit.h"
+#include "core/evaluator.h"
+
+typedef Quantity::Format Format;
 
 class ExpressionList : public QWidget
 {
@@ -36,6 +39,7 @@ signals:
     void inputKeyPressEvent(QKeyEvent *);
 
 private:
+    Evaluator *eval;
     int defaultFontSize;
     int minFontSize;
     int fontSize;
