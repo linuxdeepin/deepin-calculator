@@ -9,7 +9,7 @@
 #include "expressionlist.h"
 #include "textbutton.h"
 #include "backbutton.h"
-#include "dsettings.h"
+#include "settings.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -25,7 +25,7 @@ private:
     QWidget *mainWidget;
     QMenu *menu;
     QAction *themeAction;
-    DSettings *settings;
+    Settings *settings;
     QGridLayout *mainLayout;
     TitleBar *titleBar;
     ExpressionList *expList;

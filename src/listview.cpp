@@ -192,6 +192,7 @@ int ListView::getItemsTotalHeight()
 int ListView::getScrollbarHeight()
 {
     return (rect().height() * 1.0) / getItemsTotalHeight() * rect().height();
+    //return qMax(scrollbarMinHeight, static_cast<int>(rect().height() * 1.0 / getItemsTotalHeight() * rect().height()));
 }
 
 int ListView::getScrollbarX()

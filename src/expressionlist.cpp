@@ -4,15 +4,15 @@
 #include "dthememanager.h"
 #include "expressionlist.h"
 #include "utils.h"
+#include "abacus/Expression.h"
 #include <QDebug>
-#include <QKeyEvent> 
+#include <QKeyEvent>
 #include <QTimer>
 
 DWIDGET_USE_NAMESPACE
 
 ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
 {
-    eval = Evaluator::instance();
     layout = new QVBoxLayout(this);
     listView = new ListView;
     inputEdit = new InputEdit;
@@ -83,22 +83,29 @@ void ExpressionList::enterSymbolEvent(const QString &str)
 
 void ExpressionList::enterBracketsEvent()
 {
-    // if (isLeftBracket) {
-    //     inputEdit->insert("(");
-    //     isLeftBracket = false;
-    // } else {
-    //     inputEdit->insert(")");
-    //     isLeftBracket = true;
-    // }
+   if (isLeftBracket) {
+       inputEdit->insert("(");
+       isLeftBracket = false;
+   } else {
+       inputEdit->insert(")");
+       isLeftBracket = true;
+   }
 
-    int curPos = inputEdit->cursorPosition();
-
-    isContinue = true;
-    isAllClear = false;
+   isContinue = true;
+   isAllClear = false;
 }
 
 void ExpressionList::enterBackspaceEvent()
 {
+    const int pos = inputEdit->cursorPosition() - 1;
+    const QString text = inputEdit->text();
+
+    if (text.at(pos) == '(') {
+        isLeftBracket = true;
+    } else if (text.at(pos) == ')') {
+        isLeftBracket = false;
+    }
+
     inputEdit->backspace();
 
     isContinue = true;
@@ -125,38 +132,35 @@ void ExpressionList::enterClearEvent()
 
 void ExpressionList::enterEqualEvent()
 {
-    const auto str = eval->autoFix(formatExp(inputEdit->text()));
-    eval->setExpression(str);
-    auto quantity = eval->evalNoAssign();
+    Expression e(formatExp(inputEdit->text()).toStdString(), 10);
 
-    if (eval->error().isEmpty()) {
-        if (quantity.isNan() && eval->isUserFunctionAssign()) {
+    try {
+        const QString result = QString::number(e.getResult()).replace("-", "－");
 
-        } else {
-            const QString result = DMath::format(eval->evalUpdateAns(), Quantity::Format::Precision(2));
-            if (result == inputEdit->text()) {
-                return;
-            }
-            listView->addItem(inputEdit->text() + " ＝ " + result);
-            inputEdit->setText(result);
-            isContinue = false;
+        if (inputEdit->text() == result) {
+            return;
         }
-    } else {
+
+        listView->addItem(inputEdit->text() + " ＝ " + result);
+        inputEdit->setText(result);
+
+        isContinue = false;
+    } catch (runtime_error err) {
         inputEdit->setStyleSheet("QLineEdit { color: #FB6A6A }");
-        QTimer::singleShot(200, this, [=] { inputEdit->setStyleSheet("QLineEdit { color: 000000; }"); });
+        QTimer::singleShot(200, this, [=] {
+            inputEdit->setStyleSheet("QLineEdit { color: 000000; }");
+        });
     }
 }
 
 void ExpressionList::copyResultToClipboard()
 {
-    const auto str = eval->autoFix(formatExp(inputEdit->text()));
-    eval->setExpression(str);
+    Expression e(formatExp(inputEdit->text()).toStdString(), 10);
 
-    if (!eval->error().isEmpty()) {
+    try {
+        QApplication::clipboard()->setText(QString::number(e.getResult()));
+    } catch (runtime_error err) {
         QApplication::clipboard()->setText(inputEdit->text());
-    } else {
-        const QString result = DMath::format(eval->evalUpdateAns(), Quantity::Format::Fixed());
-        QApplication::clipboard()->setText(result);
     }
 }
 
@@ -170,7 +174,7 @@ void ExpressionList::inputEditChanged(const QString &text)
     // using setText() will move the cursor pos to end.
     const int currentPos = inputEdit->cursorPosition();
 
-    // replace string.
+    // replace expression string.
     inputEdit->setText(QString(text).replace("+", "＋").replace("-", "－")
                                     .replace(QRegExp("[x|X|*]"), "×").replace("/", "÷")
                                     .replace("（", "(").replace("）", ")")
@@ -200,6 +204,7 @@ void ExpressionList::inputEditChanged(const QString &text)
     // }
 
     isAllClear = false;
+    isContinue = true;
 
     emit clearStateChanged(false);
 }
@@ -214,7 +219,7 @@ void ExpressionList::initFontSize()
 
 QString ExpressionList::formatExp(const QString &exp)
 {
-    return QString(exp).replace("＋", "+").replace("－", "-").replace("×", "*").replace("÷", "/").replace("%", " percent ");
+    return QString(exp).replace("＋", "+").replace("－", "-").replace("×", "*").replace("÷", "/");
 }
 
 QChar ExpressionList::getLastChar()

@@ -1,10 +1,11 @@
 #include "inputedit.h"
 #include <QKeyEvent>
 #include <QDebug>
+#include <QRegExpValidator>
 
 InputEdit::InputEdit(QLineEdit *parent) : QLineEdit(parent)
 {
-    // setValidator(new QRegExpValidator(QRegExp("[0-9|+|-|*|/|＋|－|×|÷|.|(|)|%|x|X]+|（|）"), this));
+    //setValidator(new QRegExpValidator(QRegExp("[0-9|+|-|*|/|＋|－|×|÷|.|(|)|%]+"), this));
     setAttribute(Qt::WA_InputMethodEnabled, false);
 }
 

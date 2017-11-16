@@ -17,7 +17,6 @@ BackButton::~BackButton()
 {
 }
 
-
 void BackButton::mousePressEvent(QMouseEvent *e)
 {
     init();
@@ -45,5 +44,5 @@ void BackButton::leaveEvent(QEvent *e)
 void BackButton::init()
 {
     setIconSize(QSize(30, 23));
-    setIcon(QIcon(QString(":/images/delete_%1_normal.svg").arg(DThemeManager::instance()->theme())));    
+    setIcon(QIcon(QString(":/images/delete_%1_normal.svg").arg(DThemeManager::instance()->theme())));
 }

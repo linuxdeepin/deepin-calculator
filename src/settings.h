@@ -3,13 +3,13 @@
 
 #include <QSettings>
 
-class DSettings : public QObject
+class Settings : public QObject
 {
     Q_OBJECT
 
 public:
-    DSettings(QObject *parent=0);
-    ~DSettings();
+    Settings(QObject *parent=0);
+    ~Settings();
 
     QString configPath();
     QString getOption(const QString &key);
