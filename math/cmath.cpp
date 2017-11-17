@@ -462,7 +462,7 @@ QString CMath::format(const CNumber& cn, CNumber::Format format)
         if (phase.isZero())
             return strRadius;
         QString strPhase = HMath::format(phase, format);
-        return QString("%1 * exp(j*%2)").arg(strRadius, strPhase);
+        return QString("%1 * exp(j*%2)").arg(strRadius).arg(strPhase);
     } else {
         QString real_part = cn.real.isZero()? "" : HMath::format(cn.real, format);
         QString imag_part = "";
@@ -487,14 +487,6 @@ QString CMath::format(const CNumber& cn, CNumber::Format format)
 CNumber CMath::abs(const CNumber& n)
 {
     return HMath::sqrt(n.real * n.real + n.imag * n.imag);
-}
-
-/*
- * Returns the complex conjugate of n
- */
-CNumber CMath::conj(const CNumber& n)
-{
-    return CNumber(n.real, -n.imag);
 }
 
 /**
@@ -525,8 +517,6 @@ CNumber CMath::raise(const CNumber& n1, int n)
  */
 CNumber CMath::raise(const CNumber& n1, const CNumber& n2)
 {
-    if (n1.isZero() && (n2.real > 0))
-      return CNumber(0);
     return CMath::exp(CMath::ln(n1) * n2);
 }
 

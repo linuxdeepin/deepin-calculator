@@ -51,12 +51,7 @@ private:
     InputEdit *inputEdit;
     void initFontSize();
     QString formatExp(const QString &exp);
-    QChar getLastChar();
-    bool lastCharIsNumber();
-    bool lastCharIsSymbol();
-    bool lastCharIsPoint();
-    bool lastCharIsLeftBracket();
-    bool lastCharIsRightBracket();
+    QChar getLastChar(const QString &str);
 };
 
 #endif

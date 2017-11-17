@@ -316,7 +316,7 @@ static void migrateSettings_legacyTo1200(QSettings* settings, const QString& KEY
         // different location (most were, but e.g. not on the portable version) so we
         // copy everything over, then delete the old settings. On Windows, the file
         // name may also be a registry path, but the same reasoning applies.
-        for (auto& key : legacy->allKeys())
+        for (QString key : legacy->allKeys())
             settings->setValue(key, legacy->value(key));
 
 #ifdef Q_OS_WIN

@@ -1,6 +1,6 @@
 // This file is part of the SpeedCrunch project
 // Copyright (C) 2004 Ariya Hidayat <ariya@kde.org>
-// Copyright (C) 2008-2016 @heldercorreia
+// Copyright (C) 2008, 2009, 2010, 2013 @heldercorreia
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -21,10 +21,6 @@
 #define CORE_EVALUATOR_H
 
 #include "core/functions.h"
-#include "core/opcode.h"
-#include "core/variable.h"
-#include "core/userfunction.h"
-
 #include "math/hmath.h"
 #include "math/cmath.h"
 #include "math/quantity.h"
@@ -35,44 +31,34 @@
 #include <QString>
 #include <QStringList>
 #include <QVector>
+#include <core/opcode.h>
+#include "core/variable.h"
+#include "core/userfunction.h"
 
 class Session;
 
 class Token {
 public:
-    enum Operator {
-        Invalid = 0,
-        Addition, Subtraction, Multiplication,
-        Division, IntegerDivision, Exponentiation,
-        Super0, Super1, Super2, Super3, Super4,
-        Super5, Super6, Super7, Super8, Super9,
-        AssociationStart, AssociationEnd,
-        ListSeparator, Factorial, Assignment, Modulo,
-        ArithmeticLeftShift, ArithmeticRightShift,
-        BitwiseLogicalAND, BitwiseLogicalOR,
-        UnitConversion,
-        Function // For managing shift/reduce conflicts.
-    };
-    enum Type {
-        stxUnknown, stxNumber, stxIdentifier, stxAbstract, // isOperand
-        stxOperator, stxOpenPar, stxClosePar, stxSep // isOperator
-    };
+    enum Op { InvalidOp = 0, Plus, Minus, Asterisk, Slash, Backslash, Caret,
+              Super0, Super1, Super2, Super3, Super4, Super5, Super6, Super7, Super8, Super9,
+              LeftPar, RightPar, Semicolon, Exclamation, Equal, Modulo,
+              LeftShift, RightShift, Ampersand, Pipe, RightArrow,
+              Function };  /* Not really an operator but needed for managing shift/reduce conflicts */
+    enum Type { stxUnknown, stxNumber, stxIdentifier, stxAbstract, stxOperator, stxOpenPar, stxClosePar, stxSep};
+    //                     |<-------------isOperand------------->|<----------------isOperator----------------->|
 
     static const Token null;
 
-    Token(Type = stxUnknown, const QString& = QString::null, int pos = -1,
-          int size = -1);
+    Token(Type type = stxUnknown, const QString& text = QString::null, int pos = -1, int size = -1);
     Token(const Token&);
 
     Quantity asNumber() const;
-    Operator asOperator() const;
+    Op asOperator() const;
     QString description() const;
     bool isNumber() const { return m_type == stxNumber; }
     bool isOperator() const { return m_type >= stxOperator; }
     bool isIdentifier() const { return m_type == stxIdentifier; }
-    bool isAbstract() const { return m_type == stxAbstract; }
-    bool isOperand() const { return isNumber() || isIdentifier()
-                                    || isAbstract(); }
+    bool isOperand() const {return m_type == stxNumber || m_type == stxIdentifier || m_type == stxAbstract;}
     int pos() const { return m_pos; }
     void setPos(int pos) { m_pos = pos; }
     int size() const { return m_size; }
@@ -80,32 +66,25 @@ public:
     QString text() const { return m_text; }
     Type type() const { return m_type; }
     int minPrecedence() const { return m_minPrecedence; }
-    void setMinPrecedence(int value) { m_minPrecedence = value; }
+    void setMinPrecedence(int minPrecedence) { m_minPrecedence = minPrecedence; }
 
     Token& operator=(const Token&);
 
 protected:
-    // Start position of the text that token represents in the expression
-    // (might include extra space characters).
+    /** Start position of the text that token represents in the expression (might include extra space characters). */
     int m_pos;
-    // Size of text that token represents in the expression
-    // (might include extra space characters).
+    /** Size of text that token represents in the expression (might include extra space characters). */
     int m_size;
-    // Precedence of the operator with the lowest precedence contained
-    // in this token.
+    /** Precedence of the operator with the lowest precedence contained in this token. */
     int m_minPrecedence;
-    // Normalized version of that token text (only valid when the token
-    // represents a single token).
+    /** Normalized version of that token text (only valid when the token represents a single token). */
     QString m_text;
     Type m_type;
 };
 
 class Tokens : public QVector<Token> {
 public:
-    Tokens()
-        : QVector<Token>()
-        , m_valid(true)
-    { }
+    Tokens() : QVector<Token>(), m_valid(true) { }
 
     bool valid() const { return m_valid; }
     void setValid(bool v) { m_valid = v; }
@@ -118,16 +97,16 @@ protected:
     bool m_valid;
 };
 
+
 class Evaluator : public QObject {
     Q_OBJECT
-    using ForceBuiltinVariableErasure = bool;
 
 public:
     static Evaluator* instance();
     void reset();
 
-    void setSession(Session*);
-    const Session* session();
+    void setSession(Session * s);
+    const Session *session();
 
     static bool isSeparatorChar(const QChar&);
     static bool isRadixChar(const QChar&);
@@ -150,9 +129,8 @@ public:
     QList<Variable> getVariables() const;
     QList<Variable> getUserDefinedVariables() const;
     QList<Variable> getUserDefinedVariablesPlusAns() const;
-    void setVariable(const QString&, Quantity,
-                     Variable::Type = Variable::UserDefined);
-    void unsetVariable(const QString&, ForceBuiltinVariableErasure = false);
+    void setVariable(const QString&, Quantity, Variable::Type = Variable::UserDefined);
+    void unsetVariable(const QString&, bool force_builtin = false);
     void unsetAllUserDefinedVariables();
     bool isBuiltInVariable(const QString&) const;
     bool hasVariable(const QString&) const;
@@ -160,13 +138,14 @@ public:
     void initializeAngleUnits();
 
     QList<UserFunction> getUserFunctions() const;
-    void setUserFunction(const UserFunction&);
+    void setUserFunction(const UserFunction & f);
     void unsetUserFunction(const QString&);
     void unsetAllUserFunctions();
     bool hasUserFunction(const QString&) const;
 
 protected:
     void compile(const Tokens&);
+
 
 private:
     Evaluator();
@@ -182,23 +161,17 @@ private:
     QVector<Opcode> m_codes;
     QVector<Quantity> m_constants;
     QStringList m_identifiers;
-    Session* m_session;
+    Session * m_session;
     QSet<QString> m_functionsInUse;
 
     const Quantity& checkOperatorResult(const Quantity&);
     static QString stringFromFunctionError(Function*);
-    Quantity exec(const QVector<Opcode>& opcodes,
-                  const QVector<Quantity>& constants,
-                  const QStringList& identifiers);
-    Quantity execUserFunction(const UserFunction* function,
-                              QVector<Quantity>& arguments);
-    const UserFunction* getUserFunction(const QString&) const;
+    Quantity exec(const QVector<Opcode>& opcodes, const QVector<Quantity>& constants,
+                 const QStringList& identifiers);
+    Quantity execUserFunction(const UserFunction* function, QVector<Quantity>& arguments);
+    const UserFunction * getUserFunction(const QString&) const;
 
-    bool isFunction(Token token) {
-        return token.isIdentifier()
-                && (FunctionRepo::instance()->find(token.text())
-                    || hasUserFunction(token.text()));
-    }
+    bool isFunction(Token token) { return token.isIdentifier() && (FunctionRepo::instance()->find(token.text()) || hasUserFunction(token.text())); };
 };
 
 #endif

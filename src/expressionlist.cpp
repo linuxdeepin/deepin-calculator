@@ -132,9 +132,13 @@ void ExpressionList::enterClearEvent()
 
 void ExpressionList::enterEqualEvent()
 {
-    //const auto str = eval->autoFix(formatExp(inputEdit->text()));
+    QString str = eval->autoFix(formatExp(inputEdit->text()));
+    if (getLastChar(str) == '%') {
+        str = str.left(str.count() - 1);
+        str.append(" percent ");
+    }
 
-    eval->setExpression(formatExp(inputEdit->text()));
+    eval->setExpression(str);
     auto quantity = eval->evalNoAssign();
 
     if (eval->error().isEmpty()) {
@@ -142,11 +146,11 @@ void ExpressionList::enterEqualEvent()
 
         } else {
             const QString result = DMath::format(eval->evalUpdateAns(), Quantity::Format::Fixed());
-            // const double resultNum = result.toDouble();
+            const double resultNum = result.toDouble();
             if (result == inputEdit->text()) {
                 return;
             }
-            listView->addItem(inputEdit->text() + " ＝ " + result);
+            listView->addItem(inputEdit->text() + " ＝ " + QString::number(resultNum));
             inputEdit->setText(result);
             isContinue = false;
         }
@@ -229,50 +233,11 @@ QString ExpressionList::formatExp(const QString &exp)
                        .replace("%/", " percent / ");
 }
 
-QChar ExpressionList::getLastChar()
+QChar ExpressionList::getLastChar(const QString &str)
 {
-    QString exp = formatExp(inputEdit->text());
+    QString exp = formatExp(str);
     QString::const_iterator laster = exp.end();
     laster--;
 
     return *laster;
-}
-
-bool ExpressionList::lastCharIsNumber()
-{
-    const QChar lastChar = getLastChar();
-
-    if (lastChar == '0' || lastChar == '1' || lastChar == '2' || lastChar == '3' ||
-        lastChar == '4' || lastChar == '5' || lastChar == '6' || lastChar == '7' ||
-        lastChar == '8' || lastChar == '9') {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-bool ExpressionList::lastCharIsSymbol()
-{
-    const QChar lastChar = getLastChar();
-
-    if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/') {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-bool ExpressionList::lastCharIsPoint()
-{
-    return getLastChar() == '.' ? true : false;
-}
-
-bool ExpressionList::lastCharIsLeftBracket()
-{
-    return getLastChar() == '(' ? true : false;
-}
-
-bool ExpressionList::lastCharIsRightBracket()
-{
-    return getLastChar() == ')' ? true : false;
 }

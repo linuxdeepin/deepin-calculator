@@ -18,7 +18,7 @@
 
 #include "rational.h"
 #include "math/hmath.h"
-#include "core/numberformatter.h"
+#include "../core/numberformatter.h"
 
 #include <cmath>
 #include <QString>

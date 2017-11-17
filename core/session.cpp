@@ -25,9 +25,14 @@
 #include <QJsonDocument>
 #include "functions.h"
 
+
+
+
+
+
 void Session::serialize(QJsonObject &json) const
 {
-    json["version"] = QString("1.0");
+    json["version"] = QString("0.1");
 
     // history
     QJsonArray hist_entries;
@@ -101,7 +106,7 @@ int Session::deSerialize(const QJsonObject &json, bool merge=false)
         }
     }
 
-    return version==QString("1.0");
+    return version=="0.1";
 }
 
 void Session::addVariable(const Variable &var)

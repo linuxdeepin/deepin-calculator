@@ -17,10 +17,10 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#include "core/numberformatter.h"
+#include "../core/numberformatter.h"
 
 #include "core/settings.h"
-#include "math/quantity.h"
+#include "../math/quantity.h"
 
 QString NumberFormatter::format(Quantity q)
 {
@@ -75,18 +75,6 @@ QString NumberFormatter::format(Quantity q)
 
     if (settings->radixCharacter() == ',')
         result.replace('.', ',');
-
-    result.replace('-', QString::fromUtf8("−"));
-
-    // Replace all spaces between units with dot operator.
-    int emptySpaces = 0;
-    for (auto& ch : result) {
-        if (ch.isSpace()) {
-            ++emptySpaces;
-            if (emptySpaces > 1)
-                ch = u'⋅';
-        }
-    }
 
     return result;
 }

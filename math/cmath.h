@@ -160,7 +160,6 @@ public:
     // COMPLEX SPECIFIC
     static CNumber real(const CNumber& x) {return x.real;}
     static CNumber imag(const CNumber& x) {return x.imag;}
-    static CNumber conj(const CNumber& x);
     static CNumber phase(const CNumber&);
     // TRIGONOMETRY
     static CNumber sin(const CNumber&);

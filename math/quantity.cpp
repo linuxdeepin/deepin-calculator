@@ -352,7 +352,7 @@ Quantity Quantity::deSerialize(const QJsonObject& json)
     if (json.contains("dimension")) {
         QJsonObject dim_json = json["dimension"].toObject();
         for (int i = 0; i < dim_json.count(); ++i) {
-            auto key = dim_json.keys().at(i);
+            auto key = dim_json.keys()[i];
             Rational val(dim_json[key].toString());
             result.modifyDimension(key, val);
         }
@@ -872,17 +872,6 @@ Quantity DMath::imag(const Quantity& x)
 {
     Quantity result(x);
     result.m_numericValue = result.m_numericValue.imag;
-    return result;
-}
-
-Quantity DMath::conj(const Quantity& n)
-{
-    Quantity result = Quantity(n);
-    // If in Real mode, just strip the imaginary part.
-    result.m_numericValue = complexMode ?
-        CMath::conj(result.m_numericValue)
-        : CMath::real(result.m_numericValue);
-
     return result;
 }
 

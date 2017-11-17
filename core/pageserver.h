@@ -1,5 +1,5 @@
 // This file is part of the SpeedCrunch project
-// Copyright (C) 2014-2016 @heldercorreia
+// Copyright (C) 2014 @heldercorreia
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -24,7 +24,6 @@
 #include <QString>
 
 class PageServer : public QObject {
-    Q_OBJECT
 public:
     explicit PageServer(QObject* parent = 0) : QObject(parent) { }
     QString getPageContent(const QString& id);
