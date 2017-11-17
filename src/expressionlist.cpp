@@ -133,6 +133,7 @@ void ExpressionList::enterClearEvent()
 void ExpressionList::enterEqualEvent()
 {
     //const auto str = eval->autoFix(formatExp(inputEdit->text()));
+
     eval->setExpression(formatExp(inputEdit->text()));
     auto quantity = eval->evalNoAssign();
 
@@ -140,13 +141,13 @@ void ExpressionList::enterEqualEvent()
         if (quantity.isNan() && eval->isUserFunctionAssign()) {
 
         } else {
-            const QString result = DMath::format(eval->evalUpdateAns(), Quantity::Format::General());
-            const double resultNum = result.toDouble();
+            const QString result = DMath::format(eval->evalUpdateAns(), Quantity::Format::Fixed());
+            // const double resultNum = result.toDouble();
             if (result == inputEdit->text()) {
                 return;
             }
-            listView->addItem(inputEdit->text() + " ＝ " + QString::number(resultNum));
-            inputEdit->setText(QString::number(resultNum));
+            listView->addItem(inputEdit->text() + " ＝ " + result);
+            inputEdit->setText(result);
             isContinue = false;
         }
     } else {

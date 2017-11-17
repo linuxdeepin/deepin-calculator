@@ -45,7 +45,7 @@ void ListView::addItem(const QString &text)
 {
     for (const QString &itemStr : listItems) {
         if (itemStr == text) {
-            return;
+            listItems.removeAt(listItems.indexOf(itemStr));
         }
     }
 

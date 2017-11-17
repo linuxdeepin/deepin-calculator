@@ -278,18 +278,21 @@ static Token::Operator matchOperator(const QString& text)
             result = Token::Invalid;
         }
 
-    } else if (text.length() == 2) {
-        if (text == "**")
-            result = Token::Exponentiation;
-        else if (text == "<<")
-          result = Token::ArithmeticLeftShift;
-        else if (text == ">>")
-          result = Token::ArithmeticRightShift;
-        else if (text == "->" || text == "in")
-            result = Token::UnitConversion;
     }
 
-   return result;
+    // modify modify by rekols on 2017-11-17 11:46:01
+    // else if (text.length() == 2) {
+    //     if (text == "**")
+    //         result = Token::Exponentiation;
+    //     else if (text == "<<")
+    //       result = Token::ArithmeticLeftShift;
+    //     else if (text == ">>")
+    //       result = Token::ArithmeticRightShift;
+    //     else if (text == "->" || text == "in")
+    //         result = Token::UnitConversion;
+    // }
+
+    return result;
 }
 
 // Helper function: give operator precedence e.g. "+" is 300 while "*" is 500.
