@@ -833,7 +833,7 @@ Tokens Evaluator::scan(const QString& expr) const
             }
             break;
 
-        /* Find out the number base */
+            /* Find out the number base */
         case InNumberPrefix:
             if (ch.isDigit()) {
                 // Only consume the first digit and the second digit if the first was 0
