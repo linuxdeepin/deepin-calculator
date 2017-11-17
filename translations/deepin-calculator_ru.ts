@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ru">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ru" version="2.1">
 <context>
     <name>Main</name>
     <message>
@@ -9,7 +7,7 @@
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication, division and remainder.</source>
-        <translation type="unfinished"></translation>
+        <translation>Калькулятор Deepin - простой и удобный настольный калькулятор. Он поддерживает сложение, вычитание, умножение, деление и остаток.</translation>
     </message>
 </context>
 <context>
@@ -20,7 +18,7 @@
     </message>
     <message>
         <source>Dark Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Темная Тема</translation>
     </message>
 </context>
 </TS>
