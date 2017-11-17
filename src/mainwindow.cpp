@@ -12,7 +12,7 @@ MainWindow::MainWindow(DMainWindow *parent)
 {
     mainWidget = new QWidget;
     mainLayout = new QGridLayout(mainWidget);
-    settings = new Settings;
+    settings = new DSettings;
     titleBar = new TitleBar;
     expList = new ExpressionList;
     clearButton = new TextButton("C");

@@ -1,9 +1,9 @@
-#include "settings.h"
+#include "dsettings.h"
 #include <QApplication>
 #include <QDir>
 #include <QStandardPaths>
 
-Settings::Settings(QObject *parent) : QObject(parent)
+DSettings::DSettings(QObject *parent) : QObject(parent)
 {
     settings = new QSettings(QDir(configPath()).filePath("config.conf"), QSettings::IniFormat);
 
@@ -12,22 +12,22 @@ Settings::Settings(QObject *parent) : QObject(parent)
     }
 }
 
-Settings::~Settings()
+DSettings::~DSettings()
 {
     delete settings;
 }
 
-QString Settings::configPath()
+QString DSettings::configPath()
 {
     return QDir(QDir(QStandardPaths::standardLocations(QStandardPaths::ConfigLocation).first()).filePath(qApp->organizationName())).filePath(qApp->applicationName());
 }
 
-QString Settings::getOption(const QString &key)
+QString DSettings::getOption(const QString &key)
 {
     return settings->value(key).toString();
 }
 
-void Settings::setOption(const QString &key, const QString &value)
+void DSettings::setOption(const QString &key, const QString &value)
 {
     settings->setValue(key, value);
 }

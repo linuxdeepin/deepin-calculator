@@ -4,7 +4,6 @@
 #include "dthememanager.h"
 #include "expressionlist.h"
 #include "utils.h"
-#include "abacus/Expression.h"
 #include <QDebug>
 #include <QKeyEvent>
 #include <QTimer>
@@ -13,6 +12,7 @@ DWIDGET_USE_NAMESPACE
 
 ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
 {
+    eval = Evaluator::instance();
     layout = new QVBoxLayout(this);
     listView = new ListView;
     inputEdit = new InputEdit;
@@ -132,35 +132,39 @@ void ExpressionList::enterClearEvent()
 
 void ExpressionList::enterEqualEvent()
 {
-    Expression e(formatExp(inputEdit->text()).toStdString(), 10);
+    //const auto str = eval->autoFix(formatExp(inputEdit->text()));
+    eval->setExpression(formatExp(inputEdit->text()));
+    auto quantity = eval->evalNoAssign();
 
-    try {
-        const QString result = QString::number(e.getResult()).replace("-", "－");
+    if (eval->error().isEmpty()) {
+        if (quantity.isNan() && eval->isUserFunctionAssign()) {
 
-        if (inputEdit->text() == result) {
-            return;
+        } else {
+            const QString result = DMath::format(eval->evalUpdateAns(), Quantity::Format::General());
+            const double resultNum = result.toDouble();
+            if (result == inputEdit->text()) {
+                return;
+            }
+            listView->addItem(inputEdit->text() + " ＝ " + QString::number(resultNum));
+            inputEdit->setText(QString::number(resultNum));
+            isContinue = false;
         }
-
-        listView->addItem(inputEdit->text() + " ＝ " + result);
-        inputEdit->setText(result);
-
-        isContinue = false;
-    } catch (runtime_error err) {
+    } else {
         inputEdit->setStyleSheet("QLineEdit { color: #FB6A6A }");
-        QTimer::singleShot(200, this, [=] {
-            inputEdit->setStyleSheet("QLineEdit { color: 000000; }");
-        });
+        QTimer::singleShot(200, this, [=] { inputEdit->setStyleSheet("QLineEdit { color: 000000; }"); });
     }
 }
 
 void ExpressionList::copyResultToClipboard()
 {
-    Expression e(formatExp(inputEdit->text()).toStdString(), 10);
+    const auto str = eval->autoFix(formatExp(inputEdit->text()));
+    eval->setExpression(str);
 
-    try {
-        QApplication::clipboard()->setText(QString::number(e.getResult()));
-    } catch (runtime_error err) {
+    if (!eval->error().isEmpty()) {
         QApplication::clipboard()->setText(inputEdit->text());
+    } else {
+        const QString result = DMath::format(eval->evalUpdateAns(), Quantity::Format::Fixed());
+        QApplication::clipboard()->setText(result);
     }
 }
 
@@ -219,7 +223,9 @@ void ExpressionList::initFontSize()
 
 QString ExpressionList::formatExp(const QString &exp)
 {
-    return QString(exp).replace("＋", "+").replace("－", "-").replace("×", "*").replace("÷", "/");
+    return QString(exp).replace("＋", "+").replace("－", "-").replace("×", "*").replace("÷", "/")
+                       .replace("%+", " percent + ").replace("%-", " percent - ").replace("%*", " percent * ")
+                       .replace("%/", " percent / ");
 }
 
 QChar ExpressionList::getLastChar()
