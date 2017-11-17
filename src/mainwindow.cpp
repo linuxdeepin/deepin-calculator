@@ -1,11 +1,13 @@
 #include "mainwindow.h"
+#include "dthememanager.h"
+#include "dwindowmanagerhelper.h"
+#include "utils.h"
+
 #include <QApplication>
 #include <QPainter>
 #include <QTimer>
 #include <dtitlebar.h>
-#include "dthememanager.h"
-#include "dwindowmanagerhelper.h"
-#include "utils.h"
+#include <QSignalMapper>
 
 MainWindow::MainWindow(DMainWindow *parent)
     : DMainWindow(parent)
@@ -92,48 +94,40 @@ MainWindow::MainWindow(DMainWindow *parent)
     setFixedSize(322, 495);
     setCentralWidget(mainWidget);
 
-    connect(zeroButton, &QPushButton::clicked, this, [=] {
-        onNumberButtonClicked("0");
-    });
-    connect(num1Button, &QPushButton::clicked, this, [=] {
-        onNumberButtonClicked("1");
-    });
-    connect(num2Button, &QPushButton::clicked, this, [=] {
-        onNumberButtonClicked("2");
-    });
-    connect(num3Button, &QPushButton::clicked, this, [=] {
-        onNumberButtonClicked("3");
-    });
-    connect(num4Button, &QPushButton::clicked, this, [=] {
-        onNumberButtonClicked("4");
-    });
-    connect(num5Button, &QPushButton::clicked, this, [=] {
-        onNumberButtonClicked("5");
-    });
-    connect(num6Button, &QPushButton::clicked, this, [=] {
-        onNumberButtonClicked("6");
-    });
-    connect(num7Button, &QPushButton::clicked, this, [=] {
-        onNumberButtonClicked("7");
-    });
-    connect(num8Button, &QPushButton::clicked, this, [=] {
-        onNumberButtonClicked("8");
-    });
-    connect(num9Button, &QPushButton::clicked, this, [=] {
-        onNumberButtonClicked("9");
-    });
-    connect(plusButton, &QPushButton::clicked, this, [=] {
-        onSymbolButtonClicked("＋");
-    });
-    connect(minButton, &QPushButton::clicked, this, [=] {
-        onSymbolButtonClicked("－");
-    });
-    connect(multButton, &QPushButton::clicked, this, [=] {
-        onSymbolButtonClicked("×");
-    });
-    connect(divButton, &QPushButton::clicked, this, [=] {
-        onSymbolButtonClicked("÷");
-    });
+    QSignalMapper *signalMapper = new QSignalMapper(this);
+
+    connect(zeroButton, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(num1Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(num2Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(num3Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(num4Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(num5Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(num6Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(num7Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(num8Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(num9Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(plusButton, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(minButton,  &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(multButton, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(divButton,  &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+
+    signalMapper->setMapping(zeroButton, QString("0"));
+    signalMapper->setMapping(num1Button, QString("1"));
+    signalMapper->setMapping(num2Button, QString("2"));
+    signalMapper->setMapping(num3Button, QString("3"));
+    signalMapper->setMapping(num4Button, QString("4"));
+    signalMapper->setMapping(num5Button, QString("5"));
+    signalMapper->setMapping(num6Button, QString("6"));
+    signalMapper->setMapping(num7Button, QString("7"));
+    signalMapper->setMapping(num8Button, QString("8"));
+    signalMapper->setMapping(num9Button, QString("9"));
+    signalMapper->setMapping(plusButton, QString("+"));
+    signalMapper->setMapping(minButton,  QString("-"));
+    signalMapper->setMapping(multButton, QString("×"));
+    signalMapper->setMapping(divButton,  QString("÷"));
+
+    connect(signalMapper, static_cast<void (QSignalMapper::*)(const QString &)>(&QSignalMapper::mapped), this, &MainWindow::buttonsHandleAction);
+
     connect(bracketsButton, &QPushButton::clicked, this, &MainWindow::onBracketButtonClicked);
     connect(equalButton, &QPushButton::clicked, this, &MainWindow::onEqualButtonClicked);
     connect(clearButton, &QPushButton::clicked, this, &MainWindow::onClearButtonClicked);
@@ -364,4 +358,9 @@ void MainWindow::clearButtonStateChanged(bool isAllClear)
     } else {
         clearButton->setText("C");
     }
+}
+
+void MainWindow::buttonsHandleAction(const QString &text)
+{
+    onSymbolButtonClicked(text);
 }
