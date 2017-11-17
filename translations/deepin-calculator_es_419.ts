@@ -7,18 +7,18 @@
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication, division and remainder.</source>
-        <translation type="unfinished"/>
+        <translation>La Calculadora Deepin es una calculadora de escritorio fácil y simple de usar. Permite sumar, restar, multiplicar, dividir y obtener el residuo.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Deepin Calculator</source>
-        <translation type="unfinished"/>
+        <translation>Calculdora Deepin</translation>
     </message>
     <message>
         <source>Dark Theme</source>
-        <translation type="unfinished"/>
+        <translation>Tema Oscuro</translation>
     </message>
 </context>
 </TS>
