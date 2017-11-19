@@ -29,7 +29,6 @@ ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
     defaultFontSize = 25;
     minFontSize = 10;
     fontSize = defaultFontSize;
-    isLeftBracket = true;
     isContinue = true;
     isAllClear = false;
 
@@ -83,29 +82,16 @@ void ExpressionList::enterSymbolEvent(const QString &str)
 
 void ExpressionList::enterBracketsEvent()
 {
-   if (isLeftBracket) {
-       inputEdit->insert("(");
-       isLeftBracket = false;
-   } else {
-       inputEdit->insert(")");
-       isLeftBracket = true;
-   }
+    const int currentPos = inputEdit->cursorPosition();
+    inputEdit->insert("()");
+    inputEdit->setCursorPosition(currentPos + 1);
 
-   isContinue = true;
-   isAllClear = false;
+    isAllClear = false;
+    isContinue = true;
 }
 
 void ExpressionList::enterBackspaceEvent()
 {
-    const int pos = inputEdit->cursorPosition() - 1;
-    const QString text = inputEdit->text();
-
-    if (text.at(pos) == '(') {
-        isLeftBracket = true;
-    } else if (text.at(pos) == ')') {
-        isLeftBracket = false;
-    }
-
     inputEdit->backspace();
 
     isContinue = true;
@@ -126,8 +112,6 @@ void ExpressionList::enterClearEvent()
         initFontSize();
         emit clearStateChanged(true);
     }
-
-    isLeftBracket = true;
 }
 
 void ExpressionList::enterEqualEvent()

@@ -43,7 +43,6 @@ private:
     int defaultFontSize;
     int minFontSize;
     int fontSize;
-    bool isLeftBracket;
     bool isContinue;
     bool isAllClear;
     QVBoxLayout *layout;

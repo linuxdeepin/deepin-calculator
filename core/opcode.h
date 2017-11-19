@@ -21,7 +21,7 @@
 #ifndef CORE_OPCODE_H
 #define CORE_OPCODE_H
 
-#include<QString>
+#include <QString>
 
 
 class Opcode
