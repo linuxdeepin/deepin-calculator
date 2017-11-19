@@ -26,14 +26,11 @@ ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
     inputEdit->setFixedHeight(55);
     inputEdit->setAlignment(Qt::AlignRight);
 
-    defaultFontSize = 25;
-    minFontSize = 10;
-    fontSize = defaultFontSize;
     isContinue = true;
     isAllClear = false;
 
     setFixedHeight(160);
-    initFontSize();
+    autoZoomFontSize();
 
     connect(inputEdit, &InputEdit::textChanged, this, &ExpressionList::inputEditChanged);
     connect(inputEdit, &InputEdit::inputKeyPressEvent, this, &ExpressionList::inputKeyPressEvent);
@@ -109,7 +106,6 @@ void ExpressionList::enterClearEvent()
         inputEdit->setText("");
         isAllClear = true;
 
-        initFontSize();
         emit clearStateChanged(true);
     }
 }
@@ -140,7 +136,8 @@ void ExpressionList::enterEqualEvent()
         }
     } else {
         inputEdit->setStyleSheet("QLineEdit { color: #FB6A6A }");
-        QTimer::singleShot(200, this, [=] { inputEdit->setStyleSheet("QLineEdit { color: 000000; }"); });
+        autoZoomFontSize();
+        QTimer::singleShot(200, this, [=] { inputEdit->setStyleSheet("QLineEdit { color: 000000; }");});
     }
 }
 
@@ -176,25 +173,7 @@ void ExpressionList::inputEditChanged(const QString &text)
     inputEdit->setCursorPosition(currentPos);
 
     // make font size of inputEdit fit text content.
-    // QFontMetrics fm = inputEdit->fontMetrics();
-    // int w = fm.boundingRect(inputEdit->text()).width();
-
-    // if (w >= inputEdit->width() - 30) {
-    //     fontSize -= 2;
-    //     QFont font;
-    //     font.setPointSize(qMax(fontSize, minFontSize));
-    //     inputEdit->setFont(font);
-    // }
-
-    // when text is empty, the clear button status will changed.
-    // if (text.isEmpty()) {
-    //     isAllClear = true;
-    //     initFontSize();
-    //     emit clearStateChanged(true);
-    // } else {
-    //     isAllClear = false;
-    //     emit clearStateChanged(false);
-    // }
+    autoZoomFontSize();
 
     isAllClear = false;
     isContinue = true;
@@ -202,12 +181,20 @@ void ExpressionList::inputEditChanged(const QString &text)
     emit clearStateChanged(false);
 }
 
-void ExpressionList::initFontSize()
+void ExpressionList::autoZoomFontSize()
 {
-    fontSize = defaultFontSize;
     QFont font;
-    font.setPointSize(fontSize);
-    inputEdit->setFont(font);
+    for (int i = 27; i > 9; --i) {
+        font.setPointSize(i);
+        const QFontMetrics fm(font);
+        const int fontWidth = fm.width(inputEdit->text());
+        const int editWidth = inputEdit->width() - 40;
+
+        if (fontWidth < editWidth) {
+            inputEdit->setFont(font);
+            break;
+        }
+    }
 }
 
 QString ExpressionList::formatExp(const QString &exp)

@@ -40,15 +40,12 @@ signals:
 
 private:
     Evaluator *eval;
-    int defaultFontSize;
-    int minFontSize;
-    int fontSize;
     bool isContinue;
     bool isAllClear;
     QVBoxLayout *layout;
     ListView *listView;
     InputEdit *inputEdit;
-    void initFontSize();
+    void autoZoomFontSize();
     QString formatExp(const QString &exp);
     QChar getLastChar(const QString &str);
 };
