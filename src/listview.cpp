@@ -1,8 +1,9 @@
 #include "listview.h"
+#include "dthememanager.h"
+
 #include <QPainter>
 #include <QMouseEvent>
 #include <QWheelEvent>
-#include "dthememanager.h"
 
 DWIDGET_USE_NAMESPACE
 

@@ -1,12 +1,12 @@
 #include <QVBoxLayout>
 #include <QApplication>
 #include <QClipboard>
+#include <QKeyEvent>
+#include <QTimer>
+
 #include "dthememanager.h"
 #include "expressionlist.h"
 #include "utils.h"
-#include <QDebug>
-#include <QKeyEvent>
-#include <QTimer>
 
 DWIDGET_USE_NAMESPACE
 
@@ -113,13 +113,8 @@ void ExpressionList::enterClearEvent()
 void ExpressionList::enterEqualEvent()
 {
     QString str = eval->autoFix(formatExp(inputEdit->text()));
-    if (getLastChar(str) == '%') {
-        str = str.left(str.count() - 1);
-        str.append(" percent ");
-    }
-
     eval->setExpression(str);
-    auto quantity = eval->evalNoAssign();
+    auto quantity = eval->evalUpdateAns();
 
     if (eval->error().isEmpty()) {
         if (quantity.isNan() && eval->isUserFunctionAssign()) {
@@ -161,17 +156,6 @@ int ExpressionList::getItemsCount()
 
 void ExpressionList::inputEditChanged(const QString &text)
 {
-    // using setText() will move the cursor pos to end.
-    const int currentPos = inputEdit->cursorPosition();
-
-    // replace expression string.
-    inputEdit->setText(QString(text).replace("+", "＋").replace("-", "－")
-                                    .replace(QRegExp("[x|X|*]"), "×").replace("/", "÷")
-                                    .replace("（", "(").replace("）", ")")
-                                    .replace("。", ".").replace("——", "－")
-                                    .replace(" ", ""));
-    inputEdit->setCursorPosition(currentPos);
-
     // make font size of inputEdit fit text content.
     autoZoomFontSize();
 
@@ -184,7 +168,7 @@ void ExpressionList::inputEditChanged(const QString &text)
 void ExpressionList::autoZoomFontSize()
 {
     QFont font;
-    for (int i = 27; i > 9; --i) {
+    for (int i = 28; i > 8; --i) {
         font.setPointSize(i);
         const QFontMetrics fm(font);
         const int fontWidth = fm.width(inputEdit->text());

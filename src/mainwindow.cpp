@@ -7,7 +7,6 @@
 #include <QPainter>
 #include <QTimer>
 #include <dtitlebar.h>
-#include <QSignalMapper>
 
 MainWindow::MainWindow(DMainWindow *parent)
     : DMainWindow(parent)
@@ -94,46 +93,26 @@ MainWindow::MainWindow(DMainWindow *parent)
     setFixedSize(322, 495);
     setCentralWidget(mainWidget);
 
-    QSignalMapper *signalMapper = new QSignalMapper(this);
-
-    connect(zeroButton, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(num1Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(num2Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(num3Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(num4Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(num5Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(num6Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(num7Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(num8Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(num9Button, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(plusButton, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(minButton,  &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(multButton, &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(divButton,  &QPushButton::clicked, signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-
-    signalMapper->setMapping(zeroButton, QString("0"));
-    signalMapper->setMapping(num1Button, QString("1"));
-    signalMapper->setMapping(num2Button, QString("2"));
-    signalMapper->setMapping(num3Button, QString("3"));
-    signalMapper->setMapping(num4Button, QString("4"));
-    signalMapper->setMapping(num5Button, QString("5"));
-    signalMapper->setMapping(num6Button, QString("6"));
-    signalMapper->setMapping(num7Button, QString("7"));
-    signalMapper->setMapping(num8Button, QString("8"));
-    signalMapper->setMapping(num9Button, QString("9"));
-    signalMapper->setMapping(plusButton, QString("+"));
-    signalMapper->setMapping(minButton,  QString("-"));
-    signalMapper->setMapping(multButton, QString("×"));
-    signalMapper->setMapping(divButton,  QString("÷"));
-
-    connect(signalMapper, static_cast<void (QSignalMapper::*)(const QString &)>(&QSignalMapper::mapped), this, &MainWindow::buttonsHandleAction);
-
-    connect(bracketsButton, &QPushButton::clicked, this, &MainWindow::onBracketButtonClicked);
-    connect(equalButton, &QPushButton::clicked, this, &MainWindow::onEqualButtonClicked);
-    connect(clearButton, &QPushButton::clicked, this, &MainWindow::onClearButtonClicked);
-    connect(backButton, &QPushButton::clicked, this, &MainWindow::onBackButtonClicked);
-    connect(pointButton, &QPushButton::clicked, this, &MainWindow::onPointButtonClicked);
-    connect(modButton, &QPushButton::clicked, this, &MainWindow::onModButtonClicked);
+    connect(zeroButton, &QPushButton::clicked, this, &MainWindow::onNumberButtonClicked);
+    connect(num1Button, &QPushButton::clicked, this, &MainWindow::onNumberButtonClicked);
+    connect(num2Button, &QPushButton::clicked, this, &MainWindow::onNumberButtonClicked);
+    connect(num3Button, &QPushButton::clicked, this, &MainWindow::onNumberButtonClicked);
+    connect(num4Button, &QPushButton::clicked, this, &MainWindow::onNumberButtonClicked);
+    connect(num5Button, &QPushButton::clicked, this, &MainWindow::onNumberButtonClicked);
+    connect(num6Button, &QPushButton::clicked, this, &MainWindow::onNumberButtonClicked);
+    connect(num7Button, &QPushButton::clicked, this, &MainWindow::onNumberButtonClicked);
+    connect(num8Button, &QPushButton::clicked, this, &MainWindow::onNumberButtonClicked);
+    connect(num9Button, &QPushButton::clicked, this, &MainWindow::onNumberButtonClicked);
+    connect(plusButton, &QPushButton::clicked, this, &MainWindow::onSymbolButtonClicked);
+    connect(minButton, &QPushButton::clicked, this, &MainWindow::onSymbolButtonClicked);
+    connect(multButton, &QPushButton::clicked, this, &MainWindow::onSymbolButtonClicked);
+    connect(divButton, &QPushButton::clicked, this, &MainWindow::onSymbolButtonClicked);
+    connect(modButton, &QPushButton::clicked, this, &MainWindow::onSymbolButtonClicked);
+    connect(bracketsButton, &QPushButton::clicked, expList, &ExpressionList::enterBracketsEvent);
+    connect(equalButton, &QPushButton::clicked, expList, &ExpressionList::enterEqualEvent);
+    connect(clearButton, &QPushButton::clicked, expList, &ExpressionList::enterClearEvent);
+    connect(backButton, &QPushButton::clicked, expList, &ExpressionList::enterBackspaceEvent);
+    connect(pointButton, &QPushButton::clicked, expList, &ExpressionList::enterPointEvent);
     connect(expList, &ExpressionList::clearStateChanged, this, &MainWindow::clearButtonStateChanged);
     connect(expList, &ExpressionList::inputKeyPressEvent, this, &MainWindow::keyPressEvent);
 }
@@ -309,44 +288,16 @@ void MainWindow::changeTheme(QString theme)
     initThemeAction();
 }
 
-void MainWindow::onNumberButtonClicked(const QString &str)
+void MainWindow::onNumberButtonClicked()
 {
-    expList->enterNumberEvent(str);
+    QPushButton *btn = qobject_cast<QPushButton *>(sender());
+    expList->enterNumberEvent(btn->text());
 }
 
-void MainWindow::onBackButtonClicked()
+void MainWindow::onSymbolButtonClicked()
 {
-    expList->enterBackspaceEvent();
-}
-
-void MainWindow::onPointButtonClicked()
-{
-    expList->enterPointEvent();
-}
-
-void MainWindow::onSymbolButtonClicked(const QString &str)
-{
-    expList->enterSymbolEvent(str);
-}
-
-void MainWindow::onClearButtonClicked()
-{
-    expList->enterClearEvent();
-}
-
-void MainWindow::onEqualButtonClicked()
-{
-    expList->enterEqualEvent();
-}
-
-void MainWindow::onBracketButtonClicked()
-{
-    expList->enterBracketsEvent();
-}
-
-void MainWindow::onModButtonClicked()
-{
-    expList->enterSymbolEvent("%");
+    QPushButton *btn = qobject_cast<QPushButton *>(sender());
+    expList->enterSymbolEvent(btn->text());
 }
 
 void MainWindow::clearButtonStateChanged(bool isAllClear)
@@ -358,9 +309,4 @@ void MainWindow::clearButtonStateChanged(bool isAllClear)
     } else {
         clearButton->setText("C");
     }
-}
-
-void MainWindow::buttonsHandleAction(const QString &text)
-{
-    onSymbolButtonClicked(text);
 }

@@ -5,6 +5,7 @@
 #include <QGridLayout>
 #include <QKeyEvent>
 #include <QMenu>
+
 #include "titlebar.h"
 #include "expressionlist.h"
 #include "textbutton.h"
@@ -20,6 +21,19 @@ class MainWindow : public DMainWindow
 public:
     MainWindow(DMainWindow *parent=0);
     ~MainWindow();
+
+protected:
+    void paintEvent(QPaintEvent *);
+    void keyPressEvent(QKeyEvent *);
+
+private slots:
+    void initTheme();
+    void initThemeAction();
+    void switchTheme();
+    void changeTheme(QString theme);
+    void onNumberButtonClicked();
+    void onSymbolButtonClicked();
+    void clearButtonStateChanged(bool isAllClear);
 
 private:
     QWidget *mainWidget;
@@ -52,26 +66,6 @@ private:
     QString titlebarColor;
     QString separatorColor;
     QColor backgroundColor;
-
-protected:
-    void paintEvent(QPaintEvent *);
-    void keyPressEvent(QKeyEvent *);
-
-private slots:
-    void initTheme();
-    void initThemeAction();
-    void switchTheme();
-    void changeTheme(QString theme);
-    void onNumberButtonClicked(const QString &str);
-    void onBackButtonClicked();
-    void onPointButtonClicked();
-    void onSymbolButtonClicked(const QString &str);
-    void onClearButtonClicked();
-    void onEqualButtonClicked();
-    void onBracketButtonClicked();
-    void onModButtonClicked();
-    void clearButtonStateChanged(bool isAllClear);
-    void buttonsHandleAction(const QString &text);
 };
 
 #endif

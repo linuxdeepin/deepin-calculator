@@ -1,3 +1,4 @@
+
 /* number.h: Arbitrary precision numbers header file. */
 /*
     Copyright (C) 1991, 1992, 1993, 1994, 1997, 2000 Free Software Foundation, Inc.
@@ -26,7 +27,7 @@
                 Computer Science Department, 9062
                 Western Washington University
                 Bellingham, WA 98226-9062
-       
+
 *************************************************************************/
 
 #ifndef _NUMBER_H_
@@ -36,7 +37,7 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif 
+#endif
 
 #undef _PROTOTYPE
 
@@ -162,9 +163,9 @@ _PROTOTYPE(int bc_sqrt, (bc_num *num, int scale));
 
 _PROTOTYPE(void bc_out_num, (bc_num num, int o_base, void (* out_char)(int),
 			     int leading_zero));
-                 
+
 #ifdef __cplusplus
 }
-#endif 
+#endif
 
 #endif
