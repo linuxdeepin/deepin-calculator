@@ -71,6 +71,7 @@ private slots:
     void onBracketButtonClicked();
     void onModButtonClicked();
     void clearButtonStateChanged(bool isAllClear);
+    void buttonsHandleAction(const QString &text);
 };
 
 #endif
