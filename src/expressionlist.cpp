@@ -3,12 +3,8 @@
 #include <QClipboard>
 #include <QKeyEvent>
 #include <QTimer>
-
-#include "dthememanager.h"
 #include "expressionlist.h"
 #include "utils.h"
-
-DWIDGET_USE_NAMESPACE
 
 ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
 {
@@ -38,6 +34,9 @@ ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
 
 ExpressionList::~ExpressionList()
 {
+    delete eval;
+    delete listView;
+    delete inputEdit;
 }
 
 void ExpressionList::setContinue(const bool &mark)
@@ -130,9 +129,7 @@ void ExpressionList::enterEqualEvent()
             isContinue = false;
         }
     } else {
-        inputEdit->setStyleSheet("QLineEdit { color: #FB6A6A }");
-        autoZoomFontSize();
-        QTimer::singleShot(200, this, [=] { inputEdit->setStyleSheet("QLineEdit { color: 000000; }");});
+        listView->addItem(inputEdit->text() + " ＝ " + tr("Expression Error"));
     }
 }
 
@@ -170,15 +167,16 @@ void ExpressionList::autoZoomFontSize()
     QFont font;
     for (int i = 28; i > 8; --i) {
         font.setPointSize(i);
-        const QFontMetrics fm(font);
-        const int fontWidth = fm.width(inputEdit->text());
-        const int editWidth = inputEdit->width() - 40;
+        QFontMetrics fm(font);
+        int fontWidth = fm.width(inputEdit->text());
+        int editWidth = inputEdit->width() - 40;
 
         if (fontWidth < editWidth) {
-            inputEdit->setFont(font);
             break;
         }
     }
+
+    inputEdit->setFont(font);
 }
 
 QString ExpressionList::formatExp(const QString &exp)

@@ -82,10 +82,6 @@ MainWindow::MainWindow(DMainWindow *parent)
         initThemeAction();
 
         connect(themeAction, &QAction::triggered, this, &MainWindow::switchTheme);
-        connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &MainWindow::changeTheme);
-        connect(DWindowManagerHelper::instance(), &DWindowManagerHelper::hasCompositeChanged, this, [=] {
-            changeTheme(DThemeManager::instance()->theme());
-        });
     }
 
     setWindowIcon(QIcon(":/images/deepin-calculator.svg"));
@@ -119,6 +115,7 @@ MainWindow::MainWindow(DMainWindow *parent)
 
 MainWindow::~MainWindow()
 {
+    // We don't need clean pointers because applicatibon has exit here.
 }
 
 void MainWindow::paintEvent(QPaintEvent *)
@@ -241,12 +238,16 @@ void MainWindow::initTheme()
     QString theme = settings->getOption("theme");
     DThemeManager::instance()->setTheme(theme);
     if (theme == "light") {
-        qApp->setStyleSheet(Utils::getQssContent(":/qss/light.qss"));
+        this->setStyleSheet(Utils::getQssContent(":/qss/light.qss"));
+        titlebarColor = "#FBFBFB";
+        separatorColor = "#E1E1E1";
+        backgroundColor = QColor(0, 0, 0, 0.05 * 255);
     } else {
-        qApp->setStyleSheet(Utils::getQssContent(":/qss/dark.qss"));
+        this->setStyleSheet(Utils::getQssContent(":/qss/dark.qss"));
+        titlebarColor = "#111111";
+        separatorColor = "#303030";
+        backgroundColor = QColor("#2D2D2D");
     }
-
-    changeTheme(theme);
 }
 
 void MainWindow::initThemeAction()
@@ -260,43 +261,32 @@ void MainWindow::switchTheme()
 
     if (settings->getOption("theme") == "dark") {
         settings->setOption("theme", "light");
-        DThemeManager::instance()->setTheme("light");
-        qApp->setStyleSheet(Utils::getQssContent(":/qss/light.qss"));
-        themeAction->setChecked(false);
+        initTheme();
     } else {
         settings->setOption("theme", "dark");
-        DThemeManager::instance()->setTheme("dark");
-        themeAction->setChecked(true);
-        qApp->setStyleSheet(Utils::getQssContent(":/qss/dark.qss"));
+        initTheme();
     }
-
-    repaint();
-}
-
-void MainWindow::changeTheme(QString theme)
-{
-    if (theme == "light") {
-        titlebarColor = "#FBFBFB";
-        separatorColor = "#E1E1E1";
-        backgroundColor = QColor(0, 0, 0, 0.05 * 255);
-    } else {
-        titlebarColor = "#111111";
-        separatorColor = "#303030";
-        backgroundColor = QColor("#2D2D2D");
-    }
-
-    initThemeAction();
 }
 
 void MainWindow::onNumberButtonClicked()
 {
     QPushButton *btn = qobject_cast<QPushButton *>(sender());
+
+    if (!btn) {
+        return;
+    }
+
     expList->enterNumberEvent(btn->text());
 }
 
 void MainWindow::onSymbolButtonClicked()
 {
     QPushButton *btn = qobject_cast<QPushButton *>(sender());
+
+    if (!btn) {
+        return;
+    }
+
     expList->enterSymbolEvent(btn->text());
 }
 

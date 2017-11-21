@@ -30,7 +30,6 @@ private slots:
     void initTheme();
     void initThemeAction();
     void switchTheme();
-    void changeTheme(QString theme);
     void onNumberButtonClicked();
     void onSymbolButtonClicked();
     void clearButtonStateChanged(bool isAllClear);

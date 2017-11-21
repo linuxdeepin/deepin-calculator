@@ -26,105 +26,105 @@ extern "C"{
 
 typedef enum
 {
-  Success = 0,
+    Success = 0,
 
 /* a NaN or an empty Variant was submitted as a parameter. Only a few
   functions in the math engine accept such a value. All arithmetic functions
   fail on such an operand */
-  NoOperand,
+    NoOperand,
 
 /* This error is returned if a result is mathematically defined, but
   cannot be computed reliably without extending the working precision
   considerably and/or requiring considerable computing time */
-  EvalUnstable,
+    EvalUnstable,
 
 /* the result is in absolute value smaller than the smallest non-zero
   value the math engine can handle */
-  Underflow,
+    Underflow,
 
 /* the result is in absolute value bigger than the biggest number
   the math engine can handle */
-  Overflow,
+    Overflow,
 
 /* operation requests a division by zero, or a function was evaluated
   at a pole */
-  ZeroDivide,
+    ZeroDivide,
 
 /* One or more parameters to a function lie outside of the function's
   domain */
-  OutOfDomain,
+    OutOfDomain,
 
 /* a number exceeds the logic number range, so logic operations cannot be
   applied */
-  OutOfLogicRange,
+    OutOfLogicRange,
 
 /* a number or a result exceeds the integer range */
-  OutOfIntegerRange,
+    OutOfIntegerRange,
 
 /* This error indicates a failed conversion from an ASCII string.
    Functions setting this error may also report a more detailed IO... error
    code*/
-  BadLiteral,
+    BadLiteral,
 
 /* A request to calculate something to more places than is (currently)
    acceptable */
-  InvalidPrecision,
+    InvalidPrecision,
 
 /* A parameter violates the limitations of the engine, or is completely
   meaningless, e.g. the evaluation of a quotient and a remainder in the same variable.
   This error indicates a bug, because the calling program should never submit
   such a parameter (combinations) */
-  InvalidParam,
+    InvalidParam,
 
 /* returned when an operation request is mathematically valid, but
   would require too much time */
-  TooExpensive,
+    TooExpensive,
 
 /* For correct conversion of a digit sequence, the IO routines need information
   about the radix to use. This error is returned if none was specified.
   This error indicates a bug, because a calling routine should always
   supply this information */
-  IONoBase,
+    IONoBase,
 
 /* This error occurs if you request a two's complement conversion, and either
   additionally specify a sign, or gave a non-zero fraction */
-  IOInvalidComplement,
+    IOInvalidComplement,
 
 /* You must specify at least one digit of the significant */
-  IONoSignificand,
+    IONoSignificand,
 
 /* invalid characters in exponent, e.g. a decimal dot */
-  IOBadExp,
+    IOBadExp,
 
 /* the exponent exceeds the allowed range */
-  IOExpOverflow,
+    IOExpOverflow,
 
 /* internal (string) buffer overflow in a conversion. This indicates a bug
   because range checking should be done in advance */
-  IOBufferOverflow,
+    IOBufferOverflow,
 
 /* request to convert more digits to another base than internal buffers
   can hold. This occurs when you try to convert huge values in fixpoint
   format */
-  IOConversionOverflow,
+    IOConversionOverflow,
 
 /* request to convert a tiny number in fixpoint format, so that only
   leading zeros are displayed. */
-  IOConversionUnderflow,
+    IOConversionUnderflow,
 
 /* a function was called with the wrong count of parameters
   e.g. sin(12;13) (sin takes only 1 parameter) */
-  InvalidParamCount,
+    InvalidParamCount,
 
 /* parameter type mismatch */
-  TypeMismatch,
+    TypeMismatch,
 
 /* occurs if quantities of different dimensions are compared, added, converted, etc. */
-  DimensionMismatch,
+    DimensionMismatch,
 
 /* occurs if a non dimensionless quantity is fed to a function that requires
  dimensoinless arguments, or if an invalid unit is specified */
-  InvalidDimension,
+    InvalidDimension,
 
 /* cannot overwrite an existing key in a table */
 //  KeyExists,
@@ -145,11 +145,11 @@ typedef enum
 /* used with variants, when an operation is not implemented
   for a particular data type.
   used with formats to indicate a not implemented property */
-  NotImplemented,
+    NotImplemented,
 
 /* this value is used internally to indicate the absence of
   any error information altogether */
-  NotAnError,
+    NotAnError,
 
 /*
  */

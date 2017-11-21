@@ -24,7 +24,8 @@ TextButton::TextButton(const QString &text, QWidget *parent)
 }
 
 TextButton::~TextButton()
-{;
+{
+    delete effect;
 }
 
 void TextButton::showShadowEffect()

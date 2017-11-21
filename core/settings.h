@@ -30,12 +30,6 @@
 class Settings {
 public:
     static Settings* instance();
-    static QString getConfigPath();
-    static QString getDataPath();
-    static QString getCachePath();
-
-    void load();
-    void save();
 
     char radixCharacter() const; // 0 or '*': Automatic.
     void setRadixCharacter(char c = 0);
@@ -43,43 +37,8 @@ public:
     bool isRadixCharacterBoth() const;
 
     bool complexNumbers;
-
     char angleUnit; // 'r': radian; 'd': degree.
 
-    char resultFormat;
-    int resultPrecision; // See HMath documentation.
-    char resultFormatComplex; // 'c' cartesian; 'p' polar.
-
-    bool autoAns;
-    bool autoCalc;
-    bool autoCompletion;
-    int digitGrouping;
-    bool sessionSave;
-    bool leaveLastExpression;
-    bool syntaxHighlighting;
-    bool windowAlwaysOnTop;
-    bool autoResultToClipboard;
-    bool windowPositionSave;
-
-    bool constantsDockVisible;
-    bool functionsDockVisible;
-    bool historyDockVisible;
-    bool keypadVisible;
-    bool formulaBookDockVisible;
-    bool statusBarVisible;
-    bool variablesDockVisible;
-    bool userFunctionsDockVisible;
-    bool windowOnfullScreen;
-    bool bitfieldVisible;
-
-    QString colorScheme;
-    QString displayFont;
-
-    QString language;
-
-    QByteArray windowState;
-    QByteArray windowGeometry;
-    QByteArray manualWindowGeometry;
 
 private:
     Settings();
