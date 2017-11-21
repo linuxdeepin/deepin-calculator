@@ -5,7 +5,6 @@
 
 #include <QApplication>
 #include <QPainter>
-#include <QTimer>
 #include <dtitlebar.h>
 
 MainWindow::MainWindow(DMainWindow *parent)
@@ -142,53 +141,43 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     switch (e->key()) {
     case Qt::Key_0:
         expList->enterNumberEvent(nullptr, true);
-        zeroButton->setDown(true);
-        QTimer::singleShot(100, [=] { zeroButton->setDown(false); });
+        zeroButton->animate();
         break;
     case Qt::Key_1:
         expList->enterNumberEvent(nullptr, true);
-        num1Button->setDown(true);
-        QTimer::singleShot(100, [=] { num1Button->setDown(false); });
+        num1Button->animate();
         break;
     case Qt::Key_2:
         expList->enterNumberEvent(nullptr, true);
-        num2Button->setDown(true);
-        QTimer::singleShot(100, [=] { num2Button->setDown(false); });
+        num2Button->animate();
         break;
     case Qt::Key_3:
         expList->enterNumberEvent(nullptr, true);
-        num3Button->setDown(true);
-        QTimer::singleShot(100, [=] { num3Button->setDown(false); });
+        num3Button->animate();
         break;
     case Qt::Key_4:
         expList->enterNumberEvent(nullptr, true);
-        num4Button->setDown(true);
-        QTimer::singleShot(100, [=] { num4Button->setDown(false); });
+        num4Button->animate();
         break;
     case Qt::Key_5:
         expList->enterNumberEvent(nullptr, true);
-        num5Button->setDown(true);
-        QTimer::singleShot(100, [=] { num5Button->setDown(false); });
+        num5Button->animate();
         break;
     case Qt::Key_6:
         expList->enterNumberEvent(nullptr, true);
-        num6Button->setDown(true);
-        QTimer::singleShot(100, [=] { num6Button->setDown(false); });
+        num6Button->animate();
         break;
     case Qt::Key_7:
         expList->enterNumberEvent(nullptr, true);
-        num7Button->setDown(true);
-        QTimer::singleShot(100, [=] { num7Button->setDown(false); });
+        num7Button->animate();
         break;
     case Qt::Key_8:
         expList->enterNumberEvent(nullptr, true);
-        num8Button->setDown(true);
-        QTimer::singleShot(100, [=] { num8Button->setDown(false); });
+        num8Button->animate();
         break;
     case Qt::Key_9:
         expList->enterNumberEvent(nullptr, true);
-        num9Button->setDown(true);
-        QTimer::singleShot(100, [=] { num9Button->setDown(false); });
+        num9Button->animate();
         break;
     case Qt::Key_Plus:
         plusButton->animateClick();
@@ -207,8 +196,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Backspace:
         if (!expList->getInputEditText().isEmpty()) {
-            backButton->setDown(true);
-            QTimer::singleShot(100, [=] { backButton->setDown(false); });
+            backButton->animate();
         }
         break;
     case Qt::Key_Period:
@@ -219,8 +207,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_ParenLeft: case Qt::Key_ParenRight:
         expList->setContinue(true);
-        bracketsButton->setDown(true);
-        QTimer::singleShot(100, this, [=] { bracketsButton->setDown(false); });
+        bracketsButton->animate();
         break;
     case Qt::Key_Percent:
         modButton->animateClick();

@@ -134,8 +134,10 @@ void ListView::mouseMoveEvent(QMouseEvent *e)
             isShowScrollbar = true;
             update();
         } else {
-            isShowScrollbar = false;
-            update();
+            if (isShowScrollbar) {
+                isShowScrollbar = false;
+                update();
+            }
         }
     }
 }

@@ -1,19 +1,19 @@
 #include "textbutton.h"
 #include "dthememanager.h"
+#include <QTimer>
 
 DWIDGET_USE_NAMESPACE
 
 TextButton::TextButton(const QString &text, QWidget *parent)
-    : QPushButton(parent)
+    : QPushButton(text, parent)
 {
-    effect = new QGraphicsDropShadowEffect(this);
+    m_effect = new QGraphicsDropShadowEffect(this);
 
-    setText(text);
     setFixedSize(80, 60);
     setMouseTracking(true);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");
-    setGraphicsEffect(effect);
+    setGraphicsEffect(m_effect);
 
     initShadow();
     hideShadowEffect();
@@ -25,44 +25,51 @@ TextButton::TextButton(const QString &text, QWidget *parent)
 
 TextButton::~TextButton()
 {
-    delete effect;
+    delete m_effect;
 }
 
 void TextButton::showShadowEffect()
 {
-    effect->setEnabled(true);
+    m_effect->setEnabled(true);
     raise();
 }
 
 void TextButton::hideShadowEffect()
 {
-    effect->setEnabled(false);
+    m_effect->setEnabled(false);
+}
+
+void TextButton::animate(int msec)
+{
+    setDown(true);
+
+    QTimer::singleShot(msec, this, [=] { setDown(false); });
 }
 
 void TextButton::initShadow()
 {
     if (DThemeManager::instance()->theme() == "light") {
-        effect->setColor(QColor(12, 155, 246, 255 * 0.1));
-        effect->setXOffset(0);
-        effect->setYOffset(4);
-        effect->setBlurRadius(12);
+        m_effect->setColor(QColor(12, 155, 246, 255 * 0.1));
+        m_effect->setXOffset(0);
+        m_effect->setYOffset(4);
+        m_effect->setBlurRadius(12);
 
         if (text() == "＝") {
-            effect->setColor(QColor(12, 155, 246, 255 * 0.8));
-            effect->setBlurRadius(20);
+            m_effect->setColor(QColor(12, 155, 246, 255 * 0.8));
+            m_effect->setBlurRadius(20);
         }
 
     } else {
-        effect->setColor(QColor(0, 0, 0, 255 * 0.1));
-        effect->setXOffset(0);
-        effect->setYOffset(4);
-        effect->setBlurRadius(12);
+        m_effect->setColor(QColor(0, 0, 0, 255 * 0.1));
+        m_effect->setXOffset(0);
+        m_effect->setYOffset(4);
+        m_effect->setBlurRadius(12);
 
         if (text() == "＝") {
-            effect->setColor(QColor(12, 155, 246, 255 * 0.6));
-            effect->setBlurRadius(30);
-            effect->setXOffset(-2);
-            effect->setYOffset(-4);
+            m_effect->setColor(QColor(12, 155, 246, 255 * 0.6));
+            m_effect->setBlurRadius(30);
+            m_effect->setXOffset(-2);
+            m_effect->setYOffset(-4);
         }
     }
 }

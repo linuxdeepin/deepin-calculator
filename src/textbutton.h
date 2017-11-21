@@ -9,11 +9,12 @@ class TextButton : public QPushButton
     Q_OBJECT
 
 public:
-    TextButton(const QString &text, QWidget *parent = 0);
+    TextButton(const QString &text = QString(), QWidget *parent = 0);
     ~TextButton();
 
     void showShadowEffect();
     void hideShadowEffect();
+    void animate(int msec = 100);
 
 protected:
     void initShadow();
@@ -23,7 +24,7 @@ protected:
     void leaveEvent(QEvent *);
 
 private:
-    QGraphicsDropShadowEffect *effect;
+    QGraphicsDropShadowEffect *m_effect;
 };
 
 #endif
