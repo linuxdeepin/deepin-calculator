@@ -106,10 +106,12 @@ target.path = $$INSTROOT$$BINDIR
 desktop.path = $$INSTROOT$$APPDIR
 translations.path = $$INSTROOT$$DSRDIR/translations
 manual.path = $$INSTROOT$$DOCDIR
+icon_files.path = $$PREFIX/share/icons/hicolor/scalable/apps/
+icon_files.files = $$PWD/images/deepin-calculator.svg
 
 desktop.files = deepin-calculator.desktop
 
-INSTALLS += target desktop
+INSTALLS += target desktop icon_files
 
 isEmpty(TRANSLATIONS) {
      include(translations.pri)
