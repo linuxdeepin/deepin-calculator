@@ -20,14 +20,12 @@
 // Boston, MA 02110-1301, USA.
 
 #include "core/settings.h"
-
 #include "math/floatconfig.h"
 
 #include <QDir>
 #include <QLocale>
 #include <QSettings>
 #include <QApplication>
-#include <QFont>
 #include <QtCore/QStandardPaths>
 
 static Settings* s_settingsInstance = 0;

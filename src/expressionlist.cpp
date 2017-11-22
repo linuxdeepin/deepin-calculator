@@ -5,6 +5,7 @@
 #include <QTimer>
 #include "expressionlist.h"
 #include "utils.h"
+#include <QDebug>
 
 ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
 {
@@ -34,7 +35,6 @@ ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
 
 ExpressionList::~ExpressionList()
 {
-    delete eval;
     delete listView;
     delete inputEdit;
 }
@@ -67,11 +67,21 @@ void ExpressionList::enterNumberEvent(const QString &num, bool isKeyPress)
 
 void ExpressionList::enterPointEvent()
 {
-    inputEdit->insert(".");
+    QChar lastChar = formatExp(inputEdit->text()).at(inputEdit->cursorPosition() - 1);
+
+    if (lastChar != '.') {
+        inputEdit->insert(".");
+    }
 }
 
 void ExpressionList::enterSymbolEvent(const QString &str)
 {
+    QChar lastChar = formatExp(inputEdit->text()).at(inputEdit->cursorPosition() - 1);
+
+    if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/') {
+        inputEdit->backspace();
+    }
+
     inputEdit->insert(str);
     isContinue = true;
 }
@@ -116,9 +126,7 @@ void ExpressionList::enterEqualEvent()
     auto quantity = eval->evalUpdateAns();
 
     if (eval->error().isEmpty()) {
-        if (quantity.isNan() && eval->isUserFunctionAssign()) {
-
-        } else {
+        if (!quantity.isNan() && !eval->isUserFunctionAssign()) {
             const QString result = DMath::format(eval->evalUpdateAns(), Quantity::Format::Fixed());
             const double resultNum = result.toDouble();
             if (result == inputEdit->text()) {
@@ -153,6 +161,9 @@ int ExpressionList::getItemsCount()
 
 void ExpressionList::inputEditChanged(const QString &text)
 {
+    const QString exp = QString(text).replace("（", "(").replace("）", ")");
+    inputEdit->setText(exp);
+
     // make font size of inputEdit fit text content.
     autoZoomFontSize();
 
