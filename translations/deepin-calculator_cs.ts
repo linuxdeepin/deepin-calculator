@@ -1,13 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs">
-<context>
-    <name>ExpressionList</name>
-    <message>
-        <source>Expression Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
 <context>
     <name>Main</name>
     <message>
@@ -16,7 +7,7 @@
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication, division and remainder.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

@@ -1,13 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="lt">
-<context>
-    <name>ExpressionList</name>
-    <message>
-        <source>Expression Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="lt" version="2.1">
 <context>
     <name>Main</name>
     <message>
