@@ -5,7 +5,6 @@
 #include <QTimer>
 #include "expressionlist.h"
 #include "utils.h"
-#include <QDebug>
 
 ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
 {
@@ -161,8 +160,10 @@ int ExpressionList::getItemsCount()
 
 void ExpressionList::inputEditChanged(const QString &text)
 {
+    const int cursorPos = inputEdit->cursorPosition();
     const QString exp = QString(text).replace("（", "(").replace("）", ")");
     inputEdit->setText(exp);
+    inputEdit->setCursorPosition(cursorPos);
 
     // make font size of inputEdit fit text content.
     autoZoomFontSize();
@@ -180,7 +181,7 @@ void ExpressionList::autoZoomFontSize()
         font.setPointSize(i);
         QFontMetrics fm(font);
         int fontWidth = fm.width(inputEdit->text());
-        int editWidth = inputEdit->width() - 40;
+        int editWidth = inputEdit->width() - 25;
 
         if (fontWidth < editWidth) {
             break;
@@ -193,8 +194,8 @@ void ExpressionList::autoZoomFontSize()
 QString ExpressionList::formatExp(const QString &exp)
 {
     return QString(exp).replace("＋", "+").replace("－", "-").replace("×", "*").replace("÷", "/")
-                       .replace("%+", " percent + ").replace("%-", " percent - ").replace("%*", " percent * ")
-                       .replace("%/", " percent / ");
+        .replace("%+", " percent + ").replace("%-", " percent - ").replace("%*", " percent * ")
+        .replace("%/", " percent / ");
 }
 
 QChar ExpressionList::getLastChar(const QString &str)

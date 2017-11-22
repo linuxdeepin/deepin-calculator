@@ -35,6 +35,8 @@
 #include "core/variable.h"
 #include "core/userfunction.h"
 
+class Session;
+
 class Token {
 public:
     enum Op { InvalidOp = 0, Plus, Minus, Asterisk, Slash, Backslash, Caret,
@@ -87,6 +89,10 @@ public:
     bool valid() const { return m_valid; }
     void setValid(bool v) { m_valid = v; }
 
+#ifdef EVALUATOR_DEBUG
+    void append(const Token&);
+#endif  /* EVALUATOR_DEBUG */
+
 protected:
     bool m_valid;
 };
@@ -98,6 +104,9 @@ class Evaluator : public QObject {
 public:
     static Evaluator* instance();
     void reset();
+
+    void setSession(Session * s);
+    const Session *session();
 
     static bool isSeparatorChar(const QChar&);
     static bool isRadixChar(const QChar&);
@@ -125,6 +134,8 @@ public:
     void unsetAllUserDefinedVariables();
     bool isBuiltInVariable(const QString&) const;
     bool hasVariable(const QString&) const;
+    void initializeBuiltInVariables();
+    void initializeAngleUnits();
 
     QList<UserFunction> getUserFunctions() const;
     void setUserFunction(const UserFunction & f);
@@ -150,6 +161,7 @@ private:
     QVector<Opcode> m_codes;
     QVector<Quantity> m_constants;
     QStringList m_identifiers;
+    Session * m_session;
     QSet<QString> m_functionsInUse;
 
     const Quantity& checkOperatorResult(const Quantity&);

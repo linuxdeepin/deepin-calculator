@@ -202,7 +202,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Period:
         pointButton->animateClick();
         break;
-    case Qt::Key_Escape:
+    case Qt::Key_Escape: case Qt::Key_Delete:
         clearButton->animateClick();
         break;
     case Qt::Key_ParenLeft: case Qt::Key_ParenRight:

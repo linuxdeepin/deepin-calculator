@@ -23,6 +23,7 @@
 // Boston, MA 02110-1301, USA.
 
 #include "core/evaluator.h"
+#include "core/session.h"
 #include "core/settings.h"
 #include "math/rational.h"
 #include "math/units.h"
@@ -30,7 +31,6 @@
 #include <QCoreApplication>
 #include <QStack>
 #include <QRegularExpression>
-#include <QDebug>
 
 #define ALLOW_IMPLICIT_MULT
 
@@ -195,11 +195,6 @@ static Token::Op matchOperator(const QString& text)
         default: result = Token::InvalidOp;
         }
     }
-    // else if (text.length() == 2) {
-    //     if (text == "%*") {
-    //         qDebug() << "haha";
-    //     }
-    // }
 
     // else if (text.length() == 2) {
     //     if (text == "**")
@@ -412,6 +407,13 @@ void TokenStack::reduce(int count, Token&& top, int minPrecedence)
  */
 void TokenStack::reduce(QList<Token> tokens, Token&& top, int minPrecedence)
 {
+
+#ifdef EVALUATOR_DEBUG
+    qDebug() << "reduce(" << tokens.size() << ", " << top.description() << ", " << minPrecedence << ")";
+    for (Token& t : tokens)
+        qDebug() << t.description();
+#endif  /* EVALUATOR_DEBUG */
+
     qSort(tokens.begin(), tokens.end(), tokenPositionCompare);
 
     bool computeMinPrec = (minPrecedence == INVALID_PRECEDENCE);
@@ -431,12 +433,24 @@ void TokenStack::reduce(QList<Token> tokens, Token&& top, int minPrecedence)
             continue;
 
         if (token.pos() == -1 || token.size() == -1) {
+
+#ifdef EVALUATOR_DEBUG
+            qDebug() << "BUG: found token with either pos or size not set, but not both.";
+#endif  /* EVALUATOR_DEBUG */
             continue;
         }
 
         if (start == -1) {
             start = token.pos();
+        } else {
+
+#ifdef EVALUATOR_DEBUG
+            if (token.pos() != end)
+                qDebug() << "BUG: tokens expressions are not successive.";
+#endif  /* EVALUATOR_DEBUG */
+
         }
+
         end = token.pos() + token.size();
     }
 
@@ -446,8 +460,21 @@ void TokenStack::reduce(QList<Token> tokens, Token&& top, int minPrecedence)
     }
 
     top.setMinPrecedence(min_prec);
+
+#ifdef EVALUATOR_DEBUG
+    qDebug() << "=> " << top.description();
+#endif  /* EVALUATOR_DEBUG */    
+
     push(top);
 }
+
+#ifdef EVALUATOR_DEBUG
+void Tokens::append(const Token &token)
+{
+    qDebug() << QString("tokens.append: type=%1 text=%2").arg(token.type()).arg(token.text());
+    QVector<Token>::append(token);
+}
+#endif  /* EVALUATOR_DEBUG */    
 
 // Helper function: return true for valid identifier character.
 static bool isIdentifier(QChar ch)
@@ -547,6 +574,45 @@ Evaluator::Evaluator()
     reset();
 }
 
+
+#define ADD_UNIT(name) \
+    setVariable(QString::fromUtf8(#name), Units::name(), Variable::BuiltIn)
+
+void Evaluator::initializeBuiltInVariables()
+{
+    setVariable(QLatin1String("e"), DMath::e(), Variable::BuiltIn);
+    setVariable(QString::fromUtf8("ℯ"), DMath::e(), Variable::BuiltIn);
+
+    setVariable(QLatin1String("pi"), DMath::pi(), Variable::BuiltIn);
+    setVariable(QString::fromUtf8("π"), DMath::pi(), Variable::BuiltIn);
+
+    if(Settings::instance()->complexNumbers) {
+        setVariable(QLatin1String("j"), DMath::i(), Variable::BuiltIn);
+    }
+    else if(hasVariable("j")) {
+        unsetVariable("j", true);
+    }
+
+    QList<Unit> unitList(Units::getList());
+    for(Unit u : unitList) {
+        setVariable(u.name, u.value, Variable::BuiltIn);
+    }
+
+    initializeAngleUnits();
+}
+
+void Evaluator::initializeAngleUnits()
+{
+    if (Settings::instance()->angleUnit == 'r') {
+        setVariable("radian", 1, Variable::BuiltIn);
+        setVariable("degree", HMath::pi()/HNumber(180),Variable::BuiltIn);
+    }
+    else {
+        setVariable("radian", HNumber(180)/HMath::pi(),Variable::BuiltIn);
+        setVariable("degree", 1,Variable::BuiltIn);
+    }
+}
+
 void Evaluator::setExpression(const QString& expr)
 {
     m_expression = expr;
@@ -584,7 +650,20 @@ void Evaluator::reset()
     m_assignId = QString();
     m_assignFunc = false;
     m_assignArg.clear();
+    m_session = NULL;
     m_functionsInUse.clear();
+
+    initializeBuiltInVariables();
+}
+
+void Evaluator::setSession(Session *s)
+{
+    m_session = s;
+}
+
+const Session *Evaluator::session()
+{
+    return m_session;
 }
 
 QString Evaluator::error() const
@@ -754,7 +833,7 @@ Tokens Evaluator::scan(const QString& expr) const
             }
             break;
 
-        /* Find out the number base */
+            /* Find out the number base */
         case InNumberPrefix:
             if (ch.isDigit()) {
                 // Only consume the first digit and the second digit if the first was 0
@@ -1727,6 +1806,11 @@ bool Evaluator::isBuiltInVariable(const QString& id) const
     // Defining variables with the same name as existing functions is not supported for now.
     if (FunctionRepo::instance()->find(id))
         return true;
+
+    if (!m_session || !m_session->hasVariable(id))
+        return false;
+
+    return m_session->getVariable(id).type() == Variable::BuiltIn;
 }
 
 Quantity Evaluator::eval()
@@ -1795,27 +1879,37 @@ Quantity Evaluator::evalUpdateAns()
 
 void Evaluator::setVariable(const QString& id, Quantity value, Variable::Type type)
 {
-
+    if(!m_session)
+        m_session = new Session;
+    m_session->addVariable(Variable(id, value, type));
 }
 
 Variable Evaluator::getVariable(const QString& id) const
 {
+    if (id.isEmpty() || !m_session)
+        return Variable(QLatin1String(""), Quantity(0));
 
+    return m_session->getVariable(id);
 }
 
 bool Evaluator::hasVariable(const QString& id) const
 {
-
+    if (id.isEmpty() || !m_session)
+        return false;
+    else
+        return m_session->hasVariable(id);
 }
 
 void Evaluator::unsetVariable(const QString& id, bool force_builtin)
 {
-
+    if(!m_session || (m_session->isBuiltInVariable(id) && ! force_builtin))
+        return;
+    m_session->removeVariable(id);
 }
 
 QList<Variable> Evaluator::getVariables() const
 {
-
+    return m_session ? m_session->variablesToList() : QList<Variable>();
 }
 
 QList<Variable> Evaluator::getUserDefinedVariables() const
@@ -1842,10 +1936,10 @@ QList<Variable> Evaluator::getUserDefinedVariablesPlusAns() const
 
 void Evaluator::unsetAllUserDefinedVariables()
 {
-    // if(!m_session) return;
-    // Quantity ansBackup = getVariable(QLatin1String("ans")).value();
-    // m_session->clearVariables();
-    // setVariable(QLatin1String("ans"), ansBackup, Variable::BuiltIn);
+    if(!m_session) return;
+    Quantity ansBackup = getVariable(QLatin1String("ans")).value();
+    m_session->clearVariables();
+    setVariable(QLatin1String("ans"), ansBackup, Variable::BuiltIn);
 }
 
 static QRegularExpression s_superscriptPowersRE("(\\x{207B})?[\\x{2070}¹²³\\x{2074}-\\x{2079}]+");
@@ -1891,31 +1985,36 @@ static void replaceSuperscriptPowersWithCaretEquivalent(QString& expr)
 
 QList<UserFunction> Evaluator::getUserFunctions() const
 {
-        
+        return m_session ? m_session->UserFunctionsToList() : QList<UserFunction>();
 }
 
 void Evaluator::setUserFunction(const UserFunction &f)
 {
-
+    if(!m_session)
+        m_session = new Session;
+    m_session->addUserFunction(f);
 }
 
 void Evaluator::unsetUserFunction(const QString& fname)
 {
-
+    m_session->removeUserFunction(fname);
 }
 
 void Evaluator::unsetAllUserFunctions()
 {
-
+    m_session->clearUserFunctions();
 }
 
 bool Evaluator::hasUserFunction(const QString& fname) const
 {
-    return false;
+    return (fname.isEmpty() || !m_session) ? false : m_session->hasUserFunction(fname);
 }
 
 const UserFunction *Evaluator::getUserFunction(const QString& fname) const
 {
+    if(hasUserFunction(fname))
+        return m_session->getUserFunction(fname);
+    else
         return NULL;
 }
 
