@@ -84,6 +84,9 @@ void ListView::paintEvent(QPaintEvent *)
     painter.drawRect(rect());
 
     // Draw Items.
+    QFont font;
+    font.setPointSize(10);
+    painter.setFont(font);
     painter.setPen(QColor(fontColor));
 
     int drawHeight = 0;

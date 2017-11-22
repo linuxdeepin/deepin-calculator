@@ -15,7 +15,11 @@ HEADERS += core/constants.h \
            core/errors.h \
            core/evaluator.h \
            core/functions.h \
+           core/numberformatter.h \
            core/opcode.h \
+           core/pageserver.h \
+           core/session.h \
+           core/sessionhistory.h \
            core/settings.h \
            core/userfunction.h \
            core/variable.h \
@@ -57,7 +61,11 @@ HEADERS += core/constants.h \
 SOURCES += core/constants.cpp \
            core/evaluator.cpp \
            core/functions.cpp \
+           core/numberformatter.cpp \
            core/opcode.cpp \
+           core/pageserver.cpp \
+           core/session.cpp \
+           core/sessionhistory.cpp \
            core/settings.cpp \
            core/userfunction.cpp \
            core/variable.cpp \

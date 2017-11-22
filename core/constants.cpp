@@ -20,8 +20,12 @@
 // Boston, MA 02110-1301, USA.
 
 #include "core/constants.h"
+
+#include "core/numberformatter.h"
 #include "math/hmath.h"
+
 #include <QCoreApplication>
+
 #include <algorithm>
 
 static Constants* s_constantsInstance = nullptr;
