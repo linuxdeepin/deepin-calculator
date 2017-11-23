@@ -1,5 +1,12 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
 <context>
+    <name>ExpressionList</name>
+    <message>
+        <source>Expression Error</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>Main</name>
     <message>
         <source>Deepin Calculator</source>
