@@ -39,12 +39,12 @@ signals:
     void inputKeyPressEvent(QKeyEvent *);
 
 private:
-    Evaluator *eval;
-    bool isContinue;
-    bool isAllClear;
-    QVBoxLayout *layout;
-    ListView *listView;
-    InputEdit *inputEdit;
+    Evaluator *m_eval;
+    bool m_isContinue;
+    bool m_isAllClear;
+    QVBoxLayout *m_layout;
+    ListView *m_listView;
+    InputEdit *m_inputEdit;
     void autoZoomFontSize();
     QString formatExp(const QString &exp);
     QChar getLastChar(const QString &str);

@@ -12,6 +12,7 @@ public:
     ~Utils();
 
     static QString getQssContent(const QString &filePath);
+    static QString formatThousandsSeparators(const QString &str);
 };
 
 #endif

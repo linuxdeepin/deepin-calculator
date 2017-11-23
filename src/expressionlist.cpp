@@ -8,111 +8,111 @@
 
 ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
 {
-    eval = Evaluator::instance();
-    layout = new QVBoxLayout(this);
-    listView = new ListView;
-    inputEdit = new InputEdit;
+    m_eval = Evaluator::instance();
+    m_layout = new QVBoxLayout(this);
+    m_listView = new ListView;
+    m_inputEdit = new InputEdit;
 
-    layout->setMargin(0);
-    layout->setSpacing(0);
-    layout->addWidget(listView);
-    layout->addWidget(inputEdit);
+    m_layout->setMargin(0);
+    m_layout->setSpacing(0);
+    m_layout->addWidget(m_listView);
+    m_layout->addWidget(m_inputEdit);
 
-    inputEdit->setTextMargins(10, 0, 10, 8);
-    inputEdit->setFixedHeight(55);
-    inputEdit->setAlignment(Qt::AlignRight);
+    m_inputEdit->setTextMargins(10, 0, 10, 8);
+    m_inputEdit->setFixedHeight(55);
+    m_inputEdit->setAlignment(Qt::AlignRight);
 
-    isContinue = true;
-    isAllClear = false;
+    m_isContinue = true;
+    m_isAllClear = false;
 
     setFixedHeight(160);
     autoZoomFontSize();
 
-    connect(inputEdit, &InputEdit::textChanged, this, &ExpressionList::inputEditChanged);
-    connect(inputEdit, &InputEdit::inputKeyPressEvent, this, &ExpressionList::inputKeyPressEvent);
+    connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionList::inputEditChanged);
+    connect(m_inputEdit, &InputEdit::inputKeyPressEvent, this, &ExpressionList::inputKeyPressEvent);
 }
 
 ExpressionList::~ExpressionList()
 {
-    delete listView;
-    delete inputEdit;
+    delete m_listView;
+    delete m_inputEdit;
 }
 
 void ExpressionList::setContinue(const bool &mark)
 {
-    isContinue = mark;
+    m_isContinue = mark;
 }
 
 QString ExpressionList::getInputEditText() const
 {
-    return inputEdit->text();
+    return m_inputEdit->text();
 }
 
 void ExpressionList::enterNumberEvent(const QString &num, bool isKeyPress)
 {
-    if (!isContinue) {
-        inputEdit->setText("");
-        isContinue = true;
+    if (!m_isContinue) {
+        m_inputEdit->setText("");
+        m_isContinue = true;
     }
 
     if (!isKeyPress) {
-        inputEdit->insert(num);
+        m_inputEdit->insert(num);
     }
 
-    isAllClear = false;
+    m_isAllClear = false;
 
     emit clearStateChanged(false);
 }
 
 void ExpressionList::enterPointEvent()
 {
-    QChar lastChar = formatExp(inputEdit->text()).at(inputEdit->cursorPosition() - 1);
+    QChar lastChar = formatExp(m_inputEdit->text()).at(m_inputEdit->cursorPosition() - 1);
 
     if (lastChar != '.') {
-        inputEdit->insert(".");
+        m_inputEdit->insert(".");
     }
 }
 
 void ExpressionList::enterSymbolEvent(const QString &str)
 {
-    QChar lastChar = formatExp(inputEdit->text()).at(inputEdit->cursorPosition() - 1);
+    QChar lastChar = formatExp(m_inputEdit->text()).at(m_inputEdit->cursorPosition() - 1);
 
     if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/') {
-        inputEdit->backspace();
+        m_inputEdit->backspace();
     }
 
-    inputEdit->insert(str);
-    isContinue = true;
+    m_inputEdit->insert(str);
+    m_isContinue = true;
 }
 
 void ExpressionList::enterBracketsEvent()
 {
-    const int currentPos = inputEdit->cursorPosition();
-    inputEdit->insert("()");
-    inputEdit->setCursorPosition(currentPos + 1);
+    const int currentPos = m_inputEdit->cursorPosition();
+    m_inputEdit->insert("()");
+    m_inputEdit->setCursorPosition(currentPos + 1);
 
-    isAllClear = false;
-    isContinue = true;
+    m_isAllClear = false;
+    m_isContinue = true;
 }
 
 void ExpressionList::enterBackspaceEvent()
 {
-    inputEdit->backspace();
+    m_inputEdit->backspace();
 
-    isContinue = true;
-    isAllClear = false;
+    m_isContinue = true;
+    m_isAllClear = false;
 }
 
 void ExpressionList::enterClearEvent()
 {
-    if (isAllClear) {
-        listView->clearItems();
-        isAllClear = false;
+    if (m_isAllClear) {
+        m_listView->clearItems();
+        m_isAllClear = false;
 
         emit clearStateChanged(false);
     } else {
-        inputEdit->setText("");
-        isAllClear = true;
+        m_inputEdit->setText("");
+        m_isAllClear = true;
 
         emit clearStateChanged(true);
     }
@@ -120,56 +120,60 @@ void ExpressionList::enterClearEvent()
 
 void ExpressionList::enterEqualEvent()
 {
-    QString str = eval->autoFix(formatExp(inputEdit->text()));
-    eval->setExpression(str);
-    auto quantity = eval->evalUpdateAns();
+    if (m_inputEdit->text().isEmpty())
+        return;
 
-    if (eval->error().isEmpty()) {
-        if (!quantity.isNan() && !eval->isUserFunctionAssign()) {
-            const QString result = DMath::format(eval->evalUpdateAns(), Quantity::Format::Fixed());
+    QString str = m_eval->autoFix(formatExp(m_inputEdit->text()));
+    m_eval->setExpression(str);
+    auto quantity = m_eval->evalUpdateAns();
+
+    if (m_eval->error().isEmpty()) {
+        if (!quantity.isNan() && !m_eval->isUserFunctionAssign()) {
+            const QString result = DMath::format(m_eval->evalUpdateAns(), Quantity::Format::Fixed());
             const double resultNum = result.toDouble();
-            if (result == inputEdit->text()) {
+            if (result == m_inputEdit->text()) {
                 return;
             }
-            listView->addItem(inputEdit->text() + " ＝ " + QString::number(resultNum));
-            inputEdit->setText(result);
-            isContinue = false;
+            const QString formatResult = Utils::formatThousandsSeparators(QString::number(resultNum));
+            m_listView->addItem(m_inputEdit->text() + " ＝ " + formatResult);
+            m_inputEdit->setText(QString::number(resultNum));
+            m_isContinue = false;
         }
     } else {
-        listView->addItem(inputEdit->text() + " ＝ " + tr("Expression Error"));
+        m_listView->addItem(m_inputEdit->text() + " ＝ " + tr("Expression Error"));
     }
 }
 
 void ExpressionList::copyResultToClipboard()
 {
-    const auto str = eval->autoFix(formatExp(inputEdit->text()));
-    eval->setExpression(str);
+    const auto str = m_eval->autoFix(formatExp(m_inputEdit->text()));
+    m_eval->setExpression(str);
 
-    if (!eval->error().isEmpty()) {
-        QApplication::clipboard()->setText(inputEdit->text());
+    if (!m_eval->error().isEmpty()) {
+        QApplication::clipboard()->setText(m_inputEdit->text());
     } else {
-        const QString result = DMath::format(eval->evalUpdateAns(), Quantity::Format::Fixed());
+        const QString result = DMath::format(m_eval->evalUpdateAns(), Quantity::Format::Fixed());
         QApplication::clipboard()->setText(result);
     }
 }
 
 int ExpressionList::getItemsCount()
 {
-    return listView->getItemsCount();
+    return m_listView->getItemsCount();
 }
 
 void ExpressionList::inputEditChanged(const QString &text)
 {
-    const int cursorPos = inputEdit->cursorPosition();
+    const int cursorPos = m_inputEdit->cursorPosition();
     const QString exp = QString(text).replace("（", "(").replace("）", ")");
-    inputEdit->setText(exp);
-    inputEdit->setCursorPosition(cursorPos);
+    m_inputEdit->setText(exp);
+    m_inputEdit->setCursorPosition(cursorPos);
 
     // make font size of inputEdit fit text content.
     autoZoomFontSize();
 
-    isAllClear = false;
-    isContinue = true;
+    m_isAllClear = false;
+    m_isContinue = true;
 
     emit clearStateChanged(false);
 }
@@ -180,22 +184,25 @@ void ExpressionList::autoZoomFontSize()
     for (int i = 28; i > 8; --i) {
         font.setPointSize(i);
         QFontMetrics fm(font);
-        int fontWidth = fm.width(inputEdit->text());
-        int editWidth = inputEdit->width() - 25;
+        int fontWidth = fm.width(m_inputEdit->text());
+        int editWidth = m_inputEdit->width() - 25;
 
         if (fontWidth < editWidth) {
             break;
         }
     }
 
-    inputEdit->setFont(font);
+    m_inputEdit->setFont(font);
 }
 
 QString ExpressionList::formatExp(const QString &exp)
 {
-    return QString(exp).replace("＋", "+").replace("－", "-").replace("×", "*").replace("÷", "/")
-        .replace("%+", " percent + ").replace("%-", " percent - ").replace("%*", " percent * ")
-        .replace("%/", " percent / ");
+    return QString(exp).replace("＋", "+")
+                       .replace("－", "-")
+                       .replace("×", "*")
+                       .replace("÷", "/")
+                       .replace(",", "")
+                       .replace("%", " percent ");
 }
 
 QChar ExpressionList::getLastChar(const QString &str)

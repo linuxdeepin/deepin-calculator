@@ -16,7 +16,7 @@ public:
     void setOption(const QString &key, const QString &value);
 
 private:
-    QSettings *settings;
+    QSettings *m_settings;
 };
 
 #endif

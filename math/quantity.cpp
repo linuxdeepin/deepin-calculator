@@ -834,7 +834,6 @@ WRAPPER_DMATH_2(ashr)
 WRAPPER_DMATH_3(decodeIeee754)
 WRAPPER_DMATH_4(decodeIeee754)
 
-
 QString DMath::format(Quantity q, Quantity::Format format)
 {
     format = q.format() + format;  // Left hand side oerator takes priority.
@@ -851,6 +850,8 @@ QString DMath::format(Quantity q, Quantity::Format format)
     number /= unit;
 
     QString result = CMath::format(number, format);
+    // rekols mark.
+    // TODO: add thousands separators.
 
     if (!number.real.isZero() && !number.imag.isZero() && unit_name != " ")
         result = "(" + result + ")";

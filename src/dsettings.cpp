@@ -5,16 +5,16 @@
 
 DSettings::DSettings(QObject *parent) : QObject(parent)
 {
-    settings = new QSettings(QDir(configPath()).filePath("config.conf"), QSettings::IniFormat);
+    m_settings = new QSettings(QDir(configPath()).filePath("config.conf"), QSettings::IniFormat);
 
-    if (settings->value("theme").toString().isEmpty()) {
+    if (m_settings->value("theme").toString().isEmpty()) {
         setOption("theme", "light");
     }
 }
 
 DSettings::~DSettings()
 {
-    delete settings;
+    delete m_settings;
 }
 
 QString DSettings::configPath()
@@ -24,10 +24,10 @@ QString DSettings::configPath()
 
 QString DSettings::getOption(const QString &key)
 {
-    return settings->value(key).toString();
+    return m_settings->value(key).toString();
 }
 
 void DSettings::setOption(const QString &key, const QString &value)
 {
-    settings->setValue(key, value);
+    m_settings->setValue(key, value);
 }

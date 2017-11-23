@@ -2,14 +2,14 @@
 
 TitleBar::TitleBar(QWidget *parent) : QWidget(parent)
 {
-    layout = new QHBoxLayout(this);
-    iconWidget = new QSvgWidget(":/images/deepin-calculator.svg");
+    m_mainLayout = new QHBoxLayout(this);
+    m_iconWidget = new QSvgWidget(":/images/deepin-calculator.svg");
 
-    iconWidget->setFixedSize(22, 22);
+    m_iconWidget->setFixedSize(22, 22);
 
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->addWidget(iconWidget);
-    layout->addStretch();
+    m_mainLayout->setContentsMargins(0, 0, 0, 0);
+    m_mainLayout->addWidget(m_iconWidget);
+    m_mainLayout->addStretch();
 }
 
 TitleBar::~TitleBar()
