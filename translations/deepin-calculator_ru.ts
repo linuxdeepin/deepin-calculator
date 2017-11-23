@@ -5,14 +5,7 @@
     <name>ExpressionList</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ExpressionList</name>
-    <message>
-        <source>Expression Error</source>
-        <translation>Ошибка Выражения</translation>
+        <translation type="unfinished">Ошибка Выражения</translation>
     </message>
 </context>
 <context>

@@ -9,13 +9,6 @@
     </message>
 </context>
 <context>
-    <name>ExpressionList</name>
-    <message>
-        <source>Expression Error</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
     <name>Main</name>
     <message>
         <source>Deepin Calculator</source>

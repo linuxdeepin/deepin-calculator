@@ -1,4 +1,4 @@
-// This file is part of the SpeedCrunch project
+﻿// This file is part of the SpeedCrunch project
 // Copyright (C) 2004 Ariya Hidayat <ariya@kde.org>
 // Copyright (C) 2005, 2006 Johan Thelin <e8johan@gmail.com>
 // Copyright (C) 2007, 2008, 2009, 2010, 2013 @heldercorreia
@@ -178,7 +178,7 @@ static Token::Op matchOperator(const QString& text)
     if (text.length() == 1) {
         QChar p = text.at(0);
         switch(p.unicode()) {
-        case '%': result = Token::Modulo; break;
+        case '%': result = Token::Percent; break;
         case '+': result = Token::Plus; break;
         case '-': result = Token::Minus; break;
         case '*': result = Token::Asterisk; break;
@@ -219,12 +219,13 @@ static int opPrecedence(Token::Op op)
     switch(op) {
     case Token::Exclamation: prec = 800; break;
     case Token::Caret: prec = 700; break;
+    case Token::Percent: prec = 800; break;
     /* Not really an operator but needed for managing shift/reduce conflicts */
     case Token::Function: prec = 600; break;
     case Token::Asterisk:
     case Token::Slash: prec = 500; break;
     case Token::Modulo:
-    case Token::Backslash: prec = 600; break;
+    case Token::Backslash: prec = 900; break;
     case Token::Plus:
     case Token::Minus: prec = 300; break;
     case Token::LeftShift:
@@ -237,6 +238,7 @@ static int opPrecedence(Token::Op op)
     case Token::LeftPar: prec = -200; break;
     default: prec = -200; break;
     }
+
     return prec;
 }
 
@@ -407,13 +409,6 @@ void TokenStack::reduce(int count, Token&& top, int minPrecedence)
  */
 void TokenStack::reduce(QList<Token> tokens, Token&& top, int minPrecedence)
 {
-
-#ifdef EVALUATOR_DEBUG
-    qDebug() << "reduce(" << tokens.size() << ", " << top.description() << ", " << minPrecedence << ")";
-    for (Token& t : tokens)
-        qDebug() << t.description();
-#endif  /* EVALUATOR_DEBUG */
-
     qSort(tokens.begin(), tokens.end(), tokenPositionCompare);
 
     bool computeMinPrec = (minPrecedence == INVALID_PRECEDENCE);
@@ -433,21 +428,12 @@ void TokenStack::reduce(QList<Token> tokens, Token&& top, int minPrecedence)
             continue;
 
         if (token.pos() == -1 || token.size() == -1) {
-
-#ifdef EVALUATOR_DEBUG
-            qDebug() << "BUG: found token with either pos or size not set, but not both.";
-#endif  /* EVALUATOR_DEBUG */
             continue;
         }
 
         if (start == -1) {
             start = token.pos();
         } else {
-
-#ifdef EVALUATOR_DEBUG
-            if (token.pos() != end)
-                qDebug() << "BUG: tokens expressions are not successive.";
-#endif  /* EVALUATOR_DEBUG */
 
         }
 
@@ -460,21 +446,8 @@ void TokenStack::reduce(QList<Token> tokens, Token&& top, int minPrecedence)
     }
 
     top.setMinPrecedence(min_prec);
-
-#ifdef EVALUATOR_DEBUG
-    qDebug() << "=> " << top.description();
-#endif  /* EVALUATOR_DEBUG */    
-
     push(top);
 }
-
-#ifdef EVALUATOR_DEBUG
-void Tokens::append(const Token &token)
-{
-    qDebug() << QString("tokens.append: type=%1 text=%2").arg(token.type()).arg(token.text());
-    QVector<Token>::append(token);
-}
-#endif  /* EVALUATOR_DEBUG */    
 
 // Helper function: return true for valid identifier character.
 static bool isIdentifier(QChar ch)
@@ -716,18 +689,9 @@ Tokens Evaluator::scan(const QString& expr) const
     // Force a terminator.
     ex.append(QChar());
 
-#ifdef EVALUATOR_DEBUG
-        qDebug() << "Scanning" << ex;
-#endif  /* EVALUATOR_DEBUG */
-
     // Main loop.
     while (state != Bad && state != Finish && i < ex.length()) {
         QChar ch = ex.at(i);
-
-#ifdef EVALUATOR_DEBUG
-        qDebug() << QString("state=%1 ch=%2 i=%3 tokenText=%4")
-                            .arg(state).arg(ch).arg(i).arg(tokenText);
-#endif  /* EVALUATOR_DEBUG */
 
         switch (state) {
         case Init:
@@ -818,8 +782,9 @@ Tokens Evaluator::scan(const QString& expr) const
         /* Manage both identifier and alphanumeric operators */
         case InIdentifier:
             // Consume as long as alpha, dollar sign, underscore, or digit.
-            if (isIdentifier(ch) || ch.isDigit())
+            if (isIdentifier(ch) || ch.isDigit()) {
                 tokenText.append(ex.at(i++));
+            }
             else { // We're done with identifier.
                 int tokenSize = i - tokenStart;
                 if (matchOperator(tokenText)) {
@@ -997,12 +962,6 @@ Tokens Evaluator::scan(const QString& expr) const
 
 void Evaluator::compile(const Tokens& tokens)
 {
-#ifdef EVALUATOR_DEBUG
-    QFile debugFile("eval.log");
-    debugFile.open(QIODevice::WriteOnly);
-    QTextStream dbg(&debugFile);
-#endif
-
     // Initialize variables.
     m_dirty = false;
     m_valid = false;
@@ -1026,21 +985,14 @@ void Evaluator::compile(const Tokens& tokens)
         if (tokenType >= Token::stxOperator)
             tokenType = Token::stxOperator;
 
-#ifdef EVALUATOR_DEBUG
-        dbg << "\n";
-        dbg << "Token: " << token.description() << "\n";
-#endif
-
         // Unknown token is invalid.
         if (tokenType == Token::stxUnknown)
             break;
 
         // Try to apply all parsing rules.
-#ifdef EVALUATOR_DEBUG
-            dbg << "\tChecking rules..." << "\n";
-#endif
             // Repeat until no more rule applies.
-            bool argHandled = false;
+
+        bool argHandled = false;
         while (!syntaxStack.hasError()) {
                 bool ruleFound = false;
 
@@ -1056,9 +1008,6 @@ void Evaluator::compile(const Tokens& tokens)
                         ruleFound = true;
                         syntaxStack.reduce(4, MAX_PRECEDENCE);
                         m_codes.append(Opcode(Opcode::Function, argCount));
-#ifdef EVALUATOR_DEBUG
-                        dbg << "\tRule for function last argument " << argCount << " \n";
-#endif
                         argCount = argStack.empty() ? 0 : argStack.pop();
                     }
                 }
@@ -1075,9 +1024,6 @@ void Evaluator::compile(const Tokens& tokens)
                     {
                         ruleFound = true;
                         argStack.push(argCount);
-#ifdef EVALUATOR_DEBUG
-                        dbg << "\tEntering new function, pushing argcount=" << argCount << " of parent function\n";
-#endif
                         argCount = 1;
                         break;
                     }
@@ -1096,11 +1042,14 @@ void Evaluator::compile(const Tokens& tokens)
                                 syntaxStack.reduce(2);
                                 m_codes.append(Opcode(Opcode::Fact));
                                 break;
+                            case Token::Percent:
+                                syntaxStack.pop();
+                                m_constants.append(HNumber("0.01"));
+                                m_codes.append(Opcode(Opcode::Load, m_constants.count() - 1));
+                                m_codes.append(Opcode(Opcode::Mul));
+                            break;
                             default:;
                         }
-#ifdef EVALUATOR_DEBUG
-                        if(ruleFound) dbg << "\tRule for postfix operator " << postfix.text() << "\n";
-#endif
                 }
 
                 // Rule for parenthesis: (Y) -> Y.
@@ -1113,9 +1062,6 @@ void Evaluator::compile(const Tokens& tokens)
                     {
                         ruleFound = true;
                         syntaxStack.reduce(3, MAX_PRECEDENCE);
-#ifdef EVALUATOR_DEBUG
-                        dbg << "\tRule for (Y) -> Y" << "\n";
-#endif
                     }
                 }
 
@@ -1133,9 +1079,6 @@ void Evaluator::compile(const Tokens& tokens)
                       ruleFound = true;
                       m_codes.append(Opcode(Opcode::Function, 1));
                       syntaxStack.reduce(2);
-#ifdef EVALUATOR_DEBUG
-                        dbg << "\tRule for simplified function syntax; function " << id.text() << "\n";
-#endif
                     }
                 }
 
@@ -1152,9 +1095,6 @@ void Evaluator::compile(const Tokens& tokens)
                       syntaxStack.reduce(2);
                       if (op.asOperator() == Token::Minus)
                         m_codes.append(Opcode(Opcode::Neg));
-#ifdef EVALUATOR_DEBUG
-                        dbg << "\tRule for unary operator in simplified function syntax; function " << id.text() << "\n";
-#endif
                     }
                 }
 
@@ -1178,9 +1118,6 @@ void Evaluator::compile(const Tokens& tokens)
                         argHandled = true;
                         syntaxStack.reduce(3, MAX_PRECEDENCE);
                         ++argCount;
-#ifdef EVALUATOR_DEBUG
-                        dbg << "\tRule for function argument " << argCount << " \n";
-#endif
                     }
                 }
 
@@ -1195,9 +1132,6 @@ void Evaluator::compile(const Tokens& tokens)
                         ruleFound = true;
                         syntaxStack.reduce(3, MAX_PRECEDENCE);
                         m_codes.append(Opcode(Opcode::Function, 0));
-#ifdef EVALUATOR_DEBUG
-                        dbg << "\tRule for function call with parentheses, but without argument" << "\n";
-#endif
                     }
                 }
 
@@ -1248,9 +1182,6 @@ void Evaluator::compile(const Tokens& tokens)
                       default: break;
                       };
                       syntaxStack.reduce(3);
-#ifdef EVALUATOR_DEBUG
-                        dbg << "\tRule for binary operator" << "\n";
-#endif
                     }
                 }
 
@@ -1274,9 +1205,6 @@ void Evaluator::compile(const Tokens& tokens)
                       ruleFound = true;
                       syntaxStack.reduce(2, opPrecedence(Token::Asterisk));
                       m_codes.append(Opcode::Mul);
-#ifdef EVALUATOR_DEBUG
-                        dbg << "\tRule for implicit multiplication" << "\n";
-#endif
                     }
 
                 }
@@ -1300,9 +1228,6 @@ void Evaluator::compile(const Tokens& tokens)
                             m_codes.append(Opcode(Opcode::Neg));
 
                         syntaxStack.reduce(2);
-#ifdef EVALUATOR_DEBUG
-                        dbg << "\tRule for unary operator" << op2.text() << "\n";
-#endif
                     }
                 }
 
@@ -1322,9 +1247,6 @@ void Evaluator::compile(const Tokens& tokens)
                         ruleFound = true;
                         if (op.asOperator() == Token::Minus)
                             m_codes.append(Opcode(Opcode::Neg));
-#ifdef EVALUATOR_DEBUG
-                        dbg << "\tRule for unary operator (auxiliary)" << "\n";
-#endif
                         syntaxStack.reduce(2);
                     }
                 }
@@ -1335,24 +1257,19 @@ void Evaluator::compile(const Tokens& tokens)
 
 
             // Can't apply rules anymore, push the token.
+        if (1 || token.asOperator() != Token::Percent)
             syntaxStack.push(token);
 
-            // For identifier, generate code to load from reference.
-            if (tokenType == Token::stxIdentifier) {
-                m_identifiers.append(token.text());
-                m_codes.append(Opcode(Opcode::Ref, m_identifiers.count() - 1));
-#ifdef EVALUATOR_DEBUG
-                dbg << "\tPush " << token.text() << " to identifier pools" << "\n";
-#endif
-            }
+        // For identifier, generate code to load from reference.
+        if (tokenType == Token::stxIdentifier) {
+            m_identifiers.append(token.text());
+            m_codes.append(Opcode(Opcode::Ref, m_identifiers.count() - 1));
+        }
 
-            // For constants, generate code to load from a constant.
+        // For constants, generate code to load from a constant.
             if (tokenType == Token::stxNumber) {
                 m_constants.append(token.asNumber());
                 m_codes.append(Opcode(Opcode::Load, m_constants.count() - 1));
-#ifdef EVALUATOR_DEBUG
-                dbg << "\tPush " << token.asNumber() << " to constant pools" << "\n";
-#endif
             }
         }
 
@@ -1367,18 +1284,12 @@ void Evaluator::compile(const Tokens& tokens)
         m_valid = true;
     }
 
-#ifdef EVALUATOR_DEBUG
-    dbg << "Dump: " << dump() << "\n";
-    debugFile.close();
-#endif
-
     // Bad parsing ? clean-up everything.
     if (!m_valid) {
         m_constants.clear();
         m_codes.clear();
         m_identifiers.clear();
     }
-
 }
 
 Quantity Evaluator::evalNoAssign()

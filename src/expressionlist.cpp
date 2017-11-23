@@ -3,6 +3,7 @@
 #include <QClipboard>
 #include <QKeyEvent>
 #include <QTimer>
+#include <QDebug>
 #include "expressionlist.h"
 #include "utils.h"
 
@@ -201,8 +202,7 @@ QString ExpressionList::formatExp(const QString &exp)
                        .replace("－", "-")
                        .replace("×", "*")
                        .replace("÷", "/")
-                       .replace(",", "")
-                       .replace("%", " percent ");
+                       .replace(",", "");
 }
 
 QChar ExpressionList::getLastChar(const QString &str)

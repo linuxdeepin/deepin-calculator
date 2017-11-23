@@ -39,7 +39,7 @@ class Session;
 
 class Token {
 public:
-    enum Op { InvalidOp = 0, Plus, Minus, Asterisk, Slash, Backslash, Caret,
+    enum Op { InvalidOp = 0, Plus, Minus, Asterisk, Slash, Backslash, Caret, Percent,
               Super0, Super1, Super2, Super3, Super4, Super5, Super6, Super7, Super8, Super9,
               LeftPar, RightPar, Semicolon, Exclamation, Equal, Modulo,
               LeftShift, RightShift, Ampersand, Pipe, RightArrow,
