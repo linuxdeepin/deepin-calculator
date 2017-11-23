@@ -9,6 +9,13 @@
     </message>
 </context>
 <context>
+    <name>ExpressionList</name>
+    <message>
+        <source>Expression Error</source>
+        <translation>Ошибка Выражения</translation>
+    </message>
+</context>
+<context>
     <name>Main</name>
     <message>
         <source>Deepin Calculator</source>
