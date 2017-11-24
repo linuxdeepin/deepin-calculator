@@ -113,13 +113,15 @@ isEmpty(DSRDIR):DSRDIR=/usr/share/deepin-calculator
 target.path = $$INSTROOT$$BINDIR
 desktop.path = $$INSTROOT$$APPDIR
 translations.path = $$INSTROOT$$DSRDIR/translations
-manual.path = $$INSTROOT$$DOCDIR
 icon_files.path = $$PREFIX/share/icons/hicolor/scalable/apps/
 icon_files.files = $$PWD/images/deepin-calculator.svg
 
 desktop.files = deepin-calculator.desktop
 
-INSTALLS += target desktop icon_files
+manual.path = /usr/share/dman/
+manual.files = $$PWD/dman/*
+
+INSTALLS += target desktop icon_files manual
 
 isEmpty(TRANSLATIONS) {
      include(translations.pri)
