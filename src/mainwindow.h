@@ -35,13 +35,13 @@ private slots:
     void clearButtonStateChanged(bool isAllClear);
 
 private:
-    QWidget *mainWidget;
-    QMenu *menu;
-    QAction *themeAction;
-    DSettings *settings;
-    QGridLayout *mainLayout;
-    TitleBar *titleBar;
-    ExpressionList *expList;
+    QWidget *m_mainWidget;
+    QMenu *m_menu;
+    QAction *m_themeAction;
+    DSettings *m_settings;
+    QGridLayout *m_mainLayout;
+    TitleBar *m_titleBar;
+    ExpressionList *m_expList;
     TextButton *clearButton;
     BackButton *backButton;
     TextButton *modButton;
@@ -62,9 +62,9 @@ private:
     TextButton *pointButton;
     TextButton *bracketsButton;
     TextButton *equalButton;
-    QString titlebarColor;
-    QString separatorColor;
-    QColor backgroundColor;
+    QString m_titlebarColor;
+    QString m_separatorColor;
+    QColor m_backgroundColor;
 };
 
 #endif

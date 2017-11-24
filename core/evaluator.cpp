@@ -30,6 +30,7 @@
 
 #include <QCoreApplication>
 #include <QStack>
+#include <QDebug>
 #include <QRegularExpression>
 
 #define ALLOW_IMPLICIT_MULT
@@ -225,7 +226,7 @@ static int opPrecedence(Token::Op op)
     case Token::Asterisk:
     case Token::Slash: prec = 500; break;
     case Token::Modulo:
-    case Token::Backslash: prec = 900; break;
+    case Token::Backslash: prec = 600; break;
     case Token::Plus:
     case Token::Minus: prec = 300; break;
     case Token::LeftShift:
@@ -656,7 +657,7 @@ Tokens Evaluator::tokens() const
 Tokens Evaluator::scan(const QString& expr) const
 {
     // Associate character codes with the highest number base they might belong to
-#define DIGIT_MAP_COUNT 128
+    const int DIGIT_MAP_COUNT = 128;
     static unsigned char s_digitMap[DIGIT_MAP_COUNT] = {0};
 
     if (s_digitMap[0] == 0) {

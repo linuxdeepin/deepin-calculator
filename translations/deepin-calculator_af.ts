@@ -15,7 +15,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication, division and remainder.</source>
+        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -15,9 +15,8 @@
         <translation>Deepin Calculator</translation>
     </message>
     <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication, division and remainder.</source>
-        <translation>Deepin Calculator è una calcolatrice semplice e facile da usare. Supporta le somme, le sottrazioni, moltiplicazioni e divisioni.
-Localizzazione italiana a cura di Massimo A. Carofano.</translation>
+        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -15,8 +15,8 @@
         <translation>Deepin Taschenrechner</translation>
     </message>
     <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication, division and remainder.</source>
-        <translation>Der Deepin Taschenrechner ist ein einfach zu bedienender, schlichter Desktop-Taschenrechner. Er unterstützt Addition, Subtraktion, Multiplikation, Division und Rest.</translation>
+        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -31,6 +31,7 @@ ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
 
     connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionList::inputEditChanged);
     connect(m_inputEdit, &InputEdit::inputKeyPressEvent, this, &ExpressionList::inputKeyPressEvent);
+    //connect(m_inputEdit, &InputEdit::)
 }
 
 ExpressionList::~ExpressionList()
@@ -166,7 +167,7 @@ int ExpressionList::getItemsCount()
 void ExpressionList::inputEditChanged(const QString &text)
 {
     const int cursorPos = m_inputEdit->cursorPosition();
-    const QString exp = QString(text).replace("（", "(").replace("）", ")");
+    const QString exp = QString(text).replace("（", "(").replace("）", ")").replace(",", "");
     m_inputEdit->setText(exp);
     m_inputEdit->setCursorPosition(cursorPos);
 

@@ -13,6 +13,7 @@ public:
 
     static QString getQssContent(const QString &filePath);
     static QString formatThousandsSeparators(const QString &str);
+    static bool stringIsDigit(const QString &str);
 };
 
 #endif

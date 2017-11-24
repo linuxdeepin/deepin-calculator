@@ -15,8 +15,8 @@
         <translation>Deepin Számológép</translation>
     </message>
     <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication, division and remainder.</source>
-        <translation>A Deepin Számológép egy könnyen használható számológép alkalmazás. Tartalmazza az összes alapműveletet és egy kicsit többet is annál.</translation>
+        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

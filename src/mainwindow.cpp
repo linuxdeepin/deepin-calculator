@@ -10,11 +10,11 @@
 MainWindow::MainWindow(DMainWindow *parent)
     : DMainWindow(parent)
 {
-    mainWidget = new QWidget;
-    mainLayout = new QGridLayout(mainWidget);
-    settings = new DSettings;
-    titleBar = new TitleBar;
-    expList = new ExpressionList;
+    m_mainWidget = new QWidget;
+    m_mainLayout = new QGridLayout(m_mainWidget);
+    m_settings = new DSettings;
+    m_titleBar = new TitleBar;
+    m_expList = new ExpressionList;
     clearButton = new TextButton("C");
     backButton = new BackButton;
     modButton = new TextButton("%");
@@ -36,29 +36,29 @@ MainWindow::MainWindow(DMainWindow *parent)
     bracketsButton = new TextButton("( )");
     equalButton = new TextButton("＝");
 
-    mainLayout->addWidget(expList, 0, 0, 1, 4);
-    mainLayout->addWidget(clearButton, 2, 0);
-    mainLayout->addWidget(modButton, 2, 1);
-    mainLayout->addWidget(backButton, 2, 2);
-    mainLayout->addWidget(divButton, 2, 3);
-    mainLayout->addWidget(num7Button, 3, 0);
-    mainLayout->addWidget(num8Button, 3, 1);
-    mainLayout->addWidget(num9Button, 3, 2);
-    mainLayout->addWidget(multButton, 3, 3);
-    mainLayout->addWidget(num4Button, 4, 0);
-    mainLayout->addWidget(num5Button, 4, 1);
-    mainLayout->addWidget(num6Button, 4, 2);
-    mainLayout->addWidget(minButton, 4, 3);
-    mainLayout->addWidget(num1Button, 5, 0);
-    mainLayout->addWidget(num2Button, 5, 1);
-    mainLayout->addWidget(num3Button, 5, 2);
-    mainLayout->addWidget(plusButton, 5, 3);
-    mainLayout->addWidget(zeroButton, 6, 0);
-    mainLayout->addWidget(pointButton, 6, 1);
-    mainLayout->addWidget(bracketsButton, 6, 2);
-    mainLayout->addWidget(equalButton, 6, 3);
-    mainLayout->setMargin(0);
-    mainLayout->setSpacing(1);
+    m_mainLayout->addWidget(m_expList, 0, 0, 1, 4);
+    m_mainLayout->addWidget(clearButton, 2, 0);
+    m_mainLayout->addWidget(modButton, 2, 1);
+    m_mainLayout->addWidget(backButton, 2, 2);
+    m_mainLayout->addWidget(divButton, 2, 3);
+    m_mainLayout->addWidget(num7Button, 3, 0);
+    m_mainLayout->addWidget(num8Button, 3, 1);
+    m_mainLayout->addWidget(num9Button, 3, 2);
+    m_mainLayout->addWidget(multButton, 3, 3);
+    m_mainLayout->addWidget(num4Button, 4, 0);
+    m_mainLayout->addWidget(num5Button, 4, 1);
+    m_mainLayout->addWidget(num6Button, 4, 2);
+    m_mainLayout->addWidget(minButton, 4, 3);
+    m_mainLayout->addWidget(num1Button, 5, 0);
+    m_mainLayout->addWidget(num2Button, 5, 1);
+    m_mainLayout->addWidget(num3Button, 5, 2);
+    m_mainLayout->addWidget(plusButton, 5, 3);
+    m_mainLayout->addWidget(zeroButton, 6, 0);
+    m_mainLayout->addWidget(pointButton, 6, 1);
+    m_mainLayout->addWidget(bracketsButton, 6, 2);
+    m_mainLayout->addWidget(equalButton, 6, 3);
+    m_mainLayout->setMargin(0);
+    m_mainLayout->setSpacing(1);
 
     divButton->setObjectName("SymbolButton");
     multButton->setObjectName("SymbolButton");
@@ -67,26 +67,26 @@ MainWindow::MainWindow(DMainWindow *parent)
     equalButton->setObjectName("EqualButton");
 
     if (titlebar()) {
-        menu = new QMenu;
-        themeAction = new QAction(tr("Dark Theme"), this);
-        themeAction->setCheckable(true);
+        m_menu = new QMenu;
+        m_themeAction = new QAction(tr("Dark Theme"), this);
+        m_themeAction->setCheckable(true);
 
-        menu->addAction(themeAction);
-        menu->addSeparator();
+        m_menu->addAction(m_themeAction);
+        m_menu->addSeparator();
 
-        titlebar()->setMenu(menu);
+        titlebar()->setMenu(m_menu);
         titlebar()->setFixedHeight(30);
-        titlebar()->setCustomWidget(titleBar, Qt::AlignVCenter, false);
+        titlebar()->setCustomWidget(m_titleBar, Qt::AlignVCenter, false);
         initTheme();
         initThemeAction();
 
-        connect(themeAction, &QAction::triggered, this, &MainWindow::switchTheme);
+        connect(m_themeAction, &QAction::triggered, this, &MainWindow::switchTheme);
     }
 
     setWindowIcon(QIcon(":/images/deepin-calculator.svg"));
     setWindowTitle(tr("Deepin Calculator"));
     setFixedSize(322, 495);
-    setCentralWidget(mainWidget);
+    setCentralWidget(m_mainWidget);
 
     connect(zeroButton, &QPushButton::clicked, this, &MainWindow::onNumberButtonClicked);
     connect(num1Button, &QPushButton::clicked, this, &MainWindow::onNumberButtonClicked);
@@ -103,13 +103,13 @@ MainWindow::MainWindow(DMainWindow *parent)
     connect(multButton, &QPushButton::clicked, this, &MainWindow::onSymbolButtonClicked);
     connect(divButton, &QPushButton::clicked, this, &MainWindow::onSymbolButtonClicked);
     connect(modButton, &QPushButton::clicked, this, &MainWindow::onSymbolButtonClicked);
-    connect(bracketsButton, &QPushButton::clicked, expList, &ExpressionList::enterBracketsEvent);
-    connect(equalButton, &QPushButton::clicked, expList, &ExpressionList::enterEqualEvent);
-    connect(clearButton, &QPushButton::clicked, expList, &ExpressionList::enterClearEvent);
-    connect(backButton, &QPushButton::clicked, expList, &ExpressionList::enterBackspaceEvent);
-    connect(pointButton, &QPushButton::clicked, expList, &ExpressionList::enterPointEvent);
-    connect(expList, &ExpressionList::clearStateChanged, this, &MainWindow::clearButtonStateChanged);
-    connect(expList, &ExpressionList::inputKeyPressEvent, this, &MainWindow::keyPressEvent);
+    connect(bracketsButton, &QPushButton::clicked, m_expList, &ExpressionList::enterBracketsEvent);
+    connect(equalButton, &QPushButton::clicked, m_expList, &ExpressionList::enterEqualEvent);
+    connect(clearButton, &QPushButton::clicked, m_expList, &ExpressionList::enterClearEvent);
+    connect(backButton, &QPushButton::clicked, m_expList, &ExpressionList::enterBackspaceEvent);
+    connect(pointButton, &QPushButton::clicked, m_expList, &ExpressionList::enterPointEvent);
+    connect(m_expList, &ExpressionList::clearStateChanged, this, &MainWindow::clearButtonStateChanged);
+    connect(m_expList, &ExpressionList::inputKeyPressEvent, this, &MainWindow::keyPressEvent);
 }
 
 MainWindow::~MainWindow()
@@ -124,15 +124,15 @@ void MainWindow::paintEvent(QPaintEvent *)
     painter.setPen(Qt::NoPen);
 
     // Draw titlebar background color.
-    painter.setBrush(QColor(titlebarColor));
+    painter.setBrush(QColor(m_titlebarColor));
     painter.drawRect(QRect(0, 0, rect().width(), 30));
 
     // Draw separator line.
-    painter.setBrush(QColor(separatorColor));
-    painter.drawRect(QRect(0, titlebar()->height() + expList->height(), width(), 1));
+    painter.setBrush(QColor(m_separatorColor));
+    painter.drawRect(QRect(0, titlebar()->height() + m_expList->height(), width(), 1));
 
-    const int buttonsTotalHeight = height() - titlebar()->height() - expList->height();
-    painter.setBrush(backgroundColor);
+    const int buttonsTotalHeight = height() - titlebar()->height() - m_expList->height();
+    painter.setBrush(m_backgroundColor);
     painter.drawRect(QRect(0, height() - buttonsTotalHeight + 1, width(), buttonsTotalHeight));
 }
 
@@ -140,43 +140,43 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 {
     switch (e->key()) {
     case Qt::Key_0:
-        expList->enterNumberEvent(nullptr, true);
+        m_expList->enterNumberEvent(nullptr, true);
         zeroButton->animate();
         break;
     case Qt::Key_1:
-        expList->enterNumberEvent(nullptr, true);
+        m_expList->enterNumberEvent(nullptr, true);
         num1Button->animate();
         break;
     case Qt::Key_2:
-        expList->enterNumberEvent(nullptr, true);
+        m_expList->enterNumberEvent(nullptr, true);
         num2Button->animate();
         break;
     case Qt::Key_3:
-        expList->enterNumberEvent(nullptr, true);
+        m_expList->enterNumberEvent(nullptr, true);
         num3Button->animate();
         break;
     case Qt::Key_4:
-        expList->enterNumberEvent(nullptr, true);
+        m_expList->enterNumberEvent(nullptr, true);
         num4Button->animate();
         break;
     case Qt::Key_5:
-        expList->enterNumberEvent(nullptr, true);
+        m_expList->enterNumberEvent(nullptr, true);
         num5Button->animate();
         break;
     case Qt::Key_6:
-        expList->enterNumberEvent(nullptr, true);
+        m_expList->enterNumberEvent(nullptr, true);
         num6Button->animate();
         break;
     case Qt::Key_7:
-        expList->enterNumberEvent(nullptr, true);
+        m_expList->enterNumberEvent(nullptr, true);
         num7Button->animate();
         break;
     case Qt::Key_8:
-        expList->enterNumberEvent(nullptr, true);
+        m_expList->enterNumberEvent(nullptr, true);
         num8Button->animate();
         break;
     case Qt::Key_9:
-        expList->enterNumberEvent(nullptr, true);
+        m_expList->enterNumberEvent(nullptr, true);
         num9Button->animate();
         break;
     case Qt::Key_Plus:
@@ -195,7 +195,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         equalButton->animateClick();
         break;
     case Qt::Key_Backspace:
-        if (!expList->getInputEditText().isEmpty()) {
+        if (!m_expList->getInputEditText().isEmpty()) {
             backButton->animate();
         }
         break;
@@ -206,7 +206,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         clearButton->animateClick();
         break;
     case Qt::Key_ParenLeft: case Qt::Key_ParenRight:
-        expList->setContinue(true);
+        m_expList->setContinue(true);
         bracketsButton->animate();
         break;
     case Qt::Key_Percent:
@@ -214,7 +214,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_C:
         if (e->modifiers() == Qt::ControlModifier) {
-            expList->copyResultToClipboard();
+            m_expList->copyResultToClipboard();
         }
         break;
     }
@@ -222,35 +222,35 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 
 void MainWindow::initTheme()
 {
-    QString theme = settings->getOption("theme");
+    QString theme = m_settings->getOption("theme");
     DThemeManager::instance()->setTheme(theme);
     if (theme == "light") {
         this->setStyleSheet(Utils::getQssContent(":/qss/light.qss"));
-        titlebarColor = "#FBFBFB";
-        separatorColor = "#E1E1E1";
-        backgroundColor = QColor(0, 0, 0, 0.05 * 255);
+        m_titlebarColor = "#FBFBFB";
+        m_separatorColor = "#E1E1E1";
+        m_backgroundColor = QColor(0, 0, 0, 0.05 * 255);
     } else {
         this->setStyleSheet(Utils::getQssContent(":/qss/dark.qss"));
-        titlebarColor = "#111111";
-        separatorColor = "#303030";
-        backgroundColor = QColor("#2D2D2D");
+        m_titlebarColor = "#111111";
+        m_separatorColor = "#303030";
+        m_backgroundColor = QColor("#2D2D2D");
     }
 }
 
 void MainWindow::initThemeAction()
 {
-    themeAction->setChecked(settings->getOption("theme") == "dark");
+    m_themeAction->setChecked(m_settings->getOption("theme") == "dark");
 }
 
 void MainWindow::switchTheme()
 {
-    const QString theme = settings->getOption("theme");
+    const QString theme = m_settings->getOption("theme");
 
-    if (settings->getOption("theme") == "dark") {
-        settings->setOption("theme", "light");
+    if (m_settings->getOption("theme") == "dark") {
+        m_settings->setOption("theme", "light");
         initTheme();
     } else {
-        settings->setOption("theme", "dark");
+        m_settings->setOption("theme", "dark");
         initTheme();
     }
 }
@@ -263,7 +263,7 @@ void MainWindow::onNumberButtonClicked()
         return;
     }
 
-    expList->enterNumberEvent(btn->text());
+    m_expList->enterNumberEvent(btn->text());
 }
 
 void MainWindow::onSymbolButtonClicked()
@@ -274,13 +274,13 @@ void MainWindow::onSymbolButtonClicked()
         return;
     }
 
-    expList->enterSymbolEvent(btn->text());
+    m_expList->enterSymbolEvent(btn->text());
 }
 
 void MainWindow::clearButtonStateChanged(bool isAllClear)
 {
     if (isAllClear) {
-        if (expList->getItemsCount() > 0) {
+        if (m_expList->getItemsCount() > 0) {
             clearButton->setText("AC");
         }
     } else {

@@ -41,3 +41,17 @@ QString Utils::formatThousandsSeparators(const QString &str)
 
     return result;
 }
+
+bool Utils::stringIsDigit(const QString &str)
+{
+    bool isDigit = true;
+
+    for (auto &ch : str) {
+        if (!ch.isDigit()) {\
+            isDigit = false;
+            break;
+        }
+    }
+
+    return isDigit;
+}

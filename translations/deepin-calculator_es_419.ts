@@ -15,8 +15,8 @@
         <translation>Calculadora Deepin</translation>
     </message>
     <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication, division and remainder.</source>
-        <translation>La Calculadora Deepin es una calculadora de escritorio fácil y simple de usar. Permite sumar, restar, multiplicar, dividir y obtener el residuo.</translation>
+        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -15,8 +15,8 @@
         <translation>Deepin skaičiuotuvas</translation>
     </message>
     <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication, division and remainder.</source>
-        <translation>Deepin skaičiuotuvas yra paprastas ir lengvas naudoti darbalaukio skaičiuotuvas. Jis palaiko sudėtį, atimtį, daugybą, dalybą ir likutį.</translation>
+        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
