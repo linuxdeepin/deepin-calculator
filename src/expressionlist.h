@@ -48,6 +48,8 @@ private:
     void autoZoomFontSize();
     QString formatExp(const QString &exp);
     QChar getLastChar(const QString &str);
+    QChar getPosLastChar();
+    bool cursorPosAtEnd();
 };
 
 #endif

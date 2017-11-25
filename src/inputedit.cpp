@@ -25,7 +25,7 @@ void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
     // setSelection(0 , 1);
     QLineEdit::mouseDoubleClickEvent(e);
 }
-
+#include <QDebug>
 void InputEdit::keyPressEvent(QKeyEvent *e)
 {
     const bool isPressCtrl = e->modifiers() == Qt::ControlModifier;
@@ -42,7 +42,7 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Plus: case Qt::Key_Minus:
     case Qt::Key_Underscore: case Qt::Key_Asterisk: case Qt::Key_Slash:
     case Qt::Key_Period: case Qt::Key_Percent: case Qt::Key_Equal:
-    case Qt::Key_Escape: case Qt::Key_Delete: case Qt::Key_Enter: case Qt::Key_Return:
+    case Qt::Key_Escape: case Qt::Key_Enter: case Qt::Key_Return:
         emit inputKeyPressEvent(e);
         break;
 
@@ -51,9 +51,9 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
         QLineEdit::keyPressEvent(e);
         break;
 
-    case Qt::Key_Backspace:
+    case Qt::Key_Backspace: case Qt::Key_Delete:
         emit inputKeyPressEvent(e);
-        QLineEdit::keyPressEvent(e);
+        backspace();
         break;
 
     case Qt::Key_A:

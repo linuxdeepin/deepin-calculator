@@ -194,7 +194,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Enter: case Qt::Key_Return: case Qt::Key_Equal:
         equalButton->animateClick();
         break;
-    case Qt::Key_Backspace:
+    case Qt::Key_Backspace: case Qt::Key_Delete:
         if (!m_expList->getInputEditText().isEmpty()) {
             backButton->animate();
         }
@@ -202,7 +202,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Period:
         pointButton->animateClick();
         break;
-    case Qt::Key_Escape: case Qt::Key_Delete:
+    case Qt::Key_Escape:
         clearButton->animateClick();
         break;
     case Qt::Key_ParenLeft: case Qt::Key_ParenRight:

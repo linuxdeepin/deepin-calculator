@@ -31,7 +31,6 @@ ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
 
     connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionList::inputEditChanged);
     connect(m_inputEdit, &InputEdit::inputKeyPressEvent, this, &ExpressionList::inputKeyPressEvent);
-    //connect(m_inputEdit, &InputEdit::)
 }
 
 ExpressionList::~ExpressionList()
@@ -53,7 +52,11 @@ QString ExpressionList::getInputEditText() const
 void ExpressionList::enterNumberEvent(const QString &num, bool isKeyPress)
 {
     if (!m_isContinue) {
-        m_inputEdit->setText("");
+        // the cursor position at the end, it will clear edit text.
+        if (cursorPosAtEnd()) {
+            m_inputEdit->clear();
+        }
+
         m_isContinue = true;
     }
 
@@ -68,19 +71,16 @@ void ExpressionList::enterNumberEvent(const QString &num, bool isKeyPress)
 
 void ExpressionList::enterPointEvent()
 {
-    QChar lastChar = formatExp(m_inputEdit->text()).at(m_inputEdit->cursorPosition() - 1);
-
-    if (lastChar != '.') {
-        m_inputEdit->insert(".");
-    }
+    m_inputEdit->insert(".");
 }
 
 void ExpressionList::enterSymbolEvent(const QString &str)
 {
-    QChar lastChar = formatExp(m_inputEdit->text()).at(m_inputEdit->cursorPosition() - 1);
-
-    if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/') {
-        m_inputEdit->backspace();
+    if (m_inputEdit->text().count() > 0) {
+        QChar lastChar = getPosLastChar();
+        if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/') {
+            m_inputEdit->backspace();
+        }
     }
 
     m_inputEdit->insert(str);
@@ -131,14 +131,14 @@ void ExpressionList::enterEqualEvent()
 
     if (m_eval->error().isEmpty()) {
         if (!quantity.isNan() && !m_eval->isUserFunctionAssign()) {
-            const QString result = DMath::format(m_eval->evalUpdateAns(), Quantity::Format::Fixed());
-            const double resultNum = result.toDouble();
+            const QString result = DMath::format(m_eval->evalUpdateAns(), Quantity::Format::General());
+            // const double resultNum = result.toDouble();
             if (result == m_inputEdit->text()) {
                 return;
             }
-            const QString formatResult = Utils::formatThousandsSeparators(QString::number(resultNum));
-            m_listView->addItem(m_inputEdit->text() + " ＝ " + formatResult);
-            m_inputEdit->setText(QString::number(resultNum));
+            //const QString formatResult = Utils::formatThousandsSeparators(result);
+            m_listView->addItem(m_inputEdit->text() + " ＝ " + result);
+            m_inputEdit->setText(result);
             m_isContinue = false;
         }
     } else {
@@ -213,4 +213,14 @@ QChar ExpressionList::getLastChar(const QString &str)
     laster--;
 
     return *laster;
+}
+
+QChar ExpressionList::getPosLastChar()
+{
+    return formatExp(m_inputEdit->text()).at(m_inputEdit->cursorPosition() - 1);
+}
+
+bool ExpressionList::cursorPosAtEnd()
+{
+    return m_inputEdit->cursorPosition() == m_inputEdit->text().count();
 }
