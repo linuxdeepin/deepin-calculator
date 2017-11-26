@@ -78,7 +78,7 @@ void ExpressionList::enterSymbolEvent(const QString &str)
 {
     if (m_inputEdit->text().count() > 0) {
         QChar lastChar = getPosLastChar();
-        if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/') {
+        if (lastChar == '+' || lastChar == '-' || lastChar == '/') {
             m_inputEdit->backspace();
         }
     }
@@ -167,7 +167,8 @@ int ExpressionList::getItemsCount()
 void ExpressionList::inputEditChanged(const QString &text)
 {
     const int cursorPos = m_inputEdit->cursorPosition();
-    const QString exp = QString(text).replace("（", "(").replace("）", ")").replace(",", "");
+    const QString exp = QString(text).replace("（", "(").replace("）", ")")
+                                     .replace(",", "").replace("××", "^");
     m_inputEdit->setText(exp);
     m_inputEdit->setCursorPosition(cursorPos);
 
