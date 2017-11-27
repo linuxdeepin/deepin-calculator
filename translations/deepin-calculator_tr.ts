@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>ExpressionList</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"></translation>
+        <translation>İfade Hatası</translation>
     </message>
 </context>
 <context>
@@ -16,7 +14,7 @@
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deepin Hesap Makinesi basit ve kullanımı kolay masaüstü hesap makinesidir. Toplama, çıkarma, çarpma ve bölmeyi destekler.</translation>
     </message>
 </context>
 <context>

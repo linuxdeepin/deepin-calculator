@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="es">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
 <context>
     <name>ExpressionList</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error de expresión</translation>
     </message>
 </context>
 <context>
@@ -16,7 +14,7 @@
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deepin Calculator es una calculadora de escritorio simple y fácil de usar. Es compatible con la suma, la resta, la multiplicación y la división.</translation>
     </message>
 </context>
 <context>
