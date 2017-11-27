@@ -9,7 +9,7 @@ TextButton::TextButton(const QString &text, QWidget *parent)
 {
     m_effect = new QGraphicsDropShadowEffect(this);
 
-    setFixedSize(80, 60);
+    setMinimumSize(80, 60);
     setMouseTracking(true);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");

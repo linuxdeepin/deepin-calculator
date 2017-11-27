@@ -26,7 +26,7 @@ ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
     m_isContinue = true;
     m_isAllClear = false;
 
-    setFixedHeight(160);
+    setMinimumHeight(160);
     autoZoomFontSize();
 
     connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionList::textChanged);
@@ -125,11 +125,13 @@ void ExpressionList::enterEqualEvent()
     if (m_eval->error().isEmpty()) {
         if (!quantity.isNan() && !m_eval->isUserFunctionAssign()) {
             const QString result = DMath::format(m_eval->evalUpdateAns(), Quantity::Format::Fixed());
-            const double resultNum = result.toDouble();
-            if (result == m_inputEdit->text()) {
+            QString formatResult = Utils::formatThousandsSeparators(result);
+            formatResult.replace("-", "－");
+
+            if (formatResult == m_inputEdit->text()) {
                 return;
             }
-            const QString formatResult = Utils::formatThousandsSeparators(result);
+
             m_listView->addItem(m_inputEdit->text() + " ＝ " + formatResult);
             m_inputEdit->setText(formatResult);
             m_isContinue = false;
@@ -183,7 +185,7 @@ void ExpressionList::autoZoomFontSize()
         font.setPointSize(i);
         QFontMetrics fm(font);
         int fontWidth = fm.width(m_inputEdit->text());
-        int editWidth = m_inputEdit->width() - 25;
+        int editWidth = m_inputEdit->width() - 30;
 
         if (fontWidth < editWidth) {
             break;

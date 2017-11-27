@@ -8,7 +8,7 @@ class BackButton : public TextButton
     Q_OBJECT
 
 public:
-    BackButton(QWidget *parent = 0);
+    BackButton(QWidget *parent = nullptr);
     ~BackButton();
 
 protected:

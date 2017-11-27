@@ -8,7 +8,7 @@ class ListView : public QWidget
     Q_OBJECT
 
 public:
-    ListView(QWidget *parent=0);
+    ListView(QWidget *parent = nullptr);
     ~ListView();
 
     void initTheme();

@@ -8,7 +8,7 @@ class InputEdit : public QLineEdit
     Q_OBJECT
 
 public:
-    InputEdit(QLineEdit *parent=0);
+    InputEdit(QLineEdit *parent = nullptr);
     ~InputEdit();
 
 signals:

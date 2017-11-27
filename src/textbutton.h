@@ -9,7 +9,7 @@ class TextButton : public QPushButton
     Q_OBJECT
 
 public:
-    TextButton(const QString &text = QString(), QWidget *parent = 0);
+    TextButton(const QString &text = QString(), QWidget *parent = nullptr);
     ~TextButton();
 
     void showShadowEffect();

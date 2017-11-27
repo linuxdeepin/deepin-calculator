@@ -19,7 +19,7 @@ class MainWindow : public DMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(DMainWindow *parent=0);
+    MainWindow(DMainWindow *parent = nullptr);
     ~MainWindow();
 
 protected:

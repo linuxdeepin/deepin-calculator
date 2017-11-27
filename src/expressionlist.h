@@ -7,14 +7,12 @@
 #include "inputedit.h"
 #include "core/evaluator.h"
 
-typedef Quantity::Format Format;
-
 class ExpressionList : public QWidget
 {
     Q_OBJECT
 
 public:
-    ExpressionList(QWidget *parent=0);
+    ExpressionList(QWidget *parent = nullptr);
     ~ExpressionList();
 
     void setContinue(const bool &mark);

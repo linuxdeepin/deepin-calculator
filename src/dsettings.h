@@ -8,7 +8,7 @@ class DSettings : public QObject
     Q_OBJECT
 
 public:
-    DSettings(QObject *parent=0);
+    DSettings(QObject *parent = nullptr);
     ~DSettings();
 
     QString configPath();

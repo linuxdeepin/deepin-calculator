@@ -23,9 +23,33 @@ void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
     //     qDebug() << list;
     // }
 
-    // setSelection(0 , 1);
+    QString exp = this->text();
+    QString seg;
+    QStringList expList;
 
-    QLineEdit::mouseDoubleClickEvent(e);
+    for (int i = 0; i < exp.count(); ++i) {
+        const QChar ch = exp.at(i);
+
+        if (ch.isDigit() || ch == '.' || ch == ',') {
+            seg.append(ch);
+        } else {
+            expList << seg;
+            seg.clear();
+            seg.append(ch);
+            expList << seg;
+            seg.clear();
+        }
+
+        if (i == exp.count() - 1) {
+            if (!seg.isEmpty()) {
+                expList << seg;
+            }
+        }
+    }
+
+    qDebug() << expList;
+
+    // QLineEdit::mouseDoubleClickEvent(e);
 }
 
 void InputEdit::keyPressEvent(QKeyEvent *e)

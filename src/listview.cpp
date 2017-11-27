@@ -17,7 +17,7 @@ ListView::ListView(QWidget *parent) : QWidget(parent)
     isShowScrollbar = false;
 
     setMouseTracking(true);
-    setFixedHeight(105);
+    setMinimumHeight(105);
     initTheme();
 
     connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, [=] {
