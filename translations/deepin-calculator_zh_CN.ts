@@ -14,7 +14,7 @@
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="unfinished"/>
+        <translation>深度计算器是一款简单易用的桌面计算器，支持加、减、乘、除功能。</translation>
     </message>
 </context>
 <context>
