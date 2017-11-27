@@ -47,11 +47,47 @@ bool Utils::stringIsDigit(const QString &str)
     bool isDigit = true;
 
     for (auto &ch : str) {
-        if (!ch.isDigit()) {\
+        if (!ch.isDigit() && ch != '.') {
             isDigit = false;
             break;
         }
     }
 
     return isDigit;
+}
+
+QString Utils::reformatSeparators(const QString &exp)
+{
+    QString expression = exp;
+    QString seg;
+    QStringList expList;
+
+    for (int i = 0; i < exp.count(); ++i) {
+        const QChar ch = exp.at(i);
+
+        if (ch.isDigit() || ch == '.') {
+            seg.append(ch);
+        } else {
+            expList << seg;
+            seg.clear();
+            seg.append(ch);
+            expList << seg;
+            seg.clear();
+        }
+
+        if (i == expression.count() - 1) {
+            expList << seg;
+        }
+    }
+
+    QString formatStr;
+    for (auto item : expList) {
+        if (stringIsDigit(item)) {
+            item = formatThousandsSeparators(item);
+        }
+
+        formatStr.append(item);
+    }
+
+    return formatStr;
 }

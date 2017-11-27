@@ -29,7 +29,7 @@ ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
     setFixedHeight(160);
     autoZoomFontSize();
 
-    connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionList::inputEditChanged);
+    connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionList::textChanged);
     connect(m_inputEdit, &InputEdit::inputKeyPressEvent, this, &ExpressionList::inputKeyPressEvent);
 }
 
@@ -76,13 +76,6 @@ void ExpressionList::enterPointEvent()
 
 void ExpressionList::enterSymbolEvent(const QString &str)
 {
-    if (m_inputEdit->text().count() > 0) {
-        QChar lastChar = getPosLastChar();
-        if (lastChar == '+' || lastChar == '-' || lastChar == '/') {
-            m_inputEdit->backspace();
-        }
-    }
-
     m_inputEdit->insert(str);
     m_isContinue = true;
 }
@@ -131,14 +124,14 @@ void ExpressionList::enterEqualEvent()
 
     if (m_eval->error().isEmpty()) {
         if (!quantity.isNan() && !m_eval->isUserFunctionAssign()) {
-            const QString result = DMath::format(m_eval->evalUpdateAns(), Quantity::Format::General());
-            // const double resultNum = result.toDouble();
+            const QString result = DMath::format(m_eval->evalUpdateAns(), Quantity::Format::Fixed());
+            const double resultNum = result.toDouble();
             if (result == m_inputEdit->text()) {
                 return;
             }
-            //const QString formatResult = Utils::formatThousandsSeparators(result);
-            m_listView->addItem(m_inputEdit->text() + " ＝ " + result);
-            m_inputEdit->setText(result);
+            const QString formatResult = Utils::formatThousandsSeparators(result);
+            m_listView->addItem(m_inputEdit->text() + " ＝ " + formatResult);
+            m_inputEdit->setText(formatResult);
             m_isContinue = false;
         }
     } else {
@@ -164,13 +157,14 @@ int ExpressionList::getItemsCount()
     return m_listView->getItemsCount();
 }
 
-void ExpressionList::inputEditChanged(const QString &text)
+void ExpressionList::textChanged(const QString &text)
 {
     const int cursorPos = m_inputEdit->cursorPosition();
     const QString exp = QString(text).replace("（", "(").replace("）", ")")
                                      .replace(",", "").replace("××", "^");
-    m_inputEdit->setText(exp);
-    m_inputEdit->setCursorPosition(cursorPos);
+    const QString reformatExp = Utils::reformatSeparators(exp);
+    m_inputEdit->setText(reformatExp);
+    m_inputEdit->setCursorPosition(cursorPos + (reformatExp.count() + text.count()));
 
     // make font size of inputEdit fit text content.
     autoZoomFontSize();
@@ -205,20 +199,6 @@ QString ExpressionList::formatExp(const QString &exp)
                        .replace("×", "*")
                        .replace("÷", "/")
                        .replace(",", "");
-}
-
-QChar ExpressionList::getLastChar(const QString &str)
-{
-    QString exp = formatExp(str);
-    QString::const_iterator laster = exp.end();
-    laster--;
-
-    return *laster;
-}
-
-QChar ExpressionList::getPosLastChar()
-{
-    return formatExp(m_inputEdit->text()).at(m_inputEdit->cursorPosition() - 1);
 }
 
 bool ExpressionList::cursorPosAtEnd()

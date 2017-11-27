@@ -14,6 +14,7 @@ public:
     static QString getQssContent(const QString &filePath);
     static QString formatThousandsSeparators(const QString &str);
     static bool stringIsDigit(const QString &str);
+    static QString reformatSeparators(const QString &exp);
 };
 
 #endif

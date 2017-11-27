@@ -1,5 +1,6 @@
 #include "inputedit.h"
 #include <QKeyEvent>
+#include <QDebug>
 
 InputEdit::InputEdit(QLineEdit *parent) : QLineEdit(parent)
 {
@@ -23,9 +24,10 @@ void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
     // }
 
     // setSelection(0 , 1);
+
     QLineEdit::mouseDoubleClickEvent(e);
 }
-#include <QDebug>
+
 void InputEdit::keyPressEvent(QKeyEvent *e)
 {
     const bool isPressCtrl = e->modifiers() == Qt::ControlModifier;

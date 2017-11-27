@@ -32,7 +32,7 @@ public slots:
     int getItemsCount();
 
 private slots:
-    void inputEditChanged(const QString &text);
+    void textChanged(const QString &text);
 
 signals:
     void clearStateChanged(bool isAllClear);
@@ -47,8 +47,6 @@ private:
     InputEdit *m_inputEdit;
     void autoZoomFontSize();
     QString formatExp(const QString &exp);
-    QChar getLastChar(const QString &str);
-    QChar getPosLastChar();
     bool cursorPosAtEnd();
 };
 
