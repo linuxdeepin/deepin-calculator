@@ -98,7 +98,8 @@ protected:
 };
 
 
-class Evaluator : public QObject {
+class Evaluator : public QObject
+{
     Q_OBJECT
 
 public:
@@ -146,7 +147,6 @@ public:
 protected:
     void compile(const Tokens&);
 
-
 private:
     Evaluator();
     Q_DISABLE_COPY(Evaluator)
@@ -167,7 +167,7 @@ private:
     const Quantity& checkOperatorResult(const Quantity&);
     static QString stringFromFunctionError(Function*);
     Quantity exec(const QVector<Opcode>& opcodes, const QVector<Quantity>& constants,
-                 const QStringList& identifiers);
+               const QStringList& identifiers);
     Quantity execUserFunction(const UserFunction* function, QVector<Quantity>& arguments);
     const UserFunction * getUserFunction(const QString&) const;
 

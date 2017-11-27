@@ -164,7 +164,7 @@ void ExpressionList::textChanged(const QString &text)
                                      .replace(",", "").replace("××", "^");
     const QString reformatExp = Utils::reformatSeparators(exp);
     m_inputEdit->setText(reformatExp);
-    const int newPos = m_inputEdit->cursorPosition(); // text length
+    const int newPos = m_inputEdit->cursorPosition();
     m_inputEdit->setCursorPosition(oldPos + (newPos - text.count()));
 
     // make font size of inputEdit fit text content.

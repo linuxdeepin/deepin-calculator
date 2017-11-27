@@ -30,7 +30,6 @@
 
 #include <QCoreApplication>
 #include <QStack>
-#include <QDebug>
 #include <QRegularExpression>
 
 #define ALLOW_IMPLICIT_MULT
@@ -461,6 +460,7 @@ bool Evaluator::isRadixChar(const QChar &ch)
 {
     if (Settings::instance()->isRadixCharacterBoth())
         return ch.unicode() == '.' || ch.unicode() == ',';
+
     // There exist more than 2 radix characters actually:
     //   U+0027 ' apostrophe
     //   U+002C , comma
@@ -503,6 +503,10 @@ QString Evaluator::fixNumberRadix(const QString& number)
             else
                 return QString(); // should not happen
         }
+    }
+
+    if (dotCount > 1) {
+        return "error";
     }
 
     // Decide which radix characters to ignore based on their occurence count
@@ -871,11 +875,10 @@ Tokens Evaluator::scan(const QString& expr) const
 
             break;
 
-        /* Parse the number digits */
+            /* Parse the number digits */
         case InNumber: {
             ushort c = ch.unicode();
             bool isDigit = c < DIGIT_MAP_COUNT && (s_digitMap[c] <= numberBase);
-
             if (isDigit) {
                 // Consume as long as it's a digit
                 tokenText.append(ex.at(i++).toUpper());
@@ -886,9 +889,9 @@ Tokens Evaluator::scan(const QString& expr) const
                 ++i;
                 tokenText = fixNumberRadix(tokenText);
                 if (!tokenText.isNull())
-                    state = InExpIndicator;
-                else
-                    state = Bad;
+                        state = InExpIndicator;
+                    else
+                        state = Bad;
             } else if (isRadixChar(ch)) {
                 // Might be a radix point or a separator, collect it and decide later
                 tokenText.append(ch);
