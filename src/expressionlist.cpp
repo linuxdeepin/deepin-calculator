@@ -159,12 +159,13 @@ int ExpressionList::getItemsCount()
 
 void ExpressionList::textChanged(const QString &text)
 {
-    const int cursorPos = m_inputEdit->cursorPosition();
+    const int oldPos = m_inputEdit->cursorPosition();
     const QString exp = QString(text).replace("（", "(").replace("）", ")")
                                      .replace(",", "").replace("××", "^");
     const QString reformatExp = Utils::reformatSeparators(exp);
     m_inputEdit->setText(reformatExp);
-    m_inputEdit->setCursorPosition(cursorPos + (reformatExp.count() + text.count()));
+    const int newPos = m_inputEdit->cursorPosition(); // text length
+    m_inputEdit->setCursorPosition(oldPos + (newPos - text.count()));
 
     // make font size of inputEdit fit text content.
     autoZoomFontSize();
