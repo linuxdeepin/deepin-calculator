@@ -1,5 +1,6 @@
 #include "listview.h"
 #include "dthememanager.h"
+#include "utils.h"
 
 #include <QPainter>
 #include <QMouseEvent>
@@ -34,10 +35,12 @@ void ListView::initTheme()
     if (DThemeManager::instance()->theme() == "light") {
         backgroundColor = "#FBFBFB";
         fontColor = "#636363";
+        errorFontColor = "#F37D54";
         scrollbarColor = "#000000";
     } else {
         backgroundColor = "#111111";
         fontColor = "#C3C3C3";
+        errorFontColor = "#F37D54";
         scrollbarColor = "#FFFFFF";
     }
 }
@@ -93,8 +96,19 @@ void ListView::paintEvent(QPaintEvent *)
     int count = 0;
     for (QString item : listItems) {
         if (count >= offset / rowHeight) {
+            QStringList list = item.split(" = ");
+
             QRect itemRect(padding, count * rowHeight - offset, rect().width() - padding - 15, rowHeight);
-            painter.drawText(itemRect, Qt::AlignVCenter | Qt::AlignRight, item);
+            painter.drawText(QRect(itemRect.x() - fontMetrics().width(list.last()), itemRect.y(), rect().width() - padding * 2, itemRect.height()), Qt::AlignVCenter | Qt::AlignRight, list.first() + " = ");
+
+            if (Utils::stringIsDigit(list.last())) {
+                painter.setPen(QColor(fontColor));
+            } else {
+                painter.setPen(QColor(errorFontColor));
+            }
+
+            painter.drawText(itemRect, Qt::AlignVCenter | Qt::AlignRight, list.last());
+            painter.setPen(QColor(fontColor));
 
             drawHeight += rowHeight;
 

@@ -2,7 +2,7 @@
 
 ## Overview|../common/icon_overview.svg|
 
-Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication, division and remainder with keyboard input perfectly matched, as well as symbolic fault-tolerant computing.
+Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division with keyboard input perfectly matched, as well as symbolic fault-tolerant computing.
 
 ![0|calculator](png/calculator.png)
 
@@ -25,8 +25,8 @@ Deepin Calculator is a simple and easy to use desktop calculator. It supports ad
         </tr>
     	<tr>
             <td>%</td>
-            <td>Remainder</td>
-            <td>Remainder operator</td>
+            <td>Percent sign</td>
+            <td>To input percent sign</td>
         </tr>
     	<tr>
             <td>![delete](icon/delete.svg)</td>

@@ -13,43 +13,31 @@ InputEdit::~InputEdit()
 
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    // if (e->button() == Qt::LeftButton) {
-    //     const QString text = this->text();
-    //     QFontMetrics fm(this->fontMetrics());
+    // QString exp = this->text();
+    // QString seg;
+    // QStringList expList;
 
-    //     int cursorPos = cursorPositionAt(QPoint(e->x(), e->y()));  // or cursorPosition()
-    //     QStringList list = text.split("[1-9]");
+    // for (int i = 0; i < exp.count(); ++i) {
+    //     const QChar ch = exp.at(i);
 
-    //     qDebug() << list;
+    //     if (ch.isDigit() || ch == '.' || ch == ',') {
+    //         seg.append(ch);
+    //     } else {
+    //         expList << seg;
+    //         seg.clear();
+    //         seg.append(ch);
+    //         expList << seg;
+    //         seg.clear();
+    //     }
+
+    //     if (i == exp.count() - 1) {
+    //         if (!seg.isEmpty()) {
+    //             expList << seg;
+    //         }
+    //     }
     // }
 
-    QString exp = this->text();
-    QString seg;
-    QStringList expList;
-
-    for (int i = 0; i < exp.count(); ++i) {
-        const QChar ch = exp.at(i);
-
-        if (ch.isDigit() || ch == '.' || ch == ',') {
-            seg.append(ch);
-        } else {
-            expList << seg;
-            seg.clear();
-            seg.append(ch);
-            expList << seg;
-            seg.clear();
-        }
-
-        if (i == exp.count() - 1) {
-            if (!seg.isEmpty()) {
-                expList << seg;
-            }
-        }
-    }
-
-    qDebug() << expList;
-
-    // QLineEdit::mouseDoubleClickEvent(e);
+    QLineEdit::mouseDoubleClickEvent(e);
 }
 
 void InputEdit::keyPressEvent(QKeyEvent *e)

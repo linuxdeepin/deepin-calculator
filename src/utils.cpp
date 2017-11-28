@@ -47,7 +47,7 @@ bool Utils::stringIsDigit(const QString &str)
     bool isDigit = true;
 
     for (auto &ch : str) {
-        if (!ch.isDigit() && ch != '.') {
+        if (!ch.isDigit() && ch != '.' && ch != ',') {
             isDigit = false;
             break;
         }
@@ -58,13 +58,11 @@ bool Utils::stringIsDigit(const QString &str)
 
 QString Utils::reformatSeparators(const QString &exp)
 {
-    QString expression = exp;
     QString seg;
     QStringList expList;
 
-    for (int i = 0; i < exp.count(); ++i) {
-        const QChar ch = exp.at(i);
-
+    int count = 0;
+    for (auto ch : exp) {
         if (ch.isDigit() || ch == '.') {
             seg.append(ch);
         } else {
@@ -75,9 +73,11 @@ QString Utils::reformatSeparators(const QString &exp)
             seg.clear();
         }
 
-        if (i == expression.count() - 1) {
+        if (count == exp.count() - 1) {
             expList << seg;
         }
+
+        ++count;
     }
 
     QString formatStr;

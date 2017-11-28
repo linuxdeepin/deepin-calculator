@@ -40,6 +40,7 @@ private:
     bool isShowScrollbar;
     QString backgroundColor;
     QString fontColor;
+    QString errorFontColor;
     QString scrollbarColor;
 };
 
