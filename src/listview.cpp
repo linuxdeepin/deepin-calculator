@@ -11,6 +11,7 @@ DWIDGET_USE_NAMESPACE
 
 ListView::ListView(QWidget *parent) : QWidget(parent)
 {
+    setAttribute(Qt::WA_TranslucentBackground);
     rowHeight = 35;
     padding = 10;
     offset = 0;
@@ -77,15 +78,12 @@ int ListView::getItemsCount()
     return listItems.count();
 }
 
-void ListView::paintEvent(QPaintEvent *)
+void ListView::paintEvent(QPaintEvent *event)
 {
+    QWidget::paintEvent(event);
+
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
-
-    // Draw background
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor(backgroundColor));
-    painter.drawRect(rect());
 
     // Draw Items.
     painter.setPen(QColor(fontColor));

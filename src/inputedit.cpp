@@ -5,6 +5,7 @@
 InputEdit::InputEdit(QLineEdit *parent) : QLineEdit(parent)
 {
     setAttribute(Qt::WA_InputMethodEnabled, false);
+    setAttribute(Qt::WA_TranslucentBackground);
 }
 
 InputEdit::~InputEdit()

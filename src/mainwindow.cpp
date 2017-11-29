@@ -117,15 +117,17 @@ MainWindow::~MainWindow()
     // We don't need clean pointers because applicatibon has exit here.
 }
 
-void MainWindow::paintEvent(QPaintEvent *)
+void MainWindow::paintEvent(QPaintEvent * event)
 {
+    DMainWindow::paintEvent(event);
+
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
 
     // Draw titlebar background color.
     painter.setBrush(QColor(m_titlebarColor));
-    painter.drawRect(QRect(0, 0, rect().width(), 30));
+    painter.drawRect(rect());
 
     // Draw separator line.
     painter.setBrush(QColor(m_separatorColor));
