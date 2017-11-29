@@ -13,41 +13,21 @@ InputEdit::~InputEdit()
 
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    // QString exp = this->text();
-    // QString seg;
-    // QStringList expList;
-
-    // for (int i = 0; i < exp.count(); ++i) {
-    //     const QChar ch = exp.at(i);
-
-    //     if (ch.isDigit() || ch == '.' || ch == ',') {
-    //         seg.append(ch);
-    //     } else {
-    //         expList << seg;
-    //         seg.clear();
-    //         seg.append(ch);
-    //         expList << seg;
-    //         seg.clear();
-    //     }
-
-    //     if (i == exp.count() - 1) {
-    //         if (!seg.isEmpty()) {
-    //             expList << seg;
-    //         }
-    //     }
-    // }
-
-    // qDebug() << expList;
-
     QLineEdit::mouseDoubleClickEvent(e);
+
+    if (e->button() == Qt::LeftButton) {
+        int position = cursorPositionAt(e->pos());
+        int posBegin = findWordBeginPosition(position);
+        int posEnd = findWordEndPosition(position);
+        setSelection(posBegin, posEnd - posBegin + 1);
+    }
 }
 
 void InputEdit::keyPressEvent(QKeyEvent *e)
 {
     const bool isPressCtrl = e->modifiers() == Qt::ControlModifier;
 
-    switch (e->key())
-    {
+    switch (e->key()) {
     case Qt::Key_0: case Qt::Key_1: case Qt::Key_2: case Qt::Key_3:
     case Qt::Key_4: case Qt::Key_5: case Qt::Key_6: case Qt::Key_7:
     case Qt::Key_8: case Qt::Key_9:
@@ -114,4 +94,52 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
         break;
     }
 
+}
+
+bool InputEdit::isSymbolCategoryChanged(int pos1, int pos2)
+{
+    QString str = text();
+    QChar::Category category1 = str.at(pos1).category();
+    QChar::Category category2 = str.at(pos2).category();
+
+    if (category1 == QChar::Number_DecimalDigit || category1 == QChar::Punctuation_Other) {
+        if (category2 == QChar::Number_DecimalDigit || category2 == QChar::Punctuation_Other) {
+            return false ;
+        }
+    }
+
+    return true;
+}
+
+int InputEdit::findWordBeginPosition(int pos)
+{
+    QString str = text();
+
+    if (0 >= pos) {
+        return 0;
+    }
+
+    while (pos > 0) {
+        pos--;
+        if (isSymbolCategoryChanged(pos, pos + 1)) {
+            return pos + 1;
+        }
+    }
+    return 0;
+
+}
+
+int InputEdit::findWordEndPosition(int pos)
+{
+    QString str = text();
+    if (pos >= str.length()) {
+        return str.length() - 1;
+    }
+    while (pos < str.length() - 1) {
+        pos++;
+        if (isSymbolCategoryChanged(pos, pos - 1)) {
+            return pos - 1;
+        }
+    }
+    return str.length() - 1;
 }
