@@ -224,16 +224,24 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 
 void MainWindow::initTheme()
 {
-    QString theme = m_settings->getOption("theme");
+    QString theme = m_settings->getOption("theme").toString();
     DThemeManager::instance()->setTheme(theme);
+
+    const bool isBlur = m_settings->getOption("EnableBlur").toBool();
+
+    if (isBlur) {
+        setAttribute(Qt::WA_TranslucentBackground);
+        setEnableBlurWindow(true);
+    }
+
     if (theme == "light") {
         this->setStyleSheet(Utils::getQssContent(":/qss/light.qss"));
-        m_titlebarColor = "#FBFBFB";
+        m_titlebarColor = isBlur ? QColor(251,251,251, 0.6 * 255) : QColor(251,251,251);
         m_separatorColor = "#E1E1E1";
         m_backgroundColor = QColor(0, 0, 0, 0.05 * 255);
     } else {
         this->setStyleSheet(Utils::getQssContent(":/qss/dark.qss"));
-        m_titlebarColor = "#111111";
+        m_titlebarColor = isBlur ? QColor(17, 17, 17, 0.6 * 255) : QColor(17, 17, 17);
         m_separatorColor = "#303030";
         m_backgroundColor = QColor("#2D2D2D");
     }
@@ -246,7 +254,7 @@ void MainWindow::initThemeAction()
 
 void MainWindow::switchTheme()
 {
-    const QString theme = m_settings->getOption("theme");
+    const QString theme = m_settings->getOption("theme").toString();
 
     if (m_settings->getOption("theme") == "dark") {
         m_settings->setOption("theme", "light");

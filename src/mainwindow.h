@@ -62,8 +62,8 @@ private:
     TextButton *pointButton;
     TextButton *bracketsButton;
     TextButton *equalButton;
-    QString m_titlebarColor;
-    QString m_separatorColor;
+    QColor m_titlebarColor;
+    QColor m_separatorColor;
     QColor m_backgroundColor;
 };
 

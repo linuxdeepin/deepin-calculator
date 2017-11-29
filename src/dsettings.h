@@ -12,8 +12,8 @@ public:
     ~DSettings();
 
     QString configPath();
-    QString getOption(const QString &key);
-    void setOption(const QString &key, const QString &value);
+    QVariant getOption(const QString &key);
+    void setOption(const QString &key, const QVariant &value);
 
 private:
     QSettings *m_settings;

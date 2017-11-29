@@ -22,12 +22,12 @@ QString DSettings::configPath()
     return QDir(QDir(QStandardPaths::standardLocations(QStandardPaths::ConfigLocation).first()).filePath(qApp->organizationName())).filePath(qApp->applicationName());
 }
 
-QString DSettings::getOption(const QString &key)
+QVariant DSettings::getOption(const QString &key)
 {
-    return m_settings->value(key).toString();
+    return m_settings->value(key);
 }
 
-void DSettings::setOption(const QString &key, const QString &value)
+void DSettings::setOption(const QString &key, const QVariant &value)
 {
     m_settings->setValue(key, value);
 }
