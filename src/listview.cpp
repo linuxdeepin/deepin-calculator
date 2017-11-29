@@ -21,6 +21,7 @@ ListView::ListView(QWidget *parent) : QWidget(parent)
 
     setMouseTracking(true);
     setMinimumHeight(105);
+    setMaximumHeight(200);
     initTheme();
 
     connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, [=] {
@@ -94,10 +95,17 @@ void ListView::paintEvent(QPaintEvent *event)
 
     for (QString item : listItems) {
         if (count >= offset / rowHeight) {
-            const QStringList list = item.split("=");
-            const int resultWidth = fontMetrics().width(list.last());
-            const QString exp = fontMetrics().elidedText(list.first(), Qt::ElideLeft, rect().width() - resultWidth - rightPadding * 2);
-            const QRect itemRect(padding, count * rowHeight - offset, rect().width(), rowHeight);
+            QStringList list = item.split("=");
+            QString resultStr = list.last();
+            int resultWidth = fontMetrics().width(resultStr);
+            QRect itemRect(padding, count * rowHeight - offset, rect().width(), rowHeight);
+
+            if (resultWidth >= rect().width() / 2) {
+                resultStr = fontMetrics().elidedText(resultStr, Qt::ElideRight, rect().width() / 2);
+                resultWidth = fontMetrics().width(resultStr);
+            }
+
+            QString expStr = fontMetrics().elidedText(list.first(), Qt::ElideLeft, rect().width() - resultWidth - rightPadding * 2);
 
             // Check whether result text is digit.
             if (Utils::stringIsDigit(list.last())) {
@@ -107,11 +115,11 @@ void ListView::paintEvent(QPaintEvent *event)
             }
 
             // Draw result text.
-            painter.drawText(QRect(itemRect.x(), itemRect.y(), itemRect.width() - rightPadding, itemRect.height()), Qt::AlignVCenter | Qt::AlignRight, list.last());
+            painter.drawText(QRect(itemRect.x(), itemRect.y(), itemRect.width() - rightPadding, itemRect.height()), Qt::AlignVCenter | Qt::AlignRight, resultStr);
 
             // Draw expression text.
             painter.setPen(QColor(fontColor));
-            painter.drawText(QRect(itemRect.x(), itemRect.y(), itemRect.width() - rightPadding - resultWidth, itemRect.height()), Qt::AlignVCenter | Qt::AlignRight, exp + " = ");
+            painter.drawText(QRect(itemRect.x(), itemRect.y(), itemRect.width() - rightPadding - resultWidth, itemRect.height()), Qt::AlignVCenter | Qt::AlignRight, expStr + " = ");
 
             drawHeight += rowHeight;
 

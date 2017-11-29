@@ -15,6 +15,7 @@ public:
     ExpressionList(QWidget *parent = nullptr);
     ~ExpressionList();
 
+    void update();
     void setContinue(const bool &mark);
     QString getInputEditText() const;
 

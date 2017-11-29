@@ -24,6 +24,7 @@ public:
 protected:
     void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *);
+    void resizeEvent(QResizeEvent *);
 
 private slots:
     void initTheme();

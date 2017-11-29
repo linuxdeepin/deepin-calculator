@@ -48,7 +48,7 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
         QLineEdit::keyPressEvent(e);
         break;
 
-    case Qt::Key_Backspace: case Qt::Key_Delete:
+    case Qt::Key_Backspace:
         emit inputKeyPressEvent(e);
         backspace();
         break;
@@ -90,7 +90,7 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
         }
         break;
 
-    case Qt::Key_Left: case Qt::Key_Right: case Qt::Key_Home: case Qt::Key_End:
+    case Qt::Key_Left: case Qt::Key_Right: case Qt::Key_Home: case Qt::Key_End: case Qt::Key_Delete:
         QLineEdit::keyPressEvent(e);
         break;
     }
@@ -126,21 +126,25 @@ int InputEdit::findWordBeginPosition(int pos)
             return pos + 1;
         }
     }
-    return 0;
 
+    return 0;
 }
 
 int InputEdit::findWordEndPosition(int pos)
 {
     QString str = text();
+
     if (pos >= str.length()) {
         return str.length() - 1;
     }
+
     while (pos < str.length() - 1) {
         pos++;
         if (isSymbolCategoryChanged(pos, pos - 1)) {
             return pos - 1;
         }
     }
+
     return str.length() - 1;
 }
+ 

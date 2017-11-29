@@ -89,8 +89,13 @@ MainWindow::MainWindow(DMainWindow *parent)
 
     setWindowIcon(QIcon(":/images/deepin-calculator.svg"));
     setWindowTitle(tr("Deepin Calculator"));
-    setFixedSize(322, 495);
     setCentralWidget(m_mainWidget);
+
+    if (m_settings->getOption("Resize").toBool()) {
+        resize(322, 495);
+    } else {
+        setFixedSize(322, 495);
+    }
 
     connect(zeroButton, &QPushButton::clicked, this, &MainWindow::onNumberButtonClicked);
     connect(num1Button, &QPushButton::clicked, this, &MainWindow::onNumberButtonClicked);
@@ -200,7 +205,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Enter: case Qt::Key_Return: case Qt::Key_Equal:
         equalButton->animateClick();
         break;
-    case Qt::Key_Backspace: case Qt::Key_Delete:
+    case Qt::Key_Backspace:
         if (!m_expList->getInputEditText().isEmpty()) {
             backButton->animate();
         }
@@ -224,6 +229,11 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         }
         break;
     }
+}
+
+void MainWindow::resizeEvent(QResizeEvent *)
+{
+    m_expList->update();
 }
 
 void MainWindow::initTheme()

@@ -20,7 +20,7 @@ ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
     m_layout->addWidget(m_inputEdit);
 
     m_inputEdit->setTextMargins(10, 0, 10, 8);
-    m_inputEdit->setFixedHeight(55);
+    m_inputEdit->setMinimumHeight(55);
     m_inputEdit->setAlignment(Qt::AlignRight);
 
     m_isContinue = true;
@@ -37,6 +37,12 @@ ExpressionList::~ExpressionList()
 {
     delete m_listView;
     delete m_inputEdit;
+}
+
+void ExpressionList::update()
+{
+    m_listView->scrollToBottom();
+    autoZoomFontSize();
 }
 
 void ExpressionList::setContinue(const bool &mark)
@@ -126,13 +132,13 @@ void ExpressionList::enterEqualEvent()
         if (!quantity.isNan() && !m_eval->isUserFunctionAssign()) {
             const QString result = DMath::format(m_eval->evalUpdateAns(), Quantity::Format::Fixed());
             QString formatResult = Utils::formatThousandsSeparators(result);
-            formatResult.replace("-", "－");
 
             if (formatResult == m_inputEdit->text()) {
                 return;
             }
 
             m_listView->addItem(m_inputEdit->text() + "=" + formatResult);
+            formatResult.replace("-", "－");
             m_inputEdit->setText(formatResult);
             m_isContinue = false;
         }

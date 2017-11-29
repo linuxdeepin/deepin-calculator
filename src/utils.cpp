@@ -47,7 +47,7 @@ bool Utils::stringIsDigit(const QString &str)
     bool isDigit = true;
 
     for (auto &ch : str) {
-        if (!ch.isDigit() && ch != '.' && ch != ',') {
+        if (!ch.isDigit() && ch != '.' && ch != ',' && ch != '-') {
             isDigit = false;
             break;
         }
