@@ -55,7 +55,6 @@ HEADERS += core/constants.h \
            src/listview.h \
            src/mainwindow.h \
            src/textbutton.h \
-           src/titlebar.h \
            src/utils.h
 
 SOURCES += core/constants.cpp \
@@ -101,7 +100,6 @@ SOURCES += core/constants.cpp \
            src/main.cpp \
            src/mainwindow.cpp \
            src/textbutton.cpp \
-           src/titlebar.cpp \
            src/utils.cpp
 
 RESOURCES += deepin-calculator.qrc

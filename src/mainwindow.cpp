@@ -6,6 +6,8 @@
 #include <QApplication>
 #include <QPainter>
 #include <dtitlebar.h>
+#include <QLabel>
+#include <DHiDPIHelper>
 
 MainWindow::MainWindow(DMainWindow *parent)
     : DMainWindow(parent)
@@ -13,7 +15,6 @@ MainWindow::MainWindow(DMainWindow *parent)
     m_mainWidget = new QWidget;
     m_mainLayout = new QGridLayout(m_mainWidget);
     m_settings = new DSettings;
-    m_titleBar = new TitleBar;
     m_expList = new ExpressionList;
     clearButton = new TextButton("C");
     backButton = new BackButton;
@@ -74,9 +75,12 @@ MainWindow::MainWindow(DMainWindow *parent)
         m_menu->addAction(m_themeAction);
         m_menu->addSeparator();
 
+        QLabel *icon = new QLabel;
+        icon->setPixmap(DHiDPIHelper::loadNxPixmap(":/images/deepin-calculator.svg"));
+
         titlebar()->setMenu(m_menu);
         titlebar()->setFixedHeight(30);
-        titlebar()->setCustomWidget(m_titleBar, Qt::AlignVCenter, false);
+        titlebar()->setCustomWidget(icon, Qt::AlignVCenter, false);
         initTheme();
         initThemeAction();
 

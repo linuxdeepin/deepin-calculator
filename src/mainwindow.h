@@ -6,7 +6,6 @@
 #include <QKeyEvent>
 #include <QMenu>
 
-#include "titlebar.h"
 #include "expressionlist.h"
 #include "textbutton.h"
 #include "backbutton.h"
@@ -40,7 +39,6 @@ private:
     QAction *m_themeAction;
     DSettings *m_settings;
     QGridLayout *m_mainLayout;
-    TitleBar *m_titleBar;
     ExpressionList *m_expList;
     TextButton *clearButton;
     BackButton *backButton;
