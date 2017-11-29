@@ -37,6 +37,8 @@ void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
     //     }
     // }
 
+    // qDebug() << expList;
+
     QLineEdit::mouseDoubleClickEvent(e);
 }
 

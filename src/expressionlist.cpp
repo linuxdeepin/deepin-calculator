@@ -132,12 +132,12 @@ void ExpressionList::enterEqualEvent()
                 return;
             }
 
-            m_listView->addItem(m_inputEdit->text() + " = " + formatResult);
+            m_listView->addItem(m_inputEdit->text() + "=" + formatResult);
             m_inputEdit->setText(formatResult);
             m_isContinue = false;
         }
     } else {
-        m_listView->addItem(m_inputEdit->text() + " = " + tr("Expression Error"));
+        m_listView->addItem(m_inputEdit->text() + "=" + tr("Expression Error"));
     }
 }
 

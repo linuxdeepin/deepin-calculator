@@ -2,6 +2,7 @@
 #include "dthememanager.h"
 #include "utils.h"
 
+#include <QDebug>
 #include <QPainter>
 #include <QMouseEvent>
 #include <QWheelEvent>
@@ -87,28 +88,32 @@ void ListView::paintEvent(QPaintEvent *)
     painter.drawRect(rect());
 
     // Draw Items.
-    QFont font;
-    font.setPointSize(10);
-    painter.setFont(font);
     painter.setPen(QColor(fontColor));
 
+    const int rightPadding = padding + 15;
     int drawHeight = 0;
     int count = 0;
+
     for (QString item : listItems) {
         if (count >= offset / rowHeight) {
-            QStringList list = item.split(" = ");
+            const QStringList list = item.split("=");
+            const int resultWidth = fontMetrics().width(list.last());
+            const QString exp = fontMetrics().elidedText(list.first(), Qt::ElideLeft, rect().width() - resultWidth - rightPadding * 2);
+            const QRect itemRect(padding, count * rowHeight - offset, rect().width(), rowHeight);
 
-            QRect itemRect(padding, count * rowHeight - offset, rect().width() - padding - 15, rowHeight);
-            painter.drawText(QRect(itemRect.x() - fontMetrics().width(list.last()), itemRect.y(), rect().width() - padding * 2, itemRect.height()), Qt::AlignVCenter | Qt::AlignRight, list.first() + " = ");
-
+            // Check whether result text is digit.
             if (Utils::stringIsDigit(list.last())) {
                 painter.setPen(QColor(fontColor));
             } else {
                 painter.setPen(QColor(errorFontColor));
             }
 
-            painter.drawText(itemRect, Qt::AlignVCenter | Qt::AlignRight, list.last());
+            // Draw result text.
+            painter.drawText(QRect(itemRect.x(), itemRect.y(), itemRect.width() - rightPadding, itemRect.height()), Qt::AlignVCenter | Qt::AlignRight, list.last());
+
+            // Draw expression text.
             painter.setPen(QColor(fontColor));
+            painter.drawText(QRect(itemRect.x(), itemRect.y(), itemRect.width() - rightPadding - resultWidth, itemRect.height()), Qt::AlignVCenter | Qt::AlignRight, exp + " = ");
 
             drawHeight += rowHeight;
 
