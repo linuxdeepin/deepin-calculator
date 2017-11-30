@@ -3,7 +3,6 @@
 #include <QClipboard>
 #include <QKeyEvent>
 #include <QTimer>
-#include <QDebug>
 #include "expressionlist.h"
 #include "utils.h"
 
@@ -20,7 +19,7 @@ ExpressionList::ExpressionList(QWidget *parent) : QWidget(parent)
     m_layout->addWidget(m_inputEdit);
 
     m_inputEdit->setTextMargins(10, 0, 10, 8);
-    m_inputEdit->setMinimumHeight(55);
+    m_inputEdit->setFixedHeight(55);
     m_inputEdit->setAlignment(Qt::AlignRight);
 
     m_isContinue = true;

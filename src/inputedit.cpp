@@ -1,6 +1,5 @@
 #include "inputedit.h"
 #include <QKeyEvent>
-#include <QDebug>
 
 InputEdit::InputEdit(QLineEdit *parent) : QLineEdit(parent)
 {
@@ -147,4 +146,3 @@ int InputEdit::findWordEndPosition(int pos)
 
     return str.length() - 1;
 }
- 

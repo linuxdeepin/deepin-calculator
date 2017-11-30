@@ -2,7 +2,6 @@
 #include "dthememanager.h"
 #include "utils.h"
 
-#include <QDebug>
 #include <QPainter>
 #include <QMouseEvent>
 #include <QWheelEvent>
@@ -21,7 +20,6 @@ ListView::ListView(QWidget *parent) : QWidget(parent)
 
     setMouseTracking(true);
     setMinimumHeight(105);
-    setMaximumHeight(200);
     initTheme();
 
     connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, [=] {
@@ -100,8 +98,8 @@ void ListView::paintEvent(QPaintEvent *event)
             int resultWidth = fontMetrics().width(resultStr);
             QRect itemRect(padding, count * rowHeight - offset, rect().width(), rowHeight);
 
-            if (resultWidth >= rect().width() / 2) {
-                resultStr = fontMetrics().elidedText(resultStr, Qt::ElideRight, rect().width() / 2);
+            if (resultWidth > rect().width() / 1.3) {
+                resultStr = fontMetrics().elidedText(resultStr, Qt::ElideRight, rect().width() / 1.3);
                 resultWidth = fontMetrics().width(resultStr);
             }
 

@@ -28,7 +28,7 @@ QString Utils::formatThousandsSeparators(const QString &str)
     QString result = str;
     int startPos = result.indexOf(QRegularExpression("[0-9]"));
     if (startPos >= 0) {
-        int endPos = result.indexOf(QRegularExpression("[.]"));
+        int endPos = result.indexOf('.');
 
         if (endPos < 0) {
             endPos = result.length();
