@@ -111,7 +111,7 @@ void ExpressionList::enterClearEvent()
 
         emit clearStateChanged(false);
     } else {
-        m_inputEdit->setText("");
+        m_inputEdit->clear();
         m_isAllClear = true;
 
         emit clearStateChanged(true);
@@ -123,13 +123,14 @@ void ExpressionList::enterEqualEvent()
     if (m_inputEdit->text().isEmpty())
         return;
 
-    QString str = m_eval->autoFix(formatExp(m_inputEdit->text()));
+    QString str = m_eval->autoFix(formatExp(m_inputEdit->expressionText()));
     m_eval->setExpression(str);
     auto quantity = m_eval->evalUpdateAns();
 
     if (m_eval->error().isEmpty()) {
         if (!quantity.isNan() && !m_eval->isUserFunctionAssign()) {
-            const QString result = DMath::format(m_eval->evalUpdateAns(), Quantity::Format::Fixed());
+            Quantity ans = m_eval->evalUpdateAns();
+            const QString result = DMath::format(ans, Quantity::Format::Fixed());
             QString formatResult = Utils::formatThousandsSeparators(result);
 
             if (formatResult == m_inputEdit->text()) {
@@ -138,7 +139,7 @@ void ExpressionList::enterEqualEvent()
 
             m_listView->addItem(m_inputEdit->text() + "=" + formatResult);
             formatResult.replace("-", "－");
-            m_inputEdit->setText(formatResult);
+            m_inputEdit->setAnswer(formatResult, ans);
             m_isContinue = false;
         }
     } else {
