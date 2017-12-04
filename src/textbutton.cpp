@@ -101,4 +101,3 @@ void TextButton::leaveEvent(QEvent *e)
 
     QPushButton::leaveEvent(e);
 }
-

@@ -1,10 +1,30 @@
 #include "inputedit.h"
+#include "utils.h"
+#include "math/floatconfig.h"
 #include <QKeyEvent>
+#include <QCoreApplication>
+
+#define NOT_USED(x) ( (void)(x) )
 
 InputEdit::InputEdit(QLineEdit *parent) : QLineEdit(parent)
 {
+    m_ans = 0;
+    m_ansStart = 0;
+    m_ansLength = 0;
+    m_ansVaild = false;
+    m_curInAns = false;
+    m_curOnAnsLeft = false;
+    m_oldText = "";
+
     setAttribute(Qt::WA_InputMethodEnabled, false);
     setAttribute(Qt::WA_TranslucentBackground);
+
+    connect(this, &QLineEdit::textChanged, this, &InputEdit::handleTextChanged);
+    connect(this, &QLineEdit::cursorPositionChanged, this, &InputEdit::handleCursorPositionChanged);
+    connect(this, &QLineEdit::selectionChanged, [=] {
+        int pos = this->cursorPosition();
+        this->cursorPositionChanged(pos, pos);
+    });
 }
 
 InputEdit::~InputEdit()
@@ -96,6 +116,50 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
 
 }
 
+void InputEdit::handleTextChanged(const QString &text)
+{
+    if (m_curInAns) {
+        m_ansLength = 0;
+    } else if (m_curOnAnsLeft && m_oldText.length() != 0) {
+        int nl = text.length();
+        int ol = m_oldText.length();
+        int l = std::min(nl, ol);
+        int i = 1;
+        for (; i <= l && text[nl - i] == m_oldText[ol - i]; i++) {}
+        int diff = (nl - i) - (ol - i);
+        m_ansStart += diff;
+    }
+
+    int ans_end = m_ansStart + m_ansLength;
+    m_ansVaild = m_ansLength != 0 &&
+        (m_ansStart == 0 || !text[m_ansStart - 1].isDigit()) &&
+        (ans_end == text.length() || !text[ans_end].isDigit());
+    // this->heilightAns(m_ansStart, m_ansVaild ? m_ansLength : 0);
+    m_oldText = text;
+}
+
+void InputEdit::handleCursorPositionChanged(int old_pos, int new_pos)
+{
+    NOT_USED(old_pos);
+    int ans_end = m_ansStart + m_ansLength;
+    int sel_start = this->selectionStart();
+    int sel_end = sel_start + this->selectedText().length();
+    if (new_pos > m_ansStart && new_pos < ans_end) {
+        m_curInAns = true;
+    } else if (this->hasSelectedText() &&
+               ((sel_start >= m_ansStart && sel_start < ans_end) ||
+                (sel_end > m_ansStart && sel_end <= ans_end) ||
+                (sel_start < m_ansStart && sel_end > ans_end))) {
+        m_curInAns = true;
+    } else if (new_pos <= m_ansStart) {
+        m_curInAns = false;
+        m_curOnAnsLeft = true;
+    } else {
+        m_curInAns = false;
+        m_curOnAnsLeft = false;
+    }
+}
+
 bool InputEdit::isSymbolCategoryChanged(int pos1, int pos2)
 {
     QString str = text();
@@ -145,4 +209,45 @@ int InputEdit::findWordEndPosition(int pos)
     }
 
     return str.length() - 1;
+}
+
+void InputEdit::clear()
+{
+    m_ansLength = 0;
+    setText("");
+}
+
+void InputEdit::setAnswer(QString & str, const Quantity & ans)
+{
+    m_ans = ans;
+    m_ansStart = 0;
+    m_ansLength = str.length();
+    m_oldText = "";
+    setText(str);
+}
+
+void InputEdit::heilightAns(int start, int length)
+{
+    QInputMethodEvent::AttributeType type = QInputMethodEvent::TextFormat;
+    start = start - cursorPosition();
+    QTextCharFormat f;
+    f.setFontWeight(950);
+    QList<QInputMethodEvent::Attribute> attributes;
+    attributes.append(QInputMethodEvent::Attribute(type, start, length, f));
+
+    QInputMethodEvent event(QString(), attributes);
+    QCoreApplication::sendEvent(this, &event);
+}
+
+QString InputEdit::expressionText()
+{
+    QString r = text();
+
+    if (m_ansVaild) {
+        QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
+        r.remove(m_ansStart, m_ansLength);
+        r.insert(m_ansStart, ans);
+    }
+
+    return r;
 }
