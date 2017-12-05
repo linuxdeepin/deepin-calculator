@@ -220,7 +220,7 @@ static int opPrecedence(Token::Op op)
     case Token::Exclamation: prec = 800; break;
     case Token::Caret: prec = 700; break;
     case Token::Percent: prec = 800; break;
-    /* Not really an operator but needed for managing shift/reduce conflicts */
+    // Not really an operator but needed for managing shift/reduce conflicts.
     case Token::Function: prec = 600; break;
     case Token::Asterisk:
     case Token::Slash: prec = 500; break;
@@ -374,6 +374,7 @@ void TokenStack::ensureSpace()
  * \param minPrecedence minimum precedence to set the top token, or \c INVALID_PRECEDENCE
  * if this method should use the minimum value from the removed tokens.
  */
+
 void TokenStack::reduce(int count, int minPrecedence)
 {
     // assert(itemCount() > count);

@@ -30,12 +30,6 @@
 class Settings {
 public:
     static Settings* instance();
-    static QString getConfigPath();
-    static QString getDataPath();
-    static QString getCachePath();
-
-    void load();
-    void save();
 
     char radixCharacter() const; // 0 or '*': Automatic.
     void setRadixCharacter(char c = 0);

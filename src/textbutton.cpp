@@ -31,6 +31,7 @@ TextButton::~TextButton()
 void TextButton::showShadowEffect()
 {
     m_effect->setEnabled(true);
+
     raise();
 }
 

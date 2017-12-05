@@ -85,7 +85,8 @@ void ListView::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::Antialiasing, true);
 
     // Draw Items.
-    painter.setPen(QColor(fontColor));
+    painter.setFont(QFont {"SourceHanSansSC"});
+    painter.setPen(QColor {fontColor});
 
     const int rightPadding = padding + 15;
     int drawHeight = 0;

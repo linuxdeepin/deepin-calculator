@@ -20,24 +20,28 @@ BackButton::~BackButton()
 void BackButton::mousePressEvent(QMouseEvent *e)
 {
     init();
+
     TextButton::mousePressEvent(e);
 }
 
 void BackButton::mouseReleaseEvent(QMouseEvent *e)
 {
     setIconSize(QSize(33, 26));
+
     TextButton::mouseReleaseEvent(e);
 }
 
 void BackButton::enterEvent(QEvent *e)
 {
     setIconSize(QSize(33, 26));
+
     TextButton::enterEvent(e);
 }
 
 void BackButton::leaveEvent(QEvent *e)
 {
     init();
+
     TextButton::leaveEvent(e);
 }
 
