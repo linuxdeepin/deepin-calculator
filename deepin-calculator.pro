@@ -17,7 +17,6 @@ HEADERS += core/constants.h \
            core/functions.h \
            core/numberformatter.h \
            core/opcode.h \
-           core/pageserver.h \
            core/session.h \
            core/sessionhistory.h \
            core/settings.h \
@@ -62,7 +61,6 @@ SOURCES += core/constants.cpp \
            core/functions.cpp \
            core/numberformatter.cpp \
            core/opcode.cpp \
-           core/pageserver.cpp \
            core/session.cpp \
            core/sessionhistory.cpp \
            core/settings.cpp \
