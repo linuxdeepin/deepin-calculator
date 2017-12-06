@@ -510,7 +510,7 @@ QString Evaluator::fixNumberRadix(const QString& number)
         return "error";
     }
 
-    // Decide which radix characters to ignore based on their occurence count
+    // Decide which radix characters to ignore based on their occurrence count
     bool ignoreDot = dotCount != 1;
     bool ignoreComma = commaCount != 1;
     if (!ignoreDot && !ignoreComma) {
