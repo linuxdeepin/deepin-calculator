@@ -1,4 +1,18 @@
 <a name=""></a>
+##  1.0.1 (2017-12-07)
+
+
+#### Features
+
+*   use fixed fonts for listview. ([aefea6e0](https://github.com/linuxdeepin/deepin-calculator/commit/aefea6e028caf7e1c113a7271eac1a4cd32e4cb5))
+
+#### Bug Fixes
+
+*   precision of the previous answer. ([81ff49a5](https://github.com/linuxdeepin/deepin-calculator/commit/81ff49a5481f8d2f84d02064e19c8d38cbfb9598))
+
+
+
+<a name=""></a>
 ##  1.0.0 (2017-11-30)
 
 
