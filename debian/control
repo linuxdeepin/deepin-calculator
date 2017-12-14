@@ -2,7 +2,7 @@ Source: deepin-calculator
 Section: utils
 Priority: optional
 Maintainer: Rekols <rekols@foxmail.com>
-Build-Depends: debhelper (>= 9),pkg-config, qt5-qmake, qt5-default, libdtkwidget-dev, libqt5svg5-dev
+Build-Depends: debhelper (>= 9),pkg-config, qt5-qmake, libdtkwidget-dev, libqt5svg5-dev
 Standards-Version: 3.9.8
 Homepage: http://www.deepin.org
 
@@ -10,3 +10,4 @@ Package: deepin-calculator
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Calculator for deepin
+ deepin calculator tool.
