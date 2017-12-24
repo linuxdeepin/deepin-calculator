@@ -2,6 +2,7 @@
 #define BACKBUTTON_H
 
 #include "textbutton.h"
+#include <QSvgWidget>
 
 class BackButton : public TextButton
 {
@@ -19,6 +20,9 @@ protected:
 
 private:
     void init();
+
+private:
+    QSvgWidget *m_iconWidget;
 };
 
 #endif

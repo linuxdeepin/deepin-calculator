@@ -1,16 +1,18 @@
 #include "backbutton.h"
 #include "dthememanager.h"
+#include <QHBoxLayout>
 
 DWIDGET_USE_NAMESPACE
 
 BackButton::BackButton(QWidget *parent)
-    : TextButton(nullptr, parent)
+    : TextButton(nullptr, parent),
+      m_iconWidget(new QSvgWidget)
 {
+    setLayout(new QHBoxLayout(this));
+    layout()->addWidget(m_iconWidget);
     init();
 
-    connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, [=] {
-        init();
-    });
+    connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &BackButton::init);
 }
 
 BackButton::~BackButton()
@@ -26,14 +28,14 @@ void BackButton::mousePressEvent(QMouseEvent *e)
 
 void BackButton::mouseReleaseEvent(QMouseEvent *e)
 {
-    setIconSize(QSize(33, 26));
+    m_iconWidget->setFixedSize(26, 26);
 
     TextButton::mouseReleaseEvent(e);
 }
 
 void BackButton::enterEvent(QEvent *e)
 {
-    setIconSize(QSize(33, 26));
+    m_iconWidget->setFixedSize(26, 26);
 
     TextButton::enterEvent(e);
 }
@@ -47,6 +49,6 @@ void BackButton::leaveEvent(QEvent *e)
 
 void BackButton::init()
 {
-    setIconSize(QSize(30, 23));
-    setIcon(QIcon(QString(":/images/delete_%1_normal.svg").arg(DThemeManager::instance()->theme())));
+    m_iconWidget->load(QString(":/images/delete_%1_normal.svg").arg(DThemeManager::instance()->theme()));
+    m_iconWidget->setFixedSize(23, 23);
 }
