@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     app.setAttribute(Qt::AA_UseHighDpiPixmaps);
     app.loadTranslator();
     app.setOrganizationName("deepin");
-    app.setApplicationVersion("1.0");
+    app.setApplicationVersion(DApplication::buildVersion("1.0.1"));
     app.setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-calculator");
     app.setProductIcon(QIcon(":/images/deepin-calculator.svg"));
     app.setProductName(DApplication::translate("Main", "Deepin Calculator"));
