@@ -1,6 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
   <qresource>
     <file>images/deepin-calculator.svg</file>
+    <file>images/title_icon.svg</file>
     <file>qss/light.qss</file>
     <file>qss/dark.qss</file>
     <file>images/delete_light_normal.svg</file>

@@ -76,7 +76,7 @@ MainWindow::MainWindow(DMainWindow *parent)
         m_menu->addSeparator();
 
         QLabel *icon = new QLabel;
-        icon->setPixmap(DHiDPIHelper::loadNxPixmap(":/images/deepin-calculator.svg"));
+        icon->setPixmap(DHiDPIHelper::loadNxPixmap(":/images/title_icon.svg"));
 
         titlebar()->setMenu(m_menu);
         titlebar()->setFixedHeight(30);
