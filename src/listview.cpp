@@ -85,8 +85,8 @@ void ListView::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::Antialiasing, true);
 
     // Draw Items.
-    painter.setFont(QFont {"SourceHanSansSC"});
-    painter.setPen(QColor {fontColor});
+    painter.setFont(QFont("Noto Sans CJK SC"));
+    painter.setPen(QColor(fontColor));
 
     const int rightPadding = padding + 15;
     int drawHeight = 0;
@@ -104,7 +104,8 @@ void ListView::paintEvent(QPaintEvent *event)
                 resultWidth = fontMetrics().width(resultStr);
             }
 
-            QString expStr = fontMetrics().elidedText(list.first(), Qt::ElideLeft, rect().width() - resultWidth - rightPadding * 2);
+            QString expStr = fontMetrics().elidedText(list.first(), Qt::ElideLeft,
+                                                      rect().width() - resultWidth - rightPadding * 2);
 
             // Check whether result text is digit.
             if (Utils::stringIsDigit(list.last())) {
@@ -114,11 +115,18 @@ void ListView::paintEvent(QPaintEvent *event)
             }
 
             // Draw result text.
-            painter.drawText(QRect(itemRect.x(), itemRect.y(), itemRect.width() - rightPadding, itemRect.height()), Qt::AlignVCenter | Qt::AlignRight, resultStr);
+            painter.drawText(QRect(itemRect.x(),
+                                   itemRect.y(),
+                                   itemRect.width() - rightPadding,
+                                   itemRect.height()),
+                                   Qt::AlignVCenter | Qt::AlignRight, resultStr);
 
             // Draw expression text.
             painter.setPen(QColor(fontColor));
-            painter.drawText(QRect(itemRect.x(), itemRect.y(), itemRect.width() - rightPadding - resultWidth, itemRect.height()), Qt::AlignVCenter | Qt::AlignRight, expStr + " = ");
+            painter.drawText(QRect(itemRect.x(),
+                                   itemRect.y(),
+                                   itemRect.width() - rightPadding - resultWidth,
+                                   itemRect.height()), Qt::AlignVCenter | Qt::AlignRight, expStr + " = ");
 
             drawHeight += rowHeight;
 
@@ -152,7 +160,9 @@ void ListView::paintEvent(QPaintEvent *event)
 
 void ListView::mouseMoveEvent(QMouseEvent *e)
 {
-    if (getItemsTotalHeight() > rect().height()) {
+    bool isShowbar = getItemsTotalHeight() > rect().height();
+
+    if (isShowbar) {
         if (isPress) {
             offset = adjustOffset((e->y() - getScrollbarHeight() / 2) / (rect().height() * 1.0) * getItemsTotalHeight());
             isShowScrollbar = true;
@@ -166,6 +176,10 @@ void ListView::mouseMoveEvent(QMouseEvent *e)
                 update();
             }
         }
+    }
+
+    if (!isShowbar || e->x() < getScrollbarX() && !isPress) {
+        QWidget::mouseMoveEvent(e);
     }
 }
 
