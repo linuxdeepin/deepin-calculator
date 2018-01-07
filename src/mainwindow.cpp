@@ -1,11 +1,10 @@
 #include "mainwindow.h"
 #include "dthememanager.h"
-#include "dwindowmanagerhelper.h"
+#include "dtitlebar.h"
 #include "utils.h"
 
 #include <QApplication>
 #include <QPainter>
-#include <dtitlebar.h>
 #include <QLabel>
 #include <DHiDPIHelper>
 

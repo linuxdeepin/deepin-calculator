@@ -3,6 +3,7 @@
 #include <QClipboard>
 #include <QKeyEvent>
 #include <QTimer>
+#include <QDebug>
 #include "expressionlist.h"
 #include "utils.h"
 
@@ -76,7 +77,18 @@ void ExpressionList::enterNumberEvent(const QString &num, bool isKeyPress)
 
 void ExpressionList::enterPointEvent()
 {
-    m_inputEdit->insert(".");
+    if (!m_isContinue) {
+        if (cursorPosAtEnd()) {
+            m_inputEdit->clear();
+            m_inputEdit->insert("0.");
+        } else {            
+            m_inputEdit->insert(".");
+        }
+
+        m_isContinue = true;
+    } else {
+        m_inputEdit->insert(".");
+    }
 }
 
 void ExpressionList::enterSymbolEvent(const QString &str)
