@@ -399,7 +399,7 @@ void Constants::Private::populate()
     PUSH_CONSTANT_CODATA("Hartree Energy",                 "4.359744650e-18",   "J",     "0.000000054e-18",   "2016-03-28");
     PUSH_CONSTANT_CODATA("Hartree Energy in eV",           "27.21138602",       "ev",    "0.00000017",        "2016-03-28");
     PUSH_CONSTANT_CODATA("Quantum of Circulation",         "3.6369475486e-4",   "m²/s",  "0.0000000017e-4",   "2016-03-28");
-    PUSH_CONSTANT_CODATA("Quantum of Circulation times 2", "7.2738950972e-4",   "m²/s",  "0.0000000033e-4",   "2016-03-28");  // I don't know why it is usefull, but it is present in CODATA constants, so I added it  -- Hadrien Theveneau, 2016-03-28
+    PUSH_CONSTANT_CODATA("Quantum of Circulation times 2", "7.2738950972e-4",   "m²/s",  "0.0000000033e-4",   "2016-03-28");  // I don't know why it is useful, but it is present in CODATA constants, so I added it  -- Hadrien Theveneau, 2016-03-28
     PUSH_CONSTANT_CODATA("Rydberg Constant",               "10973731.568508",   "1/m",   "0.000065",          "2016-03-28");
     PUSH_CONSTANT_CODATA("Thomson Cross Section",          "0.66524587158e-28", "m²",    "0.00000000091e-28", "2016-03-28");
     PUSH_CONSTANT_CODATA("Weak Mixing Angle",              "0.2223",            "",      "0.0021",            "2016-03-28");
