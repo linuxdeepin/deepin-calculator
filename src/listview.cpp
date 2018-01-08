@@ -186,12 +186,10 @@ void ListView::mouseMoveEvent(QMouseEvent *e)
 void ListView::mousePressEvent(QMouseEvent *e)
 {
     if (getItemsTotalHeight() > rect().height()) {
-        if (e->button() == Qt::LeftButton) {
-            if (e->x() > getScrollbarX()) {
-                isPress = true;
-                offset = adjustOffset((e->y() - getScrollbarHeight() / 2) / (rect().height() * 1.0) * getItemsTotalHeight());
-                update();
-            }
+        if (e->x() > getScrollbarX()) {
+            isPress = true;
+            offset = adjustOffset((e->y() - getScrollbarHeight() / 2) / (rect().height() * 1.0) * getItemsTotalHeight());
+            update();
         }
     }
 }
