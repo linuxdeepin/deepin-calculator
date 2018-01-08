@@ -423,7 +423,7 @@ _bscandigit(
 }
 
 /* scans two significands for the first occurrence
-   of a pair of differnt digits. Returns the number
+   of a pair of different digits. Returns the number
    of equal digits at the beginning */
 static int
 _scan_equal(
