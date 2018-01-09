@@ -3,7 +3,7 @@
     <name>ExpressionList</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>Chyba výrazu</translation>
     </message>
 </context>
 <context>
@@ -14,7 +14,7 @@
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Kalkulačka je jednoduchá a ľahko použiteľná desktopová kalkulačka. Podporuje sčítanie, odčítanie, násobenie a delenie.</translation>
     </message>
 </context>
 <context>
