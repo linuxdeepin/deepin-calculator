@@ -7,6 +7,7 @@ Name=Deepin Calculator
 StartupNotify=true
 TryExec=deepin-calculator
 Type=Application
+X-Deepin-ManualID=deepin-calculator
 
 # Translations
 Name[zh_CN]=深度计算器
