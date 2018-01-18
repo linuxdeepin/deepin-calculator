@@ -117,27 +117,10 @@ desktop.files = deepin-calculator.desktop
 manual.path = /usr/share/dman/
 manual.files = $$PWD/dman/*
 
-INSTALLS += target desktop icon_files manual
+# Automating generation .qm files from .ts files
+!system($$PWD/translations/translate_generation.sh): error("Failed to generate translation")
 
-isEmpty(TRANSLATIONS) {
-     include(translations.pri)
-}
+translations.path = /usr/share/deepin-calculator/translations/
+translations.files = translations/*.qm
 
-TRANSLATIONS_COMPILED = $$TRANSLATIONS
-TRANSLATIONS_COMPILED ~= s/\.ts/.qm/g
-
-translations.files = $$TRANSLATIONS_COMPILED
-INSTALLS += translations
-CONFIG *= update_translations release_translations
-
-CONFIG(update_translations) {
-    isEmpty(lupdate):lupdate=lupdate
-    system($$lupdate -no-obsolete -locations none $$_PRO_FILE_)
-}
-CONFIG(release_translations) {
-    isEmpty(lrelease):lrelease=lrelease
-    system($$lrelease $$_PRO_FILE_)
-}
-
-DSR_LANG_PATH += $$DSRDIR/translations
-DEFINES += "DSR_LANG_PATH=\\\"$$DSR_LANG_PATH\\\""
+INSTALLS += target desktop icon_files manual translations
