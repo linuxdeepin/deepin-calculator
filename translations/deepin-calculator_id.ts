@@ -1,9 +1,9 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="id" version="2.1">
 <context>
     <name>ExpressionList</name>
     <message>
         <source>Expression Error</source>
-        <translation>Błąd wyrażenia matematycznego</translation>
+        <translation>Kesalahan Ekspresi</translation>
     </message>
 </context>
 <context>
@@ -14,7 +14,7 @@
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>Kalkulator Deepin to prosty i łatwy w użyciu kalkulator biurkowy. Obsługuje operacje dodawania, odejmowania, mnożenia i dzielenia.</translation>
+        <translation>Kalkulator Deepin adalah kalkulator desktop yang sederhana dan mudah. Dengan dukungan pertambahan, pengurangan, perkalian dan pembagian.</translation>
     </message>
 </context>
 <context>
@@ -25,7 +25,7 @@
     </message>
     <message>
         <source>Dark Theme</source>
-        <translation>Motyw ciemny</translation>
+        <translation>Tema Gelap</translation>
     </message>
 </context>
 </TS>
