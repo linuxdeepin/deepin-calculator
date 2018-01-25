@@ -245,6 +245,7 @@ void MainWindow::initTheme()
     if (isBlur) {
         setAttribute(Qt::WA_TranslucentBackground);
         setEnableBlurWindow(true);
+        titlebar()->setAttribute(Qt::WA_TranslucentBackground);
     }
 
     if (theme == "light") {
