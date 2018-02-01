@@ -80,6 +80,8 @@ MainWindow::MainWindow(DMainWindow *parent)
         titlebar()->setMenu(m_menu);
         titlebar()->setFixedHeight(30);
         titlebar()->setCustomWidget(icon, Qt::AlignVCenter, false);
+        titlebar()->setBackgroundTransparent(true);
+
         initTheme();
         initThemeAction();
 
