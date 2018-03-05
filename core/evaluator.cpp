@@ -24,7 +24,7 @@
 
 #include "core/evaluator.h"
 #include "core/session.h"
-#include "core/settings.h"
+#include "core/coresettings.h"
 #include "math/rational.h"
 #include "math/units.h"
 
@@ -459,7 +459,7 @@ static bool isIdentifier(QChar ch)
 // Helper function: return true for valid radix characters.
 bool Evaluator::isRadixChar(const QChar &ch)
 {
-    if (Settings::instance()->isRadixCharacterBoth())
+    if (CoreSettings::instance()->isRadixCharacterBoth())
         return ch.unicode() == '.' || ch.unicode() == ',';
 
     // There exist more than 2 radix characters actually:
@@ -470,7 +470,7 @@ bool Evaluator::isRadixChar(const QChar &ch)
     //   U+066B ٫ arabic decimal separator
     //   U+2396 ⎖ decimal separator key symbol
 
-    return ch.unicode() == Settings::instance()->radixCharacter();
+    return ch.unicode() == CoreSettings::instance()->radixCharacter();
 }
 
 // Helper function: return true for valid thousand separator characters.
@@ -565,7 +565,7 @@ void Evaluator::initializeBuiltInVariables()
     setVariable(QLatin1String("pi"), DMath::pi(), Variable::BuiltIn);
     setVariable(QString::fromUtf8("π"), DMath::pi(), Variable::BuiltIn);
 
-    if(Settings::instance()->complexNumbers) {
+    if(CoreSettings::instance()->complexNumbers) {
         setVariable(QLatin1String("j"), DMath::i(), Variable::BuiltIn);
     }
     else if(hasVariable("j")) {
@@ -582,7 +582,7 @@ void Evaluator::initializeBuiltInVariables()
 
 void Evaluator::initializeAngleUnits()
 {
-    if (Settings::instance()->angleUnit == 'r') {
+    if (CoreSettings::instance()->angleUnit == 'r') {
         setVariable("radian", 1, Variable::BuiltIn);
         setVariable("degree", HMath::pi()/HNumber(180),Variable::BuiltIn);
     }

@@ -1,3 +1,8 @@
+QListView {
+    background-color: #FBFBFB;
+    border: none;
+}
+
 QLineEdit {
     background-color: transparent;
     color: #303030;
@@ -12,6 +17,7 @@ QLineEdit {
     border: none;
     margin: 0px;
 }
+
 #TextButton:hover {
     color: #000000;
     font-size: 20px;
@@ -19,6 +25,7 @@ QLineEdit {
     border: 1px solid #A7E0FF;
     background-color: #FFFFFF;
 }
+
 #TextButton:pressed {
     font-size: 18px;
     color: #606060;
@@ -33,12 +40,14 @@ QLineEdit {
     background-color: #FFFFFF;
     border: none;
 }
+
 #SymbolButton:hover {
     font-weight: 500;
     font-size: 24px;
     border: 1px solid #A7E0FF;
     background-color: #FFFFFF;
 }
+
 #SymbolButton:pressed {
     font-weight: 400;
     font-size: 22px;
@@ -53,12 +62,14 @@ QLineEdit {
     border: none;
     background-color: #2CA7F8;
 }
+
 #EqualButton:hover {
     font-weight: 500;
     font-size: 24px;
     background-color: qlineargradient(x1:0 y1:0, x2:0 y2:1, stop:0 #31c9ff, stop:1 #00abff);
     border: 1px solid #2CA7F8;
 }
+
 #EqualButton:pressed {
     font-weight: 400;
     font-size: 22px;

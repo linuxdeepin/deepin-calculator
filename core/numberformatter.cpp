@@ -19,12 +19,12 @@
 
 #include "../core/numberformatter.h"
 
-#include "core/settings.h"
+#include "core/coresettings.h"
 #include "../math/quantity.h"
 
 QString NumberFormatter::format(Quantity q)
 {
-    Settings* settings = Settings::instance();
+    CoreSettings* settings = CoreSettings::instance();
 
     Quantity::Format format = q.format();
     if (format.base == Quantity::Format::Base::Null) {
