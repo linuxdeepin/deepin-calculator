@@ -46,6 +46,10 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     QString fontColor;
     painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
 
+    QFont font;
+    font.setPointSize(11);
+    painter->setFont(font);
+
     QStringList splitList = expression.split("=");
     QString resultStr = splitList.last();
     int resultWidth = painter->fontMetrics().width(resultStr);

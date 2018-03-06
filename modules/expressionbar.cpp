@@ -136,11 +136,11 @@ void ExpressionBar::enterEqualEvent()
             return;
 
         const QString result = DMath::format(ans, Quantity::Format::Fixed());
-        const QString formatResult = Utils::formatThousandsSeparators(result);
+        QString formatResult = Utils::formatThousandsSeparators(result);
+        formatResult = formatResult.replace('-', "－");
 
         if (formatResult != m_inputEdit->text()) {
             m_listModel->appendText(m_inputEdit->text() + "=" + formatResult);
-            // m_inputEdit->setText(formatResult);
             m_inputEdit->setAnswer(formatResult, ans);
             m_isContinue = false;
         }

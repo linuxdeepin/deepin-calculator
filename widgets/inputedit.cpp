@@ -85,7 +85,8 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
 {
     Q_EMIT keyPress(e);
 
-    if (e->key() == Qt::Key_Equal) {
+    switch (e->key()) {
+    case Qt::Key_Equal: case Qt::Key_Period:
         return;
     }
 
