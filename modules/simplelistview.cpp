@@ -35,3 +35,12 @@ SimpleListView::SimpleListView(QWidget *parent)
 SimpleListView::~SimpleListView()
 {
 }
+
+void SimpleListView::mouseMoveEvent(QMouseEvent *e)
+{
+    if (e->x() < width() - 15) {
+        QWidget::mouseMoveEvent(e);
+    }
+
+    QListView::mouseMoveEvent(e);
+}

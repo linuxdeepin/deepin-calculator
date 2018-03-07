@@ -39,9 +39,5 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    if (app.setSingleInstance("deepin-calculator")) {
-        Dtk::Widget::moveToCenter(&w);
-    }
-
     return app.exec();
 }

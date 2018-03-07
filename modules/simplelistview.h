@@ -30,6 +30,9 @@ class SimpleListView : public QListView
 public:
     SimpleListView(QWidget *parent = nullptr);
     ~SimpleListView();
+
+protected:
+    void mouseMoveEvent(QMouseEvent *);
 };
 
 #endif

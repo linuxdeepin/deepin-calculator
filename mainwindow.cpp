@@ -22,6 +22,8 @@
 #include "dthememanager.h"
 #include "dhidpihelper.h"
 #include "utils.h"
+
+#include <DWidgetUtil>
 #include <QPainter>
 #include <QLabel>
 #include <QDebug>
@@ -36,9 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     iconLabel->setPixmap(DHiDPIHelper::loadNxPixmap(":/images/title_icon.svg"));
     titlebar()->setBackgroundTransparent(true);
     titlebar()->setCustomWidget(iconLabel, Qt::AlignVCenter, false);
-    titlebar()->setWindowFlags(titlebar()->windowFlags() & ~Qt::WindowMaximizeButtonHint);
     titlebar()->setMenu(m_tbMenu);
-    titlebar()->setFixedHeight(30);
     titlebar()->setTitle("");
 
     // init titlebar menu.
@@ -113,6 +113,8 @@ void MainWindow::initModule()
         switchToScientificMode();
         break;
     }
+
+    Dtk::Widget::moveToCenter(this);
 }
 
 void MainWindow::switchTheme()
@@ -130,14 +132,16 @@ void MainWindow::switchTheme()
 
 void MainWindow::switchToSimpleMode()
 {
-    setFixedSize(322, 505);
     m_mainLayout->setCurrentIndex(0);
     m_settings->setOption("mode", 0);
+    titlebar()->setFixedHeight(30);
+    setFixedSize(322, 505);
 }
 
 void MainWindow::switchToScientificMode()
 {
-    setFixedSize(800, 600);
     m_mainLayout->setCurrentIndex(1);
     m_settings->setOption("mode", 1);
+    titlebar()->setFixedHeight(40);
+    setFixedSize(800, 600);
 }
