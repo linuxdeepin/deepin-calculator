@@ -27,7 +27,7 @@
 
 DWIDGET_USE_NAMESPACE
 
-ListView::ListView(QWidget *parent) 
+ListView::ListView(QWidget *parent)
     : QWidget(parent)
 {
     m_rowHeight = 35;

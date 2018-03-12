@@ -25,6 +25,7 @@
 
 #include "../widgets/textbutton.h"
 #include "../widgets/iconbutton.h"
+#include "../widgets/simplekeypad.h"
 #include "expressionbar.h"
 
 class SimpleModule : public QWidget
@@ -38,36 +39,15 @@ public:
 private:
     void initTheme();
     void handleEditKeyPress(QKeyEvent *);
+    void handleKeypadButtonPress(int);
     void handleClearStateChanged(bool isAllClear);
-    void enterNumberEvent();
-    void enterSymbolEvent();
 
 protected:
     void paintEvent(QPaintEvent *);
 
 private:
     ExpressionBar *m_expressionBar;
-    TextButton *m_clearBtn;
-    TextButton *m_percentBtn;
-    IconButton *m_backBtn;
-    TextButton *m_divBtn;
-    TextButton *m_num7Btn;
-    TextButton *m_num8Btn;
-    TextButton *m_num9Btn;
-    TextButton *m_multBtn;
-    TextButton *m_num4Btn;
-    TextButton *m_num5Btn;
-    TextButton *m_num6Btn;
-    TextButton *m_minBtn;
-    TextButton *m_num1Btn;
-    TextButton *m_num2Btn;
-    TextButton *m_num3Btn;
-    TextButton *m_plusBtn;
-    TextButton *m_num0Btn;
-    TextButton *m_pointBtn;
-    TextButton *m_bracketsBtn;
-    TextButton *m_equalBtn;
-
+    SimpleKeypad *m_simpleKeypad;
     QColor m_expBarColor;
     QColor m_expBarSepColor;
     QColor m_btnSepColor;

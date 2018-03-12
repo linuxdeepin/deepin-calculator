@@ -140,8 +140,8 @@ void MainWindow::switchToSimpleMode()
 
 void MainWindow::switchToScientificMode()
 {
-    m_mainLayout->setCurrentIndex(1);
+    // m_mainLayout->setCurrentIndex(1);
     m_settings->setOption("mode", 1);
     titlebar()->setFixedHeight(40);
-    setFixedSize(800, 600);
+    setFixedSize(700, 550);
 }

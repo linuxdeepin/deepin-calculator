@@ -20,6 +20,7 @@
 #include "simplemodule.h"
 #include "dthememanager.h"
 #include "utils.h"
+#include <QVBoxLayout>
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QPainter>
@@ -30,58 +31,14 @@ DWIDGET_USE_NAMESPACE
 SimpleModule::SimpleModule(QWidget *parent)
     : QWidget(parent),
       m_expressionBar(new ExpressionBar),
-      m_clearBtn(new TextButton("C")),
-      m_percentBtn(new TextButton("%")),
-      m_backBtn(new IconButton),
-      m_divBtn(new TextButton("÷")),
-      m_num7Btn(new TextButton("7")),
-      m_num8Btn(new TextButton("8")),
-      m_num9Btn(new TextButton("9")),
-      m_multBtn(new TextButton("×")),
-      m_num4Btn(new TextButton("4")),
-      m_num5Btn(new TextButton("5")),
-      m_num6Btn(new TextButton("6")),
-      m_minBtn(new TextButton("－")),
-      m_num1Btn(new TextButton("1")),
-      m_num2Btn(new TextButton("2")),
-      m_num3Btn(new TextButton("3")),
-      m_plusBtn(new TextButton("＋")),
-      m_num0Btn(new TextButton("0")),
-      m_pointBtn(new TextButton(".")),
-      m_bracketsBtn(new TextButton("( )")),
-      m_equalBtn(new TextButton("＝"))
+      m_simpleKeypad(new SimpleKeypad)
 {
-    QGridLayout *layout = new QGridLayout(this);
-
-    layout->addWidget(m_expressionBar, 0, 0, 1, 4);
-    layout->addWidget(m_clearBtn, 2, 0);
-    layout->addWidget(m_percentBtn, 2, 1);
-    layout->addWidget(m_backBtn, 2, 2);
-    layout->addWidget(m_divBtn, 2, 3);
-    layout->addWidget(m_num7Btn, 3, 0);
-    layout->addWidget(m_num8Btn, 3, 1);
-    layout->addWidget(m_num9Btn, 3, 2);
-    layout->addWidget(m_multBtn, 3, 3);
-    layout->addWidget(m_num4Btn, 4, 0);
-    layout->addWidget(m_num5Btn, 4, 1);
-    layout->addWidget(m_num6Btn, 4, 2);
-    layout->addWidget(m_minBtn, 4, 3);
-    layout->addWidget(m_num1Btn, 5, 0);
-    layout->addWidget(m_num2Btn, 5, 1);
-    layout->addWidget(m_num3Btn, 5, 2);
-    layout->addWidget(m_plusBtn, 5, 3);
-    layout->addWidget(m_num0Btn, 6, 0);
-    layout->addWidget(m_pointBtn, 6, 1);
-    layout->addWidget(m_bracketsBtn, 6, 2);
-    layout->addWidget(m_equalBtn, 6, 3);
+    QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->addWidget(m_expressionBar);
+    layout->addSpacing(1);
+    layout->addWidget(m_simpleKeypad);
+    layout->setSpacing(0);
     layout->setMargin(0);
-    layout->setSpacing(1);
-
-    m_divBtn->setObjectName("SymbolButton");
-    m_multBtn->setObjectName("SymbolButton");
-    m_minBtn->setObjectName("SymbolButton");
-    m_plusBtn->setObjectName("SymbolButton");
-    m_equalBtn->setObjectName("EqualButton");
 
     setMouseTracking(true);
     initTheme();
@@ -89,26 +46,7 @@ SimpleModule::SimpleModule(QWidget *parent)
     connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &SimpleModule::initTheme);
     connect(m_expressionBar, &ExpressionBar::keyPress, this, &SimpleModule::handleEditKeyPress);
     connect(m_expressionBar, &ExpressionBar::clearStateChanged, this, &SimpleModule::handleClearStateChanged);
-    connect(m_num0Btn, &QPushButton::clicked, this, &SimpleModule::enterNumberEvent);
-    connect(m_num1Btn, &QPushButton::clicked, this, &SimpleModule::enterNumberEvent);
-    connect(m_num2Btn, &QPushButton::clicked, this, &SimpleModule::enterNumberEvent);
-    connect(m_num3Btn, &QPushButton::clicked, this, &SimpleModule::enterNumberEvent);
-    connect(m_num4Btn, &QPushButton::clicked, this, &SimpleModule::enterNumberEvent);
-    connect(m_num5Btn, &QPushButton::clicked, this, &SimpleModule::enterNumberEvent);
-    connect(m_num6Btn, &QPushButton::clicked, this, &SimpleModule::enterNumberEvent);
-    connect(m_num7Btn, &QPushButton::clicked, this, &SimpleModule::enterNumberEvent);
-    connect(m_num8Btn, &QPushButton::clicked, this, &SimpleModule::enterNumberEvent);
-    connect(m_num9Btn, &QPushButton::clicked, this, &SimpleModule::enterNumberEvent);
-    connect(m_plusBtn, &QPushButton::clicked, this, &SimpleModule::enterSymbolEvent);
-    connect(m_minBtn, &QPushButton::clicked, this, &SimpleModule::enterSymbolEvent);
-    connect(m_multBtn, &QPushButton::clicked, this, &SimpleModule::enterSymbolEvent);
-    connect(m_divBtn, &QPushButton::clicked, this, &SimpleModule::enterSymbolEvent);
-    connect(m_percentBtn, &QPushButton::clicked, this, &SimpleModule::enterSymbolEvent);
-    connect(m_bracketsBtn, &QPushButton::clicked, m_expressionBar, &ExpressionBar::enterBracketsEvent);
-    connect(m_clearBtn, &QPushButton::clicked, m_expressionBar, &ExpressionBar::enterClearEvent);
-    connect(m_backBtn, &QPushButton::clicked, m_expressionBar, &ExpressionBar::enterBackspaceEvent);
-    connect(m_equalBtn, &QPushButton::clicked, m_expressionBar, &ExpressionBar::enterEqualEvent);
-    connect(m_pointBtn, &QPushButton::clicked, m_expressionBar, &ExpressionBar::enterPointEvent);
+    connect(m_simpleKeypad, &SimpleKeypad::buttonPressed, this, &SimpleModule::handleKeypadButtonPress);
 }
 
 SimpleModule::~SimpleModule()
@@ -128,8 +66,6 @@ void SimpleModule::initTheme()
         m_expBarSepColor = "#303030";
         m_btnSepColor = QColor("#2D2D2D");
     }
-
-    m_backBtn->setIcon(QString(":/images/delete_%1_normal.svg").arg(theme));
 }
 
 void SimpleModule::handleEditKeyPress(QKeyEvent *e)
@@ -140,97 +76,113 @@ void SimpleModule::handleEditKeyPress(QKeyEvent *e)
     switch (e->key()) {
     case Qt::Key_0:
         m_expressionBar->enterNumberEvent("");
-        m_num0Btn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_0);
         break;
     case Qt::Key_1:
         m_expressionBar->enterNumberEvent("");
-        m_num1Btn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_1);
         break;
     case Qt::Key_2:
         m_expressionBar->enterNumberEvent("");
-        m_num2Btn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_2);
         break;
     case Qt::Key_3:
         m_expressionBar->enterNumberEvent("");
-        m_num3Btn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_3);
         break;
     case Qt::Key_4:
         m_expressionBar->enterNumberEvent("");
-        m_num4Btn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_4);
         break;
     case Qt::Key_5:
         m_expressionBar->enterNumberEvent("");
-        m_num5Btn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_5);
         break;
     case Qt::Key_6:
         m_expressionBar->enterNumberEvent("");
-        m_num6Btn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_6);
         break;
     case Qt::Key_7:
         m_expressionBar->enterNumberEvent("");
-        m_num7Btn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_7);
         break;
     case Qt::Key_8:
         m_expressionBar->enterNumberEvent("");
-        m_num8Btn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_8);
         break;
     case Qt::Key_9:
         m_expressionBar->enterNumberEvent("");
-        m_num9Btn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_9);
         break;
     case Qt::Key_Plus:
-        m_plusBtn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_Plus);
         break;
     case Qt::Key_Minus: case Qt::Key_Underscore:
-        m_minBtn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_Min);
         break;
     case Qt::Key_Asterisk: case Qt::Key_X:
-        m_multBtn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_Mult);
         break;
     case Qt::Key_Slash:
-        m_divBtn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_Div);
         break;
     case Qt::Key_Enter: case Qt::Key_Return: case Qt::Key_Equal:
-        m_equalBtn->animateClick();
+        (static_cast<QPushButton *>(m_simpleKeypad->button(SimpleKeypad::Key_Equals)))->animateClick();
         break;
     case Qt::Key_Backspace:
-        m_backBtn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_Backspace);
         break;
     case Qt::Key_Period:
-        m_pointBtn->animateClick();
+        (static_cast<QPushButton *>(m_simpleKeypad->button(SimpleKeypad::Key_Point)))->animateClick();
         break;
     case Qt::Key_Escape:
-        m_clearBtn->animateClick();
+        (static_cast<QPushButton *>(m_simpleKeypad->button(SimpleKeypad::Key_Clear)))->animateClick();
         break;
     case Qt::Key_ParenLeft: case Qt::Key_ParenRight:
         m_expressionBar->setContinue(true);
-        m_bracketsBtn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_Brackets);
         break;
     case Qt::Key_Percent:
-        m_percentBtn->animate();
+        m_simpleKeypad->animate(SimpleKeypad::Key_Percent);
         break;
+    }
+}
+
+void SimpleModule::handleKeypadButtonPress(int key)
+{
+    switch (key) {
+    case SimpleKeypad::Key_0:            m_expressionBar->enterNumberEvent("0");     break;
+    case SimpleKeypad::Key_1:            m_expressionBar->enterNumberEvent("1");     break;
+    case SimpleKeypad::Key_2:            m_expressionBar->enterNumberEvent("2");     break;
+    case SimpleKeypad::Key_3:            m_expressionBar->enterNumberEvent("3");     break;
+    case SimpleKeypad::Key_4:            m_expressionBar->enterNumberEvent("4");     break;
+    case SimpleKeypad::Key_5:            m_expressionBar->enterNumberEvent("5");     break;
+    case SimpleKeypad::Key_6:            m_expressionBar->enterNumberEvent("6");     break;
+    case SimpleKeypad::Key_7:            m_expressionBar->enterNumberEvent("7");     break;
+    case SimpleKeypad::Key_8:            m_expressionBar->enterNumberEvent("8");     break;
+    case SimpleKeypad::Key_9:            m_expressionBar->enterNumberEvent("9");     break;
+    case SimpleKeypad::Key_Plus:         m_expressionBar->enterSymbolEvent("+");     break;
+    case SimpleKeypad::Key_Min:          m_expressionBar->enterSymbolEvent("-");     break;
+    case SimpleKeypad::Key_Mult:         m_expressionBar->enterSymbolEvent("*");     break;
+    case SimpleKeypad::Key_Div:          m_expressionBar->enterSymbolEvent("/");     break;
+    case SimpleKeypad::Key_Percent:      m_expressionBar->enterSymbolEvent("%");     break;
+    case SimpleKeypad::Key_Equals:       m_expressionBar->enterEqualEvent();         break;
+    case SimpleKeypad::Key_Clear:        m_expressionBar->enterClearEvent();         break;
+    case SimpleKeypad::Key_Backspace:    m_expressionBar->enterBackspaceEvent();     break;
+    case SimpleKeypad::Key_Point:        m_expressionBar->enterPointEvent();         break;
+    case SimpleKeypad::Key_Brackets:     m_expressionBar->enterBracketsEvent();      break;
     }
 }
 
 void SimpleModule::handleClearStateChanged(bool isAllClear)
 {
+    TextButton *btn = static_cast<TextButton *>(m_simpleKeypad->button(SimpleKeypad::Key_Clear));
+
     if (isAllClear) {
-        m_clearBtn->setText("AC");
+        btn->setText("AC");
     } else {
-        m_clearBtn->setText("C");
+        btn->setText("C");
     }
-}
-
-void SimpleModule::enterNumberEvent()
-{
-    QPushButton *btn = static_cast<QPushButton *>(sender());
-    m_expressionBar->enterNumberEvent(btn->text());
-}
-
-void SimpleModule::enterSymbolEvent()
-{
-    QPushButton *btn = static_cast<QPushButton *>(sender());
-    m_expressionBar->enterSymbolEvent(btn->text());
 }
 
 void SimpleModule::paintEvent(QPaintEvent *)
