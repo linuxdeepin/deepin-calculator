@@ -137,15 +137,15 @@ void ExpressionBar::enterEqualEvent()
 
         const QString result = DMath::format(ans, Quantity::Format::Fixed());
         QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace('-', "－");
+        formatResult = formatResult.replace('-', "－").replace('+', "＋");
 
         if (formatResult != m_inputEdit->text()) {
-            m_listModel->appendText(m_inputEdit->text() + "=" + formatResult);
+            m_listModel->appendText(m_inputEdit->text() + "＝" + formatResult);
             m_inputEdit->setAnswer(formatResult, ans);
             m_isContinue = false;
         }
     } else {
-        m_listModel->appendText(m_inputEdit->text() + "=" + tr("Expression Error"));
+        m_listModel->appendText(m_inputEdit->text() + "＝" + tr("Expression Error"));
     }
 
     m_listView->reset();
