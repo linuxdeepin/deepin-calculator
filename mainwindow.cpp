@@ -99,10 +99,10 @@ void MainWindow::initModule()
     centralWidget->setLayout(m_mainLayout);
     setCentralWidget(centralWidget);
 
-    m_simpleModule = new SimpleModule;
+    m_basicModule = new BasicModule;
     m_scientificModule = new ScientificModule;
 
-    m_mainLayout->addWidget(m_simpleModule);
+    m_mainLayout->addWidget(m_basicModule);
     m_mainLayout->addWidget(m_scientificModule);
 
     switch (mode) {
@@ -132,6 +132,7 @@ void MainWindow::switchTheme()
 
 void MainWindow::switchToSimpleMode()
 {
+    m_basicModule->switchToSimpleKeypad();
     m_mainLayout->setCurrentIndex(0);
     m_settings->setOption("mode", 0);
     titlebar()->setFixedHeight(30);
@@ -140,8 +141,9 @@ void MainWindow::switchToSimpleMode()
 
 void MainWindow::switchToScientificMode()
 {
-    // m_mainLayout->setCurrentIndex(1);
+    m_basicModule->switchToScientificKeypad();
+    m_mainLayout->setCurrentIndex(0);
     m_settings->setOption("mode", 1);
-    titlebar()->setFixedHeight(40);
-    setFixedSize(700, 550);
+    titlebar()->setFixedHeight(30);
+    setFixedSize(565, 505);
 }
