@@ -24,7 +24,7 @@
 #include <QStackedLayout>
 #include <QMenu>
 
-#include "modules/simplemodule.h"
+#include "modules/basicmodule.h"
 #include "modules/scientificmodule.h"
 #include "settings.h"
 
@@ -57,7 +57,7 @@ private:
     QAction *m_scAction;
     QColor m_titlebarColor;
 
-    SimpleModule *m_simpleModule;
+    BasicModule *m_basicModule;
     ScientificModule *m_scientificModule;
 };
 

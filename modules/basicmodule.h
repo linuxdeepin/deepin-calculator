@@ -17,24 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SIMPLEMODULE_H
-#define SIMPLEMODULE_H
+#ifndef BASICMODULE_H
+#define BASICMODULE_H
 
 #include <QWidget>
+#include <QStackedLayout>
 #include <QGridLayout>
 
 #include "../widgets/textbutton.h"
 #include "../widgets/iconbutton.h"
 #include "../widgets/simplekeypad.h"
+#include "../widgets/scientifickeypad.h"
 #include "expressionbar.h"
 
-class SimpleModule : public QWidget
+class BasicModule : public QWidget
 {
     Q_OBJECT
 
 public:
-    SimpleModule(QWidget *parent = nullptr);
-    ~SimpleModule();
+    BasicModule(QWidget *parent = nullptr);
+    ~BasicModule();
+
+    void switchToSimpleKeypad();
+    void switchToScientificKeypad();
 
 private:
     void initTheme();
@@ -48,6 +53,8 @@ protected:
 private:
     ExpressionBar *m_expressionBar;
     SimpleKeypad *m_simpleKeypad;
+    ScientificKeypad *m_scientificKeypad;
+    QStackedLayout *m_keypadLayout;
     QColor m_expBarColor;
     QColor m_expBarSepColor;
     QColor m_btnSepColor;

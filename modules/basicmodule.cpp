@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "simplemodule.h"
+#include "basicmodule.h"
 #include "dthememanager.h"
 #include "utils.h"
 #include <QVBoxLayout>
@@ -28,32 +28,47 @@
 
 DWIDGET_USE_NAMESPACE
 
-SimpleModule::SimpleModule(QWidget *parent)
+BasicModule::BasicModule(QWidget *parent)
     : QWidget(parent),
       m_expressionBar(new ExpressionBar),
-      m_simpleKeypad(new SimpleKeypad)
+      m_simpleKeypad(new SimpleKeypad),
+      m_scientificKeypad(new ScientificKeypad),
+      m_keypadLayout(new QStackedLayout)
 {
+    m_keypadLayout->addWidget(m_simpleKeypad);
+    m_keypadLayout->addWidget(m_scientificKeypad);
+
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(m_expressionBar);
     layout->addSpacing(1);
-    layout->addWidget(m_simpleKeypad);
+    layout->addLayout(m_keypadLayout);
     layout->setSpacing(0);
     layout->setMargin(0);
 
     setMouseTracking(true);
     initTheme();
 
-    connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &SimpleModule::initTheme);
-    connect(m_expressionBar, &ExpressionBar::keyPress, this, &SimpleModule::handleEditKeyPress);
-    connect(m_expressionBar, &ExpressionBar::clearStateChanged, this, &SimpleModule::handleClearStateChanged);
-    connect(m_simpleKeypad, &SimpleKeypad::buttonPressed, this, &SimpleModule::handleKeypadButtonPress);
+    connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &BasicModule::initTheme);
+    connect(m_expressionBar, &ExpressionBar::keyPress, this, &BasicModule::handleEditKeyPress);
+    connect(m_expressionBar, &ExpressionBar::clearStateChanged, this, &BasicModule::handleClearStateChanged);
+    connect(m_simpleKeypad, &SimpleKeypad::buttonPressed, this, &BasicModule::handleKeypadButtonPress);
 }
 
-SimpleModule::~SimpleModule()
+BasicModule::~BasicModule()
 {
 }
 
-void SimpleModule::initTheme()
+void BasicModule::switchToSimpleKeypad()
+{
+    m_keypadLayout->setCurrentIndex(0);
+}
+
+void BasicModule::switchToScientificKeypad()
+{
+    m_keypadLayout->setCurrentIndex(1);
+}
+
+void BasicModule::initTheme()
 {
     const QString theme = DThemeManager::instance()->theme();
 
@@ -68,7 +83,7 @@ void SimpleModule::initTheme()
     }
 }
 
-void SimpleModule::handleEditKeyPress(QKeyEvent *e)
+void BasicModule::handleEditKeyPress(QKeyEvent *e)
 {
     const bool isPressCtrl = e->modifiers() == Qt::ControlModifier;
     const QString keyText = e->text();
@@ -148,7 +163,7 @@ void SimpleModule::handleEditKeyPress(QKeyEvent *e)
     }
 }
 
-void SimpleModule::handleKeypadButtonPress(int key)
+void BasicModule::handleKeypadButtonPress(int key)
 {
     switch (key) {
     case SimpleKeypad::Key_0:            m_expressionBar->enterNumberEvent("0");     break;
@@ -174,7 +189,7 @@ void SimpleModule::handleKeypadButtonPress(int key)
     }
 }
 
-void SimpleModule::handleClearStateChanged(bool isAllClear)
+void BasicModule::handleClearStateChanged(bool isAllClear)
 {
     TextButton *btn = static_cast<TextButton *>(m_simpleKeypad->button(SimpleKeypad::Key_Clear));
 
@@ -185,7 +200,7 @@ void SimpleModule::handleClearStateChanged(bool isAllClear)
     }
 }
 
-void SimpleModule::paintEvent(QPaintEvent *)
+void BasicModule::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);

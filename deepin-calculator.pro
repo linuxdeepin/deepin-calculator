@@ -50,7 +50,7 @@ HEADERS += mainwindow.h \
 	   math/rational.h \
 	   math/units.h \
 	   modules/expressionbar.h \
-	   modules/simplemodule.h \
+	   modules/basicmodule.h \
 	   modules/simplelistview.h \
 	   modules/simplelistmodel.h \
 	   modules/simplelistdelegate.h \
@@ -60,6 +60,7 @@ HEADERS += mainwindow.h \
 	   widgets/listview.h \
 	   widgets/textbutton.h \
 	   widgets/simplekeypad.h \
+	   widgets/scientifickeypad.h \
 	   settings.h
 
 SOURCES += main.cpp \
@@ -100,7 +101,7 @@ SOURCES += main.cpp \
 	   math/rational.cpp \
 	   math/units.cpp \
 	   modules/expressionbar.cpp \
-	   modules/simplemodule.cpp \
+	   modules/basicmodule.cpp \
 	   modules/simplelistview.cpp \
 	   modules/simplelistmodel.cpp \
 	   modules/simplelistdelegate.cpp \
@@ -110,6 +111,7 @@ SOURCES += main.cpp \
 	   widgets/listview.cpp \
 	   widgets/textbutton.cpp \
 	   widgets/simplekeypad.cpp \
+	   widgets/scientifickeypad.cpp \
 	   settings.cpp
 
 RESOURCES += deepin-calculator.qrc
