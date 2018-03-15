@@ -26,6 +26,7 @@
 
 #include "math/quantity.h"
 
+
 class HistoryEntry
 {
 private:

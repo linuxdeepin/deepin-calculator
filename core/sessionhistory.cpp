@@ -18,6 +18,7 @@
 
 #include "sessionhistory.h"
 
+
 HistoryEntry::HistoryEntry(const QJsonObject & json)
 {
     deSerialize(json);
