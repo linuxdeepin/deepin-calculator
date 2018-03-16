@@ -23,7 +23,6 @@
 
 #include <QString>
 
-
 class Opcode
 {
 public:

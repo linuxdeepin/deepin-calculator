@@ -22,7 +22,7 @@
 
 #include "core/functions.h"
 
-#include "core/settings.h"
+#include "core/coresettings.h"
 #include "math/hmath.h"
 #include "math/cmath.h"
 
@@ -76,8 +76,8 @@
     }
 
 #define CONVERT_ARGUMENT_ANGLE(angle) \
-    if (Settings::instance()->angleUnit == 'd') { \
-        if (angle.isReal()) \
+    if (CoreSettings::instance()->angleUnit == 'd') {   \
+        if (angle.isReal())                             \
             angle = DMath::deg2rad(angle); \
         else { \
             f->setError(OutOfDomain); \
@@ -86,8 +86,8 @@
     }
 
 #define CONVERT_RESULT_ANGLE(result) \
-    if (Settings::instance()->angleUnit == 'd') { \
-        if (result.isReal()) \
+    if (CoreSettings::instance()->angleUnit == 'd') {   \
+        if (result.isReal())                            \
             result = DMath::rad2deg(result); \
 	else { \
             f->setError(OutOfDomain); \
