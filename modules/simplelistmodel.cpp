@@ -41,6 +41,8 @@ QVariant SimpleListModel::data(const QModelIndex &index, int role) const
     switch (role) {
     case ExpressionRole:
         return m_expressionList.at(r);
+    case Size:
+        return m_expressionList.count();
     }
 
     return QVariant();

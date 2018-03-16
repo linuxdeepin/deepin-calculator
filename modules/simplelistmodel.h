@@ -31,7 +31,7 @@ public:
     ~SimpleListModel();
     
     enum Role {
-        ExpressionRole
+        ExpressionRole, Size
     };
 
     int rowCount(const QModelIndex &parent) const;

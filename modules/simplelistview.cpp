@@ -25,11 +25,13 @@ SimpleListView::SimpleListView(QWidget *parent)
     : QListView(parent)
 {
     setVerticalScrollMode(ScrollPerPixel);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFocusPolicy(Qt::NoFocus);
     setAutoScroll(false);
     setFixedHeight(105);
+
+    setViewportMargins(0, 0, -verticalScrollBar()->sizeHint().width(), 0);
 }
 
 SimpleListView::~SimpleListView()
@@ -38,9 +40,9 @@ SimpleListView::~SimpleListView()
 
 void SimpleListView::mouseMoveEvent(QMouseEvent *e)
 {
-    if (e->x() < width() - 15) {
+    if (e->x() < width() - 12) {
         QWidget::mouseMoveEvent(e);
+    } else {
+        QListView::mouseMoveEvent(e);
     }
-
-    QListView::mouseMoveEvent(e);
 }

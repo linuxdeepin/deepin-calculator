@@ -47,8 +47,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_simpleAction = new QAction(tr("Simple mode"), this);
     m_scAction = new QAction(tr("Scientific mode"), this);
     m_tbMenu->addAction(m_themeAction);
-    m_tbMenu->addAction(m_simpleAction);
-    m_tbMenu->addAction(m_scAction);
+    // m_tbMenu->addAction(m_simpleAction);
+    // m_tbMenu->addAction(m_scAction);
     m_tbMenu->addSeparator();
 
     initModule();

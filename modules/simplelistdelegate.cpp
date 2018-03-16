@@ -76,14 +76,20 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     }
 
     int equalStrWidth = painter->fontMetrics().width(" ＝ ");
-    QString expStr = painter->fontMetrics().elidedText(splitList.first(), Qt::ElideLeft, rect.width() - resultWidth - padding * 2 - equalStrWidth);
+    int rightPadding = (index.data(SimpleListModel::Size).toInt() > 3) ? 0 : 12;
+    QString expStr = painter->fontMetrics().elidedText(splitList.first(), Qt::ElideLeft,
+                                                       rect.width() - resultWidth - padding * 2 - equalStrWidth - rightPadding);
 
     // draw result text.
-    painter->drawText(QRect(rect.x() + padding, rect.y(), rect.width() - padding * 2, rect.height()), Qt::AlignVCenter | Qt::AlignRight, resultStr);
+    painter->drawText(QRect(rect.x() + padding,
+                            rect.y(), rect.width() - padding * 2 - rightPadding, rect.height()),
+                      Qt::AlignVCenter | Qt::AlignRight, resultStr);
 
     // draw expression text;
     painter->setPen(QColor(fontColor));
-    painter->drawText(QRect(rect.x() + padding, rect.y(), rect.width() - resultWidth - padding * 2, rect.height()), Qt::AlignVCenter | Qt::AlignRight, expStr + " ＝ ");
+    painter->drawText(QRect(rect.x() + padding,
+                            rect.y(), rect.width() - resultWidth - padding * 2 - rightPadding, rect.height()),
+                      Qt::AlignVCenter | Qt::AlignRight, expStr + " ＝ ");
 }
 
 QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
