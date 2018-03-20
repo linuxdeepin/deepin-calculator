@@ -25,7 +25,6 @@
 #include <QMenu>
 
 #include "modules/basicmodule.h"
-#include "modules/scientificmodule.h"
 #include "settings.h"
 
 DWIDGET_USE_NAMESPACE
@@ -58,7 +57,6 @@ private:
     QColor m_titlebarColor;
 
     BasicModule *m_basicModule;
-    ScientificModule *m_scientificModule;
 };
 
 #endif

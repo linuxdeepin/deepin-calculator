@@ -47,8 +47,12 @@ MainWindow::MainWindow(QWidget *parent)
     m_simpleAction = new QAction(tr("Simple mode"), this);
     m_scAction = new QAction(tr("Scientific mode"), this);
     m_tbMenu->addAction(m_themeAction);
-    // m_tbMenu->addAction(m_simpleAction);
-    // m_tbMenu->addAction(m_scAction);
+
+#ifdef ENABLE_SCIENTIFIC
+    m_tbMenu->addAction(m_simpleAction);
+    m_tbMenu->addAction(m_scAction);
+#endif
+
     m_tbMenu->addSeparator();
 
     initModule();
@@ -100,10 +104,8 @@ void MainWindow::initModule()
     setCentralWidget(centralWidget);
 
     m_basicModule = new BasicModule;
-    m_scientificModule = new ScientificModule;
 
     m_mainLayout->addWidget(m_basicModule);
-    m_mainLayout->addWidget(m_scientificModule);
 
     switch (mode) {
     case 0:

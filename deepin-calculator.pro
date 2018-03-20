@@ -54,12 +54,11 @@ HEADERS += mainwindow.h \
 	   modules/simplelistview.h \
 	   modules/simplelistmodel.h \
 	   modules/simplelistdelegate.h \
-	   modules/scientificmodule.h \
 	   widgets/iconbutton.h \
 	   widgets/inputedit.h \
 	   widgets/listview.h \
 	   widgets/textbutton.h \
-	   widgets/simplekeypad.h \
+	   widgets/basickeypad.h \
 	   widgets/scientifickeypad.h \
 	   settings.h
 
@@ -105,12 +104,11 @@ SOURCES += main.cpp \
 	   modules/simplelistview.cpp \
 	   modules/simplelistmodel.cpp \
 	   modules/simplelistdelegate.cpp \
-	   modules/scientificmodule.cpp \
 	   widgets/iconbutton.cpp \
 	   widgets/inputedit.cpp \
 	   widgets/listview.cpp \
 	   widgets/textbutton.cpp \
-	   widgets/simplekeypad.cpp \
+	   widgets/basickeypad.cpp \
 	   widgets/scientifickeypad.cpp \
 	   settings.cpp
 

@@ -26,8 +26,7 @@
 
 #include "../widgets/textbutton.h"
 #include "../widgets/iconbutton.h"
-#include "../widgets/simplekeypad.h"
-#include "../widgets/scientifickeypad.h"
+#include "../widgets/basickeypad.h"
 #include "expressionbar.h"
 
 class BasicModule : public QWidget
@@ -52,8 +51,7 @@ protected:
 
 private:
     ExpressionBar *m_expressionBar;
-    SimpleKeypad *m_simpleKeypad;
-    ScientificKeypad *m_scientificKeypad;
+    BasicKeypad *m_basicKeypad;
     QStackedLayout *m_keypadLayout;
     QColor m_expBarColor;
     QColor m_expBarSepColor;

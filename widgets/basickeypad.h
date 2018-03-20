@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SIMPLEKEYPAD_H
-#define SIMPLEKEYPAD_H
+#ifndef BASICKEYPAD_H
+#define BASICKEYPAD_H
 
 #include <QWidget>
 #include <QGridLayout>
@@ -26,7 +26,7 @@
 #include "textbutton.h"
 #include "iconbutton.h"
 
-class SimpleKeypad : public QWidget
+class BasicKeypad : public QWidget
 {
     Q_OBJECT
 
@@ -39,8 +39,8 @@ public:
         Key_0, Key_Point, Key_Brackets, Key_Equals
     };
 
-    SimpleKeypad(QWidget *parent = nullptr);
-    ~SimpleKeypad();
+    BasicKeypad(QWidget *parent = nullptr);
+    ~BasicKeypad();
 
     QPushButton *button(Buttons key);
     void animate(Buttons key);

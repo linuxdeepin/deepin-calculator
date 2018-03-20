@@ -17,35 +17,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "simplekeypad.h"
+#include "basickeypad.h"
 #include "dthememanager.h"
 
 DWIDGET_USE_NAMESPACE
 
-const SimpleKeypad::KeyDescription SimpleKeypad::keyDescriptions[] = {
+const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
     { "C", Key_Clear, 1, 0 },
     { "%", Key_Percent, 1, 1 },
     { "", Key_Backspace, 1, 2 },
     { "÷", Key_Div, 1, 3 },
+
     { "7", Key_7, 2, 0 },
     { "8", Key_8, 2, 1 },
     { "9", Key_9, 2, 2 },
     { "×", Key_Mult, 2, 3 },
+
     { "4", Key_4, 3, 0 },
     { "5", Key_5, 3, 1 },
     { "6", Key_6, 3, 2 },
     { "－", Key_Min, 3, 3 },
+
     { "1", Key_1, 4, 0 },
     { "2", Key_2, 4, 1 },
     { "3", Key_3, 4, 2 },
     { "＋", Key_Plus, 4, 3 },
+
     { "0", Key_0, 5, 0 },
     { ".", Key_Point, 5, 1 },
     { "( )", Key_Brackets, 5, 2 },
     { "=", Key_Equals, 5, 3 }
 };
 
-SimpleKeypad::SimpleKeypad(QWidget *parent)
+BasicKeypad::BasicKeypad(QWidget *parent)
     : QWidget(parent),
       m_layout(new QGridLayout(this)),
       m_mapper(new QSignalMapper(this))
@@ -57,25 +61,25 @@ SimpleKeypad::SimpleKeypad(QWidget *parent)
     initUI();
 
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
-    connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &SimpleKeypad::handleThemeChanged);
+    connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &BasicKeypad::handleThemeChanged);
 }
 
-SimpleKeypad::~SimpleKeypad()
+BasicKeypad::~BasicKeypad()
 {
 }
 
-QPushButton* SimpleKeypad::button(Buttons key)
+QPushButton* BasicKeypad::button(Buttons key)
 {
     return m_keys.value(key).first;
 }
 
-void SimpleKeypad::animate(Buttons key)
+void BasicKeypad::animate(Buttons key)
 {
     TextButton *btn = static_cast<TextButton *>(button(key));
     btn->animate();
 }
 
-void SimpleKeypad::initButtons()
+void BasicKeypad::initButtons()
 {
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
     for (int i = 0; i < count; ++i) {
@@ -99,7 +103,7 @@ void SimpleKeypad::initButtons()
     }
 }
 
-void SimpleKeypad::initUI()
+void BasicKeypad::initUI()
 {
     QHashIterator<Buttons, QPair<QPushButton *, const KeyDescription *>> i(m_keys);
 
@@ -115,7 +119,7 @@ void SimpleKeypad::initUI()
     button(Key_Equals)->setObjectName("EqualButton");
 }
 
-void SimpleKeypad::handleThemeChanged()
+void BasicKeypad::handleThemeChanged()
 {
     IconButton *btn = static_cast<IconButton *>(button(Key_Backspace));
     btn->setIcon(QString(":/images/delete_%1_normal.svg").arg(DThemeManager::instance()->theme()));
