@@ -62,7 +62,7 @@ CNumberParser::CNumberParser(const char * _str) :
 }
 
 /* Parses a complex number using a recursive-desent approach. *
- * If successfull, stores the result into *Number.            *
+ * If successful, stores the result into *Number.            *
  * See header file for details.                               */
 void CNumberParser::parse (CNumber * Number) {
   /* Parsing */

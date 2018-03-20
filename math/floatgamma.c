@@ -160,7 +160,7 @@ _pochhammer_su(
   /* the rising pochhammer symbol is computed recursively,
   observing that
   pochhammer(x, n) == pochhammer(x, p) * pochhammer(x+p, n-p).
-  p is choosen as floor(n/2), so both factors are somehow
+  p is chosen as floor(n/2), so both factors are somehow
   "balanced". This pays off, if x has just a few digits, since
   only some late multiplications are full scale then and
   Karatsuba boosting yields best results, because both factors

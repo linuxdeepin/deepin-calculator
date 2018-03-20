@@ -1656,7 +1656,7 @@ Quantity Evaluator::exec(const QVector<Opcode>& opcodes, const QVector<Quantity>
         }
     }
 
-    // More than one value in stack? Unsuccesfull execution...
+    // More than one value in stack? Unsuccessful execution...
     if (stack.count() != 1) {
         m_error = QString("invalid expression");
         return CMath::nan();

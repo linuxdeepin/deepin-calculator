@@ -179,7 +179,7 @@ void Units::findUnit(Quantity& q)
 #define ADD_UNIT(name) result.append(Unit(#name, name()))
 #define ADD_UNIT_ALIAS(name, alias) result.append(Unit(#alias, name()))
 
-// This list contains the units that wil be set as builtin variables by the evaluator.
+// This list contains the units that will be set as builtin variables by the evaluator.
 const QList<Unit> Units::getList()
 {
     QList<Unit> result;
