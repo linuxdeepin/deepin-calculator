@@ -31,6 +31,8 @@ SimpleListModel::~SimpleListModel()
 
 int SimpleListModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
+
     return m_expressionList.size();
 }
 

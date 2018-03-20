@@ -216,6 +216,8 @@ void InputEdit::handleTextChanged(const QString &text)
 
 void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
 {
+    Q_UNUSED(oldPos);
+
     int ansEnd = m_ansStartPos + m_ansLength;
     int selectStart = this->selectionStart();
     int selectEnd = selectStart + this->selectedText().length();

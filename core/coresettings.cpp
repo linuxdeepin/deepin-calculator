@@ -38,9 +38,6 @@
 // releases that don't contain incompatible changes.
 static const int ConfigVersion = 1200;
 
-
-static const char* DefaultColorScheme = "Terminal";
-
 static CoreSettings* s_settingsInstance = 0;
 static char s_radixCharacter = 0;
 
