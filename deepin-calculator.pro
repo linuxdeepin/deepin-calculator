@@ -56,7 +56,6 @@ HEADERS += mainwindow.h \
 	   modules/simplelistdelegate.h \
 	   widgets/iconbutton.h \
 	   widgets/inputedit.h \
-	   widgets/listview.h \
 	   widgets/textbutton.h \
 	   widgets/basickeypad.h \
 	   widgets/scientifickeypad.h \
@@ -106,7 +105,6 @@ SOURCES += main.cpp \
 	   modules/simplelistdelegate.cpp \
 	   widgets/iconbutton.cpp \
 	   widgets/inputedit.cpp \
-	   widgets/listview.cpp \
 	   widgets/textbutton.cpp \
 	   widgets/basickeypad.cpp \
 	   widgets/scientifickeypad.cpp \
