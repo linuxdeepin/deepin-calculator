@@ -148,7 +148,6 @@ void ExpressionBar::enterEqualEvent()
         m_listModel->appendText(m_inputEdit->text() + "＝" + tr("Expression Error"));
     }
 
-    m_listView->reset();
     m_listView->scrollToBottom();
 }
 

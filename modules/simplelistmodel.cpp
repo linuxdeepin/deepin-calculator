@@ -58,10 +58,16 @@ void SimpleListModel::appendText(const QString &text)
         m_expressionList.removeOne(expression);
     }
 
+    const int size = m_expressionList.size();
+
+    beginInsertRows(QModelIndex(), size, size);
     m_expressionList << expression;
+    endInsertRows();
 }
 
 void SimpleListModel::clearItems()
 {
+    beginRemoveRows(QModelIndex(), 0, m_expressionList.size());
     m_expressionList.clear();
+    endRemoveRows();
 }
