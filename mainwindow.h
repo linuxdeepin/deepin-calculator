@@ -37,9 +37,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-public slots:
-    void moveToCenter();
-
 protected:
     void paintEvent(QPaintEvent *);
 

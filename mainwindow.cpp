@@ -67,11 +67,6 @@ MainWindow::~MainWindow()
 {
 }
 
-void MainWindow::moveToCenter()
-{
-    Dtk::Widget::moveToCenter(this);
-}
-
 void MainWindow::paintEvent(QPaintEvent *e)
 {
     QPainter painter(this);
@@ -97,7 +92,6 @@ void MainWindow::initTheme()
         m_titlebarColor = "#111111";
         setStyleSheet(Utils::getQssContent(":/qss/dark.qss"));
     }
-
 }
 
 void MainWindow::initModule()
@@ -120,8 +114,6 @@ void MainWindow::initModule()
         switchToScientificMode();
         break;
     }
-
-    //Dtk::Widget::moveToCenter(this);
 }
 
 void MainWindow::switchTheme()
