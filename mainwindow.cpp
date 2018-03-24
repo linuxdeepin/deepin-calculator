@@ -67,6 +67,11 @@ MainWindow::~MainWindow()
 {
 }
 
+void MainWindow::moveToCenter()
+{
+    Dtk::Widget::moveToCenter(this);
+}
+
 void MainWindow::paintEvent(QPaintEvent *e)
 {
     QPainter painter(this);
@@ -116,7 +121,7 @@ void MainWindow::initModule()
         break;
     }
 
-    Dtk::Widget::moveToCenter(this);
+    //Dtk::Widget::moveToCenter(this);
 }
 
 void MainWindow::switchTheme()

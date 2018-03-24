@@ -19,6 +19,7 @@
 
 #include <DApplication>
 #include <DWidgetUtil>
+#include <QTimer>
 #include "mainwindow.h"
 
 DWIDGET_USE_NAMESPACE
@@ -38,6 +39,10 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.show();
+
+    if (app.setSingleInstance("deepin-calculator")) {
+        QTimer::singleShot(1, &w, &MainWindow::moveToCenter);
+    }
 
     return app.exec();
 }
