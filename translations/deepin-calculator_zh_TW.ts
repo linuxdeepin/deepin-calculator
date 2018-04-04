@@ -3,7 +3,7 @@
     <name>ExpressionList</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>運算式錯誤</translation>
     </message>
 </context>
 <context>
@@ -14,7 +14,7 @@
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="unfinished"/>
+        <translation>Deepin 計算機是一個簡單易用的桌面型計算機。它支援加、減、乘、及除法。</translation>
     </message>
 </context>
 <context>

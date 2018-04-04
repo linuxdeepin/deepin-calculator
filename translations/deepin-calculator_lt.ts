@@ -3,7 +3,7 @@
     <name>ExpressionList</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>Reiškinio klaida</translation>
     </message>
 </context>
 <context>
@@ -14,7 +14,7 @@
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="unfinished"/>
+        <translation>Deepin skaičiuotuvas yra paprastas ir lengvas naudoti darbalaukio skaičiuotuvas. Jis palaiko sudėtį, atimtį, daugybą ir dalybą.</translation>
     </message>
 </context>
 <context>
