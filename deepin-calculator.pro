@@ -24,6 +24,7 @@ HEADERS += mainwindow.h \
 	   core/coresettings.h \
 	   core/userfunction.h \
 	   core/variable.h \
+	   core/token.h \
 	   math/cmath.h \
 	   math/cnumberparser.h \
 	   math/floatcommon.h \
@@ -74,6 +75,7 @@ SOURCES += main.cpp \
 	   core/coresettings.cpp \
 	   core/userfunction.cpp \
 	   core/variable.cpp \
+	   core/token.cpp \
 	   math/cmath.cpp \
 	   math/cnumberparser.cpp \
 	   math/floatcommon.c \
