@@ -1,6 +1,5 @@
 #include "token.h"
 
-
 const Token Token::null;
 
 // Helper function: return operator of given token text e.g. "*" yields Operator::Asterisk.

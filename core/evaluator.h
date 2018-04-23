@@ -21,6 +21,7 @@
 #define CORE_EVALUATOR_H
 
 #include "core/token.h"
+#include "core/tokens.h"
 #include "core/functions.h"
 #include "math/hmath.h"
 #include "math/cmath.h"
@@ -37,22 +38,6 @@
 #include "core/userfunction.h"
 
 class Session;
-
-class Tokens : public QVector<Token> {
-public:
-    Tokens() : QVector<Token>(), m_valid(true) { }
-
-    bool valid() const { return m_valid; }
-    void setValid(bool v) { m_valid = v; }
-
-#ifdef EVALUATOR_DEBUG
-    void append(const Token&);
-#endif  /* EVALUATOR_DEBUG */
-
-protected:
-    bool m_valid;
-};
-
 
 class Evaluator : public QObject
 {

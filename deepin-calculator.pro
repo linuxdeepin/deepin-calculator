@@ -25,6 +25,7 @@ HEADERS += mainwindow.h \
 	   core/userfunction.h \
 	   core/variable.h \
 	   core/token.h \
+	   core/tokens.h \
 	   math/cmath.h \
 	   math/cnumberparser.h \
 	   math/floatcommon.h \
