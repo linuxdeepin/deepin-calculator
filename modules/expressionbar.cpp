@@ -34,7 +34,7 @@ ExpressionBar::ExpressionBar(QWidget *parent)
     // init inputEdit attributes.
     m_inputEdit->setFixedHeight(55);
     m_inputEdit->setAlignment(Qt::AlignRight);
-    m_inputEdit->setTextMargins(10, 0, 10, 8);
+    m_inputEdit->setTextMargins(10, 0, 10, 6);
 
     m_listView->setModel(m_listModel);
     m_listView->setItemDelegate(m_listDelegate);

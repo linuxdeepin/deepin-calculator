@@ -517,6 +517,11 @@ CNumber CMath::raise(const CNumber& n1, int n)
  */
 CNumber CMath::raise(const CNumber& n1, const CNumber& n2)
 {
+    if (n1.isReal() && n2.isReal())
+        return CNumber(HMath::raise(n1.real, n2.real));
+    if (n1.isZero() && (n2.real > 0))
+        return CNumber(0);
+
     return CMath::exp(CMath::ln(n1) * n2);
 }
 
