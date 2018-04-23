@@ -203,9 +203,12 @@ void InputEdit::handleTextChanged(const QString &text)
     int oldLength = text.length();
 
     QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
-    reformatStr = reformatStr.replace('+', "＋").replace('-', "－")
-        .replace('*', "×").replace('/', "÷")
-        .replace('x', "×").replace("X", "×");
+    reformatStr = reformatStr.replace('+', QString::fromUtf8("＋"))
+                             .replace('-', QString::fromUtf8("－"))
+                             .replace('*', QString::fromUtf8("×"))
+                             .replace('/', QString::fromUtf8("÷"))
+                             .replace('x', QString::fromUtf8("×"))
+                             .replace('X', QString::fromUtf8("×"));
     setText(reformatStr);
 
     int newLength = reformatStr.length();
