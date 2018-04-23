@@ -25,6 +25,7 @@
 #include "core/evaluator.h"
 #include "core/session.h"
 #include "core/coresettings.h"
+#include "core/tokenstack.h"
 #include "math/rational.h"
 #include "math/units.h"
 
@@ -144,30 +145,6 @@ QString Evaluator::stringFromFunctionError(Function* function)
     return result.arg(function->identifier());
 }
 
-class TokenStack : public QVector<Token>
-{
-public:
-    TokenStack();
-
-    bool isEmpty() const;
-    unsigned itemCount() const;
-    Token pop();
-    void push(const Token& token);
-    const Token& top();
-    const Token& top(unsigned index);
-    bool hasError() const { return !m_error.isEmpty(); }
-    QString error() const { return m_error; }
-
-    void reduce(int count, int minPrecedence = INVALID_PRECEDENCE);
-    void reduce(int count, Token&& top, int minPrecedence = INVALID_PRECEDENCE);
-    void reduce(QList<Token> tokens, Token&& top, int minPrecedence = INVALID_PRECEDENCE);
-
-private:
-    void ensureSpace();
-    int topIndex;
-    QString m_error;
-};
-
 // Helper function: give operator precedence e.g. "+" is 300 while "*" is 500.
 static int opPrecedence(Token::Op op)
 {
@@ -196,144 +173,6 @@ static int opPrecedence(Token::Op op)
     }
 
     return prec;
-}
-
-static bool tokenPositionCompare(const Token& a, const Token& b)
-{
-    return (a.pos() < b.pos());
-}
-
-TokenStack::TokenStack() : QVector<Token>()
-{
-    topIndex = 0;
-    m_error = "";
-    ensureSpace();
-}
-
-bool TokenStack::isEmpty() const
-{
-    return topIndex == 0;
-}
-
-unsigned TokenStack::itemCount() const
-{
-    return topIndex;
-}
-
-void TokenStack::push(const Token& token)
-{
-    ensureSpace();
-    (*this)[topIndex++] = token;
-}
-
-Token TokenStack::pop()
-{
-    if (topIndex > 0)
-        return Token(at(--topIndex));
-
-    m_error = "token stack is empty (BUG)";
-    return Token();
-}
-
-const Token& TokenStack::top()
-{
-    return top(0);
-}
-
-const Token& TokenStack::top(unsigned index)
-{
-    return (topIndex > (int)index) ? at(topIndex - index - 1) : Token::null;
-}
-
-void TokenStack::ensureSpace()
-{
-    int length = size();
-    while (topIndex >= length) {
-        length += 10;
-        resize(length);
-    }
-}
-
-/** Remove \a count tokens from the top of the stack, add a stxAbstract token to the top
- * and adjust its text position and minimum precedence.
- *
- * \param minPrecedence minimum precedence to set the top token, or \c INVALID_PRECEDENCE
- * if this method should use the minimum value from the removed tokens.
- */
-
-void TokenStack::reduce(int count, int minPrecedence)
-{
-    // assert(itemCount() > count);
-
-    QList<Token> tokens;
-    for (int i = 0 ; i < count ; ++i)
-        tokens.append(pop());
-
-    reduce(tokens, Token(Token::stxAbstract), minPrecedence);
-}
-
-/** Remove \a count tokens from the top of the stack, push \a top to the top
- * and adjust its text position and minimum precedence.
- *
- * \param minPrecedence minimum precedence to set the top token, or \c INVALID_PRECEDENCE
- * if this method should use the minimum value from the removed tokens.
- */
-void TokenStack::reduce(int count, Token&& top, int minPrecedence)
-{
-    // assert(itemCount() >= count);
-
-    QList<Token> tokens;
-    for (int i = 0 ; i < count ; ++i)
-        tokens.append(pop());
-
-    reduce(tokens, std::forward<Token>(top), minPrecedence);
-}
-
-/** Push \a top to the top and adjust its text position and minimum precedence using \a tokens.
- *
- * \param minPrecedence minimum precedence to set the top token, or \c INVALID_PRECEDENCE
- * if this method should use the minimum value from the removed tokens.
- */
-void TokenStack::reduce(QList<Token> tokens, Token&& top, int minPrecedence)
-{
-    qSort(tokens.begin(), tokens.end(), tokenPositionCompare);
-
-    bool computeMinPrec = (minPrecedence == INVALID_PRECEDENCE);
-    int min_prec = computeMinPrec ? MAX_PRECEDENCE : minPrecedence;
-    int start = -1, end = -1;
-    for (Token& token : tokens) {
-        if (computeMinPrec) {
-            Token::Op op = token.asOperator();
-            if (op != Token::InvalidOp) {
-                int prec = opPrecedence(op);
-                if (prec < min_prec)
-                    min_prec = prec;
-            }
-        }
-
-        if (token.pos() == -1 && token.size() == -1)
-            continue;
-
-        if (token.pos() == -1 || token.size() == -1) {
-            continue;
-        }
-
-        if (start == -1) {
-            start = token.pos();
-        } else {
-
-        }
-
-        end = token.pos() + token.size();
-    }
-
-    if (start != -1) {
-        top.setPos(start);
-        top.setSize(end - start);
-    }
-
-    top.setMinPrecedence(min_prec);
-    push(top);
 }
 
 // Helper function: return true for valid identifier character.

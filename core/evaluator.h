@@ -38,7 +38,6 @@
 #include "core/userfunction.h"
 
 class Session;
-
 class Evaluator : public QObject
 {
     Q_OBJECT
