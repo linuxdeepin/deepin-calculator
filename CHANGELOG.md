@@ -1,4 +1,21 @@
 <a name=""></a>
+##  1.0.3 (2018-05-14)
+
+
+#### Bug Fixes
+
+*   some env garbled ([146bea9e](https://github.com/linuxdeepin/deepin-calculator/commit/146bea9ecd30b8904df4d591780f4ac2539ae745))
+*   move to center ([01285734](https://github.com/linuxdeepin/deepin-calculator/commit/01285734c53741d74dad2bf434549dc593b15bdf))
+*   move to center ([81fa2c08](https://github.com/linuxdeepin/deepin-calculator/commit/81fa2c08f11d2599aa35ba654d430a4a571b952f))
+
+#### Features
+
+*   support for 0^(1+j). ([62fba07e](https://github.com/linuxdeepin/deepin-calculator/commit/62fba07eb595f2a20a90abc61615fd370d7dd34f))
+*   add scrollbar. ([76a1cdd2](https://github.com/linuxdeepin/deepin-calculator/commit/76a1cdd2e318bae48e9d746b08b4658a2917fbc8))
+
+
+
+<a name=""></a>
 ##  1.0.1 (2017-12-07)
 
 
