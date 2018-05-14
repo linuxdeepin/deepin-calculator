@@ -1,9 +1,9 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="gl_ES" version="2.1">
 <context>
-    <name>ExpressionList</name>
+    <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
-        <translation>Erro na expresión</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -20,12 +20,23 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Deepin Calculator</source>
-        <translation>Calculadora</translation>
-    </message>
-    <message>
         <source>Dark Theme</source>
         <translation>Tema Escuro</translation>
+    </message>
+    <message>
+        <source>Simple mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Scientific mode</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>SimpleListDelegate</name>
+    <message>
+        <source>Expression Error</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

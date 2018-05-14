@@ -1,6 +1,6 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
-    <name>ExpressionList</name>
+    <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
         <translation>İfade Hatası</translation>
@@ -20,12 +20,23 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Deepin Calculator</source>
-        <translation>Deepin Hesap Makinesi</translation>
-    </message>
-    <message>
         <source>Dark Theme</source>
         <translation>Koyu Tema</translation>
+    </message>
+    <message>
+        <source>Simple mode</source>
+        <translation>Basit kip</translation>
+    </message>
+    <message>
+        <source>Scientific mode</source>
+        <translation>Bilimsel kip</translation>
+    </message>
+</context>
+<context>
+    <name>SimpleListDelegate</name>
+    <message>
+        <source>Expression Error</source>
+        <translation>İfade Hatası</translation>
     </message>
 </context>
 </TS>

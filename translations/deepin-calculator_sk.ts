@@ -1,6 +1,6 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="sk" version="2.1">
 <context>
-    <name>ExpressionList</name>
+    <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
         <translation>Chyba výrazu</translation>
@@ -20,12 +20,23 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Deepin Calculator</source>
-        <translation>Deepin Kalkulačka</translation>
-    </message>
-    <message>
         <source>Dark Theme</source>
         <translation>Tmavá téma</translation>
+    </message>
+    <message>
+        <source>Simple mode</source>
+        <translation>Jednoduchý režim</translation>
+    </message>
+    <message>
+        <source>Scientific mode</source>
+        <translation>Vedecký režim</translation>
+    </message>
+</context>
+<context>
+    <name>SimpleListDelegate</name>
+    <message>
+        <source>Expression Error</source>
+        <translation>Chyba výrazu</translation>
     </message>
 </context>
 </TS>

@@ -1,6 +1,6 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
 <context>
-    <name>ExpressionList</name>
+    <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
         <translation>Error de expresión</translation>
@@ -20,12 +20,23 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Deepin Calculator</source>
-        <translation>Calculadora Deepin</translation>
-    </message>
-    <message>
         <source>Dark Theme</source>
         <translation>Tema oscuro</translation>
+    </message>
+    <message>
+        <source>Simple mode</source>
+        <translation>Modo simple</translation>
+    </message>
+    <message>
+        <source>Scientific mode</source>
+        <translation>Modo científico</translation>
+    </message>
+</context>
+<context>
+    <name>SimpleListDelegate</name>
+    <message>
+        <source>Expression Error</source>
+        <translation>Error de expresión</translation>
     </message>
 </context>
 </TS>

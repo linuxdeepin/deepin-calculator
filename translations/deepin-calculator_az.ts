@@ -1,9 +1,9 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="az" version="2.1">
 <context>
-    <name>ExpressionList</name>
+    <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
-        <translation>Ifadə xətası</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -20,12 +20,23 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Deepin Calculator</source>
-        <translation>Deepin Kalkulyator</translation>
-    </message>
-    <message>
         <source>Dark Theme</source>
         <translation>Dark Mövzu</translation>
+    </message>
+    <message>
+        <source>Simple mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Scientific mode</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>SimpleListDelegate</name>
+    <message>
+        <source>Expression Error</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>
