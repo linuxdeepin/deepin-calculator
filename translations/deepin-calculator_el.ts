@@ -1,31 +1,31 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="el" version="2.1">
 <context>
     <name>ExpressionList</name>
     <message>
         <source>Expression Error</source>
-        <translation>İfade Hatası</translation>
+        <translation>Σφάλμα έκφρασης</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Deepin Calculator</source>
-        <translation>Deepin Hesap Makinesi</translation>
+        <translation>Deepin Αριθμομηχανή</translation>
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>Deepin Hesap Makinesi basit ve kullanımı kolay bir masaüstü hesap makinesidir. Toplama, çıkarma, çarpma ve bölme işlemleri yapılabilir.</translation>
+        <translation>Η Αριθμομηχανή Deepin είναι μια απλή κι εύκολη στη χρήση αριθμομηχανή. Υποστηρίζει πρόσθεση, αφαίρεση, πολλαπλασιασμό και διαίρεση.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Deepin Calculator</source>
-        <translation>Deepin Hesap Makinesi</translation>
+        <translation>Deepin Αριθμομηχανή</translation>
     </message>
     <message>
         <source>Dark Theme</source>
-        <translation>Koyu Tema</translation>
+        <translation>Σκούρο Θέμα</translation>
     </message>
 </context>
 </TS>
