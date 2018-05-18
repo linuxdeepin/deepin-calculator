@@ -116,6 +116,8 @@ SOURCES += main.cpp \
 	   settings.cpp
 
 RESOURCES += deepin-calculator.qrc
+TRANSLATIONS += $$PWD/translations/deepin-calculator.ts \
+                $$PWD/translations/deepin-calculator_zh_CN.ts
 
 isEmpty(BINDIR):BINDIR=/usr/bin
 isEmpty(APPDIR):APPDIR=/usr/share/applications

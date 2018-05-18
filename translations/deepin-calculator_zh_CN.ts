@@ -1,9 +1,18 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN">
+<context>
+    <name>ExpressionBar</name>
+    <message>
+        <source>Expression Error</source>
+        <translation type="unfinished">表达式错误</translation>
+    </message>
+</context>
 <context>
     <name>ExpressionList</name>
     <message>
         <source>Expression Error</source>
-        <translation>表达式错误</translation>
+        <translation type="vanished">表达式错误</translation>
     </message>
 </context>
 <context>
@@ -21,11 +30,26 @@
     <name>MainWindow</name>
     <message>
         <source>Deepin Calculator</source>
-        <translation>深度计算器</translation>
+        <translation type="vanished">深度计算器</translation>
     </message>
     <message>
         <source>Dark Theme</source>
         <translation>深色主题</translation>
+    </message>
+    <message>
+        <source>Simple mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scientific mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SimpleListDelegate</name>
+    <message>
+        <source>Expression Error</source>
+        <translation type="unfinished">表达式错误</translation>
     </message>
 </context>
 </TS>

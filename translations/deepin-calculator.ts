@@ -2,7 +2,7 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
-    <name>ExpressionList</name>
+    <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
         <translation type="unfinished"></translation>
@@ -22,11 +22,22 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Deepin Calculator</source>
+        <source>Dark Theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Dark Theme</source>
+        <source>Simple mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scientific mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SimpleListDelegate</name>
+    <message>
+        <source>Expression Error</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
