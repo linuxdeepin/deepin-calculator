@@ -7,17 +7,6 @@
     </message>
 </context>
 <context>
-    <name>Main</name>
-    <message>
-        <source>Deepin Calculator</source>
-        <translation>Deepin Калкулатор</translation>
-    </message>
-    <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>Deepin Калкулатор е прост и лесен за употреба десктоп калкулатор. Поддържа събиране, изваждане, умножение и деление.</translation>
-    </message>
-</context>
-<context>
     <name>MainWindow</name>
     <message>
         <source>Dark Theme</source>
@@ -30,6 +19,14 @@
     <message>
         <source>Scientific mode</source>
         <translation>Научен режим</translation>
+    </message>
+    <message>
+        <source>Deepin Calculator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

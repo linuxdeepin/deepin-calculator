@@ -3,40 +3,37 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>Main</name>
-    <message>
-        <source>Deepin Calculator</source>
-        <translation>Deepin Rekenmachine</translation>
-    </message>
-    <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>Deepin Rekenmachine is een eenvoudige en gebruiksvriendelijke desktop rekenmachine. Het ondersteunt optellen, aftrekken, vermenigvuldigen en delen.</translation>
+        <translation>Uitdrukkingsfout</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Dark Theme</source>
-        <translation>Donker Thema</translation>
+        <translation>Donker thema</translation>
     </message>
     <message>
         <source>Simple mode</source>
-        <translation type="unfinished"/>
+        <translation>Eenvoudige modus</translation>
     </message>
     <message>
         <source>Scientific mode</source>
-        <translation type="unfinished"/>
+        <translation>Wetenschappelijke modus</translation>
+    </message>
+    <message>
+        <source>Deepin Calculator</source>
+        <translation>Deepin Rekenmachine</translation>
+    </message>
+    <message>
+        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
+        <translation>Deepin Rekenmachine is een eenvoudige, makkelijk te gebruiken rekenmachine met ondersteuning voor optellen, aftrekken, vermenigvuldigen en delen.</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>Uitdrukkingsfout</translation>
     </message>
 </context>
 </TS>

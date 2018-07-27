@@ -7,17 +7,6 @@
     </message>
 </context>
 <context>
-    <name>Main</name>
-    <message>
-        <source>Deepin Calculator</source>
-        <translation>Deepin Hesap Makinesi</translation>
-    </message>
-    <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>Deepin Hesap Makinesi basit ve kullanımı kolay bir masaüstü hesap makinesidir. Toplama, çıkarma, çarpma ve bölme işlemleri yapılabilir.</translation>
-    </message>
-</context>
-<context>
     <name>MainWindow</name>
     <message>
         <source>Dark Theme</source>
@@ -30,6 +19,14 @@
     <message>
         <source>Scientific mode</source>
         <translation>Bilimsel kip</translation>
+    </message>
+    <message>
+        <source>Deepin Calculator</source>
+        <translation>Deepin Hesap Makinesi</translation>
+    </message>
+    <message>
+        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
+        <translation>Deepin Hesap Makinesi basit ve kullanımı kolay bir masaüstü hesap makinesidir. Toplama, çıkarma, çarpma ve bölme işlemleri yapılabilir.</translation>
     </message>
 </context>
 <context>

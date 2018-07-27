@@ -3,18 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>Main</name>
-    <message>
-        <source>Deepin Calculator</source>
-        <translation>Kalkulačka</translation>
-    </message>
-    <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>Kalkulačka je jednoduchá a snadno použitelná. Podporuje sčítání, odečítání, násobení a dělení.</translation>
+        <translation>Chyba výrazu</translation>
     </message>
 </context>
 <context>
@@ -25,10 +14,18 @@
     </message>
     <message>
         <source>Simple mode</source>
-        <translation type="unfinished"/>
+        <translation>Jednoduchý režim</translation>
     </message>
     <message>
         <source>Scientific mode</source>
+        <translation>Vědecký režim</translation>
+    </message>
+    <message>
+        <source>Deepin Calculator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -36,7 +33,7 @@
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>Chyba výrazu</translation>
     </message>
 </context>
 </TS>

@@ -3,18 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>Main</name>
-    <message>
-        <source>Deepin Calculator</source>
-        <translation>Kalkulator Deepin</translation>
-    </message>
-    <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>Kalkulator Deepin merupakan kalkulator desktop yang ringkas dan mudah digunakan. Ia menyokong fungsi tambah, tolak, darab dan bahagi.</translation>
+        <translation>Ralat Ungkapan</translation>
     </message>
 </context>
 <context>
@@ -25,10 +14,18 @@
     </message>
     <message>
         <source>Simple mode</source>
-        <translation type="unfinished"/>
+        <translation>Mod ringkas</translation>
     </message>
     <message>
         <source>Scientific mode</source>
+        <translation>Mod saintifik</translation>
+    </message>
+    <message>
+        <source>Deepin Calculator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -36,7 +33,7 @@
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>Ralat Ungkapan</translation>
     </message>
 </context>
 </TS>

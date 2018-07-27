@@ -3,18 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>Main</name>
-    <message>
-        <source>Deepin Calculator</source>
-        <translation>حاسبة ديبين</translation>
-    </message>
-    <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>حاسبة ديبين: حاسبة بسيطة وسهلة لاستخدامات سطح المكتب، تدعم عمليات الجمع والطرح والضرب والقسمة.</translation>
+        <translation>خطأ في الصيغة</translation>
     </message>
 </context>
 <context>
@@ -25,10 +14,18 @@
     </message>
     <message>
         <source>Simple mode</source>
-        <translation type="unfinished"/>
+        <translation>النمط البسيط</translation>
     </message>
     <message>
         <source>Scientific mode</source>
+        <translation>النمط العلمي</translation>
+    </message>
+    <message>
+        <source>Deepin Calculator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -36,7 +33,7 @@
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>خطأ في الصيغة</translation>
     </message>
 </context>
 </TS>
