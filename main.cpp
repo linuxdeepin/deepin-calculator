@@ -30,11 +30,12 @@ int main(int argc, char *argv[])
     app.setAttribute(Qt::AA_UseHighDpiPixmaps);
     app.loadTranslator();
     app.setOrganizationName("deepin");
+    app.setApplicationName("deepin-calculator");
     app.setApplicationVersion(DApplication::buildVersion("1.0.1"));
     app.setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-calculator");
     app.setProductIcon(QIcon(":/images/deepin-calculator.svg"));
-    app.setProductName(DApplication::translate("Main", "Deepin Calculator"));
-    app.setApplicationDescription(DApplication::translate("Main", "Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division."));
+    app.setProductName(DApplication::translate("MainWindow", "Deepin Calculator"));
+    app.setApplicationDescription(DApplication::translate("MainWindow", "Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division."));
 
     MainWindow w;
     w.show();
