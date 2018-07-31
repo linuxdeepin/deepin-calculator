@@ -1,3 +1,17 @@
+<a name="1.0.5"></a>
+### 1.0.5 (2018-07-31)
+
+
+#### Bug Fixes
+
+*   not set application name ([154bb923](https://github.com/linuxdeepin/deepin-calculator/commit/154bb923d6ec282a2ec0659759042e3221ab305d))
+
+#### Features
+
+*   set window title ([86aa9097](https://github.com/linuxdeepin/deepin-calculator/commit/86aa9097db5655ead4b1ab06733638dcc55f7118))
+
+
+
 <a name="1.0.4"></a>
 ## 1.0.4 (2018-06-12)
 
