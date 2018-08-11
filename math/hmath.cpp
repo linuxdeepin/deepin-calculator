@@ -43,6 +43,8 @@
 
 //TODO should go into a separate format file
 // default scale for fall back in formatting
+// rekols: 最大显示多少小数位
+
 #define HMATH_MAX_SHOWN 9
 #define HMATH_BIN_MAX_SHOWN ((33219*HMATH_MAX_SHOWN)/10000 + 1)
 #define HMATH_OCT_MAX_SHOWN ((11073*HMATH_MAX_SHOWN)/10000 + 1)
@@ -908,6 +910,22 @@ HNumber HMath::rad2deg(const HNumber& angle)
 HNumber HMath::deg2rad(const HNumber& angle)
 {
     return angle * (HMath::pi() / HNumber(180));
+}
+
+/**
+ * Converts radians to gons.
+ */
+HNumber HMath::rad2gon(const HNumber& angle)
+{
+    return angle * (HNumber(200) / HMath::pi());
+}
+
+/**
+ * Converts gons to radians.
+ */
+HNumber HMath::gon2rad(const HNumber& angle)
+{
+    return angle * (HMath::pi() / HNumber(200));
 }
 
 /**

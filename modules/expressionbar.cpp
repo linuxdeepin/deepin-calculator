@@ -18,6 +18,7 @@
  */
 
 #include <QPushButton>
+#include <QDebug>
 #include "expressionbar.h"
 #include "../utils.h"
 
@@ -49,7 +50,6 @@ ExpressionBar::ExpressionBar(QWidget *parent)
 
     connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionBar::handleTextChanged);
     connect(m_inputEdit, &InputEdit::keyPress, this, &ExpressionBar::keyPress);
-    connect(m_inputEdit, &InputEdit::returnPressed, this, &ExpressionBar::enterEqualEvent);
 }
 
 ExpressionBar::~ExpressionBar()
@@ -180,7 +180,7 @@ bool ExpressionBar::cursorPosAtEnd()
 
 QString ExpressionBar::formatExpression(const QString &text)
 {
-    return QString(text).replace("＋", "+").replace("－", "-")
-                        .replace("×", "*").replace("÷", "/")
-                        .replace(",", "");
+    return QString(text).replace(QString::fromUtf8("＋"), "+").replace(QString::fromUtf8("－"), "-")
+                        .replace(QString::fromUtf8("×"), "*").replace(QString::fromUtf8("÷"), "/")
+                        .replace(QString::fromUtf8(","), "");
 }

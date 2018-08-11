@@ -397,9 +397,9 @@ void Constants::Private::populate()
     PUSH_CONSTANT_CODATA("Fermi Coupling Constant",        "1.1663787e-5",      "Ge/V²", "0.0000006e-5",      "2016-03-28");
     PUSH_CONSTANT_CODATA("Fine-structure Constant",        "7.2973525664e-3",   "",      "0.0000000017e-3",   "2016-03-28");
     PUSH_CONSTANT_CODATA("Hartree Energy",                 "4.359744650e-18",   "J",     "0.000000054e-18",   "2016-03-28");
-    PUSH_CONSTANT_CODATA("Hartree Energy in eV",           "27.21138602",       "ev",    "0.00000017",        "2016-03-28");
+    PUSH_CONSTANT_CODATA("Hartree Energy in eV",           "27.21138602",       "eV",    "0.00000017",        "2016-03-28");
     PUSH_CONSTANT_CODATA("Quantum of Circulation",         "3.6369475486e-4",   "m²/s",  "0.0000000017e-4",   "2016-03-28");
-    PUSH_CONSTANT_CODATA("Quantum of Circulation times 2", "7.2738950972e-4",   "m²/s",  "0.0000000033e-4",   "2016-03-28");  // I don't know why it is useful, but it is present in CODATA constants, so I added it  -- Hadrien Theveneau, 2016-03-28
+    PUSH_CONSTANT_CODATA("Quantum of Circulation times 2", "7.2738950972e-4",   "m²/s",  "0.0000000033e-4",   "2016-03-28");  // I don't know why it is usefull, but it is present in CODATA constants, so I added it  -- Hadrien Theveneau, 2016-03-28
     PUSH_CONSTANT_CODATA("Rydberg Constant",               "10973731.568508",   "1/m",   "0.000065",          "2016-03-28");
     PUSH_CONSTANT_CODATA("Thomson Cross Section",          "0.66524587158e-28", "m²",    "0.00000000091e-28", "2016-03-28");
     PUSH_CONSTANT_CODATA("Weak Mixing Angle",              "0.2223",            "",      "0.0021",            "2016-03-28");
@@ -420,8 +420,8 @@ void Constants::Private::populate()
     PUSH_CONSTANT_CODATA("Loschmidt constant (273.15 K, 101.325 kPa)",     "2.6867811e25",     "1/m³",       "0.0000015e25",     "2016-03-28");
     PUSH_CONSTANT_CODATA("Molar Planck Constant",                          "3.9903127110e-10", "J·s/mol",    "0.0000000018e-10", "2016-03-28");
     PUSH_CONSTANT_CODATA("Second Radiation Constant",                      "1.43877736e-2",    "m·K",        "0.00000083e-2",    "2016-03-28");
-    PUSH_CONSTANT_CODATA("Stefan-Boltzmann Constant",                      "5.670367e-8",      "W/(m²·K⁴)",   "0.000013e-8",      "2016-03-28");
-    PUSH_CONSTANT_CODATA("{220} Lattice Spacing of Silicon",               "192.0155714e-12",  "kg",         "0.0000032e-12",    "2016-03-28");
+    PUSH_CONSTANT_CODATA("Stefan-Boltzmann Constant",                      "5.670367e-8",      "W/(m²·K⁴)",  "0.000013e-8",      "2016-03-28");
+    PUSH_CONSTANT_CODATA("{220} Lattice Spacing of Silicon",               "192.0155714e-12",  "m",          "0.0000032e-12",    "2016-03-28");
 
     // Astronomy.
     PUSH_CONSTANT("Astronomical Unit",      "149597870691",       "m");
@@ -557,204 +557,204 @@ void Constants::Private::retranslateText()
     QString cat;
 
     // http://en.wikipedia.org/wiki/Mathematical_constant
-    cat = QString("Universal");
+    cat = Constants::tr("Universal");
 
-    I18N_CONSTANT(QString("Archimedes' constant Pi") + QString::fromUtf8(" (π)"));
-    I18N_CONSTANT(QString("Euler's number") + QString::fromUtf8(" (ℯ)"));
-    I18N_CONSTANT(QString("Golden ratio") + QString::fromUtf8(" (φ)"));
+    I18N_CONSTANT(Constants::tr("Archimedes' constant Pi") + QString::fromUtf8(" (π)"));
+    I18N_CONSTANT(Constants::tr("Euler's number") + QString::fromUtf8(" (ℯ)"));
+    I18N_CONSTANT(Constants::tr("Golden ratio") + QString::fromUtf8(" (φ)"));
 
     // http://en.wikipedia.org/wiki/Physical_constant#Table_of_universal_constants
-    cat = QString("General Physics");
+    cat = Constants::tr("General Physics");
 
-    I18N_CONSTANT(QString("Characteristic Impedance of Vacuum"));
-    I18N_CONSTANT(QString("Dirac's Constant"));
-    I18N_CONSTANT(QString("Electric Constant"));
-    I18N_CONSTANT(QString("Gravitation Constant"));
-    I18N_CONSTANT(QString("Magnetic Constant"));
-    I18N_CONSTANT(QString("Planck's Constant"));
-    I18N_CONSTANT(QString("Speed of Light in Vacuum"));
-    I18N_CONSTANT(QString("Standard Gravity"));
+    I18N_CONSTANT(Constants::tr("Characteristic Impedance of Vacuum"));
+    I18N_CONSTANT(Constants::tr("Dirac's Constant"));
+    I18N_CONSTANT(Constants::tr("Electric Constant"));
+    I18N_CONSTANT(Constants::tr("Gravitation Constant"));
+    I18N_CONSTANT(Constants::tr("Magnetic Constant"));
+    I18N_CONSTANT(Constants::tr("Planck's Constant"));
+    I18N_CONSTANT(Constants::tr("Speed of Light in Vacuum"));
+    I18N_CONSTANT(Constants::tr("Standard Gravity"));
 
 
     // http://en.wikipedia.org/wiki/Physical_constant#Table_of_electromagnetic_constants
-    cat = QString("Electromagnetic");
+    cat = Constants::tr("Electromagnetic");
 
-    I18N_CONSTANT(QString("Bohr-Procopiu Magneton"));
-    I18N_CONSTANT(QString("Conductance Quantum"));
-    I18N_CONSTANT(QString("Coulomb's Constant"));
-    I18N_CONSTANT(QString("Elementary Charge"));
-    I18N_CONSTANT(QString("Conventional value of Josephson Constant"));
-    I18N_CONSTANT(QString("Josephson Constant"));
-    I18N_CONSTANT(QString("Magnetic Flux Quantum"));
-    I18N_CONSTANT(QString("Nuclear Magneton"));
-    I18N_CONSTANT(QString("Resistance Quantum"));
-    I18N_CONSTANT(QString("Conventional value of von Klitzing Constant"));
-    I18N_CONSTANT(QString("von Klitzing Constant"));
-
-    // CODATA
-    cat = QString("Atomic & Nuclear");
-
-    I18N_CONSTANT(QString("Bohr Radius"));
-    I18N_CONSTANT(QString("Fermi Coupling Constant"));
-    I18N_CONSTANT(QString("Fine-structure Constant"));
-    I18N_CONSTANT(QString("Hartree Energy"));
-    I18N_CONSTANT(QString("Hartree Energy in eV"));
-    I18N_CONSTANT(QString("Quantum of Circulation"));
-    I18N_CONSTANT(QString("Quantum of Circulation times 2"));
-    I18N_CONSTANT(QString("Rydberg Constant"));
-    I18N_CONSTANT(QString("Thomson Cross Section"));
-    I18N_CONSTANT(QString("Weak Mixing Angle"));
+    I18N_CONSTANT(Constants::tr("Bohr-Procopiu Magneton"));
+    I18N_CONSTANT(Constants::tr("Conductance Quantum"));
+    I18N_CONSTANT(Constants::tr("Coulomb's Constant"));
+    I18N_CONSTANT(Constants::tr("Elementary Charge"));
+    I18N_CONSTANT(Constants::tr("Conventional value of Josephson Constant"));
+    I18N_CONSTANT(Constants::tr("Josephson Constant"));
+    I18N_CONSTANT(Constants::tr("Magnetic Flux Quantum"));
+    I18N_CONSTANT(Constants::tr("Nuclear Magneton"));
+    I18N_CONSTANT(Constants::tr("Resistance Quantum"));
+    I18N_CONSTANT(Constants::tr("Conventional value of von Klitzing Constant"));
+    I18N_CONSTANT(Constants::tr("von Klitzing Constant"));
 
     // CODATA
-    cat = QString("Physico-chemical");
+    cat = Constants::tr("Atomic & Nuclear");
 
-    I18N_CONSTANT(QString("Atomic Mass Unit"));
-    I18N_CONSTANT(QString("Avogadro's Number"));
-    I18N_CONSTANT(QString("Boltzmann Constant"));
-    I18N_CONSTANT(QString("Compton wavelength"));
-    I18N_CONSTANT(QString("Compton wavelength over 2 pi"));
-    I18N_CONSTANT(QString("Electron volt"));
-    I18N_CONSTANT(QString("Faraday Constant"));
-    I18N_CONSTANT(QString("First Radiation Constant"));
-    I18N_CONSTANT(QString("First Radiation Constant for Spectral Radiance"));
-    I18N_CONSTANT(QString("Gas Constant"));
-    I18N_CONSTANT(QString("Loschmidt constant (273.15 K, 100 kPa)"));
-    I18N_CONSTANT(QString("Loschmidt constant (273.15 K, 101.325 kPa)"));
-    I18N_CONSTANT(QString("Molar Planck Constant"));
-    I18N_CONSTANT(QString("Second Radiation Constant"));
-    I18N_CONSTANT(QString("Stefan-Boltzmann Constant"));
-    I18N_CONSTANT(QString("{220} Lattice Spacing of Silicon"));
+    I18N_CONSTANT(Constants::tr("Bohr Radius"));
+    I18N_CONSTANT(Constants::tr("Fermi Coupling Constant"));
+    I18N_CONSTANT(Constants::tr("Fine-structure Constant"));
+    I18N_CONSTANT(Constants::tr("Hartree Energy"));
+    I18N_CONSTANT(Constants::tr("Hartree Energy in eV"));
+    I18N_CONSTANT(Constants::tr("Quantum of Circulation"));
+    I18N_CONSTANT(Constants::tr("Quantum of Circulation times 2"));
+    I18N_CONSTANT(Constants::tr("Rydberg Constant"));
+    I18N_CONSTANT(Constants::tr("Thomson Cross Section"));
+    I18N_CONSTANT(Constants::tr("Weak Mixing Angle"));
+
+    // CODATA
+    cat = Constants::tr("Physico-chemical");
+
+    I18N_CONSTANT(Constants::tr("Atomic Mass Unit"));
+    I18N_CONSTANT(Constants::tr("Avogadro's Number"));
+    I18N_CONSTANT(Constants::tr("Boltzmann Constant"));
+    I18N_CONSTANT(Constants::tr("Compton wavelength"));
+    I18N_CONSTANT(Constants::tr("Compton wavelength over 2 pi"));
+    I18N_CONSTANT(Constants::tr("Electron volt"));
+    I18N_CONSTANT(Constants::tr("Faraday Constant"));
+    I18N_CONSTANT(Constants::tr("First Radiation Constant"));
+    I18N_CONSTANT(Constants::tr("First Radiation Constant for Spectral Radiance"));
+    I18N_CONSTANT(Constants::tr("Gas Constant"));
+    I18N_CONSTANT(Constants::tr("Loschmidt constant (273.15 K, 100 kPa)"));
+    I18N_CONSTANT(Constants::tr("Loschmidt constant (273.15 K, 101.325 kPa)"));
+    I18N_CONSTANT(Constants::tr("Molar Planck Constant"));
+    I18N_CONSTANT(Constants::tr("Second Radiation Constant"));
+    I18N_CONSTANT(Constants::tr("Stefan-Boltzmann Constant"));
+    I18N_CONSTANT(Constants::tr("{220} Lattice Spacing of Silicon"));
 
     // http://www.astronomynotes.com/tables/tablesa.htm
-    cat = QString("Astronomy");
+    cat = Constants::tr("Astronomy");
 
-    I18N_CONSTANT(QString("Astronomical Unit"));
-    I18N_CONSTANT(QString("Light Year"));
-    I18N_CONSTANT(QString("Parsec"));
+    I18N_CONSTANT(Constants::tr("Astronomical Unit"));
+    I18N_CONSTANT(Constants::tr("Light Year"));
+    I18N_CONSTANT(Constants::tr("Parsec"));
 
-    const QString days = QString("days");
+    const QString days = Constants::tr("days");
 
-    I18N_CONSTANT_DAYS(QString("Gregorian Year"));
-    I18N_CONSTANT_DAYS(QString("Julian Year"));
-    I18N_CONSTANT_DAYS(QString("Sidereal Year"));
-    I18N_CONSTANT_DAYS(QString("Tropical Year"));
+    I18N_CONSTANT_DAYS(Constants::tr("Gregorian Year"));
+    I18N_CONSTANT_DAYS(Constants::tr("Julian Year"));
+    I18N_CONSTANT_DAYS(Constants::tr("Sidereal Year"));
+    I18N_CONSTANT_DAYS(Constants::tr("Tropical Year"));
 
-    I18N_CONSTANT(QString("Earth Mass"));
-    I18N_CONSTANT(QString("Mean Earth Radius"));
-    I18N_CONSTANT(QString("Sun Mass"));
-    I18N_CONSTANT(QString("Sun Radius"));
-    I18N_CONSTANT(QString("Sun Luminosity"));
+    I18N_CONSTANT(Constants::tr("Earth Mass"));
+    I18N_CONSTANT(Constants::tr("Mean Earth Radius"));
+    I18N_CONSTANT(Constants::tr("Sun Mass"));
+    I18N_CONSTANT(Constants::tr("Sun Radius"));
+    I18N_CONSTANT(Constants::tr("Sun Luminosity"));
 
     // http://www.ptable.com/
     // Only known constants of accuracy more than an integer are included.
-    cat = QString("Molar Mass");
+    cat = Constants::tr("Molar Mass");
 
-    I18N_CONSTANT(QString("Aluminium"));
-    I18N_CONSTANT(QString("Antimony"));
-    I18N_CONSTANT(QString("Argon"));
-    I18N_CONSTANT(QString("Arsenic"));
-    I18N_CONSTANT(QString("Barium"));
-    I18N_CONSTANT(QString("Beryllium"));
-    I18N_CONSTANT(QString("Bismuth"));
-    I18N_CONSTANT(QString("Boron"));
-    I18N_CONSTANT(QString("Bromine"));
-    I18N_CONSTANT(QString("Cadmium"));
-    I18N_CONSTANT(QString("Caesium"));
-    I18N_CONSTANT(QString("Calcium"));
-    I18N_CONSTANT(QString("Carbon"));
-    I18N_CONSTANT(QString("Cerium"));
-    I18N_CONSTANT(QString("Chlorine"));
-    I18N_CONSTANT(QString("Chromium"));
-    I18N_CONSTANT(QString("Cobalt"));
-    I18N_CONSTANT(QString("Copper"));
-    I18N_CONSTANT(QString("Dysprosium"));
-    I18N_CONSTANT(QString("Erbium"));
-    I18N_CONSTANT(QString("Europium"));
-    I18N_CONSTANT(QString("Fluorine"));
-    I18N_CONSTANT(QString("Gadolinium"));
-    I18N_CONSTANT(QString("Gallium"));
-    I18N_CONSTANT(QString("Germanium"));
-    I18N_CONSTANT(QString("Gold"));
-    I18N_CONSTANT(QString("Hafnium"));
-    I18N_CONSTANT(QString("Helium"));
-    I18N_CONSTANT(QString("Holmium"));
-    I18N_CONSTANT(QString("Hydrogen"));
-    I18N_CONSTANT(QString("Indium"));
-    I18N_CONSTANT(QString("Iodine"));
-    I18N_CONSTANT(QString("Iridium"));
-    I18N_CONSTANT(QString("Iron"));
-    I18N_CONSTANT(QString("Krypton"));
-    I18N_CONSTANT(QString("Lanthanum"));
-    I18N_CONSTANT(QString("Lead"));
-    I18N_CONSTANT(QString("Lithium"));
-    I18N_CONSTANT(QString("Lutetium"));
-    I18N_CONSTANT(QString("Magnesium"));
-    I18N_CONSTANT(QString("Manganese"));
-    I18N_CONSTANT(QString("Mercury"));
-    I18N_CONSTANT(QString("Molybdenum"));
-    I18N_CONSTANT(QString("Neodymium"));
-    I18N_CONSTANT(QString("Neon"));
-    I18N_CONSTANT(QString("Nickel"));
-    I18N_CONSTANT(QString("Niobium"));
-    I18N_CONSTANT(QString("Nitrogen"));
-    I18N_CONSTANT(QString("Osmium"));
-    I18N_CONSTANT(QString("Oxygen"));
-    I18N_CONSTANT(QString("Palladium"));
-    I18N_CONSTANT(QString("Phosphorus"));
-    I18N_CONSTANT(QString("Platinum"));
-    I18N_CONSTANT(QString("Potassium"));
-    I18N_CONSTANT(QString("Praseodymium"));
-    I18N_CONSTANT(QString("Protactinium"));
-    I18N_CONSTANT(QString("Rhenium"));
-    I18N_CONSTANT(QString("Rubidium"));
-    I18N_CONSTANT(QString("Ruthenium"));
-    I18N_CONSTANT(QString("Samarium"));
-    I18N_CONSTANT(QString("Scandium"));
-    I18N_CONSTANT(QString("Selenium"));
-    I18N_CONSTANT(QString("Silicon"));
-    I18N_CONSTANT(QString("Silver"));
-    I18N_CONSTANT(QString("Sodium"));
-    I18N_CONSTANT(QString("Strontium"));
-    I18N_CONSTANT(QString("Sulfur"));
-    I18N_CONSTANT(QString("Tantalum"));
-    I18N_CONSTANT(QString("Tellurium"));
-    I18N_CONSTANT(QString("Terbium"));
-    I18N_CONSTANT(QString("Thallium"));
-    I18N_CONSTANT(QString("Thorium"));
-    I18N_CONSTANT(QString("Thulium"));
-    I18N_CONSTANT(QString("Tin"));
-    I18N_CONSTANT(QString("Titanium"));
-    I18N_CONSTANT(QString("Tungsten"));
-    I18N_CONSTANT(QString("Uranium"));
-    I18N_CONSTANT(QString("Vanadium"));
-    I18N_CONSTANT(QString("Xenon"));
-    I18N_CONSTANT(QString("Ytterbium"));
-    I18N_CONSTANT(QString("Yttrium"));
-    I18N_CONSTANT(QString("Zinc"));
-    I18N_CONSTANT(QString("Zirconium"));
+    I18N_CONSTANT(Constants::tr("Aluminium"));
+    I18N_CONSTANT(Constants::tr("Antimony"));
+    I18N_CONSTANT(Constants::tr("Argon"));
+    I18N_CONSTANT(Constants::tr("Arsenic"));
+    I18N_CONSTANT(Constants::tr("Barium"));
+    I18N_CONSTANT(Constants::tr("Beryllium"));
+    I18N_CONSTANT(Constants::tr("Bismuth"));
+    I18N_CONSTANT(Constants::tr("Boron"));
+    I18N_CONSTANT(Constants::tr("Bromine"));
+    I18N_CONSTANT(Constants::tr("Cadmium"));
+    I18N_CONSTANT(Constants::tr("Caesium"));
+    I18N_CONSTANT(Constants::tr("Calcium"));
+    I18N_CONSTANT(Constants::tr("Carbon"));
+    I18N_CONSTANT(Constants::tr("Cerium"));
+    I18N_CONSTANT(Constants::tr("Chlorine"));
+    I18N_CONSTANT(Constants::tr("Chromium"));
+    I18N_CONSTANT(Constants::tr("Cobalt"));
+    I18N_CONSTANT(Constants::tr("Copper"));
+    I18N_CONSTANT(Constants::tr("Dysprosium"));
+    I18N_CONSTANT(Constants::tr("Erbium"));
+    I18N_CONSTANT(Constants::tr("Europium"));
+    I18N_CONSTANT(Constants::tr("Fluorine"));
+    I18N_CONSTANT(Constants::tr("Gadolinium"));
+    I18N_CONSTANT(Constants::tr("Gallium"));
+    I18N_CONSTANT(Constants::tr("Germanium"));
+    I18N_CONSTANT(Constants::tr("Gold"));
+    I18N_CONSTANT(Constants::tr("Hafnium"));
+    I18N_CONSTANT(Constants::tr("Helium"));
+    I18N_CONSTANT(Constants::tr("Holmium"));
+    I18N_CONSTANT(Constants::tr("Hydrogen"));
+    I18N_CONSTANT(Constants::tr("Indium"));
+    I18N_CONSTANT(Constants::tr("Iodine"));
+    I18N_CONSTANT(Constants::tr("Iridium"));
+    I18N_CONSTANT(Constants::tr("Iron"));
+    I18N_CONSTANT(Constants::tr("Krypton"));
+    I18N_CONSTANT(Constants::tr("Lanthanum"));
+    I18N_CONSTANT(Constants::tr("Lead"));
+    I18N_CONSTANT(Constants::tr("Lithium"));
+    I18N_CONSTANT(Constants::tr("Lutetium"));
+    I18N_CONSTANT(Constants::tr("Magnesium"));
+    I18N_CONSTANT(Constants::tr("Manganese"));
+    I18N_CONSTANT(Constants::tr("Mercury"));
+    I18N_CONSTANT(Constants::tr("Molybdenum"));
+    I18N_CONSTANT(Constants::tr("Neodymium"));
+    I18N_CONSTANT(Constants::tr("Neon"));
+    I18N_CONSTANT(Constants::tr("Nickel"));
+    I18N_CONSTANT(Constants::tr("Niobium"));
+    I18N_CONSTANT(Constants::tr("Nitrogen"));
+    I18N_CONSTANT(Constants::tr("Osmium"));
+    I18N_CONSTANT(Constants::tr("Oxygen"));
+    I18N_CONSTANT(Constants::tr("Palladium"));
+    I18N_CONSTANT(Constants::tr("Phosphorus"));
+    I18N_CONSTANT(Constants::tr("Platinum"));
+    I18N_CONSTANT(Constants::tr("Potassium"));
+    I18N_CONSTANT(Constants::tr("Praseodymium"));
+    I18N_CONSTANT(Constants::tr("Protactinium"));
+    I18N_CONSTANT(Constants::tr("Rhenium"));
+    I18N_CONSTANT(Constants::tr("Rubidium"));
+    I18N_CONSTANT(Constants::tr("Ruthenium"));
+    I18N_CONSTANT(Constants::tr("Samarium"));
+    I18N_CONSTANT(Constants::tr("Scandium"));
+    I18N_CONSTANT(Constants::tr("Selenium"));
+    I18N_CONSTANT(Constants::tr("Silicon"));
+    I18N_CONSTANT(Constants::tr("Silver"));
+    I18N_CONSTANT(Constants::tr("Sodium"));
+    I18N_CONSTANT(Constants::tr("Strontium"));
+    I18N_CONSTANT(Constants::tr("Sulfur"));
+    I18N_CONSTANT(Constants::tr("Tantalum"));
+    I18N_CONSTANT(Constants::tr("Tellurium"));
+    I18N_CONSTANT(Constants::tr("Terbium"));
+    I18N_CONSTANT(Constants::tr("Thallium"));
+    I18N_CONSTANT(Constants::tr("Thorium"));
+    I18N_CONSTANT(Constants::tr("Thulium"));
+    I18N_CONSTANT(Constants::tr("Tin"));
+    I18N_CONSTANT(Constants::tr("Titanium"));
+    I18N_CONSTANT(Constants::tr("Tungsten"));
+    I18N_CONSTANT(Constants::tr("Uranium"));
+    I18N_CONSTANT(Constants::tr("Vanadium"));
+    I18N_CONSTANT(Constants::tr("Xenon"));
+    I18N_CONSTANT(Constants::tr("Ytterbium"));
+    I18N_CONSTANT(Constants::tr("Yttrium"));
+    I18N_CONSTANT(Constants::tr("Zinc"));
+    I18N_CONSTANT(Constants::tr("Zirconium"));
 
     // K.A. Olive et al. (Particle Data Group), Chin. Phys. C, 38, 090001 (2014).
     // http://pdg.lbl.gov/index.html
     // CODATA constants
-    cat = QString("Particle Masses");
+    cat = Constants::tr("Particle Masses");
 
-    I18N_CONSTANT(QString("Electron Mass"));      // CODATA, 2016-03-28
-    I18N_CONSTANT(QString("Muon Mass"));          // CODATA, 2016-03-28
-    I18N_CONSTANT(QString("Tau Mass"));           // CODATA, 2016-03-28
-    I18N_CONSTANT(QString("Up-Quark Mass"));      // Particle Data Group
-    I18N_CONSTANT(QString("Down-Quark Mass"));    // Particle Data Group
-    I18N_CONSTANT(QString("Charm-Quark Mass"));   // Particle Data Group
-    I18N_CONSTANT(QString("Strange-Quark Mass")); // Particle Data Group
-    I18N_CONSTANT(QString("Top-Quark Mass"));     // Particle Data Group
-    I18N_CONSTANT(QString("Bottom-Quark Mass"));  // Particle Data Group
-    I18N_CONSTANT(QString("W-Boson Mass"));       // Particle Data Group
-    I18N_CONSTANT(QString("Z-Boson Mass"));       // Particle Data Group
-    I18N_CONSTANT(QString("Higgs-Boson Mass"));   // Particle Data Group
-    I18N_CONSTANT(QString("Proton Mass"));        // CODATA, 2016-03-28
-    I18N_CONSTANT(QString("Neutron Mass"));       // CODATA, 2016-03-28
-    I18N_CONSTANT(QString("Electron Mass (SI)")); // CODATA, 2016-03-28
-    I18N_CONSTANT(QString("Proton Mass (SI)"));   // CODATA, 2016-03-28
-    I18N_CONSTANT(QString("Neutron Mass (SI)"));  // CODATA, 2016-03-28
+    I18N_CONSTANT(Constants::tr("Electron Mass"));      // CODATA, 2016-03-28
+    I18N_CONSTANT(Constants::tr("Muon Mass"));          // CODATA, 2016-03-28
+    I18N_CONSTANT(Constants::tr("Tau Mass"));           // CODATA, 2016-03-28
+    I18N_CONSTANT(Constants::tr("Up-Quark Mass"));      // Particle Data Group
+    I18N_CONSTANT(Constants::tr("Down-Quark Mass"));    // Particle Data Group
+    I18N_CONSTANT(Constants::tr("Charm-Quark Mass"));   // Particle Data Group
+    I18N_CONSTANT(Constants::tr("Strange-Quark Mass")); // Particle Data Group
+    I18N_CONSTANT(Constants::tr("Top-Quark Mass"));     // Particle Data Group
+    I18N_CONSTANT(Constants::tr("Bottom-Quark Mass"));  // Particle Data Group
+    I18N_CONSTANT(Constants::tr("W-Boson Mass"));       // Particle Data Group
+    I18N_CONSTANT(Constants::tr("Z-Boson Mass"));       // Particle Data Group
+    I18N_CONSTANT(Constants::tr("Higgs-Boson Mass"));   // Particle Data Group
+    I18N_CONSTANT(Constants::tr("Proton Mass"));        // CODATA, 2016-03-28
+    I18N_CONSTANT(Constants::tr("Neutron Mass"));       // CODATA, 2016-03-28
+    I18N_CONSTANT(Constants::tr("Electron Mass (SI)")); // CODATA, 2016-03-28
+    I18N_CONSTANT(Constants::tr("Proton Mass (SI)"));   // CODATA, 2016-03-28
+    I18N_CONSTANT(Constants::tr("Neutron Mass (SI)"));  // CODATA, 2016-03-28
 
     categories.clear();
     for (int k = 0; k < list.count(); ++k)

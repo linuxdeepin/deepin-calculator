@@ -22,7 +22,7 @@
 
 #include "core/functions.h"
 
-#include "core/coresettings.h"
+#include "core/settings.h"
 #include "math/hmath.h"
 #include "math/cmath.h"
 
@@ -40,8 +40,8 @@
 #define FUNCTION_USAGE_TR(ID, USAGE) find(#ID)->setUsage(USAGE);
 #define FUNCTION_NAME(ID, NAME) find(#ID)->setName(NAME)
 
-#define ENSURE_POSITIVE_ARGUMENT_COUNT() \
-    if (args.count() < 1) { \
+#define ENSURE_MINIMUM_ARGUMENT_COUNT(i) \
+    if (args.count() < i) { \
         f->setError(InvalidParamCount); \
         return CMath::nan(InvalidParamCount); \
     }
@@ -76,9 +76,17 @@
     }
 
 #define CONVERT_ARGUMENT_ANGLE(angle) \
-    if (CoreSettings::instance()->angleUnit == 'd') {   \
-        if (angle.isReal())                             \
+    if (Settings::instance()->angleUnit == 'd') { \
+        if (angle.isReal()) \
             angle = DMath::deg2rad(angle); \
+        else { \
+            f->setError(OutOfDomain); \
+            return DMath::nan(); \
+        } \
+    } \
+    else if (Settings::instance()->angleUnit == 'g') { \
+        if (angle.isReal()) \
+            angle = DMath::gon2rad(angle); \
         else { \
             f->setError(OutOfDomain); \
             return DMath::nan(); \
@@ -86,14 +94,10 @@
     }
 
 #define CONVERT_RESULT_ANGLE(result) \
-    if (CoreSettings::instance()->angleUnit == 'd') {   \
-        if (result.isReal())                            \
-            result = DMath::rad2deg(result); \
-	else { \
-            f->setError(OutOfDomain); \
-            return DMath::nan(); \
-        } \
-    }
+    if (Settings::instance()->angleUnit == 'd') \
+        result = DMath::rad2deg(result); \
+    else if (Settings::instance()->angleUnit == 'g') \
+        result = DMath::rad2gon(result);
 
 static FunctionRepo* s_FunctionRepoInstance = 0;
 
@@ -123,14 +127,14 @@ Quantity function_abs(Function* f, const Function::ArgumentList& args)
 Quantity function_average(Function* f, const Function::ArgumentList& args)
 {
     /* TODO : complex mode switch for this function */
-    ENSURE_POSITIVE_ARGUMENT_COUNT();
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
     return std::accumulate(args.begin()+1, args.end(), *args.begin()) / Quantity(args.count());
 }
 
 Quantity function_absdev(Function* f, const Function::ArgumentList& args)
 {
     /* TODO : complex mode switch for this function */
-    ENSURE_POSITIVE_ARGUMENT_COUNT();
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
     Quantity mean = function_average(f, args);
     if (mean.isNan())
         return mean;   // pass the error along
@@ -192,7 +196,7 @@ Quantity function_ceil(Function* f, const Function::ArgumentList& args)
 Quantity function_gcd(Function* f, const Function::ArgumentList& args)
 {
     /* TODO : complex mode switch for this function */
-    ENSURE_POSITIVE_ARGUMENT_COUNT();
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
     for (int i = 0; i < args.count(); ++i)
         if (!args[i].isInteger()) {
             f->setError(OutOfDomain);
@@ -233,7 +237,7 @@ Quantity function_sqrt(Function* f, const Function::ArgumentList& args)
 
 Quantity function_variance(Function* f, const Function::ArgumentList& args)
 {
-    ENSURE_POSITIVE_ARGUMENT_COUNT()
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
 
     Quantity mean = function_average(f, args);
     if (mean.isNan())
@@ -252,7 +256,7 @@ Quantity function_variance(Function* f, const Function::ArgumentList& args)
 Quantity function_stddev(Function* f, const Function::ArgumentList& args)
 {
     /* TODO : complex mode switch for this function */
-    ENSURE_POSITIVE_ARGUMENT_COUNT();
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
     return DMath::sqrt(function_variance(f, args));
 }
 
@@ -305,6 +309,11 @@ Quantity function_imag(Function* f, const Function::ArgumentList& args)
     return DMath::imag(args.at(0));
 }
 
+Quantity function_conj(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::conj(args.at(0));
+}
 
 Quantity function_phase(Function* f, const Function::ArgumentList& args)
 {
@@ -492,9 +501,15 @@ Quantity function_radians(Function* f, const Function::ArgumentList& args)
     return DMath::deg2rad(args[0]);
 }
 
+Quantity function_gradians(Function* f, const Function::ArgumentList& args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    return DMath::rad2gon(args[0]);
+}
+
 Quantity function_max(Function* f, const Function::ArgumentList& args)
 {
-    ENSURE_POSITIVE_ARGUMENT_COUNT()
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
     ENSURE_REAL_ARGUMENTS()
     ENSURE_SAME_DIMENSION()
     return *std::max_element(args.begin(), args.end());
@@ -502,7 +517,7 @@ Quantity function_max(Function* f, const Function::ArgumentList& args)
 
 Quantity function_median(Function* f, const Function::ArgumentList& args)
 {
-    ENSURE_POSITIVE_ARGUMENT_COUNT()
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
     ENSURE_REAL_ARGUMENTS()
     ENSURE_SAME_DIMENSION()
 
@@ -518,7 +533,7 @@ Quantity function_median(Function* f, const Function::ArgumentList& args)
 
 Quantity function_min(Function* f, const Function::ArgumentList& args)
 {
-    ENSURE_POSITIVE_ARGUMENT_COUNT()
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
     ENSURE_REAL_ARGUMENTS()
     ENSURE_SAME_DIMENSION()
     return *std::min_element(args.begin(), args.end());
@@ -526,20 +541,20 @@ Quantity function_min(Function* f, const Function::ArgumentList& args)
 
 Quantity function_sum(Function* f, const Function::ArgumentList& args)
 {
-    ENSURE_POSITIVE_ARGUMENT_COUNT();
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
     return std::accumulate(args.begin(), args.end(), Quantity(0));
 }
 
 Quantity function_product(Function* f, const Function::ArgumentList& args)
 {
-    ENSURE_POSITIVE_ARGUMENT_COUNT();
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
     return std::accumulate(args.begin(), args.end(), Quantity(1), std::multiplies<Quantity>());
 }
 
 Quantity function_geomean(Function* f, const Function::ArgumentList& args)
 {
     /* TODO : complex mode switch for this function */
-    ENSURE_POSITIVE_ARGUMENT_COUNT();
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
 
     Quantity result = std::accumulate(args.begin(), args.end(), Quantity(1),
         std::multiplies<Quantity>());
@@ -699,7 +714,7 @@ Quantity function_not(Function* f, const Function::ArgumentList& args)
 Quantity function_and(Function* f, const Function::ArgumentList& args)
 {
     /* TODO : complex mode switch for this function */
-    ENSURE_POSITIVE_ARGUMENT_COUNT();
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
     return std::accumulate(args.begin(), args.end(), Quantity(-1),
         std::mem_fun_ref(&Quantity::operator&));
 }
@@ -707,7 +722,7 @@ Quantity function_and(Function* f, const Function::ArgumentList& args)
 Quantity function_or(Function* f, const Function::ArgumentList& args)
 {
     /* TODO : complex mode switch for this function */
-    ENSURE_POSITIVE_ARGUMENT_COUNT();
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
     return std::accumulate(args.begin(), args.end(), Quantity(0),
         std::mem_fun_ref(&Quantity::operator|));
 }
@@ -715,7 +730,7 @@ Quantity function_or(Function* f, const Function::ArgumentList& args)
 Quantity function_xor(Function* f, const Function::ArgumentList& args)
 {
     /* TODO : complex mode switch for this function */
-    ENSURE_POSITIVE_ARGUMENT_COUNT();
+    ENSURE_MINIMUM_ARGUMENT_COUNT(2);
     return std::accumulate(args.begin(), args.end(), Quantity(0),
         std::mem_fun_ref(&Quantity::operator^));
 }
@@ -858,6 +873,7 @@ void FunctionRepo::createFunctions()
     // Complex.
     FUNCTION_INSERT(real);
     FUNCTION_INSERT(imag);
+    FUNCTION_INSERT(conj);
     FUNCTION_INSERT(phase);
     FUNCTION_INSERT(polar);
     FUNCTION_INSERT(cart);
@@ -898,6 +914,7 @@ void FunctionRepo::createFunctions()
     FUNCTION_INSERT(csc);
     FUNCTION_INSERT(degrees);
     FUNCTION_INSERT(exp);
+    FUNCTION_INSERT(gradians);
     FUNCTION_INSERT(lb);
     FUNCTION_INSERT(lg);
     FUNCTION_INSERT(ln);
@@ -982,12 +999,13 @@ void FunctionRepo::setNonTranslatableFunctionUsages()
     FUNCTION_USAGE(artanh, "x");
     FUNCTION_USAGE(arcsin, "x");
     FUNCTION_USAGE(arctan, "x");
-    FUNCTION_USAGE(arctan2, "x, y");
+    FUNCTION_USAGE(arctan2, "x; y");
     FUNCTION_USAGE(average, "x<sub>1</sub>; x<sub>2</sub>; ...");
     FUNCTION_USAGE(bin, "n");
     FUNCTION_USAGE(cart, "x");
     FUNCTION_USAGE(cbrt, "x");
     FUNCTION_USAGE(ceil, "x");
+    FUNCTION_USAGE(conj, "x");
     FUNCTION_USAGE(cos, "x");
     FUNCTION_USAGE(cosh, "x");
     FUNCTION_USAGE(cot, "x");
@@ -1002,6 +1020,7 @@ void FunctionRepo::setNonTranslatableFunctionUsages()
     FUNCTION_USAGE(gamma, "x");
     FUNCTION_USAGE(gcd, "n<sub>1</sub>; n<sub>2</sub>; ...");
     FUNCTION_USAGE(geomean, "x<sub>1</sub>; x<sub>2</sub>; ...");
+    FUNCTION_USAGE(gradians, "x");
     FUNCTION_USAGE(hex, "n");
     FUNCTION_USAGE(ieee754_half_decode, "x");
     FUNCTION_USAGE(ieee754_half_encode, "x");
@@ -1046,123 +1065,125 @@ void FunctionRepo::setNonTranslatableFunctionUsages()
 
 void FunctionRepo::setTranslatableFunctionUsages()
 {
-    FUNCTION_USAGE_TR(binomcdf, QString("max; trials; probability"));
-    FUNCTION_USAGE_TR(binommean, QString("trials; probability"));
-    FUNCTION_USAGE_TR(binompmf, QString("hits; trials; probability"));
-    FUNCTION_USAGE_TR(binomvar, QString("trials; probability"));
-    FUNCTION_USAGE_TR(hypercdf, QString("max; total; hits; trials"));
-    FUNCTION_USAGE_TR(hypermean, QString("total; hits; trials"));
-    FUNCTION_USAGE_TR(hyperpmf, QString("count; total; hits; trials"));
-    FUNCTION_USAGE_TR(hypervar, QString("total; hits; trials"));
-    FUNCTION_USAGE_TR(idiv, QString("dividend; divisor"));
-    FUNCTION_USAGE_TR(ieee754_decode, QString("x; exponent_bits; significand_bits [; exponent_bias]"));
-    FUNCTION_USAGE_TR(ieee754_encode, QString("x; exponent_bits; significand_bits [; exponent_bias]"));
-    FUNCTION_USAGE_TR(log, QString("base; x"));
-    FUNCTION_USAGE_TR(mask, QString("n; bits"));
-    FUNCTION_USAGE_TR(mod, QString("value; modulo"));
-    FUNCTION_USAGE_TR(poicdf, QString("events; average_events"));
-    FUNCTION_USAGE_TR(poimean, QString("average_events"));
-    FUNCTION_USAGE_TR(poipmf, QString("events; average_events"));
-    FUNCTION_USAGE_TR(poivar, QString("average_events"));
-    FUNCTION_USAGE_TR(round, QString("x [; precision]"));
-    FUNCTION_USAGE_TR(shl, QString("n; bits"));
-    FUNCTION_USAGE_TR(shr, QString("n; bits"));
-    FUNCTION_USAGE_TR(unmask, QString("n; bits"));
+    FUNCTION_USAGE_TR(binomcdf, tr("max; trials; probability"));
+    FUNCTION_USAGE_TR(binommean, tr("trials; probability"));
+    FUNCTION_USAGE_TR(binompmf, tr("hits; trials; probability"));
+    FUNCTION_USAGE_TR(binomvar, tr("trials; probability"));
+    FUNCTION_USAGE_TR(hypercdf, tr("max; total; hits; trials"));
+    FUNCTION_USAGE_TR(hypermean, tr("total; hits; trials"));
+    FUNCTION_USAGE_TR(hyperpmf, tr("count; total; hits; trials"));
+    FUNCTION_USAGE_TR(hypervar, tr("total; hits; trials"));
+    FUNCTION_USAGE_TR(idiv, tr("dividend; divisor"));
+    FUNCTION_USAGE_TR(ieee754_decode, tr("x; exponent_bits; significand_bits [; exponent_bias]"));
+    FUNCTION_USAGE_TR(ieee754_encode, tr("x; exponent_bits; significand_bits [; exponent_bias]"));
+    FUNCTION_USAGE_TR(log, tr("base; x"));
+    FUNCTION_USAGE_TR(mask, tr("n; bits"));
+    FUNCTION_USAGE_TR(mod, tr("value; modulo"));
+    FUNCTION_USAGE_TR(poicdf, tr("events; average_events"));
+    FUNCTION_USAGE_TR(poimean, tr("average_events"));
+    FUNCTION_USAGE_TR(poipmf, tr("events; average_events"));
+    FUNCTION_USAGE_TR(poivar, tr("average_events"));
+    FUNCTION_USAGE_TR(round, tr("x [; precision]"));
+    FUNCTION_USAGE_TR(shl, tr("n; bits"));
+    FUNCTION_USAGE_TR(shr, tr("n; bits"));
+    FUNCTION_USAGE_TR(unmask, tr("n; bits"));
 }
 
 void FunctionRepo::setFunctionNames()
 {
-    FUNCTION_NAME(abs, QString("Absolute Value"));
-    FUNCTION_NAME(absdev, QString("Absolute Deviation"));
-    FUNCTION_NAME(arccos, QString("Arc Cosine"));
-    FUNCTION_NAME(and, QString("Logical AND"));
-    FUNCTION_NAME(arcosh, QString("Area Hyperbolic Cosine"));
-    FUNCTION_NAME(arsinh, QString("Area Hyperbolic Sine"));
-    FUNCTION_NAME(artanh, QString("Area Hyperbolic Tangent"));
-    FUNCTION_NAME(arcsin, QString("Arc Sine"));
-    FUNCTION_NAME(arctan, QString("Arc Tangent"));
-    FUNCTION_NAME(arctan2, QString("Arc Tangent with two Arguments"));
-    FUNCTION_NAME(average, QString("Average (Arithmetic Mean)"));
-    FUNCTION_NAME(bin, QString("Convert to Binary Representation"));
-    FUNCTION_NAME(binomcdf, QString("Binomial Cumulative Distribution Function"));
-    FUNCTION_NAME(binommean, QString("Binomial Distribution Mean"));
-    FUNCTION_NAME(binompmf, QString("Binomial Probability Mass Function"));
-    FUNCTION_NAME(binomvar, QString("Binomial Distribution Variance"));
-    FUNCTION_NAME(cart, QString("Convert to Cartesian Notation"));
-    FUNCTION_NAME(cbrt, QString("Cube Root"));
-    FUNCTION_NAME(ceil, QString("Ceiling"));
-    FUNCTION_NAME(cos, QString("Cosine"));
-    FUNCTION_NAME(cosh, QString("Hyperbolic Cosine"));
-    FUNCTION_NAME(cot, QString("Cotangent"));
-    FUNCTION_NAME(csc, QString("Cosecant"));
-    FUNCTION_NAME(dec, QString("Convert to Decimal Representation"));
-    FUNCTION_NAME(degrees, QString("Degrees of Arc"));
-    FUNCTION_NAME(erf, QString("Error Function"));
-    FUNCTION_NAME(erfc, QString("Complementary Error Function"));
-    FUNCTION_NAME(exp, QString("Exponential"));
-    FUNCTION_NAME(floor, QString("Floor"));
-    FUNCTION_NAME(frac, QString("Fractional Part"));
-    FUNCTION_NAME(gamma, QString("Extension of Factorials [= (x-1)!]"));
-    FUNCTION_NAME(gcd, QString("Greatest Common Divisor"));
-    FUNCTION_NAME(geomean, QString("Geometric Mean"));
-    FUNCTION_NAME(hex, QString("Convert to Hexadecimal Representation"));
-    FUNCTION_NAME(hypercdf, QString("Hypergeometric Cumulative Distribution Function"));
-    FUNCTION_NAME(hypermean, QString("Hypergeometric Distribution Mean"));
-    FUNCTION_NAME(hyperpmf, QString("Hypergeometric Probability Mass Function"));
-    FUNCTION_NAME(hypervar, QString("Hypergeometric Distribution Variance"));
-    FUNCTION_NAME(idiv, QString("Integer Quotient"));
-    FUNCTION_NAME(int, QString("Integer Part"));
-    FUNCTION_NAME(imag, QString("Imaginary Part"));
-    FUNCTION_NAME(ieee754_decode, QString("Decode IEEE-754 Binary Value"));
-    FUNCTION_NAME(ieee754_encode, QString("Encode IEEE-754 Binary Value"));
-    FUNCTION_NAME(ieee754_half_decode, QString("Decode 16-bit Half-Precision Value"));
-    FUNCTION_NAME(ieee754_half_encode, QString("Encode 16-bit Half-Precision Value"));
-    FUNCTION_NAME(ieee754_single_decode, QString("Decode 32-bit Single-Precision Value"));
-    FUNCTION_NAME(ieee754_single_encode, QString("Encode 32-bit Single-Precision Value"));
-    FUNCTION_NAME(ieee754_double_decode, QString("Decode 64-bit Double-Precision Value"));
-    FUNCTION_NAME(ieee754_double_encode, QString("Encode 64-bit Double-Precision Value"));
-    FUNCTION_NAME(ieee754_quad_decode, QString("Decode 128-bit Quad-Precision Value"));
-    FUNCTION_NAME(ieee754_quad_encode, QString("Encode 128-bit Quad-Precision Value"));
-    FUNCTION_NAME(lb, QString("Binary Logarithm"));
-    FUNCTION_NAME(lg, QString("Common Logarithm"));
-    FUNCTION_NAME(ln, QString("Natural Logarithm"));
+    FUNCTION_NAME(abs, tr("Absolute Value"));
+    FUNCTION_NAME(absdev, tr("Absolute Deviation"));
+    FUNCTION_NAME(arccos, tr("Arc Cosine"));
+    FUNCTION_NAME(and, tr("Logical AND"));
+    FUNCTION_NAME(arcosh, tr("Area Hyperbolic Cosine"));
+    FUNCTION_NAME(arsinh, tr("Area Hyperbolic Sine"));
+    FUNCTION_NAME(artanh, tr("Area Hyperbolic Tangent"));
+    FUNCTION_NAME(arcsin, tr("Arc Sine"));
+    FUNCTION_NAME(arctan, tr("Arc Tangent"));
+    FUNCTION_NAME(arctan2, tr("Arc Tangent with two Arguments"));
+    FUNCTION_NAME(average, tr("Average (Arithmetic Mean)"));
+    FUNCTION_NAME(bin, tr("Convert to Binary Representation"));
+    FUNCTION_NAME(binomcdf, tr("Binomial Cumulative Distribution Function"));
+    FUNCTION_NAME(binommean, tr("Binomial Distribution Mean"));
+    FUNCTION_NAME(binompmf, tr("Binomial Probability Mass Function"));
+    FUNCTION_NAME(binomvar, tr("Binomial Distribution Variance"));
+    FUNCTION_NAME(cart, tr("Convert to Cartesian Notation"));
+    FUNCTION_NAME(cbrt, tr("Cube Root"));
+    FUNCTION_NAME(ceil, tr("Ceiling"));
+    FUNCTION_NAME(conj, tr("Complex Conjugate"));
+    FUNCTION_NAME(cos, tr("Cosine"));
+    FUNCTION_NAME(cosh, tr("Hyperbolic Cosine"));
+    FUNCTION_NAME(cot, tr("Cotangent"));
+    FUNCTION_NAME(csc, tr("Cosecant"));
+    FUNCTION_NAME(dec, tr("Convert to Decimal Representation"));
+    FUNCTION_NAME(degrees, tr("Degrees of Arc"));
+    FUNCTION_NAME(erf, tr("Error Function"));
+    FUNCTION_NAME(erfc, tr("Complementary Error Function"));
+    FUNCTION_NAME(exp, tr("Exponential"));
+    FUNCTION_NAME(floor, tr("Floor"));
+    FUNCTION_NAME(frac, tr("Fractional Part"));
+    FUNCTION_NAME(gamma, tr("Extension of Factorials [= (x-1)!]"));
+    FUNCTION_NAME(gcd, tr("Greatest Common Divisor"));
+    FUNCTION_NAME(geomean, tr("Geometric Mean"));
+    FUNCTION_NAME(gradians, tr("Gradians of arc"));
+    FUNCTION_NAME(hex, tr("Convert to Hexadecimal Representation"));
+    FUNCTION_NAME(hypercdf, tr("Hypergeometric Cumulative Distribution Function"));
+    FUNCTION_NAME(hypermean, tr("Hypergeometric Distribution Mean"));
+    FUNCTION_NAME(hyperpmf, tr("Hypergeometric Probability Mass Function"));
+    FUNCTION_NAME(hypervar, tr("Hypergeometric Distribution Variance"));
+    FUNCTION_NAME(idiv, tr("Integer Quotient"));
+    FUNCTION_NAME(int, tr("Integer Part"));
+    FUNCTION_NAME(imag, tr("Imaginary Part"));
+    FUNCTION_NAME(ieee754_decode, tr("Decode IEEE-754 Binary Value"));
+    FUNCTION_NAME(ieee754_encode, tr("Encode IEEE-754 Binary Value"));
+    FUNCTION_NAME(ieee754_half_decode, tr("Decode 16-bit Half-Precision Value"));
+    FUNCTION_NAME(ieee754_half_encode, tr("Encode 16-bit Half-Precision Value"));
+    FUNCTION_NAME(ieee754_single_decode, tr("Decode 32-bit Single-Precision Value"));
+    FUNCTION_NAME(ieee754_single_encode, tr("Encode 32-bit Single-Precision Value"));
+    FUNCTION_NAME(ieee754_double_decode, tr("Decode 64-bit Double-Precision Value"));
+    FUNCTION_NAME(ieee754_double_encode, tr("Encode 64-bit Double-Precision Value"));
+    FUNCTION_NAME(ieee754_quad_decode, tr("Decode 128-bit Quad-Precision Value"));
+    FUNCTION_NAME(ieee754_quad_encode, tr("Encode 128-bit Quad-Precision Value"));
+    FUNCTION_NAME(lb, tr("Binary Logarithm"));
+    FUNCTION_NAME(lg, tr("Common Logarithm"));
+    FUNCTION_NAME(ln, tr("Natural Logarithm"));
     FUNCTION_NAME(lngamma, "ln(abs(Gamma))");
-    FUNCTION_NAME(log, QString("Logarithm to Arbitrary Base"));
-    FUNCTION_NAME(mask, QString("Mask to a bit size"));
-    FUNCTION_NAME(max, QString("Maximum"));
-    FUNCTION_NAME(median, QString("Median Value (50th Percentile)"));
-    FUNCTION_NAME(min, QString("Minimum"));
-    FUNCTION_NAME(mod, QString("Modulo"));
-    FUNCTION_NAME(ncr, QString("Combination (Binomial Coefficient)"));
-    FUNCTION_NAME(not, QString("Logical NOT"));
-    FUNCTION_NAME(npr, QString("Permutation (Arrangement)"));
-    FUNCTION_NAME(oct, QString("Convert to Octal Representation"));
-    FUNCTION_NAME(or, QString("Logical OR"));
-    FUNCTION_NAME(phase, QString("Phase of Complex Number"));
-    FUNCTION_NAME(poicdf, QString("Poissonian Cumulative Distribution Function"));
-    FUNCTION_NAME(poimean, QString("Poissonian Distribution Mean"));
-    FUNCTION_NAME(poipmf, QString("Poissonian Probability Mass Function"));
-    FUNCTION_NAME(poivar, QString("Poissonian Distribution Variance"));
-    FUNCTION_NAME(polar, QString("Convert to Polar Notation"));
-    FUNCTION_NAME(product, QString("Product"));
-    FUNCTION_NAME(radians, QString("Radians"));
-    FUNCTION_NAME(real, QString("Real Part"));
-    FUNCTION_NAME(round, QString("Rounding"));
-    FUNCTION_NAME(sec, QString("Secant"));
-    FUNCTION_NAME(shl, QString("Arithmetic Shift Left"));
-    FUNCTION_NAME(shr, QString("Arithmetic Shift Right"));
-    FUNCTION_NAME(sgn, QString("Signum"));
-    FUNCTION_NAME(sin, QString("Sine"));
-    FUNCTION_NAME(sinh, QString("Hyperbolic Sine"));
-    FUNCTION_NAME(sqrt, QString("Square Root"));
-    FUNCTION_NAME(stddev, QString("Standard Deviation (Square Root of Variance)"));
-    FUNCTION_NAME(sum, QString("Sum"));
-    FUNCTION_NAME(tan, QString("Tangent"));
-    FUNCTION_NAME(tanh, QString("Hyperbolic Tangent"));
-    FUNCTION_NAME(trunc, QString("Truncation"));
-    FUNCTION_NAME(unmask, QString("Sign-extend a value"));
-    FUNCTION_NAME(variance, QString("Variance"));
-    FUNCTION_NAME(xor, QString("Logical XOR"));
+    FUNCTION_NAME(log, tr("Logarithm to Arbitrary Base"));
+    FUNCTION_NAME(mask, tr("Mask to a bit size"));
+    FUNCTION_NAME(max, tr("Maximum"));
+    FUNCTION_NAME(median, tr("Median Value (50th Percentile)"));
+    FUNCTION_NAME(min, tr("Minimum"));
+    FUNCTION_NAME(mod, tr("Modulo"));
+    FUNCTION_NAME(ncr, tr("Combination (Binomial Coefficient)"));
+    FUNCTION_NAME(not, tr("Logical NOT"));
+    FUNCTION_NAME(npr, tr("Permutation (Arrangement)"));
+    FUNCTION_NAME(oct, tr("Convert to Octal Representation"));
+    FUNCTION_NAME(or, tr("Logical OR"));
+    FUNCTION_NAME(phase, tr("Phase of Complex Number"));
+    FUNCTION_NAME(poicdf, tr("Poissonian Cumulative Distribution Function"));
+    FUNCTION_NAME(poimean, tr("Poissonian Distribution Mean"));
+    FUNCTION_NAME(poipmf, tr("Poissonian Probability Mass Function"));
+    FUNCTION_NAME(poivar, tr("Poissonian Distribution Variance"));
+    FUNCTION_NAME(polar, tr("Convert to Polar Notation"));
+    FUNCTION_NAME(product, tr("Product"));
+    FUNCTION_NAME(radians, tr("Radians"));
+    FUNCTION_NAME(real, tr("Real Part"));
+    FUNCTION_NAME(round, tr("Rounding"));
+    FUNCTION_NAME(sec, tr("Secant"));
+    FUNCTION_NAME(shl, tr("Arithmetic Shift Left"));
+    FUNCTION_NAME(shr, tr("Arithmetic Shift Right"));
+    FUNCTION_NAME(sgn, tr("Signum"));
+    FUNCTION_NAME(sin, tr("Sine"));
+    FUNCTION_NAME(sinh, tr("Hyperbolic Sine"));
+    FUNCTION_NAME(sqrt, tr("Square Root"));
+    FUNCTION_NAME(stddev, tr("Standard Deviation (Square Root of Variance)"));
+    FUNCTION_NAME(sum, tr("Sum"));
+    FUNCTION_NAME(tan, tr("Tangent"));
+    FUNCTION_NAME(tanh, tr("Hyperbolic Tangent"));
+    FUNCTION_NAME(trunc, tr("Truncation"));
+    FUNCTION_NAME(unmask, tr("Sign-extend a value"));
+    FUNCTION_NAME(variance, tr("Variance"));
+    FUNCTION_NAME(xor, tr("Logical XOR"));
 }
 
 void FunctionRepo::retranslateText()

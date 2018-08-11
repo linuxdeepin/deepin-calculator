@@ -1,5 +1,5 @@
 // This file is part of the SpeedCrunch project
-// Copyright (C) 2015 Pol Welter <polwelter@gmail.com>
+// Copyright (C) 2014-2016 @heldercorreia
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -16,36 +16,29 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#ifndef CORE_PAGESERVER_H
+#define CORE_PAGESERVER_H
 
-#ifndef CORE_SESSIONHISTORY_H
-#define CORE_SESSIONHISTORY_H
-
-#include <QJsonArray>
+#include <QHash>
+#include <QObject>
 #include <QString>
-#include <QList>
 
-#include "math/quantity.h"
-
-
-class HistoryEntry
-{
-private:
-    QString m_expr;
-    Quantity m_result;
+class PageServer : public QObject {
+    Q_OBJECT
 public:
-    HistoryEntry() : m_expr(""), m_result(0) {}
-    HistoryEntry(const QJsonObject & json);
-    HistoryEntry(const QString & expr, const Quantity & num) : m_expr(expr), m_result(num) {}
-    HistoryEntry(const HistoryEntry & other) :  m_expr(other.m_expr), m_result(other.m_result) {}
+    explicit PageServer(QObject* parent = 0) : QObject(parent) { }
+    QString getPageContent(const QString& id);
+    QString getCurrentPageContent();
 
-    void setExpr(const QString & e);
-    void setResult(const Quantity & n);
+protected:
+    typedef QString (*PageMaker)();
+    void addPage(const QString& id, PageMaker maker) { m_toc[id] = maker; }
+    virtual void createPages() = 0;
 
-    QString expr() const;
-    Quantity result() const;
-
-    void serialize(QJsonObject & json) const;
-    void deSerialize(const QJsonObject & json);
+private:
+    Q_DISABLE_COPY(PageServer)
+    QHash<QString, PageMaker> m_toc;
+    QString m_currentPageID;
 };
 
-#endif // CORE_SESSIONHISTORY_H
+#endif // CORE_PAGESERVER_H

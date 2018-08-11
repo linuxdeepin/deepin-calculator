@@ -19,7 +19,7 @@
 #ifndef CORE_SESSION_H
 #define CORE_SESSION_H
 
-#include "../math/hmath.h"
+#include "math/hmath.h"
 #include "sessionhistory.h"
 #include "variable.h"
 #include "userfunction.h"
@@ -27,8 +27,6 @@
 #include <QHash>
 #include <QString>
 #include <QJsonArray>
-
-
 
 class Session {
 private:

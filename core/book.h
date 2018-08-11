@@ -1,7 +1,5 @@
 // This file is part of the SpeedCrunch project
-// Copyright (C) 2004 Ariya Hidayat <ariya@kde.org>
-// Copyright (C) 2008, 2009, 2010, 2013 @heldercorreia
-// Copyright (C) 2015 Pol Welter <polwelter@gmail.com>
+// Copyright (C) 2013, 2014 @heldercorreia
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -18,29 +16,20 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#ifndef CORE_OPCODE_H
-#define CORE_OPCODE_H
+#ifndef CORE_BOOK_H
+#define CORE_BOOK_H
 
-#include<QString>
+#include "core/pageserver.h"
 
+class Book : public PageServer {
+    Q_OBJECT
 
-class Opcode
-{
 public:
-    enum  Type { Nop, Load, Ref, Function, Add, Sub, Neg, Mul, Div, Pow,
-           Fact, Modulo, IntDiv, LSh, RSh, BAnd, BOr, Conv };
+    explicit Book(QObject* parent = 0) : PageServer(parent) { createPages(); }
+    virtual void createPages();
 
-    Type type;
-    unsigned index;
-
-    // TODO: this is only needed for Conv Op. Maybe refactor this to a smarter place?
-    // TODO: only keep a pointer to the string
-    QString text;
-
-    Opcode() : type(Nop), index(0) {}
-    Opcode(Type t) : type(t), index(0) {}
-    Opcode(Type t, QString txt) : type(t), index(0), text(txt) {}
-    Opcode(Type t, unsigned i): type(t), index(i) {}
+private:
+    Q_DISABLE_COPY(Book)
 };
 
-#endif // CORE_OPCODE_H
+#endif // CORE_BOOK_H

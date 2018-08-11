@@ -26,7 +26,6 @@
 
 InputEdit::InputEdit(QWidget *parent)
     : QLineEdit(parent),
-      m_settings(Settings::instance()),
       m_ans(0),
       m_ansStartPos(0),
       m_ansLength(0),

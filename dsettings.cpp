@@ -17,34 +17,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "settings.h"
+#include "dsettings.h"
 #include "utils.h"
 #include <QDir>
 
-static Settings *INSTANCE = 0;
+static DSettings *INSTANCE = 0;
 
-Settings* Settings::instance()
+DSettings* DSettings::instance()
 {
     if (!INSTANCE) {
-        INSTANCE = new Settings;
+        INSTANCE = new DSettings;
     }
 
     return INSTANCE;
 }
 
-Settings::Settings(QObject *parent)
+DSettings::DSettings(QObject *parent)
     : QObject(parent),
       m_settings(new QSettings(QDir(Utils::getConfigDir()).filePath("config.config") ,QSettings::IniFormat))
 {
     initConfig();
 }
 
-Settings::~Settings()
+DSettings::~DSettings()
 {
     delete m_settings;
 }
 
-void Settings::initConfig()
+void DSettings::initConfig()
 {
     if (m_settings->value("theme").toString().isEmpty()) {
         setOption("theme", "light");
@@ -55,12 +55,12 @@ void Settings::initConfig()
     }
 }
 
-QVariant Settings::getOption(const QString &key)
+QVariant DSettings::getOption(const QString &key)
 {
     return m_settings->value(key);
 }
 
-void Settings::setOption(const QString &key, const QVariant &value)
+void DSettings::setOption(const QString &key, const QVariant &value)
 {
     m_settings->setValue(key, value);
 }

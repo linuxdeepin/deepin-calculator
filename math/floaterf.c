@@ -215,9 +215,9 @@ erfcsum(floatnum x, /* should be the square of the parameter to erfc */
    convergence rate pushes the validity range of the series towards
    larger x.
    Here, the convergence rate is chosen to be 0.5, meaning that the
-   addition of a summand from the series at least halves the magnitude
+   addition of a summand from the series at least halfs the magnitude
    of the tail of the series.
-   The evaluation is carried out in low precision using integer
+   The evaluation is carried out in low precision using interger
    arithmetic rather than floating point data.
    For a 100 digit result the lower boundary of the range of the
    asymptotic series (truncated when the convergence rate falls below 0.5)

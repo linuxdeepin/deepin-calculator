@@ -1,5 +1,5 @@
 // This file is part of the SpeedCrunch project
-// Copyright (C) 2015 Pol Welter <polwelter@gmail.com>
+// Copyright (C) 2016 Pol Welter <polwelter@gmail.com>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -16,36 +16,44 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#ifndef CORE_MANUALSERVER_H
+#define CORE_MANUALSERVER_H
 
-#ifndef CORE_SESSIONHISTORY_H
-#define CORE_SESSIONHISTORY_H
+#include <QObject>
+#include <QMap>
 
-#include <QJsonArray>
-#include <QString>
-#include <QList>
+class QHelpEngineCore;
 
-#include "math/quantity.h"
+class QCloseEvent;
+class QUrl;
+class QString;
+class QByteArray;
 
+class ManualServer : public QObject {
+    Q_OBJECT
 
-class HistoryEntry
-{
 private:
-    QString m_expr;
-    Quantity m_result;
+    QString deployDocs();
+    void setupHelpEngine();
+
 public:
-    HistoryEntry() : m_expr(""), m_result(0) {}
-    HistoryEntry(const QJsonObject & json);
-    HistoryEntry(const QString & expr, const Quantity & num) : m_expr(expr), m_result(num) {}
-    HistoryEntry(const HistoryEntry & other) :  m_expr(other.m_expr), m_result(other.m_result) {}
+    static ManualServer* instance();
+    bool URLforKeyword(const QString id, QUrl &result);
+    QByteArray fileData(const QUrl &url);
+    bool isSupportedLanguage(const QString&);
 
-    void setExpr(const QString & e);
-    void setResult(const Quantity & n);
+public slots:
+    void ensureCorrectLanguage();
 
-    QString expr() const;
-    Quantity result() const;
+private:
+    ManualServer();
+    Q_DISABLE_COPY(ManualServer)
 
-    void serialize(QJsonObject & json) const;
-    void deSerialize(const QJsonObject & json);
+    void languageChanged();
+
+    QHelpEngineCore *m_helpEngine;
+    static ManualServer* s_instance;
+    QString m_deployedLanguage;
 };
 
-#endif // CORE_SESSIONHISTORY_H
+#endif // CORE_MANUALSERVER_H

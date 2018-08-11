@@ -131,6 +131,8 @@ public:
     // GENERAL MATH
     static CNumber rad2deg(const CNumber&);
     static CNumber deg2rad(const CNumber&);
+    static CNumber rad2gon(const CNumber&);
+    static CNumber gon2rad(const CNumber&);
     static CNumber abs(const CNumber&);
     static CNumber integer(const CNumber&);
     static CNumber frac(const CNumber&);
@@ -160,6 +162,7 @@ public:
     // COMPLEX SPECIFIC
     static CNumber real(const CNumber& x) {return x.real;}
     static CNumber imag(const CNumber& x) {return x.imag;}
+    static CNumber conj(const CNumber& x);
     static CNumber phase(const CNumber&);
     // TRIGONOMETRY
     static CNumber sin(const CNumber&);

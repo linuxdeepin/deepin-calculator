@@ -23,15 +23,15 @@
 #include <QObject>
 #include <QSettings>
 
-class Settings : public QObject
+class DSettings : public QObject
 {
     Q_OBJECT
 
 public:
-    static Settings *instance();
+    static DSettings *instance();
 
-    Settings(QObject *parent = nullptr);
-    ~Settings();
+    DSettings(QObject *parent = nullptr);
+    ~DSettings();
 
     void initConfig();
     QVariant getOption(const QString &key);

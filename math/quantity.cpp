@@ -352,7 +352,7 @@ Quantity Quantity::deSerialize(const QJsonObject& json)
     if (json.contains("dimension")) {
         QJsonObject dim_json = json["dimension"].toObject();
         for (int i = 0; i < dim_json.count(); ++i) {
-            auto key = dim_json.keys()[i];
+            auto key = dim_json.keys().at(i);
             Rational val(dim_json[key].toString());
             result.modifyDimension(key, val);
         }
@@ -760,6 +760,8 @@ Quantity DMath::nan(Error error)
 
 WRAPPER_DMATH_1(rad2deg)
 WRAPPER_DMATH_1(deg2rad)
+WRAPPER_DMATH_1(rad2gon)
+WRAPPER_DMATH_1(gon2rad)
 WRAPPER_DMATH_1(integer)
 WRAPPER_DMATH_1(frac)
 WRAPPER_DMATH_1(floor)
@@ -834,6 +836,7 @@ WRAPPER_DMATH_2(ashr)
 WRAPPER_DMATH_3(decodeIeee754)
 WRAPPER_DMATH_4(decodeIeee754)
 
+
 QString DMath::format(Quantity q, Quantity::Format format)
 {
     format = q.format() + format;  // Left hand side oerator takes priority.
@@ -850,8 +853,6 @@ QString DMath::format(Quantity q, Quantity::Format format)
     number /= unit;
 
     QString result = CMath::format(number, format);
-    // rekols mark.
-    // TODO: add thousands separators.
 
     if (!number.real.isZero() && !number.imag.isZero() && unit_name != " ")
         result = "(" + result + ")";
@@ -873,6 +874,17 @@ Quantity DMath::imag(const Quantity& x)
 {
     Quantity result(x);
     result.m_numericValue = result.m_numericValue.imag;
+    return result;
+}
+
+Quantity DMath::conj(const Quantity& n)
+{
+    Quantity result = Quantity(n);
+    // If in Real mode, just strip the imaginary part.
+    result.m_numericValue = complexMode ?
+        CMath::conj(result.m_numericValue)
+        : CMath::real(result.m_numericValue);
+
     return result;
 }
 

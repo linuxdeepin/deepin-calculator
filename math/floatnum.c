@@ -76,7 +76,7 @@ _memskip(
 }
 
 /* scans a value in a bc-num (or part of it) for the first
-   occurrence of a digit *different* from <digit>. The scan
+   occurence of a digit *different* from <digit>. The scan
    is limited to <count> bytes. Returns the offset of the
    matching byte, or <count>, if none was found */
 static int
@@ -422,8 +422,8 @@ _bscandigit(
   return scale - (p - ps);
 }
 
-/* scans two significands for the first occurrence
-   of a pair of different digits. Returns the number
+/* scans two significands for the first occurence
+   of a pair of differnt digits. Returns the number
    of equal digits at the beginning */
 static int
 _scan_equal(

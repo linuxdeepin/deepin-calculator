@@ -154,6 +154,8 @@ public:
     // GENERAL MATH
     static Quantity rad2deg(const Quantity&);
     static Quantity deg2rad(const Quantity&);
+    static Quantity rad2gon(const Quantity&);
+    static Quantity gon2rad(const Quantity&);
     static Quantity abs(const Quantity&);
     static Quantity integer(const Quantity&);
     static Quantity frac(const Quantity&);
@@ -183,6 +185,7 @@ public:
     // COMPLEX
     static Quantity real(const Quantity&);
     static Quantity imag(const Quantity&);
+    static Quantity conj(const Quantity&);
     static Quantity phase(const Quantity&);
     // TRIGONOMETRY
     static Quantity sin(const Quantity&);

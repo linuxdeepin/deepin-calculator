@@ -26,7 +26,7 @@
                 Computer Science Department, 9062
                 Western Washington University
                 Bellingham, WA 98226-9062
-
+       
 *************************************************************************/
 
 #ifndef _NUMBER_H_
@@ -36,7 +36,7 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif 
 
 #undef _PROTOTYPE
 

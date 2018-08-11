@@ -139,6 +139,8 @@ public:
     // GENERAL MATH
     static HNumber rad2deg(const HNumber&);
     static HNumber deg2rad(const HNumber&);
+    static HNumber rad2gon(const HNumber&);
+    static HNumber gon2rad(const HNumber&);
     static HNumber max(const HNumber&, const HNumber&);
     static HNumber min(const HNumber&, const HNumber&);
     static HNumber abs(const HNumber&);

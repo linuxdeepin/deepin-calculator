@@ -27,9 +27,15 @@
 #include <QtCore/QStringList>
 #include <QtCore/QList>
 
-class CoreSettings {
+class Settings {
 public:
-    static CoreSettings* instance();
+    static Settings* instance();
+    static QString getConfigPath();
+    static QString getDataPath();
+    static QString getCachePath();
+
+    void load();
+    void save();
 
     char radixCharacter() const; // 0 or '*': Automatic.
     void setRadixCharacter(char c = 0);
@@ -38,7 +44,7 @@ public:
 
     bool complexNumbers;
 
-    char angleUnit; // 'r': radian; 'd': degree.
+    char angleUnit; // 'r': radian; 'd': degree; 'g': gradian.
 
     char resultFormat;
     int resultPrecision; // See HMath documentation.
@@ -76,8 +82,8 @@ public:
     QByteArray manualWindowGeometry;
 
 private:
-    CoreSettings();
-    Q_DISABLE_COPY(CoreSettings)
+    Settings();
+    Q_DISABLE_COPY(Settings)
 };
 
 #endif

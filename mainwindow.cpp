@@ -30,7 +30,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent),
-      m_settings(Settings::instance()),
+      m_settings(DSettings::instance()),
       m_mainLayout(new QStackedLayout),
       m_tbMenu(new QMenu)
 {

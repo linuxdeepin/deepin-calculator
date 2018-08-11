@@ -48,7 +48,7 @@
    a rough estimate of lowgamma(a, z), diverging for fixed non-positive 'a*
    and z -> 0.
    Since z^a is true complex for real z < 0, lowgamma cannot be continued
-   in the real number domain accros the critical line, except for 'a' a
+   in the real number domain accross the critical line, except for 'a' a
    negative integer.
 
    reglowgammanearpole computes

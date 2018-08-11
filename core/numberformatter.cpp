@@ -17,51 +17,65 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#include "../core/numberformatter.h"
+#include "core/numberformatter.h"
 
-#include "core/coresettings.h"
-#include "../math/quantity.h"
+#include "core/settings.h"
+#include "math/quantity.h"
 
 QString NumberFormatter::format(Quantity q)
 {
-    CoreSettings* settings = CoreSettings::instance();
+    Settings* settings = Settings::instance();
 
     Quantity::Format format = q.format();
     if (format.base == Quantity::Format::Base::Null) {
         switch (settings->resultFormat) {
         case 'b':
             format.base = Quantity::Format::Base::Binary;
-            format.mode = Quantity::Format::Mode::Fixed;
             break;
         case 'o':
             format.base = Quantity::Format::Base::Octal;
-            format.mode = Quantity::Format::Mode::Fixed;
             break;
         case 'h':
             format.base = Quantity::Format::Base::Hexadecimal;
-            format.mode = Quantity::Format::Mode::Fixed;
             break;
         case 'n':
             format.base = Quantity::Format::Base::Decimal;
-            format.mode = Quantity::Format::Mode::Engineering;
             break;
         case 'f':
             format.base = Quantity::Format::Base::Decimal;
-            format.mode = Quantity::Format::Mode::Fixed;
             break;
         case 'e':
             format.base = Quantity::Format::Base::Decimal;
-            format.mode = Quantity::Format::Mode::Scientific;
             break;
         case 'g':
         default:
             format.base = Quantity::Format::Base::Decimal;
-            format.mode = Quantity::Format::Mode::General;
             break;
         }
     }
-    if (format.mode == Quantity::Format::Mode::Null)
-        format.mode = Quantity::Format::Mode::General;
+
+    if (format.mode == Quantity::Format::Mode::Null) {
+        if (format.base == Quantity::Format::Base::Decimal) {
+          switch (settings->resultFormat) {
+          case 'n':
+              format.mode = Quantity::Format::Mode::Engineering;
+              break;
+          case 'f':
+              format.mode = Quantity::Format::Mode::Fixed;
+              break;
+          case 'e':
+              format.mode = Quantity::Format::Mode::Scientific;
+              break;
+          case 'g':
+          default:
+              format.mode = Quantity::Format::Mode::General;
+              break;
+          }
+        } else {
+            format.mode = Quantity::Format::Mode::Fixed;
+        }
+    }
+
     if (format.precision == Quantity::Format::PrecisionNull)
         format.precision = settings->resultPrecision;
     if (format.notation == Quantity::Format::Notation::Null) {
@@ -75,6 +89,18 @@ QString NumberFormatter::format(Quantity q)
 
     if (settings->radixCharacter() == ',')
         result.replace('.', ',');
+
+    result.replace('-', QString::fromUtf8("−"));
+
+    // Replace all spaces between units with dot operator.
+    int emptySpaces = 0;
+    for (auto& ch : result) {
+        if (ch.isSpace()) {
+            ++emptySpaces;
+            if (emptySpaces > 1)
+                ch = u'⋅';
+        }
+    }
 
     return result;
 }

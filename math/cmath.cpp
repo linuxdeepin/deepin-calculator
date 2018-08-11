@@ -462,7 +462,7 @@ QString CMath::format(const CNumber& cn, CNumber::Format format)
         if (phase.isZero())
             return strRadius;
         QString strPhase = HMath::format(phase, format);
-        return QString("%1 * exp(j*%2)").arg(strRadius).arg(strPhase);
+        return QString("%1 * exp(j*%2)").arg(strRadius, strPhase);
     } else {
         QString real_part = cn.real.isZero()? "" : HMath::format(cn.real, format);
         QString imag_part = "";
@@ -487,6 +487,14 @@ QString CMath::format(const CNumber& cn, CNumber::Format format)
 CNumber CMath::abs(const CNumber& n)
 {
     return HMath::sqrt(n.real * n.real + n.imag * n.imag);
+}
+
+/*
+ * Returns the complex conjugate of n
+ */
+CNumber CMath::conj(const CNumber& n)
+{
+    return CNumber(n.real, -n.imag);
 }
 
 /**
@@ -517,11 +525,8 @@ CNumber CMath::raise(const CNumber& n1, int n)
  */
 CNumber CMath::raise(const CNumber& n1, const CNumber& n2)
 {
-    if (n1.isReal() && n2.isReal())
-        return CNumber(HMath::raise(n1.real, n2.real));
     if (n1.isZero() && (n2.real > 0))
-        return CNumber(0);
-
+      return CNumber(0);
     return CMath::exp(CMath::ln(n1) * n2);
 }
 
@@ -680,7 +685,6 @@ CNumber CMath::phase(const CNumber& x)
     return HMath::arctan2(x.real, x.imag);
 }
 
-
 /**
  * Returns the arc tangent of x.
  */
@@ -703,6 +707,42 @@ CNumber CMath::arcsin(const CNumber& x)
 CNumber CMath::arccos(const CNumber& x)
 {
     return -CMath::i() * CMath::ln(x + sqrt(x * x - CNumber(1)));
+}
+
+/**
+ * Converts an angle from radians to degrees.
+ * Also accepts complex arguments.
+ */
+CNumber CMath::rad2deg(const CNumber& x)
+{
+    return CNumber(HMath::rad2deg(x.real), HMath::rad2deg(x.imag));
+}
+
+/**
+ * Converts an angle from degrees to radians.
+ * Also accepts complex arguments.
+ */
+CNumber CMath::deg2rad(const CNumber& x)
+{
+    return CNumber(HMath::deg2rad(x.real), HMath::deg2rad(x.imag));
+}
+
+/**
+ * Converts an angle from radians to gons.
+ * Also accepts complex arguments.
+ */
+CNumber CMath::rad2gon(const CNumber& x)
+{
+    return CNumber(HMath::rad2gon(x.real), HMath::rad2gon(x.imag));
+}
+
+/**
+ * Converts an angle from gons to radians.
+ * Also accepts complex arguments.
+ */
+CNumber CMath::gon2rad(const CNumber& x)
+{
+    return CNumber(HMath::gon2rad(x.real), HMath::gon2rad(x.imag));
 }
 
 // Wrappers towards functions defined only on real numbers
@@ -805,8 +845,6 @@ REAL_WRAPPER_CNUMBER_1(operator~, OutOfLogicRange)
 REAL_WRAPPER_CNUMBER_2(operator>>, OutOfLogicRange)
 REAL_WRAPPER_CNUMBER_2(operator<<, OutOfLogicRange)
 // CMath GENERAL MATH
-REAL_WRAPPER_CMATH_NUM(rad2deg, OutOfDomain)
-REAL_WRAPPER_CMATH_NUM(deg2rad, OutOfDomain)
 REAL_WRAPPER_CMATH_NUM(integer, OutOfDomain)
 REAL_WRAPPER_CMATH_NUM(frac, OutOfDomain)
 REAL_WRAPPER_CMATH_NUM(floor, OutOfDomain)

@@ -20,6 +20,7 @@
 
 #include "variable.h"
 
+
 Variable::Variable(const QJsonObject &json)
 {
     deSerialize(json);

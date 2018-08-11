@@ -21,7 +21,6 @@
 #define INPUTEDIT_H
 
 #include <QLineEdit>
-#include "../settings.h"
 #include "../math/quantity.h"
 
 class InputEdit : public QLineEdit
@@ -52,7 +51,6 @@ private slots:
     void handleCursorPositionChanged(int oldPos, int newPos);
 
 private:
-    Settings *m_settings;
     Quantity m_ans;
     int m_ansStartPos;
     int m_ansLength;

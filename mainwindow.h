@@ -25,7 +25,7 @@
 #include <QMenu>
 
 #include "modules/basicmodule.h"
-#include "settings.h"
+#include "dsettings.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -48,7 +48,7 @@ private:
     void switchToScientificMode();
 
 private:
-    Settings *m_settings;
+    DSettings *m_settings;
     QStackedLayout *m_mainLayout;
     QMenu *m_tbMenu;
     QAction *m_themeAction;
