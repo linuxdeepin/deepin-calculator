@@ -76,7 +76,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     }
 
     int equalStrWidth = painter->fontMetrics().width(" ＝ ");
-    int rightPadding = (index.data(SimpleListModel::Size).toInt() > 3) ? 0 : 12;
+    int rightPadding = (index.data(SimpleListModel::ExpressionCount).toInt() > 3) ? 0 : 12;
     QString expStr = painter->fontMetrics().elidedText(splitList.first(), Qt::ElideLeft,
                                                        rect.width() - resultWidth - padding * 2 - equalStrWidth - rightPadding);
 

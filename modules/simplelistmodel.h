@@ -29,9 +29,10 @@ class SimpleListModel : public QAbstractListModel
 public:
     SimpleListModel(QObject *parent = nullptr);
     ~SimpleListModel();
-    
+
     enum Role {
-        ExpressionRole, Size
+        ExpressionRole = Qt::ToolTipRole,
+        ExpressionCount
     };
 
     int rowCount(const QModelIndex &parent) const;
