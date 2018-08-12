@@ -1,3 +1,17 @@
+<a name="1.0.6"></a>
+### 1.0.6 (2018-08-12)
+
+
++#### Features
+
+*   expression bar shows tooltip. ([2821e409](https://github.com/linuxdeepin/deepin-calculator/commit/2821e40949e3d73be8dbd325d0690546870e74db))
+
+#### Bug Fixes
+
+*   incorrect calculation in some language environments. ([2a3cd90e](https://github.com/linuxdeepin/deepin-calculator/commit/2a3cd90e1e82b821799a7391582d49dc1717952d))
+
+
+
 <a name="1.0.5"></a>
 ### 1.0.5 (2018-07-31)
 
