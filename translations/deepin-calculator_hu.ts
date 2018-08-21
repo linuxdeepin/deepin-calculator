@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>Kifejezés hiba</translation>
     </message>
 </context>
 <context>
@@ -14,26 +14,26 @@
     </message>
     <message>
         <source>Simple mode</source>
-        <translation type="unfinished"/>
+        <translation>Egyszerű mód</translation>
     </message>
     <message>
         <source>Scientific mode</source>
-        <translation type="unfinished"/>
+        <translation>Tudományos mód</translation>
     </message>
     <message>
         <source>Deepin Calculator</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Számológép</translation>
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="unfinished"/>
+        <translation>A Deepin Számológép egy letisztult és könnyen használható alkalmazás. Támogatja az összeadást, kivonást, szorzást és az osztást.</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>Kifejezés hiba</translation>
     </message>
 </context>
 </TS>

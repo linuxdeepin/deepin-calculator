@@ -22,11 +22,11 @@
     </message>
     <message>
         <source>Deepin Calculator</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulačka</translation>
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulačka je jednoduchá a snadno použitelná. Podporuje sčítání, odečítání, násobení a dělení.</translation>
     </message>
 </context>
 <context>

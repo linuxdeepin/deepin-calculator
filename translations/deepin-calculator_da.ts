@@ -22,11 +22,11 @@
     </message>
     <message>
         <source>Deepin Calculator</source>
-        <translation type="unfinished"/>
+        <translation>Deepin lommeregner</translation>
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="unfinished"/>
+        <translation>Deepin er en simpel og let anvendelig skrivebordslommeregner. Den understøtter addition, subtraktion, multiplikation og division.</translation>
     </message>
 </context>
 <context>

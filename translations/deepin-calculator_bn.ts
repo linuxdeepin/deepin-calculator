@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>ত্রুটিপূর্ণ সমীকরণ</translation>
     </message>
 </context>
 <context>
@@ -14,26 +14,26 @@
     </message>
     <message>
         <source>Simple mode</source>
-        <translation type="unfinished"/>
+        <translation>সাধারণ মোড</translation>
     </message>
     <message>
         <source>Scientific mode</source>
-        <translation type="unfinished"/>
+        <translation>বৈজ্ঞানিক মোড</translation>
     </message>
     <message>
         <source>Deepin Calculator</source>
-        <translation type="unfinished"/>
+        <translation>ডিপিন ক্যালকুলেটর</translation>
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="unfinished"/>
+        <translation>ডিপিন ক্যালকুলেটর একটি সাধারণ সহজে ব্যবহার যোগ্য ডেস্কটপ ক্যালকুলেটর। এটা যোগ, বিয়োগ, গুণ এবং ভাগ করতে পারে।</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>ত্রুটিপূর্ণ সমীকরণ</translation>
     </message>
 </context>
 </TS>

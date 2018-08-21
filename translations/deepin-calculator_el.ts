@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>Σφάλμα έκφρασης</translation>
     </message>
 </context>
 <context>
@@ -14,11 +14,11 @@
     </message>
     <message>
         <source>Simple mode</source>
-        <translation type="unfinished"/>
+        <translation>Απλή λειτουργία</translation>
     </message>
     <message>
         <source>Scientific mode</source>
-        <translation type="unfinished"/>
+        <translation>Επιστημονική λειτουργία</translation>
     </message>
     <message>
         <source>Deepin Calculator</source>

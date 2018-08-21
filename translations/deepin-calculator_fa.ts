@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>خطای عبارت</translation>
     </message>
 </context>
 <context>
@@ -14,26 +14,26 @@
     </message>
     <message>
         <source>Simple mode</source>
-        <translation type="unfinished"/>
+        <translation>حالت ساده</translation>
     </message>
     <message>
         <source>Scientific mode</source>
-        <translation type="unfinished"/>
+        <translation>حالت علمی</translation>
     </message>
     <message>
         <source>Deepin Calculator</source>
-        <translation type="unfinished"/>
+        <translation>ماشین حساب دیپین</translation>
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="unfinished"/>
+        <translation>ماشین حساب دیپین یک ماشین حساب ساده و راحت، برای استفاده در میزکار است. این ماشین حساب، جمع، تفریق، ضرب و تقسیم را پشتیبانی می‌کند.</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>خطای عبارت</translation>
     </message>
 </context>
 </TS>
