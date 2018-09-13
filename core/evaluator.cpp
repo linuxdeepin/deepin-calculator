@@ -243,6 +243,9 @@ static Token::Operator matchOperator(const QString& text)
         case '/':
             result = Token::Division;
             break;
+        case '%':
+            result = Token::Percent;
+            break;
         case '^':
             result = Token::Exponentiation;
             break;
@@ -310,6 +313,9 @@ static int opPrecedence(Token::Operator op)
     case Token::Modulo:
     case Token::IntegerDivision:
         prec = 600;
+        break;
+    case Token::Percent:
+        prec = 800;
         break;
     case Token::Addition:
     case Token::Subtraction:
@@ -1306,6 +1312,12 @@ void Evaluator::compile(const Tokens& tokens)
                        ruleFound = true;
                        syntaxStack.reduce(2);
                        m_codes.append(Opcode(Opcode::Fact));
+                       break;
+                   case Token::Percent:
+                       syntaxStack.pop();
+                       m_constants.append(HNumber("0.01"));
+                       m_codes.append(Opcode(Opcode::Load, m_constants.count() - 1));
+                       m_codes.append(Opcode(Opcode::Mul));
                        break;
                    default:;
                    }

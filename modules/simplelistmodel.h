@@ -32,7 +32,9 @@ public:
 
     enum Role {
         ExpressionRole = Qt::ToolTipRole,
-        ExpressionCount
+        ExpressionCount,
+        ExpressionPrevious,
+        ExpressionNext
     };
 
     int rowCount(const QModelIndex &parent) const;

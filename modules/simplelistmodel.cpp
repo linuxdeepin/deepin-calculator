@@ -45,6 +45,10 @@ QVariant SimpleListModel::data(const QModelIndex &index, int role) const
         return m_expressionList.at(r);
     case ExpressionCount:
         return m_expressionList.count();
+    case ExpressionPrevious:
+        return m_expressionList.value(r - 1);
+    case ExpressionNext:
+        return m_expressionList.value(r + 1);
     }
 
     return QVariant();
