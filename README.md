@@ -36,3 +36,4 @@ We encourage you to report issues and contribute changes
 ## License
 
 Deepin Calculator is licensed under [GPLv3](LICENSE).
+
