@@ -100,7 +100,7 @@
    Granularity means that integers with more than DECPRECISION digits
    might not be saved without loss of digits. So DECPRECISION defines
    the integer range of floatnum.
-   Because base convertion and logic operations are integer based, both
+   Because base conversion and logic operations are integer based, both
    are limited by DECPRECISION as well.
    By default, DECPRECISION is set to MATHPRECISION */
 #define DECPRECISION 78
