@@ -156,6 +156,11 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_Percent:
         m_basicKeypad->animate(BasicKeypad::Key_Percent);
         break;
+    case Qt::Key_C:
+        if (isPressCtrl) {
+            m_expressionBar->copyResultToClipboard();
+        }
+        break;
     }
 }
 

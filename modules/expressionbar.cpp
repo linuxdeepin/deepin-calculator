@@ -18,6 +18,8 @@
  */
 
 #include <QPushButton>
+#include <QApplication>
+#include <QClipboard>
 #include <QDebug>
 #include "expressionbar.h"
 #include "../utils.h"
@@ -163,6 +165,30 @@ void ExpressionBar::enterBracketsEvent()
 
     m_isAllClear = false;
     m_isContinue = true;
+}
+
+void ExpressionBar::copyResultToClipboard()
+{
+    if (m_inputEdit->text().isEmpty())
+        return;
+
+    const QString expression = formatExpression(m_inputEdit->expressionText());
+    m_evaluator->setExpression(expression);
+    Quantity ans = m_evaluator->evalUpdateAns();
+
+    if (m_evaluator->error().isEmpty()) {
+        if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
+            return;
+
+        const QString result = DMath::format(ans, Quantity::Format::Fixed());
+        QString formatResult = Utils::formatThousandsSeparators(result);
+        formatResult = formatResult.replace('-', "－").replace('+', "＋");
+        // m_inputEdit->setAnswer(formatResult, ans);
+
+        QApplication::clipboard()->setText(formatResult);
+    } else {
+        QApplication::clipboard()->setText(m_inputEdit->text());
+    }
 }
 
 void ExpressionBar::handleTextChanged(const QString &text)

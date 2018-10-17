@@ -52,6 +52,7 @@ public slots:
     void enterClearEvent();
     void enterEqualEvent();
     void enterBracketsEvent();
+    void copyResultToClipboard();
 
 private slots:
     void handleTextChanged(const QString &text);
