@@ -18,7 +18,9 @@
  */
 
 #include "simplelistview.h"
+#include <QApplication>
 #include <QMouseEvent>
+#include <QScrollBar>
 #include <QDebug>
 
 SimpleListView::SimpleListView(QWidget *parent)
@@ -31,7 +33,7 @@ SimpleListView::SimpleListView(QWidget *parent)
     setAutoScroll(false);
     setFixedHeight(105);
 
-    setViewportMargins(0, 0, -verticalScrollBar()->sizeHint().width(), 0);
+    connect(verticalScrollBar(), &QScrollBar::rangeChanged, this, &SimpleListView::adjustScrollbarMargins);
 }
 
 SimpleListView::~SimpleListView()
@@ -44,5 +46,21 @@ void SimpleListView::mouseMoveEvent(QMouseEvent *e)
         QWidget::mouseMoveEvent(e);
     } else {
         QListView::mouseMoveEvent(e);
+    }
+}
+
+void SimpleListView::adjustScrollbarMargins()
+{
+    if (!isVisible()) {
+        return;
+    }
+
+    QEvent event(QEvent::LayoutRequest);
+    QApplication::sendEvent(this, &event);
+
+    if (!verticalScrollBar()->visibleRegion().isEmpty()) {
+        setViewportMargins(0, 0, -verticalScrollBar()->sizeHint().width(), 0);
+    } else {
+        setViewportMargins(0, 0, 0, 0);
     }
 }

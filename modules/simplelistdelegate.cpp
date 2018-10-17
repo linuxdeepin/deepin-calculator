@@ -76,19 +76,18 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     }
 
     int equalStrWidth = painter->fontMetrics().width(" ＝ ");
-    int rightPadding = (index.data(SimpleListModel::ExpressionCount).toInt() > 3) ? 0 : 12;
     QString expStr = painter->fontMetrics().elidedText(splitList.first(), Qt::ElideLeft,
-                                                       rect.width() - resultWidth - padding * 2 - equalStrWidth - rightPadding);
+                                                       rect.width() - resultWidth - padding * 2 - equalStrWidth);
 
     // draw result text.
     painter->drawText(QRect(rect.x() + padding,
-                            rect.y(), rect.width() - padding * 2 - rightPadding, rect.height()),
+                            rect.y(), rect.width() - padding * 2, rect.height()),
                       Qt::AlignVCenter | Qt::AlignRight, resultStr);
 
     // draw expression text;
     painter->setPen(QColor(fontColor));
     painter->drawText(QRect(rect.x() + padding,
-                            rect.y(), rect.width() - resultWidth - padding * 2 - rightPadding, rect.height()),
+                            rect.y(), rect.width() - resultWidth - padding * 2, rect.height()),
                       Qt::AlignVCenter | Qt::AlignRight, expStr + " ＝ ");
 }
 

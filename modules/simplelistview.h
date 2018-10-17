@@ -33,6 +33,7 @@ public:
 
 protected:
     void mouseMoveEvent(QMouseEvent *);
+    void adjustScrollbarMargins();
 };
 
 #endif
