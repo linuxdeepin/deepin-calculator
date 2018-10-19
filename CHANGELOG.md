@@ -97,6 +97,3 @@
 * **mainwindow:**
   *  optimize slots. ([3e971c08](https://github.com/linuxdeepin/deepin-calculator/commit/3e971c0894904ace52b4f8e2c1562961f276c309))
   *  use QSignalMapper ([01dc666f](https://github.com/linuxdeepin/deepin-calculator/commit/01dc666fde6c85667a6ad11eeb85ade1b79a68e8))
-
-
-
