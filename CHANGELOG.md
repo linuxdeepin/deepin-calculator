@@ -1,5 +1,15 @@
+<a name="">1.0.8</a>
+## 1.0.8 (2018-10-25)
+
+
+#### Features
+
+*   press Ctrl+C to copy result. ([440cd132](https://github.com/linuxdeepin/deepin-calculator/commit/440cd1322d3bca1d4ee2df3aa860679ae3af3411))
+
+
+
 <a name="1.0.7"></a>
-### 1.0.6 (2018-08-12)
+### 1.0.7 (2018-08-12)
 
 
 +#### Features
