@@ -34,10 +34,8 @@ MainWindow::MainWindow(QWidget *parent)
       m_mainLayout(new QStackedLayout),
       m_tbMenu(new QMenu)
 {
-    QLabel *iconLabel = new QLabel;
-    iconLabel->setPixmap(DHiDPIHelper::loadNxPixmap(":/images/title_icon.svg"));
     titlebar()->setBackgroundTransparent(true);
-    titlebar()->setCustomWidget(iconLabel, Qt::AlignVCenter, false);
+    titlebar()->setIcon(QIcon(":/images/title_icon.svg"));
     titlebar()->setMenu(m_tbMenu);
     titlebar()->setTitle("");
 
@@ -136,7 +134,6 @@ void MainWindow::switchToSimpleMode()
     m_basicModule->switchToSimpleKeypad();
     m_mainLayout->setCurrentIndex(0);
     m_settings->setOption("mode", 0);
-    titlebar()->setFixedHeight(30);
     setFixedSize(322, 505);
 }
 
@@ -145,6 +142,5 @@ void MainWindow::switchToScientificMode()
     m_basicModule->switchToScientificKeypad();
     m_mainLayout->setCurrentIndex(0);
     m_settings->setOption("mode", 1);
-    titlebar()->setFixedHeight(30);
     setFixedSize(565, 505);
 }
