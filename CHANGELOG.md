@@ -1,3 +1,13 @@
+<a name="">1.0.9</a>
+## 1.0.9 (2018-11-09)
+
+
+#### Bug Fixes
+
+* **titlebar:**  use default height value. ([ae254997](https://github.com/linuxdeepin/deepin-calculator/commit/ae254997049d83cb1638c1634bb1adfc627d5b83))
+
+
+
 <a name="">1.0.8</a>
 ## 1.0.8 (2018-10-25)
 
