@@ -133,7 +133,7 @@ isEmpty(APPDIR):APPDIR=/usr/share/applications
 isEmpty(DSRDIR):DSRDIR=/usr/share/deepin-calculator
 
 # Automating generation .qm files from .ts files
-!system($$PWD/translations/translate_generation.sh): error("Failed to generate translation")
+!system($$PWD/translate_generation.sh): error("Failed to generate translation")
 
 target.path = $$INSTROOT$$BINDIR
 icon_files.path = $$PREFIX/share/icons/hicolor/scalable/apps/
