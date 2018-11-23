@@ -11,6 +11,6 @@ type = QT
 
 [deepin-calculator.deepin-calculator-desktop]
 file_filter = translations/desktop/desktop_<lang>.ts
-source_file = translations/desktop.ts
+source_file = translations/desktop/desktop.ts
 source_lang = en
 type = QT
