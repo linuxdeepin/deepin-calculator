@@ -9,7 +9,7 @@ source_file = translations/deepin-calculator.ts
 source_lang = en
 type = QT
 
-[deepin-calculator.calculator-desktop]
+[deepin-calculator.deepin-calculator-desktop]
 file_filter = translations/desktop/desktop_<lang>.ts
 source_file = translations/desktop.ts
 source_lang = en
