@@ -1,3 +1,13 @@
+<a name=""></a>
+##  1.0.10 (2018-11-23)
+
+
+#### Features
+
+* **desktop:**  add generic name. ([b6fd37af](https://github.com/linuxdeepin/deepin-calculator/commit/b6fd37af5dc071494dada9a635c316373c7b3f67))
+
+
+
 <a name="">1.0.9</a>
 ## 1.0.9 (2018-11-09)
 
