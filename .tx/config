@@ -14,4 +14,3 @@ file_filter = translations/desktop/desktop_<lang>.ts
 source_file = translations/desktop.ts
 source_lang = en
 type = QT
-
