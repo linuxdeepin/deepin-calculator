@@ -22,11 +22,11 @@
     </message>
     <message>
         <source>Deepin Calculator</source>
-        <translation type="unfinished"/>
+        <translation>حاسبة ديبين</translation>
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="unfinished"/>
+        <translation>حاسبة ديبين: حاسبة بسيطة وسهلة لاستخدامات سطح المكتب، تدعم عمليات الجمع والطرح والضرب والقسمة.</translation>
     </message>
 </context>
 <context>

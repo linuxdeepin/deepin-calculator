@@ -22,11 +22,11 @@
     </message>
     <message>
         <source>Deepin Calculator</source>
-        <translation>Deepin Taschenrechner</translation>
+        <translation>Deepin-Taschenrechner</translation>
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>Deepin Taschenrechner ist ein einfacher und leicht zu bedienender Taschenrechner. Es unterstützt Addition, Subtraktion, Multiplikation und Division.</translation>
+        <translation>Deepin Taschenrechner ist ein einfach und leicht zu bedienender Taschenrechner. Die Anwendung unterstützt folgende Rechenarten: Addition, Subtraktion, Multiplikation und Division.</translation>
     </message>
 </context>
 <context>

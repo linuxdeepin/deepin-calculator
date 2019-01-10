@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>Väljendi viga</translation>
     </message>
 </context>
 <context>
@@ -26,14 +26,14 @@
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="unfinished"/>
+        <translation>Deepin kalkulaator on lihtne ja kergesti kasutatav töölaua kalkulaator. Se toetab liitmist, lahutamist, korrutamist ja jagamist.</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>Väljendi viga</translation>
     </message>
 </context>
 </TS>
