@@ -21,17 +21,22 @@
 #define ICONBUTTON_H
 
 #include "textbutton.h"
-#include <QSvgWidget>
+#include <QLabel>
+
+#include <DSvgRenderer>
+
+DWIDGET_USE_NAMESPACE
 
 class IconButton : public TextButton
 {
     Q_OBJECT
 
 public:
-    IconButton(QWidget *parent = nullptr);
+    IconButton(int normalSize=23, int hoverSize=26, QWidget *parent = nullptr);
     ~IconButton();
 
     void setIcon(const QString &fileName);
+    void setIconStateSizes(int normalSize, int hoverSize);
 
 protected:
     void mousePressEvent(QMouseEvent *);
@@ -40,7 +45,13 @@ protected:
     void leaveEvent(QEvent *);
 
 private:
-    QSvgWidget *m_iconWidget;
+    QLabel *m_iconWidget;
+    DSvgRenderer *m_iconRenderer;
+
+    int m_normalSize;
+    int m_hoverSize;
+
+    void setIconSize(const int &size);
 };
 
 #endif
