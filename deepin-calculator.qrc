@@ -1,14 +1,18 @@
-<!DOCTYPE RCC><RCC version="1.0">
-  <qresource>
-    <file>images/deepin-calculator.svg</file>
-    <file>images/title_icon.svg</file>
-    <file>qss/light.qss</file>
-    <file>qss/dark.qss</file>
-    <file>images/delete_light_normal.svg</file>
-    <file>images/delete_light_hover.svg</file>
-    <file>images/delete_light_press.svg</file>
-    <file>images/delete_dark_normal.svg</file>
-    <file>images/delete_dark_hover.svg</file>
-    <file>images/delete_dark_press.svg</file>
-  </qresource>
+<RCC>
+    <qresource prefix="/">
+        <file>images/deepin-calculator.svg</file>
+        <file>images/title_icon.svg</file>
+        <file>qss/light.qss</file>
+        <file>qss/dark.qss</file>
+        <file>images/delete_light_normal.svg</file>
+        <file>images/delete_light_hover.svg</file>
+        <file>images/delete_light_press.svg</file>
+        <file>images/delete_dark_normal.svg</file>
+        <file>images/delete_dark_hover.svg</file>
+        <file>images/delete_dark_press.svg</file>
+        <file>images/plus_normal.svg</file>
+        <file>images/min_normal.svg</file>
+        <file>images/mult_normal.svg</file>
+        <file>images/div_normal.svg</file>
+    </qresource>
 </RCC>

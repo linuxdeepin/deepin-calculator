@@ -20,10 +20,15 @@
 #include "iconbutton.h"
 #include <QHBoxLayout>
 
-IconButton::IconButton(QWidget *parent)
+#include <QDebug>
+
+IconButton::IconButton(int normalSize, int hoverSize, QWidget *parent)
     : TextButton("", parent),
-      m_iconWidget(new QSvgWidget)
-{
+      m_iconWidget(new QLabel),
+      m_iconRenderer(new DSvgRenderer),
+      m_normalSize(normalSize),
+      m_hoverSize(hoverSize)
+{  
     setLayout(new QHBoxLayout(this));
     layout()->addWidget(m_iconWidget);
 }
@@ -34,34 +39,54 @@ IconButton::~IconButton()
 
 void IconButton::setIcon(const QString &fileName)
 {
-    m_iconWidget->load(fileName);
-    m_iconWidget->setFixedSize(23, 23);
+    m_iconRenderer->load(fileName);
+    setIconSize(m_normalSize);
+}
+
+void IconButton::setIconStateSizes(int normalSize, int hoverSize)
+{
+    m_normalSize = normalSize;
+    m_hoverSize = hoverSize;
 }
 
 void IconButton::mousePressEvent(QMouseEvent *e)
 {
-    m_iconWidget->setFixedSize(23, 23);
+    setIconSize(m_normalSize);
 
     TextButton::mousePressEvent(e);
 }
 
 void IconButton::mouseReleaseEvent(QMouseEvent *e)
 {
-    m_iconWidget->setFixedSize(26, 26);
+    setIconSize(m_hoverSize);
 
     TextButton::mouseReleaseEvent(e);
 }
 
 void IconButton::enterEvent(QEvent *e)
 {
-    m_iconWidget->setFixedSize(26, 26);
+    setIconSize(m_hoverSize);
 
     TextButton::enterEvent(e);
 }
 
 void IconButton::leaveEvent(QEvent *e)
 {
-    m_iconWidget->setFixedSize(23, 23);
+    setIconSize(m_normalSize);
 
     TextButton::leaveEvent(e);
+}
+
+void IconButton::setIconSize(const int &size)
+{
+    const int scaledSize = size * devicePixelRatioF();
+    const QSize iconSize(scaledSize, scaledSize);
+    const QImage image = m_iconRenderer->toImage(iconSize);
+
+    QPixmap pix;
+    pix.convertFromImage(image);
+    pix.setDevicePixelRatio(devicePixelRatioF());
+
+    m_iconWidget->setPixmap(pix);
+    m_iconWidget->setFixedSize(iconSize);
 }

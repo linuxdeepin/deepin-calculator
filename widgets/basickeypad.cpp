@@ -26,28 +26,48 @@ const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
     { "C", Key_Clear, 1, 0 },
     { "%", Key_Percent, 1, 1 },
     { "", Key_Backspace, 1, 2 },
-    { "÷", Key_Div, 1, 3 },
+    { "", Key_Div, 1, 3 },
 
     { "7", Key_7, 2, 0 },
     { "8", Key_8, 2, 1 },
     { "9", Key_9, 2, 2 },
-    { "×", Key_Mult, 2, 3 },
+    { "", Key_Mult, 2, 3 },
 
     { "4", Key_4, 3, 0 },
     { "5", Key_5, 3, 1 },
     { "6", Key_6, 3, 2 },
-    { "－", Key_Min, 3, 3 },
+    { "", Key_Min, 3, 3 },
 
     { "1", Key_1, 4, 0 },
     { "2", Key_2, 4, 1 },
     { "3", Key_3, 4, 2 },
-    { "＋", Key_Plus, 4, 3 },
+    { "", Key_Plus, 4, 3 },
 
     { "0", Key_0, 5, 0 },
     { ".", Key_Point, 5, 1 },
     { "( )", Key_Brackets, 5, 2 },
     { "=", Key_Equals, 5, 3 }
 };
+
+static QPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
+    IconButton *button = new IconButton(10, 13);
+
+    if (key == BasicKeypad::Key_Div) {
+        button->setIcon(":/images/div_normal.svg");
+    } else if (key == BasicKeypad::Key_Mult) {
+        button->setIcon(":/images/mult_normal.svg");
+    } else if (key == BasicKeypad::Key_Min) {
+        button->setIcon(":/images/min_normal.svg");
+    } else if (key == BasicKeypad::Key_Plus) {
+        button->setIcon(":/images/plus_normal.svg");
+    } else if (key == BasicKeypad::Key_Backspace) {
+        button->setIconStateSizes(23, 26);
+        button->setIcon(QString(":/images/delete_%1_normal.svg")
+                        .arg(DThemeManager::instance()->theme()));
+    }
+
+    return button;
+}
 
 BasicKeypad::BasicKeypad(QWidget *parent)
     : QWidget(parent),
@@ -86,10 +106,8 @@ void BasicKeypad::initButtons()
         const KeyDescription *desc = keyDescriptions + i;
         QPushButton *button;
 
-        if (desc->button == Key_Backspace) {
-            button = new IconButton;
-            (static_cast<IconButton *>(button))->setIcon(QString(":/images/delete_%1_normal.svg")
-                                                         .arg(DThemeManager::instance()->theme()));
+        if (desc->text.isEmpty()) {
+            button = createSpecialKeyButton(desc->button);
         } else {
             button = new TextButton(desc->text);
         }
