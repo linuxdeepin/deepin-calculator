@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
     titlebar()->setTitle("");
 
     // init titlebar menu.
-    m_themeAction = new QAction(tr("Dark Theme"), this);
+    m_themeAction = new QAction(tr("Dark theme"), this);
     m_themeAction->setCheckable(true);
     m_simpleAction = new QAction(tr("Simple mode"), this);
     m_scAction = new QAction(tr("Scientific mode"), this);
