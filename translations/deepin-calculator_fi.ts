@@ -9,8 +9,8 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Dark Theme</source>
-        <translation>Tumma Teema</translation>
+        <source>Dark theme</source>
+        <translation>Tumma teema</translation>
     </message>
     <message>
         <source>Simple mode</source>
