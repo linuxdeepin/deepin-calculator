@@ -1,3 +1,13 @@
+<a name="1.0.11"></a>
+## 1.0.11 (2019-04-10)
+
+
+#### Bug Fixes
+
+*   don't reply on fonts to show operators ([febdea24](https://github.com/linuxdeepin/deepin-calculator/commit/febdea245564c6164b69663c03669574858967ac))
+
+
+
 <a name=""></a>
 ##  1.0.10 (2018-11-23)
 
