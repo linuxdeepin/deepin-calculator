@@ -1,9 +1,9 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hi_IN" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="mn" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
-        <translation>व्यंजक त्रुटि</translation>
+        <translation>Алдаа</translation>
     </message>
 </context>
 <context>
@@ -14,26 +14,26 @@
     </message>
     <message>
         <source>Simple mode</source>
-        <translation>सरल मोड</translation>
+        <translation>Энгийн горим</translation>
     </message>
     <message>
         <source>Scientific mode</source>
-        <translation>विज्ञान मोड</translation>
+        <translation>ШУ горим</translation>
     </message>
     <message>
         <source>Deepin Calculator</source>
-        <translation type="unfinished"/>
+        <translation>Дээпин тооцоолуур</translation>
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="unfinished"/>
+        <translation>Дээпин тооцоолуур нь энгийн, ашиглахад хялбар, нэмэх, хасах, үржих, хуваах үйлдлийг гүйцэтгэдэг.</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression Error</source>
-        <translation>व्यंजक त्रुटि</translation>
+        <translation>Алдаа</translation>
     </message>
 </context>
 </TS>

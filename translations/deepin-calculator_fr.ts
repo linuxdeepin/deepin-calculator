@@ -9,7 +9,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Dark Theme</source>
+        <source>Dark theme</source>
         <translation>Thème sombre</translation>
     </message>
     <message>
