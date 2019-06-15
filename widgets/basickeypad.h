@@ -25,19 +25,13 @@
 #include <QSignalMapper>
 #include "textbutton.h"
 #include "iconbutton.h"
+#include "buttons.h"
 
 class BasicKeypad : public QWidget
 {
     Q_OBJECT
 
 public:
-    enum Buttons {
-        Key_Clear, Key_Percent, Key_Backspace, Key_Div,
-        Key_7, Key_8, Key_9, Key_Mult,
-        Key_4, Key_5, Key_6, Key_Min,
-        Key_1, Key_2, Key_3, Key_Plus,
-        Key_0, Key_Point, Key_Brackets, Key_Equals
-    };
 
     BasicKeypad(QWidget *parent = nullptr);
     ~BasicKeypad();
@@ -45,25 +39,46 @@ public:
     QPushButton *button(Buttons key);
     void animate(Buttons key);
 
-    static const struct KeyDescription {
-        QString text;
-        Buttons button;
-        int row;
-        int column;
-    } keyDescriptions[];
-
 signals:
     void buttonPressed(int);
 
-private:
+protected:
     void initButtons();
     void initUI();
     void handleThemeChanged();
 
-private:
+protected:
     QGridLayout *m_layout;
     QSignalMapper *m_mapper;
     QHash<Buttons, QPair<QPushButton *, const KeyDescription *>> m_keys;
+
+private:
+    const KeyDescription keyDescriptions[20]={
+        { "C", Key_Clear, 1, 0 },
+        { "%", Key_Percent, 1, 1 },
+        { "", Key_Backspace, 1, 2 },
+        { "", Key_Div, 1, 3 },
+
+        { "7", Key_7, 2, 0 },
+        { "8", Key_8, 2, 1 },
+        { "9", Key_9, 2, 2 },
+        { "", Key_Mult, 2, 3 },
+
+        { "4", Key_4, 3, 0 },
+        { "5", Key_5, 3, 1 },
+        { "6", Key_6, 3, 2 },
+        { "", Key_Min, 3, 3 },
+
+        { "1", Key_1, 4, 0 },
+        { "2", Key_2, 4, 1 },
+        { "3", Key_3, 4, 2 },
+        { "", Key_Plus, 4, 3 },
+
+        { "0", Key_0, 5, 0 },
+        { ".", Key_Point, 5, 1 },
+        { "( )", Key_Brackets, 5, 2 },
+        { "=", Key_Equals, 5, 3 }
+    };
 };
 
 #endif
