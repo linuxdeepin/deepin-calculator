@@ -67,7 +67,7 @@ void TextButton::init()
             m_effect->setColor(QColor(12, 155, 246, 255 * 0.6));
             m_effect->setBlurRadius(30);
             m_effect->setXOffset(-2);
-            m_effect->setYOffset(-4);            
+            m_effect->setYOffset(-4);
         }
     }
 }

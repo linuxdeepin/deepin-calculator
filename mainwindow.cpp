@@ -28,6 +28,8 @@
 #include <QLabel>
 #include <QDebug>
 
+#define ENABLE_SCIENTIFIC;  //open scientific mode
+
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent),
       m_settings(DSettings::instance()),

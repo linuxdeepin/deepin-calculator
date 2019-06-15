@@ -81,6 +81,7 @@ void ExpressionBar::enterNumberEvent(const QString &text)
 void ExpressionBar::enterSymbolEvent(const QString &text)
 {
     m_inputEdit->insert(text);
+
     m_isContinue = true;
 }
 
@@ -208,5 +209,6 @@ QString ExpressionBar::formatExpression(const QString &text)
 {
     return QString(text).replace(QString::fromUtf8("＋"), "+").replace(QString::fromUtf8("－"), "-")
                         .replace(QString::fromUtf8("×"), "*").replace(QString::fromUtf8("÷"), "/")
-                        .replace(QString::fromUtf8(","), "");
+                        .replace(QString::fromUtf8(","), "").replace(QString::fromUtf8("√"), "sqrt")
+                        .replace(QString::fromUtf8("π"), "arccos(-1)");
 }

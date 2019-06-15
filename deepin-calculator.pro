@@ -72,7 +72,8 @@ HEADERS += mainwindow.h \
            widgets/iconbutton.h \
            widgets/inputedit.h \
            widgets/scientifickeypad.h \
-           widgets/textbutton.h
+           widgets/textbutton.h \
+    widgets/buttons.h
 SOURCES += main.cpp \
            mainwindow.cpp \
            dsettings.cpp \
