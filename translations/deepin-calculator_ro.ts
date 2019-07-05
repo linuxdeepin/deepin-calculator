@@ -9,7 +9,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Dark Theme</source>
+        <source>Dark theme</source>
         <translation>Fundal întunecat</translation>
     </message>
     <message>
@@ -22,7 +22,7 @@
     </message>
     <message>
         <source>Deepin Calculator</source>
-        <translation type="unfinished"/>
+        <translation>Calculatorul Deepin</translation>
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>

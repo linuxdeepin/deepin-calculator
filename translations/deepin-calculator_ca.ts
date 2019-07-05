@@ -10,7 +10,7 @@
     <name>MainWindow</name>
     <message>
         <source>Dark theme</source>
-        <translation type="unfinished"/>
+        <translation>Tema fosc</translation>
     </message>
     <message>
         <source>Simple mode</source>

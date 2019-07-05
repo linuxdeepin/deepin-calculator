@@ -26,7 +26,7 @@
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>Calculatrice Deepin est une calculatrice de bureau simple et facile à utiliser. Elle prend en charge les additions, les soustractions, les multiplications et les divisions.</translation>
+        <translation>Deepin Calculator est une calculatrice de bureau simple et facile à utiliser. Elle prend en charge les additions, les soustractions, les multiplications et les divisions.</translation>
     </message>
 </context>
 <context>

@@ -1,39 +1,39 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="es_419" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ko" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
-        <translation>Error de Expresión</translation>
+        <translation>표현식 오류</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Dark theme</source>
-        <translation>Tema oscuro</translation>
+        <translation>어두운 테마</translation>
     </message>
     <message>
         <source>Simple mode</source>
-        <translation>Modo simple</translation>
+        <translation>단순 모드</translation>
     </message>
     <message>
         <source>Scientific mode</source>
-        <translation>Modo científico</translation>
+        <translation>공학 모드</translation>
     </message>
     <message>
         <source>Deepin Calculator</source>
-        <translation>Calculadora Deepin</translation>
+        <translation>Deepin 계산기</translation>
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>La Calculadora Deepin es una calculadora de escritorio simple y fácil de usar. Soporta sumas, restas, multiplicaciones y divisiones</translation>
+        <translation>Deepin 계산기는 사용이 간편한 데스크톱 계산기입니다. 덧셈, 뺄셈, 곱셈, 나눗셈을 지원합니다.</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression Error</source>
-        <translation>Error de Expresión</translation>
+        <translation>표현식 오류</translation>
     </message>
 </context>
 </TS>
