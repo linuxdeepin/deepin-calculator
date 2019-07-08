@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
-        <translation>Lausekevirhe</translation>
+        <translation>Lausekkeen virhe</translation>
     </message>
 </context>
 <context>
@@ -33,7 +33,7 @@
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression Error</source>
-        <translation>Lausekevirhe</translation>
+        <translation>Lausekkeen virhe</translation>
     </message>
 </context>
 </TS>

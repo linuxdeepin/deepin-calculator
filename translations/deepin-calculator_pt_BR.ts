@@ -22,11 +22,11 @@
     </message>
     <message>
         <source>Deepin Calculator</source>
-        <translation>Deepin Calculator</translation>
+        <translation>Calculadora Deepin</translation>
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>O Deepin Calculator é uma calculadora de desktop simples e fácil de usar. Ele suporta adição, subtração, multiplicação e divisão.</translation>
+        <translation>Calculadora é uma programa simples e fácil de usar no desktop. Ela suporta operações como adição, subtração, multiplicação e divisão.</translation>
     </message>
 </context>
 <context>

@@ -10,7 +10,7 @@
     <name>MainWindow</name>
     <message>
         <source>Dark theme</source>
-        <translation type="unfinished"/>
+        <translation>Tmavá téma</translation>
     </message>
     <message>
         <source>Simple mode</source>

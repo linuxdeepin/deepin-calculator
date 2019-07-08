@@ -10,7 +10,7 @@
     <name>MainWindow</name>
     <message>
         <source>Dark theme</source>
-        <translation type="unfinished"/>
+        <translation>কালো থীম</translation>
     </message>
     <message>
         <source>Simple mode</source>

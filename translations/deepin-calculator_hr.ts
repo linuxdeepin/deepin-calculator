@@ -3,14 +3,14 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>Neispravan izraz</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Dark theme</source>
-        <translation type="unfinished"/>
+        <translation>Tamna tema</translation>
     </message>
     <message>
         <source>Simple mode</source>
@@ -26,14 +26,14 @@
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="unfinished"/>
+        <translation>Deepin kalkulaator je jednostavan i lagan za korištenje. Podržava zbrajanje, oduzimanje,  množenje i dijeljenje.</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression Error</source>
-        <translation type="unfinished"/>
+        <translation>Neispravan izraz</translation>
     </message>
 </context>
 </TS>
