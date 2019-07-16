@@ -41,11 +41,13 @@ InputEdit::InputEdit(QWidget *parent)
 
     connect(this, &QLineEdit::textChanged, this, &InputEdit::handleTextChanged);
     connect(this, &QLineEdit::cursorPositionChanged, this, &InputEdit::handleCursorPositionChanged);
+    /*
     connect(this, &QLineEdit::selectionChanged,
             [=] {
                 int pos = this->cursorPosition();
                 this->cursorPositionChanged(pos, pos);
             });
+    */
 }
 
 InputEdit::~InputEdit()

@@ -22,60 +22,48 @@
 
 DWIDGET_USE_NAMESPACE
 
-const ScientificKeypad::KeyDescription ScientificKeypad::keyDescriptions[] = {
-    { "C", Key_Clear, 1, 0 },
-    { "%", Key_Percent, 1, 1 },
-    { "", Key_Backspace, 1, 2 },
-    { "÷", Key_Div, 1, 3 },
-    { "sin", Key_1, 1, 4},
-    { "cos", Key_1, 1, 5},
-    { "tan", Key_1, 1, 6},
+static QPushButton* createSpecialKeyButton(Buttons key) {
+    IconButton *button = new IconButton(10, 13);
 
-    { "7", Key_7, 2, 0 },
-    { "8", Key_8, 2, 1 },
-    { "9", Key_9, 2, 2 },
-    { "×", Key_Mult, 2, 3 },
-    { "arcsin", Key_Mult, 2, 4 },
-    { "arccos", Key_Mult, 2, 5 },
-    { "arctan", Key_Mult, 2, 6 },
+    if (key == Buttons::Key_Div) {
+        button->setIcon(":/images/div_normal.svg");
+    } else if (key == Buttons::Key_Mult) {
+        button->setIcon(":/images/mult_normal.svg");
+    } else if (key == Buttons::Key_Min) {
+        button->setIcon(":/images/min_normal.svg");
+    } else if (key == Buttons::Key_Plus) {
+        button->setIcon(":/images/plus_normal.svg");
+    } else if (key == Buttons::Key_Backspace) {
+        button->setIconStateSizes(23, 26);
+        button->setIcon(QString(":/images/delete_%1_normal.svg")
+                        .arg(DThemeManager::instance()->theme()));
+    }
 
-    { "4", Key_4, 3, 0 },
-    { "5", Key_5, 3, 1 },
-    { "6", Key_6, 3, 2 },
-    { "－", Key_Min, 3, 3 },
-    { "√", Key_Mult, 3, 4 },
-    { "lg", Key_Mult, 3, 5 },
-    { "ln", Key_Mult, 3, 6 },
-
-    { "1", Key_1, 4, 0 },
-    { "2", Key_2, 4, 1 },
-    { "3", Key_3, 4, 2 },
-    { "＋", Key_Plus, 4, 3 },
-    { "π", Key_Min, 4, 4 },
-    { "e", Key_Min, 4, 5 },
-    { "!", Key_Min, 4, 6 },
-
-    { "0", Key_0, 5, 0 },
-    { ".", Key_Point, 5, 1 },
-    { "√", Key_Brackets, 5, 2 },
-    { "=", Key_Equals, 5, 3 },
-    { "(", Key_Equals, 5, 4 },
-    { ")", Key_Equals, 5, 5 },
-    { "^", Key_Equals, 5, 6 }
-};
+    return button;
+}
 
 ScientificKeypad::ScientificKeypad(QWidget *parent)
     : QWidget(parent),
-      m_layout(new QGridLayout(this))
+      m_layout(new QGridLayout(this)),
+      m_mapper(new QSignalMapper(this))
 {
     m_layout->setMargin(0);
     m_layout->setSpacing(1);
 
     initButtons();
+    initUI();
+
+    connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
+    connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &ScientificKeypad::handleThemeChanged);
 }
 
 ScientificKeypad::~ScientificKeypad()
 {
+}
+
+QPushButton* ScientificKeypad::button(Buttons key)
+{
+    return m_keys.value(key).first;
 }
 
 void ScientificKeypad::initButtons()
@@ -85,10 +73,8 @@ void ScientificKeypad::initButtons()
         const KeyDescription *desc = keyDescriptions + i;
         QPushButton *button;
 
-        if (desc->button == Key_Backspace) {
-            button = new IconButton;
-            (static_cast<IconButton *>(button))->setIcon(QString(":/images/delete_%1_normal.svg")
-                                                         .arg(DThemeManager::instance()->theme()));
+        if (desc->text.isEmpty()) {
+            button = createSpecialKeyButton(desc->button);
         } else {
             button = new TextButton(desc->text);
         }
@@ -96,5 +82,46 @@ void ScientificKeypad::initButtons()
         m_layout->addWidget(button, desc->row, desc->column);
         const QPair<QPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue);
+
+        connect(button, &QPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+        m_mapper->setMapping(button, desc->button);
     }
+}
+
+void ScientificKeypad::initUI()
+{
+    QHashIterator<Buttons, QPair<QPushButton *, const KeyDescription *>> i(m_keys);
+
+    while (i.hasNext()) {
+        i.next();
+        i.value().first->setFocusPolicy(Qt::NoFocus);
+    }
+
+    button(Key_Div)->setObjectName("SymbolButton");
+    button(Key_Mult)->setObjectName("SymbolButton");
+    button(Key_Min)->setObjectName("SymbolButton");
+    button(Key_Plus)->setObjectName("SymbolButton");
+
+    button(Key_arccos)->setObjectName("SymbolButton");
+    button(Key_arcsin)->setObjectName("SymbolButton");
+    button(Key_arctan)->setObjectName("SymbolButton");
+    button(Key_cos)->setObjectName("SymbolButton");
+    button(Key_sin)->setObjectName("SymbolButton");
+    button(Key_tan)->setObjectName("SymbolButton");
+    button(Key_lg)->setObjectName("SymbolButton");
+    button(Key_ln)->setObjectName("SymbolButton");
+    button(Key_Sqrt)->setObjectName("SymbolButton");
+    button(Key_Factorial)->setObjectName("SymbolButton");
+    button(Key_Power)->setObjectName("SymbolButton");
+    button(Key_LBracket)->setObjectName("SymbolButton");
+    button(Key_RBracket)->setObjectName("SymbolButton");
+    button(Key_Square)->setObjectName("SymbolButton");
+    button(Key_Percent)->setObjectName("SymbolButton");
+    button(Key_Equals)->setObjectName("EqualButton");
+}
+
+void ScientificKeypad::handleThemeChanged()
+{
+    IconButton *btn = static_cast<IconButton *>(button(Key_Backspace));
+    btn->setIcon(QString(":/images/delete_%1_normal.svg").arg(DThemeManager::instance()->theme()));
 }
