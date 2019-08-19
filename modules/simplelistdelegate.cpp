@@ -29,7 +29,8 @@ DWIDGET_USE_NAMESPACE
 SimpleListDelegate::SimpleListDelegate(QObject *parent)
     : QAbstractItemDelegate(parent)
 {
-
+    m_selected = false;
+    m_simpleListDelegate = this;
 }
 
 SimpleListDelegate::~SimpleListDelegate()
@@ -79,6 +80,23 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     QString expStr = painter->fontMetrics().elidedText(splitList.first(), Qt::ElideLeft,
                                                        rect.width() - resultWidth - padding * 2 - equalStrWidth);
 
+    if (m_selected) {
+        QRect resultRect(rect.topRight().x() - resultWidth - padding,
+                         rect.y(), resultWidth, rect.height());
+        QPainterPath path;
+        path.addRoundedRect(resultRect, 8, 8);
+
+        //Setting Gradient
+        QLinearGradient linear(resultRect.topLeft(), resultRect.bottomRight());
+        linear.setColorAt(0, QColor(0,151,231,255));
+        linear.setColorAt(1, QColor(0,122,219,255));
+        linear.setSpread(QGradient::PadSpread);
+        painter->fillPath(path, linear);
+
+        painter->setPen(QPen(QColor(Qt::white)));
+        m_simpleListDelegate->setSelect(false);
+    }
+
     // draw result text.
     painter->drawText(QRect(rect.x() + padding,
                             rect.y(), rect.width() - padding * 2, rect.height()),
@@ -94,4 +112,10 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     return QSize(-1, 35);
+}
+
+bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
+{
+    m_selected = true;
+    return true;
 }

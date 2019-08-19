@@ -33,7 +33,11 @@ public:
 
 protected:
     void mouseMoveEvent(QMouseEvent *);
+    void mousePressEvent(QMouseEvent *event);
     void adjustScrollbarMargins();
+
+private slots:
+    void selectHistory(const QModelIndex &index);
 };
 
 #endif

@@ -49,6 +49,7 @@ private slots:
     void autoZoomFontSize();
     void handleTextChanged(const QString &text);
     void handleCursorPositionChanged(int oldPos, int newPos);
+    void BracketCompletion(QKeyEvent *e);
 
 private:
     Quantity m_ans;

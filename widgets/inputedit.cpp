@@ -87,9 +87,13 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
     switch (e->key()) {
     case Qt::Key_Equal: case Qt::Key_Period:
         return;
+    case Qt::Key_ParenLeft: case Qt::Key_ParenRight:
+        BracketCompletion(e);
+        break;
+    default:
+        QLineEdit::keyPressEvent(e);
+        break;
     }
-
-    QLineEdit::keyPressEvent(e);
 }
 
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
@@ -204,10 +208,16 @@ void InputEdit::handleTextChanged(const QString &text)
     QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
     reformatStr = reformatStr.replace('+', QString::fromUtf8("＋"))
                              .replace('-', QString::fromUtf8("－"))
+                             .replace("_", QString::fromUtf8("－"))
                              .replace('*', QString::fromUtf8("×"))
                              .replace('/', QString::fromUtf8("÷"))
                              .replace('x', QString::fromUtf8("×"))
-                             .replace('X', QString::fromUtf8("×"));
+                             .replace('X', QString::fromUtf8("×"))
+                             .replace(QString::fromUtf8("（"), "(")
+                             .replace(QString::fromUtf8("）"), ")")
+                             .replace(QString::fromUtf8("。"), ".")
+                             .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
+
     setText(reformatStr);
 
     int newLength = reformatStr.length();
@@ -238,4 +248,41 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
         m_currentInAns = false;
         m_currentOnAnsLeft = false;
     }
+}
+
+void InputEdit::BracketCompletion(QKeyEvent *e)
+{
+    QString oldText = text();
+    int curs = cursorPosition();
+    int right = oldText.length() - curs;
+    int leftLeftParen = oldText.left(curs).count("(");
+    int leftRightParen = oldText.left(curs).count(")");
+    int rightLeftParen = oldText.right(right).count("(");
+    int rightrightParen = oldText.right(right).count(")");
+    //左右括号总数是否相等
+    if (oldText.count("(") != oldText.count(")")) {
+        //光标左侧左括号大于右括号
+        if (leftLeftParen > leftRightParen) {
+            if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) > 0) {
+                oldText.insert(curs,")");
+            } else if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) < 0) {
+                oldText.insert(curs,"(");
+            } else {
+                oldText.insert(curs,"()");
+            }
+        //如果左侧左括号小于等于左侧右括号
+        } else {
+            //如果右侧左括号小于右括号
+            if (rightLeftParen < rightrightParen) {
+                oldText.insert(curs,"(");
+            } else {
+                oldText.insert(curs,"()");
+            }
+        }
+    //相等则输入一对括号
+    } else {
+        oldText.insert(curs,"()");
+    }
+    setCursorPosition(curs);
+    setText(oldText);
 }

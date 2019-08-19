@@ -18,9 +18,11 @@
  */
 
 #include "simplelistview.h"
+#include "simplelistmodel.h"
 #include <QApplication>
 #include <QMouseEvent>
 #include <QScrollBar>
+#include <QModelIndex>
 #include <QDebug>
 
 SimpleListView::SimpleListView(QWidget *parent)
@@ -29,11 +31,16 @@ SimpleListView::SimpleListView(QWidget *parent)
     setVerticalScrollMode(ScrollPerPixel);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setEditTriggers(QAbstractItemView::SelectedClicked | QAbstractItemView::DoubleClicked);
     setFocusPolicy(Qt::NoFocus);
     setAutoScroll(false);
     setFixedHeight(105);
+    setSelectionBehavior(QAbstractItemView::SelectRows);
+    setSelectionMode ( QAbstractItemView::SingleSelection);
 
+    connect(this,&QListView::clicked,this,&SimpleListView::selectHistory);
     connect(verticalScrollBar(), &QScrollBar::rangeChanged, this, &SimpleListView::adjustScrollbarMargins);
+    //connect(model(), &QAbstractListModel::updateCount, this, &QListView::updateCount);
 }
 
 SimpleListView::~SimpleListView()
@@ -47,6 +54,11 @@ void SimpleListView::mouseMoveEvent(QMouseEvent *e)
     } else {
         QListView::mouseMoveEvent(e);
     }
+}
+
+void SimpleListView::selectHistory(const QModelIndex &index)
+{
+    int row = index.row();
 }
 
 void SimpleListView::adjustScrollbarMargins()
@@ -63,4 +75,9 @@ void SimpleListView::adjustScrollbarMargins()
     } else {
         setViewportMargins(0, 0, 0, 0);
     }
+}
+
+void SimpleListView::mousePressEvent(QMouseEvent *event)
+{
+    static_cast<SimpleListModel *>(model())->refrushModel();
 }

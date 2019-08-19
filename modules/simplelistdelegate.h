@@ -21,11 +21,12 @@
 #define SIMPLELISTDELEGATE_H
 
 #include <QAbstractItemDelegate>
-
+#include <QObject>
 class SimpleListDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT
 
+    Q_PROPERTY(bool m_selected WRITE setSelect)
 public:
     SimpleListDelegate(QObject *parent = nullptr);
     ~SimpleListDelegate();
@@ -33,6 +34,11 @@ public:
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index);
+private:
+    void setSelect(bool isSelect) {m_selected = isSelect;};
+    SimpleListDelegate *m_simpleListDelegate;
+    bool m_selected;
 };
 
 #endif

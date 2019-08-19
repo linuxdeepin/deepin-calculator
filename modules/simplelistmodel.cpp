@@ -23,6 +23,7 @@
 SimpleListModel::SimpleListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
+    m_selectedStatus = false;
 }
 
 SimpleListModel::~SimpleListModel()
@@ -74,4 +75,12 @@ void SimpleListModel::clearItems()
     beginRemoveRows(QModelIndex(), 0, m_expressionList.size());
     m_expressionList.clear();
     endRemoveRows();
+}
+
+void SimpleListModel::refrushModel()
+{
+    beginResetModel();
+    endResetModel();
+
+    emit updateCount(this->rowCount(QModelIndex()));
 }

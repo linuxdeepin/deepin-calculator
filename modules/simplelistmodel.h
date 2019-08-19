@@ -29,6 +29,7 @@ class SimpleListModel : public QAbstractListModel
 public:
     SimpleListModel(QObject *parent = nullptr);
     ~SimpleListModel();
+    void refrushModel();
 
     enum Role {
         ExpressionRole = Qt::ToolTipRole,
@@ -42,8 +43,11 @@ public:
     void appendText(const QString &text);
     void clearItems();
 
+signals:
+    void updateCount(int);
 private:
     QList<QString> m_expressionList;
+    bool           m_selectedStatus;
 };
 
 #endif
