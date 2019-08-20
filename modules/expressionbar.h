@@ -70,6 +70,7 @@ private:
 
     bool m_isContinue;
     bool m_isAllClear;
+    bool m_bracketsState;
 };
 
 #endif

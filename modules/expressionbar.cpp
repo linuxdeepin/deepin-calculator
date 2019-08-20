@@ -32,7 +32,8 @@ ExpressionBar::ExpressionBar(QWidget *parent)
       m_inputEdit(new InputEdit),
       m_evaluator(Evaluator::instance()),
       m_isContinue(true),
-      m_isAllClear(false)
+      m_isAllClear(false),
+      m_bracketsState(false)
 {
     // init inputEdit attributes.
     m_inputEdit->setFixedHeight(55);
@@ -114,11 +115,13 @@ void ExpressionBar::enterClearEvent()
         m_listModel->clearItems();
         m_listView->reset();
         m_isAllClear = false;
+        m_bracketsState = false;
 
         emit clearStateChanged(false);
     } else {
         m_inputEdit->clear();
         m_isAllClear = true;
+        m_bracketsState = false;
 
         emit clearStateChanged(true);
     }
@@ -159,9 +162,50 @@ void ExpressionBar::enterBracketsEvent()
         m_inputEdit->clear();
     }
 
+    QString oldText = m_inputEdit->text();
     int currentPos = m_inputEdit->cursorPosition();
-    m_inputEdit->insert("()");
-    m_inputEdit->setCursorPosition(currentPos + 1);
+    int right = oldText.length() - currentPos;
+    int leftLeftParen = oldText.left(currentPos).count("(");
+    int leftRightParen = oldText.left(currentPos).count(")");
+    int rightLeftParen = oldText.right(right).count("(");
+    int rightrightParen = oldText.right(right).count(")");
+
+    /*if (m_bracketsState) {
+        m_inputEdit->insert(")");
+        m_bracketsState = false;
+        m_inputEdit->setCursorPosition(currentPos);
+    } else {
+        m_inputEdit->insert("(");
+        m_bracketsState = true;
+        m_inputEdit->setCursorPosition(currentPos + 1);
+    }*/
+
+    //左右括号总数是否相等
+    if (oldText.count("(") != oldText.count(")")) {
+        //光标左侧左括号大于右括号
+        if (leftLeftParen > leftRightParen) {
+            if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) > 0) {
+                m_inputEdit->insert(")");
+            } else if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) < 0) {
+                m_inputEdit->insert("(");
+                m_inputEdit->setCursorPosition(currentPos + 1);
+            } else {
+                m_inputEdit->insert("(");
+                m_inputEdit->setCursorPosition(currentPos + 1);
+            }
+        //如果左侧左括号小于等于左侧右括号
+        } else {
+            //如果右侧左括号小于右括号
+            if (rightLeftParen < rightrightParen) {
+                m_inputEdit->insert("(");
+            } else {
+                m_inputEdit->insert("(");
+            }
+        }
+    //相等则输入一对括号
+    } else {
+        m_inputEdit->insert("(");
+    }
 
     m_isAllClear = false;
     m_isContinue = true;

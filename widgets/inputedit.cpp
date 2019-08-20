@@ -83,7 +83,7 @@ void InputEdit::clear()
 void InputEdit::keyPressEvent(QKeyEvent *e)
 {
     Q_EMIT keyPress(e);
-
+#if 0
     switch (e->key()) {
     case Qt::Key_Equal: case Qt::Key_Period:
         return;
@@ -94,6 +94,19 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
         QLineEdit::keyPressEvent(e);
         break;
     }
+#else
+    switch (e->key()) {
+    case Qt::Key_Equal: case Qt::Key_Period:
+        return;
+    case Qt::Key_ParenRight:
+        QLineEdit::keyPressEvent(e);
+        setCursorPosition(cursorPosition() - 1);
+        break;
+    default:
+        QLineEdit::keyPressEvent(e);
+        break;
+    }
+#endif
 }
 
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
