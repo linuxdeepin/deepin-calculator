@@ -51,6 +51,7 @@ ExpressionBar::ExpressionBar(QWidget *parent)
 
     setMinimumHeight(160);
 
+    connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this, &ExpressionBar::revisionResults);
     connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionBar::handleTextChanged);
     connect(m_inputEdit, &InputEdit::keyPress, this, &ExpressionBar::keyPress);
 }
@@ -253,4 +254,11 @@ QString ExpressionBar::formatExpression(const QString &text)
     return QString(text).replace(QString::fromUtf8("＋"), "+").replace(QString::fromUtf8("－"), "-")
                         .replace(QString::fromUtf8("×"), "*").replace(QString::fromUtf8("÷"), "/")
                         .replace(QString::fromUtf8(","), "");
+}
+
+void ExpressionBar::revisionResults(const QModelIndex &index)
+{
+    //QString text = index.data().toString();
+    //QString result = text.split(QString("＝"), QString::SkipEmptyParts).last();
+
 }

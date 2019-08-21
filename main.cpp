@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QDate>
 #include <DApplication>
 #include <DWidgetUtil>
 #include "mainwindow.h"
@@ -36,6 +37,11 @@ int main(int argc, char *argv[])
     app.setProductIcon(QIcon(":/images/deepin-calculator.svg"));
     app.setProductName(DApplication::translate("MainWindow", "Deepin Calculator"));
     app.setApplicationDescription(DApplication::translate("MainWindow", "Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division."));
+    static const QDate buildDate = QLocale( QLocale::English ).toDate( QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
+    QString t_date = buildDate.toString("MMdd");
+    // Version Time
+    app.setApplicationVersion(DApplication::buildVersion(t_date));
+
 
     MainWindow w;
     w.show();

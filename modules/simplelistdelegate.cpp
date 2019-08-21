@@ -35,6 +35,8 @@ SimpleListDelegate::SimpleListDelegate(QObject *parent)
 
 SimpleListDelegate::~SimpleListDelegate()
 {
+    delete m_simpleListDelegate;
+    m_simpleListDelegate = NULL;
 }
 
 void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -117,5 +119,6 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option, const QMo
 bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
     m_selected = true;
+    emit obtainingHistorical(index);
     return true;
 }

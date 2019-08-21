@@ -35,6 +35,8 @@ protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index);
+signals:
+    void obtainingHistorical(const QModelIndex &index);
 private:
     void setSelect(bool isSelect) {m_selected = isSelect;};
     SimpleListDelegate *m_simpleListDelegate;

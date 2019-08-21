@@ -56,6 +56,7 @@ public slots:
 
 private slots:
     void handleTextChanged(const QString &text);
+    void revisionResults(const QModelIndex &index);
 
 private:
     bool cursorPosAtEnd();
