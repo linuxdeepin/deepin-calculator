@@ -33,7 +33,8 @@ ExpressionBar::ExpressionBar(QWidget *parent)
       m_evaluator(Evaluator::instance()),
       m_isContinue(true),
       m_isAllClear(false),
-      m_bracketsState(false)
+      m_isResult(false),
+      m_hisRevision(-1)
 {
     // init inputEdit attributes.
     m_inputEdit->setFixedHeight(55);
@@ -67,6 +68,10 @@ void ExpressionBar::setContinue(bool isContinue)
 
 void ExpressionBar::enterNumberEvent(const QString &text)
 {
+    if (!m_inputEdit->text().isEmpty() && m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     if (!m_isContinue) {
         // the cursor position at the end, it will clear edit text.
 
@@ -82,7 +87,23 @@ void ExpressionBar::enterNumberEvent(const QString &text)
 
 void ExpressionBar::enterSymbolEvent(const QString &text)
 {
-    m_inputEdit->insert(text);
+    if (m_unfinishedExp == "") {
+        if (m_hisRevision == -1) {
+            m_unfinishedExp = m_inputEdit->text() + text;
+            m_listModel->updataList(m_unfinishedExp, -1);
+        } else {
+            int cur = m_inputEdit->cursorPosition();
+            QString inputText = m_inputEdit->text();
+            inputText.insert(cur,text);
+            m_inputEdit->setText(inputText);
+        }
+    } else {
+        m_unfinishedExp = m_unfinishedExp + m_inputEdit->text() + text;
+        QString result;
+        computationalResults(m_unfinishedExp,result);
+        m_listModel->updataList(m_unfinishedExp, m_listModel->rowCount(QModelIndex()) - 1);
+    }
+    m_isResult = true;
     m_isContinue = true;
 }
 
@@ -116,13 +137,14 @@ void ExpressionBar::enterClearEvent()
         m_listModel->clearItems();
         m_listView->reset();
         m_isAllClear = false;
-        m_bracketsState = false;
+        m_unfinishedExp.clear();
+        m_isAutoComputation = false;
+        m_hisRevision = -1;
 
         emit clearStateChanged(false);
     } else {
         m_inputEdit->clear();
         m_isAllClear = true;
-        m_bracketsState = false;
 
         emit clearStateChanged(true);
     }
@@ -130,11 +152,26 @@ void ExpressionBar::enterClearEvent()
 
 void ExpressionBar::enterEqualEvent()
 {
-    if (m_inputEdit->text().isEmpty())
-        return;
-
-    const QString expression = formatExpression(m_inputEdit->expressionText());
-    m_evaluator->setExpression(expression);
+    QString resultText;
+    int index;
+    if (m_unfinishedExp == "" && m_hisRevision == -1) {
+        resultText = m_inputEdit->text();
+        index = -1;
+    }
+    if (m_hisRevision != -1) {
+        resultText = m_inputEdit->text();
+        index = m_hisRevision;
+        m_hisRevision = -1;
+    } else {
+        if (!m_inputEdit->text().isEmpty()) {
+            m_unfinishedExp += m_inputEdit->text();
+        }
+        resultText = m_unfinishedExp;
+        m_unfinishedExp.clear();
+        index = m_listModel->rowCount(QModelIndex()) - 1;
+    }
+    resultText = formatExpression(resultText);
+    m_evaluator->setExpression(resultText);
     Quantity ans = m_evaluator->evalUpdateAns();
 
     if (m_evaluator->error().isEmpty()) {
@@ -143,18 +180,21 @@ void ExpressionBar::enterEqualEvent()
 
         const QString result = DMath::format(ans, Quantity::Format::Fixed());
         QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace('-', "－").replace('+', "＋");
+        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+").replace(QString::fromUtf8("－"), "-")
+                                   .replace(QString::fromUtf8("×"), "*").replace(QString::fromUtf8("÷"), "/")
+                                   .replace(QString::fromUtf8(","), "");
 
-        if (formatResult != m_inputEdit->text()) {
-            m_listModel->appendText(m_inputEdit->text() + "＝" + formatResult);
+        //if (formatResult != m_inputEdit->text()) {
+            m_listModel->updataList(resultText + "＝" + formatResult, index);
             m_inputEdit->setAnswer(formatResult, ans);
             m_isContinue = false;
-        }
+        //}
     } else {
-        m_listModel->appendText(m_inputEdit->text() + "＝" + tr("Expression Error"));
+        m_listModel->updataList(resultText + "＝" + tr("Expression Error"), index);
     }
 
     m_listView->scrollToBottom();
+    m_isResult = false;
 }
 
 void ExpressionBar::enterBracketsEvent()
@@ -258,7 +298,38 @@ QString ExpressionBar::formatExpression(const QString &text)
 
 void ExpressionBar::revisionResults(const QModelIndex &index)
 {
-    //QString text = index.data().toString();
-    //QString result = text.split(QString("＝"), QString::SkipEmptyParts).last();
+    QString text = index.data(SimpleListModel::ExpressionRole).toString();
+    QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
+    if (historic.size() != 2)
+        return;
+    QString expression = historic.at(0);
+    m_hisRevision = index.row();
+    m_inputEdit->setText(expression);
+}
 
+void ExpressionBar::computationalResults(const QString &expression, QString &result)
+{
+    if (m_inputEdit->text().isEmpty())
+        return;
+
+    QString exp = expression.left(expression.size() - 1);
+    m_evaluator->setExpression(formatExpression(exp));
+    Quantity ans = m_evaluator->evalUpdateAns();
+
+    if (m_evaluator->error().isEmpty()) {
+        if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
+            return;
+
+        const QString tResult = DMath::format(ans, Quantity::Format::Fixed());
+        result = Utils::formatThousandsSeparators(tResult);
+        result = formatExpression(result);
+        m_inputEdit->setAnswer(result,ans);
+
+        if (result != m_inputEdit->text()) {
+            m_isContinue = false;
+        }
+    } else {
+        result = tr("Expression Error");
+        m_inputEdit->setText(result);
+    }
 }

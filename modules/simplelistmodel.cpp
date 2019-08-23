@@ -84,3 +84,23 @@ void SimpleListModel::refrushModel()
 
     emit updateCount(this->rowCount(QModelIndex()));
 }
+
+void SimpleListModel::updataList(const QString &text, const int index)
+{
+    QString exp = text;
+    exp = exp.replace('+', QString::fromUtf8("＋"))
+             .replace('-', QString::fromUtf8("－"))
+             .replace('*', QString::fromUtf8("×"))
+             .replace('/', QString::fromUtf8("÷"))
+             .replace('x', QString::fromUtf8("×"))
+             .replace('X', QString::fromUtf8("×"));
+
+    if (index == -1) {
+        appendText(exp);
+    } else {
+        beginRemoveRows(QModelIndex(), index, index);
+        m_expressionList.removeAt(index);
+        m_expressionList.insert(index,exp);
+        endRemoveRows();
+    }
+}

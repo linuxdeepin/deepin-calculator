@@ -99,16 +99,24 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         m_simpleListDelegate->setSelect(false);
     }
 
-    // draw result text.
-    painter->drawText(QRect(rect.x() + padding,
-                            rect.y(), rect.width() - padding * 2, rect.height()),
-                      Qt::AlignVCenter | Qt::AlignRight, resultStr);
+    if (splitList.size() == 1) {
+        // draw expression text;
+        painter->setPen(QColor(fontColor));
+        painter->drawText(QRect(rect.x() + padding,
+                                rect.y(), rect.width() - padding * 2, rect.height()),
+                          Qt::AlignVCenter | Qt::AlignRight, expStr);
+    } else {
+        // draw result text.
+        painter->drawText(QRect(rect.x() + padding,
+                                rect.y(), rect.width() - padding * 2, rect.height()),
+                          Qt::AlignVCenter | Qt::AlignRight, resultStr);
 
-    // draw expression text;
-    painter->setPen(QColor(fontColor));
-    painter->drawText(QRect(rect.x() + padding,
-                            rect.y(), rect.width() - resultWidth - padding * 2, rect.height()),
-                      Qt::AlignVCenter | Qt::AlignRight, expStr + " ＝ ");
+        // draw expression text;
+        painter->setPen(QColor(fontColor));
+        painter->drawText(QRect(rect.x() + padding,
+                                rect.y(), rect.width() - resultWidth - padding * 2, rect.height()),
+                          Qt::AlignVCenter | Qt::AlignRight, expStr + " ＝ ");
+    }
 }
 
 QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const

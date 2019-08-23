@@ -102,9 +102,11 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
         QLineEdit::keyPressEvent(e);
         setCursorPosition(cursorPosition() - 1);
         break;
+    case Qt::Key_Plus: case Qt::Key_Minus: case Qt::Key_Underscore:
+    case Qt::Key_Asterisk: case Qt::Key_X: case Qt::Key_Slash:
+        return;
     default:
         QLineEdit::keyPressEvent(e);
-        break;
     }
 #endif
 }

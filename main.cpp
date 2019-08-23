@@ -42,7 +42,6 @@ int main(int argc, char *argv[])
     // Version Time
     app.setApplicationVersion(DApplication::buildVersion(t_date));
 
-
     MainWindow w;
     w.show();
 

@@ -42,6 +42,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
     void appendText(const QString &text);
     void clearItems();
+    void updataList(const QString &text, const int index);
 
 signals:
     void updateCount(int);

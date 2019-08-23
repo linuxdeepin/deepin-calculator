@@ -126,15 +126,19 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         m_basicKeypad->animate(BasicKeypad::Key_9);
         break;
     case Qt::Key_Plus:
+        m_expressionBar->enterSymbolEvent("+");
         m_basicKeypad->animate(BasicKeypad::Key_Plus);
         break;
     case Qt::Key_Minus: case Qt::Key_Underscore:
+        m_expressionBar->enterSymbolEvent("-");
         m_basicKeypad->animate(BasicKeypad::Key_Min);
         break;
     case Qt::Key_Asterisk: case Qt::Key_X:
+        m_expressionBar->enterSymbolEvent("*");
         m_basicKeypad->animate(BasicKeypad::Key_Mult);
         break;
     case Qt::Key_Slash:
+        m_expressionBar->enterSymbolEvent("/");
         m_basicKeypad->animate(BasicKeypad::Key_Div);
         break;
     case Qt::Key_Enter: case Qt::Key_Return: case Qt::Key_Equal:
@@ -154,6 +158,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         m_basicKeypad->animate(BasicKeypad::Key_Brackets);
         break;
     case Qt::Key_Percent:
+        m_expressionBar->enterSymbolEvent("%");
         m_basicKeypad->animate(BasicKeypad::Key_Percent);
         break;
     case Qt::Key_C:
