@@ -41,6 +41,9 @@ int main(int argc, char *argv[])
     QString t_date = buildDate.toString("MMdd");
     // Version Time
     app.setApplicationVersion(DApplication::buildVersion(t_date));
+    app.setTheme("light");
+    app.setQuitOnLastWindowClosed(true);
+    app.setStyle("chameleon");
 
     MainWindow w;
     w.show();

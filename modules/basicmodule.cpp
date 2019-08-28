@@ -141,10 +141,13 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         m_expressionBar->enterSymbolEvent("/");
         m_basicKeypad->animate(BasicKeypad::Key_Div);
         break;
-    case Qt::Key_Enter: case Qt::Key_Return: case Qt::Key_Equal:
+    case Qt::Key_Enter: case Qt::Key_Return:
+        break;
+    case Qt::Key_Equal:
         (static_cast<QPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Equals)))->animateClick();
         break;
     case Qt::Key_Backspace:
+        m_expressionBar->clearLinkageCache();
         m_basicKeypad->animate(BasicKeypad::Key_Backspace);
         break;
     case Qt::Key_Period:

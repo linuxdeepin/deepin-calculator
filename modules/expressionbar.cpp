@@ -34,7 +34,9 @@ ExpressionBar::ExpressionBar(QWidget *parent)
       m_isContinue(true),
       m_isAllClear(false),
       m_isResult(false),
-      m_hisRevision(-1)
+      m_inputNumber(false),
+      m_hisRevision(-1),
+      m_linkageIndex(-1)
 {
     // init inputEdit attributes.
     m_inputEdit->setFixedHeight(55);
@@ -68,6 +70,11 @@ void ExpressionBar::setContinue(bool isContinue)
 
 void ExpressionBar::enterNumberEvent(const QString &text)
 {
+    if (m_inputNumber) {
+        m_inputEdit->clear();
+        m_inputNumber = false;
+        m_isResult = false;
+    }
     if (!m_inputEdit->text().isEmpty() && m_isResult) {
         m_inputEdit->clear();
         m_isResult = false;
@@ -87,10 +94,15 @@ void ExpressionBar::enterNumberEvent(const QString &text)
 
 void ExpressionBar::enterSymbolEvent(const QString &text)
 {
+    if (m_inputNumber)
+        return;
     if (m_unfinishedExp == "") {
         if (m_hisRevision == -1) {
             m_unfinishedExp = m_inputEdit->text() + text;
             m_listModel->updataList(m_unfinishedExp, -1);
+            if (!m_hisLink.isEmpty())
+                if (m_hisLink.last().linkedItem == -1)
+                    m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex()) - 1;
         } else {
             int cur = m_inputEdit->cursorPosition();
             QString inputText = m_inputEdit->text();
@@ -105,6 +117,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
     }
     m_isResult = true;
     m_isContinue = true;
+    m_inputNumber = true;
 }
 
 void ExpressionBar::enterPointEvent()
@@ -140,11 +153,13 @@ void ExpressionBar::enterClearEvent()
         m_unfinishedExp.clear();
         m_isAutoComputation = false;
         m_hisRevision = -1;
+        m_hisLink.clear();
 
         emit clearStateChanged(false);
     } else {
         m_inputEdit->clear();
         m_isAllClear = true;
+        clearLinkageCache();
 
         emit clearStateChanged(true);
     }
@@ -154,14 +169,16 @@ void ExpressionBar::enterEqualEvent()
 {
     QString resultText;
     int index;
+    historicalLinkageIndex hisIndex;
     if (m_unfinishedExp == "" && m_hisRevision == -1) {
         resultText = m_inputEdit->text();
         index = -1;
+        hisIndex.linkageTerm = 0;
     }
     if (m_hisRevision != -1) {
         resultText = m_inputEdit->text();
         index = m_hisRevision;
-        m_hisRevision = -1;
+        //m_hisRevision = -1;
     } else {
         if (!m_inputEdit->text().isEmpty()) {
             m_unfinishedExp += m_inputEdit->text();
@@ -170,8 +187,10 @@ void ExpressionBar::enterEqualEvent()
         m_unfinishedExp.clear();
         index = m_listModel->rowCount(QModelIndex()) - 1;
     }
+    hisIndex.linkageTerm = index;
     resultText = formatExpression(resultText);
-    m_evaluator->setExpression(resultText);
+    QString newResultText = completedBracketsCalculation(resultText);
+    m_evaluator->setExpression(newResultText);
     Quantity ans = m_evaluator->evalUpdateAns();
 
     if (m_evaluator->error().isEmpty()) {
@@ -189,12 +208,19 @@ void ExpressionBar::enterEqualEvent()
             m_inputEdit->setAnswer(formatResult, ans);
             m_isContinue = false;
         //}
+            if (m_hisRevision != -1) {
+                historicalLinkage(m_hisRevision, result);
+            } else {
+                hisIndex.linkageValue = formatResult;
+                m_hisLink.push_back(hisIndex);
+            }
     } else {
         m_listModel->updataList(resultText + "＝" + tr("Expression Error"), index);
     }
 
     m_listView->scrollToBottom();
     m_isResult = false;
+    m_hisRevision = -1;
 }
 
 void ExpressionBar::enterBracketsEvent()
@@ -203,49 +229,76 @@ void ExpressionBar::enterBracketsEvent()
         m_inputEdit->clear();
     }
 
-    QString oldText = m_inputEdit->text();
-    int currentPos = m_inputEdit->cursorPosition();
-    int right = oldText.length() - currentPos;
-    int leftLeftParen = oldText.left(currentPos).count("(");
-    int leftRightParen = oldText.left(currentPos).count(")");
-    int rightLeftParen = oldText.right(right).count("(");
-    int rightrightParen = oldText.right(right).count(")");
-
-    /*if (m_bracketsState) {
-        m_inputEdit->insert(")");
-        m_bracketsState = false;
-        m_inputEdit->setCursorPosition(currentPos);
-    } else {
-        m_inputEdit->insert("(");
-        m_bracketsState = true;
-        m_inputEdit->setCursorPosition(currentPos + 1);
-    }*/
-
-    //左右括号总数是否相等
-    if (oldText.count("(") != oldText.count(")")) {
-        //光标左侧左括号大于右括号
-        if (leftLeftParen > leftRightParen) {
-            if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) > 0) {
-                m_inputEdit->insert(")");
-            } else if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) < 0) {
-                m_inputEdit->insert("(");
-                m_inputEdit->setCursorPosition(currentPos + 1);
+    QString oldText, bracketsText;
+    if (m_unfinishedExp == "") {
+        oldText = m_inputEdit->text();
+        int currentPos = m_inputEdit->cursorPosition();
+        int right = oldText.length() - currentPos;
+        int leftLeftParen = oldText.left(currentPos).count("(");
+        int leftRightParen = oldText.left(currentPos).count(")");
+        int rightLeftParen = oldText.right(right).count("(");
+        int rightrightParen = oldText.right(right).count(")");
+        //左右括号总数是否相等
+        if (oldText.count("(") != oldText.count(")")) {
+            //光标左侧左括号大于右括号
+            if (leftLeftParen > leftRightParen) {
+                if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) > 0) {
+                    bracketsText = ")";
+                    //m_inputEdit->insert(")");
+                } else if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) < 0) {
+                    bracketsText = "(";
+                    //m_inputEdit->insert("(");
+                    //m_inputEdit->setCursorPosition(currentPos + 1);
+                } else {
+                    bracketsText = "(";
+                    //m_inputEdit->insert("(");
+                    //m_inputEdit->setCursorPosition(currentPos + 1);
+                }
+            //如果左侧左括号小于等于左侧右括号
             } else {
-                m_inputEdit->insert("(");
-                m_inputEdit->setCursorPosition(currentPos + 1);
+                //如果右侧左括号小于右括号
+                if (rightLeftParen < rightrightParen) {
+                    bracketsText = "(";
+                    //m_inputEdit->insert("(");
+                } else {
+                    bracketsText = "(";
+                    //m_inputEdit->insert("(");
+                }
             }
-        //如果左侧左括号小于等于左侧右括号
+        //相等则输入一对括号
         } else {
-            //如果右侧左括号小于右括号
-            if (rightLeftParen < rightrightParen) {
-                m_inputEdit->insert("(");
-            } else {
-                m_inputEdit->insert("(");
-            }
+            bracketsText = "(";
+            //m_inputEdit->insert("(");
         }
-    //相等则输入一对括号
-    } else {
-        m_inputEdit->insert("(");
+        if (m_hisRevision == -1) {
+            m_unfinishedExp = m_inputEdit->text() + bracketsText;
+            m_listModel->updataList(m_unfinishedExp, -1);
+        } else {
+            int cur = m_inputEdit->cursorPosition();
+            QString inputText = m_inputEdit->text();
+            inputText.insert(cur,bracketsText);
+            m_inputEdit->setText(inputText);
+        }
+    }
+    else {
+        oldText = m_unfinishedExp;
+        int leftBracket = oldText.count("(");
+        int rightBracket = oldText.count(")");
+        if (leftBracket - rightBracket == 0) {
+            bracketsText = "(";
+            m_unfinishedExp += bracketsText;
+            m_inputEdit->clear();
+        } else {
+            bracketsText = ")";
+            QString result, Computational;
+            m_unfinishedExp = m_unfinishedExp + m_inputEdit->text() + bracketsText;
+            Computational = m_unfinishedExp;
+            for (int i = 0; i < leftBracket - rightBracket; ++i) {
+                Computational += bracketsText;
+            }
+            computationalResults(Computational,result);
+        }
+        m_listModel->updataList(m_unfinishedExp, m_listModel->rowCount(QModelIndex()) - 1);
     }
 
     m_isAllClear = false;
@@ -313,6 +366,7 @@ void ExpressionBar::computationalResults(const QString &expression, QString &res
         return;
 
     QString exp = expression.left(expression.size() - 1);
+    exp = formatExpression(exp);
     m_evaluator->setExpression(formatExpression(exp));
     Quantity ans = m_evaluator->evalUpdateAns();
 
@@ -332,4 +386,68 @@ void ExpressionBar::computationalResults(const QString &expression, QString &res
         result = tr("Expression Error");
         m_inputEdit->setText(result);
     }
+}
+
+QString ExpressionBar::completedBracketsCalculation(QString &text)
+{
+    int leftBrack = text.count("(");
+    int rightBrack = text.count(")");
+    QString newText = text;
+    if (leftBrack > rightBrack) {
+        for (int i = 0;i < leftBrack - rightBrack;i++)
+            newText += ")";
+    }
+    return newText;
+}
+
+void ExpressionBar::historicalLinkage(int index, QString newValue)
+{
+    for (int i = 0;i < m_hisLink.size();i++) {
+        if (m_hisLink[i].linkageTerm == index /*&& m_hisLink[i].isLink*/) {
+            QString text = m_listModel->index(m_hisLink[i].linkedItem).data(SimpleListModel::ExpressionRole).toString();
+            QString expression = text.split("＝").first();
+            QString subStr = m_hisLink[i].linkageValue;
+            expression.replace(expression.indexOf(subStr), subStr.size(), newValue);
+            QString result;
+            expression = formatExpression(expression);
+            m_evaluator->setExpression(formatExpression(expression));
+            Quantity ans = m_evaluator->evalUpdateAns();
+
+            if (m_evaluator->error().isEmpty()) {
+                if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
+                    return;
+
+                const QString tResult = DMath::format(ans, Quantity::Format::Fixed());
+                result = Utils::formatThousandsSeparators(tResult);
+                result = formatExpression(result);
+                m_inputEdit->setAnswer(result,ans);
+
+                if (result != m_inputEdit->text()) {
+                    m_isContinue = false;
+                }
+            } else {
+                result = tr("Expression Error");
+                m_inputEdit->setText(result);
+            }
+            m_hisLink[i].linkageValue = newValue;
+            m_listModel->updataList(expression + "＝" + result,m_hisLink[i].linkedItem);
+        }
+    }
+}
+
+void ExpressionBar::setLinkState(const QModelIndex index)
+{
+    int row = index.row();
+    for (int i = 0;i < m_hisLink.size();i++) {
+        if (m_hisLink[i].linkageTerm == row)
+            m_hisLink[i].isLink = true;
+    }
+}
+
+void ExpressionBar::clearLinkageCache()
+{
+    if (m_hisLink.isEmpty())
+        return;
+    if (m_hisLink.last().linkedItem == -1)
+        m_hisLink.removeLast();
 }

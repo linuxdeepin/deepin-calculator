@@ -23,12 +23,28 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QKeyEvent>
+#include <QVector>
+#include <QPair>
 
 #include "simplelistview.h"
 #include "simplelistmodel.h"
 #include "simplelistdelegate.h"
 #include "../widgets/inputedit.h"
 #include "../core/evaluator.h"
+
+struct historicalLinkageIndex
+
+{
+    int linkageTerm;
+    int linkedItem;
+    QString linkageValue;
+    bool isLink;
+    historicalLinkageIndex() {
+        linkageTerm = -1;
+        linkedItem = -1;
+        isLink = false;
+    }
+};
 
 class ExpressionBar : public QWidget
 {
@@ -54,6 +70,9 @@ public slots:
     void enterBracketsEvent();
     void copyResultToClipboard();
     void computationalResults(const QString &expression, QString &result);
+    void historicalLinkage(int index, QString newValue);
+    void clearLinkageCache();
+    void setLinkState(const QModelIndex index);
 
 private slots:
     void handleTextChanged(const QString &text);
@@ -62,6 +81,7 @@ private slots:
 private:
     bool cursorPosAtEnd();
     QString formatExpression(const QString &text);
+    QString completedBracketsCalculation(QString &text);
 
 private:
     Evaluator *m_evaluator;
@@ -75,7 +95,11 @@ private:
     bool m_isAllClear;
     bool m_isResult;             //计算结果
     bool m_isAutoComputation;    //自动计算
+    bool m_inputNumber;          //输入数字
     int m_hisRevision;           //历史记录修改
+
+    int m_linkageIndex;          //联动索引缓存
+    QVector<historicalLinkageIndex> m_hisLink;   //历史联动索引
 };
 
 #endif
