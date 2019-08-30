@@ -144,3 +144,8 @@ void MainWindow::switchToScientificMode()
     m_settings->setOption("mode", 1);
     setFixedSize(565, 505);
 }
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    m_basicModule->setKeyPress(event);
+}

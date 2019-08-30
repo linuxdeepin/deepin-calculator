@@ -23,6 +23,8 @@
 #include "utils.h"
 #include <QPainter>
 #include <QDebug>
+#include <QMouseEvent>
+#include <QEvent>
 
 DWIDGET_USE_NAMESPACE
 
@@ -39,6 +41,12 @@ SimpleListDelegate::~SimpleListDelegate()
     m_simpleListDelegate = NULL;
 }
 
+void SimpleListDelegate::setHisLink(const int link, const int linked)
+{
+    m_linkItem.push_back(link);
+    m_linkedIten.push_back(linked);
+}
+
 void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
@@ -47,6 +55,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     const int padding = 15;
     QString errorFontColor;
     QString fontColor;
+    QString linkColor;
     painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
 
     QFont font;
@@ -66,9 +75,11 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     if (theme == "light") {
         errorFontColor = "#F37D54";
         fontColor = "#636363";
+        linkColor = "#0000FF";
     } else {
         errorFontColor = "#F37D54";
         fontColor = "#C3C3C3";
+        linkColor = "#0000FF";
     }
 
     // check result text is error.
@@ -76,6 +87,10 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         painter->setPen(QColor(errorFontColor));
     } else {
         painter->setPen(QColor(fontColor));
+        for (int i = 0; i < m_linkItem.size(); ++i) {
+            if (m_linkItem[i] == index.row())
+                painter->setPen(QColor(linkColor));
+        }
     }
 
     int equalStrWidth = painter->fontMetrics().width(" ＝ ");
@@ -111,11 +126,26 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                                 rect.y(), rect.width() - padding * 2, rect.height()),
                           Qt::AlignVCenter | Qt::AlignRight, resultStr);
 
+        QString linkNum,exp;
+        m_simpleListDelegate->cutApart(expStr,linkNum,exp);
+        exp = exp + " ＝ ";
+
         // draw expression text;
         painter->setPen(QColor(fontColor));
         painter->drawText(QRect(rect.x() + padding,
                                 rect.y(), rect.width() - resultWidth - padding * 2, rect.height()),
-                          Qt::AlignVCenter | Qt::AlignRight, expStr + " ＝ ");
+                          Qt::AlignVCenter | Qt::AlignRight, exp);
+
+        painter->setPen(QColor(fontColor));
+        for (int i = 0; i < m_linkedIten.size(); ++i) {
+            if (m_linkedIten[i] == index.row())
+                painter->setPen(QColor(linkColor));
+        }
+
+        int expWidth = painter->fontMetrics().width(exp);
+        painter->drawText(QRect(rect.x() + padding,
+                                rect.y(), rect.width() - resultWidth - expWidth - padding * 2, rect.height()),
+                          Qt::AlignVCenter | Qt::AlignRight, linkNum);
     }
 }
 
@@ -129,4 +159,15 @@ bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
     m_selected = true;
     emit obtainingHistorical(index);
     return true;
+}
+
+void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString &expStr)
+{
+    QString exp = text;
+    exp = exp.replace(QString::fromUtf8("＋"), "+").replace(QString::fromUtf8("－"), "+")
+                      .replace(QString::fromUtf8("×"), "+").replace(QString::fromUtf8("÷"), "+")
+                      .replace(QString::fromUtf8("("), "+").replace(QString::fromUtf8(")"), "+");
+    QStringList list = exp.split("+");
+    linkNum = list.at(0);
+    expStr = text.right(text.length() - linkNum.length());
 }

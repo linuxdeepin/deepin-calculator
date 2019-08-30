@@ -39,6 +39,7 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *);
+    void keyPressEvent(QKeyEvent *event);
 
 private:
     void initTheme();

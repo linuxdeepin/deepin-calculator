@@ -36,7 +36,8 @@ ExpressionBar::ExpressionBar(QWidget *parent)
       m_isResult(false),
       m_inputNumber(false),
       m_hisRevision(-1),
-      m_linkageIndex(-1)
+      m_linkageIndex(-1),
+      m_Selected(-1)
 {
     // init inputEdit attributes.
     m_inputEdit->setFixedHeight(55);
@@ -55,6 +56,7 @@ ExpressionBar::ExpressionBar(QWidget *parent)
     setMinimumHeight(160);
 
     connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this, &ExpressionBar::revisionResults);
+    //connect(m_listDelegate, &SimpleListDelegate::historicalLinkage, this, &ExpressionBar::settingLinkage);
     connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionBar::handleTextChanged);
     connect(m_inputEdit, &InputEdit::keyPress, this, &ExpressionBar::keyPress);
 }
@@ -163,6 +165,7 @@ void ExpressionBar::enterClearEvent()
 
         emit clearStateChanged(true);
     }
+    m_Selected = -1;
 }
 
 void ExpressionBar::enterEqualEvent()
@@ -358,6 +361,7 @@ void ExpressionBar::revisionResults(const QModelIndex &index)
     QString expression = historic.at(0);
     m_hisRevision = index.row();
     m_inputEdit->setText(expression);
+    m_Selected = m_hisRevision;
 }
 
 void ExpressionBar::computationalResults(const QString &expression, QString &result)
@@ -403,7 +407,7 @@ QString ExpressionBar::completedBracketsCalculation(QString &text)
 void ExpressionBar::historicalLinkage(int index, QString newValue)
 {
     for (int i = 0;i < m_hisLink.size();i++) {
-        if (m_hisLink[i].linkageTerm == index /*&& m_hisLink[i].isLink*/) {
+        if (m_hisLink[i].linkageTerm == index && m_hisLink[i].isLink) {
             QString text = m_listModel->index(m_hisLink[i].linkedItem).data(SimpleListModel::ExpressionRole).toString();
             QString expression = text.split("＝").first();
             QString subStr = m_hisLink[i].linkageValue;
@@ -450,4 +454,27 @@ void ExpressionBar::clearLinkageCache()
         return;
     if (m_hisLink.last().linkedItem == -1)
         m_hisLink.removeLast();
+}
+
+void ExpressionBar::settingLinkage()
+{
+    enterEqualEvent();
+    QString result = m_hisLink.last().linkageValue;
+    m_listModel->updataList(result, -1);
+    m_hisLink.last().isLink = true;
+    m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex()) - 1;
+    m_unfinishedExp = result;
+    m_inputEdit->clear();
+    m_listDelegate->setHisLink(m_hisLink.last().linkageTerm, m_hisLink.last().linkedItem);
+}
+
+void ExpressionBar::settingLinkage(const QModelIndex &index)
+{
+    int row = index.row();
+    for (int i = 0;i < m_hisLink.size();i++) {
+        if (m_hisLink[i].linkageTerm == row) {
+            m_hisLink[i].isLink = true;
+            m_inputEdit->clear();
+        }
+    }
 }

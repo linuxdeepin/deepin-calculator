@@ -39,6 +39,7 @@ public:
 
     void switchToSimpleKeypad();
     void switchToScientificKeypad();
+    void setKeyPress(QKeyEvent *e);
 
 private:
     void initTheme();

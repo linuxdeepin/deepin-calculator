@@ -142,6 +142,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         m_basicKeypad->animate(BasicKeypad::Key_Div);
         break;
     case Qt::Key_Enter: case Qt::Key_Return:
+        m_expressionBar->settingLinkage();
         break;
     case Qt::Key_Equal:
         (static_cast<QPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Equals)))->animateClick();
@@ -229,4 +230,9 @@ void BasicModule::paintEvent(QPaintEvent *)
                            m_expressionBar->height() + 1,
                            rect().width(),
                            rect().height()));
+}
+
+void BasicModule::setKeyPress(QKeyEvent *e)
+{
+    handleEditKeyPress(e);
 }
