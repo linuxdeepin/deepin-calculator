@@ -30,6 +30,7 @@ class SimpleListDelegate : public QAbstractItemDelegate
 public:
     SimpleListDelegate(QObject *parent = nullptr);
     ~SimpleListDelegate();
+    void setHisLink(const int link, const int linked);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
@@ -37,9 +38,14 @@ protected:
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index);
 signals:
     void obtainingHistorical(const QModelIndex &index);
+    void historicalLinkage(const QModelIndex &index);
 private:
     void setSelect(bool isSelect) {m_selected = isSelect;};
+    void cutApart(const QString text, QString &linkNum, QString &expStr);
+
     SimpleListDelegate *m_simpleListDelegate;
+    QVector<int> m_linkItem;
+    QVector<int> m_linkedIten;
     bool m_selected;
 };
 

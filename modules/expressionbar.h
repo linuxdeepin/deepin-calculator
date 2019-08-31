@@ -73,6 +73,8 @@ public slots:
     void historicalLinkage(int index, QString newValue);
     void clearLinkageCache();
     void setLinkState(const QModelIndex index);
+    void settingLinkage(const QModelIndex &index);
+    void settingLinkage();
 
 private slots:
     void handleTextChanged(const QString &text);
@@ -99,6 +101,7 @@ private:
     int m_hisRevision;           //历史记录修改
 
     int m_linkageIndex;          //联动索引缓存
+    int m_Selected;              //选中
     QVector<historicalLinkageIndex> m_hisLink;   //历史联动索引
 };
 
