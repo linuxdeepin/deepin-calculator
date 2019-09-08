@@ -41,10 +41,19 @@ SimpleListDelegate::~SimpleListDelegate()
     m_simpleListDelegate = NULL;
 }
 
-void SimpleListDelegate::setHisLink(const int link, const int linked)
+void SimpleListDelegate::setHisLink(const int link)
 {
     m_linkItem.push_back(link);
+}
+
+void SimpleListDelegate::setHisLinked(const int linked)
+{
     m_linkedIten.push_back(linked);
+}
+
+void SimpleListDelegate::removeHisLink()
+{
+    m_linkItem.removeLast();
 }
 
 void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const

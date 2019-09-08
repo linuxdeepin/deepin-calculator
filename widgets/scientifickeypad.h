@@ -20,13 +20,17 @@
 #ifndef SCIENTIFICKEYPAD_H
 #define SCIENTIFICKEYPAD_H
 
-#include <QWidget>
-#include <QGridLayout>
-#include <QSignalMapper>
 #include "textbutton.h"
 #include "iconbutton.h"
 
-class ScientificKeypad : public QWidget
+#include <QGridLayout>
+#include <QSignalMapper>
+
+#include <DWidget>
+
+DWIDGET_USE_NAMESPACE
+
+class ScientificKeypad : public DWidget
 {
     Q_OBJECT
 
@@ -54,7 +58,7 @@ private:
 
 private:
     QGridLayout *m_layout;
-    QHash<Buttons, QPair<QPushButton *, const KeyDescription *>> m_keys;
+    QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
 };
 
 #endif

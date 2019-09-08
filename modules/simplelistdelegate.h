@@ -30,7 +30,9 @@ class SimpleListDelegate : public QAbstractItemDelegate
 public:
     SimpleListDelegate(QObject *parent = nullptr);
     ~SimpleListDelegate();
-    void setHisLink(const int link, const int linked);
+    void setHisLink(const int link);
+    void setHisLinked(const int linked);
+    void removeHisLink();
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;

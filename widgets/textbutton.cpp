@@ -24,7 +24,7 @@
 DWIDGET_USE_NAMESPACE
 
 TextButton::TextButton(const QString &text, QWidget *parent)
-    : QPushButton(text, parent),
+    : DPushButton(text, parent),
       m_effect(new QGraphicsDropShadowEffect(this))
 {
     setFixedSize(80, 60);

@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent),
       m_settings(DSettings::instance()),
       m_mainLayout(new QStackedLayout),
-      m_tbMenu(new QMenu)
+      m_tbMenu(new DMenu)
 {
     titlebar()->setBackgroundTransparent(true);
     titlebar()->setIcon(QIcon(":/images/title_icon.svg"));
@@ -87,10 +87,10 @@ void MainWindow::initTheme()
 
     if (theme == "light") {
         m_titlebarColor = "#FBFBFB";
-        setStyleSheet(Utils::getQssContent(":/qss/light.qss"));
+        //setStyleSheet(Utils::getQssContent(":/qss/light.qss"));
     } else {
         m_titlebarColor = "#111111";
-        setStyleSheet(Utils::getQssContent(":/qss/dark.qss"));
+        //setStyleSheet(Utils::getQssContent(":/qss/dark.qss"));
     }
 }
 
