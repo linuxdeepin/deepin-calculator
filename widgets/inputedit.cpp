@@ -25,7 +25,7 @@
 #include <QDebug>
 
 InputEdit::InputEdit(QWidget *parent)
-    : QLineEdit(parent),
+    : DLineEdit(parent),
       m_ans(0),
       m_ansStartPos(0),
       m_ansLength(0),
@@ -46,6 +46,7 @@ InputEdit::InputEdit(QWidget *parent)
                 int pos = this->cursorPosition();
                 this->cursorPositionChanged(pos, pos);
             });
+    setFrame(false);
 }
 
 InputEdit::~InputEdit()
@@ -102,11 +103,11 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
         QLineEdit::keyPressEvent(e);
         setCursorPosition(cursorPosition() - 1);
         break;
-    case Qt::Key_Plus: case Qt::Key_Minus: case Qt::Key_Underscore:
+    /*case Qt::Key_Plus: case Qt::Key_Minus: case Qt::Key_Underscore:
     case Qt::Key_Asterisk: case Qt::Key_X: case Qt::Key_Slash:
         return;
     default:
-        QLineEdit::keyPressEvent(e);
+        QLineEdit::keyPressEvent(e);*/
     }
 #endif
 }

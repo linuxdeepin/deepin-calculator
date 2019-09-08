@@ -49,7 +49,7 @@ const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
     { "=", Key_Equals, 5, 3 }
 };
 
-static QPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
+static DPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
     IconButton *button = new IconButton(10, 13);
 
     if (key == BasicKeypad::Key_Div) {
@@ -88,7 +88,7 @@ BasicKeypad::~BasicKeypad()
 {
 }
 
-QPushButton* BasicKeypad::button(Buttons key)
+DPushButton* BasicKeypad::button(Buttons key)
 {
     return m_keys.value(key).first;
 }
@@ -104,7 +104,7 @@ void BasicKeypad::initButtons()
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
-        QPushButton *button;
+        DPushButton *button;
 
         if (desc->text.isEmpty()) {
             button = createSpecialKeyButton(desc->button);
@@ -113,17 +113,17 @@ void BasicKeypad::initButtons()
         }
 
         m_layout->addWidget(button, desc->row, desc->column);
-        const QPair<QPushButton *, const KeyDescription *> hashValue(button, desc);
+        const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue);
 
-        connect(button, &QPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+        connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
         m_mapper->setMapping(button, desc->button);
     }
 }
 
 void BasicKeypad::initUI()
 {
-    QHashIterator<Buttons, QPair<QPushButton *, const KeyDescription *>> i(m_keys);
+    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
 
     while (i.hasNext()) {
         i.next();

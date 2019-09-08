@@ -20,10 +20,12 @@
 #ifndef INPUTEDIT_H
 #define INPUTEDIT_H
 
-#include <QLineEdit>
+#include <DLineEdit>
 #include "../math/quantity.h"
 
-class InputEdit : public QLineEdit
+DWIDGET_USE_NAMESPACE
+
+class InputEdit : public DLineEdit
 {
     Q_OBJECT
 

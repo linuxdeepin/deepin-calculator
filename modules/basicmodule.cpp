@@ -86,43 +86,43 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
 
     switch (e->key()) {
     case Qt::Key_0:
-        m_expressionBar->enterNumberEvent("");
+        m_expressionBar->enterNumberEvent("0");
         m_basicKeypad->animate(BasicKeypad::Key_0);
         break;
     case Qt::Key_1:
-        m_expressionBar->enterNumberEvent("");
+        m_expressionBar->enterNumberEvent("1");
         m_basicKeypad->animate(BasicKeypad::Key_1);
         break;
     case Qt::Key_2:
-        m_expressionBar->enterNumberEvent("");
+        m_expressionBar->enterNumberEvent("2");
         m_basicKeypad->animate(BasicKeypad::Key_2);
         break;
     case Qt::Key_3:
-        m_expressionBar->enterNumberEvent("");
+        m_expressionBar->enterNumberEvent("3");
         m_basicKeypad->animate(BasicKeypad::Key_3);
         break;
     case Qt::Key_4:
-        m_expressionBar->enterNumberEvent("");
+        m_expressionBar->enterNumberEvent("4");
         m_basicKeypad->animate(BasicKeypad::Key_4);
         break;
     case Qt::Key_5:
-        m_expressionBar->enterNumberEvent("");
+        m_expressionBar->enterNumberEvent("5");
         m_basicKeypad->animate(BasicKeypad::Key_5);
         break;
     case Qt::Key_6:
-        m_expressionBar->enterNumberEvent("");
+        m_expressionBar->enterNumberEvent("6");
         m_basicKeypad->animate(BasicKeypad::Key_6);
         break;
     case Qt::Key_7:
-        m_expressionBar->enterNumberEvent("");
+        m_expressionBar->enterNumberEvent("7");
         m_basicKeypad->animate(BasicKeypad::Key_7);
         break;
     case Qt::Key_8:
-        m_expressionBar->enterNumberEvent("");
+        m_expressionBar->enterNumberEvent("8");
         m_basicKeypad->animate(BasicKeypad::Key_8);
         break;
     case Qt::Key_9:
-        m_expressionBar->enterNumberEvent("");
+        m_expressionBar->enterNumberEvent("9");
         m_basicKeypad->animate(BasicKeypad::Key_9);
         break;
     case Qt::Key_Plus:
@@ -141,28 +141,28 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         m_expressionBar->enterSymbolEvent("/");
         m_basicKeypad->animate(BasicKeypad::Key_Div);
         break;
-    case Qt::Key_Enter: case Qt::Key_Return:
+    case Qt::Key_Enter: case Qt::Key_Return: case Qt::Key_Right:
         m_expressionBar->settingLinkage();
         break;
     case Qt::Key_Equal:
-        (static_cast<QPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Equals)))->animateClick();
+        (static_cast<DPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Equals)))->animateClick();
         break;
     case Qt::Key_Backspace:
-        m_expressionBar->clearLinkageCache();
+        m_expressionBar->enterBackspaceEvent();
         m_basicKeypad->animate(BasicKeypad::Key_Backspace);
         break;
     case Qt::Key_Period:
-        (static_cast<QPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Point)))->animateClick();
+        (static_cast<DPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Point)))->animateClick();
         break;
     case Qt::Key_Escape:
-        (static_cast<QPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Clear)))->animateClick();
+        (static_cast<DPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Clear)))->animateClick();
         break;
     case Qt::Key_ParenLeft: case Qt::Key_ParenRight:
         m_expressionBar->setContinue(true);
         m_basicKeypad->animate(BasicKeypad::Key_Brackets);
         break;
     case Qt::Key_Percent:
-        m_expressionBar->enterSymbolEvent("%");
+        m_expressionBar->enterPercentEvent();
         m_basicKeypad->animate(BasicKeypad::Key_Percent);
         break;
     case Qt::Key_C:
@@ -190,7 +190,7 @@ void BasicModule::handleKeypadButtonPress(int key)
     case BasicKeypad::Key_Min:          m_expressionBar->enterSymbolEvent("-");     break;
     case BasicKeypad::Key_Mult:         m_expressionBar->enterSymbolEvent("*");     break;
     case BasicKeypad::Key_Div:          m_expressionBar->enterSymbolEvent("/");     break;
-    case BasicKeypad::Key_Percent:      m_expressionBar->enterSymbolEvent("%");     break;
+    case BasicKeypad::Key_Percent:      m_expressionBar->enterPercentEvent();       break;
     case BasicKeypad::Key_Equals:       m_expressionBar->enterEqualEvent();         break;
     case BasicKeypad::Key_Clear:        m_expressionBar->enterClearEvent();         break;
     case BasicKeypad::Key_Backspace:    m_expressionBar->enterBackspaceEvent();     break;

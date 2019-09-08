@@ -51,7 +51,7 @@ private:
 private:
     DSettings *m_settings;
     QStackedLayout *m_mainLayout;
-    QMenu *m_tbMenu;
+    DMenu *m_tbMenu;
     QAction *m_themeAction;
     QAction *m_simpleAction;
     QAction *m_scAction;

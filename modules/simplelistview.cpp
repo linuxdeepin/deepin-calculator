@@ -26,7 +26,7 @@
 #include <QDebug>
 
 SimpleListView::SimpleListView(QWidget *parent)
-    : QListView(parent)
+    : DListView(parent)
 {
     setVerticalScrollMode(ScrollPerPixel);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);

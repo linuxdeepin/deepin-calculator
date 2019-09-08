@@ -42,7 +42,7 @@ public:
     BasicKeypad(QWidget *parent = nullptr);
     ~BasicKeypad();
 
-    QPushButton *button(Buttons key);
+    DPushButton *button(Buttons key);
     void animate(Buttons key);
 
     static const struct KeyDescription {
@@ -63,7 +63,7 @@ private:
 private:
     QGridLayout *m_layout;
     QSignalMapper *m_mapper;
-    QHash<Buttons, QPair<QPushButton *, const KeyDescription *>> m_keys;
+    QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
 };
 
 #endif

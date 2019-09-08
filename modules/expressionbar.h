@@ -67,6 +67,7 @@ public slots:
     void enterBackspaceEvent();
     void enterClearEvent();
     void enterEqualEvent();
+    void enterPercentEvent();
     void enterBracketsEvent();
     void copyResultToClipboard();
     void computationalResults(const QString &expression, QString &result);
@@ -100,6 +101,7 @@ private:
     bool m_inputNumber;          //输入数字
     int m_hisRevision;           //历史记录修改
 
+    bool m_isLinked;             //联动状态
     int m_linkageIndex;          //联动索引缓存
     int m_Selected;              //选中
     QVector<historicalLinkageIndex> m_hisLink;   //历史联动索引

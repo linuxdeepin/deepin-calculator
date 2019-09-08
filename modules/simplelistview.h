@@ -20,10 +20,12 @@
 #ifndef SIMPLELISTVIEW_H
 #define SIMPLELISTVIEW_H
 
-#include <QListView>
+#include <DListView>
 #include <QScrollBar>
 
-class SimpleListView : public QListView
+DWIDGET_USE_NAMESPACE
+
+class SimpleListView : public DListView
 {
     Q_OBJECT
 
