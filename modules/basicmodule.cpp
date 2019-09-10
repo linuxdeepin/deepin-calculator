@@ -26,10 +26,11 @@
 #include <QPainter>
 #include <QDebug>
 
+DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
 
 BasicModule::BasicModule(QWidget *parent)
-    : QWidget(parent),
+    : DWidget(parent),
       m_expressionBar(new ExpressionBar),
       m_basicKeypad(new BasicKeypad),
       m_keypadLayout(new QStackedLayout)
@@ -44,12 +45,21 @@ BasicModule::BasicModule(QWidget *parent)
     layout->setMargin(0);
 
     setMouseTracking(true);
-    initTheme();
+    //initTheme();
 
-    connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &BasicModule::initTheme);
+    DPalette pal = this->palette();
+    pal.setColor(DPalette::Light,QColor(248,248,248));
+    //pal.setColor(DPalette::Dark,QColor(17,17,17));
+    this->setPalette(pal);
+
+    //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &BasicModule::initTheme);
     connect(m_expressionBar, &ExpressionBar::keyPress, this, &BasicModule::handleEditKeyPress);
     connect(m_expressionBar, &ExpressionBar::clearStateChanged, this, &BasicModule::handleClearStateChanged);
     connect(m_basicKeypad, &BasicKeypad::buttonPressed, this, &BasicModule::handleKeypadButtonPress);
+
+    m_expBarColor = "#FBFBFB";
+    m_expBarSepColor = "#E1E1E1";
+    m_btnSepColor = QColor(242, 242, 242);
 }
 
 BasicModule::~BasicModule()
@@ -64,7 +74,7 @@ void BasicModule::switchToScientificKeypad()
 {
 }
 
-void BasicModule::initTheme()
+/*void BasicModule::initTheme()
 {
     const QString theme = DThemeManager::instance()->theme();
 
@@ -77,7 +87,7 @@ void BasicModule::initTheme()
         m_expBarSepColor = "#303030";
         m_btnSepColor = QColor("#2D2D2D");
     }
-}
+}*/
 
 void BasicModule::handleEditKeyPress(QKeyEvent *e)
 {
