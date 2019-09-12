@@ -47,6 +47,7 @@ InputEdit::InputEdit(QWidget *parent)
                 this->cursorPositionChanged(pos, pos);
             });
     setFrame(false);
+    setClearButtonEnabled(false);
 }
 
 InputEdit::~InputEdit()
@@ -180,7 +181,7 @@ void InputEdit::autoZoomFontSize()
     QFont font;
 
     // the maximum font is 28, minimum font is 9.
-    for (int i = 28; i > 8; --i) {
+    for (int i = 26; i > 1; --i) {
         font.setPointSize(i);
 
         QFontMetrics fm(font);
@@ -234,12 +235,22 @@ void InputEdit::handleTextChanged(const QString &text)
                              .replace(QString::fromUtf8("。"), ".")
                              .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
 
+    pointFaultTolerance(reformatStr);
     setText(reformatStr);
 
     int newLength = reformatStr.length();
     setCursorPosition(oldPosition + (newLength - oldLength));
 
     autoZoomFontSize();
+}
+
+void InputEdit::pointFaultTolerance(QString &text)
+{
+    int firstPoint = text.indexOf(".");
+    //int lastPoint = text.lastIndexOf(".");
+    //int count = text.count(".");
+    text.replace(".","");
+    text.insert(firstPoint, ".");
 }
 
 void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)

@@ -18,17 +18,68 @@
  */
 
 #include <QDate>
+#include <QDebug>
+#include <QDir>
 #include <DApplication>
 #include <DWidgetUtil>
+#include <DGuiApplicationHelper>
 #include "mainwindow.h"
 
 DWIDGET_USE_NAMESPACE
+static QString g_appPath;//全局路径
+
+///获取配置文件主题类型，并重新设置
+DGuiApplicationHelper::ColorType getThemeTypeSetting()
+{
+    //需要找到自己程序的配置文件路径，并读取配置，这里只是用home路径下themeType.cfg文件举例,具体配置文件根据自身项目情况
+    QString t_appDir = g_appPath + QDir::separator() + "themetype.cfg";
+    QFile t_configFile(t_appDir);
+
+    t_configFile.open(QIODevice::ReadOnly | QIODevice::Text);
+    QByteArray t_readBuf = t_configFile.readAll();
+    int t_readType = QString(t_readBuf).toInt();
+
+    //获取读到的主题类型，并返回设置
+    switch (t_readType) {
+    case 0:
+        // 跟随系统主题
+        return DGuiApplicationHelper::UnknownType;
+    case 1:
+//        浅色主题
+        return DGuiApplicationHelper::LightType;
+
+    case 2:
+//        深色主题
+        return DGuiApplicationHelper::DarkType;
+    default:
+        // 跟随系统主题
+        return DGuiApplicationHelper::UnknownType;
+    }
+
+}
+
+//保存当前主题类型配置文件
+void saveThemeTypeSetting(int type)
+{
+    //需要找到自己程序的配置文件路径，并写入配置，这里只是用home路径下themeType.cfg文件举例,具体配置文件根据自身项目情况
+    QString t_appDir = g_appPath + QDir::separator() + "themetype.cfg";
+    QFile t_configFile(t_appDir);
+
+    t_configFile.open(QIODevice::WriteOnly | QIODevice::Text);
+    //直接将主题类型保存到配置文件，具体配置key-value组合根据自身项目情况
+    QString t_typeStr = QString::number(type);
+    t_configFile.write(t_typeStr.toUtf8());
+    t_configFile.close();
+}
 
 int main(int argc, char *argv[])
 {
     DApplication::loadDXcbPlugin();
     DApplication app(argc, argv);
     app.setAttribute(Qt::AA_UseHighDpiPixmaps);
+    g_appPath = QDir::homePath() + QDir::separator() + "." + qApp->applicationName();
+    QDir t_appDir;
+    t_appDir.mkpath(g_appPath);
     app.loadTranslator();
     app.setOrganizationName("deepin");
     app.setApplicationName("deepin-calculator");
@@ -45,7 +96,19 @@ int main(int argc, char *argv[])
     app.setQuitOnLastWindowClosed(true);
     //app.setStyle("chameleon");
 
+    // 应用已保存的主题设置
+    DGuiApplicationHelper::instance()->setPaletteType(getThemeTypeSetting());
+
     MainWindow w;
+    Dtk::Widget::moveToCenter(&w);
+
+    //监听当前应用主题切换事件
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
+    [] (DGuiApplicationHelper::ColorType type) {
+        qDebug() << type;
+        // 保存程序的主题设置  type : 0,系统主题， 1,浅色主题， 2,深色主题
+        saveThemeTypeSetting(type);
+    });
     w.show();
 
     if (app.setSingleInstance("deepin-calculator")) {

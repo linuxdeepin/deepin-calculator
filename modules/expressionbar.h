@@ -26,11 +26,15 @@
 #include <QVector>
 #include <QPair>
 
+#include <DWidget>
+
 #include "simplelistview.h"
 #include "simplelistmodel.h"
 #include "simplelistdelegate.h"
 #include "../widgets/inputedit.h"
 #include "../core/evaluator.h"
+
+DWIDGET_USE_NAMESPACE
 
 struct historicalLinkageIndex
 
@@ -46,7 +50,7 @@ struct historicalLinkageIndex
     }
 };
 
-class ExpressionBar : public QWidget
+class ExpressionBar : public DWidget
 {
     Q_OBJECT
 

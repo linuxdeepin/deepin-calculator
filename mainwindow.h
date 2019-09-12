@@ -43,8 +43,8 @@ protected:
 
 private:
     void initTheme();
+    //void switchTheme();
     void initModule();
-    void switchTheme();
     void switchToSimpleMode();
     void switchToScientificMode();
 

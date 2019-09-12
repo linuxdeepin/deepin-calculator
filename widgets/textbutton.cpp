@@ -21,7 +21,10 @@
 #include "dthememanager.h"
 #include <QTimer>
 
+#include <DPalette>
+
 DWIDGET_USE_NAMESPACE
+DGUI_USE_NAMESPACE
 
 TextButton::TextButton(const QString &text, QWidget *parent)
     : DPushButton(text, parent),
@@ -46,6 +49,11 @@ TextButton::~TextButton()
 void TextButton::init()
 {
     bool isEqual(text() == "=");
+    if (isEqual) {
+        DPalette pa = this->palette();
+        pa.setColor(DPalette::WindowText, Qt::white);
+        this->setPalette(pa);
+    }
 
     if (DThemeManager::instance()->theme() == "light") {
         m_effect->setColor(QColor(12, 155, 246, 255 * 0.1));
@@ -92,28 +100,28 @@ void TextButton::animate(int msec)
 
 void TextButton::mousePressEvent(QMouseEvent *e)
 {
-    hideShadow();
+    //hideShadow();
 
-    QPushButton::mousePressEvent(e);
+    DPushButton::mousePressEvent(e);
 }
 
 void TextButton::mouseReleaseEvent(QMouseEvent *e)
 {
-    showShadow();
+    //showShadow();
 
-    QPushButton::mouseReleaseEvent(e);
+    DPushButton::mouseReleaseEvent(e);
 }
 
 void TextButton::enterEvent(QEvent *e)
 {
-    showShadow();
+    //showShadow();
 
-    QPushButton::enterEvent(e);
+    DPushButton::enterEvent(e);
 }
 
 void TextButton::leaveEvent(QEvent *e)
 {
-    hideShadow();
+    //hideShadow();
 
-    QPushButton::leaveEvent(e);
+    DPushButton::leaveEvent(e);
 }

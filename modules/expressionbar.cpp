@@ -17,7 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QPushButton>
 #include <QApplication>
 #include <QClipboard>
 #include <QDebug>
@@ -25,7 +24,7 @@
 #include "../utils.h"
 
 ExpressionBar::ExpressionBar(QWidget *parent)
-    : QWidget(parent),
+    : DWidget(parent),
       m_listView(new SimpleListView),
       m_listDelegate(new SimpleListDelegate),
       m_listModel(new SimpleListModel),
@@ -74,9 +73,8 @@ void ExpressionBar::enterNumberEvent(const QString &text)
 {
     if (m_isLinked)
         clearLinkageCache();
-    if (m_inputNumber) {
+    if (m_inputNumber && m_hisRevision == -1) {
         m_inputEdit->clear();
-        m_inputNumber = false;
         m_isResult = false;
     }
     if (!m_inputEdit->text().isEmpty() && m_isResult) {
@@ -92,6 +90,7 @@ void ExpressionBar::enterNumberEvent(const QString &text)
         m_isContinue = true;
     }
 
+    m_inputNumber = false;
     m_inputEdit->insert(text);
     emit clearStateChanged(false);
 }
@@ -100,6 +99,13 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
 {
     if (m_inputNumber && text != "-")
         return;
+    //修改最后一位计算符号
+    /*QString lastStr = m_inputEdit->text().right(1);
+    if (lastStr != text) {
+        if (lastStr == QString::fromUtf8("＋") || lastStr == QString::fromUtf8("－") ||
+                lastStr == QString::fromUtf8("×") ||lastStr = QString::fromUtf8("÷"))
+            lastStr.chop(1);
+    }*/
     if (m_unfinishedExp == "") {
         if (m_hisRevision == -1) {
             m_unfinishedExp = m_inputEdit->text() + text;
@@ -107,17 +113,21 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
             if (!m_hisLink.isEmpty())
                 if (m_hisLink.last().linkedItem == -1)
                     m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex()) - 1;
+            m_isResult = true;
         } else {
             int cur = m_inputEdit->cursorPosition();
             QString inputText = m_inputEdit->text();
             inputText.insert(cur,text);
             m_inputEdit->setText(inputText);
+            m_unfinishedExp = inputText;
+            m_listModel->updataList(inputText, m_hisRevision);
         }
     } else {
         m_unfinishedExp = m_unfinishedExp + m_inputEdit->text() + text;
         QString result;
         computationalResults(m_unfinishedExp,result);
         m_listModel->updataList(m_unfinishedExp, m_listModel->rowCount(QModelIndex()) - 1);
+        m_isResult = true;
     }
     if (m_isLinked) {
         int rowCount = m_listModel->rowCount(QModelIndex()) - 1;
@@ -125,7 +135,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
         m_listDelegate->setHisLinked(rowCount);
         m_isLinked = false;
     }
-    m_isResult = true;
+    m_listView->scrollToBottom();
     m_isContinue = true;
     m_inputNumber = true;
 }
@@ -164,6 +174,7 @@ void ExpressionBar::enterPercentEvent()
         m_listModel->updataList(m_unfinishedExp, m_listModel->rowCount(QModelIndex()) - 1);
         m_inputEdit->clear();
     }
+    m_listView->scrollToBottom();
     m_isContinue = true;
 }
 
@@ -187,7 +198,8 @@ void ExpressionBar::enterPointEvent()
 
 void ExpressionBar::enterBackspaceEvent()
 {
-    clearLinkageCache();
+    if (m_isResult)
+        clearLinkageCache();
     m_inputEdit->backspace();
 
     m_isContinue = true;
@@ -204,6 +216,7 @@ void ExpressionBar::enterClearEvent()
         m_isAutoComputation = false;
         m_hisRevision = -1;
         m_hisLink.clear();
+        m_listDelegate->removeAllLink();
 
         emit clearStateChanged(false);
     } else {
@@ -221,28 +234,25 @@ void ExpressionBar::enterEqualEvent()
 {
     QString resultText;
     int index;
-    historicalLinkageIndex hisIndex;
     if (m_unfinishedExp == "" && m_hisRevision == -1) {
         resultText = m_inputEdit->text();
         index = -1;
-        hisIndex.linkageTerm = 0;
     }
+    //修改历史记录
     if (m_hisRevision != -1) {
         resultText = m_inputEdit->text();
         index = m_hisRevision;
-        //m_hisRevision = -1;
     } else {
         if (!m_inputEdit->text().isEmpty() && !m_isResult) {
             m_unfinishedExp += m_inputEdit->text();
         }
         resultText = m_unfinishedExp;
-        m_unfinishedExp.clear();
         index = m_listModel->rowCount(QModelIndex()) - 1;
         QString tmp = m_listModel->index(index).data(SimpleListModel::ExpressionRole).toString();
         if (tmp.indexOf("＝") != -1)
             ++index;
     }
-    hisIndex.linkageTerm = index;
+    m_unfinishedExp.clear();
     resultText = formatExpression(resultText);
     QString newResultText = completedBracketsCalculation(resultText);
     m_evaluator->setExpression(newResultText);
@@ -263,19 +273,14 @@ void ExpressionBar::enterEqualEvent()
             m_inputEdit->setAnswer(formatResult, ans);
             m_isContinue = false;
         //}
-            if (m_hisRevision != -1) {
-                historicalLinkage(m_hisRevision, result);
-            } else {
-                hisIndex.linkageValue = formatResult;
-                m_hisLink.push_back(hisIndex);
-            }
+        historicalLinkage(m_hisRevision,formatResult);
     } else {
         m_listModel->updataList(resultText + "＝" + tr("Expression Error"), index);
     }
 
+    m_hisRevision = -1;
     m_listView->scrollToBottom();
     m_isResult = false;
-    m_hisRevision = -1;
 }
 
 void ExpressionBar::enterBracketsEvent()
@@ -460,6 +465,8 @@ void ExpressionBar::historicalLinkage(int index, QString newValue)
 {
     for (int i = 0;i < m_hisLink.size();i++) {
         if (m_hisLink[i].linkageTerm == index && m_hisLink[i].isLink) {
+            if (m_hisLink[i].linkedItem == -1)
+                return;
             QString text = m_listModel->index(m_hisLink[i].linkedItem).data(SimpleListModel::ExpressionRole).toString();
             QString expression = text.split("＝").first();
             QString subStr = m_hisLink[i].linkageValue;
@@ -487,6 +494,8 @@ void ExpressionBar::historicalLinkage(int index, QString newValue)
             }
             m_hisLink[i].linkageValue = newValue;
             m_listModel->updataList(expression + "＝" + result,m_hisLink[i].linkedItem);
+            historicalLinkage(m_hisLink[i].linkedItem, result);
+            m_isLinked = false;
         }
     }
 }
@@ -513,16 +522,38 @@ void ExpressionBar::clearLinkageCache()
 
 void ExpressionBar::settingLinkage()
 {
-    enterEqualEvent();
-    QString result = m_hisLink.last().linkageValue;
-    //m_listModel->updataList(result, -1);
-    m_hisLink.last().isLink = true;
-    //m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex()) - 1;
-    //m_unfinishedExp = result;
-    //m_inputEdit->clear();
-    //m_listDelegate->setHisLink(m_hisLink.last().linkageTerm, -1);
-    m_listDelegate->setHisLink(m_hisLink.last().linkageTerm);
+    const int hisRecision = m_hisRevision;
     m_isLinked = true;
+    if (hisRecision != -1) {
+        for (int i = 0;i < m_hisLink.size();i++) {
+            if (m_hisLink[i].linkageTerm == hisRecision) {
+                enterEqualEvent();
+                return;
+            }
+        }
+        historicalLinkageIndex hisIndex;
+        hisIndex.linkageTerm = hisRecision;
+        hisIndex.isLink = true;
+        enterEqualEvent();
+        QString exp = m_listModel->index(hisRecision).data(SimpleListModel::ExpressionRole).toString();
+        hisIndex.linkageValue = exp.split("＝").last();
+        m_hisLink.push_back(hisIndex);
+    } else {
+        /*if (m_hisLink.last().linkedItem == -1) {
+            m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex());
+            m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
+        }*/
+        if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1)
+            return;
+        enterEqualEvent();
+        historicalLinkageIndex hisIndex;
+        hisIndex.isLink = true;
+        hisIndex.linkageTerm = m_listModel->rowCount(QModelIndex()) - 1;
+        QString exp = m_listModel->index(hisIndex.linkageTerm).data(SimpleListModel::ExpressionRole).toString();
+        hisIndex.linkageValue = exp.split("＝").last();
+        m_hisLink.push_back(hisIndex);
+    }
+    m_listDelegate->setHisLink(m_hisLink.last().linkageTerm);
 }
 
 void ExpressionBar::settingLinkage(const QModelIndex &index)

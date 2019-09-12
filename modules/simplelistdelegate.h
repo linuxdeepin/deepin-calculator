@@ -33,6 +33,7 @@ public:
     void setHisLink(const int link);
     void setHisLinked(const int linked);
     void removeHisLink();
+    void removeAllLink();
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;

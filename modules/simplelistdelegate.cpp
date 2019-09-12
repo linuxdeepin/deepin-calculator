@@ -53,23 +53,27 @@ void SimpleListDelegate::setHisLinked(const int linked)
 
 void SimpleListDelegate::removeHisLink()
 {
-    m_linkItem.removeLast();
+    if (!m_linkItem.isEmpty())
+        m_linkItem.removeLast();
+}
+
+void SimpleListDelegate::removeAllLink()
+{
+    m_linkedIten.clear();
+    m_linkItem.clear();
 }
 
 void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
-    const QString theme = DThemeManager::instance()->theme();
-    const QRect rect(option.rect);
+    //const QString theme = DThemeManager::instance()->theme();
+    QRect rect(option.rect);
+    rect.setRight(321);
     const int padding = 15;
     QString errorFontColor;
     QString fontColor;
     QString linkColor;
     painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
-
-    QFont font;
-    font.setPointSize(11);
-    painter->setFont(font);
 
     QStringList splitList = expression.split("＝");
     QString resultStr = splitList.last();
@@ -80,8 +84,10 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         resultWidth = painter->fontMetrics().width(resultStr);
     }
 
+    errorFontColor = "#F37D54";
+    linkColor = "#0000FF";
     // init color.
-    if (theme == "light") {
+    /*if (theme == "light") {
         errorFontColor = "#F37D54";
         fontColor = "#636363";
         linkColor = "#0000FF";
@@ -89,7 +95,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         errorFontColor = "#F37D54";
         fontColor = "#C3C3C3";
         linkColor = "#0000FF";
-    }
+    }*/
 
     // check result text is error.
     if (resultStr == tr("Expression Error")) {
@@ -122,6 +128,19 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         painter->setPen(QPen(QColor(Qt::white)));
         m_simpleListDelegate->setSelect(false);
     }
+
+    QFont font;
+    for (int i = 11; i > 1; --i) {
+        font.setPointSize(i);
+
+        QFontMetrics fm(font);
+        int fontWidth = fm.width(expStr);
+        int editWidth = rect.width() - 24;
+
+        if (fontWidth < editWidth)
+            break;
+    }
+    painter->setFont(font);
 
     if (splitList.size() == 1) {
         // draw expression text;

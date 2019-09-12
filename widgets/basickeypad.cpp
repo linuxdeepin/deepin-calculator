@@ -17,10 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <DPalette>
+
 #include "basickeypad.h"
 #include "dthememanager.h"
 
 DWIDGET_USE_NAMESPACE
+DGUI_USE_NAMESPACE
 
 const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
     { "C", Key_Clear, 1, 0 },
@@ -62,8 +65,7 @@ static DPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
         button->setIcon(":/images/plus_normal.svg");
     } else if (key == BasicKeypad::Key_Backspace) {
         button->setIconStateSizes(23, 26);
-        button->setIcon(QString(":/images/delete_%1_normal.svg")
-                        .arg(DThemeManager::instance()->theme()));
+        button->setIcon(QString(":/images/delete_light_normal.svg"));
     }
 
     return button;
@@ -81,7 +83,7 @@ BasicKeypad::BasicKeypad(QWidget *parent)
     initUI();
 
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
-    connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &BasicKeypad::handleThemeChanged);
+    //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &BasicKeypad::handleThemeChanged);
 }
 
 BasicKeypad::~BasicKeypad()
@@ -111,6 +113,19 @@ void BasicKeypad::initButtons()
         } else {
             button = new TextButton(desc->text);
         }
+        DPalette pa = button->palette();
+        if (button->text() == "=") {
+            pa.setColor(DPalette::Shadow, Qt::white);
+            pa.setColor(DPalette::ButtonText, Qt::white);
+            pa.setColor(DPalette::Light, QColor(0,129,255));
+            pa.setColor(DPalette::Dark, QColor(0,129,255));
+        } else {
+            pa.setColor(DPalette::Shadow, Qt::white);
+            pa.setColor(DPalette::ButtonText, Qt::black);
+            pa.setColor(DPalette::Light, QColor(255,255,255));
+            pa.setColor(DPalette::Dark, QColor(255,255,255));
+        }
+        button->setPalette(pa);
 
         m_layout->addWidget(button, desc->row, desc->column);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
@@ -140,5 +155,5 @@ void BasicKeypad::initUI()
 void BasicKeypad::handleThemeChanged()
 {
     IconButton *btn = static_cast<IconButton *>(button(Key_Backspace));
-    btn->setIcon(QString(":/images/delete_%1_normal.svg").arg(DThemeManager::instance()->theme()));
+    btn->setIcon(QString(":/images/delete_light_normal.svg"));
 }

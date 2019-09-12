@@ -52,6 +52,7 @@ private slots:
     void handleTextChanged(const QString &text);
     void handleCursorPositionChanged(int oldPos, int newPos);
     void BracketCompletion(QKeyEvent *e);
+    void pointFaultTolerance(QString &text);
 
 private:
     Quantity m_ans;

@@ -20,7 +20,7 @@
 #ifndef BASICMODULE_H
 #define BASICMODULE_H
 
-#include <QWidget>
+#include <DWidget>
 #include <QStackedLayout>
 #include <QGridLayout>
 
@@ -29,7 +29,9 @@
 #include "../widgets/basickeypad.h"
 #include "expressionbar.h"
 
-class BasicModule : public QWidget
+DWIDGET_USE_NAMESPACE
+
+class BasicModule : public DWidget
 {
     Q_OBJECT
 

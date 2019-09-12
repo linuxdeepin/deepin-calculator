@@ -24,9 +24,13 @@
 #include "utils.h"
 
 #include <DWidgetUtil>
+#include <DPalette>
+
 #include <QPainter>
 #include <QLabel>
 #include <QDebug>
+
+DGUI_USE_NAMESPACE
 
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent),
@@ -40,25 +44,25 @@ MainWindow::MainWindow(QWidget *parent)
     titlebar()->setTitle("");
 
     // init titlebar menu.
-    m_themeAction = new QAction(tr("Dark theme"), this);
-    m_themeAction->setCheckable(true);
+    //m_themeAction = new QAction(tr("Dark theme"), this);
+    //m_themeAction->setCheckable(true);
     m_simpleAction = new QAction(tr("Simple mode"), this);
     m_scAction = new QAction(tr("Scientific mode"), this);
-    m_tbMenu->addAction(m_themeAction);
+    //m_tbMenu->addAction(m_themeAction);
 
 #ifdef ENABLE_SCIENTIFIC
     m_tbMenu->addAction(m_simpleAction);
     m_tbMenu->addAction(m_scAction);
 #endif
 
-    m_tbMenu->addSeparator();
+    //m_tbMenu->addSeparator();
 
     initModule();
     initTheme();
 
     setWindowTitle(tr("Deepin Calculator"));
 
-    connect(m_themeAction, &QAction::triggered, this, &MainWindow::switchTheme);
+    //connect(m_themeAction, &QAction::triggered, this, &MainWindow::switchTheme);
     connect(m_simpleAction, &QAction::triggered, this, &MainWindow::switchToSimpleMode);
     connect(m_scAction, &QAction::triggered, this, &MainWindow::switchToScientificMode);
 }
@@ -80,7 +84,11 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
 void MainWindow::initTheme()
 {
-    const QString theme = m_settings->getOption("theme").toString();
+    /*DPalette pa = this->palette();
+    pa.setColor(DPalette::Light, QColor("248,248,248"));
+    pa.setColor(DPalette::Dark, QColor("248,248,248"));
+    setPalette(pa);*/
+    /*const QString theme = m_settings->getOption("theme").toString();
 
     DThemeManager::instance()->setTheme(theme);
     m_themeAction->setChecked(theme == "dark");
@@ -90,8 +98,8 @@ void MainWindow::initTheme()
         //setStyleSheet(Utils::getQssContent(":/qss/light.qss"));
     } else {
         m_titlebarColor = "#111111";
-        //setStyleSheet(Utils::getQssContent(":/qss/dark.qss"));
-    }
+        setStyleSheet(Utils::getQssContent(":/qss/dark.qss"));
+    }*/
 }
 
 void MainWindow::initModule()
@@ -116,7 +124,7 @@ void MainWindow::initModule()
     }
 }
 
-void MainWindow::switchTheme()
+/*void MainWindow::switchTheme()
 {
     const QString theme = DThemeManager::instance()->theme();
 
@@ -127,7 +135,7 @@ void MainWindow::switchTheme()
     }
 
     initTheme();
-}
+}*/
 
 void MainWindow::switchToSimpleMode()
 {
