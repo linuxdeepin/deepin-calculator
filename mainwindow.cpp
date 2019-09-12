@@ -95,7 +95,7 @@ void MainWindow::initTheme()
 
     if (theme == "light") {
         m_titlebarColor = "#FBFBFB";
-        setStyleSheet(Utils::getQssContent(":/qss/light.qss"));
+        //setStyleSheet(Utils::getQssContent(":/qss/light.qss"));
     } else {
         m_titlebarColor = "#111111";
         setStyleSheet(Utils::getQssContent(":/qss/dark.qss"));
