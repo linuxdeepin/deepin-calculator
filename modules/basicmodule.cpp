@@ -42,6 +42,7 @@ BasicModule::BasicModule(QWidget *parent)
     layout->setMargin(0);
 
     setMouseTracking(true);
+    setFocus();
     //initTheme();
 
     DPalette pal = this->palette();

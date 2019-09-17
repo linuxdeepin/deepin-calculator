@@ -78,6 +78,12 @@ void ExpressionBar::enterNumberEvent(const QString &text)
 {
     if (m_isLinked)
         clearLinkageCache();
+    QString exp = m_inputEdit->text();
+    int curpos = m_inputEdit->lineEdit()->cursorPosition();
+    if (curpos != 0) {
+        if (exp.at(curpos - 1) == ")" || exp.at(curpos - 1) == "%")
+            return;
+    }
     if (m_inputNumber && m_hisRevision == -1) {
         m_inputEdit->clear();
         m_isResult = false;
@@ -173,23 +179,21 @@ void ExpressionBar::enterPointEvent()
 {
     if (m_isLinked)
         clearLinkageCache();
-    if (m_inputEdit->lineEdit()->cursorPosition() == 0) {
+    QString exp = m_inputEdit->lineEdit()->text();
+    int curpos = m_inputEdit->lineEdit()->cursorPosition();
+    if (curpos == 0) {
         m_inputEdit->lineEdit()->insert("0.");
     } else {
-        m_inputEdit->lineEdit()->insert(".");
-    }
-    /*if (!m_isContinue) {
-        if (cursorPosAtEnd()) {
-            m_inputEdit->clear();
-            m_inputEdit->insert("0.");
-        } else {
-            m_inputEdit->insert(".");
+        if (exp.at(curpos - 1) != ")" && exp.at(curpos - 1) != "%") {
+            QString sRegNum = "[0-9]+";
+            QRegExp rx;
+            rx.setPattern(sRegNum);
+            if (rx.exactMatch(exp.at(curpos - 1)))
+                m_inputEdit->lineEdit()->insert(".");
+            else
+                m_inputEdit->lineEdit()->insert("0.");
         }
-
-        m_isContinue = true;
-    } else {
-        m_inputEdit->insert(".");
-    }*/
+    }
 }
 
 void ExpressionBar::enterBackspaceEvent()
@@ -216,11 +220,14 @@ void ExpressionBar::enterClearEvent()
 
         emit clearStateChanged(false);
     } else {
+        if (m_listModel->rowCount(QModelIndex()) == 0)
+            emit clearStateChanged(false);
+        else
+            emit clearStateChanged(true);
+
         m_inputEdit->clear();
         m_isAllClear = true;
         clearLinkageCache();
-
-        emit clearStateChanged(true);
     }
     m_isResult = false;
     m_Selected = -1;
@@ -347,9 +354,14 @@ void ExpressionBar::enterEqualEvent()
 
 void ExpressionBar::enterBracketsEvent()
 {
-    QString oldText, bracketsText;
-    oldText = m_inputEdit->text();
+    QString oldText = m_inputEdit->lineEdit()->text();
     int currentPos = m_inputEdit->lineEdit()->cursorPosition();
+    QString sRegNum = "[0-9]+";
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
+        return;
+    QString bracketsText;
     int right = oldText.length() - currentPos;
     int leftLeftParen = oldText.left(currentPos).count("(");
     int leftRightParen = oldText.left(currentPos).count(")");
@@ -439,7 +451,7 @@ void ExpressionBar::handleTextChanged(const QString &text)
     m_isAllClear = false;
     m_isContinue = true;
 
-    emit clearStateChanged(false);
+    //emit clearStateChanged(false);
 }
 
 bool ExpressionBar::cursorPosAtEnd()
