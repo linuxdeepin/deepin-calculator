@@ -54,6 +54,7 @@ InputEdit::InputEdit(QWidget *parent)
     DPalette pl = this->lineEdit()->palette();
     pl.setColor(DPalette::Button,Qt::transparent);
     pl.setColor(DPalette::Highlight,Qt::transparent);
+    pl.setColor(DPalette::HighlightedText,Qt::blue);
     this->lineEdit()->setPalette(pl);
 }
 
@@ -274,24 +275,39 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
         return text;
     QString exp = text;
     QString newText;
-    if (isSymbol(exp.at(0))) {
+    /*if (isSymbol(exp.at(0))) {
         if (exp.at(0) != QString::fromUtf8("－"))
             return "";
         else {
-            if (exp.length() > 1 && isSymbol(exp.at(1)))
-                return "";
+            for (int i = 0; i < exp.length(); ++i) {}
         }
-    }
+    }*/
+    QStringList symbolList;
     for (int i = 0; i < exp.length(); ++i) {
-        if (isSymbol(exp.at(i)) && i < exp.length() - 2) {
+        /*if (isSymbol(exp.at(i)) && i < exp.length() - 2) {
             while (isSymbol(exp.at(i + 1)) && i < exp.length() - 2) {
                 ++i;
             }
             newText.append(exp.at(i));
         } else {
             newText.append(exp.at(i));
+        }*/
+        if (!isSymbol(exp.at(i))) {
+            if (!symbolList.isEmpty()) {
+                if (!newText.isEmpty())
+                    newText.append(symbolList.last());
+                if (newText.isEmpty() && symbolList.last() == "－")
+                    newText.append(symbolList.last());
+            }
+            newText.append(exp.at(i));
+            symbolList.clear();
+        } else {
+            symbolList.append(exp.at(i));
+            continue;
         }
     }
+    if (!symbolList.isEmpty())
+        newText.append(symbolList.last());
     return newText;
 }
 

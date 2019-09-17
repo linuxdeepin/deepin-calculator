@@ -470,6 +470,9 @@ void ExpressionBar::copyClipboard2Result()
 {
     QString text = QApplication::clipboard()->text();
     m_inputEdit->lineEdit()->insert(text);
+    clearLinkageCache();
+    if (!m_inputEdit->text().isEmpty())
+        emit clearStateChanged(false);
 }
 
 void ExpressionBar::allElection()
@@ -739,9 +742,11 @@ bool ExpressionBar::isOperator(const QString &text)
 void ExpressionBar::moveLeft()
 {
     m_inputEdit->lineEdit()->setCursorPosition(m_inputEdit->lineEdit()->cursorPosition() - 1);
+    m_inputEdit->lineEdit()->setFocus();
 }
 
 void ExpressionBar::moveRight()
 {
     m_inputEdit->lineEdit()->setCursorPosition(m_inputEdit->lineEdit()->cursorPosition() + 1);
+    m_inputEdit->lineEdit()->setFocus();
 }

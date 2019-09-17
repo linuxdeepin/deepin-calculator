@@ -37,8 +37,8 @@ public:
 
 
     void init();
-    void showShadow();
-    void hideShadow();
+    //void showShadow();
+    //void hideShadow();
     void animate(int msec = 100);
 
 public:
@@ -50,7 +50,7 @@ public:
 private slots:
     void setPress(bool);
 private:
-    QGraphicsDropShadowEffect *m_effect;
+    //QGraphicsDropShadowEffect *m_effect;
 
     bool m_isHover;
     bool m_isPress;

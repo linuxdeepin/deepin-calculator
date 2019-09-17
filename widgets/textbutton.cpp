@@ -25,8 +25,8 @@
 #include <DGuiApplicationHelper>
 
 TextButton::TextButton(const QString &text, QWidget *parent)
-    : DPushButton(text, parent),
-      m_effect(new QGraphicsDropShadowEffect(this))
+    : DPushButton(text, parent)//,
+      //m_effect(new QGraphicsDropShadowEffect(this))
 {
     setFixedSize(76, 53);
     setFocusPolicy(Qt::NoFocus);
@@ -35,19 +35,19 @@ TextButton::TextButton(const QString &text, QWidget *parent)
     m_isPress = false;
 
     init();
-    hideShadow();
+    //hideShadow();
 
     connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &TextButton::init);
 }
 
 TextButton::~TextButton()
 {
-    delete m_effect;
+    //delete m_effect;
 }
 
 void TextButton::init()
 {
-    if (DThemeManager::instance()->theme() == "light") {
+    /*if (DThemeManager::instance()->theme() == "light") {
         m_effect->setColor(QColor(12,155,246));
         m_effect->setXOffset(0);
         m_effect->setYOffset(4);
@@ -57,7 +57,7 @@ void TextButton::init()
         m_effect->setXOffset(0);
         m_effect->setYOffset(4);
         m_effect->setBlurRadius(12);
-    }
+    }*/
     QFont font;
     font.setPixelSize(18);
     this->setFont(font);
@@ -66,7 +66,7 @@ void TextButton::init()
     this->setPalette(pl);
 }
 
-void TextButton::showShadow()
+/*void TextButton::showShadow()
 {
     m_effect->setEnabled(true);
     raise();
@@ -75,7 +75,7 @@ void TextButton::showShadow()
 void TextButton::hideShadow()
 {
     m_effect->setEnabled(false);
-}
+}*/
 
 void TextButton::animate(int msec)
 {
