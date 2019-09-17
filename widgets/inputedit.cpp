@@ -248,6 +248,7 @@ void InputEdit::handleTextChanged(const QString &text)
 QString InputEdit::pointFaultTolerance(const QString &text)
 {
     QString exp = text;
+    QString oldText = text;
     exp = exp.replace(QString::fromUtf8("－"),QString::fromUtf8("＋"))
              .replace(QString::fromUtf8("×"),QString::fromUtf8("＋"))
              .replace(QString::fromUtf8("÷"),QString::fromUtf8("＋"));
@@ -260,10 +261,10 @@ QString InputEdit::pointFaultTolerance(const QString &text)
         if (lastPoint - firstPoint + 1 == count) {
             item.remove(firstPoint,lastPoint);
             item.insert(firstPoint, ".");
-            exp.replace(list[i], item);
+            oldText.replace(list[i], item);
         }
     }
-    return exp;
+    return oldText;
 }
 
 void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
