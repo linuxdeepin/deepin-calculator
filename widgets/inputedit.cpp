@@ -90,9 +90,10 @@ void InputEdit::clear()
     setText("");
 }
 
-void InputEdit::keyPressEvent(QKeyEvent *)
+void InputEdit::keyPressEvent(QKeyEvent *e)
 {
-    return;
+    Q_EMIT keyPress(e);
+    //return;
 }
 
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
@@ -195,6 +196,9 @@ void InputEdit::handleTextChanged(const QString &text)
 
     int ansEnd = m_ansStartPos + m_ansLength;
     m_oldText = text;
+    while (ansEnd > text.length()) {
+        --ansEnd;
+    }
     m_ansVaild = m_ansLength != 0 &&
         (m_ansStartPos == 0 || !text[m_ansStartPos - 1].isDigit()) &&
         (ansEnd == text.length() || !text[ansEnd].isDigit());
@@ -216,6 +220,9 @@ void InputEdit::handleTextChanged(const QString &text)
                              .replace(QString::fromUtf8("）"), ")")
                              .replace(QString::fromUtf8("。"), ".")
                              .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
+    int nCurrentFrameStart = text.indexOf(QRegExp("[^0-9＋－×÷.%]"));
+    if (nCurrentFrameStart != -1)
+        reformatStr.remove(QRegExp("[^0-9＋－×÷.%]"));
 
     reformatStr = pointFaultTolerance(reformatStr);
     reformatStr = symbolFaultTolerance(reformatStr);
@@ -249,8 +256,18 @@ QString InputEdit::pointFaultTolerance(const QString &text)
 
 QString InputEdit::symbolFaultTolerance(const QString &text)
 {
+    if (text.isEmpty())
+        return text;
     QString exp = text;
     QString newText;
+    if (isSymbol(exp.at(0))) {
+        if (exp.at(0) != QString::fromUtf8("－"))
+            return "";
+        else {
+            if (exp.length() > 1 && isSymbol(exp.at(1)))
+                return "";
+        }
+    }
     for (int i = 0; i < exp.length(); ++i) {
         if (isSymbol(exp.at(i)) && i < exp.length() - 2) {
             while (isSymbol(exp.at(i + 1)) && i < exp.length() - 2) {
