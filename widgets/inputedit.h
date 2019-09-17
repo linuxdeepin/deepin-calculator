@@ -41,6 +41,7 @@ public:
 
 Q_SIGNALS:
     void keyPress(QKeyEvent *);
+    void equal();
 
 protected:
     void keyPressEvent(QKeyEvent *);

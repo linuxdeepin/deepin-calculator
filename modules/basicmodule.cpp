@@ -164,7 +164,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         m_expressionBar->enterSymbolEvent("-");
         m_basicKeypad->animate(BasicKeypad::Key_Min);
         break;
-    case Qt::Key_Asterisk: case Qt::Key_X:
+    case Qt::Key_Asterisk:
         m_expressionBar->enterSymbolEvent("*");
         m_basicKeypad->animate(BasicKeypad::Key_Mult);
         break;
@@ -205,6 +205,19 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_V:
         if (isPressCtrl) {
             m_expressionBar->copyClipboard2Result();
+        }
+        break;
+    case Qt::Key_A:
+        if (isPressCtrl) {
+            m_expressionBar->allElection();
+        }
+        break;
+    case Qt::Key_X:
+        if (isPressCtrl) {
+            m_expressionBar->shear();
+        } else {
+            m_expressionBar->enterSymbolEvent("*");
+            m_basicKeypad->animate(BasicKeypad::Key_Mult);
         }
         break;
     case Qt::Key_Delete:

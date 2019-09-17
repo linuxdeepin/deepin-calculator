@@ -93,7 +93,6 @@ void InputEdit::clear()
 void InputEdit::keyPressEvent(QKeyEvent *e)
 {
     Q_EMIT keyPress(e);
-    //return;
 }
 
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
@@ -194,6 +193,14 @@ void InputEdit::handleTextChanged(const QString &text)
         m_ansStartPos += diff;
     }
 
+    if (text.indexOf("=") != -1) {
+        QString exp = text;
+        exp.remove(text.indexOf("="), 1);
+        setText(exp);
+        Q_EMIT equal();
+        return;
+    }
+
     int ansEnd = m_ansStartPos + m_ansLength;
     m_oldText = text;
     while (ansEnd > text.length()) {
@@ -220,9 +227,9 @@ void InputEdit::handleTextChanged(const QString &text)
                              .replace(QString::fromUtf8("）"), ")")
                              .replace(QString::fromUtf8("。"), ".")
                              .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
-    int nCurrentFrameStart = text.indexOf(QRegExp("[^0-9＋－×÷.%]"));
-    if (nCurrentFrameStart != -1)
-        reformatStr.remove(QRegExp("[^0-9＋－×÷.%]"));
+    //int nCurrentFrameStart = text.indexOf(QRegExp("[^0-9＋－×÷.%()]"));
+    //if (nCurrentFrameStart != -1)
+        reformatStr.remove(QRegExp("[^0-9＋－×÷,.%()]"));
 
     reformatStr = pointFaultTolerance(reformatStr);
     reformatStr = symbolFaultTolerance(reformatStr);
@@ -245,6 +252,17 @@ QString InputEdit::pointFaultTolerance(const QString &text)
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];
         int firstPoint = item.indexOf(".");
+        if (firstPoint == -1)
+            continue;
+        if (firstPoint == 0) {
+            item.insert(firstPoint, "0");
+            oldText.replace(list[i], item);
+        } else {
+            if (item.at(firstPoint - 1) == ")" || item.at(firstPoint - 1) == "%") {
+                item.remove(firstPoint, 1);
+                oldText.replace(list[i], item);
+            }
+        }
         if (item.count(".") > 1) {
             item.remove(".");
             item.insert(firstPoint, ".");

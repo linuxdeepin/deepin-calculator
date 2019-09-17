@@ -63,6 +63,7 @@ ExpressionBar::ExpressionBar(QWidget *parent)
     connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this, &ExpressionBar::revisionResults);
     connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionBar::handleTextChanged);
     connect(m_inputEdit, &InputEdit::keyPress, this, &ExpressionBar::keyPress);
+    connect(m_inputEdit, &InputEdit::equal, this, &ExpressionBar::enterEqualEvent);
 }
 
 ExpressionBar::~ExpressionBar()
@@ -179,7 +180,7 @@ void ExpressionBar::enterPointEvent()
 {
     if (m_isLinked)
         clearLinkageCache();
-    QString exp = m_inputEdit->lineEdit()->text();
+    /*QString exp = m_inputEdit->lineEdit()->text();
     int curpos = m_inputEdit->lineEdit()->cursorPosition();
     if (curpos == 0) {
         m_inputEdit->lineEdit()->insert("0.");
@@ -193,7 +194,7 @@ void ExpressionBar::enterPointEvent()
             else
                 m_inputEdit->lineEdit()->insert("0.");
         }
-    }
+    }*/
 }
 
 void ExpressionBar::enterBackspaceEvent()
@@ -307,7 +308,8 @@ void ExpressionBar::enterEqualEvent()
                                    .replace(QString::fromUtf8("×"), "*").replace(QString::fromUtf8("÷"), "/")
                                    .replace(QString::fromUtf8(","), "");
 
-        if (formatResult != m_inputEdit->text()) {
+        QString tStr = m_inputEdit->text().replace(QString::fromUtf8(","), "");
+        if (formatResult != tStr) {
             m_listModel->updataList(m_inputEdit->text() + "＝" + formatResult, m_hisRevision);
             m_inputEdit->setAnswer(formatResult, ans);
             newResult = formatResult;
@@ -444,6 +446,17 @@ void ExpressionBar::copyClipboard2Result()
 {
     QString text = QApplication::clipboard()->text();
     m_inputEdit->lineEdit()->insert(text);
+}
+
+void ExpressionBar::allElection()
+{
+    m_inputEdit->lineEdit()->selectAll();
+}
+
+void ExpressionBar::shear()
+{
+    //copyResultToClipboard();
+    //m_inputEdit->lineEdit()->text().remove()
 }
 
 void ExpressionBar::handleTextChanged(const QString &text)

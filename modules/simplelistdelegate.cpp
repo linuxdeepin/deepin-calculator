@@ -76,7 +76,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
 
     QFont font;
-    for (int i = 11; i > 1; --i) {
+    for (int i = 11; i > 6; --i) {
         font.setPointSize(i);
 
         QFontMetrics fm(font);
