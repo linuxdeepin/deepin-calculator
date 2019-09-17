@@ -40,19 +40,21 @@ InputEdit::InputEdit(QWidget *parent)
     setFocusPolicy(Qt::StrongFocus);
     autoZoomFontSize();
 
-    connect(this, &QLineEdit::textChanged, this, &InputEdit::handleTextChanged);
-    connect(this, &QLineEdit::cursorPositionChanged, this, &InputEdit::handleCursorPositionChanged);
-    connect(this, &QLineEdit::selectionChanged,
+    connect(this->lineEdit(), &QLineEdit::textChanged, this, &InputEdit::handleTextChanged);
+    connect(this->lineEdit(), &QLineEdit::cursorPositionChanged, this, &InputEdit::handleCursorPositionChanged);
+    connect(this->lineEdit(), &QLineEdit::selectionChanged,
             [=] {
-                int pos = this->cursorPosition();
-                this->cursorPositionChanged(pos, pos);
+                int pos = this->lineEdit()->cursorPosition();
+                this->lineEdit()->cursorPositionChanged(pos, pos);
             });
-    setFrame(false);
-    setClearButtonEnabled(false);
+    this->lineEdit()->setFrame(false);
+    this->lineEdit()->setClearButtonEnabled(false);
 
-    DPalette pl = this->palette();
-    pl.setColor(DPalette::Window, QColor("#F8F8F8"));
-    this->setPalette(pl);
+    /*DPalette pl = this->palette();
+    pl.setColor(DPalette::Light, QColor(0,0,0,0));
+    pl.setColor(DPalette::Dark, QColor(0,0,0,0));
+    pl.setColor(DPalette::Base, QColor(0,0,0,0));
+    this->setPalette(pl);*/
 }
 
 InputEdit::~InputEdit()
@@ -120,13 +122,13 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
 
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    QLineEdit::mouseDoubleClickEvent(e);
+    //QLineEdit::mouseDoubleClickEvent(e);
 
     if (e->button() == Qt::LeftButton) {
-        int position = cursorPositionAt(e->pos());
+        int position = this->lineEdit()->cursorPositionAt(e->pos());
         int posBegin = findWordBeginPosition(position);
         int posEnd = findWordEndPosition(position);
-        setSelection(posBegin, posEnd - posBegin + 1);
+        this->lineEdit()->setSelection(posBegin, posEnd - posBegin + 1);
     }
 }
 
@@ -229,7 +231,7 @@ void InputEdit::handleTextChanged(const QString &text)
     m_oldText = text;
 
     // reformat text.
-    int oldPosition = cursorPosition();
+    int oldPosition = this->lineEdit()->cursorPosition();
     int oldLength = text.length();
 
     QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
@@ -250,7 +252,7 @@ void InputEdit::handleTextChanged(const QString &text)
     setText(reformatStr);
 
     int newLength = reformatStr.length();
-    setCursorPosition(oldPosition + (newLength - oldLength));
+    this->lineEdit()->setCursorPosition(oldPosition + (newLength - oldLength));
 
     autoZoomFontSize();
 }
@@ -311,12 +313,12 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
     Q_UNUSED(oldPos);
 
     int ansEnd = m_ansStartPos + m_ansLength;
-    int selectStart = this->selectionStart();
-    int selectEnd = selectStart + this->selectedText().length();
+    int selectStart = this->lineEdit()->selectionStart();
+    int selectEnd = selectStart + this->lineEdit()->selectedText().length();
 
     if (newPos > m_ansStartPos && newPos < ansEnd) {
         m_currentInAns = true;
-    } else if (this->hasSelectedText() &&
+    } else if (this->lineEdit()->hasSelectedText() &&
                ((selectStart >= m_ansStartPos && selectStart < ansEnd) ) ||
                (selectEnd > m_ansStartPos && selectEnd <= ansEnd) ||
                (selectStart < m_ansStartPos && selectEnd > ansEnd)) {
@@ -333,7 +335,7 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
 void InputEdit::BracketCompletion(QKeyEvent *e)
 {
     QString oldText = text();
-    int curs = cursorPosition();
+    int curs = this->lineEdit()->cursorPosition();
     int right = oldText.length() - curs;
     int leftLeftParen = oldText.left(curs).count("(");
     int leftRightParen = oldText.left(curs).count(")");
@@ -363,6 +365,6 @@ void InputEdit::BracketCompletion(QKeyEvent *e)
     } else {
         oldText.insert(curs,"()");
     }
-    setCursorPosition(curs);
+    this->lineEdit()->setCursorPosition(curs);
     setText(oldText);
 }

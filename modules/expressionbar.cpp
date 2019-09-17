@@ -40,15 +40,17 @@ ExpressionBar::ExpressionBar(QWidget *parent)
       m_Selected(-1)
 {
     // init inputEdit attributes.
-    m_inputEdit->setFixedHeight(55);
-    m_inputEdit->setAlignment(Qt::AlignRight);
-    m_inputEdit->setTextMargins(10, 0, 10, 6);
+    m_inputEdit->lineEdit()->setFixedHeight(55);
+    m_inputEdit->lineEdit()->setAlignment(Qt::AlignRight);
+    m_inputEdit->lineEdit()->setTextMargins(10, 0, 10, 6);
 
     m_listView->setModel(m_listModel);
     m_listView->setItemDelegate(m_listDelegate);
-    /*DPalette pl = this->palette();
-    pl.setColor(DPalette::Background, Qt::black);
-    this->setPalette(pl);*/
+    DPalette pl = this->palette();
+    pl.setColor(DPalette::Light,QColor(0,0,0,0));
+    pl.setColor(DPalette::Dark,QColor(0,0,0,0));
+    pl.setColor(DPalette::Base,QColor(0,0,0,0));
+    this->setPalette(pl);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(m_listView);
@@ -94,7 +96,7 @@ void ExpressionBar::enterNumberEvent(const QString &text)
     }
 
     m_inputNumber = false;
-    m_inputEdit->insert(text);
+    m_inputEdit->lineEdit()->insert(text);
     emit clearStateChanged(false);
 }
 
@@ -110,10 +112,10 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
         if (text != "-") {
             return;
         } else {
-            m_inputEdit->insert(text);
+            m_inputEdit->lineEdit()->insert(text);
         }
     } else {
-        int curPos = m_inputEdit->cursorPosition();
+        int curPos = m_inputEdit->lineEdit()->cursorPosition();
         QString exp = m_inputEdit->text();
         if (cursorPosAtEnd()) {
             QString lastStr = exp.right(1);
@@ -126,7 +128,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
                 return;
             } else {
                 if (text == QString::fromUtf8("－"))
-                    m_inputEdit->insert(text);
+                    m_inputEdit->lineEdit()->insert(text);
             }
         } else {
             QString infront = exp.at(curPos - 1);
@@ -134,7 +136,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
             if (isOperator(infront) || isOperator(behand)) {
                 return;
             } else {
-                m_inputEdit->insert(text);
+                m_inputEdit->lineEdit()->insert(text);
             }
         }
     }
@@ -148,7 +150,7 @@ void ExpressionBar::enterPercentEvent()
     if (m_inputEdit->text().isEmpty())
         return;
     QString exp = m_inputEdit->text();
-    int curPos = m_inputEdit->cursorPosition();
+    int curPos = m_inputEdit->lineEdit()->cursorPosition();
     if (curPos == 0)
         return;
     QString sRegNum = "[0-9]+";
@@ -156,12 +158,12 @@ void ExpressionBar::enterPercentEvent()
     rx.setPattern(sRegNum);
     if (cursorPosAtEnd()) {
         if (rx.exactMatch(exp.right(1)))
-            m_inputEdit->insert("%");
+            m_inputEdit->lineEdit()->insert("%");
     } else {
         QString infront = exp.at(curPos - 1);
         QString behand = exp.at(curPos);
         if (rx.exactMatch(infront) && behand != "%")
-            m_inputEdit->insert("%");
+            m_inputEdit->lineEdit()->insert("%");
     }
     m_listView->scrollToBottom();
     m_isContinue = true;
@@ -171,10 +173,10 @@ void ExpressionBar::enterPointEvent()
 {
     if (m_isLinked)
         clearLinkageCache();
-    if (m_inputEdit->cursorPosition() == 0) {
-        m_inputEdit->insert("0.");
+    if (m_inputEdit->lineEdit()->cursorPosition() == 0) {
+        m_inputEdit->lineEdit()->insert("0.");
     } else {
-        m_inputEdit->insert(".");
+        m_inputEdit->lineEdit()->insert(".");
     }
     /*if (!m_isContinue) {
         if (cursorPosAtEnd()) {
@@ -194,7 +196,7 @@ void ExpressionBar::enterBackspaceEvent()
 {
     if (m_isResult)
         clearLinkageCache();
-    m_inputEdit->backspace();
+    m_inputEdit->lineEdit()->backspace();
 
     m_isContinue = true;
     m_isAllClear = false;
@@ -347,7 +349,7 @@ void ExpressionBar::enterBracketsEvent()
 {
     QString oldText, bracketsText;
     oldText = m_inputEdit->text();
-    int currentPos = m_inputEdit->cursorPosition();
+    int currentPos = m_inputEdit->lineEdit()->cursorPosition();
     int right = oldText.length() - currentPos;
     int leftLeftParen = oldText.left(currentPos).count("(");
     int leftRightParen = oldText.left(currentPos).count(")");
@@ -359,124 +361,45 @@ void ExpressionBar::enterBracketsEvent()
         if (leftLeftParen > leftRightParen) {
             if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) > 0) {
                 //bracketsText = ")";
-                m_inputEdit->insert(")");
+                m_inputEdit->lineEdit()->insert(")");
             } else if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) < 0) {
                 //bracketsText = "(";
-                m_inputEdit->insert("(");
-                m_inputEdit->setCursorPosition(currentPos + 1);
+                m_inputEdit->lineEdit()->insert("(");
+                m_inputEdit->lineEdit()->setCursorPosition(currentPos + 1);
             } else {
                 //bracketsText = "(";
-                m_inputEdit->insert("(");
-                m_inputEdit->setCursorPosition(currentPos + 1);
+                m_inputEdit->lineEdit()->insert("(");
+                m_inputEdit->lineEdit()->setCursorPosition(currentPos + 1);
             }
         //如果左侧左括号小于等于左侧右括号
         } else {
             //如果右侧左括号小于右括号
             if (rightLeftParen < rightrightParen) {
                 //bracketsText = "(";
-                m_inputEdit->insert("(");
+                m_inputEdit->lineEdit()->insert("(");
             } else {
                 //bracketsText = "(";
-                m_inputEdit->insert("(");
+                m_inputEdit->lineEdit()->insert("(");
             }
         }
     //相等则输入一对括号
     } else {
         //bracketsText = "(";
-        m_inputEdit->insert("(");
+        m_inputEdit->lineEdit()->insert("(");
     }
-    return;
-    /*if (!m_isContinue) {
-        m_inputEdit->clear();
-    }
-
-    QString oldText, bracketsText;
-    if (m_unfinishedExp == "") {
-        oldText = m_inputEdit->text();
-        int currentPos = m_inputEdit->cursorPosition();
-        int right = oldText.length() - currentPos;
-        int leftLeftParen = oldText.left(currentPos).count("(");
-        int leftRightParen = oldText.left(currentPos).count(")");
-        int rightLeftParen = oldText.right(right).count("(");
-        int rightrightParen = oldText.right(right).count(")");
-        //左右括号总数是否相等
-        if (oldText.count("(") != oldText.count(")")) {
-            //光标左侧左括号大于右括号
-            if (leftLeftParen > leftRightParen) {
-                if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) > 0) {
-                    bracketsText = ")";
-                    //m_inputEdit->insert(")");
-                } else if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) < 0) {
-                    bracketsText = "(";
-                    //m_inputEdit->insert("(");
-                    //m_inputEdit->setCursorPosition(currentPos + 1);
-                } else {
-                    bracketsText = "(";
-                    //m_inputEdit->insert("(");
-                    //m_inputEdit->setCursorPosition(currentPos + 1);
-                }
-            //如果左侧左括号小于等于左侧右括号
-            } else {
-                //如果右侧左括号小于右括号
-                if (rightLeftParen < rightrightParen) {
-                    bracketsText = "(";
-                    //m_inputEdit->insert("(");
-                } else {
-                    bracketsText = "(";
-                    //m_inputEdit->insert("(");
-                }
-            }
-        //相等则输入一对括号
-        } else {
-            bracketsText = "(";
-            //m_inputEdit->insert("(");
-        }
-        if (m_hisRevision == -1) {
-            m_unfinishedExp = m_inputEdit->text().insert(currentPos, bracketsText);
-            m_listModel->updataList(m_unfinishedExp, -1);
-            m_inputEdit->clear();
-        } else {
-            int cur = m_inputEdit->cursorPosition();
-            QString inputText = m_inputEdit->text();
-            inputText.insert(cur,bracketsText);
-            m_inputEdit->setText(inputText);
-        }
-    } else {
-        oldText = m_unfinishedExp;
-        int leftBracket = oldText.count("(");
-        int rightBracket = oldText.count(")");
-        if (leftBracket - rightBracket == 0) {
-            bracketsText = "(";
-            m_unfinishedExp += bracketsText;
-            m_inputEdit->clear();
-        } else {
-            bracketsText = ")";
-            QString result, Computational;
-            m_unfinishedExp = m_unfinishedExp + m_inputEdit->text() + bracketsText;
-            Computational = m_unfinishedExp;
-            for (int i = 0; i < leftBracket - rightBracket; ++i) {
-                Computational += bracketsText;
-            }
-            computationalResults(Computational,result);
-        }
-        m_listModel->updataList(m_unfinishedExp, m_listModel->rowCount(QModelIndex()) - 1);
-    }
-
-    m_isAllClear = false;
-    m_isContinue = true;*/
 }
 
 void ExpressionBar::enterDeleteEvent()
 {
-    int curPos = m_inputEdit->cursorPosition();
+    int curPos = m_inputEdit->lineEdit()->cursorPosition();
     if (curPos != m_inputEdit->text().length()) {
-        QString text = m_inputEdit->text();
+        QString text = m_inputEdit->lineEdit()->text();
         int index = curPos;
         if (text.at(curPos) == ",")
             ++index;
         text.remove(index, 1);
-        m_inputEdit->setText(text);
-        m_inputEdit->setCursorPosition(curPos);
+        m_inputEdit->lineEdit()->setText(text);
+        m_inputEdit->lineEdit()->setCursorPosition(curPos);
     }
 }
 
@@ -484,7 +407,7 @@ void ExpressionBar::copyResultToClipboard()
 {
     if (m_inputEdit->text().isEmpty())
         return;
-    QApplication::clipboard()->setText(m_inputEdit->selectedText());
+    QApplication::clipboard()->setText(m_inputEdit->lineEdit()->selectedText());
 
     /*const QString expression = formatExpression(m_inputEdit->expressionText());
     m_evaluator->setExpression(expression);
@@ -508,7 +431,7 @@ void ExpressionBar::copyResultToClipboard()
 void ExpressionBar::copyClipboard2Result()
 {
     QString text = QApplication::clipboard()->text();
-    m_inputEdit->insert(text);
+    m_inputEdit->lineEdit()->insert(text);
 }
 
 void ExpressionBar::handleTextChanged(const QString &text)
@@ -521,7 +444,7 @@ void ExpressionBar::handleTextChanged(const QString &text)
 
 bool ExpressionBar::cursorPosAtEnd()
 {
-    return m_inputEdit->cursorPosition() == m_inputEdit->text().length();
+    return m_inputEdit->lineEdit()->cursorPosition() == m_inputEdit->lineEdit()->text().length();
 }
 
 QString ExpressionBar::formatExpression(const QString &text)
@@ -698,10 +621,10 @@ bool ExpressionBar::isOperator(const QString &text)
 
 void ExpressionBar::moveLeft()
 {
-    m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
+    m_inputEdit->lineEdit()->setCursorPosition(m_inputEdit->lineEdit()->cursorPosition() - 1);
 }
 
 void ExpressionBar::moveRight()
 {
-    m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + 1);
+    m_inputEdit->lineEdit()->setCursorPosition(m_inputEdit->lineEdit()->cursorPosition() + 1);
 }

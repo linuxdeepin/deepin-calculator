@@ -74,7 +74,7 @@ BasicKeypad::BasicKeypad(QWidget *parent)
       m_mapper(new QSignalMapper(this))
 {
     m_layout->setMargin(0);
-    m_layout->setSpacing(1);
+    m_layout->setSpacing(0);
 
     initButtons();
     initUI();
@@ -163,6 +163,8 @@ void BasicKeypad::initUI()
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
     button(Key_Equals)->setObjectName("EqualButton");
+
+    this->setContentsMargins(12,0,13,0);
 }
 
 void BasicKeypad::buttonThemeChanged(DGuiApplicationHelper::ColorType type)
