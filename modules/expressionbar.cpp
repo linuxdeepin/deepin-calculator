@@ -317,7 +317,18 @@ void ExpressionBar::enterEqualEvent()
         }
     } else {
         m_listModel->updataList(m_inputEdit->text() + "＝" + tr("Expression Error"), m_hisRevision);
-        m_inputEdit->lineEdit()->clear();
+        if (m_hisRevision == -1)
+            m_hisRevision = m_listModel->rowCount(QModelIndex()) - 1;
+        else {
+            for (int i = 0; i < m_hisLink.size(); ++i) {
+                if (m_hisLink[i].linkageTerm == m_hisRevision) {
+                    m_listDelegate->removeLine(m_hisLink[i].linkageTerm, m_hisLink[i].linkedItem);
+                    m_hisLink.removeAt(i);
+                    --i;
+                }
+        }
+    }
+        //m_inputEdit->lineEdit()->clear();
     }
     if (m_isLinked) {
         if (m_hisRevision == -1) {
@@ -350,7 +361,8 @@ void ExpressionBar::enterEqualEvent()
         }
     }
 
-    m_hisRevision = -1;
+    if (m_evaluator->error().isEmpty())
+        m_hisRevision = -1;
     m_listView->scrollToBottom();
     m_isLinked = false;
 }
@@ -468,6 +480,14 @@ void ExpressionBar::allElection()
 
 void ExpressionBar::shear()
 {
+    QString text = m_inputEdit->text();
+    QString selectText = m_inputEdit->lineEdit()->selectedText();
+    selectText = selectText.replace(",", "");
+    QApplication::clipboard()->setText(selectText);
+    int start = m_inputEdit->lineEdit()->selectionStart();
+    int length = m_inputEdit->lineEdit()->selectionLength();
+    text.remove(start,length);
+    m_inputEdit->setText(text);
     //copyResultToClipboard();
     //m_inputEdit->lineEdit()->text().remove()
 }
@@ -611,7 +631,8 @@ void ExpressionBar::settingLinkage()
     if (hisRecision != -1) {
         for (int i = 0;i < m_hisLink.size();i++) {
             if (m_hisLink[i].linkedItem == hisRecision) {
-                cancelLink(i+1);
+                if (cancelLink(i+1))
+                    --i;
                 if (m_hisLink.size() == 0)
                     break;
             }
@@ -643,8 +664,43 @@ void ExpressionBar::settingLinkage()
     m_listDelegate->setHisLink(m_hisLink.last().linkageTerm);
 }
 
-void ExpressionBar::cancelLink(int index)
+void ExpressionBar::Undo()
 {
+    if (m_undo.isEmpty())
+        return;
+    m_redo.append(m_undo.last());
+    m_undo.removeLast();
+    if (!m_undo.isEmpty())
+        m_inputEdit->setText(m_undo.last());
+    else
+        m_inputEdit->clear();
+}
+
+void ExpressionBar::addUndo()
+{
+    if (!m_undo.isEmpty() && m_inputEdit->text() == m_undo.last())
+        return;
+    m_undo.append(m_inputEdit->text());
+    m_redo.clear();
+}
+
+void ExpressionBar::Redo()
+{
+    if (m_redo.isEmpty())
+        return;
+    m_inputEdit->setText(m_redo.last());
+    m_undo.append(m_inputEdit->text());
+    m_redo.removeLast();
+}
+
+void ExpressionBar::initTheme(int type)
+{
+    m_listDelegate->setThemeType(type);
+}
+
+bool ExpressionBar::cancelLink(int index)
+{
+    bool isRemove = false;
     for (int i = 0; i < index; ++i) {
         if (m_hisLink[i].linkedItem == m_hisRevision) {
             QString exp = m_inputEdit->text();
@@ -653,9 +709,11 @@ void ExpressionBar::cancelLink(int index)
             if (list.at(0) != m_hisLink[i].linkageValue) {
                 m_listDelegate->removeLine(m_hisLink[i].linkageTerm, m_hisLink[i].linkedItem);
                 m_hisLink.remove(i);
+                isRemove = true;
             }
         }
     }
+    return isRemove;
 }
 
 void ExpressionBar::settingLinkage(const QModelIndex &index)

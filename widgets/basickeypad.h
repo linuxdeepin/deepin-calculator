@@ -48,7 +48,7 @@ public:
 
     DPushButton *button(Buttons key);
     void animate(Buttons key);
-    void buttonThemeChanged(DGuiApplicationHelper::ColorType type);
+    void buttonThemeChanged(int type);
 
     static const struct KeyDescription {
         QString text;
@@ -56,12 +56,12 @@ public:
         int row;
         int column;
     } keyDescriptions[];
-
+public slots:
+    void initButtons();
 signals:
     void buttonPressed(int);
 
 private:
-    void initButtons();
     void initUI();
     void handleThemeChanged();
 

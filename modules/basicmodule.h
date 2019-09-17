@@ -45,8 +45,9 @@ public:
     void switchToScientificKeypad();
     void setKeyPress(QKeyEvent *e);
 
+private slots:
+    void initTheme(int type);
 private:
-    void initTheme(DGuiApplicationHelper::ColorType type);
     void handleEditKeyPress(QKeyEvent *);
     void handleKeypadButtonPress(int);
     void handleClearStateChanged(bool isAllClear);

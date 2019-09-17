@@ -50,7 +50,7 @@ const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
 };
 
 static DPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
-    IconButton *button = new IconButton(10, 13);
+    IconButton *button = new IconButton(16, 16);
 
     if (key == BasicKeypad::Key_Div) {
         button->setIcon(":/images/div_normal.svg");
@@ -65,6 +65,33 @@ static DPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
         button->setIcon(QString(":/images/delete_light_normal.svg"));
     }
 
+    /*    if (key == BasicKeypad::Key_Div) {
+            button->setFixedSize(10, 13);
+            button->setNormalPic(":/images/÷_normal.svg");
+            button->setHoverPic(":/images/÷_press.svg");
+            button->setPressPic(":/images/÷_hover.svg");
+        } else if (key == BasicKeypad::Key_Mult) {
+            button->setFixedSize(10, 13);
+            button->setNormalPic(":/images/÷_normal.svg");
+            button->setHoverPic(":/images/÷_press.svg");
+            button->setPressPic(":/images/÷_hover.svg");
+        } else if (key == BasicKeypad::Key_Min) {
+            button->setFixedSize(10, 13);
+            button->setNormalPic(":/images/÷_normal.svg");
+            button->setHoverPic(":/images/÷_press.svg");
+            button->setPressPic(":/images/÷_hover.svg");
+        } else if (key == BasicKeypad::Key_Plus) {
+            button->setFixedSize(10, 13);
+            button->setNormalPic(":/images/÷_normal.svg");
+            button->setHoverPic(":/images/÷_press.svg");
+            button->setPressPic(":/images/÷_hover.svg");
+        } else if (key == BasicKeypad::Key_Backspace) {
+            button->setFixedSize(23, 26);
+            button->setNormalPic(":/images/delete_light_normal.svg");
+            button->setHoverPic(":/images/delete_light_hover.svg");
+            button->setPressPic(":/images/delete_light_press.svg");
+        }*/
+
     return button;
 }
 
@@ -74,7 +101,8 @@ BasicKeypad::BasicKeypad(QWidget *parent)
       m_mapper(new QSignalMapper(this))
 {
     m_layout->setMargin(0);
-    m_layout->setSpacing(0);
+    m_layout->setSpacing(5);
+    m_layout->setContentsMargins(0,0,0,0);
 
     initButtons();
     initUI();
@@ -101,7 +129,7 @@ void BasicKeypad::animate(Buttons key)
 void BasicKeypad::initButtons()
 {
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
-    DGuiApplicationHelper::ColorType type = DGuiApplicationHelper::instance()->paletteType();
+    DGuiApplicationHelper::ColorType type = DGuiApplicationHelper::instance()->themeType();
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
         DPushButton *button;
@@ -112,6 +140,8 @@ void BasicKeypad::initButtons()
             button = new TextButton(desc->text);
         }
         DPalette pa = button->palette();
+        if (type == 0)
+            type = DGuiApplicationHelper::instance()->themeType();
         if (type == 2){
             if (button->text() == "=") {
                 pa.setColor(DPalette::Shadow, QColor(0,129,255));
@@ -167,9 +197,11 @@ void BasicKeypad::initUI()
     this->setContentsMargins(12,0,13,0);
 }
 
-void BasicKeypad::buttonThemeChanged(DGuiApplicationHelper::ColorType type)
+void BasicKeypad::buttonThemeChanged(int type)
 {
-    if (type == 1 || type == 0) {
+    if (type == 0)
+        type = DGuiApplicationHelper::instance()->themeType();
+    if (type == 1) {
         QHash<Buttons, QPair<DPushButton *, const KeyDescription *>>::const_iterator iter1 = m_keys.constBegin();
         while(iter1 != m_keys.constEnd()) {
             DPushButton *button = iter1.value().first;

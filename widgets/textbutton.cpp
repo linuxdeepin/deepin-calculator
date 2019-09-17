@@ -21,16 +21,13 @@
 #include "dthememanager.h"
 #include <QTimer>
 
-#include <DPalette>
-
-DWIDGET_USE_NAMESPACE
-DGUI_USE_NAMESPACE
+#include <DGuiApplicationHelper>
 
 TextButton::TextButton(const QString &text, QWidget *parent)
     : DPushButton(text, parent),
       m_effect(new QGraphicsDropShadowEffect(this))
 {
-    setFixedSize(76, 58);
+    setFixedSize(76, 53);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");
     setGraphicsEffect(m_effect);
@@ -108,11 +105,64 @@ void TextButton::mousePressEvent(QMouseEvent *e)
 {
     //hideShadow();
 
+    bool isEqual(text() == "=");
+    setFocusPolicy(Qt::NoFocus);
+
+    if (isEqual) {
+        DPalette pa = this->palette();
+        pa.setColor(DPalette::Light, QColor(0,119,206));
+        pa.setColor(DPalette::Dark, QColor(0,112,255));
+        pa.setColor(DPalette::ButtonText, Qt::white);
+        this->setPalette(pa);
+    }
+    else {
+        DPalette pa = this->palette();
+        pa.setColor(DPalette::Light, QColor(0,0,0,0.1*255));
+        pa.setColor(DPalette::Dark, QColor(0,0,0,0.1*255));
+        pa.setColor(DPalette::ButtonText, QColor(0,129,255,255));
+        this->setPalette(pa);
+    }
     DPushButton::mousePressEvent(e);
 }
 
 void TextButton::mouseReleaseEvent(QMouseEvent *e)
 {
+    bool isEqual(text() == "=");
+    int type = DGuiApplicationHelper::instance()->paletteType();
+    if (type == 0)
+        type = DGuiApplicationHelper::instance()->themeType();
+    if (type == 1) {
+        if (isEqual) {
+            DPalette pa = this->palette();
+            pa.setColor(DPalette::Light, QColor(0,129,255));
+            pa.setColor(DPalette::Dark, QColor(0,129,255));
+            pa.setColor(DPalette::ButtonText, Qt::white);
+            this->setPalette(pa);
+        }
+        else {
+            DPalette pa = this->palette();
+            pa.setColor(DPalette::Light, Qt::white);
+            pa.setColor(DPalette::Dark, Qt::white);
+            pa.setColor(DPalette::ButtonText, Qt::black);
+            this->setPalette(pa);
+        }
+    }
+    else {
+        if (isEqual) {
+            DPalette pa = this->palette();
+            pa.setColor(DPalette::Light, QColor(0,129,255));
+            pa.setColor(DPalette::Dark, QColor(0,129,255));
+            pa.setColor(DPalette::ButtonText, Qt::white);
+            this->setPalette(pa);
+        }
+        else {
+            DPalette pa = this->palette();
+            pa.setColor(DPalette::Light, QColor(17,17,17));
+            pa.setColor(DPalette::Dark, QColor(17,17,17));
+            pa.setColor(DPalette::ButtonText, Qt::white);
+            this->setPalette(pa);
+        }
+    }
     //showShadow();
 
     DPushButton::mouseReleaseEvent(e);
@@ -120,14 +170,87 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
 
 void TextButton::enterEvent(QEvent *e)
 {
-    //showShadow();
-
+    bool isEqual(text() == "=");
+    showShadow();
+    int type = DGuiApplicationHelper::instance()->paletteType();
+    if (type == 0)
+        type = DGuiApplicationHelper::instance()->themeType();
+    if (type == 1) {
+        if (isEqual) {
+            DPalette pa = this->palette();
+            pa.setColor(DPalette::Light, QColor(32,155,255));
+            pa.setColor(DPalette::Dark, QColor(1,136,255));
+            pa.setColor(DPalette::ButtonText, Qt::white);
+            this->setPalette(pa);
+        }
+        else {
+            DPalette pa = this->palette();
+            pa.setColor(DPalette::Light, Qt::white);
+            pa.setColor(DPalette::Dark, Qt::white);
+            pa.setColor(DPalette::ButtonText, Qt::black);
+            this->setPalette(pa);
+        }
+    }
+    else {
+        if (isEqual) {
+            DPalette pa = this->palette();
+            pa.setColor(DPalette::Light, QColor(32,155,255));
+            pa.setColor(DPalette::Dark, QColor(1,136,255));
+            pa.setColor(DPalette::ButtonText, Qt::white);
+            this->setPalette(pa);
+        }
+        else {
+            DPalette pa = this->palette();
+            pa.setColor(DPalette::Light, QColor(17,17,17));
+            pa.setColor(DPalette::Dark, QColor(17,17,17));
+            pa.setColor(DPalette::ButtonText, Qt::white);
+            this->setPalette(pa);
+        }
+    }
+    //setFocus();
     DPushButton::enterEvent(e);
 }
 
 void TextButton::leaveEvent(QEvent *e)
 {
-    //hideShadow();
+    hideShadow();
+    bool isEqual(text() == "=");
 
+    int type = DGuiApplicationHelper::instance()->paletteType();
+    if (type == 0)
+        type = DGuiApplicationHelper::instance()->themeType();
+    if (type == 1) {
+        if (isEqual) {
+            DPalette pa = this->palette();
+            pa.setColor(DPalette::Light, QColor(0,129,255));
+            pa.setColor(DPalette::Dark, QColor(0,129,255));
+            pa.setColor(DPalette::ButtonText, Qt::white);
+            this->setPalette(pa);
+        }
+        else {
+            DPalette pa = this->palette();
+            pa.setColor(DPalette::Light, Qt::white);
+            pa.setColor(DPalette::Dark, Qt::white);
+            pa.setColor(DPalette::ButtonText, Qt::black);
+            this->setPalette(pa);
+        }
+    }
+    else {
+        if (isEqual) {
+            DPalette pa = this->palette();
+            pa.setColor(DPalette::Light, QColor(0,129,255));
+            pa.setColor(DPalette::Dark, QColor(0,129,255));
+            pa.setColor(DPalette::ButtonText, Qt::white);
+            this->setPalette(pa);
+        }
+        else {
+            DPalette pa = this->palette();
+            pa.setColor(DPalette::Light, QColor(17,17,17));
+            pa.setColor(DPalette::Dark, QColor(17,17,17));
+            pa.setColor(DPalette::ButtonText, Qt::white);
+            this->setPalette(pa);
+        }
+    }
+    setFocusPolicy(Qt::NoFocus);
     DPushButton::leaveEvent(e);
 }

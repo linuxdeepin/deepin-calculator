@@ -63,6 +63,7 @@ public:
 signals:
     void keyPress(QKeyEvent *);
     void clearStateChanged(bool);
+    void themeChange(int type);
 
 public slots:
     void enterNumberEvent(const QString &text);
@@ -86,6 +87,10 @@ public slots:
     void setLinkState(const QModelIndex index);
     void settingLinkage(const QModelIndex &index);
     void settingLinkage();
+    void Undo();
+    void addUndo();
+    void Redo();
+    void initTheme(int type);
 
 private slots:
     void handleTextChanged(const QString &text);
@@ -96,7 +101,7 @@ private:
     QString formatExpression(const QString &text);
     QString completedBracketsCalculation(QString &text);
     bool isOperator(const QString &text);
-    void cancelLink(int index);
+    bool cancelLink(int index);
 
 private:
     Evaluator *m_evaluator;
@@ -117,6 +122,8 @@ private:
     int m_linkageIndex;          //联动索引缓存
     int m_Selected;              //选中
     QVector<historicalLinkageIndex> m_hisLink;   //历史联动索引
+    QVector<QString> m_undo;
+    QVector<QString> m_redo;
 };
 
 #endif

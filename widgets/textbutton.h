@@ -21,9 +21,11 @@
 #define TEXTBUTTON_H
 
 #include <DPushButton>
+#include <DPalette>
 #include <QGraphicsDropShadowEffect>
 
 DWIDGET_USE_NAMESPACE
+DGUI_USE_NAMESPACE
 
 class TextButton : public DPushButton
 {

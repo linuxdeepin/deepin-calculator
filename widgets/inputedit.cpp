@@ -51,11 +51,12 @@ InputEdit::InputEdit(QWidget *parent)
     this->lineEdit()->setClearButtonEnabled(false);
     this->lineEdit()->setContextMenuPolicy(Qt::NoContextMenu);
 
-    /*DPalette pl = this->palette();
-    pl.setColor(DPalette::Light, QColor(0,0,0,0));
-    pl.setColor(DPalette::Dark, QColor(0,0,0,0));
-    pl.setColor(DPalette::Base, QColor(0,0,0,0));
-    this->setPalette(pl);*/
+    DPalette pl = this->lineEdit()->palette();
+    pl.setColor(DPalette::Light, QColor(0,0,0));
+    pl.setColor(DPalette::Dark, QColor(0,0,0));
+    pl.setColor(DPalette::Base, QColor(0,0,0));
+    pl.setColor(DPalette::Background, QColor(0,0,0));
+    this->lineEdit()->setPalette(pl);
 }
 
 InputEdit::~InputEdit()
@@ -164,8 +165,8 @@ void InputEdit::autoZoomFontSize()
     QFont font;
 
     // the maximum font is 28, minimum font is 9.
-    for (int i = 26; i > 6; --i) {
-        font.setPointSize(i);
+    for (int i = 30; i > 6; --i) {
+        font.setPixelSize(i);
 
         QFontMetrics fm(font);
         int fontWidth = fm.width(text());

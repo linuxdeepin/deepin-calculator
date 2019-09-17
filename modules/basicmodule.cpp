@@ -36,14 +36,16 @@ BasicModule::BasicModule(QWidget *parent)
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(m_expressionBar);
-    layout->addSpacing(1);
     layout->addLayout(m_keypadLayout);
+
     layout->setSpacing(0);
     layout->setMargin(0);
+    layout->setContentsMargins(0,0,0,11);
 
     setMouseTracking(true);
     setFocus();
     //initTheme();
+    m_expressionBar->initTheme(DGuiApplicationHelper::instance()->themeType());
 
     DPalette pal = this->palette();
     pal.setColor(DPalette::Light,QColor(248,248,248));
@@ -51,6 +53,7 @@ BasicModule::BasicModule(QWidget *parent)
     this->setPalette(pal);
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this, &BasicModule::initTheme);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, m_basicKeypad, &BasicKeypad::initButtons);
     connect(m_expressionBar, &ExpressionBar::keyPress, this, &BasicModule::handleEditKeyPress);
     connect(m_expressionBar, &ExpressionBar::clearStateChanged, this, &BasicModule::handleClearStateChanged);
     connect(m_basicKeypad, &BasicKeypad::buttonPressed, this, &BasicModule::handleKeypadButtonPress);
@@ -72,10 +75,31 @@ void BasicModule::switchToScientificKeypad()
 {
 }
 
-void BasicModule::initTheme(DGuiApplicationHelper::ColorType type)
+void BasicModule::initTheme(int type)
 {
     DPalette pal;
-    switch (type) {
+    if (type == 0)
+        type = DGuiApplicationHelper::instance()->themeType();
+    if (type == 1) {
+        m_expBarColor = "#F8F8F8";
+        m_expBarSepColor = "#F8F8F8";
+        m_btnSepColor = QColor("#F8F8F8");
+        pal = this->palette();
+        pal.setColor(DPalette::Light,QColor("#F8F8F8"));
+        this->setPalette(pal);
+        m_basicKeypad->buttonThemeChanged(type);
+    }
+    else {
+        m_expBarColor = "#111111";
+        m_expBarSepColor = "#303030";
+        m_btnSepColor = QColor("#2D2D2D");
+        pal = this->palette();
+        pal.setColor(DPalette::Dark,QColor(17,17,17));
+        this->setPalette(pal);
+        m_basicKeypad->buttonThemeChanged(type);
+    }
+    m_expressionBar->initTheme(type);
+    /*switch (type) {
     case 0: case 1:
         m_expBarColor = "#F8F8F8";
         m_expBarSepColor = "#F8F8F8";
@@ -95,7 +119,7 @@ void BasicModule::initTheme(DGuiApplicationHelper::ColorType type)
         m_basicKeypad->buttonThemeChanged(type);
     default:
         break;
-    }
+    }*/
     update();
     /*const QString theme = DThemeManager::instance()->theme();
 
@@ -119,83 +143,103 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_0:
         m_expressionBar->enterNumberEvent("0");
         m_basicKeypad->animate(BasicKeypad::Key_0);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_1:
         m_expressionBar->enterNumberEvent("1");
         m_basicKeypad->animate(BasicKeypad::Key_1);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_2:
         m_expressionBar->enterNumberEvent("2");
         m_basicKeypad->animate(BasicKeypad::Key_2);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_3:
         m_expressionBar->enterNumberEvent("3");
         m_basicKeypad->animate(BasicKeypad::Key_3);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_4:
         m_expressionBar->enterNumberEvent("4");
         m_basicKeypad->animate(BasicKeypad::Key_4);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_5:
         m_expressionBar->enterNumberEvent("5");
         m_basicKeypad->animate(BasicKeypad::Key_5);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_6:
         m_expressionBar->enterNumberEvent("6");
         m_basicKeypad->animate(BasicKeypad::Key_6);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_7:
         m_expressionBar->enterNumberEvent("7");
         m_basicKeypad->animate(BasicKeypad::Key_7);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_8:
         m_expressionBar->enterNumberEvent("8");
         m_basicKeypad->animate(BasicKeypad::Key_8);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_9:
         m_expressionBar->enterNumberEvent("9");
         m_basicKeypad->animate(BasicKeypad::Key_9);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_Plus:
         m_expressionBar->enterSymbolEvent("+");
         m_basicKeypad->animate(BasicKeypad::Key_Plus);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_Minus: case Qt::Key_Underscore:
         m_expressionBar->enterSymbolEvent("-");
         m_basicKeypad->animate(BasicKeypad::Key_Min);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_Asterisk:
         m_expressionBar->enterSymbolEvent("*");
         m_basicKeypad->animate(BasicKeypad::Key_Mult);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_Slash:
         m_expressionBar->enterSymbolEvent("/");
         m_basicKeypad->animate(BasicKeypad::Key_Div);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_Enter: case Qt::Key_Return: case Qt::Key_Equal:
         (static_cast<DPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Equals)))->animateClick();
-        m_expressionBar->settingLinkage();
+        //m_expressionBar->settingLinkage();
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_Backspace:
         m_expressionBar->enterBackspaceEvent();
         m_basicKeypad->animate(BasicKeypad::Key_Backspace);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_Period:
         m_basicKeypad->animate(BasicKeypad::Key_Point);
         m_expressionBar->enterPointEvent();
         //(static_cast<DPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Point)))->animateClick();
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_Escape:
         (static_cast<DPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Clear)))->animateClick();
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_ParenLeft: case Qt::Key_ParenRight:
         m_expressionBar->setContinue(true);
         m_basicKeypad->animate(BasicKeypad::Key_Brackets);
         m_expressionBar->enterBracketsEvent();
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_Percent:
         m_expressionBar->enterPercentEvent();
         m_basicKeypad->animate(BasicKeypad::Key_Percent);
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_C:
         if (isPressCtrl) {
@@ -205,6 +249,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_V:
         if (isPressCtrl) {
             m_expressionBar->copyClipboard2Result();
+            m_expressionBar->addUndo();
         }
         break;
     case Qt::Key_A:
@@ -219,15 +264,23 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
             m_expressionBar->enterSymbolEvent("*");
             m_basicKeypad->animate(BasicKeypad::Key_Mult);
         }
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_Delete:
         m_expressionBar->enterDeleteEvent();
+        m_expressionBar->addUndo();
         break;
     case Qt::Key_Left:
         m_expressionBar->moveLeft();
         break;
     case Qt::Key_Right:
         m_expressionBar->moveRight();
+        break;
+    case Qt::Key_Z:
+        m_expressionBar->Undo();
+        break;
+    case Qt::Key_Y:
+        m_expressionBar->Redo();
         break;
     default:
         break;

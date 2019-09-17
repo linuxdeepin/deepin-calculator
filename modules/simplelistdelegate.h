@@ -35,7 +35,8 @@ public:
     void removeLine(const int link, const int linked);
     void removeHisLink();
     void removeAllLink();
-
+public slots:
+    void setThemeType(int type);
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
@@ -51,6 +52,7 @@ private:
     QVector<int> m_linkItem;
     QVector<int> m_linkedIten;
     bool m_selected;
+    int m_type;
 };
 
 #endif

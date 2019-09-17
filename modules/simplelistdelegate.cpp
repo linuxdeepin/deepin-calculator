@@ -75,6 +75,11 @@ void SimpleListDelegate::removeAllLink()
     m_linkItem.clear();
 }
 
+void SimpleListDelegate::setThemeType(int type)
+{
+    m_type = type;
+}
+
 void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
@@ -109,8 +114,16 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         resultWidth = painter->fontMetrics().width(resultStr);
     }
 
-    errorFontColor = "#F37D54";
-    linkColor = "#0000FF";
+    if (m_type == 1) {
+        errorFontColor = "#F37D54";
+        linkColor = "#3489DF";
+        fontColor = "#353635";
+    }
+    else {
+        errorFontColor = "#F37D54";
+        linkColor = "#3489DF";
+        fontColor = "#ffffff";
+    }
     // init color.
     /*if (theme == "light") {
         errorFontColor = "#F37D54";
