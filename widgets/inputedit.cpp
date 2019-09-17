@@ -90,35 +90,9 @@ void InputEdit::clear()
     setText("");
 }
 
-void InputEdit::keyPressEvent(QKeyEvent *e)
+void InputEdit::keyPressEvent(QKeyEvent *)
 {
-    Q_EMIT keyPress(e);
-#if 0
-    switch (e->key()) {
-    case Qt::Key_Equal: case Qt::Key_Period:
-        return;
-    case Qt::Key_ParenLeft: case Qt::Key_ParenRight:
-        BracketCompletion(e);
-        break;
-    default:
-        QLineEdit::keyPressEvent(e);
-        break;
-    }
-#else
-    switch (e->key()) {
-    case Qt::Key_Equal: case Qt::Key_Period:
-        return;
-    /*case Qt::Key_ParenRight:
-        QLineEdit::keyPressEvent(e);
-        setCursorPosition(cursorPosition() - 1);
-        break;
-    /*case Qt::Key_Plus: case Qt::Key_Minus: case Qt::Key_Underscore:
-    case Qt::Key_Asterisk: case Qt::Key_X: case Qt::Key_Slash:
-        return;
-    default:
-        QLineEdit::keyPressEvent(e);*/
-    }
-#endif
+    return;
 }
 
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
@@ -131,11 +105,6 @@ void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
         int posEnd = findWordEndPosition(position);
         this->lineEdit()->setSelection(posBegin, posEnd - posBegin + 1);
     }
-}
-
-void InputEdit::contextMenuEvent(QContextMenuEvent *e)
-{
-    return;
 }
 
 bool InputEdit::isSymbolCategoryChanged(int pos1, int pos2)

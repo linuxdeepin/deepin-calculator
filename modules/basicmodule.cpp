@@ -216,6 +216,8 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_Right:
         m_expressionBar->moveRight();
         break;
+    default:
+        break;
     }
 }
 
