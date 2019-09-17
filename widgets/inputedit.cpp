@@ -23,6 +23,7 @@
 
 #include <QKeyEvent>
 #include <QDebug>
+#include <QStringList>
 
 InputEdit::InputEdit(QWidget *parent)
     : DLineEdit(parent),
@@ -213,9 +214,9 @@ void InputEdit::handleTextChanged(const QString &text)
 
     int ansEnd = m_ansStartPos + m_ansLength;
     m_oldText = text;
-    /*m_ansVaild = m_ansLength != 0 &&
+    m_ansVaild = m_ansLength != 0 &&
         (m_ansStartPos == 0 || !text[m_ansStartPos - 1].isDigit()) &&
-        (ansEnd == text.length() || !text[ansEnd].isDigit());*/
+        (ansEnd == text.length() || !text[ansEnd].isDigit());
     m_oldText = text;
 
     // reformat text.
@@ -235,7 +236,7 @@ void InputEdit::handleTextChanged(const QString &text)
                              .replace(QString::fromUtf8("。"), ".")
                              .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
 
-    pointFaultTolerance(reformatStr);
+    reformatStr = pointFaultTolerance(reformatStr);
     setText(reformatStr);
 
     int newLength = reformatStr.length();
@@ -244,13 +245,25 @@ void InputEdit::handleTextChanged(const QString &text)
     autoZoomFontSize();
 }
 
-void InputEdit::pointFaultTolerance(QString &text)
+QString InputEdit::pointFaultTolerance(const QString &text)
 {
-    int firstPoint = text.indexOf(".");
-    //int lastPoint = text.lastIndexOf(".");
-    //int count = text.count(".");
-    text.replace(".","");
-    text.insert(firstPoint, ".");
+    QString exp = text;
+    exp = exp.replace(QString::fromUtf8("－"),QString::fromUtf8("＋"))
+             .replace(QString::fromUtf8("×"),QString::fromUtf8("＋"))
+             .replace(QString::fromUtf8("÷"),QString::fromUtf8("＋"));
+    QStringList list = exp.split(QString::fromUtf8("＋"));
+    for (int i = 0; i < list.size(); ++i) {
+        QString item = list[i];
+        int firstPoint = item.indexOf(".");
+        int lastPoint = item.lastIndexOf(".");
+        int count = item.count(".");
+        if (lastPoint - firstPoint + 1 == count) {
+            item.remove(firstPoint,lastPoint);
+            item.insert(firstPoint, ".");
+            exp.replace(list[i], item);
+        }
+    }
+    return exp;
 }
 
 void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)

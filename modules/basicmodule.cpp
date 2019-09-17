@@ -151,11 +151,9 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         m_expressionBar->enterSymbolEvent("/");
         m_basicKeypad->animate(BasicKeypad::Key_Div);
         break;
-    case Qt::Key_Enter: case Qt::Key_Return: case Qt::Key_Right:
-        m_expressionBar->settingLinkage();
-        break;
-    case Qt::Key_Equal:
+    case Qt::Key_Enter: case Qt::Key_Return: case Qt::Key_Right: case Qt::Key_Equal:
         (static_cast<DPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Equals)))->animateClick();
+        m_expressionBar->settingLinkage();
         break;
     case Qt::Key_Backspace:
         m_expressionBar->enterBackspaceEvent();
@@ -170,6 +168,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_ParenLeft: case Qt::Key_ParenRight:
         m_expressionBar->setContinue(true);
         m_basicKeypad->animate(BasicKeypad::Key_Brackets);
+        m_expressionBar->enterBracketsEvent();
         break;
     case Qt::Key_Percent:
         m_expressionBar->enterPercentEvent();
@@ -178,6 +177,11 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_C:
         if (isPressCtrl) {
             m_expressionBar->copyResultToClipboard();
+        }
+        break;
+    case Qt::Key_V:
+        if (isPressCtrl) {
+            m_expressionBar->copyClipboard2Result();
         }
         break;
     }
@@ -201,7 +205,7 @@ void BasicModule::handleKeypadButtonPress(int key)
     case BasicKeypad::Key_Mult:         m_expressionBar->enterSymbolEvent("*");     break;
     case BasicKeypad::Key_Div:          m_expressionBar->enterSymbolEvent("/");     break;
     case BasicKeypad::Key_Percent:      m_expressionBar->enterPercentEvent();       break;
-    case BasicKeypad::Key_Equals:       m_expressionBar->enterEqualEvent();         break;
+    case BasicKeypad::Key_Equals:       m_expressionBar->settingLinkage();          break;
     case BasicKeypad::Key_Clear:        m_expressionBar->enterClearEvent();         break;
     case BasicKeypad::Key_Backspace:    m_expressionBar->enterBackspaceEvent();     break;
     case BasicKeypad::Key_Point:        m_expressionBar->enterPointEvent();         break;

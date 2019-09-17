@@ -74,6 +74,7 @@ public slots:
     void enterPercentEvent();
     void enterBracketsEvent();
     void copyResultToClipboard();
+    void copyClipboard2Result();
     void computationalResults(const QString &expression, QString &result);
     void historicalLinkage(int index, QString newValue);
     void clearLinkageCache();
@@ -89,6 +90,7 @@ private:
     bool cursorPosAtEnd();
     QString formatExpression(const QString &text);
     QString completedBracketsCalculation(QString &text);
+    bool isOperator(const QString &text);
 
 private:
     Evaluator *m_evaluator;
