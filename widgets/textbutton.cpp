@@ -30,7 +30,7 @@ TextButton::TextButton(const QString &text, QWidget *parent)
     : DPushButton(text, parent),
       m_effect(new QGraphicsDropShadowEffect(this))
 {
-    setFixedSize(80, 60);
+    setFixedSize(76, 58);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");
     setGraphicsEffect(m_effect);
@@ -78,6 +78,12 @@ void TextButton::init()
             m_effect->setYOffset(-4);            
         }
     }
+    QFont font;
+    font.setPixelSize(18);
+    this->setFont(font);
+    DPalette pl = this->palette();
+    pl.setColor(DPalette::ButtonText, Qt::black);
+    this->setPalette(pl);
 }
 
 void TextButton::showShadow()

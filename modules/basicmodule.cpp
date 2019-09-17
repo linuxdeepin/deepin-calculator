@@ -54,8 +54,8 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_expressionBar, &ExpressionBar::clearStateChanged, this, &BasicModule::handleClearStateChanged);
     connect(m_basicKeypad, &BasicKeypad::buttonPressed, this, &BasicModule::handleKeypadButtonPress);
 
-    m_expBarColor = "#FBFBFB";
-    m_expBarSepColor = "#FBFBFB";
+    m_expBarColor = "#F8F8F8";
+    m_expBarSepColor = "#F8F8F8";
     m_btnSepColor = QColor("#2D2D2D");
 }
 
@@ -76,11 +76,11 @@ void BasicModule::initTheme(DGuiApplicationHelper::ColorType type)
     DPalette pal;
     switch (type) {
     case 0: case 1:
-        m_expBarColor = "#FBFBFB";
-        m_expBarSepColor = "#E1E1E1";
-        m_btnSepColor = QColor(242, 242, 242);
+        m_expBarColor = "#F8F8F8";
+        m_expBarSepColor = "#F8F8F8";
+        m_btnSepColor = QColor("#F8F8F8");
         pal = this->palette();
-        pal.setColor(DPalette::Light,QColor(248,248,248));
+        pal.setColor(DPalette::Light,QColor("#F8F8F8"));
         this->setPalette(pal);
         m_basicKeypad->buttonThemeChanged(type);
         break;
@@ -171,7 +171,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         m_expressionBar->enterSymbolEvent("/");
         m_basicKeypad->animate(BasicKeypad::Key_Div);
         break;
-    case Qt::Key_Enter: case Qt::Key_Return: case Qt::Key_Right: case Qt::Key_Equal:
+    case Qt::Key_Enter: case Qt::Key_Return: case Qt::Key_Equal:
         (static_cast<DPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Equals)))->animateClick();
         m_expressionBar->settingLinkage();
         break;
@@ -208,6 +208,12 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         break;
     case Qt::Key_Delete:
         m_expressionBar->enterDeleteEvent();
+        break;
+    case Qt::Key_Left:
+        m_expressionBar->moveLeft();
+        break;
+    case Qt::Key_Right:
+        m_expressionBar->moveRight();
         break;
     }
 }

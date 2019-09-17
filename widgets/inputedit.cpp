@@ -43,12 +43,16 @@ InputEdit::InputEdit(QWidget *parent)
     connect(this, &QLineEdit::textChanged, this, &InputEdit::handleTextChanged);
     connect(this, &QLineEdit::cursorPositionChanged, this, &InputEdit::handleCursorPositionChanged);
     connect(this, &QLineEdit::selectionChanged,
-    [ = ] {
-        int pos = this->cursorPosition();
-        this->cursorPositionChanged(pos, pos);
-    });
+            [=] {
+                int pos = this->cursorPosition();
+                this->cursorPositionChanged(pos, pos);
+            });
     setFrame(false);
     setClearButtonEnabled(false);
+
+    DPalette pl = this->palette();
+    pl.setColor(DPalette::Window, QColor("#F8F8F8"));
+    this->setPalette(pl);
 }
 
 InputEdit::~InputEdit()
@@ -88,11 +92,9 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
     Q_EMIT keyPress(e);
 #if 0
     switch (e->key()) {
-    case Qt::Key_Equal:
-    case Qt::Key_Period:
+    case Qt::Key_Equal: case Qt::Key_Period:
         return;
-    case Qt::Key_ParenLeft:
-    case Qt::Key_ParenRight:
+    case Qt::Key_ParenLeft: case Qt::Key_ParenRight:
         BracketCompletion(e);
         break;
     default:
@@ -101,18 +103,17 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
     }
 #else
     switch (e->key()) {
-    case Qt::Key_Equal:
-    case Qt::Key_Period:
+    case Qt::Key_Equal: case Qt::Key_Period:
         return;
     /*case Qt::Key_ParenRight:
         QLineEdit::keyPressEvent(e);
         setCursorPosition(cursorPosition() - 1);
         break;
-        /*case Qt::Key_Plus: case Qt::Key_Minus: case Qt::Key_Underscore:
-        case Qt::Key_Asterisk: case Qt::Key_X: case Qt::Key_Slash:
-            return;
-        default:
-            QLineEdit::keyPressEvent(e);*/
+    /*case Qt::Key_Plus: case Qt::Key_Minus: case Qt::Key_Underscore:
+    case Qt::Key_Asterisk: case Qt::Key_X: case Qt::Key_Slash:
+        return;
+    default:
+        QLineEdit::keyPressEvent(e);*/
     }
 #endif
 }
@@ -127,6 +128,11 @@ void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
         int posEnd = findWordEndPosition(position);
         setSelection(posBegin, posEnd - posBegin + 1);
     }
+}
+
+void InputEdit::contextMenuEvent(QContextMenuEvent *e)
+{
+    return;
 }
 
 bool InputEdit::isSymbolCategoryChanged(int pos1, int pos2)
@@ -218,8 +224,8 @@ void InputEdit::handleTextChanged(const QString &text)
     int ansEnd = m_ansStartPos + m_ansLength;
     m_oldText = text;
     m_ansVaild = m_ansLength != 0 &&
-                 (m_ansStartPos == 0 || !text[m_ansStartPos - 1].isDigit()) &&
-                 (ansEnd == text.length() || !text[ansEnd].isDigit());
+        (m_ansStartPos == 0 || !text[m_ansStartPos - 1].isDigit()) &&
+        (ansEnd == text.length() || !text[ansEnd].isDigit());
     m_oldText = text;
 
     // reformat text.
@@ -228,16 +234,16 @@ void InputEdit::handleTextChanged(const QString &text)
 
     QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
     reformatStr = reformatStr.replace('+', QString::fromUtf8("＋"))
-                  .replace('-', QString::fromUtf8("－"))
-                  .replace("_", QString::fromUtf8("－"))
-                  .replace('*', QString::fromUtf8("×"))
-                  .replace('/', QString::fromUtf8("÷"))
-                  .replace('x', QString::fromUtf8("×"))
-                  .replace('X', QString::fromUtf8("×"))
-                  .replace(QString::fromUtf8("（"), "(")
-                  .replace(QString::fromUtf8("）"), ")")
-                  .replace(QString::fromUtf8("。"), ".")
-                  .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
+                             .replace('-', QString::fromUtf8("－"))
+                             .replace("_", QString::fromUtf8("－"))
+                             .replace('*', QString::fromUtf8("×"))
+                             .replace('/', QString::fromUtf8("÷"))
+                             .replace('x', QString::fromUtf8("×"))
+                             .replace('X', QString::fromUtf8("×"))
+                             .replace(QString::fromUtf8("（"), "(")
+                             .replace(QString::fromUtf8("）"), ")")
+                             .replace(QString::fromUtf8("。"), ".")
+                             .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
 
     reformatStr = pointFaultTolerance(reformatStr);
     reformatStr = symbolFaultTolerance(reformatStr);
@@ -253,9 +259,9 @@ QString InputEdit::pointFaultTolerance(const QString &text)
 {
     QString exp = text;
     QString oldText = text;
-    exp = exp.replace(QString::fromUtf8("－"), QString::fromUtf8("＋"))
-          .replace(QString::fromUtf8("×"), QString::fromUtf8("＋"))
-          .replace(QString::fromUtf8("÷"), QString::fromUtf8("＋"));
+    exp = exp.replace(QString::fromUtf8("－"),QString::fromUtf8("＋"))
+             .replace(QString::fromUtf8("×"),QString::fromUtf8("＋"))
+             .replace(QString::fromUtf8("÷"),QString::fromUtf8("＋"));
     QStringList list = exp.split(QString::fromUtf8("＋"));
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];
@@ -338,24 +344,24 @@ void InputEdit::BracketCompletion(QKeyEvent *e)
         //光标左侧左括号大于右括号
         if (leftLeftParen > leftRightParen) {
             if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) > 0) {
-                oldText.insert(curs, ")");
+                oldText.insert(curs,")");
             } else if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) < 0) {
-                oldText.insert(curs, "(");
+                oldText.insert(curs,"(");
             } else {
-                oldText.insert(curs, "()");
+                oldText.insert(curs,"()");
             }
-            //如果左侧左括号小于等于左侧右括号
+        //如果左侧左括号小于等于左侧右括号
         } else {
             //如果右侧左括号小于右括号
             if (rightLeftParen < rightrightParen) {
-                oldText.insert(curs, "(");
+                oldText.insert(curs,"(");
             } else {
-                oldText.insert(curs, "()");
+                oldText.insert(curs,"()");
             }
         }
-        //相等则输入一对括号
+    //相等则输入一对括号
     } else {
-        oldText.insert(curs, "()");
+        oldText.insert(curs,"()");
     }
     setCursorPosition(curs);
     setText(oldText);

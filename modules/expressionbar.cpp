@@ -46,6 +46,9 @@ ExpressionBar::ExpressionBar(QWidget *parent)
 
     m_listView->setModel(m_listModel);
     m_listView->setItemDelegate(m_listDelegate);
+    /*DPalette pl = this->palette();
+    pl.setColor(DPalette::Background, Qt::black);
+    this->setPalette(pl);*/
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(m_listView);
@@ -104,7 +107,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
         m_isLinked = false;
     }
     if (m_inputEdit->text().isEmpty()) {
-        if (text != QString::fromUtf8("－")) {
+        if (text != "-") {
             return;
         } else {
             m_inputEdit->insert(text);
@@ -691,4 +694,14 @@ bool ExpressionBar::isOperator(const QString &text)
     } else {
         return false;
     }
+}
+
+void ExpressionBar::moveLeft()
+{
+    m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
+}
+
+void ExpressionBar::moveRight()
+{
+    m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + 1);
 }

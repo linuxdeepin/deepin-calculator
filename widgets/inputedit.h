@@ -21,8 +21,10 @@
 #define INPUTEDIT_H
 
 #include <DLineEdit>
+#include <DPalette>
 #include "../math/quantity.h"
 
+DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
 
 class InputEdit : public DLineEdit
@@ -43,6 +45,7 @@ Q_SIGNALS:
 protected:
     void keyPressEvent(QKeyEvent *);
     void mouseDoubleClickEvent(QMouseEvent *);
+    void contextMenuEvent(QContextMenuEvent *);
 
 private slots:
     bool isSymbolCategoryChanged(int pos1, int pos2);
