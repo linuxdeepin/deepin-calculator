@@ -93,6 +93,7 @@ void InputEdit::clear()
 void InputEdit::keyPressEvent(QKeyEvent *e)
 {
     Q_EMIT keyPress(e);
+    return;
 }
 
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
@@ -163,7 +164,7 @@ void InputEdit::autoZoomFontSize()
     QFont font;
 
     // the maximum font is 28, minimum font is 9.
-    for (int i = 26; i > 1; --i) {
+    for (int i = 26; i > 6; --i) {
         font.setPointSize(i);
 
         QFontMetrics fm(font);
@@ -372,4 +373,14 @@ void InputEdit::BracketCompletion(QKeyEvent *e)
     }
     this->lineEdit()->setCursorPosition(curs);
     setText(oldText);
+}
+
+bool InputEdit::eventFilter(QObject *watched, QEvent *event)
+{
+    if (event->type() !=  QEvent::KeyPress) {
+        return false;
+    }
+    QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+    Q_EMIT keyPress(keyEvent);
+    return true;
 }

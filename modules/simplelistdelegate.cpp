@@ -51,6 +51,18 @@ void SimpleListDelegate::setHisLinked(const int linked)
     m_linkedIten.push_back(linked);
 }
 
+void SimpleListDelegate::removeLine(const int link, const int linked)
+{
+    for (int i = 0; i < m_linkItem.size(); ++i) {
+        if (m_linkItem[i] == link)
+            m_linkItem.remove(i);
+    }
+    for (int i = 0; i < m_linkedIten.size(); ++i) {
+        if (m_linkedIten[i] == linked)
+            m_linkedIten.remove(i);
+    }
+}
+
 void SimpleListDelegate::removeHisLink()
 {
     if (!m_linkItem.isEmpty())
@@ -196,6 +208,7 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
     exp = exp.replace(QString::fromUtf8("＋"), "+").replace(QString::fromUtf8("－"), "+")
                       .replace(QString::fromUtf8("×"), "+").replace(QString::fromUtf8("÷"), "+")
                       .replace(QString::fromUtf8("("), "+").replace(QString::fromUtf8(")"), "+");
+    //QStringList list = exp.split(QRegExp("[＋－×÷()]"));
     QStringList list = exp.split("+");
     linkNum = list.at(0);
     expStr = text.right(text.length() - linkNum.length());

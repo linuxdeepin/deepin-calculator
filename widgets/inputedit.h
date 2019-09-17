@@ -58,6 +58,7 @@ private slots:
     QString pointFaultTolerance(const QString &text);
     QString symbolFaultTolerance(const QString &text);
     bool isSymbol(const QString &text);
+    bool eventFilter(QObject *watched, QEvent *event);
 
 private:
     Quantity m_ans;

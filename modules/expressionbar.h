@@ -96,6 +96,7 @@ private:
     QString formatExpression(const QString &text);
     QString completedBracketsCalculation(QString &text);
     bool isOperator(const QString &text);
+    void cancelLink(int index);
 
 private:
     Evaluator *m_evaluator;

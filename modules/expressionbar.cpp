@@ -109,7 +109,7 @@ void ExpressionBar::enterNumberEvent(const QString &text)
 
 void ExpressionBar::enterSymbolEvent(const QString &text)
 {
-    if (m_isLinked) {
+    if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
         m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex());
         m_hisLink.last().isLink = true;
         m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
@@ -317,13 +317,14 @@ void ExpressionBar::enterEqualEvent()
         }
     } else {
         m_listModel->updataList(m_inputEdit->text() + "＝" + tr("Expression Error"), m_hisRevision);
+        m_inputEdit->lineEdit()->clear();
     }
     if (m_isLinked) {
         if (m_hisRevision == -1) {
             m_isLinked = false;
             return;
         }
-        for (int i = m_hisRevision; i < m_hisLink.size(); ++i) {
+        for (int i = 0; i < m_hisLink.size(); ++i) {
             if (m_hisRevision == m_hisLink[i].linkageTerm) {
                 m_hisRevision = m_hisLink[i].linkedItem;
                 if (m_hisRevision == -1) {
@@ -361,8 +362,8 @@ void ExpressionBar::enterBracketsEvent()
     QString sRegNum = "[0-9]+";
     QRegExp rx;
     rx.setPattern(sRegNum);
-    if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-        return;
+    //if (currentPos != 0 && !rx.exactMatch(oldText.at(currentPos - 1)))
+    //    return;
     QString bracketsText;
     int right = oldText.length() - currentPos;
     int leftLeftParen = oldText.left(currentPos).count("(");
@@ -375,13 +376,19 @@ void ExpressionBar::enterBracketsEvent()
         if (leftLeftParen > leftRightParen) {
             if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) > 0) {
                 //bracketsText = ")";
+                if (currentPos != 0 && !rx.exactMatch(oldText.at(currentPos - 1)))
+                    return;
                 m_inputEdit->lineEdit()->insert(")");
             } else if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) < 0) {
                 //bracketsText = "(";
+                if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
+                    return;
                 m_inputEdit->lineEdit()->insert("(");
                 m_inputEdit->lineEdit()->setCursorPosition(currentPos + 1);
             } else {
                 //bracketsText = "(";
+                if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
+                    return;
                 m_inputEdit->lineEdit()->insert("(");
                 m_inputEdit->lineEdit()->setCursorPosition(currentPos + 1);
             }
@@ -390,15 +397,21 @@ void ExpressionBar::enterBracketsEvent()
             //如果右侧左括号小于右括号
             if (rightLeftParen < rightrightParen) {
                 //bracketsText = "(";
+                if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
+                    return;
                 m_inputEdit->lineEdit()->insert("(");
             } else {
                 //bracketsText = "(";
+                if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
+                    return;
                 m_inputEdit->lineEdit()->insert("(");
             }
         }
     //相等则输入一对括号
     } else {
         //bracketsText = "(";
+        if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
+            return;
         m_inputEdit->lineEdit()->insert("(");
     }
 }
@@ -481,6 +494,7 @@ QString ExpressionBar::formatExpression(const QString &text)
 
 void ExpressionBar::revisionResults(const QModelIndex &index)
 {
+    clearLinkageCache();
     QString text = index.data(SimpleListModel::ExpressionRole).toString();
     QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
     if (historic.size() != 2)
@@ -596,6 +610,7 @@ void ExpressionBar::settingLinkage()
     if (hisRecision != -1) {
         for (int i = 0;i < m_hisLink.size();i++) {
             if (m_hisLink[i].linkageTerm == hisRecision) {
+                cancelLink(i);
                 m_isLinked = true;
                 enterEqualEvent();
                 return;
@@ -621,6 +636,21 @@ void ExpressionBar::settingLinkage()
         m_hisLink.push_back(hisIndex);
     }
     m_listDelegate->setHisLink(m_hisLink.last().linkageTerm);
+}
+
+void ExpressionBar::cancelLink(int index)
+{
+    for (int i = 0; i < index; ++i) {
+        if (m_hisLink[i].linkedItem == m_hisRevision) {
+            QString exp = m_inputEdit->text();
+            exp = exp.replace(",", "");
+            QStringList list = exp.split(QRegExp("[＋－×÷()]"));
+            if (list.at(0) != m_hisLink[i].linkageValue) {
+                m_listDelegate->removeLine(m_hisLink[i].linkageTerm, m_hisLink[i].linkedItem);
+                m_hisLink.remove(i);
+            }
+        }
+    }
 }
 
 void ExpressionBar::settingLinkage(const QModelIndex &index)
