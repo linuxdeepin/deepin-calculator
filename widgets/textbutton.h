@@ -46,9 +46,14 @@ public:
     void mouseReleaseEvent(QMouseEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
-
+    //void paintEvent(QPaintEvent *e);
+private slots:
+    void setPress(bool);
 private:
     QGraphicsDropShadowEffect *m_effect;
+
+    bool m_isHover;
+    bool m_isPress;
 };
 
 #endif

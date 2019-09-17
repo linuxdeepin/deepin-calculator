@@ -52,10 +52,8 @@ InputEdit::InputEdit(QWidget *parent)
     this->lineEdit()->setContextMenuPolicy(Qt::NoContextMenu);
 
     DPalette pl = this->lineEdit()->palette();
-    pl.setColor(DPalette::Light, QColor(0,0,0));
-    pl.setColor(DPalette::Dark, QColor(0,0,0));
-    pl.setColor(DPalette::Base, QColor(0,0,0));
-    pl.setColor(DPalette::Background, QColor(0,0,0));
+    pl.setColor(DPalette::Button,Qt::transparent);
+    pl.setColor(DPalette::Highlight,Qt::transparent);
     this->lineEdit()->setPalette(pl);
 }
 
@@ -100,7 +98,6 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
     //QLineEdit::mouseDoubleClickEvent(e);
-
     if (e->button() == Qt::LeftButton) {
         int position = this->lineEdit()->cursorPositionAt(e->pos());
         int posBegin = findWordBeginPosition(position);
@@ -131,7 +128,6 @@ int InputEdit::findWordBeginPosition(int pos)
     if (0 >= pos) {
         return 0;
     }
-
     while (pos > 0) {
         pos--;
         if (isSymbolCategoryChanged(pos, pos + 1)) {
@@ -164,13 +160,13 @@ void InputEdit::autoZoomFontSize()
 {
     QFont font;
 
-    // the maximum font is 28, minimum font is 9.
+    // the maximum font is 30, minimum font is 6.
     for (int i = 30; i > 6; --i) {
         font.setPixelSize(i);
 
         QFontMetrics fm(font);
         int fontWidth = fm.width(text());
-        int editWidth = width() - 24;
+        int editWidth = width() - 20;
 
         if (fontWidth < editWidth)
             break;
@@ -229,10 +225,8 @@ void InputEdit::handleTextChanged(const QString &text)
                              .replace(QString::fromUtf8("）"), ")")
                              .replace(QString::fromUtf8("。"), ".")
                              .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
-    //int nCurrentFrameStart = text.indexOf(QRegExp("[^0-9＋－×÷.%()]"));
-    //if (nCurrentFrameStart != -1)
-        reformatStr.remove(QRegExp("[^0-9＋－×÷,.%()]"));
 
+    reformatStr.remove(QRegExp("[^0-9＋－×÷,.%()]"));
     reformatStr = pointFaultTolerance(reformatStr);
     reformatStr = symbolFaultTolerance(reformatStr);
     setText(reformatStr);

@@ -24,6 +24,7 @@
 #include <QGridLayout>
 #include <QSignalMapper>
 #include <DGuiApplicationHelper>
+#include <DSuggestButton>
 #include "textbutton.h"
 #include "iconbutton.h"
 
@@ -47,7 +48,9 @@ public:
     ~BasicKeypad();
 
     DPushButton *button(Buttons key);
+    DSuggestButton *button();
     void animate(Buttons key);
+    void animate();
     void buttonThemeChanged(int type);
 
     static const struct KeyDescription {
@@ -60,6 +63,7 @@ public slots:
     void initButtons();
 signals:
     void buttonPressed(int);
+    void equalPressed();
 
 private:
     void initUI();
@@ -69,6 +73,7 @@ private:
     QGridLayout *m_layout;
     QSignalMapper *m_mapper;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
+    DSuggestButton *m_equal;
 };
 
 #endif

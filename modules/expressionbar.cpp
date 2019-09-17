@@ -447,7 +447,6 @@ void ExpressionBar::copyResultToClipboard()
     if (m_inputEdit->text().isEmpty())
         return;
     QApplication::clipboard()->setText(m_inputEdit->lineEdit()->selectedText());
-
     /*const QString expression = formatExpression(m_inputEdit->expressionText());
     m_evaluator->setExpression(expression);
     Quantity ans = m_evaluator->evalUpdateAns();
@@ -496,8 +495,6 @@ void ExpressionBar::handleTextChanged(const QString &text)
 {
     m_isAllClear = false;
     m_isContinue = true;
-
-    //emit clearStateChanged(false);
 }
 
 bool ExpressionBar::cursorPosAtEnd()
@@ -523,6 +520,7 @@ void ExpressionBar::revisionResults(const QModelIndex &index)
     m_hisRevision = index.row();
     m_inputEdit->setText(expression);
     m_Selected = m_hisRevision;
+
     emit clearStateChanged(false);
 }
 
@@ -563,6 +561,7 @@ QString ExpressionBar::completedBracketsCalculation(QString &text)
         for (int i = 0;i < leftBrack - rightBrack;i++)
             newText += ")";
     }
+
     return newText;
 }
 
@@ -631,7 +630,7 @@ void ExpressionBar::settingLinkage()
     if (hisRecision != -1) {
         for (int i = 0;i < m_hisLink.size();i++) {
             if (m_hisLink[i].linkedItem == hisRecision) {
-                if (cancelLink(i+1))
+                if (cancelLink(i+1) && i != 0)
                     --i;
                 if (m_hisLink.size() == 0)
                     break;

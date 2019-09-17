@@ -50,6 +50,7 @@ private slots:
 private:
     void handleEditKeyPress(QKeyEvent *);
     void handleKeypadButtonPress(int);
+    void equalButtonPress();
     void handleClearStateChanged(bool isAllClear);
 
 protected:

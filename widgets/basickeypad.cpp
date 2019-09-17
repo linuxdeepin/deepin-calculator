@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <QTimer>
 
 #include <DPalette>
 
@@ -45,8 +46,8 @@ const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
 
     { "0", Key_0, 5, 0 },
     { ".", Key_Point, 5, 1 },
-    { "( )", Key_Brackets, 5, 2 },
-    { "=", Key_Equals, 5, 3 }
+    { "( )", Key_Brackets, 5, 2 }
+    //{ "=", Key_Equals, 5, 3 }
 };
 
 static DPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
@@ -62,7 +63,10 @@ static DPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
         button->setIcon(":/images/plus_normal.svg");
     } else if (key == BasicKeypad::Key_Backspace) {
         button->setIconStateSizes(23, 26);
-        button->setIcon(QString(":/images/delete_light_normal.svg"));
+        if (DGuiApplicationHelper::instance()->themeType() == 2)
+            button->setIcon(QString(":/images/delete_dark_normal.svg"));
+        else
+            button->setIcon(QString(":/images/delete_light_normal.svg"));
     }
 
     /*    if (key == BasicKeypad::Key_Div) {
@@ -120,10 +124,22 @@ DPushButton* BasicKeypad::button(Buttons key)
     return m_keys.value(key).first;
 }
 
+DSuggestButton *BasicKeypad::button()
+{
+    return m_equal;
+}
+
 void BasicKeypad::animate(Buttons key)
 {
     TextButton *btn = static_cast<TextButton *>(button(key));
     btn->animate();
+}
+
+void BasicKeypad::animate()
+{
+    m_equal->setChecked(true);
+
+    QTimer::singleShot(100, this, [=] { m_equal->setChecked(false); });
 }
 
 void BasicKeypad::initButtons()
@@ -177,6 +193,12 @@ void BasicKeypad::initButtons()
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
         m_mapper->setMapping(button, desc->button);
     }
+    m_equal = new DSuggestButton();
+    connect(m_equal, SIGNAL(clicked()),this,SIGNAL(equalPressed()));
+    //dengyu->setFocusProxy(Qt::NoFocus);
+    m_equal->setFixedSize(76,53);
+    m_equal->setText("=");
+    m_layout->addWidget(m_equal,5,3);
 }
 
 void BasicKeypad::initUI()
@@ -192,14 +214,14 @@ void BasicKeypad::initUI()
     button(Key_Mult)->setObjectName("SymbolButton");
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
-    button(Key_Equals)->setObjectName("EqualButton");
+    //button(Key_Equals)->setObjectName("EqualButton");
 
     this->setContentsMargins(12,0,13,0);
 }
 
 void BasicKeypad::buttonThemeChanged(int type)
 {
-    if (type == 0)
+    /*if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         QHash<Buttons, QPair<DPushButton *, const KeyDescription *>>::const_iterator iter1 = m_keys.constBegin();
@@ -237,11 +259,19 @@ void BasicKeypad::buttonThemeChanged(int type)
             button->setPalette(pa);
             ++iter1;
         }
-    }
+    }*/
+    IconButton *btn = static_cast<IconButton *>(button(Key_Backspace));
+    if (DGuiApplicationHelper::instance()->themeType() == 2)
+        btn->setIcon(QString(":/images/delete_dark_normal.svg"));
+    else
+        btn->setIcon(QString(":/images/delete_light_normal.svg"));
 }
 
 void BasicKeypad::handleThemeChanged()
 {
     IconButton *btn = static_cast<IconButton *>(button(Key_Backspace));
-    btn->setIcon(QString(":/images/delete_light_normal.svg"));
+    if (DGuiApplicationHelper::instance()->themeType() == 2)
+        btn->setIcon(QString(":/images/delete_dark_normal.svg"));
+    else
+        btn->setIcon(QString(":/images/delete_light_normal.svg"));
 }

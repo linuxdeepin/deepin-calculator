@@ -117,12 +117,12 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     if (m_type == 1) {
         errorFontColor = "#F37D54";
         linkColor = "#3489DF";
-        fontColor = "#353635";
+        fontColor = "#838483";
     }
     else {
         errorFontColor = "#F37D54";
         linkColor = "#3489DF";
-        fontColor = "#ffffff";
+        fontColor = "#838483";
     }
     // init color.
     /*if (theme == "light") {
@@ -218,11 +218,18 @@ bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, c
 void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString &expStr)
 {
     QString exp = text;
-    exp = exp.replace(QString::fromUtf8("＋"), "+").replace(QString::fromUtf8("－"), "+")
+    /*exp = exp.replace(QString::fromUtf8("＋"), "+").replace(QString::fromUtf8("－"), "+")
                       .replace(QString::fromUtf8("×"), "+").replace(QString::fromUtf8("÷"), "+")
-                      .replace(QString::fromUtf8("("), "+").replace(QString::fromUtf8(")"), "+");
-    //QStringList list = exp.split(QRegExp("[＋－×÷()]"));
-    QStringList list = exp.split("+");
-    linkNum = list.at(0);
+                      .replace(QString::fromUtf8("("), "+").replace(QString::fromUtf8(")"), "+");*/
+    QStringList list;
+    if (exp.at(0) != "－") {
+        list = exp.split(QRegExp("[＋－×÷()]"), QString::SkipEmptyParts);
+        linkNum = list.at(0);
+    }
+    else {
+        list = exp.split(QRegExp("[＋－×÷()]"), QString::SkipEmptyParts);
+        linkNum = "－" + list.at(0);
+    }
+    //QStringList list = exp.split("+");
     expStr = text.right(text.length() - linkNum.length());
 }
