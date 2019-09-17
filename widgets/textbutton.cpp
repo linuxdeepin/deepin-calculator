@@ -37,7 +37,7 @@ TextButton::TextButton(const QString &text, QWidget *parent)
     init();
     //hideShadow();
 
-    connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &TextButton::init);
+    //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &TextButton::init);
 }
 
 TextButton::~TextButton()
@@ -87,6 +87,7 @@ void TextButton::animate(int msec)
 void TextButton::mousePressEvent(QMouseEvent *e)
 {
     setFocus();
+    m_palette = this->palette();
     int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
@@ -109,7 +110,7 @@ void TextButton::mousePressEvent(QMouseEvent *e)
 
 void TextButton::mouseReleaseEvent(QMouseEvent *e)
 {
-    int type = DGuiApplicationHelper::instance()->paletteType();
+    /*int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
@@ -125,7 +126,8 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
         pa.setColor(DPalette::Dark, QColor(48,48,48));
         pa.setColor(DPalette::ButtonText, QColor(224,224,224));
         this->setPalette(pa);
-    }
+    }*/
+    this->setPalette(m_palette);
     DPushButton::mouseReleaseEvent(e);
 }
 
@@ -137,10 +139,4 @@ void TextButton::enterEvent(QEvent *e)
 void TextButton::leaveEvent(QEvent *e)
 {
     DPushButton::leaveEvent(e);
-}
-
-void TextButton::setPress(bool type)
-{
-    m_isPress = type;
-    update();
 }

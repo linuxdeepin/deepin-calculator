@@ -29,10 +29,10 @@ IconButton::IconButton(int normalSize, int hoverSize, QWidget *parent)
       m_normalSize(normalSize),
       m_hoverSize(hoverSize)
 {
-    QGridLayout *layout = new QGridLayout(this);
+    /*QGridLayout *layout = new QGridLayout(this);
     layout->addWidget(m_iconWidget,0,Qt::AlignCenter);
     layout->setContentsMargins(0,0,0,0);
-    setLayout(layout);
+    setLayout(layout);*/
 }
 
 IconButton::~IconButton()

@@ -328,7 +328,6 @@ void ExpressionBar::enterEqualEvent()
                 }
         }
     }
-        //m_inputEdit->lineEdit()->clear();
     }
     if (m_isLinked) {
         if (m_hisRevision == -1) {
@@ -374,9 +373,6 @@ void ExpressionBar::enterBracketsEvent()
     QString sRegNum = "[0-9]+";
     QRegExp rx;
     rx.setPattern(sRegNum);
-    //if (currentPos != 0 && !rx.exactMatch(oldText.at(currentPos - 1)))
-    //    return;
-    QString bracketsText;
     int right = oldText.length() - currentPos;
     int leftLeftParen = oldText.left(currentPos).count("(");
     int leftRightParen = oldText.left(currentPos).count(")");
@@ -446,8 +442,9 @@ void ExpressionBar::copyResultToClipboard()
 {
     if (m_inputEdit->text().isEmpty())
         return;
-    QApplication::clipboard()->setText(m_inputEdit->lineEdit()->selectedText());
-    /*const QString expression = formatExpression(m_inputEdit->expressionText());
+    //QApplication::clipboard()->setText(m_inputEdit->lineEdit()->selectedText());
+
+    const QString expression = formatExpression(m_inputEdit->expressionText());
     m_evaluator->setExpression(expression);
     Quantity ans = m_evaluator->evalUpdateAns();
 
@@ -463,7 +460,7 @@ void ExpressionBar::copyResultToClipboard()
         QApplication::clipboard()->setText(formatResult);
     } else {
         QApplication::clipboard()->setText(m_inputEdit->text());
-    }*/
+    }
 }
 
 void ExpressionBar::copyClipboard2Result()

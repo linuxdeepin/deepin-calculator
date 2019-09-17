@@ -51,7 +51,6 @@ public:
     DSuggestButton *button();
     void animate(Buttons key);
     void animate();
-    void buttonThemeChanged(int type);
 
     static const struct KeyDescription {
         QString text;
@@ -61,6 +60,7 @@ public:
     } keyDescriptions[];
 public slots:
     void initButtons();
+    void buttonThemeChanged(int type);
 signals:
     void buttonPressed(int);
     void equalPressed();

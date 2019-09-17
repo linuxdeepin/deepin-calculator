@@ -178,30 +178,22 @@ void BasicKeypad::initButtons()
         if (type == 0)
             type = DGuiApplicationHelper::instance()->themeType();
         if (type == 2){
-            if (button->text() == "=") {
-                pa.setColor(DPalette::Shadow, QColor(0,129,255));
-                pa.setColor(DPalette::ButtonText, Qt::white);
-                pa.setColor(DPalette::Light, QColor(0,129,255));
-                pa.setColor(DPalette::Dark, QColor(0,129,255));
-            } else {
-                pa.setColor(DPalette::Shadow, QColor(17,17,17));
-                pa.setColor(DPalette::ButtonText, Qt::white);
-                pa.setColor(DPalette::Light, QColor(17,17,17));
-                pa.setColor(DPalette::Dark, QColor(17,17,17));
-            }
+            pa.setColor(DPalette::ButtonText, Qt::white);
+            pa.setColor(DPalette::Light, QColor(17,17,17));
+            pa.setColor(DPalette::Dark, QColor(17,17,17));
+            pa.setColor(DPalette::Button, QColor(17,17,17));
+            pa.setColor(DPalette::Background, QColor(17,17,17));
+            pa.setColor(DPalette::Base, QColor(17,17,17));
+            pa.setColor(DPalette::AlternateBase, QColor(17,17,17));
             button->setPalette(pa);
         } else {
-            if (button->text() == "=") {
-                pa.setColor(DPalette::Shadow, QColor(0,129,255));
-                pa.setColor(DPalette::ButtonText, Qt::white);
-                pa.setColor(DPalette::Light, QColor(0,129,255));
-                pa.setColor(DPalette::Dark, QColor(0,129,255));
-            } else {
-                pa.setColor(DPalette::Shadow, Qt::white);
-                pa.setColor(DPalette::ButtonText, Qt::black);
-                pa.setColor(DPalette::Light, QColor(255,255,255));
-                pa.setColor(DPalette::Dark, QColor(255,255,255));
-            }
+            pa.setColor(DPalette::ButtonText, Qt::black);
+            pa.setColor(DPalette::Dark, QColor(255,255,255));
+            pa.setColor(DPalette::Light, QColor(255,255,255));
+            pa.setColor(DPalette::Button, QColor(255,255,255));
+            pa.setColor(DPalette::Background, QColor(255,255,255));
+            pa.setColor(DPalette::Base, QColor(255,255,255));
+            pa.setColor(DPalette::AlternateBase, QColor(255,255,255));
             button->setPalette(pa);
         }
 
@@ -240,45 +232,33 @@ void BasicKeypad::initUI()
 
 void BasicKeypad::buttonThemeChanged(int type)
 {
-    /*if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
-    if (type == 1) {
-        QHash<Buttons, QPair<DPushButton *, const KeyDescription *>>::const_iterator iter1 = m_keys.constBegin();
-        while(iter1 != m_keys.constEnd()) {
-            DPushButton *button = iter1.value().first;
-            DPalette pa = button->palette();
-            if (button->text() == "=") {
-                pa.setColor(DPalette::Shadow, QColor(0,129,255));
-                pa.setColor(DPalette::ButtonText, Qt::white);
-                pa.setColor(DPalette::Background, QColor(0,129,255));
-            } else {
-                pa.setColor(DPalette::Shadow, Qt::white);
-                pa.setColor(DPalette::ButtonText, Qt::black);
-                pa.setColor(DPalette::Light, QColor(255,255,255));
-                pa.setColor(DPalette::Dark, QColor(255,255,255));
-            }
-            button->setPalette(pa);
-            ++iter1;
+    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+    while (i.hasNext()) {
+        i.next();
+        DPalette pa = i.value().first->palette();
+        if (type == 0)
+            type = DGuiApplicationHelper::instance()->themeType();
+        if (type == 2){
+            pa.setColor(DPalette::ButtonText, Qt::white);
+            pa.setColor(DPalette::Light, QColor(17,17,17));
+            pa.setColor(DPalette::Dark, QColor(17,17,17));
+            pa.setColor(DPalette::Button, QColor(17,17,17));
+            pa.setColor(DPalette::Background, QColor(17,17,17));
+            pa.setColor(DPalette::Base, QColor(17,17,17));
+            pa.setColor(DPalette::AlternateBase, QColor(17,17,17));
+            i.value().first->setPalette(pa);
+        } else {
+            pa.setColor(DPalette::ButtonText, Qt::black);
+            pa.setColor(DPalette::Dark, QColor(255,255,255));
+            pa.setColor(DPalette::Light, QColor(255,255,255));
+            pa.setColor(DPalette::Button, QColor(255,255,255));
+            pa.setColor(DPalette::Background, QColor(255,255,255));
+            pa.setColor(DPalette::Base, QColor(255,255,255));
+            pa.setColor(DPalette::AlternateBase, QColor(255,255,255));
+            i.value().first->setPalette(pa);
         }
-    } else {
-        QHash<Buttons, QPair<DPushButton *, const KeyDescription *>>::const_iterator iter1 = m_keys.constBegin();
-        while(iter1 != m_keys.constEnd()) {
-            DPushButton *button = iter1.value().first;
-            DPalette pa = button->palette();
-            if (button->text() == "=") {
-                pa.setColor(DPalette::Shadow, QColor(0,129,255));
-                pa.setColor(DPalette::ButtonText, Qt::white);
-                pa.setColor(DPalette::Background, QColor(0,129,255));
-            } else {
-                pa.setColor(DPalette::Shadow, QColor(17,17,17));
-                pa.setColor(DPalette::ButtonText, Qt::white);
-                pa.setColor(DPalette::Light, QColor(17,17,17));
-                pa.setColor(DPalette::Dark, QColor(17,17,17));
-            }
-            button->setPalette(pa);
-            ++iter1;
-        }
-    }*/
+    }
+
     IconButton *btn = static_cast<IconButton *>(button(Key_Backspace));
     if (DGuiApplicationHelper::instance()->themeType() == 2)
         btn->setIcon(QString(":/images/delete_dark_normal.svg"));
