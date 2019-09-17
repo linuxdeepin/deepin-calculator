@@ -180,7 +180,7 @@ void ExpressionBar::enterPointEvent()
 {
     if (m_isLinked)
         clearLinkageCache();
-    /*QString exp = m_inputEdit->lineEdit()->text();
+    QString exp = m_inputEdit->lineEdit()->text();
     int curpos = m_inputEdit->lineEdit()->cursorPosition();
     if (curpos == 0) {
         m_inputEdit->lineEdit()->insert("0.");
@@ -194,7 +194,7 @@ void ExpressionBar::enterPointEvent()
             else
                 m_inputEdit->lineEdit()->insert("0.");
         }
-    }*/
+    }
 }
 
 void ExpressionBar::enterBackspaceEvent()
@@ -503,6 +503,7 @@ void ExpressionBar::revisionResults(const QModelIndex &index)
     m_hisRevision = index.row();
     m_inputEdit->setText(expression);
     m_Selected = m_hisRevision;
+    emit clearStateChanged(false);
 }
 
 void ExpressionBar::computationalResults(const QString &expression, QString &result)
@@ -609,8 +610,12 @@ void ExpressionBar::settingLinkage()
     const int hisRecision = m_hisRevision;
     if (hisRecision != -1) {
         for (int i = 0;i < m_hisLink.size();i++) {
+            if (m_hisLink[i].linkedItem == hisRecision) {
+                cancelLink(i+1);
+                if (m_hisLink.size() == 0)
+                    break;
+            }
             if (m_hisLink[i].linkageTerm == hisRecision) {
-                cancelLink(i);
                 m_isLinked = true;
                 enterEqualEvent();
                 return;
