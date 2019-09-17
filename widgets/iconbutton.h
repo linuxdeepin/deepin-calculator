@@ -21,8 +21,8 @@
 #define ICONBUTTON_H
 
 #include "textbutton.h"
-#include <QLabel>
 
+#include <DLabel>
 #include <DSvgRenderer>
 
 DWIDGET_USE_NAMESPACE
@@ -45,7 +45,7 @@ protected:
     void leaveEvent(QEvent *);
 
 private:
-    QLabel *m_iconWidget;
+    DLabel *m_iconWidget;
     DSvgRenderer *m_iconRenderer;
 
     int m_normalSize;

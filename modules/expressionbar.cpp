@@ -654,6 +654,7 @@ void ExpressionBar::settingLinkage()
     } else {
         if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1)
             return;
+        judgeLinkageAgain();
         enterEqualEvent();
         m_isLinked = true;
         historicalLinkageIndex hisIndex;
@@ -664,6 +665,21 @@ void ExpressionBar::settingLinkage()
         m_hisLink.push_back(hisIndex);
     }
     m_listDelegate->setHisLink(m_hisLink.last().linkageTerm);
+}
+
+void ExpressionBar::judgeLinkageAgain()
+{
+    if (m_hisLink.isEmpty())
+        return;
+    //if (!m_hisLink.last().isLink)
+    QString text = m_inputEdit->text();
+    text.replace(",","");
+    QStringList list = text.split(QRegExp("[＋－×÷()]"));
+    QString linkValue = m_hisLink.last().linkageValue;
+    if (list.at(0) != linkValue) {
+        m_listDelegate->removeLine(m_hisLink.last().linkageTerm,m_hisLink.last().linkedItem);
+        m_hisLink.removeLast();
+    }
 }
 
 void ExpressionBar::Undo()

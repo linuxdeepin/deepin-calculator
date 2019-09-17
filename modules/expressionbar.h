@@ -102,6 +102,7 @@ private:
     QString completedBracketsCalculation(QString &text);
     bool isOperator(const QString &text);
     bool cancelLink(int index);
+    void judgeLinkageAgain();
 
 private:
     Evaluator *m_evaluator;

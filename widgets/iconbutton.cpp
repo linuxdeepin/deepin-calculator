@@ -18,7 +18,7 @@
  */
 
 #include "iconbutton.h"
-#include <QHBoxLayout>
+#include <QGridLayout>
 
 #include <QDebug>
 
@@ -28,9 +28,11 @@ IconButton::IconButton(int normalSize, int hoverSize, QWidget *parent)
       m_iconRenderer(new DSvgRenderer),
       m_normalSize(normalSize),
       m_hoverSize(hoverSize)
-{  
-    setLayout(new QHBoxLayout(this));
-    layout()->addWidget(m_iconWidget);
+{
+    QGridLayout *layout = new QGridLayout(this);
+    layout->addWidget(m_iconWidget,0,Qt::AlignCenter);
+    layout->setContentsMargins(0,0,0,0);
+    setLayout(layout);
 }
 
 IconButton::~IconButton()
@@ -87,6 +89,8 @@ void IconButton::setIconSize(const int &size)
     pix.convertFromImage(image);
     pix.setDevicePixelRatio(devicePixelRatioF());
 
-    m_iconWidget->setPixmap(pix);
-    m_iconWidget->setFixedSize(iconSize);
+    //m_iconWidget->setAlignment(Qt::AlignCenter);
+    //m_iconWidget->setPixmap(pix);
+    this->DPushButton::setIcon(QIcon(pix));
+    //m_iconWidget->setFixedSize(iconSize);
 }

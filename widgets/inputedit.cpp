@@ -227,7 +227,7 @@ void InputEdit::handleTextChanged(const QString &text)
                              .replace(QString::fromUtf8("。"), ".")
                              .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
 
-    reformatStr.remove(QRegExp("[^0-9＋－×÷,.%()]"));
+    reformatStr.remove(QRegExp("[^0-9＋－×÷,.%()e]"));
     reformatStr = pointFaultTolerance(reformatStr);
     reformatStr = symbolFaultTolerance(reformatStr);
     setText(reformatStr);
