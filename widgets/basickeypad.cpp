@@ -208,6 +208,47 @@ void BasicKeypad::buttonThemeChanged(DGuiApplicationHelper::ColorType type)
     }
 }
 
+void BasicKeypad::buttonThemeChanged(DGuiApplicationHelper::ColorType type)
+{
+    if (type == 1 || type == 0) {
+        QHash<Buttons, QPair<DPushButton *, const KeyDescription *>>::const_iterator iter1 = m_keys.constBegin();
+        while(iter1 != m_keys.constEnd()) {
+            DPushButton *button = iter1.value().first;
+            DPalette pa = button->palette();
+            if (button->text() == "=") {
+                pa.setColor(DPalette::Shadow, QColor(0,129,255));
+                pa.setColor(DPalette::ButtonText, Qt::white);
+                pa.setColor(DPalette::Background, QColor(0,129,255));
+            } else {
+                pa.setColor(DPalette::Shadow, Qt::white);
+                pa.setColor(DPalette::ButtonText, Qt::black);
+                pa.setColor(DPalette::Light, QColor(255,255,255));
+                pa.setColor(DPalette::Dark, QColor(255,255,255));
+            }
+            button->setPalette(pa);
+            ++iter1;
+        }
+    } else {
+        QHash<Buttons, QPair<DPushButton *, const KeyDescription *>>::const_iterator iter1 = m_keys.constBegin();
+        while(iter1 != m_keys.constEnd()) {
+            DPushButton *button = iter1.value().first;
+            DPalette pa = button->palette();
+            if (button->text() == "=") {
+                pa.setColor(DPalette::Shadow, QColor(0,129,255));
+                pa.setColor(DPalette::ButtonText, Qt::white);
+                pa.setColor(DPalette::Background, QColor(0,129,255));
+            } else {
+                pa.setColor(DPalette::Shadow, QColor(17,17,17));
+                pa.setColor(DPalette::ButtonText, Qt::white);
+                pa.setColor(DPalette::Light, QColor(17,17,17));
+                pa.setColor(DPalette::Dark, QColor(17,17,17));
+            }
+            button->setPalette(pa);
+            ++iter1;
+        }
+    }
+}
+
 void BasicKeypad::handleThemeChanged()
 {
     IconButton *btn = static_cast<IconButton *>(button(Key_Backspace));
