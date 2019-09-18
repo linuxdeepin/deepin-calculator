@@ -23,8 +23,12 @@
 #include <QWidget>
 #include <QGridLayout>
 #include <QSignalMapper>
+#include <DGuiApplicationHelper>
 #include "textbutton.h"
 #include "iconbutton.h"
+
+DWIDGET_USE_NAMESPACE
+DGUI_USE_NAMESPACE
 
 class BasicKeypad : public QWidget
 {
@@ -44,6 +48,7 @@ public:
 
     DPushButton *button(Buttons key);
     void animate(Buttons key);
+    void buttonThemeChanged(DGuiApplicationHelper::ColorType type);
 
     static const struct KeyDescription {
         QString text;

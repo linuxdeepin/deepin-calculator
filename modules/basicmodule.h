@@ -21,6 +21,7 @@
 #define BASICMODULE_H
 
 #include <DWidget>
+#include <DGuiApplicationHelper>
 #include <QStackedLayout>
 #include <QGridLayout>
 
@@ -29,6 +30,7 @@
 #include "../widgets/basickeypad.h"
 #include "expressionbar.h"
 
+DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
 
 class BasicModule : public DWidget
@@ -44,7 +46,7 @@ public:
     void setKeyPress(QKeyEvent *e);
 
 private:
-    void initTheme();
+    void initTheme(DGuiApplicationHelper::ColorType type);
     void handleEditKeyPress(QKeyEvent *);
     void handleKeypadButtonPress(int);
     void handleClearStateChanged(bool isAllClear);

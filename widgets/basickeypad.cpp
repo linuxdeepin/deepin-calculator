@@ -22,9 +22,6 @@
 #include "basickeypad.h"
 #include "dthememanager.h"
 
-DWIDGET_USE_NAMESPACE
-DGUI_USE_NAMESPACE
-
 const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
     { "C", Key_Clear, 1, 0 },
     { "%", Key_Percent, 1, 1 },
@@ -104,6 +101,7 @@ void BasicKeypad::animate(Buttons key)
 void BasicKeypad::initButtons()
 {
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
+    DGuiApplicationHelper::ColorType type = DGuiApplicationHelper::instance()->paletteType();
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
         DPushButton *button;
@@ -114,18 +112,33 @@ void BasicKeypad::initButtons()
             button = new TextButton(desc->text);
         }
         DPalette pa = button->palette();
-        if (button->text() == "=") {
-            pa.setColor(DPalette::Shadow, Qt::white);
-            pa.setColor(DPalette::ButtonText, Qt::white);
-            pa.setColor(DPalette::Light, QColor(0,129,255));
-            pa.setColor(DPalette::Dark, QColor(0,129,255));
+        if (type == 2){
+            if (button->text() == "=") {
+                pa.setColor(DPalette::Shadow, QColor(0,129,255));
+                pa.setColor(DPalette::ButtonText, Qt::white);
+                pa.setColor(DPalette::Light, QColor(0,129,255));
+                pa.setColor(DPalette::Dark, QColor(0,129,255));
+            } else {
+                pa.setColor(DPalette::Shadow, QColor(17,17,17));
+                pa.setColor(DPalette::ButtonText, Qt::white);
+                pa.setColor(DPalette::Light, QColor(17,17,17));
+                pa.setColor(DPalette::Dark, QColor(17,17,17));
+            }
+            button->setPalette(pa);
         } else {
-            pa.setColor(DPalette::Shadow, Qt::white);
-            pa.setColor(DPalette::ButtonText, Qt::black);
-            pa.setColor(DPalette::Light, QColor(255,255,255));
-            pa.setColor(DPalette::Dark, QColor(255,255,255));
+            if (button->text() == "=") {
+                pa.setColor(DPalette::Shadow, QColor(0,129,255));
+                pa.setColor(DPalette::ButtonText, Qt::white);
+                pa.setColor(DPalette::Light, QColor(0,129,255));
+                pa.setColor(DPalette::Dark, QColor(0,129,255));
+            } else {
+                pa.setColor(DPalette::Shadow, Qt::white);
+                pa.setColor(DPalette::ButtonText, Qt::black);
+                pa.setColor(DPalette::Light, QColor(255,255,255));
+                pa.setColor(DPalette::Dark, QColor(255,255,255));
+            }
+            button->setPalette(pa);
         }
-        button->setPalette(pa);
 
         m_layout->addWidget(button, desc->row, desc->column);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
@@ -150,6 +163,47 @@ void BasicKeypad::initUI()
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
     button(Key_Equals)->setObjectName("EqualButton");
+}
+
+void BasicKeypad::buttonThemeChanged(DGuiApplicationHelper::ColorType type)
+{
+    if (type == 1 || type == 0) {
+        QHash<Buttons, QPair<DPushButton *, const KeyDescription *>>::const_iterator iter1 = m_keys.constBegin();
+        while(iter1 != m_keys.constEnd()) {
+            DPushButton *button = iter1.value().first;
+            DPalette pa = button->palette();
+            if (button->text() == "=") {
+                pa.setColor(DPalette::Shadow, QColor(0,129,255));
+                pa.setColor(DPalette::ButtonText, Qt::white);
+                pa.setColor(DPalette::Background, QColor(0,129,255));
+            } else {
+                pa.setColor(DPalette::Shadow, Qt::white);
+                pa.setColor(DPalette::ButtonText, Qt::black);
+                pa.setColor(DPalette::Light, QColor(255,255,255));
+                pa.setColor(DPalette::Dark, QColor(255,255,255));
+            }
+            button->setPalette(pa);
+            ++iter1;
+        }
+    } else {
+        QHash<Buttons, QPair<DPushButton *, const KeyDescription *>>::const_iterator iter1 = m_keys.constBegin();
+        while(iter1 != m_keys.constEnd()) {
+            DPushButton *button = iter1.value().first;
+            DPalette pa = button->palette();
+            if (button->text() == "=") {
+                pa.setColor(DPalette::Shadow, QColor(0,129,255));
+                pa.setColor(DPalette::ButtonText, Qt::white);
+                pa.setColor(DPalette::Background, QColor(0,129,255));
+            } else {
+                pa.setColor(DPalette::Shadow, QColor(17,17,17));
+                pa.setColor(DPalette::ButtonText, Qt::white);
+                pa.setColor(DPalette::Light, QColor(17,17,17));
+                pa.setColor(DPalette::Dark, QColor(17,17,17));
+            }
+            button->setPalette(pa);
+            ++iter1;
+        }
+    }
 }
 
 void BasicKeypad::handleThemeChanged()

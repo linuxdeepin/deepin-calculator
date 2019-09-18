@@ -26,9 +26,6 @@
 #include <QPainter>
 #include <QDebug>
 
-DGUI_USE_NAMESPACE
-DWIDGET_USE_NAMESPACE
-
 BasicModule::BasicModule(QWidget *parent)
     : DWidget(parent),
       m_expressionBar(new ExpressionBar),
@@ -52,14 +49,14 @@ BasicModule::BasicModule(QWidget *parent)
     //pal.setColor(DPalette::Dark,QColor(17,17,17));
     this->setPalette(pal);
 
-    //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &BasicModule::initTheme);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this, &BasicModule::initTheme);
     connect(m_expressionBar, &ExpressionBar::keyPress, this, &BasicModule::handleEditKeyPress);
     connect(m_expressionBar, &ExpressionBar::clearStateChanged, this, &BasicModule::handleClearStateChanged);
     connect(m_basicKeypad, &BasicKeypad::buttonPressed, this, &BasicModule::handleKeypadButtonPress);
 
     m_expBarColor = "#FBFBFB";
-    m_expBarSepColor = "#E1E1E1";
-    m_btnSepColor = QColor(242, 242, 242);
+    m_expBarSepColor = "#FBFBFB";
+    m_btnSepColor = QColor("#2D2D2D");
 }
 
 BasicModule::~BasicModule()
@@ -74,9 +71,32 @@ void BasicModule::switchToScientificKeypad()
 {
 }
 
-/*void BasicModule::initTheme()
+void BasicModule::initTheme(DGuiApplicationHelper::ColorType type)
 {
-    const QString theme = DThemeManager::instance()->theme();
+    DPalette pal;
+    switch (type) {
+    case 0: case 1:
+        m_expBarColor = "#FBFBFB";
+        m_expBarSepColor = "#E1E1E1";
+        m_btnSepColor = QColor(242, 242, 242);
+        pal = this->palette();
+        pal.setColor(DPalette::Light,QColor(248,248,248));
+        this->setPalette(pal);
+        m_basicKeypad->buttonThemeChanged(type);
+        break;
+    case 2:
+        m_expBarColor = "#111111";
+        m_expBarSepColor = "#303030";
+        m_btnSepColor = QColor("#2D2D2D");
+        pal = this->palette();
+        pal.setColor(DPalette::Dark,QColor(17,17,17));
+        this->setPalette(pal);
+        m_basicKeypad->buttonThemeChanged(type);
+    default:
+        break;
+    }
+    update();
+    /*const QString theme = DThemeManager::instance()->theme();
 
     if (theme == "light") {
         m_expBarColor = "#FBFBFB";
@@ -86,8 +106,8 @@ void BasicModule::switchToScientificKeypad()
         m_expBarColor = "#111111";
         m_expBarSepColor = "#303030";
         m_btnSepColor = QColor("#2D2D2D");
-    }
-}*/
+    }*/
+}
 
 void BasicModule::handleEditKeyPress(QKeyEvent *e)
 {
@@ -226,7 +246,7 @@ void BasicModule::handleClearStateChanged(bool isAllClear)
 
 void BasicModule::paintEvent(QPaintEvent *)
 {
-    QPainter painter(this);
+    /*QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
 
@@ -243,7 +263,7 @@ void BasicModule::paintEvent(QPaintEvent *)
     painter.drawRect(QRect(rect().x(),
                            m_expressionBar->height() + 1,
                            rect().width(),
-                           rect().height()));
+                           rect().height()));*/
 }
 
 void BasicModule::setKeyPress(QKeyEvent *e)
