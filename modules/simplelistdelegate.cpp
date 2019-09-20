@@ -75,6 +75,19 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     QString linkColor;
     painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
 
+    QFont font;
+    for (int i = 11; i > 1; --i) {
+        font.setPointSize(i);
+
+        QFontMetrics fm(font);
+        int fontWidth = fm.width(expression);
+        int editWidth = rect.width() - 24;
+
+        if (fontWidth < editWidth)
+            break;
+    }
+    painter->setFont(font);
+
     QStringList splitList = expression.split("＝");
     QString resultStr = splitList.last();
     int resultWidth = painter->fontMetrics().width(resultStr);
@@ -111,6 +124,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     int equalStrWidth = painter->fontMetrics().width(" ＝ ");
     QString expStr = painter->fontMetrics().elidedText(splitList.first(), Qt::ElideLeft,
                                                        rect.width() - resultWidth - padding * 2 - equalStrWidth);
+    //QString expStr = splitList.first();
 
     if (m_selected) {
         QRect resultRect(rect.topRight().x() - resultWidth - padding,
@@ -128,19 +142,6 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         painter->setPen(QPen(QColor(Qt::white)));
         m_simpleListDelegate->setSelect(false);
     }
-
-    QFont font;
-    for (int i = 11; i > 1; --i) {
-        font.setPointSize(i);
-
-        QFontMetrics fm(font);
-        int fontWidth = fm.width(expStr);
-        int editWidth = rect.width() - 24;
-
-        if (fontWidth < editWidth)
-            break;
-    }
-    painter->setFont(font);
 
     if (splitList.size() == 1) {
         // draw expression text;
