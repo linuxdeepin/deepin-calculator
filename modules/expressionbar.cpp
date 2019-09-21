@@ -463,6 +463,20 @@ void ExpressionBar::enterBracketsEvent()
     m_isContinue = true;*/
 }
 
+void ExpressionBar::enterDeleteEvent()
+{
+    int curPos = m_inputEdit->cursorPosition();
+    if (curPos != m_inputEdit->text().length()) {
+        QString text = m_inputEdit->text();
+        int index = curPos;
+        if (text.at(curPos) == ",")
+            ++index;
+        text.remove(index, 1);
+        m_inputEdit->setText(text);
+        m_inputEdit->setCursorPosition(curPos);
+    }
+}
+
 void ExpressionBar::copyResultToClipboard()
 {
     if (m_inputEdit->text().isEmpty())

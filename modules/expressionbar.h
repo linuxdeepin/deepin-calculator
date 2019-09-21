@@ -73,6 +73,7 @@ public slots:
     void enterEqualEvent();
     void enterPercentEvent();
     void enterBracketsEvent();
+    void enterDeleteEvent();
     void copyResultToClipboard();
     void copyClipboard2Result();
     void computationalResults(const QString &expression, QString &result);

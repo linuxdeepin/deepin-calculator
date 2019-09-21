@@ -104,7 +104,7 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Equal:
     case Qt::Key_Period:
         return;
-    case Qt::Key_ParenRight:
+    /*case Qt::Key_ParenRight:
         QLineEdit::keyPressEvent(e);
         setCursorPosition(cursorPosition() - 1);
         break;

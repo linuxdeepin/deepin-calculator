@@ -206,6 +206,9 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
             m_expressionBar->copyClipboard2Result();
         }
         break;
+    case Qt::Key_Delete:
+        m_expressionBar->enterDeleteEvent();
+        break;
     }
 }
 
