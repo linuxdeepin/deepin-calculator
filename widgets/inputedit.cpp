@@ -259,10 +259,8 @@ QString InputEdit::pointFaultTolerance(const QString &text)
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];
         int firstPoint = item.indexOf(".");
-        int lastPoint = item.lastIndexOf(".");
-        int count = item.count(".");
-        if (lastPoint - firstPoint + 1 == count) {
-            item.remove(firstPoint, lastPoint);
+        if (item.count(".") > 1) {
+            item.remove(".");
             item.insert(firstPoint, ".");
             oldText.replace(list[i], item);
         }

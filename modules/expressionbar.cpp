@@ -168,7 +168,12 @@ void ExpressionBar::enterPointEvent()
 {
     if (m_isLinked)
         clearLinkageCache();
-    if (!m_isContinue) {
+    if (m_inputEdit->cursorPosition() == 0) {
+        m_inputEdit->insert("0.");
+    } else {
+        m_inputEdit->insert(".");
+    }
+    /*if (!m_isContinue) {
         if (cursorPosAtEnd()) {
             m_inputEdit->clear();
             m_inputEdit->insert("0.");
@@ -179,7 +184,7 @@ void ExpressionBar::enterPointEvent()
         m_isContinue = true;
     } else {
         m_inputEdit->insert(".");
-    }
+    }*/
 }
 
 void ExpressionBar::enterBackspaceEvent()
@@ -462,8 +467,9 @@ void ExpressionBar::copyResultToClipboard()
 {
     if (m_inputEdit->text().isEmpty())
         return;
+    QApplication::clipboard()->setText(m_inputEdit->selectedText());
 
-    const QString expression = formatExpression(m_inputEdit->expressionText());
+    /*const QString expression = formatExpression(m_inputEdit->expressionText());
     m_evaluator->setExpression(expression);
     Quantity ans = m_evaluator->evalUpdateAns();
 
@@ -479,7 +485,7 @@ void ExpressionBar::copyResultToClipboard()
         QApplication::clipboard()->setText(formatResult);
     } else {
         QApplication::clipboard()->setText(m_inputEdit->text());
-    }
+    }*/
 }
 
 void ExpressionBar::copyClipboard2Result()

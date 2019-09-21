@@ -180,7 +180,9 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         m_basicKeypad->animate(BasicKeypad::Key_Backspace);
         break;
     case Qt::Key_Period:
-        (static_cast<DPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Point)))->animateClick();
+        m_basicKeypad->animate(BasicKeypad::Key_Point);
+        m_expressionBar->enterPointEvent();
+        //(static_cast<DPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Point)))->animateClick();
         break;
     case Qt::Key_Escape:
         (static_cast<DPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Clear)))->animateClick();
