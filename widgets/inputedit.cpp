@@ -240,6 +240,7 @@ void InputEdit::handleTextChanged(const QString &text)
                   .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
 
     reformatStr = pointFaultTolerance(reformatStr);
+    reformatStr = symbolFaultTolerance(reformatStr);
     setText(reformatStr);
 
     int newLength = reformatStr.length();
@@ -266,6 +267,37 @@ QString InputEdit::pointFaultTolerance(const QString &text)
         }
     }
     return oldText;
+}
+
+QString InputEdit::symbolFaultTolerance(const QString &text)
+{
+    QString exp = text;
+    QString newText;
+    for (int i = 0; i < exp.length(); ++i) {
+        if (isSymbol(exp.at(i)) && i < exp.length() - 2) {
+            while (isSymbol(exp.at(i + 1)) && i < exp.length() - 2) {
+                ++i;
+            }
+            newText.append(exp.at(i));
+        } else {
+            newText.append(exp.at(i));
+        }
+    }
+    return newText;
+}
+
+bool InputEdit::isSymbol(const QString &text)
+{
+    if (text == QString::fromUtf8("＋"))
+        return true;
+    else if (text == QString::fromUtf8("－"))
+        return true;
+    else if (text == QString::fromUtf8("×"))
+        return true;
+    else if (text == QString::fromUtf8("÷"))
+        return true;
+    else
+        return false;
 }
 
 void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)

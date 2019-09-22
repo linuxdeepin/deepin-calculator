@@ -53,6 +53,8 @@ private slots:
     void handleCursorPositionChanged(int oldPos, int newPos);
     void BracketCompletion(QKeyEvent *e);
     QString pointFaultTolerance(const QString &text);
+    QString symbolFaultTolerance(const QString &text);
+    bool isSymbol(const QString &text);
 
 private:
     Quantity m_ans;
