@@ -43,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent)
     titlebar()->setMenu(m_tbMenu);
     titlebar()->setTitle("");
 
+    DPalette pl = this->titlebar()->palette();
+    pl.setColor(DPalette::Background, QColor(248,248,248));
+    this->setPalette(pl);
+
     // init titlebar menu.
     //m_themeAction = new QAction(tr("Dark theme"), this);
     //m_themeAction->setCheckable(true);
@@ -142,7 +146,7 @@ void MainWindow::switchToSimpleMode()
     m_basicModule->switchToSimpleKeypad();
     m_mainLayout->setCurrentIndex(0);
     m_settings->setOption("mode", 0);
-    setFixedSize(322, 505);
+    setFixedSize(344, 510);
 }
 
 void MainWindow::switchToScientificMode()
@@ -156,4 +160,5 @@ void MainWindow::switchToScientificMode()
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     m_basicModule->setKeyPress(event);
+    return;
 }
