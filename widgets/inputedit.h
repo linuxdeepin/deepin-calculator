@@ -46,6 +46,7 @@ Q_SIGNALS:
 protected:
     void keyPressEvent(QKeyEvent *);
     void mouseDoubleClickEvent(QMouseEvent *);
+    void contextMenuEvent(QContextMenuEvent *);
 
 private slots:
     bool isSymbolCategoryChanged(int pos1, int pos2);
