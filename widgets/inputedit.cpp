@@ -106,11 +106,6 @@ void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
     }
 }
 
-void InputEdit::contextMenuEvent(QContextMenuEvent *e)
-{
-    return;
-}
-
 bool InputEdit::isSymbolCategoryChanged(int pos1, int pos2)
 {
     QString str = text();
