@@ -43,10 +43,6 @@ MainWindow::MainWindow(QWidget *parent)
     titlebar()->setMenu(m_tbMenu);
     titlebar()->setTitle("");
 
-    DPalette pl = this->titlebar()->palette();
-    pl.setColor(DPalette::Background, QColor(248,248,248));
-    this->setPalette(pl);
-
     // init titlebar menu.
     //m_themeAction = new QAction(tr("Dark theme"), this);
     //m_themeAction->setCheckable(true);
@@ -66,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWindowTitle(tr("Deepin Calculator"));
 
+    m_basicModule->setFocus();
     //connect(m_themeAction, &QAction::triggered, this, &MainWindow::switchTheme);
     connect(m_simpleAction, &QAction::triggered, this, &MainWindow::switchToSimpleMode);
     connect(m_scAction, &QAction::triggered, this, &MainWindow::switchToScientificMode);
@@ -84,6 +81,11 @@ void MainWindow::paintEvent(QPaintEvent *e)
     painter.drawRect(QRect(0, 0, rect().width(), titlebar()->height()));
 
     DMainWindow::paintEvent(e);
+}
+
+void MainWindow::contextMenuEvent(QContextMenuEvent *e)
+{
+    return;
 }
 
 void MainWindow::initTheme()
