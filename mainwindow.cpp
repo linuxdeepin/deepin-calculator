@@ -44,10 +44,6 @@ MainWindow::MainWindow(QWidget *parent)
     titlebar()->setMenu(m_tbMenu);
     titlebar()->setTitle("");
 
-    DPalette pl = this->titlebar()->palette();
-    pl.setColor(DPalette::Background, QColor(248,248,248));
-    this->setPalette(pl);
-
     // init titlebar menu.
     //m_themeAction = new QAction(tr("Dark theme"), this);
     //m_themeAction->setCheckable(true);
@@ -86,6 +82,11 @@ void MainWindow::paintEvent(QPaintEvent *e)
     painter.drawRect(QRect(0, 0, rect().width(), titlebar()->height()));
 
     DMainWindow::paintEvent(e);
+}
+
+void MainWindow::contextMenuEvent(QContextMenuEvent *e)
+{
+    return;
 }
 
 void MainWindow::initTheme()
