@@ -87,11 +87,6 @@ MainWindow::~MainWindow()
     DMainWindow::paintEvent(e);
 }*/
 
-void MainWindow::contextMenuEvent(QContextMenuEvent *e)
-{
-    return;
-}
-
 void MainWindow::initTheme()
 {
     int type = DGuiApplicationHelper::instance()->paletteType();
