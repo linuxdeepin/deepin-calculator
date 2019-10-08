@@ -84,11 +84,6 @@ void MainWindow::paintEvent(QPaintEvent *e)
     DMainWindow::paintEvent(e);
 }
 
-void MainWindow::contextMenuEvent(QContextMenuEvent *e)
-{
-    return;
-}
-
 void MainWindow::initTheme()
 {
     /*DPalette pa = this->palette();
