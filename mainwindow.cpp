@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
       m_mainLayout(new QStackedLayout),
       m_tbMenu(new DMenu)
 {
-    titlebar()->setBackgroundTransparent(true);
+    //titlebar()->setBackgroundTransparent(true);
     QIcon t_icon = QIcon::fromTheme("deepin-calculator");
     QPixmap pixmap = t_icon.pixmap(24,24);
     QIcon newIcon(pixmap);
@@ -67,6 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_basicModule->setFocus();
     //connect(m_themeAction, &QAction::triggered, this, &MainWindow::switchTheme);
+    connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &MainWindow::initTheme);
     connect(m_simpleAction, &QAction::triggered, this, &MainWindow::switchToSimpleMode);
     connect(m_scAction, &QAction::triggered, this, &MainWindow::switchToScientificMode);
 }
@@ -75,7 +76,7 @@ MainWindow::~MainWindow()
 {
 }
 
-void MainWindow::paintEvent(QPaintEvent *e)
+/*void MainWindow::paintEvent(QPaintEvent *e)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
@@ -84,13 +85,30 @@ void MainWindow::paintEvent(QPaintEvent *e)
     painter.drawRect(QRect(0, 0, rect().width(), titlebar()->height()));
 
     DMainWindow::paintEvent(e);
-}
+}*/
 
 void MainWindow::initTheme()
 {
+    /*int type = DGuiApplicationHelper::instance()->paletteType();
+    if (type == 0)
+        type = DGuiApplicationHelper::instance()->themeType();
+    if (type == 1) {
+        DPalette titlePa = titlebar()->palette();
+        titlePa.setColor(DPalette::Light,QColor(248,248,248));
+        titlePa.setColor(DPalette::Dark,QColor(248,248,248));
+        titlePa.setColor(DPalette::Base,QColor(248,248,248));
+        titlebar()->setPalette(titlePa);
+    }
+    else {
+        DPalette titlePa = titlebar()->palette();
+        titlePa.setColor(DPalette::Light,QColor(37,37,37));
+        titlePa.setColor(DPalette::Dark,QColor(37,37,37));
+        titlePa.setColor(DPalette::Base,QColor(37,37,37));
+        titlebar()->setPalette(titlePa);
+    }*/
     /*DPalette pa = this->palette();
-    pa.setColor(DPalette::Light, QColor("248,248,248"));
-    pa.setColor(DPalette::Dark, QColor("248,248,248"));
+    pa.setColor(DPalette::Light, QColor(248,248,248));
+    pa.setColor(DPalette::Dark, QColor(248,248,248));
     setPalette(pa);*/
     /*const QString theme = m_settings->getOption("theme").toString();
 

@@ -21,9 +21,12 @@
 #include <QDebug>
 #include <QDir>
 #include <QIcon>
+#include <QDBusInterface>
 #include <DApplication>
 #include <DWidgetUtil>
 #include <DGuiApplicationHelper>
+#include <DWindowManagerHelper>
+#include <DLog>
 #include "mainwindow.h"
 
 DWIDGET_USE_NAMESPACE
@@ -56,7 +59,6 @@ DGuiApplicationHelper::ColorType getThemeTypeSetting()
         // 跟随系统主题
         return DGuiApplicationHelper::UnknownType;
     }
-
 }
 
 //保存当前主题类型配置文件
@@ -102,7 +104,40 @@ int main(int argc, char *argv[])
     app.setQuitOnLastWindowClosed(true);
     //app.setStyle("chameleon");
 
+    QDBusConnection dbus = QDBusConnection::sessionBus();
+    dbus.registerService("com.deepin.calculator");
+    using namespace Dtk::Core;
+    Dtk::Core::DLogManager::registerConsoleAppender();
+    Dtk::Core::DLogManager::registerFileAppender();
+    QCommandLineParser cmdParser;
+    cmdParser.setApplicationDescription("deepin-calculator");
+    cmdParser.addHelpOption();
+    cmdParser.addVersionOption();
+    cmdParser.process(app);
+
+    MainWindow window;
+    Dtk::Widget::moveToCenter(&window);
     // 应用已保存的主题设置
+    DGuiApplicationHelper::ColorType t_type = DGuiApplicationHelper::instance()->themeType();
+    saveThemeTypeSetting(t_type);
+
+    DGuiApplicationHelper::instance()->setPaletteType(getThemeTypeSetting());
+
+    //监听当前应用主题切换事件
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+    [] (DGuiApplicationHelper::ColorType type) {
+        qDebug() << type;
+        // 保存程序的主题设置  type : 0,系统主题， 1,浅色主题， 2,深色主题
+        saveThemeTypeSetting(type);
+        //bDGuiApplicationHelper::instance()->setPaletteType(type);
+    });
+
+    // Register debus service.
+    dbus.registerObject("/com/deepin/calculator", &window, QDBusConnection::ExportScriptableSlots);
+    window.show();
+    return app.exec();
+
+    /*// 应用已保存的主题设置
     DGuiApplicationHelper::instance()->setPaletteType(getThemeTypeSetting());
 
     MainWindow w;
@@ -121,5 +156,5 @@ int main(int argc, char *argv[])
         Dtk::Widget::moveToCenter(&w);
     }
 
-    return app.exec();
+    return app.exec();*/
 }
