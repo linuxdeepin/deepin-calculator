@@ -39,7 +39,8 @@ MainWindow::MainWindow(QWidget *parent)
       m_tbMenu(new DMenu)
 {
     titlebar()->setBackgroundTransparent(true);
-    titlebar()->setIcon(QIcon(":/images/title_icon.svg"));
+    QIcon t_icon = QIcon::fromTheme("deepin-calculator");
+    titlebar()->setIcon(t_icon);
     titlebar()->setMenu(m_tbMenu);
     titlebar()->setTitle("");
 
