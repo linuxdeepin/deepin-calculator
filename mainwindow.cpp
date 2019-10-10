@@ -67,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_basicModule->setFocus();
     //connect(m_themeAction, &QAction::triggered, this, &MainWindow::switchTheme);
-    connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &MainWindow::initTheme);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this,&MainWindow::initTheme);
     connect(m_simpleAction, &QAction::triggered, this, &MainWindow::switchToSimpleMode);
     connect(m_scAction, &QAction::triggered, this, &MainWindow::switchToScientificMode);
 }
@@ -89,14 +89,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::initTheme()
 {
-    /*int type = DGuiApplicationHelper::instance()->paletteType();
+    int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         DPalette titlePa = titlebar()->palette();
-        titlePa.setColor(DPalette::Light,QColor(248,248,248));
-        titlePa.setColor(DPalette::Dark,QColor(248,248,248));
-        titlePa.setColor(DPalette::Base,QColor(248,248,248));
+        titlePa.setColor(DPalette::Light,QColor(240,240,240));
+        titlePa.setColor(DPalette::Dark,QColor(240,240,240));
+        titlePa.setColor(DPalette::Base,QColor(240,240,240));
         titlebar()->setPalette(titlePa);
     }
     else {
@@ -105,23 +105,7 @@ void MainWindow::initTheme()
         titlePa.setColor(DPalette::Dark,QColor(37,37,37));
         titlePa.setColor(DPalette::Base,QColor(37,37,37));
         titlebar()->setPalette(titlePa);
-    }*/
-    /*DPalette pa = this->palette();
-    pa.setColor(DPalette::Light, QColor(248,248,248));
-    pa.setColor(DPalette::Dark, QColor(248,248,248));
-    setPalette(pa);*/
-    /*const QString theme = m_settings->getOption("theme").toString();
-
-    DThemeManager::instance()->setTheme(theme);
-    m_themeAction->setChecked(theme == "dark");
-
-    if (theme == "light") {
-        m_titlebarColor = "#FBFBFB";
-        //setStyleSheet(Utils::getQssContent(":/qss/light.qss"));
-    } else {
-        m_titlebarColor = "#111111";
-        setStyleSheet(Utils::getQssContent(":/qss/dark.qss"));
-    }*/
+    }
 }
 
 void MainWindow::initModule()
