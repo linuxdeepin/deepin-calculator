@@ -86,7 +86,9 @@ int main(int argc, char *argv[])
     app.setApplicationName("deepin-calculator");
     app.setApplicationVersion(DApplication::buildVersion("1.0.1"));
     app.setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-calculator");
-    app.setProductIcon(QIcon(":/images/deepin-calculator.svg"));
+    QIcon t_icon = QIcon::fromTheme("deepin-calculator");
+    //app.setProductIcon(QIcon(":/images/deepin-calculator.svg"));
+    app.setProductIcon(t_icon);
     app.setProductName(DApplication::translate("MainWindow", "Deepin Calculator"));
     app.setApplicationDescription(DApplication::translate("MainWindow", "Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division."));
     static const QDate buildDate = QLocale( QLocale::English ).toDate( QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
