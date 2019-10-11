@@ -616,6 +616,7 @@ void ExpressionBar::settingLinkage()
                     break;
             }
             if (m_hisLink[i].linkageTerm == hisRecision) {
+                cancelLink(i);
                 m_isLinked = true;
                 enterEqualEvent();
                 return;
