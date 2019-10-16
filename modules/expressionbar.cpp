@@ -180,7 +180,7 @@ void ExpressionBar::enterPointEvent()
 {
     if (m_isLinked)
         clearLinkageCache();
-    /*QString exp = m_inputEdit->lineEdit()->text();
+    QString exp = m_inputEdit->lineEdit()->text();
     int curpos = m_inputEdit->lineEdit()->cursorPosition();
     if (curpos == 0) {
         m_inputEdit->lineEdit()->insert("0.");
@@ -194,7 +194,7 @@ void ExpressionBar::enterPointEvent()
             else
                 m_inputEdit->lineEdit()->insert("0.");
         }
-    }*/
+    }
 }
 
 void ExpressionBar::enterBackspaceEvent()
