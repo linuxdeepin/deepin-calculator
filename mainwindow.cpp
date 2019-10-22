@@ -114,6 +114,7 @@ void MainWindow::initModule()
 
     m_basicModule = new BasicModule;
 
+    m_mainLayout->setContentsMargins(0,0,0,0);
     m_mainLayout->addWidget(m_basicModule);
 
     switch (mode) {
