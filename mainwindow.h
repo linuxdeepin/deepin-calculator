@@ -38,7 +38,7 @@ public:
     ~MainWindow();
 
 protected:
-    void paintEvent(QPaintEvent *);
+    //void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *event);
 
 private:
