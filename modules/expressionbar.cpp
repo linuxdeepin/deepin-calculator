@@ -139,15 +139,15 @@ void ExpressionBar::enterEqualEvent()
 
         const QString result = DMath::format(ans, Quantity::Format::Fixed());
         QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace('-', "－").replace('+', "＋");
+        formatResult = formatResult.replace('-', "-").replace('+', "+");
 
         if (formatResult != m_inputEdit->text()) {
-            m_listModel->appendText(m_inputEdit->text() + "＝" + formatResult);
+            m_listModel->appendText(m_inputEdit->text() + "=" + formatResult);
             m_inputEdit->setAnswer(formatResult, ans);
             m_isContinue = false;
         }
     } else {
-        m_listModel->appendText(m_inputEdit->text() + "＝" + tr("Expression Error"));
+        m_listModel->appendText(m_inputEdit->text() + "=" + tr("Expression Error"));
     }
 
     m_listView->scrollToBottom();
@@ -182,7 +182,7 @@ void ExpressionBar::copyResultToClipboard()
 
         const QString result = DMath::format(ans, Quantity::Format::Fixed());
         QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace('-', "－").replace('+', "＋");
+        formatResult = formatResult.replace('-', "-").replace('+', "+");
         // m_inputEdit->setAnswer(formatResult, ans);
 
         QApplication::clipboard()->setText(formatResult);
@@ -206,7 +206,7 @@ bool ExpressionBar::cursorPosAtEnd()
 
 QString ExpressionBar::formatExpression(const QString &text)
 {
-    return QString(text).replace(QString::fromUtf8("＋"), "+").replace(QString::fromUtf8("－"), "-")
+    return QString(text).replace(QString::fromUtf8("+"), "+").replace(QString::fromUtf8("-"), "-")
                         .replace(QString::fromUtf8("×"), "*").replace(QString::fromUtf8("÷"), "/")
                         .replace(QString::fromUtf8(","), "");
 }

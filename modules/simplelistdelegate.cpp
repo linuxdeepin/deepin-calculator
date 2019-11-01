@@ -50,7 +50,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     font.setPointSize(11);
     painter->setFont(font);
 
-    QStringList splitList = expression.split("＝");
+    QStringList splitList = expression.split("=");
     QString resultStr = splitList.last();
     int resultWidth = painter->fontMetrics().width(resultStr);
 
@@ -75,7 +75,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         painter->setPen(QColor(fontColor));
     }
 
-    int equalStrWidth = painter->fontMetrics().width(" ＝ ");
+    int equalStrWidth = painter->fontMetrics().width(" = ");
     QString expStr = painter->fontMetrics().elidedText(splitList.first(), Qt::ElideLeft,
                                                        rect.width() - resultWidth - padding * 2 - equalStrWidth);
 
@@ -88,7 +88,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     painter->setPen(QColor(fontColor));
     painter->drawText(QRect(rect.x() + padding,
                             rect.y(), rect.width() - resultWidth - padding * 2, rect.height()),
-                      Qt::AlignVCenter | Qt::AlignRight, expStr + " ＝ ");
+                      Qt::AlignVCenter | Qt::AlignRight, expStr + " = ");
 }
 
 QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
