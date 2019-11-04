@@ -384,19 +384,19 @@ void ExpressionBar::enterBracketsEvent()
         if (leftLeftParen > leftRightParen) {
             if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) > 0) {
                 //bracketsText = ")";
-                if (currentPos != 0 && !rx.exactMatch(oldText.at(currentPos - 1)))
-                    return;
+                //if (currentPos != 0 && !rx.exactMatch(oldText.at(currentPos - 1)))
+                //    return;
                 m_inputEdit->lineEdit()->insert(")");
             } else if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) < 0) {
                 //bracketsText = "(";
-                if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-                    return;
+                //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
+                //    return;
                 m_inputEdit->lineEdit()->insert("(");
                 m_inputEdit->lineEdit()->setCursorPosition(currentPos + 1);
             } else {
                 //bracketsText = "(";
-                if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-                    return;
+                //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
+                //    return;
                 m_inputEdit->lineEdit()->insert("(");
                 m_inputEdit->lineEdit()->setCursorPosition(currentPos + 1);
             }
@@ -405,21 +405,21 @@ void ExpressionBar::enterBracketsEvent()
             //如果右侧左括号小于右括号
             if (rightLeftParen < rightrightParen) {
                 //bracketsText = "(";
-                if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-                    return;
+                //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
+                //    return;
                 m_inputEdit->lineEdit()->insert("(");
             } else {
                 //bracketsText = "(";
-                if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-                    return;
+                //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
+                //    return;
                 m_inputEdit->lineEdit()->insert("(");
             }
         }
     //相等则输入一对括号
     } else {
         //bracketsText = "(";
-        if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-            return;
+        //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
+        //    return;
         m_inputEdit->lineEdit()->insert("(");
     }
 }

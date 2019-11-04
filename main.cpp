@@ -77,7 +77,8 @@ void saveThemeTypeSetting(int type)
 
 int main(int argc, char *argv[])
 {
-    DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    //DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     DApplication::loadDXcbPlugin();
     DApplication app(argc, argv);
     app.setAttribute(Qt::AA_UseHighDpiPixmaps);
