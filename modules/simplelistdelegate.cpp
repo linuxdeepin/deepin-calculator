@@ -209,6 +209,11 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
     QString exp = text;
     QStringList list;
     list = exp.split(QRegExp("[＋－×÷()]"), QString::SkipEmptyParts);
+    if (list.isEmpty()) {
+        linkNum = "";
+        expStr = exp;
+        return;
+    }
     if (list.size() == 1) {
         linkNum = "";
         expStr = exp;
