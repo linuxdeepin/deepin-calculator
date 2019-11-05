@@ -121,14 +121,14 @@ int main(int argc, char *argv[])
     DGuiApplicationHelper::instance()->setPaletteType(getThemeTypeSetting());
     // 应用已保存的主题设置
     DGuiApplicationHelper::ColorType t_type = DGuiApplicationHelper::instance()->themeType();
-    saveThemeTypeSetting(t_type);
+    //saveThemeTypeSetting(t_type);
     //监听当前应用主题切换事件
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
     [] (DGuiApplicationHelper::ColorType type) {
         qDebug() << type;
         // 保存程序的主题设置  type : 0,系统主题， 1,浅色主题， 2,深色主题
         saveThemeTypeSetting(type);
-        //DGuiApplicationHelper::instance()->setPaletteType(type);
+        DGuiApplicationHelper::instance()->setPaletteType(type);
     });
 
     // Register debus service.

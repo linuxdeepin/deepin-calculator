@@ -651,7 +651,7 @@ void ExpressionBar::settingLinkage()
     } else {
         if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1)
             return;
-        judgeLinkageAgain();
+        //judgeLinkageAgain();
         enterEqualEvent();
         m_isLinked = true;
         historicalLinkageIndex hisIndex;
@@ -762,4 +762,9 @@ void ExpressionBar::moveRight()
 {
     m_inputEdit->lineEdit()->setCursorPosition(m_inputEdit->lineEdit()->cursorPosition() + 1);
     m_inputEdit->lineEdit()->setFocus();
+}
+
+DLineEdit* ExpressionBar::getInputEdit()
+{
+    return m_inputEdit;
 }

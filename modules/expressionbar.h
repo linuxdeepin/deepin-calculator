@@ -91,6 +91,7 @@ public slots:
     void addUndo();
     void Redo();
     void initTheme(int type);
+    DLineEdit *getInputEdit();
 
 private slots:
     void handleTextChanged(const QString &text);
