@@ -368,6 +368,7 @@ void ExpressionBar::enterEqualEvent()
                 enterEqualEvent();
             }
         }
+        m_inputEdit->clear();
     }
 
     if (m_evaluator->error().isEmpty())
