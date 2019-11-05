@@ -33,6 +33,7 @@ public:
     void setHisLink(const int link);
     void setHisLinked(const int linked);
     void removeLine(const int link, const int linked);
+    void removeLine(int index);
     void removeHisLink();
     void removeAllLink();
 public slots:

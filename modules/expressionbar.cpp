@@ -82,8 +82,8 @@ void ExpressionBar::enterNumberEvent(const QString &text)
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->lineEdit()->cursorPosition();
     if (curpos != 0) {
-        if (exp.at(curpos - 1) == "%" )
-            return;
+        //if (exp.at(curpos - 1) == "%" )
+        //    return;
     }
     if (m_inputNumber && m_hisRevision == -1) {
         m_inputEdit->clear();
@@ -114,6 +114,10 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
         m_hisLink.last().isLink = true;
         m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
         m_isLinked = false;
+        if (m_hisLink.size() > 9) {
+            m_hisLink.removeFirst();
+            m_listDelegate->removeLine(0);
+        }
     }
     if (m_inputEdit->text().isEmpty()) {
         if (text != "-") {
@@ -327,7 +331,8 @@ void ExpressionBar::enterEqualEvent()
         else {
             for (int i = 0; i < m_hisLink.size(); ++i) {
                 if (m_hisLink[i].linkageTerm == m_hisRevision) {
-                    m_listDelegate->removeLine(m_hisLink[i].linkageTerm, m_hisLink[i].linkedItem);
+                    //m_listDelegate->removeLine(m_hisLink[i].linkageTerm, m_hisLink[i].linkedItem);
+                    m_listDelegate->removeLine(i);
                     m_hisLink.removeAt(i);
                     --i;
                 }
@@ -691,7 +696,8 @@ void ExpressionBar::judgeLinkageAgain()
     QStringList list = text.split(QRegExp("[＋－×÷()]"));
     QString linkValue = m_hisLink.last().linkageValue;
     if (list.at(0) != linkValue) {
-        m_listDelegate->removeLine(m_hisLink.last().linkageTerm,m_hisLink.last().linkedItem);
+        //m_listDelegate->removeLine(m_hisLink.last().linkageTerm,m_hisLink.last().linkedItem);
+        m_listDelegate->removeLine(m_hisLink.size() - 1);
         m_hisLink.removeLast();
     }
 }
@@ -739,7 +745,8 @@ bool ExpressionBar::cancelLink(int index)
             exp = exp.replace(",", "");
             QStringList list = exp.split(QRegExp("[＋－×÷()]"));
             if (list.at(0) != m_hisLink[i].linkageValue) {
-                m_listDelegate->removeLine(m_hisLink[i].linkageTerm, m_hisLink[i].linkedItem);
+                //m_listDelegate->removeLine(m_hisLink[i].linkageTerm, m_hisLink[i].linkedItem);
+                m_listDelegate->removeLine(i);
                 m_hisLink.remove(i);
                 isRemove = true;
             }
