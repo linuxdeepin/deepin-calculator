@@ -124,6 +124,8 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
     } else {
         int curPos = m_inputEdit->lineEdit()->cursorPosition();
         QString exp = m_inputEdit->text();
+        if (exp == "－")
+            return;
         if (cursorPosAtEnd()) {
             QString lastStr = exp.right(1);
             if (isOperator(lastStr))

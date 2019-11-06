@@ -220,7 +220,10 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
         return;
     }
     if (exp.at(0) != "－") {
-        linkNum = list.at(0);
+        if (exp.at(0) != "(")
+            linkNum = list.at(0);
+        else
+            linkNum = "(" + list.at(0);
     }
     else {
         linkNum = "－" + list.at(0);
