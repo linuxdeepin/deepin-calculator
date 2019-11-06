@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent)
     //m_themeAction->setCheckable(true);
     m_simpleAction = new QAction(tr("Simple mode"), this);
     m_scAction = new QAction(tr("Scientific mode"), this);
-    //m_tbMenu->addAction(m_themeAction);
+    //m_tbMenu->addAction(m_themeAction);;
 
 #ifdef ENABLE_SCIENTIFIC
     m_tbMenu->addAction(m_simpleAction);
