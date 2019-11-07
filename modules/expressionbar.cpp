@@ -670,7 +670,6 @@ void ExpressionBar::judgeLinkageAgain()
 {
     if (m_hisLink.isEmpty())
         return;
-    //if (!m_hisLink.last().isLink)
     QString text = m_inputEdit->text();
     text.replace(",","");
     QStringList list = text.split(QRegExp("[＋－×÷()]"));

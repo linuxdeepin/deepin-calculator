@@ -50,7 +50,6 @@ BasicModule::BasicModule(QWidget *parent)
 
     DPalette pal = this->palette();
     pal.setColor(DPalette::Light,QColor(248,248,248));
-    //pal.setColor(DPalette::Dark,QColor(17,17,17));
     this->setPalette(pal);
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this, &BasicModule::initTheme);
@@ -120,17 +119,6 @@ void BasicModule::initTheme(int type)
         break;
     }*/
     update();
-    /*const QString theme = DThemeManager::instance()->theme();
-
-    if (theme == "light") {
-        m_expBarColor = "#FBFBFB";
-        m_expBarSepColor = "#E1E1E1";
-        m_btnSepColor = QColor(242, 242, 242);
-    } else {
-        m_expBarColor = "#111111";
-        m_expBarSepColor = "#303030";
-        m_btnSepColor = QColor("#2D2D2D");
-    }*/
 }
 
 void BasicModule::handleEditKeyPress(QKeyEvent *e)
