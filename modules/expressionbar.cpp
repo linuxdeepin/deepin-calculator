@@ -372,7 +372,9 @@ void ExpressionBar::enterBracketsEvent()
 {
     QString oldText = m_inputEdit->lineEdit()->text();
     int currentPos = m_inputEdit->lineEdit()->cursorPosition();
-    QString sRegNum = "[0-9]+";
+    m_inputEdit->lineEdit()->insert("()");
+    m_inputEdit->lineEdit()->setCursorPosition(currentPos + 1);
+    /*QString sRegNum = "[0-9]+";
     QRegExp rx;
     rx.setPattern(sRegNum);
     int right = oldText.length() - currentPos;
@@ -423,7 +425,17 @@ void ExpressionBar::enterBracketsEvent()
         //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
         //    return;
         m_inputEdit->lineEdit()->insert("(");
-    }
+    }*/
+}
+
+void ExpressionBar::enterLeftBracketsEvent()
+{
+    m_inputEdit->lineEdit()->insert("(");
+}
+
+void ExpressionBar::enterRightBracketsEvent()
+{
+    m_inputEdit->lineEdit()->insert(")");
 }
 
 void ExpressionBar::enterDeleteEvent()

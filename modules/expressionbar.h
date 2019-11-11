@@ -74,6 +74,8 @@ public slots:
     void enterEqualEvent();
     void enterPercentEvent();
     void enterBracketsEvent();
+    void enterLeftBracketsEvent();
+    void enterRightBracketsEvent();
     void enterDeleteEvent();
     void moveLeft();
     void moveRight();

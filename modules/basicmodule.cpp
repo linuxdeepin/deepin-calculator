@@ -236,11 +236,16 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         //m_basicKeypad->animate(BasicKeypad::Key_Clear);
         m_expressionBar->addUndo();
         break;
-    case Qt::Key_ParenLeft: case Qt::Key_ParenRight:
-        m_expressionBar->setContinue(true);
-        m_basicKeypad->animate(BasicKeypad::Key_Brackets);
-        m_expressionBar->enterBracketsEvent();
+    case Qt::Key_ParenLeft:
+        //m_expressionBar->setContinue(true);
+        //m_basicKeypad->animate(BasicKeypad::Key_Brackets);
+        //m_expressionBar->enterBracketsEvent();
         //m_basicKeypad->button(BasicKeypad::Key_Brackets)->animateClick();
+        m_expressionBar->enterLeftBracketsEvent();
+        m_expressionBar->addUndo();
+        break;
+    case Qt::Key_ParenRight:
+        m_expressionBar->enterRightBracketsEvent();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_Percent:
