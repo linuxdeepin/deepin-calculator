@@ -442,7 +442,8 @@ void ExpressionBar::enterRightBracketsEvent()
 
 void ExpressionBar::enterDeleteEvent()
 {
-    int curPos = m_inputEdit->lineEdit()->cursorPosition();
+    m_inputEdit->clear();
+    /*int curPos = m_inputEdit->lineEdit()->cursorPosition();
     if (curPos != m_inputEdit->text().length()) {
         QString text = m_inputEdit->lineEdit()->text();
         int index = curPos;
@@ -451,7 +452,7 @@ void ExpressionBar::enterDeleteEvent()
         text.remove(index, 1);
         m_inputEdit->lineEdit()->setText(text);
         m_inputEdit->lineEdit()->setCursorPosition(curPos);
-    }
+    }*/
 }
 
 void ExpressionBar::copyResultToClipboard()

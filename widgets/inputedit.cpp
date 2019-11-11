@@ -49,7 +49,7 @@ InputEdit::InputEdit(QWidget *parent)
             });
     this->lineEdit()->setFrame(false);
     this->lineEdit()->setClearButtonEnabled(false);
-    this->lineEdit()->setContextMenuPolicy(Qt::NoContextMenu);
+    //this->lineEdit()->setContextMenuPolicy(Qt::NoContextMenu);
 
     DPalette pl = this->lineEdit()->palette();
     pl.setColor(DPalette::Button,Qt::transparent);
