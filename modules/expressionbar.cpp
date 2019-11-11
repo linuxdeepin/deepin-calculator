@@ -187,6 +187,8 @@ void ExpressionBar::enterPointEvent()
     if (curpos == 0) {
         m_inputEdit->lineEdit()->insert("0.");
     } else {
+        if (exp.at(curpos - 1) == ".")
+            return;
         if (exp.at(curpos - 1) != ")" && exp.at(curpos - 1) != "%") {
             QString sRegNum = "[0-9]+";
             QRegExp rx;
