@@ -22,27 +22,32 @@
 
 #include <QDebug>
 
-IconButton::IconButton(int normalSize, int hoverSize, QWidget *parent)
+IconButton::IconButton(QWidget *parent)
     : TextButton("", parent),
       m_iconWidget(new QLabel),
-      m_iconRenderer(new DSvgRenderer),
-      m_normalSize(normalSize),
-      m_hoverSize(hoverSize)
+      m_iconRenderer(new DSvgRenderer)
 {
-    /*QGridLayout *layout = new QGridLayout(this);
+    QGridLayout *layout = new QGridLayout(this);
     layout->addWidget(m_iconWidget,0,Qt::AlignCenter);
     layout->setContentsMargins(0,0,0,0);
-    setLayout(layout);*/
+    setLayout(layout);
 }
 
 IconButton::~IconButton()
 {
 }
 
-void IconButton::setIcon(const QString &fileName)
+void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName)
 {
-    m_iconRenderer->load(fileName);
-    setIconSize(m_normalSize);
+    m_normalUrl = normalFileName;
+    m_hoverUrl = hoverFileName;
+    m_pressUrl = pressFileName;
+
+    QPixmap pix(m_normalUrl);
+    pix = pix.scaled(600,600);
+    pix.setDevicePixelRatio(devicePixelRatioF());
+    setIcon(QIcon(pix));
+    setIconSize(QSize(30,30));
 }
 
 void IconButton::setIconStateSizes(int normalSize, int hoverSize)
@@ -53,33 +58,41 @@ void IconButton::setIconStateSizes(int normalSize, int hoverSize)
 
 void IconButton::mousePressEvent(QMouseEvent *e)
 {
-    setIconSize(m_normalSize);
+    QPixmap pixmap(m_pressUrl);
+    pixmap.setDevicePixelRatio(devicePixelRatioF());
+    DPushButton::setIcon(QIcon(pixmap));
 
     TextButton::mousePressEvent(e);
 }
 
 void IconButton::mouseReleaseEvent(QMouseEvent *e)
 {
-    setIconSize(m_hoverSize);
+    QPixmap pixmap(m_normalUrl);
+    pixmap.setDevicePixelRatio(devicePixelRatioF());
+    DPushButton::setIcon(QIcon(pixmap));
 
     TextButton::mouseReleaseEvent(e);
 }
 
 void IconButton::enterEvent(QEvent *e)
 {
-    setIconSize(m_hoverSize);
+    QPixmap pixmap(m_hoverUrl);
+    pixmap.setDevicePixelRatio(devicePixelRatioF());
+    DPushButton::setIcon(QIcon(pixmap));
 
     TextButton::enterEvent(e);
 }
 
 void IconButton::leaveEvent(QEvent *e)
 {
-    setIconSize(m_normalSize);
+    QPixmap pixmap(m_normalUrl);
+    pixmap.setDevicePixelRatio(devicePixelRatioF());
+    DPushButton::setIcon(QIcon(pixmap));
 
     TextButton::leaveEvent(e);
 }
 
-void IconButton::setIconSize(const int &size)
+/*void IconButton::setIconSize(const int &size)
 {
     const int scaledSize = size * devicePixelRatioF();
     const QSize iconSize(scaledSize, scaledSize);
@@ -93,4 +106,4 @@ void IconButton::setIconSize(const int &size)
     //m_iconWidget->setPixmap(pix);
     this->DPushButton::setIcon(QIcon(pix));
     //m_iconWidget->setFixedSize(iconSize);
-}
+}*/

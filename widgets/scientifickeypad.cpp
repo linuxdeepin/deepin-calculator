@@ -87,8 +87,8 @@ void ScientificKeypad::initButtons()
 
         if (desc->button == Key_Backspace) {
             button = new IconButton;
-            (static_cast<IconButton *>(button))->setIcon(QString(":/images/delete_%1_normal.svg")
-                                                         .arg(DThemeManager::instance()->theme()));
+            /*(static_cast<IconButton *>(button))->setIcon(QString(":/images/delete_%1_normal.svg")
+                                                         .arg(DThemeManager::instance()->theme()));*/
         } else {
             button = new TextButton(desc->text);
         }

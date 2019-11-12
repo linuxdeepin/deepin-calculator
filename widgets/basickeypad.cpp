@@ -19,6 +19,7 @@
 #include <QTimer>
 
 #include <DPalette>
+#include <DImageButton>
 
 #include "basickeypad.h"
 #include "dthememanager.h"
@@ -46,14 +47,38 @@ const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
 
     { "0", Key_0, 5, 0 },
     { ".", Key_Point, 5, 1 },
-    { "( )", Key_Brackets, 5, 2 }
+    { "()" , Key_Brackets, 5, 2 }
     //{ "=", Key_Equals, 5, 3 }
 };
 
 static DPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
-    IconButton *button = new IconButton(18, 18);
+    IconButton *button = new IconButton;
+
+    QString path;
+    if (DGuiApplicationHelper::instance()->themeType() == 2)
+        path = QString(":/images/%1/").arg("dark");
+    else
+        path = QString(":/images/%1/").arg("light");
 
     if (key == BasicKeypad::Key_Div) {
+        button->setIconUrl(path + "÷_normal.svg", path + "÷_hover.svg", path + "÷_press.svg");
+    } else if (key == BasicKeypad::Key_Mult) {
+        button->setIconUrl(path + "x_normal.svg", path + "x_hover.svg", path + "x_press.svg");
+    } else if (key == BasicKeypad::Key_Min) {
+        button->setIconUrl(path + "-_normal.svg", path + "-_hover.svg", path + "-_press.svg");
+    } else if (key == BasicKeypad::Key_Plus) {
+        button->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
+    } else if (key == BasicKeypad::Key_Backspace) {
+        button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
+    } else if (key == BasicKeypad::Key_Clear) {
+        button->setIconUrl(path + "AC_normal.svg", path + "AC_hover.svg", path + "AC_press.svg");
+    } else if (key == BasicKeypad::Key_Percent) {
+        button->setIconUrl(path + "%_normal.svg", path + "%_hover.svg", path + "%_press.svg");
+    } else if (key == BasicKeypad::Key_Brackets) {
+        button->setIconUrl(path + "( )_normal.svg", path + "( )_hover.svg", path + "( )_press.svg");
+    }
+
+    /*if (key == BasicKeypad::Key_Div) {
         button->setIcon(":/images/div_normal.svg");
     } else if (key == BasicKeypad::Key_Mult) {
         button->setIcon(":/images/mult_normal.svg");
@@ -67,54 +92,7 @@ static DPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
             button->setIcon(":/images/delete_dark_normal.svg");
         else
             button->setIcon(":/images/delete_light_normal.svg");
-    }
-
-    /*    DPushButton *button = new DPushButton();
-    button->setFixedSize(76,56);
-
-    if (key == BasicKeypad::Key_Div) {
-        button->setIcon(QIcon(":/images/div_normal.svg"));
-    } else if (key == BasicKeypad::Key_Mult) {
-        button->setIcon(QIcon(":/images/mult_normal.svg"));
-    } else if (key == BasicKeypad::Key_Min) {
-        button->setIcon(QIcon(":/images/min_normal.svg"));
-    } else if (key == BasicKeypad::Key_Plus) {
-        button->setIcon(QIcon(":/images/plus_normal.svg"));
-    } else if (key == BasicKeypad::Key_Backspace) {
-        //button->setIconStateSizes(23, 23);
-        if (DGuiApplicationHelper::instance()->themeType() == 2)
-            button->setIcon(QIcon(":/images/delete_dark_normal.svg"));
-        else
-            button->setIcon(QIcon(":/images/delete_light_normal.svg"));
     }*/
-
-    /*    if (key == BasicKeypad::Key_Div) {
-            button->setFixedSize(10, 13);
-            button->setNormalPic(":/images/÷_normal.svg");
-            button->setHoverPic(":/images/÷_press.svg");
-            button->setPressPic(":/images/÷_hover.svg");
-        } else if (key == BasicKeypad::Key_Mult) {
-            button->setFixedSize(10, 13);
-            button->setNormalPic(":/images/÷_normal.svg");
-            button->setHoverPic(":/images/÷_press.svg");
-            button->setPressPic(":/images/÷_hover.svg");
-        } else if (key == BasicKeypad::Key_Min) {
-            button->setFixedSize(10, 13);
-            button->setNormalPic(":/images/÷_normal.svg");
-            button->setHoverPic(":/images/÷_press.svg");
-            button->setPressPic(":/images/÷_hover.svg");
-        } else if (key == BasicKeypad::Key_Plus) {
-            button->setFixedSize(10, 13);
-            button->setNormalPic(":/images/÷_normal.svg");
-            button->setHoverPic(":/images/÷_press.svg");
-            button->setPressPic(":/images/÷_hover.svg");
-        } else if (key == BasicKeypad::Key_Backspace) {
-            button->setFixedSize(23, 26);
-            button->setNormalPic(":/images/delete_light_normal.svg");
-            button->setHoverPic(":/images/delete_light_hover.svg");
-            button->setPressPic(":/images/delete_light_press.svg");
-        }*/
-
     return button;
 }
 
@@ -164,7 +142,6 @@ void BasicKeypad::animate()
 void BasicKeypad::initButtons()
 {
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
-    DGuiApplicationHelper::ColorType type = DGuiApplicationHelper::instance()->themeType();
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
         DPushButton *button;
@@ -173,28 +150,9 @@ void BasicKeypad::initButtons()
             button = createSpecialKeyButton(desc->button);
         } else {
             button = new TextButton(desc->text);
-        }
-        DPalette pa = button->palette();
-        if (type == 0)
-            type = DGuiApplicationHelper::instance()->themeType();
-        if (type == 2){
-            pa.setColor(DPalette::ButtonText, Qt::white);
-            pa.setColor(DPalette::Light, QColor(17,17,17));
-            pa.setColor(DPalette::Dark, QColor(17,17,17));
-            pa.setColor(DPalette::Button, QColor(17,17,17));
-            pa.setColor(DPalette::Background, QColor(17,17,17));
-            pa.setColor(DPalette::Base, QColor(17,17,17));
-            pa.setColor(DPalette::AlternateBase, QColor(17,17,17));
-            button->setPalette(pa);
-        } else {
-            pa.setColor(DPalette::ButtonText, Qt::black);
-            pa.setColor(DPalette::Dark, QColor(255,255,255));
-            pa.setColor(DPalette::Light, QColor(255,255,255));
-            pa.setColor(DPalette::Button, QColor(255,255,255));
-            pa.setColor(DPalette::Background, QColor(255,255,255));
-            pa.setColor(DPalette::Base, QColor(255,255,255));
-            pa.setColor(DPalette::AlternateBase, QColor(255,255,255));
-            button->setPalette(pa);
+            QFont font = button->font();
+            font.setFamily("HelveticaNeue");
+            button->setFont(font);
         }
 
         m_layout->addWidget(button, desc->row, desc->column);
@@ -236,11 +194,13 @@ void BasicKeypad::initUI()
 void BasicKeypad::buttonThemeChanged(int type)
 {
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+    QString path;
+    if (type == 0)
+        type = DGuiApplicationHelper::instance()->themeType();
     while (i.hasNext()) {
         i.next();
-        DPalette pa = i.value().first->palette();
-        if (type == 0)
-            type = DGuiApplicationHelper::instance()->themeType();
+        DPushButton * btn = i.value().first;
+        DPalette pa = btn->palette();
         if (type == 2){
             pa.setColor(DPalette::ButtonText, Qt::white);
             pa.setColor(DPalette::Light, QColor(17,17,17));
@@ -261,19 +221,33 @@ void BasicKeypad::buttonThemeChanged(int type)
             i.value().first->setPalette(pa);
         }
     }
+    if (type == 2)
+        path = QString(":/images/%1/").arg("dark");
+    else
+        path = QString(":/images/%1/").arg("light");
 
-    IconButton *btn = static_cast<IconButton *>(button(Key_Backspace));
+    IconButton *btn = static_cast<IconButton *>(button(Key_Div));
+    btn->setIconUrl(path + "÷_normal.svg", path + "÷_hover.svg", path + "÷_press.svg");
+    btn = static_cast<IconButton *>(button(Key_Mult));
+    btn->setIconUrl(path + "x_normal.svg", path + "x_hover.svg", path + "x_press.svg");
+    btn = static_cast<IconButton *>(button(Key_Min));
+    btn->setIconUrl(path + "-_normal.svg", path + "-_hover.svg", path + "-_press.svg");
+    btn = static_cast<IconButton *>(button(Key_Plus));
+    btn->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
+    btn = static_cast<IconButton *>(button(Key_Backspace));
+    btn->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
+    /*IconButton *btn = static_cast<IconButton *>(button(Key_Backspace));
     if (DGuiApplicationHelper::instance()->themeType() == 2)
         btn->setIcon(QString(":/images/delete_dark_normal.svg"));
     else
-        btn->setIcon(QString(":/images/delete_light_normal.svg"));
+        btn->setIcon(QString(":/images/delete_light_normal.svg"));*/
 }
 
 void BasicKeypad::handleThemeChanged()
 {
-    IconButton *btn = static_cast<IconButton *>(button(Key_Backspace));
+    /*IconButton *btn = static_cast<IconButton *>(button(Key_Backspace));
     if (DGuiApplicationHelper::instance()->themeType() == 2)
         btn->setIcon(QString(":/images/delete_dark_normal.svg"));
     else
-        btn->setIcon(QString(":/images/delete_light_normal.svg"));
+        btn->setIcon(QString(":/images/delete_light_normal.svg"));*/
 }

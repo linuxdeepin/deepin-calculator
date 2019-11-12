@@ -32,10 +32,10 @@ class IconButton : public TextButton
     Q_OBJECT
 
 public:
-    IconButton(int normalSize=23, int hoverSize=26, QWidget *parent = nullptr);
+    IconButton(QWidget *parent = nullptr);
     ~IconButton();
 
-    void setIcon(const QString &fileName);
+    void setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName);
     void setIconStateSizes(int normalSize, int hoverSize);
 
 protected:
@@ -45,13 +45,16 @@ protected:
     void leaveEvent(QEvent *);
 
 private:
+    //void setIconSize(const int &size);
+
     DLabel *m_iconWidget;
     DSvgRenderer *m_iconRenderer;
 
     int m_normalSize;
     int m_hoverSize;
-
-    void setIconSize(const int &size);
+    QString m_normalUrl;
+    QString m_hoverUrl;
+    QString m_pressUrl;
 };
 
 #endif
