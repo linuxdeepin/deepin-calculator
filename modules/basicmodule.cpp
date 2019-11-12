@@ -131,7 +131,6 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_0:
         m_expressionBar->enterNumberEvent("0");
         m_basicKeypad->animate(BasicKeypad::Key_0);
-        //m_basicKeypad->button(BasicKeypad::Key_0)->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_1:
