@@ -52,6 +52,7 @@ InputEdit::InputEdit(QWidget *parent)
     //this->lineEdit()->setContextMenuPolicy(Qt::NoContextMenu);
 
     DPalette pl = this->lineEdit()->palette();
+    pl.setColor(DPalette::Text,QColor(48,48,48));
     pl.setColor(DPalette::Button,Qt::transparent);
     pl.setColor(DPalette::Highlight,Qt::transparent);
     pl.setColor(DPalette::HighlightedText,Qt::blue);
@@ -255,7 +256,8 @@ QString InputEdit::pointFaultTolerance(const QString &text)
             continue;
         if (firstPoint == 0) {
             item.insert(firstPoint, "0");
-            oldText.replace(list[i], item);
+            ++firstPoint;
+            //oldText.replace(list[i], item);
         } else {
             if (item.at(firstPoint - 1) == ")" || item.at(firstPoint - 1) == "%") {
                 item.remove(firstPoint, 1);
@@ -404,7 +406,15 @@ bool InputEdit::eventFilter(QObject *watched, QEvent *event)
 
 void InputEdit::multipleArithmetic(QString &text)
 {
-    if (text.indexOf("\n") != -1) {
-        text.replace("\n", "×");
+    int index = text.indexOf("\n");
+    if (index != -1) {
+        int count = text.count("\n");
+        for (int i = 0; i < count; ++i) {
+            index = text.indexOf("\n",i);
+            if (index == 0)
+                continue;
+            if (text.at(index - 1) == ")" || text.at(index - 1) == "%")
+                text.replace(index,1,"×");
+        }
     }
 }

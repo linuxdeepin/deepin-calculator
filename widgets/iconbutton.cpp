@@ -24,12 +24,12 @@
 
 IconButton::IconButton(QWidget *parent)
     : TextButton("", parent),
-      m_iconWidget(new QLabel),
+      m_iconWidget(new DLabel),
       m_iconRenderer(new DSvgRenderer)
 {
     QGridLayout *layout = new QGridLayout(this);
-    layout->addWidget(m_iconWidget,0,Qt::AlignCenter);
-    layout->setContentsMargins(0,0,0,0);
+    layout->addWidget(m_iconWidget, 0, Qt::AlignCenter);
+    layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
 }
 
@@ -44,10 +44,10 @@ void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverF
     m_pressUrl = pressFileName;
 
     QPixmap pix(m_normalUrl);
-    pix = pix.scaled(600,600);
+    pix = pix.scaled(600, 600);
     pix.setDevicePixelRatio(devicePixelRatioF());
     setIcon(QIcon(pix));
-    setIconSize(QSize(30,30));
+    setIconSize(QSize(30, 30));
 }
 
 void IconButton::setIconStateSizes(int normalSize, int hoverSize)

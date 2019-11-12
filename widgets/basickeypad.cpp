@@ -61,7 +61,7 @@ static DPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
         path = QString(":/images/%1/").arg("light");
 
     if (key == BasicKeypad::Key_Div) {
-        button->setIconUrl(path + "÷_normal.svg", path + "÷_hover.svg", path + "÷_press.svg");
+        button->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");
     } else if (key == BasicKeypad::Key_Mult) {
         button->setIconUrl(path + "x_normal.svg", path + "x_hover.svg", path + "x_press.svg");
     } else if (key == BasicKeypad::Key_Min) {
@@ -227,7 +227,7 @@ void BasicKeypad::buttonThemeChanged(int type)
         path = QString(":/images/%1/").arg("light");
 
     IconButton *btn = static_cast<IconButton *>(button(Key_Div));
-    btn->setIconUrl(path + "÷_normal.svg", path + "÷_hover.svg", path + "÷_press.svg");
+    btn->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");
     btn = static_cast<IconButton *>(button(Key_Mult));
     btn->setIconUrl(path + "x_normal.svg", path + "x_hover.svg", path + "x_press.svg");
     btn = static_cast<IconButton *>(button(Key_Min));
