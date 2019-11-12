@@ -99,12 +99,13 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
     //QLineEdit::mouseDoubleClickEvent(e);
-    if (e->button() == Qt::LeftButton) {
+    lineEdit()->selectAll();
+    /*if (e->button() == Qt::LeftButton) {
         int position = this->lineEdit()->cursorPositionAt(e->pos());
         int posBegin = findWordBeginPosition(position);
         int posEnd = findWordEndPosition(position);
         this->lineEdit()->setSelection(posBegin, posEnd - posBegin + 1);
-    }
+    }*/
 }
 
 bool InputEdit::isSymbolCategoryChanged(int pos1, int pos2)
@@ -388,10 +389,14 @@ void InputEdit::BracketCompletion(QKeyEvent *e)
 
 bool InputEdit::eventFilter(QObject *watched, QEvent *event)
 {
-    if (event->type() !=  QEvent::KeyPress) {
-        return false;
+    if (event->type() ==  QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        Q_EMIT keyPress(keyEvent);
+        return true;
+    } else if (event->type() == QEvent::MouseButtonDblClick) {
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+        mouseDoubleClickEvent(mouseEvent);
+        return true;
     }
-    QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-    Q_EMIT keyPress(keyEvent);
-    return true;
+    return DLineEdit::eventFilter(watched, event);
 }
