@@ -36,7 +36,6 @@ public:
     ~IconButton();
 
     void setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName);
-    void setIconStateSizes(int normalSize, int hoverSize);
 
 protected:
     void mousePressEvent(QMouseEvent *);
@@ -48,7 +47,7 @@ private:
     //void setIconSize(const int &size);
 
     DLabel *m_iconWidget;
-    DSvgRenderer *m_iconRenderer;
+    //DSvgRenderer *m_iconRenderer;
 
     int m_normalSize;
     int m_hoverSize;

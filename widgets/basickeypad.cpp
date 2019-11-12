@@ -77,27 +77,11 @@ static DPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
     } else if (key == BasicKeypad::Key_Brackets) {
         button->setIconUrl(path + "( )_normal.svg", path + "( )_hover.svg", path + "( )_press.svg");
     }
-
-    /*if (key == BasicKeypad::Key_Div) {
-        button->setIcon(":/images/div_normal.svg");
-    } else if (key == BasicKeypad::Key_Mult) {
-        button->setIcon(":/images/mult_normal.svg");
-    } else if (key == BasicKeypad::Key_Min) {
-        button->setIcon(":/images/min_normal.svg");
-    } else if (key == BasicKeypad::Key_Plus) {
-        button->setIcon(":/images/plus_normal.svg");
-    } else if (key == BasicKeypad::Key_Backspace) {
-        button->setIconStateSizes(24, 24);
-        if (DGuiApplicationHelper::instance()->themeType() == 2)
-            button->setIcon(":/images/delete_dark_normal.svg");
-        else
-            button->setIcon(":/images/delete_light_normal.svg");
-    }*/
     return button;
 }
 
 BasicKeypad::BasicKeypad(QWidget *parent)
-    : QWidget(parent),
+    : DWidget(parent),
       m_layout(new QGridLayout(this)),
       m_mapper(new QSignalMapper(this))
 {
@@ -162,9 +146,9 @@ void BasicKeypad::initButtons()
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
         m_mapper->setMapping(button, desc->button);
     }
+
     m_equal = new DSuggestButton();
     connect(m_equal, SIGNAL(clicked()),this,SIGNAL(equalPressed()));
-    //dengyu->setFocusProxy(Qt::NoFocus);
     m_equal->setFixedSize(76,53);
     m_equal->setText("=");
     QFont font;
@@ -236,18 +220,4 @@ void BasicKeypad::buttonThemeChanged(int type)
     btn->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
     btn = static_cast<IconButton *>(button(Key_Backspace));
     btn->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
-    /*IconButton *btn = static_cast<IconButton *>(button(Key_Backspace));
-    if (DGuiApplicationHelper::instance()->themeType() == 2)
-        btn->setIcon(QString(":/images/delete_dark_normal.svg"));
-    else
-        btn->setIcon(QString(":/images/delete_light_normal.svg"));*/
-}
-
-void BasicKeypad::handleThemeChanged()
-{
-    /*IconButton *btn = static_cast<IconButton *>(button(Key_Backspace));
-    if (DGuiApplicationHelper::instance()->themeType() == 2)
-        btn->setIcon(QString(":/images/delete_dark_normal.svg"));
-    else
-        btn->setIcon(QString(":/images/delete_light_normal.svg"));*/
 }

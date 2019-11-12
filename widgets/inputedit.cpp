@@ -52,7 +52,7 @@ InputEdit::InputEdit(QWidget *parent)
     //this->lineEdit()->setContextMenuPolicy(Qt::NoContextMenu);
 
     DPalette pl = this->lineEdit()->palette();
-    pl.setColor(DPalette::Text,QColor(48,48,48));
+    //pl.setColor(DPalette::Text,QColor(48,48,48));
     pl.setColor(DPalette::Button,Qt::transparent);
     pl.setColor(DPalette::Highlight,Qt::transparent);
     pl.setColor(DPalette::HighlightedText,Qt::blue);

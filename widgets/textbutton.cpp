@@ -21,6 +21,7 @@
 #include "dthememanager.h"
 #include <QTimer>
 #include <QPainter>
+#include <QMouseEvent>
 
 #include <DGuiApplicationHelper>
 
@@ -31,8 +32,6 @@ TextButton::TextButton(const QString &text, QWidget *parent)
     setFixedSize(76, 53);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");
-    m_isHover = false;
-    m_isPress = false;
 
     init();
     //hideShadow();
@@ -47,17 +46,6 @@ TextButton::~TextButton()
 
 void TextButton::init()
 {
-    /*if (DThemeManager::instance()->theme() == "light") {
-        m_effect->setColor(QColor(12,155,246));
-        m_effect->setXOffset(0);
-        m_effect->setYOffset(4);
-        m_effect->setBlurRadius(12);
-    } else {
-        m_effect->setColor(QColor(0, 0, 0, 255 * 0.1));
-        m_effect->setXOffset(0);
-        m_effect->setYOffset(4);
-        m_effect->setBlurRadius(12);
-    }*/
     QFont font;
     font.setPixelSize(18);
     this->setFont(font);
@@ -86,6 +74,8 @@ void TextButton::animate(int msec)
 
 void TextButton::mousePressEvent(QMouseEvent *e)
 {
+    if (e->button() == Qt::RightButton)
+        return;
     setFocus();
     m_palette = this->palette();
     int type = DGuiApplicationHelper::instance()->paletteType();
@@ -127,6 +117,8 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
         pa.setColor(DPalette::ButtonText, QColor(224,224,224));
         this->setPalette(pa);
     }*/
+    if (e->button() == Qt::RightButton)
+        return;
     this->setPalette(m_palette);
     DPushButton::mouseReleaseEvent(e);
 }

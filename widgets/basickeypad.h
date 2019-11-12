@@ -31,7 +31,7 @@
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
 
-class BasicKeypad : public QWidget
+class BasicKeypad : public DWidget
 {
     Q_OBJECT
 
@@ -67,7 +67,6 @@ signals:
 
 private:
     void initUI();
-    void handleThemeChanged();
 
 private:
     QGridLayout *m_layout;

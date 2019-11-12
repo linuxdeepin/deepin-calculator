@@ -51,8 +51,6 @@ private:
     //QGraphicsDropShadowEffect *m_effect;
 
     DPalette m_palette;
-    bool m_isHover;
-    bool m_isPress;
 };
 
 #endif
