@@ -59,6 +59,7 @@ private slots:
     QString symbolFaultTolerance(const QString &text);
     bool isSymbol(const QString &text);
     bool eventFilter(QObject *watched, QEvent *event);
+    void multipleArithmetic(QString &text);
 
 private:
     Quantity m_ans;

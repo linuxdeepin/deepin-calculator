@@ -228,6 +228,7 @@ void InputEdit::handleTextChanged(const QString &text)
                              .replace(QString::fromUtf8("。"), ".")
                              .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
 
+    multipleArithmetic(reformatStr);
     reformatStr.remove(QRegExp("[^0-9＋－×÷,.%()e]"));
     reformatStr = pointFaultTolerance(reformatStr);
     reformatStr = symbolFaultTolerance(reformatStr);
@@ -399,4 +400,11 @@ bool InputEdit::eventFilter(QObject *watched, QEvent *event)
         return true;
     }
     return DLineEdit::eventFilter(watched, event);
+}
+
+void InputEdit::multipleArithmetic(QString &text)
+{
+    if (text.indexOf("\n") != -1) {
+        text.replace("\n", "×");
+    }
 }
