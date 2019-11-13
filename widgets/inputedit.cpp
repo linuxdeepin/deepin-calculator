@@ -168,7 +168,7 @@ void InputEdit::autoZoomFontSize()
 
         QFontMetrics fm(font);
         int fontWidth = fm.width(text());
-        int editWidth = width() - 20;
+        int editWidth = width() - 42;
 
         if (fontWidth < editWidth)
             break;
