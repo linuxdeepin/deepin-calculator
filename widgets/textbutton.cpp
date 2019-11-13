@@ -133,10 +133,16 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
 
 void TextButton::enterEvent(QEvent *e)
 {
+    QFont font = this->font();
+    font.setPixelSize(20);
+    this->setFont(font);
     DPushButton::enterEvent(e);
 }
 
 void TextButton::leaveEvent(QEvent *e)
 {
+    QFont font = this->font();
+    font.setPixelSize(18);
+    this->setFont(font);
     DPushButton::leaveEvent(e);
 }

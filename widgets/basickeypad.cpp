@@ -209,6 +209,9 @@ void BasicKeypad::initButtons()
     //dengyu->setFocusProxy(Qt::NoFocus);
     m_equal->setFixedSize(76,53);
     m_equal->setText("=");
+    QFont font;
+    font.setPixelSize(30);
+    m_equal->setFont(font);
     m_layout->addWidget(m_equal,5,3);
 }
 
