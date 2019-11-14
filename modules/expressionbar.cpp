@@ -461,7 +461,7 @@ void ExpressionBar::copyResultToClipboard()
         return;
     //QApplication::clipboard()->setText(m_inputEdit->lineEdit()->selectedText());
 
-    const QString expression = formatExpression(m_inputEdit->expressionText());
+    const QString expression = formatExpression(m_inputEdit->text());
     m_evaluator->setExpression(expression);
     Quantity ans = m_evaluator->evalUpdateAns();
 
