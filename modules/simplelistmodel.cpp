@@ -59,9 +59,9 @@ void SimpleListModel::appendText(const QString &text)
 {
     const QString expression = QString(text).simplified();
 
-    if (m_expressionList.contains(expression)) {
+    /*if (m_expressionList.contains(expression)) {
         m_expressionList.removeOne(expression);
-    }
+    }*/
 
     const int size = m_expressionList.size();
 
