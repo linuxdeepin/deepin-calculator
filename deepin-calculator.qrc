@@ -14,9 +14,6 @@
         <file>images/min_normal.svg</file>
         <file>images/mult_normal.svg</file>
         <file>images/div_normal.svg</file>
-        <file>images/light/÷_hover.svg</file>
-        <file>images/light/÷_normal.svg</file>
-        <file>images/light/÷_press.svg</file>
         <file>images/light/( )_hover.svg</file>
         <file>images/light/( )_normal.svg</file>
         <file>images/light/( )_press.svg</file>
@@ -47,9 +44,6 @@
         <file>images/dark/+_hover.svg</file>
         <file>images/dark/+_normal.svg</file>
         <file>images/dark/+_press.svg</file>
-        <file>images/dark/÷_hover.svg</file>
-        <file>images/dark/÷_normal.svg</file>
-        <file>images/dark/÷_press.svg</file>
         <file>images/dark/AC_hover.svg</file>
         <file>images/dark/AC_normal.svg</file>
         <file>images/dark/AC_press.svg</file>
@@ -59,5 +53,11 @@
         <file>images/dark/x_hover.svg</file>
         <file>images/dark/x_normal.svg</file>
         <file>images/dark/x_press.svg</file>
+        <file>images/light/divide_hover.svg</file>
+        <file>images/light/divide_normal.svg</file>
+        <file>images/light/divide_press.svg</file>
+        <file>images/dark/divide_hover.svg</file>
+        <file>images/dark/divide_normal.svg</file>
+        <file>images/dark/divide_press.svg</file>
     </qresource>
 </RCC>
