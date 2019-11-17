@@ -14,5 +14,23 @@
         <file>images/min_normal.svg</file>
         <file>images/mult_normal.svg</file>
         <file>images/div_normal.svg</file>
+        <file>images/light/÷_hover.svg</file>
+        <file>images/light/÷_normal.svg</file>
+        <file>images/light/÷_press.svg</file>
+        <file>images/light/( )_hover.svg</file>
+        <file>images/light/( )_normal.svg</file>
+        <file>images/light/( )_press.svg</file>
+        <file>images/light/-_hover.svg</file>
+        <file>images/light/-_normal.svg</file>
+        <file>images/light/-_press.svg</file>
+        <file>images/light/%_hover.svg</file>
+        <file>images/light/%_normal.svg</file>
+        <file>images/light/%_press.svg</file>
+        <file>images/light/clear_hover.svg</file>
+        <file>images/light/clear_normal.svg</file>
+        <file>images/light/clear_press.svg</file>
+        <file>images/light/+_hover.svg</file>
+        <file>images/light/+_normal.svg</file>
+        <file>images/light/+_press.svg</file>
     </qresource>
 </RCC>
