@@ -302,6 +302,8 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     }
     if (lineFocus)
         m_expressionBar->getInputEdit()->lineEdit()->setFocus();
+    else
+        setFocus();
 }
 
 void BasicModule::handleKeypadButtonPress(int key)
