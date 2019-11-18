@@ -292,6 +292,7 @@ void ExpressionBar::enterEqualEvent()
     if (m_inputEdit->text().isEmpty())
         return;
 
+    m_isContinue = false;
     if (m_hisRevision == -1) {
         const QString expression = formatExpression(m_inputEdit->expressionText());
         m_evaluator->setExpression(expression);
@@ -317,7 +318,6 @@ void ExpressionBar::enterEqualEvent()
             m_listModel->updataList(m_inputEdit->text() + "＝" + formatResult, m_hisRevision);
             m_inputEdit->setAnswer(formatResult, ans);
             newResult = formatResult;
-            m_isContinue = false;
         }
     } else {
         m_listModel->updataList(m_inputEdit->text() + "＝" + tr("Expression Error"), m_hisRevision);

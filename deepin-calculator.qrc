@@ -32,5 +32,32 @@
         <file>images/light/+_hover.svg</file>
         <file>images/light/+_normal.svg</file>
         <file>images/light/+_press.svg</file>
+        <file>images/light/x_hover.svg</file>
+        <file>images/light/x_normal.svg</file>
+        <file>images/light/x_press.svg</file>
+        <file>images/dark/%_hover.svg</file>
+        <file>images/dark/-_hover.svg</file>
+        <file>images/dark/-_normal.svg</file>
+        <file>images/dark/-_press.svg</file>
+        <file>images/dark/( )_hover.svg</file>
+        <file>images/dark/( )_normal.svg</file>
+        <file>images/dark/( )_press.svg</file>
+        <file>images/dark/%_normal.svg</file>
+        <file>images/dark/%_press.svg</file>
+        <file>images/dark/+_hover.svg</file>
+        <file>images/dark/+_normal.svg</file>
+        <file>images/dark/+_press.svg</file>
+        <file>images/dark/÷_hover.svg</file>
+        <file>images/dark/÷_normal.svg</file>
+        <file>images/dark/÷_press.svg</file>
+        <file>images/dark/AC_hover.svg</file>
+        <file>images/dark/AC_normal.svg</file>
+        <file>images/dark/AC_press.svg</file>
+        <file>images/dark/clear_hover.svg</file>
+        <file>images/dark/clear_normal.svg</file>
+        <file>images/dark/clear_press.svg</file>
+        <file>images/dark/x_hover.svg</file>
+        <file>images/dark/x_normal.svg</file>
+        <file>images/dark/x_press.svg</file>
     </qresource>
 </RCC>
