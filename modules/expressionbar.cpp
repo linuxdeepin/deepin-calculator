@@ -309,8 +309,8 @@ void ExpressionBar::enterEqualEvent()
         const QString result = DMath::format(ans, Quantity::Format::Fixed());
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = formatResult.replace(QString::fromUtf8("＋"), "+").replace(QString::fromUtf8("－"), "-")
-                                   .replace(QString::fromUtf8("×"), "*").replace(QString::fromUtf8("÷"), "/")
-                                   .replace(QString::fromUtf8(","), "");
+                                   .replace(QString::fromUtf8("×"), "*").replace(QString::fromUtf8("÷"), "/");
+                                   //.replace(QString::fromUtf8(","), "");
 
         QString tStr = m_inputEdit->text().replace(QString::fromUtf8(","), "");
         if (formatResult != tStr) {
