@@ -294,7 +294,8 @@ void ExpressionBar::enterEqualEvent()
 
     m_isContinue = false;
     if (m_hisRevision == -1) {
-        const QString expression = formatExpression(m_inputEdit->expressionText());
+        //const QString expression = formatExpression(m_inputEdit->expressionText());
+        const QString expression = formatExpression(m_inputEdit->text());
         m_evaluator->setExpression(expression);
     } else {
         const QString expression = formatExpression(m_inputEdit->text());
