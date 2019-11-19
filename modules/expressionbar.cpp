@@ -82,7 +82,7 @@ void ExpressionBar::enterNumberEvent(const QString &text)
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->lineEdit()->cursorPosition();
     if (curpos != 0) {
-        if (exp.at(curpos - 1) == ")" )
+        if (exp.at(curpos - 1) == "%" )
             return;
     }
     if (m_inputNumber && m_hisRevision == -1) {
