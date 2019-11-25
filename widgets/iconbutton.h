@@ -22,10 +22,14 @@
 
 #include "textbutton.h"
 
+#include <QPaintEvent>
+
 #include <DLabel>
 #include <DSvgRenderer>
+#include <DGuiApplicationHelper>
 
 DWIDGET_USE_NAMESPACE
+DGUI_USE_NAMESPACE
 
 class IconButton : public TextButton
 {
@@ -36,12 +40,14 @@ public:
     ~IconButton();
 
     void setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName);
+    void animate(int msec = 100);
 
 protected:
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
+    void paintEvent(QPaintEvent*);
 
 private:
     //void setIconSize(const int &size);
@@ -51,6 +57,7 @@ private:
 
     int m_normalSize;
     int m_hoverSize;
+    QPixmap m_pixmap;
     QString m_normalUrl;
     QString m_hoverUrl;
     QString m_pressUrl;

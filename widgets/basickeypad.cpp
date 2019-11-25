@@ -112,8 +112,14 @@ DSuggestButton *BasicKeypad::button()
 
 void BasicKeypad::animate(Buttons key)
 {
-    TextButton *btn = static_cast<TextButton *>(button(key));
-    btn->animate();
+    if (button(key)->text().isEmpty()) {
+        IconButton *btn = static_cast<IconButton *>(button(key));
+        btn->animate();
+    } else {
+        TextButton *btn = static_cast<TextButton *>(button(key));
+        btn->animate();
+    }
+
 }
 
 void BasicKeypad::animate()
@@ -177,7 +183,7 @@ void BasicKeypad::initUI()
 
 void BasicKeypad::buttonThemeChanged(int type)
 {
-    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+    /*QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
     QString path;
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
@@ -204,7 +210,8 @@ void BasicKeypad::buttonThemeChanged(int type)
             pa.setColor(DPalette::AlternateBase, QColor(255,255,255));
             i.value().first->setPalette(pa);
         }
-    }
+    }*/
+    QString path;
     if (type == 2)
         path = QString(":/images/%1/").arg("dark");
     else

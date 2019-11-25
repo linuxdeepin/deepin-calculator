@@ -46,11 +46,14 @@ public:
     void mouseReleaseEvent(QMouseEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
-    //void paintEvent(QPaintEvent *e);
+    void paintEvent(QPaintEvent *e);
 private:
     //QGraphicsDropShadowEffect *m_effect;
 
     DPalette m_palette;
+    bool m_isHover;
+    bool m_isPress;
+    QFont m_font;
 };
 
 #endif

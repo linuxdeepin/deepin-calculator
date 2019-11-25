@@ -34,9 +34,8 @@ TextButton::TextButton(const QString &text, QWidget *parent)
     setObjectName("TextButton");
 
     init();
-    //hideShadow();
-
     //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &TextButton::init);
+    m_isHover = m_isPress = false;
 }
 
 TextButton::~TextButton()
@@ -46,12 +45,9 @@ TextButton::~TextButton()
 
 void TextButton::init()
 {
-    QFont font;
-    font.setPixelSize(18);
-    this->setFont(font);
-    DPalette pl = this->palette();
-    pl.setColor(DPalette::ButtonText, Qt::black);
-    this->setPalette(pl);
+    m_font.setPixelSize(18);
+    m_font.setFamily("HelveticaNeue");
+    m_font.setStyleName("Light");
 }
 
 /*void TextButton::showShadow()
@@ -68,8 +64,9 @@ void TextButton::hideShadow()
 void TextButton::animate(int msec)
 {
     setDown(true);
+    m_isPress = true;
 
-    QTimer::singleShot(msec, this, [=] { setDown(false); });
+    QTimer::singleShot(msec, this, [=] { setDown(false); m_isPress = false;});
 }
 
 void TextButton::mousePressEvent(QMouseEvent *e)
@@ -95,46 +92,118 @@ void TextButton::mousePressEvent(QMouseEvent *e)
         pa.setColor(DPalette::ButtonText, QColor(0,129,255,255));
         this->setPalette(pa);
     }
+    m_isPress = true;
     DPushButton::mousePressEvent(e);
 }
 
 void TextButton::mouseReleaseEvent(QMouseEvent *e)
 {
-    /*int type = DGuiApplicationHelper::instance()->paletteType();
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
-    if (type == 1) {
-        DPalette pa = this->palette();
-        pa.setColor(DPalette::Light, Qt::white);
-        pa.setColor(DPalette::Dark, Qt::white);
-        pa.setColor(DPalette::ButtonText, Qt::black);
-        this->setPalette(pa);
-    }
-    else {
-        DPalette pa = this->palette();
-        pa.setColor(DPalette::Light, QColor(48,48,48));
-        pa.setColor(DPalette::Dark, QColor(48,48,48));
-        pa.setColor(DPalette::ButtonText, QColor(224,224,224));
-        this->setPalette(pa);
-    }*/
     if (e->button() == Qt::RightButton)
         return;
     this->setPalette(m_palette);
+    m_isPress = false;
     DPushButton::mouseReleaseEvent(e);
 }
 
 void TextButton::enterEvent(QEvent *e)
 {
-    QFont font = this->font();
-    font.setPixelSize(20);
-    this->setFont(font);
+    m_font.setPixelSize(20);
+    m_font.setStyleName("");
+    m_isHover = true;
     DPushButton::enterEvent(e);
 }
 
 void TextButton::leaveEvent(QEvent *e)
 {
-    QFont font = this->font();
-    font.setPixelSize(18);
-    this->setFont(font);
+    m_font.setPixelSize(18);
+    m_font.setStyleName("Light");
+    m_isHover = false;
     DPushButton::leaveEvent(e);
+}
+
+void TextButton::paintEvent(QPaintEvent *e)
+{
+    QRectF rect = this->rect();
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+    painter.setFont(m_font);
+    QRectF textRect = painter.fontMetrics().boundingRect(this->text());
+    textRect.moveCenter(rect.center());
+    //QRectF textRect(QPointF((rect.width()/2)-(textR.width()/2),(rect.height()/2)-(textR.height()/2)),textR.width(),textR.height());
+    QColor pressBrush,focus,hoverFrame,base,text;
+    QColor pressText = QColor(0,129,255);
+    int type = DGuiApplicationHelper::instance()->paletteType();
+    if (type == 0)
+        type = DGuiApplicationHelper::instance()->themeType();
+    if (type == 1) {
+        pressBrush = QColor(0,0,0,0.1*255);
+        focus = QColor(0,129,255);
+        hoverFrame = QColor(167,224,255);
+        base = Qt::white;
+        text = Qt::black;
+    } else {
+        pressBrush = QColor(0,0,0,0.5*255);
+        focus = QColor(0,79,156);
+        hoverFrame = QColor(0,79,156,0.5*255);
+        base = QColor(48,48,48);
+        if (m_isHover)
+            text = Qt::white;
+        else
+            text = QColor(224,224,224);
+    }
+    if (hasFocus()) {
+        painter.setPen(Qt::NoPen);
+        if (m_isPress) {
+            painter.setBrush(QBrush(pressBrush));
+            painter.drawRoundRect(rect,30,40);
+            QPen pen;
+            pen.setColor(pressText);
+            painter.setPen(pen);
+            painter.setFont(m_font);
+            painter.drawText(textRect, this->text());
+        } else {
+            painter.setBrush(QBrush(base));
+            painter.drawRoundRect(rect,30,40);
+            QPen pen;
+            pen.setColor(focus);
+            pen.setWidth(2);
+            painter.setPen(pen);
+            painter.setBrush(Qt::NoBrush);
+            painter.drawRoundRect(rect,30,40);
+            pen.setColor(text);
+            painter.setPen(pen);
+            painter.setFont(m_font);
+            painter.drawText(textRect, this->text());
+        }
+    } else {
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(QBrush(base));
+        if (m_isHover) {
+            painter.drawRoundRect(rect,30,40);
+            painter.setPen(QPen(hoverFrame));
+            painter.setBrush(Qt::NoBrush);
+            painter.drawRoundRect(rect,30,40);
+            QPen pen;
+            pen.setColor(text);
+            painter.setPen(pen);
+            painter.setFont(m_font);
+            painter.drawText(textRect, this->text());
+        } else if (m_isPress) {
+            painter.setBrush(QBrush(pressBrush));
+            painter.drawRoundRect(rect,30,40);
+            QPen pen;
+            pen.setColor(pressText);
+            painter.setPen(pen);
+            painter.setFont(m_font);
+            painter.drawText(textRect, this->text());
+        } else {
+            painter.drawRoundRect(rect,30,40);
+            QPen pen;
+            pen.setColor(text);
+            painter.setPen(pen);
+            painter.setFont(m_font);
+            painter.drawText(textRect, this->text());
+        }
+    }
 }

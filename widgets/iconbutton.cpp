@@ -19,8 +19,8 @@
 
 #include "iconbutton.h"
 #include <QGridLayout>
-
 #include <QDebug>
+#include <QTimer>
 
 IconButton::IconButton(QWidget *parent)
     : TextButton("", parent),
@@ -44,17 +44,27 @@ void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverF
     m_pressUrl = pressFileName;
 
     QPixmap pix(m_normalUrl);
-    pix = pix.scaled(600,600);
-    pix.setDevicePixelRatio(devicePixelRatioF());
-    setIcon(QIcon(pix));
+    m_pixmap = pix;
+    m_pixmap.setDevicePixelRatio(devicePixelRatioF());
+    setIcon(QIcon(m_pixmap));
     setIconSize(QSize(30,30));
+}
+
+void IconButton::animate(int msec)
+{
+    setDown(true);
+    QPixmap pixmap(m_pressUrl);
+    m_pixmap = pixmap;
+
+    QTimer::singleShot(msec, this, [=] { setDown(false); QPixmap pixmap(m_normalUrl);m_pixmap = pixmap;});
 }
 
 void IconButton::mousePressEvent(QMouseEvent *e)
 {
     QPixmap pixmap(m_pressUrl);
-    pixmap.setDevicePixelRatio(devicePixelRatioF());
-    DPushButton::setIcon(QIcon(pixmap));
+    m_pixmap = pixmap;
+    //pixmap.setDevicePixelRatio(devicePixelRatioF());
+    //DPushButton::setIcon(QIcon(pixmap));
 
     TextButton::mousePressEvent(e);
 }
@@ -62,8 +72,9 @@ void IconButton::mousePressEvent(QMouseEvent *e)
 void IconButton::mouseReleaseEvent(QMouseEvent *e)
 {
     QPixmap pixmap(m_normalUrl);
-    pixmap.setDevicePixelRatio(devicePixelRatioF());
-    DPushButton::setIcon(QIcon(pixmap));
+    m_pixmap = pixmap;
+    //pixmap.setDevicePixelRatio(devicePixelRatioF());
+    //DPushButton::setIcon(QIcon(pixmap));
 
     TextButton::mouseReleaseEvent(e);
 }
@@ -71,8 +82,9 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
 void IconButton::enterEvent(QEvent *e)
 {
     QPixmap pixmap(m_hoverUrl);
-    pixmap.setDevicePixelRatio(devicePixelRatioF());
-    DPushButton::setIcon(QIcon(pixmap));
+    m_pixmap = pixmap;
+    //pixmap.setDevicePixelRatio(devicePixelRatioF());
+    //DPushButton::setIcon(QIcon(pixmap));
 
     TextButton::enterEvent(e);
 }
@@ -80,10 +92,59 @@ void IconButton::enterEvent(QEvent *e)
 void IconButton::leaveEvent(QEvent *e)
 {
     QPixmap pixmap(m_normalUrl);
-    pixmap.setDevicePixelRatio(devicePixelRatioF());
-    DPushButton::setIcon(QIcon(pixmap));
+    m_pixmap = pixmap;
+    //pixmap.setDevicePixelRatio(devicePixelRatioF());
+    //DPushButton::setIcon(QIcon(pixmap));
 
     TextButton::leaveEvent(e);
+}
+
+void IconButton::paintEvent(QPaintEvent *)
+{
+    QRectF rect = this->rect();
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+    m_pixmap.setDevicePixelRatio(devicePixelRatioF());
+    QRectF pixRect = m_pixmap.rect();
+    pixRect.moveCenter(rect.center());
+    QColor pressBrush,focus,hoverFrame,base;
+    int type = DGuiApplicationHelper::instance()->paletteType();
+    if (type == 0)
+        type = DGuiApplicationHelper::instance()->themeType();
+    if (type == 1) {
+        pressBrush = QColor(0,0,0,0.1*255);
+        focus = QColor(0,129,255);
+        hoverFrame = QColor(167,224,255);
+        base = Qt::white;
+    } else {
+        pressBrush = QColor(0,0,0,0.5*255);
+        focus = QColor(0,79,156);
+        hoverFrame = QColor(0,79,156,0.5*255);
+        base = QColor(48,48,48);
+    }
+    if (hasFocus()) {
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(QBrush(base));
+        painter.drawRoundRect(rect,30,40);
+        QPen pen;
+        pen.setColor(focus);
+        pen.setWidth(2);
+        painter.setPen(pen);
+        painter.setBrush(Qt::NoBrush);
+        painter.drawRoundRect(rect,30,40);
+    } /*else if (m_isPress) {
+        painter.setBrush(QBrush(pressBrush));
+        painter.drawRoundRect(rect,30,40);
+    }*/ else {
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(QBrush(base));
+        painter.drawRoundRect(rect,30,40);
+        //painter.setPen(QPen(hoverFrame));
+        //painter.setBrush(Qt::NoBrush);
+        //painter.drawRoundRect(rect,30,40);
+    }
+    painter.drawPixmap(pixRect.topLeft(),m_pixmap);
 }
 
 /*void IconButton::setIconSize(const int &size)
