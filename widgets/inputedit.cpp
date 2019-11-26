@@ -137,6 +137,11 @@ void InputEdit::initAction()
 
     connect(m_undo, &QAction::triggered, this, &InputEdit::undo);
     connect(m_redo, &QAction::triggered, this, &InputEdit::redo);
+    connect(m_cut, &QAction::triggered, this, &InputEdit::cut);
+    connect(m_copy, &QAction::triggered, this, &InputEdit::copy);
+    connect(m_paste, &QAction::triggered, this, &InputEdit::paste);
+    connect(m_delete, &QAction::triggered, this, &InputEdit::deleteText);
+    connect(m_select, &QAction::triggered, this, &InputEdit::selectAll);
 
     m_undo->setEnabled(false);
     m_redo->setEnabled(false);

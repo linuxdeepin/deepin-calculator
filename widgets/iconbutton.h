@@ -53,7 +53,7 @@ private:
     //void setIconSize(const int &size);
 
     DLabel *m_iconWidget;
-    //DSvgRenderer *m_iconRenderer;
+    DSvgRenderer *m_iconRenderer;
 
     int m_normalSize;
     int m_hoverSize;

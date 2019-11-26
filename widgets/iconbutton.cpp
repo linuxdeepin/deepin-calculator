@@ -24,8 +24,8 @@
 
 IconButton::IconButton(QWidget *parent)
     : TextButton("", parent),
-      m_iconWidget(new DLabel)
-      //m_iconRenderer(new DSvgRenderer)
+      m_iconWidget(new DLabel),
+      m_iconRenderer(new DSvgRenderer)
 {
     QGridLayout *layout = new QGridLayout(this);
     layout->addWidget(m_iconWidget,0,Qt::AlignCenter);
@@ -43,16 +43,17 @@ void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverF
     m_hoverUrl = hoverFileName;
     m_pressUrl = pressFileName;
 
+    m_iconRenderer->load(m_normalUrl);
     QPixmap pix(m_normalUrl);
     m_pixmap = pix;
-    m_pixmap.setDevicePixelRatio(devicePixelRatioF());
-    setIcon(QIcon(m_pixmap));
-    setIconSize(QSize(30,30));
+    //setIcon(QIcon(m_pixmap));
+    //setIconSize(QSize(30,30)*devicePixelRatioF());
 }
 
 void IconButton::animate(int msec)
 {
     setDown(true);
+    m_iconRenderer->load(m_pressUrl);
     QPixmap pixmap(m_pressUrl);
     m_pixmap = pixmap;
 
@@ -61,6 +62,7 @@ void IconButton::animate(int msec)
 
 void IconButton::mousePressEvent(QMouseEvent *e)
 {
+    m_iconRenderer->load(m_pressUrl);
     QPixmap pixmap(m_pressUrl);
     m_pixmap = pixmap;
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
@@ -71,6 +73,7 @@ void IconButton::mousePressEvent(QMouseEvent *e)
 
 void IconButton::mouseReleaseEvent(QMouseEvent *e)
 {
+    m_iconRenderer->load(m_normalUrl);
     QPixmap pixmap(m_normalUrl);
     m_pixmap = pixmap;
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
@@ -81,6 +84,7 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
 
 void IconButton::enterEvent(QEvent *e)
 {
+    m_iconRenderer->load(m_hoverUrl);
     QPixmap pixmap(m_hoverUrl);
     m_pixmap = pixmap;
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
@@ -91,6 +95,7 @@ void IconButton::enterEvent(QEvent *e)
 
 void IconButton::leaveEvent(QEvent *e)
 {
+    m_iconRenderer->load(m_normalUrl);
     QPixmap pixmap(m_normalUrl);
     m_pixmap = pixmap;
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
@@ -105,7 +110,7 @@ void IconButton::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-    m_pixmap.setDevicePixelRatio(devicePixelRatioF());
+    //m_pixmap = m_pixmap.scaled(m_pixmap.size() * devicePixelRatioF());
     QRectF pixRect = m_pixmap.rect();
     pixRect.moveCenter(rect.center());
     QColor pressBrush,focus,hoverFrame,base;
@@ -144,7 +149,8 @@ void IconButton::paintEvent(QPaintEvent *)
         //painter.setBrush(Qt::NoBrush);
         //painter.drawRoundRect(rect,30,40);
     }
-    painter.drawPixmap(pixRect.topLeft(),m_pixmap);
+    //painter.drawPixmap(pixRect.topLeft(),m_pixmap);
+    m_iconRenderer->render(&painter,pixRect);
 }
 
 /*void IconButton::setIconSize(const int &size)
