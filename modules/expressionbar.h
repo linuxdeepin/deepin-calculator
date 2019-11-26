@@ -94,6 +94,7 @@ public slots:
     void addUndo();
     void Redo();
     void initTheme(int type);
+    void getSelection();
     DLineEdit *getInputEdit();
 
 private slots:
@@ -109,6 +110,7 @@ private:
     void judgeLinkageAgain();
     void initConnect();
     QString symbolComplement(const QString exp);
+    QString pasteFaultTolerance(QString exp);
 
 private:
     Evaluator *m_evaluator;

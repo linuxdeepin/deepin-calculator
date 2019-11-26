@@ -75,12 +75,6 @@ void ExpressionBar::enterNumberEvent(const QString &text)
 {
     if (m_isLinked)
         clearLinkageCache();
-    QString exp = m_inputEdit->text();
-    int curpos = m_inputEdit->lineEdit()->cursorPosition();
-    if (curpos != 0) {
-        //if (exp.at(curpos - 1) == "%" )
-        //    return;
-    }
     if (m_inputNumber && m_hisRevision == -1) {
         m_inputEdit->clear();
         m_isResult = false;
@@ -207,9 +201,15 @@ void ExpressionBar::enterBackspaceEvent()
     if (m_isResult)
         clearLinkageCache();
     m_inputEdit->lineEdit()->backspace();
+    if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
+        emit clearStateChanged(true);
+        m_isAllClear = true;
+    } else {
+        emit clearStateChanged(false);
+        m_isAllClear = false;
+    }
 
     m_isContinue = true;
-    m_isAllClear = false;
 }
 
 void ExpressionBar::enterClearEvent()
@@ -237,6 +237,7 @@ void ExpressionBar::enterClearEvent()
     }
     m_isResult = false;
     m_Selected = -1;
+    addUndo();
 }
 
 void ExpressionBar::enterEqualEvent()
@@ -322,6 +323,7 @@ void ExpressionBar::enterEqualEvent()
             m_inputEdit->setAnswer(formatResult, ans);
             newResult = formatResult;
         }
+        m_isContinue = false;
     } else {
         m_listModel->updataList(m_inputEdit->text() + "＝" + tr("Expression error"), m_hisRevision);
         if (m_hisRevision == -1)
@@ -334,10 +336,10 @@ void ExpressionBar::enterEqualEvent()
                     m_hisLink.removeAt(i);
                     --i;
                 }
+            }
         }
     }
-    }
-    m_isContinue = false;
+
     if (m_isLinked) {
         if (m_hisRevision == -1) {
             m_isLinked = false;
@@ -504,6 +506,7 @@ void ExpressionBar::copyClipboard2Result()
 {
     QString text = QApplication::clipboard()->text();
     text.remove("e");
+    text = pasteFaultTolerance(text);
     m_inputEdit->lineEdit()->insert(text);
     clearLinkageCache();
     if (!m_inputEdit->text().isEmpty())
@@ -757,18 +760,39 @@ QString ExpressionBar::symbolComplement(const QString exp)
     return text;
 }
 
+QString ExpressionBar::pasteFaultTolerance(QString exp)
+{
+    for(int i = 0;i < exp.size();++i) {
+        if (i == 0 || !exp[i-1].isNumber()) {
+            if (exp[i] == ".") {
+                exp.prepend("0");
+                ++i;
+            }
+        }
+        if (exp[i] == "0" && (i == 0 || !exp[i-1].isNumber()) && exp[i+1] != ".") {
+            exp.remove(i,1);
+            --i;
+        }
+    }
+    return exp;
+}
+
 void ExpressionBar::Undo()
 {
     if (m_undo.isEmpty())
         return;
+    clearLinkageCache();
     m_redo.append(m_undo.last());
     m_inputEdit->setRedoAction(true);
     m_undo.removeLast();
-    if (!m_undo.isEmpty())
+    if (!m_undo.isEmpty()) {
         m_inputEdit->setText(m_undo.last());
+        emit clearStateChanged(false);
+    }
     else {
         m_inputEdit->clear();
         m_inputEdit->setUndoAction(false);
+        emit clearStateChanged(true);
     }
 }
 
@@ -785,6 +809,7 @@ void ExpressionBar::Redo()
 {
     if (m_redo.isEmpty())
         return;
+    clearLinkageCache();
     m_inputEdit->setText(m_redo.last());
     m_undo.append(m_inputEdit->text());
     m_redo.removeLast();
@@ -795,6 +820,17 @@ void ExpressionBar::Redo()
 void ExpressionBar::initTheme(int type)
 {
     m_listDelegate->setThemeType(type);
+}
+
+void ExpressionBar::getSelection()
+{
+    if (!m_inputEdit->lineEdit()->selectedText().isEmpty()) {
+        int start = m_inputEdit->lineEdit()->selectionStart();
+        QString exp = m_inputEdit->lineEdit()->text();
+        exp = exp.remove(start,m_inputEdit->lineEdit()->selectionLength());
+        m_inputEdit->setText(exp);
+        m_inputEdit->lineEdit()->setCursorPosition(start);
+    }
 }
 
 bool ExpressionBar::cancelLink(int index)

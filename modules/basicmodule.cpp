@@ -282,8 +282,9 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         m_expressionBar->addUndo();
         break;
     case Qt::Key_Delete:
-        m_expressionBar->enterDeleteEvent();
-        m_expressionBar->addUndo();
+        m_expressionBar->enterClearEvent();
+        //m_expressionBar->enterDeleteEvent();
+        //m_expressionBar->addUndo();
         break;
     case Qt::Key_Left:
         m_expressionBar->moveLeft();
