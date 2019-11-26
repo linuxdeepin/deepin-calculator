@@ -106,7 +106,8 @@ void IconButton::leaveEvent(QEvent *e)
 
 void IconButton::paintEvent(QPaintEvent *)
 {
-    QRectF rect = this->rect();
+    QRectF frameRect = this->rect();
+    QRectF rect(frameRect.left() + 2,frameRect.top() + 2,frameRect.width() - 4,frameRect.height() - 4);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true);

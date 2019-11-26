@@ -24,9 +24,10 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <QStringList>
-#include <QMenu>
 #include <QApplication>
 #include <QClipboard>
+
+#include <DMenu>
 
 InputEdit::InputEdit(QWidget *parent)
     : DLineEdit(parent),
@@ -479,7 +480,7 @@ void InputEdit::multipleArithmetic(QString &text)
 
 void InputEdit::showTextEditMenu(QPoint p)
 {
-    QMenu *menu = new QMenu(this->lineEdit());
+    DMenu *menu = new DMenu(this->lineEdit());
     menu->addAction(m_undo);
     menu->addAction(m_redo);
     menu->addAction(m_cut);
