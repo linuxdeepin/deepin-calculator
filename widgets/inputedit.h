@@ -39,15 +39,28 @@ public:
     void setAnswer(const QString &str, const Quantity &ans);
     void clear();
 
+public slots:
+    void setUndoAction(bool state);
+    void setRedoAction(bool state);
+
 Q_SIGNALS:
     void keyPress(QKeyEvent *);
     void equal();
+    void undo();
+    void redo();
+    void paste();
+    void copy();
+    void cut();
+    void selectAll();
+    void deleteText();
 
 protected:
     void keyPressEvent(QKeyEvent *);
     void mouseDoubleClickEvent(QMouseEvent *);
 
 private slots:
+    void initAction();
+    void updateAction();
     bool isSymbolCategoryChanged(int pos1, int pos2);
     int findWordBeginPosition(int pos);
     int findWordEndPosition(int pos);
@@ -60,6 +73,7 @@ private slots:
     bool isSymbol(const QString &text);
     bool eventFilter(QObject *watched, QEvent *event);
     void multipleArithmetic(QString &text);
+    void showTextEditMenu(QPoint p);
 
 private:
     Quantity m_ans;
@@ -68,8 +82,15 @@ private:
     bool m_ansVaild;
     bool m_currentInAns;
     bool m_currentOnAnsLeft;
-
     QString m_oldText;
+
+    QAction* m_undo;
+    QAction* m_redo;
+    QAction* m_cut;
+    QAction* m_copy;
+    QAction* m_paste;
+    QAction* m_delete;
+    QAction* m_select;
 };
 
 #endif

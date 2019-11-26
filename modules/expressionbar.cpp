@@ -64,6 +64,13 @@ ExpressionBar::ExpressionBar(QWidget *parent)
     connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionBar::handleTextChanged);
     connect(m_inputEdit, &InputEdit::keyPress, this, &ExpressionBar::keyPress);
     connect(m_inputEdit, &InputEdit::equal, this, &ExpressionBar::enterEqualEvent);
+    connect(m_inputEdit, &InputEdit::cut, this, &ExpressionBar::shear);
+    connect(m_inputEdit, &InputEdit::copy, this, &ExpressionBar::copyResultToClipboard);
+    connect(m_inputEdit, &InputEdit::paste, this, &ExpressionBar::copyClipboard2Result);
+    connect(m_inputEdit, &InputEdit::deleteText, this, &ExpressionBar::enterClearEvent);
+    connect(m_inputEdit, &InputEdit::selectAll, this, &ExpressionBar::allElection);
+    connect(m_inputEdit, &InputEdit::undo, this, &ExpressionBar::Undo);
+    connect(m_inputEdit, &InputEdit::redo, this, &ExpressionBar::Redo);
 }
 
 ExpressionBar::~ExpressionBar()
@@ -709,11 +716,14 @@ void ExpressionBar::Undo()
     if (m_undo.isEmpty())
         return;
     m_redo.append(m_undo.last());
+    m_inputEdit->setRedoAction(true);
     m_undo.removeLast();
     if (!m_undo.isEmpty())
         m_inputEdit->setText(m_undo.last());
-    else
+    else {
         m_inputEdit->clear();
+        m_inputEdit->setUndoAction(false);
+    }
 }
 
 void ExpressionBar::addUndo()
@@ -722,6 +732,7 @@ void ExpressionBar::addUndo()
         return;
     m_undo.append(m_inputEdit->text());
     m_redo.clear();
+    m_inputEdit->setUndoAction(true);
 }
 
 void ExpressionBar::Redo()
@@ -731,6 +742,8 @@ void ExpressionBar::Redo()
     m_inputEdit->setText(m_redo.last());
     m_undo.append(m_inputEdit->text());
     m_redo.removeLast();
+    if (m_redo.isEmpty())
+        m_inputEdit->setRedoAction(false);
 }
 
 void ExpressionBar::initTheme(int type)

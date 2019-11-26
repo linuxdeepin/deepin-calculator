@@ -24,6 +24,9 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <QStringList>
+#include <QMenu>
+#include <QApplication>
+#include <QClipboard>
 
 InputEdit::InputEdit(QWidget *parent)
     : DLineEdit(parent),
@@ -39,17 +42,20 @@ InputEdit::InputEdit(QWidget *parent)
     setAttribute(Qt::WA_TranslucentBackground);
     setFocusPolicy(Qt::StrongFocus);
     autoZoomFontSize();
+    initAction();
+
+    this->lineEdit()->setFrame(false);
+    this->lineEdit()->setClearButtonEnabled(false);
+    this->lineEdit()->setContextMenuPolicy(Qt::CustomContextMenu);
 
     connect(this->lineEdit(), &QLineEdit::textChanged, this, &InputEdit::handleTextChanged);
     connect(this->lineEdit(), &QLineEdit::cursorPositionChanged, this, &InputEdit::handleCursorPositionChanged);
+    connect(this->lineEdit(), &QLineEdit::customContextMenuRequested, this, &InputEdit::showTextEditMenu);
     connect(this->lineEdit(), &QLineEdit::selectionChanged,
             [=] {
                 int pos = this->lineEdit()->cursorPosition();
                 this->lineEdit()->cursorPositionChanged(pos, pos);
             });
-    this->lineEdit()->setFrame(false);
-    this->lineEdit()->setClearButtonEnabled(false);
-    //this->lineEdit()->setContextMenuPolicy(Qt::NoContextMenu);
 
     DPalette pl = this->lineEdit()->palette();
     //pl.setColor(DPalette::Text,QColor(48,48,48));
@@ -91,6 +97,16 @@ void InputEdit::clear()
     setText("");
 }
 
+void InputEdit::setUndoAction(bool state)
+{
+    m_undo->setEnabled(state);
+}
+
+void InputEdit::setRedoAction(bool state)
+{
+    m_redo->setEnabled(state);
+}
+
 void InputEdit::keyPressEvent(QKeyEvent *e)
 {
     Q_EMIT keyPress(e);
@@ -107,6 +123,42 @@ void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
         int posEnd = findWordEndPosition(position);
         this->lineEdit()->setSelection(posBegin, posEnd - posBegin + 1);
     }*/
+}
+
+void InputEdit::initAction()
+{
+    m_undo = new QAction(tr("&Undo"));
+    m_redo = new QAction(tr("&Redo"));
+    m_cut = new QAction(tr("Cu&t"));
+    m_copy = new QAction(tr("&Copy"));
+    m_paste = new QAction(tr("&Paste"));
+    m_delete = new QAction(tr("delete"));
+    m_select = new QAction(tr("Select All"));
+
+    connect(m_undo, &QAction::triggered, this, &InputEdit::undo);
+    connect(m_redo, &QAction::triggered, this, &InputEdit::redo);
+
+    m_undo->setEnabled(false);
+    m_redo->setEnabled(false);
+    m_cut->setEnabled(false);
+    m_copy->setEnabled(false);
+    m_delete->setEnabled(false);
+    m_select->setEnabled(false);
+}
+
+void InputEdit::updateAction()
+{
+    if (this->lineEdit()->text().isEmpty()) {
+        m_select->setEnabled(false);
+        m_delete->setEnabled(false);
+        m_copy->setEnabled(false);
+        m_cut->setEnabled(false);
+    } else {
+        m_select->setEnabled(true);
+        m_delete->setEnabled(true);
+        m_copy->setEnabled(true);
+        m_cut->setEnabled(true);
+    }
 }
 
 bool InputEdit::isSymbolCategoryChanged(int pos1, int pos2)
@@ -239,6 +291,7 @@ void InputEdit::handleTextChanged(const QString &text)
     this->lineEdit()->setCursorPosition(oldPosition + (newLength - oldLength));
 
     autoZoomFontSize();
+    updateAction();
 }
 
 QString InputEdit::pointFaultTolerance(const QString &text)
@@ -417,4 +470,26 @@ void InputEdit::multipleArithmetic(QString &text)
                 text.replace(index,1,"×");
         }
     }
+}
+
+void InputEdit::showTextEditMenu(QPoint p)
+{
+    QMenu *menu = new QMenu(this->lineEdit());
+    menu->addAction(m_undo);
+    menu->addAction(m_redo);
+    menu->addAction(m_cut);
+    menu->addAction(m_copy);
+    menu->addAction(m_paste);
+    menu->addAction(m_delete);
+    menu->addSeparator();
+    menu->addAction(m_select);
+
+    if (QApplication::clipboard()->text().isEmpty())
+        m_paste->setEnabled(false);
+    else
+        m_paste->setEnabled(true);
+
+    menu->move(cursor().pos());
+    menu->exec();
+    menu->deleteLater();
 }
