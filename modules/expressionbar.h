@@ -107,6 +107,7 @@ private:
     bool isOperator(const QString &text);
     bool cancelLink(int index);
     void judgeLinkageAgain();
+    void initConnect();
 
 private:
     Evaluator *m_evaluator;

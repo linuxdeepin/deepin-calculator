@@ -59,18 +59,7 @@ ExpressionBar::ExpressionBar(QWidget *parent)
     layout->setSpacing(0);
 
     setMinimumHeight(160);
-
-    connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this, &ExpressionBar::revisionResults);
-    connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionBar::handleTextChanged);
-    connect(m_inputEdit, &InputEdit::keyPress, this, &ExpressionBar::keyPress);
-    connect(m_inputEdit, &InputEdit::equal, this, &ExpressionBar::enterEqualEvent);
-    connect(m_inputEdit, &InputEdit::cut, this, &ExpressionBar::shear);
-    connect(m_inputEdit, &InputEdit::copy, this, &ExpressionBar::copyResultToClipboard);
-    connect(m_inputEdit, &InputEdit::paste, this, &ExpressionBar::copyClipboard2Result);
-    connect(m_inputEdit, &InputEdit::deleteText, this, &ExpressionBar::enterClearEvent);
-    connect(m_inputEdit, &InputEdit::selectAll, this, &ExpressionBar::allElection);
-    connect(m_inputEdit, &InputEdit::undo, this, &ExpressionBar::Undo);
-    connect(m_inputEdit, &InputEdit::redo, this, &ExpressionBar::Redo);
+    initConnect();
 }
 
 ExpressionBar::~ExpressionBar()
@@ -533,6 +522,7 @@ void ExpressionBar::shear()
     int length = m_inputEdit->lineEdit()->selectionLength();
     text.remove(start,length);
     m_inputEdit->setText(text);
+    addUndo();
     //copyResultToClipboard();
     //m_inputEdit->lineEdit()->text().remove()
 }
@@ -723,6 +713,21 @@ void ExpressionBar::judgeLinkageAgain()
         m_listDelegate->removeLine(m_hisLink.size() - 1);
         m_hisLink.removeLast();
     }
+}
+
+void ExpressionBar::initConnect()
+{
+    connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this, &ExpressionBar::revisionResults);
+    connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionBar::handleTextChanged);
+    connect(m_inputEdit, &InputEdit::keyPress, this, &ExpressionBar::keyPress);
+    connect(m_inputEdit, &InputEdit::equal, this, &ExpressionBar::enterEqualEvent);
+    connect(m_inputEdit, &InputEdit::cut, this, &ExpressionBar::shear);
+    connect(m_inputEdit, &InputEdit::copy, this, &ExpressionBar::copyResultToClipboard);
+    connect(m_inputEdit, &InputEdit::paste, this, &ExpressionBar::copyClipboard2Result);
+    connect(m_inputEdit, &InputEdit::deleteText, this, &ExpressionBar::enterClearEvent);
+    connect(m_inputEdit, &InputEdit::selectAll, this, &ExpressionBar::allElection);
+    connect(m_inputEdit, &InputEdit::undo, this, &ExpressionBar::Undo);
+    connect(m_inputEdit, &InputEdit::redo, this, &ExpressionBar::Redo);
 }
 
 void ExpressionBar::Undo()

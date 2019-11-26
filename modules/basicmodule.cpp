@@ -276,6 +276,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         } else {
             m_expressionBar->enterSymbolEvent("*");
             m_basicKeypad->animate(BasicKeypad::Key_Mult);
+            m_expressionBar->addUndo();
         }
         m_expressionBar->addUndo();
         break;
@@ -299,6 +300,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         break;
     case Qt::Key_E:
         m_expressionBar->entereEvent();
+        m_expressionBar->addUndo();
     default:
         break;
     }

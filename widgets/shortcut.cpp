@@ -48,8 +48,8 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
                       ShortcutItem(tr("Copy"), "Ctrl+C") <<
                       ShortcutItem(tr("Cut"),  "Ctrl+X") <<
                       ShortcutItem(tr("Paste"), "Ctrl+V") <<
-                      ShortcutItem(tr("All election"), "Ctrl+A") <<
-                      ShortcutItem(tr("Clear"), "Delete/Esc")<<
+                      ShortcutItem(tr("select all"), "Ctrl+A") <<
+                      ShortcutItem(tr("Clear"), "Esc/delete")<<
                       ShortcutItem(tr("Undo"), "Ctrl+Z")<<
                       ShortcutItem(tr("Redo"), "Ctrl+Y");
     m_shortcutGroups << group1 << group3 << group2;

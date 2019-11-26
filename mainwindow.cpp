@@ -73,9 +73,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_simpleAction, &QAction::triggered, this, &MainWindow::switchToSimpleMode);
     connect(m_scAction, &QAction::triggered, this, &MainWindow::switchToScientificMode);
 
-    QShortcut *viewshortcut = new QShortcut(this);
-    viewshortcut->setKey(QKeySequence(QLatin1String("Ctrl+Shift+/")));
-    connect(viewshortcut, SIGNAL(activated()), this, SLOT(onViewShortcut()));
+    //QShortcut *viewshortcut = new QShortcut(this);
+    //viewshortcut->setKey(QKeySequence(QLatin1String("Ctrl+Shift+/")));
+    //connect(viewshortcut, SIGNAL(activated()), this, SLOT(onViewShortcut()));
 }
 
 MainWindow::~MainWindow()

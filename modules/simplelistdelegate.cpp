@@ -65,8 +65,10 @@ void SimpleListDelegate::removeLine(const int link, const int linked)
 
 void SimpleListDelegate::removeLine(int index)
 {
-    m_linkItem.remove(index);
-    m_linkedIten.remove(index);
+    if (!m_linkItem.isEmpty())
+        m_linkItem.remove(index);
+    if (!m_linkedIten.isEmpty())
+        m_linkedIten.remove(index);
 }
 
 void SimpleListDelegate::removeHisLink()
