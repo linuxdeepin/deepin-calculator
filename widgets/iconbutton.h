@@ -58,6 +58,7 @@ private:
     int m_normalSize;
     int m_hoverSize;
     bool m_isHover;
+    bool m_isPress;
     QPixmap m_pixmap;
     QString m_normalUrl;
     QString m_hoverUrl;

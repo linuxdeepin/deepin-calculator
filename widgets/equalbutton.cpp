@@ -40,6 +40,15 @@ void EqualButton::animate(int msec)
     QTimer::singleShot(msec, this, [=] { setDown(false); m_isPress = false;});
 }
 
+void EqualButton::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Left || e->key() == Qt::Key_Right ||
+            e->key() == Qt::Key_Up || e->key() == Qt::Key_Down)
+        return;
+    else
+        DPushButton::keyPressEvent(e);
+}
+
 void EqualButton::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::RightButton)

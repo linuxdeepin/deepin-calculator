@@ -192,34 +192,6 @@ void BasicKeypad::initUI()
 
 void BasicKeypad::buttonThemeChanged(int type)
 {
-    /*QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
-    QString path;
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
-    while (i.hasNext()) {
-        i.next();
-        DPushButton * btn = i.value().first;
-        DPalette pa = btn->palette();
-        if (type == 2){
-            pa.setColor(DPalette::ButtonText, Qt::white);
-            pa.setColor(DPalette::Light, QColor(17,17,17));
-            pa.setColor(DPalette::Dark, QColor(17,17,17));
-            pa.setColor(DPalette::Button, QColor(17,17,17));
-            pa.setColor(DPalette::Background, QColor(17,17,17));
-            pa.setColor(DPalette::Base, QColor(17,17,17));
-            pa.setColor(DPalette::AlternateBase, QColor(17,17,17));
-            i.value().first->setPalette(pa);
-        } else {
-            pa.setColor(DPalette::ButtonText, Qt::black);
-            pa.setColor(DPalette::Dark, QColor(255,255,255));
-            pa.setColor(DPalette::Light, QColor(255,255,255));
-            pa.setColor(DPalette::Button, QColor(255,255,255));
-            pa.setColor(DPalette::Background, QColor(255,255,255));
-            pa.setColor(DPalette::Base, QColor(255,255,255));
-            pa.setColor(DPalette::AlternateBase, QColor(255,255,255));
-            i.value().first->setPalette(pa);
-        }
-    }*/
     QString path;
     if (type == 2)
         path = QString(":/images/%1/").arg("dark");

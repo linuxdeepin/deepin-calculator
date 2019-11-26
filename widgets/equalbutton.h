@@ -46,6 +46,8 @@ public:
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
     void paintEvent(QPaintEvent *e);
+protected:
+    void keyPressEvent(QKeyEvent *e);
 private:
     QGraphicsDropShadowEffect *m_effect;
 

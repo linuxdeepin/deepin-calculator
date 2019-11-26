@@ -121,6 +121,15 @@ void TextButton::leaveEvent(QEvent *e)
     DPushButton::leaveEvent(e);
 }
 
+void TextButton::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Left || e->key() == Qt::Key_Right ||
+            e->key() == Qt::Key_Up || e->key() == Qt::Key_Down)
+        return;
+    else
+        DPushButton::keyPressEvent(e);
+}
+
 void TextButton::paintEvent(QPaintEvent *e)
 {
     QRectF rect = this->rect();

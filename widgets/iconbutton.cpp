@@ -32,6 +32,7 @@ IconButton::IconButton(QWidget *parent)
     layout->setContentsMargins(0,0,0,0);
     setLayout(layout);
     m_isHover = false;
+    m_isPress = false;
 }
 
 IconButton::~IconButton()
@@ -54,11 +55,18 @@ void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverF
 void IconButton::animate(int msec)
 {
     setDown(true);
+    m_isPress = true;
     m_iconRenderer->load(m_pressUrl);
     QPixmap pixmap(m_pressUrl);
     m_pixmap = pixmap;
 
-    QTimer::singleShot(msec, this, [=] { setDown(false); QPixmap pixmap(m_normalUrl);m_pixmap = pixmap;m_iconRenderer->load(m_normalUrl);});
+    QTimer::singleShot(msec, this, [=]
+    { setDown(false);
+      QPixmap pixmap(m_normalUrl);
+      m_pixmap = pixmap;
+      m_iconRenderer->load(m_normalUrl);
+      m_isPress = false;
+    });
 }
 
 void IconButton::mousePressEvent(QMouseEvent *e)
@@ -66,6 +74,7 @@ void IconButton::mousePressEvent(QMouseEvent *e)
     m_iconRenderer->load(m_pressUrl);
     QPixmap pixmap(m_pressUrl);
     m_pixmap = pixmap;
+    m_isPress = true;
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
     //DPushButton::setIcon(QIcon(pixmap));
 
@@ -77,6 +86,7 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
     m_iconRenderer->load(m_normalUrl);
     QPixmap pixmap(m_normalUrl);
     m_pixmap = pixmap;
+    m_isPress = false;
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
     //DPushButton::setIcon(QIcon(pixmap));
 
@@ -134,19 +144,21 @@ void IconButton::paintEvent(QPaintEvent *)
         base = QColor(48,48,48);
     }
     if (hasFocus()) {
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(QBrush(base));
-        painter.drawRoundRect(rect,30,40);
-        QPen pen;
-        pen.setColor(focus);
-        pen.setWidth(2);
-        painter.setPen(pen);
-        painter.setBrush(Qt::NoBrush);
-        painter.drawRoundRect(rect,30,40);
-    } /*else if (m_isPress) {
-        painter.setBrush(QBrush(pressBrush));
-        painter.drawRoundRect(rect,30,40);
-    }*/ else {
+        if (m_isPress) {
+            painter.setBrush(QBrush(pressBrush));
+            painter.drawRoundRect(rect,30,40);
+        } else {
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(base));
+            painter.drawRoundRect(rect,30,40);
+            QPen pen;
+            pen.setColor(focus);
+            pen.setWidth(2);
+            painter.setPen(pen);
+            painter.setBrush(Qt::NoBrush);
+            painter.drawRoundRect(rect,30,40);
+        }
+    } else {
         if (m_isHover) {
             painter.setPen(QPen(hoverFrame));
             painter.setBrush(QBrush(hoverFrame));
@@ -155,6 +167,10 @@ void IconButton::paintEvent(QPaintEvent *)
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
             painter.drawRoundRect(hover,10,10);
+        } else if (m_isPress) {
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(pressBrush));
+            painter.drawRoundRect(rect,10,10);
         } else {
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
