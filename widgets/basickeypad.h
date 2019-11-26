@@ -27,6 +27,7 @@
 #include <DSuggestButton>
 #include "textbutton.h"
 #include "iconbutton.h"
+#include "equalbutton.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -72,7 +73,8 @@ private:
     QGridLayout *m_layout;
     QSignalMapper *m_mapper;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
-    DSuggestButton *m_equal;
+    //DSuggestButton *m_equal;
+    //EqualButton *m_equal;
 };
 
 #endif

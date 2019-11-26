@@ -125,7 +125,7 @@ void TextButton::paintEvent(QPaintEvent *e)
 {
     QRectF rect = this->rect();
     QRectF normal(rect.left() + 2,rect.top() + 2,rect.width() - 4,rect.height() - 4);
-    QRectF hover(rect.left() + 1,rect.top() + 1,rect.width() - 2,rect.height() - 2);
+    QRectF hover(rect.left() + 3,rect.top() + 3,rect.width() - 6,rect.height() - 6);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
@@ -192,11 +192,11 @@ void TextButton::paintEvent(QPaintEvent *e)
         if (m_isHover) {
             painter.setPen(QPen(hoverFrame));
             painter.setBrush(QBrush(hoverFrame));
-            painter.drawRoundRect(hover,10,10);
+            painter.drawRoundRect(normal,10,10);
 
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
-            painter.drawRoundRect(normal,10,10);
+            painter.drawRoundRect(hover,10,10);
             QPen pen;
             pen.setColor(text);
             painter.setPen(pen);

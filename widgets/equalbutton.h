@@ -17,51 +17,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ICONBUTTON_H
-#define ICONBUTTON_H
+#ifndef EQUALBUTTON_H
+#define EQUALBUTTON_H
 
-#include "textbutton.h"
+#include <DPushButton>
+#include <DPalette>
 
-#include <QPaintEvent>
-
-#include <DLabel>
-#include <DSvgRenderer>
-#include <DGuiApplicationHelper>
+#include <QGraphicsDropShadowEffect>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
 
-class IconButton : public TextButton
+class EqualButton : public DPushButton
 {
     Q_OBJECT
-
 public:
-    IconButton(QWidget *parent = nullptr);
-    ~IconButton();
+    EqualButton(const QString &text = QString(), QWidget *parent = nullptr);
+    ~EqualButton();
 
-    void setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName);
+    void init();
+    //void showShadow();
+    //void hideShadow();
     void animate(int msec = 100);
 
-protected:
+public:
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
-    void paintEvent(QPaintEvent*);
-
+    void paintEvent(QPaintEvent *e);
 private:
-    //void setIconSize(const int &size);
+    QGraphicsDropShadowEffect *m_effect;
 
-    DLabel *m_iconWidget;
-    DSvgRenderer *m_iconRenderer;
-
-    int m_normalSize;
-    int m_hoverSize;
+    DPalette m_palette;
     bool m_isHover;
-    QPixmap m_pixmap;
-    QString m_normalUrl;
-    QString m_hoverUrl;
-    QString m_pressUrl;
+    bool m_isPress;
+    QFont m_font;
 };
 
-#endif
+#endif // EQUALBUTTON_H

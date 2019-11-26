@@ -31,6 +31,7 @@ IconButton::IconButton(QWidget *parent)
     layout->addWidget(m_iconWidget,0,Qt::AlignCenter);
     layout->setContentsMargins(0,0,0,0);
     setLayout(layout);
+    m_isHover = false;
 }
 
 IconButton::~IconButton()
@@ -57,7 +58,7 @@ void IconButton::animate(int msec)
     QPixmap pixmap(m_pressUrl);
     m_pixmap = pixmap;
 
-    QTimer::singleShot(msec, this, [=] { setDown(false); QPixmap pixmap(m_normalUrl);m_pixmap = pixmap;});
+    QTimer::singleShot(msec, this, [=] { setDown(false); QPixmap pixmap(m_normalUrl);m_pixmap = pixmap;m_iconRenderer->load(m_normalUrl);});
 }
 
 void IconButton::mousePressEvent(QMouseEvent *e)
@@ -87,6 +88,7 @@ void IconButton::enterEvent(QEvent *e)
     m_iconRenderer->load(m_hoverUrl);
     QPixmap pixmap(m_hoverUrl);
     m_pixmap = pixmap;
+    m_isHover = true;
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
     //DPushButton::setIcon(QIcon(pixmap));
 
@@ -98,6 +100,7 @@ void IconButton::leaveEvent(QEvent *e)
     m_iconRenderer->load(m_normalUrl);
     QPixmap pixmap(m_normalUrl);
     m_pixmap = pixmap;
+    m_isHover = false;
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
     //DPushButton::setIcon(QIcon(pixmap));
 
@@ -108,6 +111,7 @@ void IconButton::paintEvent(QPaintEvent *)
 {
     QRectF frameRect = this->rect();
     QRectF rect(frameRect.left() + 2,frameRect.top() + 2,frameRect.width() - 4,frameRect.height() - 4);
+    QRectF hover(frameRect.left() + 3,frameRect.top() + 3,frameRect.width() - 6,frameRect.height() - 6);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
@@ -143,9 +147,19 @@ void IconButton::paintEvent(QPaintEvent *)
         painter.setBrush(QBrush(pressBrush));
         painter.drawRoundRect(rect,30,40);
     }*/ else {
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(QBrush(base));
-        painter.drawRoundRect(rect,30,40);
+        if (m_isHover) {
+            painter.setPen(QPen(hoverFrame));
+            painter.setBrush(QBrush(hoverFrame));
+            painter.drawRoundRect(rect,10,10);
+
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(base));
+            painter.drawRoundRect(hover,10,10);
+        } else {
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(base));
+            painter.drawRoundRect(rect,30,40);
+        }
         //painter.setPen(QPen(hoverFrame));
         //painter.setBrush(Qt::NoBrush);
         //painter.drawRoundRect(rect,30,40);

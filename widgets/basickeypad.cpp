@@ -47,8 +47,8 @@ const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
 
     { "0", Key_0, 5, 0 },
     { ".", Key_Point, 5, 1 },
-    { "()" , Key_Brackets, 5, 2 }
-    //{ "=", Key_Equals, 5, 3 }
+    { "()" , Key_Brackets, 5, 2 },
+    { "=", Key_Equals, 5, 3 }
 };
 
 static DPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
@@ -107,7 +107,7 @@ DPushButton* BasicKeypad::button(Buttons key)
 
 DSuggestButton *BasicKeypad::button()
 {
-    return m_equal;
+    //return m_equal;
 }
 
 void BasicKeypad::animate(Buttons key)
@@ -116,17 +116,22 @@ void BasicKeypad::animate(Buttons key)
         IconButton *btn = static_cast<IconButton *>(button(key));
         btn->animate();
     } else {
-        TextButton *btn = static_cast<TextButton *>(button(key));
-        btn->animate();
+        if (button(key)->text() == "=") {
+            EqualButton *btn = dynamic_cast<EqualButton *>(button(key));
+            btn->animate();
+        } else {
+            TextButton *btn = static_cast<TextButton *>(button(key));
+            btn->animate();
+        }
     }
 
 }
 
 void BasicKeypad::animate()
 {
-    m_equal->setChecked(true);
+    //m_equal->setChecked(true);
 
-    QTimer::singleShot(100, this, [=] { m_equal->setChecked(false); });
+    //QTimer::singleShot(100, this, [=] { m_equal->setChecked(false); });
 }
 
 void BasicKeypad::initButtons()
@@ -139,10 +144,14 @@ void BasicKeypad::initButtons()
         if (desc->text.isEmpty()) {
             button = createSpecialKeyButton(desc->button);
         } else {
-            button = new TextButton(desc->text);
-            QFont font = button->font();
-            font.setFamily("HelveticaNeue");
-            button->setFont(font);
+            if (desc->text == "=")
+                button = new EqualButton(desc->text);
+            else {
+                button = new TextButton(desc->text);
+                QFont font = button->font();
+                font.setFamily("HelveticaNeue");
+                button->setFont(font);
+            }
         }
 
         m_layout->addWidget(button, desc->row, desc->column);
@@ -153,14 +162,14 @@ void BasicKeypad::initButtons()
         m_mapper->setMapping(button, desc->button);
     }
 
-    m_equal = new DSuggestButton();
+    /*m_equal = new DSuggestButton();
     connect(m_equal, SIGNAL(clicked()),this,SIGNAL(equalPressed()));
     m_equal->setFixedSize(76,53);
     m_equal->setText("=");
     QFont font;
     font.setPixelSize(30);
     m_equal->setFont(font);
-    m_layout->addWidget(m_equal,5,3);
+    m_layout->addWidget(m_equal,5,3);*/
 }
 
 void BasicKeypad::initUI()

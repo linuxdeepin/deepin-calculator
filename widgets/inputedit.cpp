@@ -227,7 +227,7 @@ void InputEdit::autoZoomFontSize()
 
         QFontMetrics fm(font);
         int fontWidth = fm.width(text());
-        int editWidth = width() - 42;
+        int editWidth = width() - 45;
 
         if (fontWidth < editWidth)
             break;
@@ -494,6 +494,11 @@ void InputEdit::showTextEditMenu(QPoint p)
         m_paste->setEnabled(false);
     else
         m_paste->setEnabled(true);
+
+    if (this->lineEdit()->selectedText().isEmpty())
+        m_cut->setEnabled(false);
+    else
+        m_cut->setEnabled(true);
 
     menu->move(cursor().pos());
     menu->exec();
