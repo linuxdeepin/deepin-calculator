@@ -29,6 +29,8 @@
 #include <QPainter>
 #include <QLabel>
 #include <QDebug>
+#include <QShortcut>
+#include <QProcess>
 
 DGUI_USE_NAMESPACE
 
@@ -70,6 +72,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this,&MainWindow::initTheme);
     connect(m_simpleAction, &QAction::triggered, this, &MainWindow::switchToSimpleMode);
     connect(m_scAction, &QAction::triggered, this, &MainWindow::switchToScientificMode);
+
+    QShortcut *viewshortcut = new QShortcut(this);
+    viewshortcut->setKey(QKeySequence(QLatin1String("Ctrl+Shift+/")));
+    connect(viewshortcut, SIGNAL(activated()), this, SLOT(onViewShortcut()));
 }
 
 MainWindow::~MainWindow()
@@ -165,3 +171,21 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     m_basicModule->setKeyPress(event);
     return;
 }
+
+void MainWindow::onViewShortcut()
+{
+    QRect rect = window()->geometry();
+    QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
+    Shortcut sc;
+    QStringList shortcutString;
+    QString param1 = "-j=" + sc.toStr();
+    QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+    shortcutString << "-b" << param1 << param2;
+
+    QProcess *shortcutViewProc = new QProcess(this);
+    shortcutViewProc->startDetached("killall deepin-shortcut-viewer");
+    shortcutViewProc->startDetached("deepin-shortcut-viewer", shortcutString);
+
+    connect(shortcutViewProc, SIGNAL(finished(int)), shortcutViewProc, SLOT(deleteLater()));
+}
+
