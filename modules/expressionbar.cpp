@@ -100,6 +100,7 @@ void ExpressionBar::enterNumberEvent(const QString &text)
             m_inputEdit->clear();
 
         m_isContinue = true;
+        m_listView->setFocus();
     }
 
     m_inputNumber = false;
@@ -296,7 +297,6 @@ void ExpressionBar::enterEqualEvent()
     if (m_inputEdit->text().isEmpty())
         return;
 
-    m_isContinue = false;
     if (m_hisRevision == -1) {
         //const QString expression = formatExpression(m_inputEdit->expressionText());
         const QString expression = formatExpression(m_inputEdit->text());
@@ -339,6 +339,7 @@ void ExpressionBar::enterEqualEvent()
         }
     }
     }
+    m_isContinue = false;
     if (m_isLinked) {
         if (m_hisRevision == -1) {
             m_isLinked = false;
