@@ -108,6 +108,7 @@ private:
     bool cancelLink(int index);
     void judgeLinkageAgain();
     void initConnect();
+    QString symbolComplement(const QString exp);
 
 private:
     Evaluator *m_evaluator;

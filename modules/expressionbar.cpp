@@ -296,10 +296,12 @@ void ExpressionBar::enterEqualEvent()
     if (m_hisRevision == -1) {
         const QString expression = formatExpression(m_inputEdit->expressionText());
         //const QString expression = formatExpression(m_inputEdit->text());
-        m_evaluator->setExpression(expression);
+        QString exp = symbolComplement(expression);
+        m_evaluator->setExpression(exp);
     } else {
         const QString expression = formatExpression(m_inputEdit->text());
-        m_evaluator->setExpression(expression);
+        QString exp = symbolComplement(expression);
+        m_evaluator->setExpression(exp);
     }
     Quantity ans = m_evaluator->evalUpdateAns();
 
@@ -365,7 +367,8 @@ void ExpressionBar::enterEqualEvent()
                 enterEqualEvent();
             }
         }
-        m_inputEdit->clear();
+        if (m_evaluator->error().isEmpty())
+            m_inputEdit->clear();
     }
 
     if (m_evaluator->error().isEmpty())
@@ -728,6 +731,30 @@ void ExpressionBar::initConnect()
     connect(m_inputEdit, &InputEdit::selectAll, this, &ExpressionBar::allElection);
     connect(m_inputEdit, &InputEdit::undo, this, &ExpressionBar::Undo);
     connect(m_inputEdit, &InputEdit::redo, this, &ExpressionBar::Redo);
+}
+
+QString ExpressionBar::symbolComplement(const QString exp)
+{
+    QString text = exp;
+    int index = text.indexOf("(", 0);
+    while (index != -1) {
+        if (index >= 1 && text.at(index - 1).isNumber()) {
+            text.insert(index, "×");
+            ++index;
+        }
+        ++index;
+        index = text.indexOf("(", index);
+    }
+    index = text.indexOf(")", 0);
+    while (index != -1) {
+        if (index < text.length() - 1 && text.at(index + 1).isNumber()) {
+            text.insert(index + 1, "×");
+            ++index;
+        }
+        ++index;
+        index = text.indexOf(")", index);
+    }
+    return text;
 }
 
 void ExpressionBar::Undo()

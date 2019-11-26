@@ -212,9 +212,10 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         m_expressionBar->addUndo();
         break;
     case Qt::Key_Enter: case Qt::Key_Return: case Qt::Key_Equal:
-        //(static_cast<DPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Equals)))->animateClick();
-        m_basicKeypad->button()->animateClick();
-        //m_expressionBar->settingLinkage();
+        //(dynamic_cast<DPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Equals)))->animateClick();
+        //m_basicKeypad->button()->animateClick();
+        m_basicKeypad->animate(BasicKeypad::Key_Equals);
+        m_expressionBar->settingLinkage();
         m_expressionBar->addUndo();
         setFocus();
         break;
