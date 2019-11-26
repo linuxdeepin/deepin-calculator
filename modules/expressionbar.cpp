@@ -117,10 +117,11 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
             m_inputEdit->lineEdit()->insert(text);
         }
     } else {
+        if (m_inputEdit->text() == "－")
+            return;
+        getSelection();
         int curPos = m_inputEdit->lineEdit()->cursorPosition();
         QString exp = m_inputEdit->text();
-        if (exp == "－")
-            return;
         if (cursorPosAtEnd()) {
             QString lastStr = exp.right(1);
             if (isOperator(lastStr))
@@ -875,14 +876,18 @@ bool ExpressionBar::isOperator(const QString &text)
 
 void ExpressionBar::moveLeft()
 {
-    m_inputEdit->lineEdit()->setCursorPosition(m_inputEdit->lineEdit()->cursorPosition() - 1);
-    m_inputEdit->lineEdit()->setFocus();
+    if (m_inputEdit->lineEdit()->hasFocus()) {
+        m_inputEdit->lineEdit()->setCursorPosition(m_inputEdit->lineEdit()->cursorPosition() - 1);
+        m_inputEdit->lineEdit()->setFocus();
+    }
 }
 
 void ExpressionBar::moveRight()
 {
-    m_inputEdit->lineEdit()->setCursorPosition(m_inputEdit->lineEdit()->cursorPosition() + 1);
-    m_inputEdit->lineEdit()->setFocus();
+    if (m_inputEdit->lineEdit()->hasFocus()) {
+        m_inputEdit->lineEdit()->setCursorPosition(m_inputEdit->lineEdit()->cursorPosition() + 1);
+        m_inputEdit->lineEdit()->setFocus();
+    }
 }
 
 DLineEdit* ExpressionBar::getInputEdit()

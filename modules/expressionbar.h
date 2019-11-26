@@ -130,6 +130,7 @@ private:
     bool m_isLinked;             //联动状态
     int m_linkageIndex;          //联动索引缓存
     int m_Selected;              //选中
+    QString m_selection;
     QVector<historicalLinkageIndex> m_hisLink;   //历史联动索引
     QVector<QString> m_undo;
     QVector<QString> m_redo;
