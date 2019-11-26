@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent)
     initModule();
     initTheme();
 
-    setWindowTitle(tr("Deepin Calculator"));
+    setWindowTitle(tr("Calculator"));
 
     m_basicModule->setFocus();
     //connect(m_themeAction, &QAction::triggered, this, &MainWindow::switchTheme);
