@@ -111,6 +111,7 @@ private:
     void initConnect();
     QString symbolComplement(const QString exp);
     QString pasteFaultTolerance(QString exp);
+    QString pointFaultTolerance(const QString &text);
 
 private:
     Evaluator *m_evaluator;

@@ -66,6 +66,7 @@ void IconButton::animate(int msec)
       m_pixmap = pixmap;
       m_iconRenderer->load(m_normalUrl);
       m_isPress = false;
+      update();
     });
 }
 

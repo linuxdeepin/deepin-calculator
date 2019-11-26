@@ -201,7 +201,15 @@ void ExpressionBar::enterBackspaceEvent()
 {
     if (m_isResult)
         clearLinkageCache();
-    m_inputEdit->lineEdit()->backspace();
+    //m_inputEdit->lineEdit()->backspace();
+    QString text = m_inputEdit->text();
+    int cur = m_inputEdit->lineEdit()->cursorPosition();
+    if (text[cur - 1] == ",") {
+        text.remove(cur - 2, 2);
+        m_inputEdit->setText(text);
+        m_inputEdit->lineEdit()->setCursorPosition(cur - 2);
+    } else
+        m_inputEdit->lineEdit()->backspace();
     if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
         emit clearStateChanged(true);
         m_isAllClear = true;
@@ -763,6 +771,7 @@ QString ExpressionBar::symbolComplement(const QString exp)
 
 QString ExpressionBar::pasteFaultTolerance(QString exp)
 {
+    exp = pointFaultTolerance(exp);
     for(int i = 0;i < exp.size();++i) {
         if (i == 0 || !exp[i-1].isNumber()) {
             if (exp[i] == ".") {
@@ -776,6 +785,38 @@ QString ExpressionBar::pasteFaultTolerance(QString exp)
         }
     }
     return exp;
+}
+
+QString ExpressionBar::pointFaultTolerance(const QString &text)
+{
+    QString exp = text;
+    QString oldText = text;
+    exp = exp.replace(QString::fromUtf8("－"),QString::fromUtf8("＋"))
+             .replace(QString::fromUtf8("×"),QString::fromUtf8("＋"))
+             .replace(QString::fromUtf8("÷"),QString::fromUtf8("＋"));
+    QStringList list = exp.split(QString::fromUtf8("＋"));
+    for (int i = 0; i < list.size(); ++i) {
+        QString item = list[i];
+        int firstPoint = item.indexOf(".");
+        if (firstPoint == -1)
+            continue;
+        if (firstPoint == 0) {
+            item.insert(firstPoint, "0");
+            ++firstPoint;
+            //oldText.replace(list[i], item);
+        } else {
+            if (item.at(firstPoint - 1) == ")" || item.at(firstPoint - 1) == "%") {
+                item.remove(firstPoint, 1);
+                oldText.replace(list[i], item);
+            }
+        }
+        if (item.count(".") > 1) {
+            item.remove(".");
+            item.insert(firstPoint, ".");
+            oldText.replace(list[i], item);
+        }
+    }
+    return oldText;
 }
 
 void ExpressionBar::Undo()
@@ -842,6 +883,8 @@ bool ExpressionBar::cancelLink(int index)
             QString exp = m_inputEdit->text();
             exp = exp.replace(",", "");
             QStringList list = exp.split(QRegExp("[＋－×÷()]"));
+            if (exp[0] == "－")
+                list[0] = "－" + list[1];
             if (list.at(0) != m_hisLink[i].linkageValue) {
                 //m_listDelegate->removeLine(m_hisLink[i].linkageTerm, m_hisLink[i].linkedItem);
                 m_listDelegate->removeLine(i);
@@ -876,18 +919,14 @@ bool ExpressionBar::isOperator(const QString &text)
 
 void ExpressionBar::moveLeft()
 {
-    if (m_inputEdit->lineEdit()->hasFocus()) {
-        m_inputEdit->lineEdit()->setCursorPosition(m_inputEdit->lineEdit()->cursorPosition() - 1);
-        m_inputEdit->lineEdit()->setFocus();
-    }
+    m_inputEdit->lineEdit()->setCursorPosition(m_inputEdit->lineEdit()->cursorPosition() - 1);
+    m_inputEdit->lineEdit()->setFocus();
 }
 
 void ExpressionBar::moveRight()
 {
-    if (m_inputEdit->lineEdit()->hasFocus()) {
-        m_inputEdit->lineEdit()->setCursorPosition(m_inputEdit->lineEdit()->cursorPosition() + 1);
-        m_inputEdit->lineEdit()->setFocus();
-    }
+    m_inputEdit->lineEdit()->setCursorPosition(m_inputEdit->lineEdit()->cursorPosition() + 1);
+    m_inputEdit->lineEdit()->setFocus();
 }
 
 DLineEdit* ExpressionBar::getInputEdit()

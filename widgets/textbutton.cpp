@@ -66,7 +66,7 @@ void TextButton::animate(int msec)
     setDown(true);
     m_isPress = true;
 
-    QTimer::singleShot(msec, this, [=] { setDown(false); m_isPress = false;});
+    QTimer::singleShot(msec, this, [=] { setDown(false); m_isPress = false;update();});
 }
 
 void TextButton::mousePressEvent(QMouseEvent *e)
