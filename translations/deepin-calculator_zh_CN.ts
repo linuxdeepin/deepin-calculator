@@ -1535,6 +1535,10 @@
     </message>
     <message>
         <source>Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
+        <translation type="vanished">计算器是一款简单易用的桌面计算器，支持加、减、乘、除功能。</translation>
+    </message>
+    <message>
+        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
         <translation>计算器是一款简单易用的桌面计算器，支持加、减、乘、除功能。</translation>
     </message>
     <message>
@@ -1638,6 +1642,53 @@
     <message>
         <source>select all</source>
         <translation>选择全部</translation>
+    </message>
+</context>
+<context>
+    <name>Shortcut</name>
+    <message>
+        <source>Start/Calculator</source>
+        <translation>开始/计算器</translation>
+    </message>
+    <message>
+        <source>Input Edit</source>
+        <translation>输入栏</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>关闭</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>帮助</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>复制</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>剪切</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>粘贴</translation>
+    </message>
+    <message>
+        <source>All election</source>
+        <translation>选择全部</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>撤销</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>恢复</translation>
     </message>
 </context>
 <context>
