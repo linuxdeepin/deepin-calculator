@@ -1661,7 +1661,7 @@
     </message>
     <message>
         <source>Cut</source>
-        <translation>剪切</translation>
+        <translation>剪切（&amp;T）</translation>
     </message>
     <message>
         <source>Paste</source>
@@ -1682,6 +1682,46 @@
     <message>
         <source>Redo</source>
         <translation>恢复</translation>
+    </message>
+    <message>
+        <source>operation</source>
+        <translation>计算</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>加</translation>
+    </message>
+    <message>
+        <source>subtract</source>
+        <translation>减</translation>
+    </message>
+    <message>
+        <source>multiply</source>
+        <translation>乘</translation>
+    </message>
+    <message>
+        <source>divide</source>
+        <translation>除</translation>
+    </message>
+    <message>
+        <source>Percent </source>
+        <translation>百分号</translation>
+    </message>
+    <message>
+        <source>Decimal point</source>
+        <translation>小数点</translation>
+    </message>
+    <message>
+        <source>Left parenthesis</source>
+        <translation>左括号</translation>
+    </message>
+    <message>
+        <source>Right parenthesis</source>
+        <translation>右括号</translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation>清除</translation>
     </message>
 </context>
 <context>
