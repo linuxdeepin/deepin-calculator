@@ -1535,11 +1535,11 @@
     </message>
     <message>
         <source>Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation type="vanished">计算器是一款简单易用的桌面计算器，支持加、减、乘、除功能。</translation>
+        <translation>计算器是一款简单易用的桌面计算器，支持加、减、乘、除功能。</translation>
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>计算器是一款简单易用的桌面计算器，支持加、减、乘、除功能。</translation>
+        <translation type="vanished">计算器是一款简单易用的桌面计算器，支持加、减、乘、除功能。</translation>
     </message>
     <message>
         <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
@@ -1657,7 +1657,7 @@
     </message>
     <message>
         <source>Cut</source>
-        <translation>剪切</translation>
+        <translation>剪切（&amp;T）</translation>
     </message>
     <message>
         <source>Paste</source>
