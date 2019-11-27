@@ -305,8 +305,8 @@ void ExpressionBar::enterEqualEvent()
         return;
 
     if (m_hisRevision == -1) {
-        //const QString expression = formatExpression(m_inputEdit->expressionText());
-        const QString expression = formatExpression(m_inputEdit->text());
+        const QString expression = formatExpression(m_inputEdit->expressionText());
+        //const QString expression = formatExpression(m_inputEdit->text());
         m_evaluator->setExpression(expression);
     } else {
         const QString expression = formatExpression(m_inputEdit->text());

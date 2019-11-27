@@ -259,7 +259,7 @@ void InputEdit::handleTextChanged(const QString &text)
     while (ansEnd > text.length()) {
         --ansEnd;
     }
-    m_ansVaild = m_ansLength != 0 &&
+    m_ansVaild = m_ansLength > 16 &&
         (m_ansStartPos == 0 || !text[m_ansStartPos - 1].isDigit()) &&
         (ansEnd == text.length() || !text[ansEnd].isDigit());
     m_oldText = text;
