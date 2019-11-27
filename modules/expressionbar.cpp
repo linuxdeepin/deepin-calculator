@@ -332,7 +332,7 @@ void ExpressionBar::enterEqualEvent()
             newResult = formatResult;
         }
     } else {
-        m_listModel->updataList(m_inputEdit->text() + "＝" + tr("Expression Error"), m_hisRevision);
+        m_listModel->updataList(m_inputEdit->text() + "＝" + tr("Expression error"), m_hisRevision);
         if (m_hisRevision == -1)
             m_hisRevision = m_listModel->rowCount(QModelIndex()) - 1;
         else {
@@ -593,7 +593,7 @@ void ExpressionBar::computationalResults(const QString &expression, QString &res
             m_isContinue = false;
         }
     } else {
-        result = tr("Expression Error");
+        result = tr("Expression error");
         m_inputEdit->setText(result);
     }
 }
@@ -639,7 +639,7 @@ void ExpressionBar::historicalLinkage(int index, QString newValue)
                     m_isContinue = false;
                 }
             } else {
-                result = tr("Expression Error");
+                result = tr("Expression error");
                 m_inputEdit->setText(result);
             }
             m_hisLink[i].linkageValue = newValue;

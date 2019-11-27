@@ -124,11 +124,12 @@ void TextButton::leaveEvent(QEvent *e)
 void TextButton::paintEvent(QPaintEvent *e)
 {
     QRectF rect = this->rect();
-    QRectF normal(rect.left() + 2,rect.top() + 2,rect.width() - 2,rect.height() - 2);
-    QRectF hover(rect.left() + 1,rect.top() + 1,rect.width() - 1,rect.height() - 1);
+    QRectF normal(rect.left() + 2,rect.top() + 2,rect.width() - 4,rect.height() - 4);
+    QRectF hover(rect.left() + 1,rect.top() + 1,rect.width() - 2,rect.height() - 2);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+    painter.setRenderHint(QPainter::HighQualityAntialiasing);
     painter.setFont(m_font);
     QRectF textRect = painter.fontMetrics().boundingRect(this->text());
     textRect.moveCenter(rect.center());
@@ -158,21 +159,28 @@ void TextButton::paintEvent(QPaintEvent *e)
         painter.setPen(Qt::NoPen);
         if (m_isPress) {
             painter.setBrush(QBrush(pressBrush));
-            painter.drawRoundRect(normal,30,40);
+            painter.drawRoundRect(normal,18,18);
             QPen pen;
             pen.setColor(pressText);
             painter.setPen(pen);
             painter.setFont(m_font);
             painter.drawText(textRect, this->text());
         } else {
-            painter.setBrush(QBrush(base));
-            painter.drawRoundRect(normal,30,40);
             QPen pen;
             pen.setColor(focus);
             pen.setWidth(2);
             painter.setPen(pen);
             painter.setBrush(Qt::NoBrush);
-            painter.drawRoundRect(rect,30,40);
+            QPainterPath path;
+            path.addRoundedRect(rect,10,10);
+            painter.fillPath(path,QBrush(focus));
+            painter.drawPath(path);
+
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(base));
+            painter.drawRoundRect(normal,18,18);
+
+            //painter.drawRoundRect(rect,10,10);
             pen.setColor(text);
             painter.setPen(pen);
             painter.setFont(m_font);
@@ -182,10 +190,13 @@ void TextButton::paintEvent(QPaintEvent *e)
         painter.setPen(Qt::NoPen);
         painter.setBrush(QBrush(base));
         if (m_isHover) {
-            painter.drawRoundRect(rect,30,40);
             painter.setPen(QPen(hoverFrame));
-            painter.setBrush(Qt::NoBrush);
-            painter.drawRoundRect(hover,30,40);
+            painter.setBrush(QBrush(hoverFrame));
+            painter.drawRoundRect(hover,10,10);
+
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(base));
+            painter.drawRoundRect(normal,10,10);
             QPen pen;
             pen.setColor(text);
             painter.setPen(pen);
@@ -193,14 +204,14 @@ void TextButton::paintEvent(QPaintEvent *e)
             painter.drawText(textRect, this->text());
         } else if (m_isPress) {
             painter.setBrush(QBrush(pressBrush));
-            painter.drawRoundRect(normal,30,40);
+            painter.drawRoundRect(normal,18,18);
             QPen pen;
             pen.setColor(pressText);
             painter.setPen(pen);
             painter.setFont(m_font);
             painter.drawText(textRect, this->text());
         } else {
-            painter.drawRoundRect(normal,30,40);
+            painter.drawRoundRect(normal,18,18);
             QPen pen;
             pen.setColor(text);
             painter.setPen(pen);
