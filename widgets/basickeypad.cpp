@@ -86,7 +86,7 @@ BasicKeypad::BasicKeypad(QWidget *parent)
       m_mapper(new QSignalMapper(this))
 {
     m_layout->setMargin(0);
-    m_layout->setSpacing(5);
+    m_layout->setSpacing(1);
     m_layout->setContentsMargins(0,0,0,0);
 
     initButtons();

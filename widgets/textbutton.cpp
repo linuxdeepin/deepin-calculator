@@ -29,7 +29,7 @@ TextButton::TextButton(const QString &text, QWidget *parent)
     : DPushButton(text, parent)//,
       //m_effect(new QGraphicsDropShadowEffect(this))
 {
-    setFixedSize(76, 53);
+    setFixedSize(80, 58);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");
 
@@ -124,6 +124,8 @@ void TextButton::leaveEvent(QEvent *e)
 void TextButton::paintEvent(QPaintEvent *e)
 {
     QRectF rect = this->rect();
+    QRectF normal(rect.left() + 2,rect.top() + 2,rect.width() - 2,rect.height() - 2);
+    QRectF hover(rect.left() + 1,rect.top() + 1,rect.width() - 1,rect.height() - 1);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
@@ -156,7 +158,7 @@ void TextButton::paintEvent(QPaintEvent *e)
         painter.setPen(Qt::NoPen);
         if (m_isPress) {
             painter.setBrush(QBrush(pressBrush));
-            painter.drawRoundRect(rect,30,40);
+            painter.drawRoundRect(normal,30,40);
             QPen pen;
             pen.setColor(pressText);
             painter.setPen(pen);
@@ -164,7 +166,7 @@ void TextButton::paintEvent(QPaintEvent *e)
             painter.drawText(textRect, this->text());
         } else {
             painter.setBrush(QBrush(base));
-            painter.drawRoundRect(rect,30,40);
+            painter.drawRoundRect(normal,30,40);
             QPen pen;
             pen.setColor(focus);
             pen.setWidth(2);
@@ -183,7 +185,7 @@ void TextButton::paintEvent(QPaintEvent *e)
             painter.drawRoundRect(rect,30,40);
             painter.setPen(QPen(hoverFrame));
             painter.setBrush(Qt::NoBrush);
-            painter.drawRoundRect(rect,30,40);
+            painter.drawRoundRect(hover,30,40);
             QPen pen;
             pen.setColor(text);
             painter.setPen(pen);
@@ -191,14 +193,14 @@ void TextButton::paintEvent(QPaintEvent *e)
             painter.drawText(textRect, this->text());
         } else if (m_isPress) {
             painter.setBrush(QBrush(pressBrush));
-            painter.drawRoundRect(rect,30,40);
+            painter.drawRoundRect(normal,30,40);
             QPen pen;
             pen.setColor(pressText);
             painter.setPen(pen);
             painter.setFont(m_font);
             painter.drawText(textRect, this->text());
         } else {
-            painter.drawRoundRect(rect,30,40);
+            painter.drawRoundRect(normal,30,40);
             QPen pen;
             pen.setColor(text);
             painter.setPen(pen);
