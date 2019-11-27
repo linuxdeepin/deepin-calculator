@@ -23,23 +23,36 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
 {
     ShortcutGroup group1;
     ShortcutGroup group2;
+    ShortcutGroup group3;
 
     group1.groupName = tr("Start/Calculator");
     group2.groupName = tr("Input Edit");
+    group3.groupName = tr("operation");
 
     group1.groupItems <<
                       ShortcutItem(tr("Close"),  "Alt+F4") <<
                       ShortcutItem(tr("Help"),  "F1");
+
+    group3.groupItems <<
+                      ShortcutItem(tr("Add"),  "+") <<
+                      ShortcutItem(tr("subtract"),  "-") <<
+                      ShortcutItem(tr("multiply"),  "*") <<
+                      ShortcutItem(tr("divide"),  "/") <<
+                      ShortcutItem(tr("Percent "),  "%") <<
+                      ShortcutItem(tr("Delete"),  "Backspace") <<
+                      ShortcutItem(tr("Decimal point"),  ".") <<
+                      ShortcutItem(tr("Left parenthesis"),  "(") <<
+                      ShortcutItem(tr("Right parenthesis"),  ")");
 
     group2.groupItems <<
                       ShortcutItem(tr("Copy"), "Ctrl+C") <<
                       ShortcutItem(tr("Cut"),  "Ctrl+X") <<
                       ShortcutItem(tr("Paste"), "Ctrl+V") <<
                       ShortcutItem(tr("All election"), "Ctrl+A") <<
-                      ShortcutItem(tr("Delete"), "Delete")<<
+                      ShortcutItem(tr("Clear"), "Delete/Esc")<<
                       ShortcutItem(tr("Undo"), "Ctrl+Z")<<
                       ShortcutItem(tr("Redo"), "Ctrl+Y");
-    m_shortcutGroups << group1 << group2;
+    m_shortcutGroups << group1 << group3 << group2;
 
     //convert to json object
     QJsonArray jsonGroups;
