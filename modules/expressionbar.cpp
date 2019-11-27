@@ -470,6 +470,19 @@ void ExpressionBar::enterDeleteEvent()
     }*/
 }
 
+void ExpressionBar::entereEvent()
+{
+    /*QString exp = m_inputEdit->text();
+    if(exp.isEmpty() || m_inputEdit->lineEdit()->cursorPosition() == 0)
+        return;
+    QString sRegNum = "[0-9]+";
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    if (rx.exactMatch(exp.at(m_inputEdit->lineEdit()->cursorPosition() - 1)))
+        m_inputEdit->lineEdit()->insert("e");*/
+    m_inputEdit->lineEdit()->insert("e");
+}
+
 void ExpressionBar::copyResultToClipboard()
 {
     if (m_inputEdit->text().isEmpty())

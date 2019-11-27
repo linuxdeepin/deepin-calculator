@@ -77,6 +77,7 @@ public slots:
     void enterLeftBracketsEvent();
     void enterRightBracketsEvent();
     void enterDeleteEvent();
+    void entereEvent();
     void moveLeft();
     void moveRight();
     void copyResultToClipboard();
