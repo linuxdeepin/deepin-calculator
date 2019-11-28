@@ -332,6 +332,7 @@ void BasicModule::handleKeypadButtonPress(int key)
     case BasicKeypad::Key_Point:        m_expressionBar->enterPointEvent();         break;
     case BasicKeypad::Key_Brackets:     m_expressionBar->enterBracketsEvent();      break;
     }
+    m_expressionBar->addUndo();
 }
 
 void BasicModule::equalButtonPress()
