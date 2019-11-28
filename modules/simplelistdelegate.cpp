@@ -235,6 +235,6 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
         linkNum = "－" + list.at(0);
     }
     if (linkNum.at(linkNum.size() - 1) == "e")
-        linkNum = linkNum + "＋" + list.at(1);
+        linkNum = linkNum + exp.at(exp.indexOf("e") + 1) + list.at(1);
     expStr = text.right(text.length() - linkNum.length());
 }
