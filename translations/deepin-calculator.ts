@@ -1669,7 +1669,7 @@
     </message>
     <message>
         <source>All election</source>
-        <translation>选择全部</translation>
+        <translation type="vanished">选择全部</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -1722,6 +1722,10 @@
     <message>
         <source>Clear</source>
         <translation>清除</translation>
+    </message>
+    <message>
+        <source>select all</source>
+        <translation>选择全部</translation>
     </message>
 </context>
 <context>
