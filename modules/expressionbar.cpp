@@ -761,6 +761,7 @@ QString ExpressionBar::symbolComplement(const QString exp)
     return text;
 }
 
+<<<<<<< HEAD
 QString ExpressionBar::pasteFaultTolerance(QString exp)
 {
     for(int i = 0;i < exp.size();++i) {
@@ -778,6 +779,8 @@ QString ExpressionBar::pasteFaultTolerance(QString exp)
     return exp;
 }
 
+=======
+>>>>>>> fix:Calculation priority error
 void ExpressionBar::Undo()
 {
     if (m_undo.isEmpty())
