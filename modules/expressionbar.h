@@ -110,10 +110,7 @@ private:
     void judgeLinkageAgain();
     void initConnect();
     QString symbolComplement(const QString exp);
-<<<<<<< HEAD
     QString pasteFaultTolerance(QString exp);
-=======
->>>>>>> fix:Calculation priority error
 
 private:
     Evaluator *m_evaluator;
