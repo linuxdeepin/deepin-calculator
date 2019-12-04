@@ -101,6 +101,7 @@ int main(int argc, char *argv[])
     app.setApplicationVersion(DApplication::buildVersion(t_date));
     //app.setTheme("light");
     app.setQuitOnLastWindowClosed(true);
+    app.setApplicationDisplayName(QObject::tr("Calculator"));
     //app.setStyle("chameleon");
 
     QDBusConnection dbus = QDBusConnection::sessionBus();
