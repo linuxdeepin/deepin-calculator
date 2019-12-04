@@ -1645,6 +1645,13 @@
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <source>Calculator</source>
+        <translation type="unfinished">计算器</translation>
+    </message>
+</context>
+<context>
     <name>Shortcut</name>
     <message>
         <source>Start/Calculator</source>
