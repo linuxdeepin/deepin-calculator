@@ -161,15 +161,6 @@ void BasicKeypad::initButtons()
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
         m_mapper->setMapping(button, desc->button);
     }
-
-    /*m_equal = new DSuggestButton();
-    connect(m_equal, SIGNAL(clicked()),this,SIGNAL(equalPressed()));
-    m_equal->setFixedSize(76,53);
-    m_equal->setText("=");
-    QFont font;
-    font.setPixelSize(30);
-    m_equal->setFont(font);
-    m_layout->addWidget(m_equal,5,3);*/
 }
 
 void BasicKeypad::initUI()
@@ -185,7 +176,6 @@ void BasicKeypad::initUI()
     button(Key_Mult)->setObjectName("SymbolButton");
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
-    //button(Key_Equals)->setObjectName("EqualButton");
 
     this->setContentsMargins(12,0,13,0);
 }
