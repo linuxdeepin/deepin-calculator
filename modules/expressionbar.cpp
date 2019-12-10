@@ -515,7 +515,7 @@ void ExpressionBar::copyClipboard2Result()
 {
     QString text = QApplication::clipboard()->text();
     text.remove("e");
-    //text = pasteFaultTolerance(text);
+    text = pasteFaultTolerance(text);
     m_inputEdit->lineEdit()->insert(text);
     clearLinkageCache();
     if (!m_inputEdit->text().isEmpty())
