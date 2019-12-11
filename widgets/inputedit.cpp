@@ -52,6 +52,7 @@ InputEdit::InputEdit(QWidget *parent)
     connect(this->lineEdit(), &QLineEdit::textChanged, this, &InputEdit::handleTextChanged);
     connect(this->lineEdit(), &QLineEdit::cursorPositionChanged, this, &InputEdit::handleCursorPositionChanged);
     connect(this->lineEdit(), &QLineEdit::customContextMenuRequested, this, &InputEdit::showTextEditMenu);
+    connect(this->lineEdit(), &QLineEdit::selectionChanged, this, &InputEdit::selectionChangedSlot);
     connect(this->lineEdit(), &QLineEdit::selectionChanged,
             [=] {
                 int pos = this->lineEdit()->cursorPosition();
@@ -503,4 +504,13 @@ void InputEdit::showTextEditMenu(QPoint p)
     menu->move(cursor().pos());
     menu->exec();
     menu->deleteLater();
+}
+
+void InputEdit::selectionChangedSlot()
+{
+    if (lineEdit()->selectedText().isEmpty() && hasFocus())
+        return;
+    m_selected.oldText = text();
+    m_selected.selected = lineEdit()->selectedText();
+    m_selected.curpos = text().size() - lineEdit()->selectionEnd();
 }

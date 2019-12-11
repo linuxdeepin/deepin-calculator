@@ -119,7 +119,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
     } else {
         if (m_inputEdit->text() == "－")
             return;
-        getSelection();
+        //getSelection();
         int curPos = m_inputEdit->lineEdit()->cursorPosition();
         QString exp = m_inputEdit->text();
         if (cursorPosAtEnd()) {
@@ -204,7 +204,7 @@ void ExpressionBar::enterBackspaceEvent()
     //m_inputEdit->lineEdit()->backspace();
     QString text = m_inputEdit->text();
     int cur = m_inputEdit->lineEdit()->cursorPosition();
-    if (text[cur - 1] == ",") {
+    if (text.size() > 0 && text[cur - 1] == ",") {
         text.remove(cur - 2, 2);
         m_inputEdit->setText(text);
         m_inputEdit->lineEdit()->setCursorPosition(cur - 2);
@@ -789,12 +789,20 @@ QString ExpressionBar::pasteFaultTolerance(QString exp)
 
 QString ExpressionBar::pointFaultTolerance(const QString &text)
 {
-    QString exp = text;
     QString oldText = text;
-    exp = exp.replace(QString::fromUtf8("－"),QString::fromUtf8("＋"))
-             .replace(QString::fromUtf8("×"),QString::fromUtf8("＋"))
-             .replace(QString::fromUtf8("÷"),QString::fromUtf8("＋"));
-    QStringList list = exp.split(QString::fromUtf8("＋"));
+    QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
+    reformatStr = reformatStr.replace('+', QString::fromUtf8("＋"))
+                             .replace('-', QString::fromUtf8("－"))
+                             .replace("_", QString::fromUtf8("－"))
+                             .replace('*', QString::fromUtf8("×"))
+                             .replace('/', QString::fromUtf8("÷"))
+                             .replace('x', QString::fromUtf8("×"))
+                             .replace('X', QString::fromUtf8("×"))
+                             .replace(QString::fromUtf8("（"), "(")
+                             .replace(QString::fromUtf8("）"), ")")
+                             .replace(QString::fromUtf8("。"), ".")
+                             .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
+    QStringList list = reformatStr.split(QRegExp("[＋－×÷()]"));
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];
         int firstPoint = item.indexOf(".");
@@ -862,6 +870,27 @@ void ExpressionBar::Redo()
 void ExpressionBar::initTheme(int type)
 {
     m_listDelegate->setThemeType(type);
+}
+
+void ExpressionBar::clearSelection()
+{
+    SSelection select = m_inputEdit->getSelection();
+    if (!select.selected.isEmpty()) {
+        int start = select.curpos - select.selected.length();
+        QString exp = m_inputEdit->lineEdit()->text();
+        exp = exp.remove(start,select.selected.length());
+        select.clearText = exp;
+    }
+}
+
+void ExpressionBar::setSelection()
+{
+    SSelection select = m_inputEdit->getSelection();
+    if (select.selected.isEmpty())
+        return;
+    if (m_inputEdit->text() == select.clearText)
+        m_inputEdit->setText(select.oldText);
+    select.selected = "";
 }
 
 void ExpressionBar::getSelection()

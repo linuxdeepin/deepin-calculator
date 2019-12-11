@@ -27,6 +27,18 @@
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
 
+struct SSelection
+{
+    QString oldText;
+    QString selected;
+    QString clearText;
+    bool isChanged;
+    int curpos;
+    SSelection() {
+        isChanged = false;
+    }
+};
+
 class InputEdit : public DLineEdit
 {
     Q_OBJECT
@@ -38,6 +50,7 @@ public:
     QString expressionText();
     void setAnswer(const QString &str, const Quantity &ans);
     void clear();
+    SSelection getSelection() {return m_selected;};
 
 public slots:
     void setUndoAction(bool state);
@@ -74,6 +87,7 @@ private slots:
     bool eventFilter(QObject *watched, QEvent *event);
     void multipleArithmetic(QString &text);
     void showTextEditMenu(QPoint p);
+    void selectionChangedSlot();
 
 private:
     Quantity m_ans;
@@ -83,6 +97,7 @@ private:
     bool m_currentInAns;
     bool m_currentOnAnsLeft;
     QString m_oldText;
+    SSelection m_selected;
 
     QAction* m_undo;
     QAction* m_redo;

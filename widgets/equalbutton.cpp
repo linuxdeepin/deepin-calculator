@@ -42,8 +42,13 @@ void EqualButton::animate(int msec)
 
 void EqualButton::keyPressEvent(QKeyEvent *e)
 {
-    if (e->key() == Qt::Key_Left || e->key() == Qt::Key_Right ||
-            e->key() == Qt::Key_Up || e->key() == Qt::Key_Down)
+    if (e->key() == Qt::Key_Left) {
+        emit moveLeft();
+        return;
+    } else if (e->key() == Qt::Key_Right) {
+        emit moveRight();
+        return;
+    } else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down)
         return;
     else
         DPushButton::keyPressEvent(e);

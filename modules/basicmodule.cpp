@@ -58,6 +58,8 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_expressionBar, &ExpressionBar::clearStateChanged, this, &BasicModule::handleClearStateChanged);
     connect(m_basicKeypad, &BasicKeypad::buttonPressed, this, &BasicModule::handleKeypadButtonPress);
     connect(m_basicKeypad, &BasicKeypad::equalPressed, this, &BasicModule::equalButtonPress);
+    connect(m_basicKeypad, &BasicKeypad::moveLeft, [=] {m_expressionBar->moveLeft();});
+    connect(m_basicKeypad, &BasicKeypad::moveRight, [=] {m_expressionBar->moveRight();});
 
     //m_expBarColor = "#F8F8F8";
     //m_expBarSepColor = "#F8F8F8";
@@ -126,6 +128,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     const bool isPressCtrl = e->modifiers() == Qt::ControlModifier;
     const QString keyText = e->text();
     bool lineFocus = m_expressionBar->getInputEdit()->lineEdit()->hasFocus();
+    //m_expressionBar->clearSelection();
 
     switch (e->key()) {
     case Qt::Key_0:
@@ -306,6 +309,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     default:
         break;
     }
+    //m_expressionBar->setSelection();
     if (lineFocus)
         m_expressionBar->getInputEdit()->lineEdit()->setFocus();
     else
@@ -314,6 +318,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
 
 void BasicModule::handleKeypadButtonPress(int key)
 {
+    m_expressionBar->clearSelection();
     switch (key) {
     case BasicKeypad::Key_0:            m_expressionBar->enterNumberEvent("0");     break;
     case BasicKeypad::Key_1:            m_expressionBar->enterNumberEvent("1");     break;

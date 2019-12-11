@@ -40,6 +40,9 @@ public:
     //void showShadow();
     //void hideShadow();
     void animate(int msec = 100);
+signals:
+    void moveLeft();
+    void moveRight();
 
 public:
     void mousePressEvent(QMouseEvent *);

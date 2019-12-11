@@ -94,6 +94,8 @@ public slots:
     void addUndo();
     void Redo();
     void initTheme(int type);
+    void clearSelection();
+    void setSelection();
     void getSelection();
     DLineEdit *getInputEdit();
 
