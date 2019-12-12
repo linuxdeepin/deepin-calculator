@@ -271,10 +271,6 @@ void InputEdit::handleTextChanged(const QString &text)
         (ansEnd == text.length() || !text[ansEnd].isDigit());
     m_oldText = text;
 
-    // reformat text.
-    int oldPosition = this->lineEdit()->cursorPosition();
-    int oldLength = text.length();
-
     QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
     reformatStr = reformatStr.replace('+', QString::fromUtf8("＋"))
                              .replace('-', QString::fromUtf8("－"))
@@ -293,12 +289,17 @@ void InputEdit::handleTextChanged(const QString &text)
     reformatStr = pointFaultTolerance(reformatStr);
     reformatStr = symbolFaultTolerance(reformatStr);
     setText(reformatStr);
-
-    int newLength = reformatStr.length();
-    this->lineEdit()->setCursorPosition(oldPosition + (newLength - oldLength));
-
     autoZoomFontSize();
     updateAction();
+
+    // reformat text.
+    int oldLength = reformatStr.length();
+    int newLength = reformatStr.length();
+    int oldPosition = this->lineEdit()->cursorPosition();
+    int pos = oldPosition + (newLength - oldLength);
+    if (pos > newLength)
+        pos = newLength;
+    this->lineEdit()->setCursorPosition(23);
 }
 
 QString InputEdit::pointFaultTolerance(const QString &text)

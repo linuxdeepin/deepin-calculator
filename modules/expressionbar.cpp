@@ -372,6 +372,7 @@ void ExpressionBar::enterEqualEvent()
                 }
                 if (newResult.isEmpty())
                     break;
+                newResult = newResult.replace("+", QString::fromUtf8("＋")).replace("-", QString::fromUtf8("－"));
                 m_hisLink[i].linkageValue = newResult;
                 QString newText = newResult + linkedExp.right(linkedExp.length() - length);
                 m_inputEdit->setText(newText);
@@ -538,8 +539,6 @@ void ExpressionBar::shear()
     text.remove(start,length);
     m_inputEdit->setText(text);
     addUndo();
-    //copyResultToClipboard();
-    //m_inputEdit->lineEdit()->text().remove()
 }
 
 void ExpressionBar::handleTextChanged(const QString &text)
