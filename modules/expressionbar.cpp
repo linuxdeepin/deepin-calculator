@@ -770,8 +770,31 @@ QString ExpressionBar::symbolComplement(const QString exp)
 
 QString ExpressionBar::pasteFaultTolerance(QString exp)
 {
+    exp = m_inputEdit->text().insert(m_inputEdit->lineEdit()->cursorPosition(), exp);
     exp = pointFaultTolerance(exp);
-    for(int i = 0;i < exp.size();++i) {
+    QStringList list = exp.split(QRegExp("[＋－×÷()]"));
+    QString newExp;
+    int index = 0;
+    for(int i = 0;i < list.size();i++) {
+        QString text = list[i];
+        index = exp.indexOf(text,index);
+        if (text[0] == ".")
+            text.prepend("0");
+        else if (text[0] == "%")
+            text.remove(0,1);
+        for (int j = 0; j < text.size(); ++j) {
+            if (text.size() > 1 && text[0] == "0" && text[1] != ".") {
+                text.remove(0,1);
+                --j;
+            }
+        }
+        newExp = newExp + text;
+        if (i != list.size() -1) {
+           newExp += exp.at(index + list[i].size());
+        }
+    }
+
+    /*for(int i = 0;i < exp.size();++i) {
         if (i == 0 || !exp[i-1].isNumber()) {
             if (exp[i] == ".") {
                 exp.prepend("0");
@@ -782,15 +805,15 @@ QString ExpressionBar::pasteFaultTolerance(QString exp)
             exp.remove(i,1);
             --i;
         }
-    }
-    return exp;
+    }*/
+    return newExp;
 }
 
 QString ExpressionBar::pointFaultTolerance(const QString &text)
 {
     QString oldText = text;
-    QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
-    reformatStr = reformatStr.replace('+', QString::fromUtf8("＋"))
+    //QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
+    QString reformatStr = oldText.replace('+', QString::fromUtf8("＋"))
                              .replace('-', QString::fromUtf8("－"))
                              .replace("_", QString::fromUtf8("－"))
                              .replace('*', QString::fromUtf8("×"))
@@ -814,16 +837,16 @@ QString ExpressionBar::pointFaultTolerance(const QString &text)
         } else {
             if (item.at(firstPoint - 1) == ")" || item.at(firstPoint - 1) == "%") {
                 item.remove(firstPoint, 1);
-                oldText.replace(list[i], item);
+                reformatStr.replace(list[i], item);
             }
         }
         if (item.count(".") > 1) {
             item.remove(".");
             item.insert(firstPoint, ".");
-            oldText.replace(list[i], item);
+            reformatStr.replace(list[i], item);
         }
     }
-    return oldText;
+    return reformatStr;
 }
 
 void ExpressionBar::Undo()

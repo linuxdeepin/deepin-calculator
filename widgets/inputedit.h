@@ -69,6 +69,7 @@ Q_SIGNALS:
 
 protected:
     void keyPressEvent(QKeyEvent *);
+    void mousePressEvent(QMouseEvent *);
     void mouseDoubleClickEvent(QMouseEvent *);
 
 private slots:

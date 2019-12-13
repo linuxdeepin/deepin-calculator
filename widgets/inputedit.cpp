@@ -26,6 +26,7 @@
 #include <QStringList>
 #include <QApplication>
 #include <QClipboard>
+#include <QMouseEvent>
 
 #include <DMenu>
 
@@ -115,10 +116,16 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
     return;
 }
 
+void InputEdit::mousePressEvent(QMouseEvent *e)
+{
+    m_selected.selected = "";
+}
+
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
     //QLineEdit::mouseDoubleClickEvent(e);
     lineEdit()->selectAll();
+    m_selected.selected = text();
     /*if (e->button() == Qt::LeftButton) {
         int position = this->lineEdit()->cursorPositionAt(e->pos());
         int posBegin = findWordBeginPosition(position);
