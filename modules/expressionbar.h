@@ -114,6 +114,7 @@ private:
     QString symbolComplement(const QString exp);
     QString pasteFaultTolerance(QString exp);
     QString pointFaultTolerance(const QString &text);
+    void clearSelectSymbol();
 
 private:
     Evaluator *m_evaluator;

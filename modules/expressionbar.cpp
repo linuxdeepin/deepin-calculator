@@ -110,6 +110,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
             m_listDelegate->removeLine(0);
         }
     }
+    clearSelectSymbol();
     if (m_inputEdit->text().isEmpty()) {
         if (text != "-") {
             return;
@@ -517,7 +518,8 @@ void ExpressionBar::copyClipboard2Result()
     QString text = QApplication::clipboard()->text();
     text.remove("e");
     text = pasteFaultTolerance(text);
-    m_inputEdit->lineEdit()->insert(text);
+    //m_inputEdit->lineEdit()->insert(text);
+    m_inputEdit->setText(text);
     clearLinkageCache();
     if (!m_inputEdit->text().isEmpty())
         emit clearStateChanged(false);
@@ -847,6 +849,19 @@ QString ExpressionBar::pointFaultTolerance(const QString &text)
         }
     }
     return reformatStr;
+}
+
+void ExpressionBar::clearSelectSymbol()
+{
+    SSelection select = m_inputEdit->getSelection();
+    if (select.selected.size() == 1 && (select.selected == "＋" || select.selected == "－"
+                                        || select.selected == "×" || select.selected == "÷")) {
+        select.selected = "";
+        QString exp = m_inputEdit->text();
+        exp.remove(select.curpos,1);
+        m_inputEdit->setText(exp);
+        m_inputEdit->lineEdit()->setCursorPosition(select.curpos);
+    }
 }
 
 void ExpressionBar::Undo()
