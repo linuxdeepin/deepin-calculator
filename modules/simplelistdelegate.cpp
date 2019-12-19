@@ -227,6 +227,8 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
         while (exp.at(index) == "(") {
             ++index;
             linkNum.append("(");
+            if (exp.at(index) == "－")
+                linkNum.append("－");
         }
         linkNum.append(list.at(0));
     }

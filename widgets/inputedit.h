@@ -39,7 +39,7 @@ struct SSelection
     }
 };
 
-class InputEdit : public DLineEdit
+class InputEdit : public QLineEdit
 {
     Q_OBJECT
 
@@ -51,6 +51,7 @@ public:
     void setAnswer(const QString &str, const Quantity &ans);
     void clear();
     SSelection getSelection() {return m_selected;};
+    void setSelection(SSelection select) {m_selected = select;};
 
 public slots:
     void setUndoAction(bool state);
@@ -69,8 +70,8 @@ Q_SIGNALS:
 
 protected:
     void keyPressEvent(QKeyEvent *);
-    void mousePressEvent(QMouseEvent *);
     void mouseDoubleClickEvent(QMouseEvent *);
+    void mousePressEvent(QMouseEvent *);
 
 private slots:
     void initAction();
@@ -89,6 +90,7 @@ private slots:
     void multipleArithmetic(QString &text);
     void showTextEditMenu(QPoint p);
     void selectionChangedSlot();
+    void pressSlot();
 
 private:
     Quantity m_ans;

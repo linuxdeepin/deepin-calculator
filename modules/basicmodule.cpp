@@ -127,7 +127,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
 {
     const bool isPressCtrl = e->modifiers() == Qt::ControlModifier;
     const QString keyText = e->text();
-    bool lineFocus = m_expressionBar->getInputEdit()->lineEdit()->hasFocus();
+    bool lineFocus = m_expressionBar->getInputEdit()->hasFocus();
     //m_expressionBar->clearSelection();
 
     switch (e->key()) {
@@ -311,7 +311,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     }
     //m_expressionBar->setSelection();
     if (lineFocus)
-        m_expressionBar->getInputEdit()->lineEdit()->setFocus();
+        m_expressionBar->getInputEdit()->setFocus();
     else
         setFocus();
 }

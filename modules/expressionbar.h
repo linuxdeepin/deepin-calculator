@@ -97,7 +97,7 @@ public slots:
     void clearSelection();
     void setSelection();
     void getSelection();
-    DLineEdit *getInputEdit();
+    QLineEdit *getInputEdit();
 
 private slots:
     void handleTextChanged(const QString &text);

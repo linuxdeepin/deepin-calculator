@@ -31,7 +31,7 @@
 #include <DMenu>
 
 InputEdit::InputEdit(QWidget *parent)
-    : DLineEdit(parent),
+    : QLineEdit(parent),
       m_ans(0),
       m_ansStartPos(0),
       m_ansLength(0),
@@ -46,26 +46,27 @@ InputEdit::InputEdit(QWidget *parent)
     autoZoomFontSize();
     initAction();
 
-    this->lineEdit()->setFrame(false);
-    this->lineEdit()->setClearButtonEnabled(false);
-    this->lineEdit()->setContextMenuPolicy(Qt::CustomContextMenu);
+    this->setFrame(false);
+    this->setClearButtonEnabled(false);
+    this->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    connect(this->lineEdit(), &QLineEdit::textChanged, this, &InputEdit::handleTextChanged);
-    connect(this->lineEdit(), &QLineEdit::cursorPositionChanged, this, &InputEdit::handleCursorPositionChanged);
-    connect(this->lineEdit(), &QLineEdit::customContextMenuRequested, this, &InputEdit::showTextEditMenu);
-    connect(this->lineEdit(), &QLineEdit::selectionChanged, this, &InputEdit::selectionChangedSlot);
-    connect(this->lineEdit(), &QLineEdit::selectionChanged,
+    connect(this, &QLineEdit::textChanged, this, &InputEdit::handleTextChanged);
+    connect(this, &QLineEdit::cursorPositionChanged, this, &InputEdit::handleCursorPositionChanged);
+    connect(this, &QLineEdit::customContextMenuRequested, this, &InputEdit::showTextEditMenu);
+    connect(this, &InputEdit::returnPressed, this, &InputEdit::pressSlot);
+    connect(this, &QLineEdit::selectionChanged, this, &InputEdit::selectionChangedSlot);
+    connect(this, &QLineEdit::selectionChanged,
             [=] {
-                int pos = this->lineEdit()->cursorPosition();
-                this->lineEdit()->cursorPositionChanged(pos, pos);
+                int pos = this->cursorPosition();
+                this->cursorPositionChanged(pos, pos);
             });
 
-    DPalette pl = this->lineEdit()->palette();
+    DPalette pl = this->palette();
     //pl.setColor(DPalette::Text,QColor(48,48,48));
     pl.setColor(DPalette::Button,Qt::transparent);
     pl.setColor(DPalette::Highlight,Qt::transparent);
     pl.setColor(DPalette::HighlightedText,Qt::blue);
-    this->lineEdit()->setPalette(pl);
+    this->setPalette(pl);
 }
 
 InputEdit::~InputEdit()
@@ -116,22 +117,23 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
     return;
 }
 
-void InputEdit::mousePressEvent(QMouseEvent *e)
-{
-    m_selected.selected = "";
-}
-
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
     //QLineEdit::mouseDoubleClickEvent(e);
-    lineEdit()->selectAll();
+    selectAll();
     m_selected.selected = text();
     /*if (e->button() == Qt::LeftButton) {
-        int position = this->lineEdit()->cursorPositionAt(e->pos());
+        int position = this->cursorPositionAt(e->pos());
         int posBegin = findWordBeginPosition(position);
         int posEnd = findWordEndPosition(position);
-        this->lineEdit()->setSelection(posBegin, posEnd - posBegin + 1);
+        this->setSelection(posBegin, posEnd - posBegin + 1);
     }*/
+}
+
+void InputEdit::mousePressEvent(QMouseEvent *e)
+{
+    m_selected.selected = "";
+    QLineEdit::mousePressEvent(e);
 }
 
 void InputEdit::initAction()
@@ -162,7 +164,7 @@ void InputEdit::initAction()
 
 void InputEdit::updateAction()
 {
-    if (this->lineEdit()->text().isEmpty()) {
+    if (this->text().isEmpty()) {
         m_select->setEnabled(false);
         m_delete->setEnabled(false);
         m_copy->setEnabled(false);
@@ -278,7 +280,7 @@ void InputEdit::handleTextChanged(const QString &text)
         (ansEnd == text.length() || !text[ansEnd].isDigit());
     m_oldText = text;
 
-    int oldPosition = this->lineEdit()->cursorPosition();
+    int oldPosition = this->cursorPosition();
     QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
     reformatStr = reformatStr.replace('+', QString::fromUtf8("＋"))
                              .replace('-', QString::fromUtf8("－"))
@@ -306,7 +308,7 @@ void InputEdit::handleTextChanged(const QString &text)
     int pos = oldPosition + (newLength - oldLength);
     if (pos > newLength)
         pos = newLength;
-    this->lineEdit()->setCursorPosition(pos);
+    this->setCursorPosition(pos);
 }
 
 QString InputEdit::pointFaultTolerance(const QString &text)
@@ -402,12 +404,12 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
     Q_UNUSED(oldPos);
 
     int ansEnd = m_ansStartPos + m_ansLength;
-    int selectStart = this->lineEdit()->selectionStart();
-    int selectEnd = selectStart + this->lineEdit()->selectedText().length();
+    int selectStart = this->selectionStart();
+    int selectEnd = selectStart + this->selectedText().length();
 
     if (newPos > m_ansStartPos && newPos < ansEnd) {
         m_currentInAns = true;
-    } else if (this->lineEdit()->hasSelectedText() &&
+    } else if (this->hasSelectedText() &&
                ((selectStart >= m_ansStartPos && selectStart < ansEnd) ) ||
                (selectEnd > m_ansStartPos && selectEnd <= ansEnd) ||
                (selectStart < m_ansStartPos && selectEnd > ansEnd)) {
@@ -424,7 +426,7 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
 void InputEdit::BracketCompletion(QKeyEvent *e)
 {
     QString oldText = text();
-    int curs = this->lineEdit()->cursorPosition();
+    int curs = this->cursorPosition();
     int right = oldText.length() - curs;
     int leftLeftParen = oldText.left(curs).count("(");
     int leftRightParen = oldText.left(curs).count(")");
@@ -454,7 +456,7 @@ void InputEdit::BracketCompletion(QKeyEvent *e)
     } else {
         oldText.insert(curs,"()");
     }
-    this->lineEdit()->setCursorPosition(curs);
+    this->setCursorPosition(curs);
     setText(oldText);
 }
 
@@ -469,7 +471,7 @@ bool InputEdit::eventFilter(QObject *watched, QEvent *event)
         mouseDoubleClickEvent(mouseEvent);
         return true;
     }
-    return DLineEdit::eventFilter(watched, event);
+    return QLineEdit::eventFilter(watched, event);
 }
 
 void InputEdit::multipleArithmetic(QString &text)
@@ -489,7 +491,7 @@ void InputEdit::multipleArithmetic(QString &text)
 
 void InputEdit::showTextEditMenu(QPoint p)
 {
-    DMenu *menu = new DMenu(this->lineEdit());
+    DMenu *menu = new DMenu(this);
     menu->addAction(m_undo);
     menu->addAction(m_redo);
     menu->addAction(m_cut);
@@ -504,7 +506,7 @@ void InputEdit::showTextEditMenu(QPoint p)
     else
         m_paste->setEnabled(true);
 
-    if (this->lineEdit()->selectedText().isEmpty())
+    if (this->selectedText().isEmpty())
         m_cut->setEnabled(false);
     else
         m_cut->setEnabled(true);
@@ -514,11 +516,16 @@ void InputEdit::showTextEditMenu(QPoint p)
     menu->deleteLater();
 }
 
+void InputEdit::pressSlot()
+{
+    return;
+}
+
 void InputEdit::selectionChangedSlot()
 {
-    if (lineEdit()->selectedText().isEmpty() && hasFocus())
+    if (!hasFocus())
         return;
     m_selected.oldText = text();
-    m_selected.selected = lineEdit()->selectedText();
-    m_selected.curpos = text().size() - lineEdit()->selectionEnd();
+    m_selected.selected = selectedText();
+    m_selected.curpos = selectionStart();
 }
