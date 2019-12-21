@@ -65,7 +65,7 @@ Q_SIGNALS:
     void paste();
     void copy();
     void cut();
-    void selectAll();
+    void selectAllText();
     void deleteText();
 
 protected:

@@ -111,6 +111,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
         }
     }
     clearSelectSymbol();
+    m_isResult = false;
     if (m_inputEdit->text().isEmpty()) {
         if (text != "-") {
             return;
@@ -387,6 +388,7 @@ void ExpressionBar::enterEqualEvent()
         m_hisRevision = -1;
     m_listView->scrollToBottom();
     m_isLinked = false;
+    m_isResult = true;
 }
 
 void ExpressionBar::enterBracketsEvent()
@@ -672,6 +674,7 @@ void ExpressionBar::clearLinkageCache()
         m_hisLink.removeLast();
         m_isLinked = false;
         m_listDelegate->removeHisLink();
+        m_isResult = false;
     }
 }
 
@@ -740,7 +743,7 @@ void ExpressionBar::initConnect()
     connect(m_inputEdit, &InputEdit::copy, this, &ExpressionBar::copyResultToClipboard);
     connect(m_inputEdit, &InputEdit::paste, this, &ExpressionBar::copyClipboard2Result);
     connect(m_inputEdit, &InputEdit::deleteText, this, &ExpressionBar::enterClearEvent);
-    connect(m_inputEdit, &InputEdit::selectAll, this, &ExpressionBar::allElection);
+    connect(m_inputEdit, &InputEdit::selectAllText, this, &ExpressionBar::allElection);
     connect(m_inputEdit, &InputEdit::undo, this, &ExpressionBar::Undo);
     connect(m_inputEdit, &InputEdit::redo, this, &ExpressionBar::Redo);
 }
@@ -773,41 +776,20 @@ QString ExpressionBar::pasteFaultTolerance(QString exp)
 {
     exp = m_inputEdit->text().insert(m_inputEdit->cursorPosition(), exp);
     exp = pointFaultTolerance(exp);
-    QStringList list = exp.split(QRegExp("[＋－×÷()]"),QString::SkipEmptyParts);
-    QString newExp;
-    int index = 0;
-    for(int i = 0;i < list.size();i++) {
-        QString text = list[i];
-        index = exp.indexOf(text,index);
-        if (text[0] == ".")
-            text.prepend("0");
-        else if (text[0] == "%")
-            text.remove(0,1);
-        for (int j = 0; j < text.size(); ++j) {
-            if (text.size() > 1 && text[0] == "0" && text[1] != ".") {
-                text.remove(0,1);
-                --j;
+    for (int i = 0; i < exp.size(); ++i) {
+        while (exp[i].isNumber()) {
+            if (exp[i] == "0" && exp[i+1] != ".") {
+                exp.remove(i,1);
+                --i;
             }
+            ++i;
         }
-        newExp = newExp + text;
-        if (i != list.size() -1) {
-           newExp += exp.at(index + list[i].size());
+        if (exp[i] == "." && (i == 0 || !exp[i-1].isNumber())) {
+            exp.insert(i,"0");
+            ++i;
         }
     }
-
-    /*for(int i = 0;i < exp.size();++i) {
-        if (i == 0 || !exp[i-1].isNumber()) {
-            if (exp[i] == ".") {
-                exp.prepend("0");
-                ++i;
-            }
-        }
-        if (exp[i] == "0" && (i == 0 || !exp[i-1].isNumber()) && exp[i+1] != ".") {
-            exp.remove(i,1);
-            --i;
-        }
-    }*/
-    return newExp;
+    return exp;
 }
 
 QString ExpressionBar::pointFaultTolerance(const QString &text)
@@ -871,14 +853,18 @@ void ExpressionBar::Undo()
     m_redo.append(m_undo.last());
     m_inputEdit->setRedoAction(true);
     m_undo.removeLast();
-    if (!m_undo.isEmpty()) {
+    if (!m_undo.isEmpty())
         m_inputEdit->setText(m_undo.last());
-        emit clearStateChanged(false);
-    }
     else {
         m_inputEdit->clear();
         m_inputEdit->setUndoAction(false);
+    }
+    if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
         emit clearStateChanged(true);
+        m_isAllClear = true;
+    } else {
+        emit clearStateChanged(false);
+        m_isAllClear = false;
     }
 }
 
@@ -901,6 +887,13 @@ void ExpressionBar::Redo()
     m_redo.removeLast();
     if (m_redo.isEmpty())
         m_inputEdit->setRedoAction(false);
+    if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
+        emit clearStateChanged(true);
+        m_isAllClear = true;
+    } else {
+        emit clearStateChanged(false);
+        m_isAllClear = false;
+    }
 }
 
 void ExpressionBar::initTheme(int type)
