@@ -303,9 +303,10 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         if (isPressCtrl)
             m_expressionBar->Redo();
         break;
-    case Qt::Key_E:
+    /*case Qt::Key_E:
         m_expressionBar->entereEvent();
         m_expressionBar->addUndo();
+        breal;*/
     default:
         break;
     }
