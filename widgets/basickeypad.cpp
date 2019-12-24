@@ -77,6 +77,7 @@ static DPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
     } else if (key == BasicKeypad::Key_Brackets) {
         button->setIconUrl(path + "( )_normal.svg", path + "( )_hover.svg", path + "( )_press.svg");
     }
+    //connect(button, &IconButton::updateInterface, this, &BasicKeypad::updateInterface);
     return button;
 }
 
@@ -158,8 +159,9 @@ void BasicKeypad::initButtons()
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue);
 
+        connect(static_cast<TextButton*>(button), &TextButton::updateInterface, [=] {update();});
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-        bool aa = connect(static_cast<TextButton*>(button), &TextButton::moveLeft, this, &BasicKeypad::moveLeft);
+        connect(static_cast<TextButton*>(button), &TextButton::moveLeft, this, &BasicKeypad::moveLeft);
         connect(static_cast<TextButton*>(button), &TextButton::moveRight, this, &BasicKeypad::moveRight);
         m_mapper->setMapping(button, desc->button);
     }

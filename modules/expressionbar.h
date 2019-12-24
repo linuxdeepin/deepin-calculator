@@ -97,6 +97,7 @@ public slots:
     void clearSelection();
     void setSelection();
     void getSelection();
+    void setResultFalse();
     QLineEdit *getInputEdit();
 
 private slots:

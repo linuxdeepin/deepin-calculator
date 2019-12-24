@@ -67,6 +67,7 @@ Q_SIGNALS:
     void cut();
     void selectAllText();
     void deleteText();
+    void setResult();
 
 protected:
     void keyPressEvent(QKeyEvent *);

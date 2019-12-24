@@ -746,6 +746,7 @@ void ExpressionBar::initConnect()
     connect(m_inputEdit, &InputEdit::selectAllText, this, &ExpressionBar::allElection);
     connect(m_inputEdit, &InputEdit::undo, this, &ExpressionBar::Undo);
     connect(m_inputEdit, &InputEdit::redo, this, &ExpressionBar::Redo);
+    connect(m_inputEdit, &InputEdit::setResult, this, &ExpressionBar::setResultFalse);
 }
 
 QString ExpressionBar::symbolComplement(const QString exp)
@@ -778,7 +779,7 @@ QString ExpressionBar::pasteFaultTolerance(QString exp)
     exp = pointFaultTolerance(exp);
     for (int i = 0; i < exp.size(); ++i) {
         while (exp[i].isNumber()) {
-            if (exp[i] == "0" && exp[i+1] != ".") {
+            if (exp[i] == "0" && exp[i+1] != "." && (i == 0 || !exp[i-1].isNumber())) {
                 exp.remove(i,1);
                 --i;
             }
@@ -931,6 +932,11 @@ void ExpressionBar::getSelection()
         m_inputEdit->setText(exp);
         m_inputEdit->setCursorPosition(start);
     }
+}
+
+void ExpressionBar::setResultFalse()
+{
+    m_isResult = false;
 }
 
 bool ExpressionBar::cancelLink(int index)

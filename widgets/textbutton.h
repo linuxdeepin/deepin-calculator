@@ -43,6 +43,7 @@ public:
 signals:
     void moveLeft();
     void moveRight();
+    void updateInterface();
 
 public:
     void mousePressEvent(QMouseEvent *);
@@ -51,6 +52,7 @@ public:
     void leaveEvent(QEvent *);
     void keyPressEvent(QKeyEvent*);
     void paintEvent(QPaintEvent *e);
+    void focusOutEvent(QFocusEvent *);
 private:
     //QGraphicsDropShadowEffect *m_effect;
 

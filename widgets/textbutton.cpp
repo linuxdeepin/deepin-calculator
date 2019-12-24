@@ -93,6 +93,7 @@ void TextButton::mousePressEvent(QMouseEvent *e)
         this->setPalette(pa);
     }
     m_isPress = true;
+    emit updateInterface();
     DPushButton::mousePressEvent(e);
 }
 
@@ -233,4 +234,10 @@ void TextButton::paintEvent(QPaintEvent *e)
             painter.drawText(textRect, this->text());
         }
     }
+}
+
+void TextButton::focusOutEvent(QFocusEvent *e)
+{
+    emit updateInterface();
+    QPushButton::focusOutEvent(e);
 }

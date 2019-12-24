@@ -319,6 +319,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
 
 void BasicModule::handleKeypadButtonPress(int key)
 {
+    m_basicKeypad->update();
     m_expressionBar->clearSelection();
     switch (key) {
     case BasicKeypad::Key_0:            m_expressionBar->enterNumberEvent("0");     break;
@@ -343,7 +344,6 @@ void BasicModule::handleKeypadButtonPress(int key)
     case BasicKeypad::Key_Brackets:     m_expressionBar->enterBracketsEvent();      break;
     }
     m_expressionBar->addUndo();
-    m_basicKeypad->update();
 }
 
 void BasicModule::equalButtonPress()
@@ -363,9 +363,9 @@ void BasicModule::handleClearStateChanged(bool isAllClear)
     }
 }
 
-void BasicModule::paintEvent(QPaintEvent *)
+/*void BasicModule::paintEvent(QPaintEvent *)
 {
-    /*QPainter painter(this);
+    QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
 
@@ -382,8 +382,8 @@ void BasicModule::paintEvent(QPaintEvent *)
     painter.drawRect(QRect(rect().x(),
                            m_expressionBar->height() + 1,
                            rect().width(),
-                           rect().height()));*/
-}
+                           rect().height()));
+}*/
 
 void BasicModule::setKeyPress(QKeyEvent *e)
 {

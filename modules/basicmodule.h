@@ -54,7 +54,7 @@ private:
     void handleClearStateChanged(bool isAllClear);
 
 protected:
-    void paintEvent(QPaintEvent *);
+    //void paintEvent(QPaintEvent *);
 
 private:
     ExpressionBar *m_expressionBar;

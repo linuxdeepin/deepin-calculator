@@ -133,6 +133,7 @@ void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 void InputEdit::mousePressEvent(QMouseEvent *e)
 {
     m_selected.selected = "";
+    emit setResult();
     QLineEdit::mousePressEvent(e);
 }
 
