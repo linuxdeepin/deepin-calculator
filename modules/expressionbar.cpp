@@ -779,7 +779,7 @@ QString ExpressionBar::pasteFaultTolerance(QString exp)
     exp = pointFaultTolerance(exp);
     for (int i = 0; i < exp.size(); ++i) {
         while (exp[i].isNumber()) {
-            if (exp[i] == "0" && exp[i+1] != "." && (i == 0 || !exp[i-1].isNumber())) {
+            if (exp[i] == "0" && exp[i+1] != "." && (i == 0 || !exp[i-1].isNumber()) && (exp.size() == 1 || exp[i+1].isNumber())) {
                 exp.remove(i,1);
                 --i;
             }

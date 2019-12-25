@@ -50,6 +50,15 @@ struct historicalLinkageIndex
     }
 };
 
+struct strck
+{
+    QString text;
+    bool isResult;
+    strck() {
+        isResult = false;
+    }
+};
+
 class ExpressionBar : public DWidget
 {
     Q_OBJECT

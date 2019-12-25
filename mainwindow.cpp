@@ -42,9 +42,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     //titlebar()->setBackgroundTransparent(true);
     QIcon t_icon = QIcon::fromTheme("deepin-calculator");
-    QPixmap pixmap = t_icon.pixmap(24,24);
-    QIcon newIcon(pixmap);
-    titlebar()->setIcon(newIcon);
+//    QPixmap pixmap = t_icon.pixmap(24,24);
+//    QIcon newIcon(pixmap);
+    titlebar()->setIcon(t_icon);
     titlebar()->setMenu(m_tbMenu);
     titlebar()->setTitle("");
 
@@ -69,7 +69,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_basicModule->setFocus();
     //connect(m_themeAction, &QAction::triggered, this, &MainWindow::switchTheme);
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this,&MainWindow::initTheme);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &MainWindow::initTheme);
     connect(m_simpleAction, &QAction::triggered, this, &MainWindow::switchToSimpleMode);
     connect(m_scAction, &QAction::triggered, this, &MainWindow::switchToScientificMode);
 
@@ -100,16 +100,15 @@ void MainWindow::initTheme()
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         DPalette titlePa = titlebar()->palette();
-        titlePa.setColor(DPalette::Light,QColor(240,240,240));
-        titlePa.setColor(DPalette::Dark,QColor(240,240,240));
-        titlePa.setColor(DPalette::Base,QColor(240,240,240));
+        titlePa.setColor(DPalette::Light, QColor(240, 240, 240));
+        titlePa.setColor(DPalette::Dark, QColor(240, 240, 240));
+        titlePa.setColor(DPalette::Base, QColor(240, 240, 240));
         titlebar()->setPalette(titlePa);
-    }
-    else {
+    } else {
         DPalette titlePa = titlebar()->palette();
-        titlePa.setColor(DPalette::Light,QColor(37,37,37));
-        titlePa.setColor(DPalette::Dark,QColor(37,37,37));
-        titlePa.setColor(DPalette::Base,QColor(37,37,37));
+        titlePa.setColor(DPalette::Light, QColor(37, 37, 37));
+        titlePa.setColor(DPalette::Dark, QColor(37, 37, 37));
+        titlePa.setColor(DPalette::Base, QColor(37, 37, 37));
         titlebar()->setPalette(titlePa);
     }
 }
@@ -124,7 +123,7 @@ void MainWindow::initModule()
 
     m_basicModule = new BasicModule;
 
-    m_mainLayout->setContentsMargins(0,0,0,0);
+    m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->addWidget(m_basicModule);
 
     switch (mode) {
