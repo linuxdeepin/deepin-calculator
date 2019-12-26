@@ -37,6 +37,7 @@ ExpressionBar::ExpressionBar(QWidget *parent)
       m_hisRevision(-1),
       m_linkageIndex(-1),
       m_isLinked(false),
+      m_isUndo(false),
       m_Selected(-1)
 {
     // init inputEdit attributes.
@@ -94,6 +95,7 @@ void ExpressionBar::enterNumberEvent(const QString &text)
     }
 
     m_inputNumber = false;
+    m_isUndo = false;
     m_inputEdit->insert(text);
     emit clearStateChanged(false);
 }
@@ -111,7 +113,24 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
         }
     }
     clearSelectSymbol();
+    if (m_isUndo) {
+        int row = m_listModel->rowCount(QModelIndex());
+        if (row != 0) {
+            QString text = m_listModel->index(row - 1).data(SimpleListModel::ExpressionRole).toString();
+            QString result = text.split("＝").last();
+            if (result == m_inputEdit->text()) {
+                historicalLinkageIndex his;
+                his.linkageTerm =row - 1;
+                his.linkageValue =result;
+                his.linkedItem = row;
+                m_hisLink.append(his);
+                m_listDelegate->setHisLink(row - 1);
+                m_listDelegate->setHisLinked(row);
+            }
+        }
+    }
     m_isResult = false;
+    m_isUndo = false;
     if (m_inputEdit->text().isEmpty()) {
         if (text != "-") {
             return;
@@ -174,6 +193,7 @@ void ExpressionBar::enterPercentEvent()
     }
     m_listView->scrollToBottom();
     m_isContinue = true;
+    m_isUndo = false;
 }
 
 void ExpressionBar::enterPointEvent()
@@ -197,6 +217,7 @@ void ExpressionBar::enterPointEvent()
                 m_inputEdit->insert("0.");
         }
     }
+    m_isUndo = false;
 }
 
 void ExpressionBar::enterBackspaceEvent()
@@ -221,6 +242,7 @@ void ExpressionBar::enterBackspaceEvent()
     }
 
     m_isContinue = true;
+    m_isUndo = false;
 }
 
 void ExpressionBar::enterClearEvent()
@@ -247,6 +269,7 @@ void ExpressionBar::enterClearEvent()
         clearLinkageCache();
     }
     m_isResult = false;
+    m_isUndo = false;
     m_Selected = -1;
     addUndo();
 }
@@ -389,6 +412,7 @@ void ExpressionBar::enterEqualEvent()
     m_listView->scrollToBottom();
     m_isLinked = false;
     m_isResult = true;
+    m_isUndo = false;
 }
 
 void ExpressionBar::enterBracketsEvent()
@@ -397,6 +421,7 @@ void ExpressionBar::enterBracketsEvent()
     int currentPos = m_inputEdit->cursorPosition();
     m_inputEdit->insert("()");
     m_inputEdit->setCursorPosition(currentPos + 1);
+    m_isUndo = false;
     /*QString sRegNum = "[0-9]+";
     QRegExp rx;
     rx.setPattern(sRegNum);
@@ -454,16 +479,19 @@ void ExpressionBar::enterBracketsEvent()
 void ExpressionBar::enterLeftBracketsEvent()
 {
     m_inputEdit->insert("(");
+    m_isUndo = false;
 }
 
 void ExpressionBar::enterRightBracketsEvent()
 {
     m_inputEdit->insert(")");
+    m_isUndo = false;
 }
 
 void ExpressionBar::enterDeleteEvent()
 {
     m_inputEdit->clear();
+    m_isUndo = false;
     /*int curPos = m_inputEdit->cursorPosition();
     if (curPos != m_inputEdit->text().length()) {
         QString text = m_inputEdit->text();
@@ -487,6 +515,7 @@ void ExpressionBar::entereEvent()
     if (rx.exactMatch(exp.at(m_inputEdit->cursorPosition() - 1)))
         m_inputEdit->insert("e");*/
     m_inputEdit->insert("e");
+    m_isUndo = false;
 }
 
 void ExpressionBar::copyResultToClipboard()
@@ -522,6 +551,7 @@ void ExpressionBar::copyClipboard2Result()
     //m_inputEdit->insert(text);
     m_inputEdit->setText(text);
     clearLinkageCache();
+    m_isUndo = false;
     if (!m_inputEdit->text().isEmpty())
         emit clearStateChanged(false);
 }
@@ -542,6 +572,7 @@ void ExpressionBar::shear()
     text.remove(start,length);
     m_inputEdit->setText(text);
     addUndo();
+    m_isUndo = false;
 }
 
 void ExpressionBar::handleTextChanged(const QString &text)
@@ -573,6 +604,7 @@ void ExpressionBar::revisionResults(const QModelIndex &index)
     m_hisRevision = index.row();
     m_inputEdit->setText(expression);
     m_Selected = m_hisRevision;
+    m_isResult = false;
 
     emit clearStateChanged(false);
 }
@@ -854,6 +886,7 @@ void ExpressionBar::Undo()
     m_redo.append(m_undo.last());
     m_inputEdit->setRedoAction(true);
     m_undo.removeLast();
+    m_isUndo = true;
     if (!m_undo.isEmpty())
         m_inputEdit->setText(m_undo.last());
     else {

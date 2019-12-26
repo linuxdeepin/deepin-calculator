@@ -139,6 +139,7 @@ private:
     bool m_isResult;             //计算结果
     bool m_isAutoComputation;    //自动计算
     bool m_inputNumber;          //输入数字
+    bool m_isUndo;
     int m_hisRevision;           //历史记录修改
 
     bool m_isLinked;             //联动状态
