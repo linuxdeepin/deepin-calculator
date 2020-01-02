@@ -83,6 +83,7 @@ void ExpressionBar::enterNumberEvent(const QString &text)
     if (!m_inputEdit->text().isEmpty() && m_isResult) {
         m_inputEdit->clear();
         m_isResult = false;
+        clearLinkageCache();
     }
     if (!m_isContinue) {
         // the cursor position at the end, it will clear edit text.
@@ -153,7 +154,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
             if (firstStr == QString::fromUtf8("－")) {
                 return;
             } else {
-                if (text == QString::fromUtf8("－"))
+                if (text == QString::fromUtf8("－") || text == "-")
                     m_inputEdit->insert(text);
             }
         } else {
