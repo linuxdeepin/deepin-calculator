@@ -73,7 +73,6 @@ HEADERS += mainwindow.h \
            widgets/inputedit.h \
            widgets/scientifickeypad.h \
            widgets/textbutton.h \
-    widgets/shortcut.h \
     widgets/equalbutton.h
 SOURCES += main.cpp \
            mainwindow.cpp \
@@ -125,12 +124,12 @@ SOURCES += main.cpp \
            widgets/inputedit.cpp \
            widgets/scientifickeypad.cpp \
            widgets/textbutton.cpp \
-    widgets/shortcut.cpp \
     widgets/equalbutton.cpp
 
 RESOURCES += deepin-calculator.qrc
 TRANSLATIONS += $$PWD/translations/deepin-calculator.ts \
-                $$PWD/translations/deepin-calculator_zh_CN.ts
+                $$PWD/translations/deepin-calculator_zh_CN.ts \
+                $$PWD/translations/deepin-calculator_en_US.ts
 
 isEmpty(BINDIR):BINDIR=/usr/bin
 isEmpty(APPDIR):APPDIR=/usr/share/applications

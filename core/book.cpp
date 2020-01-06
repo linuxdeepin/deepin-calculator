@@ -61,7 +61,7 @@
         "}" \
     "</style>"
 
-#define BEGIN QString("<html><head>" STYLE "</head><body>")+
+/*#define BEGIN QString("<html><head>" STYLE "</head><body>")+
 #define SECTION(s) "<h3>"+(s)+"</h3>"
 #define BR "<br />"
 #define INDEX_LINK "<span class=\"page-link\"><a href=\"index\">"+Book::tr("Index")+"</a></span>"
@@ -449,4 +449,4 @@ void Book::createPages()
     addPage("rf/swr", &makeRFSWRPage);
     addPage("rf/wavelength", &makeRFWavelengthPage);
     addPage("units/temperature", &makeUnitsTemperaturePage);
-}
+}*/

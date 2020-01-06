@@ -25,7 +25,6 @@
 #include <QMenu>
 
 #include "modules/basicmodule.h"
-#include "widgets/shortcut.h"
 #include "dsettings.h"
 
 DWIDGET_USE_NAMESPACE
@@ -39,7 +38,7 @@ public:
     ~MainWindow();
 
 public slots:
-    void onViewShortcut();
+    //void onViewShortcut();
 protected:
     //void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *event);

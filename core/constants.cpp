@@ -19,7 +19,7 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#include "core/constants.h"
+/*#include "core/constants.h"
 
 #include "core/numberformatter.h"
 #include "math/hmath.h"
@@ -797,5 +797,5 @@ void Constants::retranslateText()
 
 Constants::~Constants()
 {
-}
+}*/
 

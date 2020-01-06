@@ -144,7 +144,7 @@ void InputEdit::initAction()
     m_cut = new QAction(tr("Cu&t"));
     m_copy = new QAction(tr("&Copy"));
     m_paste = new QAction(tr("&Paste"));
-    m_delete = new QAction(tr("delete"));
+    m_delete = new QAction(tr("Delete"));
     m_select = new QAction(tr("Select All"));
 
     connect(m_undo, &QAction::triggered, this, &InputEdit::undo);
@@ -276,7 +276,7 @@ void InputEdit::handleTextChanged(const QString &text)
     while (ansEnd > text.length()) {
         --ansEnd;
     }
-    m_ansVaild = m_ansLength > 16 &&
+    m_ansVaild = m_ansLength > 10 &&
         (m_ansStartPos == 0 || !text[m_ansStartPos - 1].isDigit()) &&
         (ansEnd == text.length() || !text[ansEnd].isDigit());
     m_oldText = text;

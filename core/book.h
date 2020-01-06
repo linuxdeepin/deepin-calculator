@@ -16,7 +16,7 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#ifndef CORE_BOOK_H
+/*#ifndef CORE_BOOK_H
 #define CORE_BOOK_H
 
 #include "core/pageserver.h"
@@ -32,4 +32,4 @@ private:
     Q_DISABLE_COPY(Book)
 };
 
-#endif // CORE_BOOK_H
+#endif // CORE_BOOK_H*/

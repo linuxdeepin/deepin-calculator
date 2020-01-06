@@ -18,7 +18,7 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#ifndef CORE_CONSTANTS_H
+/*#ifndef CORE_CONSTANTS_H
 #define CORE_CONSTANTS_H
 
 #include <QObject>
@@ -53,5 +53,5 @@ private:
     Q_DISABLE_COPY(Constants)
 };
 
-#endif
+#endif*/
 

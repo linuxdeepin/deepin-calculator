@@ -5,7 +5,7 @@ mode = developer
 
 [deepin-calculator.deepin-calculator]
 file_filter = translations/deepin-calculator_<lang>.ts
-source_file = translations/deepin-calculator.ts
+source_file = translations/deepin-calculator_en_US.ts
 source_lang = en
 type = QT
 

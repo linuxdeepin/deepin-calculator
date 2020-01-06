@@ -51,8 +51,8 @@ MainWindow::MainWindow(QWidget *parent)
     // init titlebar menu.
     //m_themeAction = new QAction(tr("Dark theme"), this);
     //m_themeAction->setCheckable(true);
-    m_simpleAction = new QAction(tr("Simple mode"), this);
-    m_scAction = new QAction(tr("Scientific mode"), this);
+    m_simpleAction = new QAction(/*tr*/("Simple mode"), this);
+    m_scAction = new QAction(/*tr*/("Scientific mode"), this);
     //m_tbMenu->addAction(m_themeAction);
 
 #ifdef ENABLE_SCIENTIFIC
@@ -171,7 +171,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     return;
 }
 
-void MainWindow::onViewShortcut()
+/*void MainWindow::onViewShortcut()
 {
     QRect rect = window()->geometry();
     QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
@@ -186,5 +186,5 @@ void MainWindow::onViewShortcut()
     shortcutViewProc->startDetached("deepin-shortcut-viewer", shortcutString);
 
     connect(shortcutViewProc, SIGNAL(finished(int)), shortcutViewProc, SLOT(deleteLater()));
-}
+}*/
 

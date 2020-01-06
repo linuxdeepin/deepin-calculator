@@ -133,7 +133,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     }
 
     // check result text is error.
-    if (resultStr == tr("Expression Error")) {
+    if (resultStr == tr("Expression error")) {
         painter->setPen(QColor(errorFontColor));
     } else {
         painter->setPen(QColor(fontColor));
@@ -231,9 +231,11 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
                 linkNum.append("－");
         }
         linkNum.append(list.at(0));
-    }
-    else {
-        linkNum = "－" + list.at(0);
+    } else {
+        linkNum.append("－");
+        if (exp.at(1) == "(")
+            linkNum.append("(");
+        linkNum.append(list.at(0));
     }
     if (linkNum.at(linkNum.size() - 1) == "e")
         linkNum = linkNum + exp.at(exp.indexOf("e") + 1) + list.at(1);
