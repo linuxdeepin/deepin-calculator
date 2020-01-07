@@ -316,10 +316,7 @@ QString InputEdit::pointFaultTolerance(const QString &text)
 {
     QString exp = text;
     QString oldText = text;
-    exp = exp.replace(QString::fromUtf8("－"),QString::fromUtf8("＋"))
-             .replace(QString::fromUtf8("×"),QString::fromUtf8("＋"))
-             .replace(QString::fromUtf8("÷"),QString::fromUtf8("＋"));
-    QStringList list = exp.split(QString::fromUtf8("＋"));
+    QStringList list = exp.split(QRegExp("[＋－×÷()]"));
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];
         int firstPoint = item.indexOf(".");
