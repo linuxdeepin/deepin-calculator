@@ -97,7 +97,16 @@ void ExpressionBar::enterNumberEvent(const QString &text)
 
     m_inputNumber = false;
     m_isUndo = false;
-    m_inputEdit->insert(text);
+    QString oldText = m_inputEdit->text();
+    SSelection selection = m_inputEdit->getSelection();
+    if (selection.selected != "") {
+        QString exp = m_inputEdit->text();
+        exp.remove(selection.curpos, selection.selected.size());
+        exp.insert(selection.curpos, text);
+        m_inputEdit->setText(exp);
+    } else {
+        m_inputEdit->insert(text);
+    }
     emit clearStateChanged(false);
 }
 
@@ -132,16 +141,24 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
     }
     m_isResult = false;
     m_isUndo = false;
+    QString oldText = m_inputEdit->text();
+    SSelection selection = m_inputEdit->getSelection();
+    if (selection.selected != "") {
+        QString exp = oldText;
+        exp.remove(selection.curpos, selection.selected.size());
+        m_inputEdit->setText(exp);
+        m_inputEdit->setCursorPosition(selection.curpos);
+    }
     if (m_inputEdit->text().isEmpty()) {
         if (text != "-") {
-            return;
+            m_inputEdit->setText(oldText);
         } else {
             m_inputEdit->insert(text);
         }
     } else {
         if (m_inputEdit->text() == "－")
-            return;
-        //getSelection();
+            m_inputEdit->setText(oldText);
+        getSelection();
         int curPos = m_inputEdit->cursorPosition();
         QString exp = m_inputEdit->text();
         if (cursorPosAtEnd()) {
@@ -152,7 +169,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
         } else if (curPos == 0) {
             QString firstStr = exp.left(1);
             if (firstStr == QString::fromUtf8("－")) {
-                return;
+                m_inputEdit->setText(oldText);
             } else {
                 if (text == QString::fromUtf8("－") || text == "-")
                     m_inputEdit->insert(text);
@@ -161,12 +178,14 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
             QString infront = exp.at(curPos - 1);
             QString behand = exp.at(curPos);
             if (isOperator(infront) || isOperator(behand)) {
-                return;
+                m_inputEdit->setText(oldText);
             } else {
                 m_inputEdit->insert(text);
             }
         }
     }
+    //if (m_inputEdit->text() == oldText)
+    //    m_inputEdit->setText(oldText);
     m_isContinue = true;
 }
 
@@ -176,8 +195,17 @@ void ExpressionBar::enterPercentEvent()
         clearLinkageCache();
     if (m_inputEdit->text().isEmpty())
         return;
+    QString oldText = m_inputEdit->text();
     QString exp = m_inputEdit->text();
+    SSelection selection = m_inputEdit->getSelection();
     int curPos = m_inputEdit->cursorPosition();
+    if (selection.selected != "") {
+        exp.remove(selection.curpos, selection.selected.size());
+        m_inputEdit->setText(exp);
+        if (curPos > selection.curpos && curPos <= selection.curpos + selection.selected.size())
+            curPos = selection.curpos;
+        m_inputEdit->setCursorPosition(curPos);
+    }
     if (curPos == 0)
         return;
     QString sRegNum = "[0-9]+";
@@ -186,11 +214,15 @@ void ExpressionBar::enterPercentEvent()
     if (cursorPosAtEnd()) {
         if (rx.exactMatch(exp.right(1)))
             m_inputEdit->insert("%");
+        else
+            m_inputEdit->setText(oldText);
     } else {
         QString infront = exp.at(curPos - 1);
         QString behand = exp.at(curPos);
         if (rx.exactMatch(infront) && behand != "%")
             m_inputEdit->insert("%");
+        else
+            m_inputEdit->setText(oldText);
     }
     m_listView->scrollToBottom();
     m_isContinue = true;
@@ -201,6 +233,7 @@ void ExpressionBar::enterPointEvent()
 {
     if (m_isLinked)
         clearLinkageCache();
+    replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     if (curpos == 0) {
@@ -226,6 +259,11 @@ void ExpressionBar::enterBackspaceEvent()
     if (m_isResult)
         clearLinkageCache();
     //m_inputEdit->backspace();
+    SSelection selection = m_inputEdit->getSelection();
+    if (selection.selected != "") {
+        m_inputEdit->setText(m_inputEdit->text().remove(selection.curpos, selection.selected.size()));
+        return;
+    }
     QString text = m_inputEdit->text();
     int cur = m_inputEdit->cursorPosition();
     if (text.size() > 0 && text[cur - 1] == ",") {
@@ -418,7 +456,7 @@ void ExpressionBar::enterEqualEvent()
 
 void ExpressionBar::enterBracketsEvent()
 {
-    QString oldText = m_inputEdit->text();
+    replaceSelection(m_inputEdit->text());
     int currentPos = m_inputEdit->cursorPosition();
     m_inputEdit->insert("()");
     m_inputEdit->setCursorPosition(currentPos + 1);
@@ -479,12 +517,14 @@ void ExpressionBar::enterBracketsEvent()
 
 void ExpressionBar::enterLeftBracketsEvent()
 {
+    replaceSelection(m_inputEdit->text());
     m_inputEdit->insert("(");
     m_isUndo = false;
 }
 
 void ExpressionBar::enterRightBracketsEvent()
 {
+    replaceSelection(m_inputEdit->text());
     m_inputEdit->insert(")");
     m_isUndo = false;
 }
@@ -546,6 +586,10 @@ void ExpressionBar::copyResultToClipboard()
 
 void ExpressionBar::copyClipboard2Result()
 {
+    QString oldText = m_inputEdit->text();
+    int curpos = m_inputEdit->cursorPosition();
+    replaceSelection(oldText);
+    QString exp = m_inputEdit->text();
     QString text = QApplication::clipboard()->text();
     text.remove("e");
     text = pasteFaultTolerance(text);
@@ -553,6 +597,11 @@ void ExpressionBar::copyClipboard2Result()
     m_inputEdit->setText(text);
     clearLinkageCache();
     m_isUndo = false;
+    if (m_inputEdit->text() == exp) {
+        m_inputEdit->setText(oldText);
+        m_inputEdit->setCursorPosition(curpos);
+        qDebug() << "Invalid content";
+    }
     if (!m_inputEdit->text().isEmpty())
         emit clearStateChanged(false);
 }
@@ -971,6 +1020,19 @@ void ExpressionBar::getSelection()
 void ExpressionBar::setResultFalse()
 {
     m_isResult = false;
+}
+
+void ExpressionBar::replaceSelection(QString text)
+{
+    SSelection selection = m_inputEdit->getSelection();
+    int curPos = m_inputEdit->cursorPosition();
+    if (selection.selected != "") {
+        text.remove(selection.curpos, selection.selected.size());
+        m_inputEdit->setText(text);
+        if (curPos > selection.curpos && curPos <= selection.curpos + selection.selected.size())
+            curPos = selection.curpos;
+        m_inputEdit->setCursorPosition(curPos);
+    }
 }
 
 bool ExpressionBar::cancelLink(int index)
