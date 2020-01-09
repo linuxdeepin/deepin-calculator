@@ -299,7 +299,7 @@ void InputEdit::handleTextChanged(const QString &text)
 
     multipleArithmetic(reformatStr);
     reformatStr.remove(QRegExp("[^0-9＋－×÷,.%()e]"));
-    reformatStr = pointFaultTolerance(reformatStr);
+    //reformatStr = pointFaultTolerance(reformatStr);
     reformatStr = symbolFaultTolerance(reformatStr);
     setText(reformatStr);
     autoZoomFontSize();
@@ -308,7 +308,11 @@ void InputEdit::handleTextChanged(const QString &text)
     // reformat text.
     int oldLength = text.length();
     int newLength = reformatStr.length();
-    int pos = oldPosition + (newLength - oldLength);
+    int pos;
+    if (newLength > oldLength)
+        pos = oldPosition + (newLength - oldLength);
+    else
+        pos = oldPosition;
     if (pos > newLength)
         pos = newLength;
     this->setCursorPosition(pos);
@@ -335,9 +339,11 @@ QString InputEdit::pointFaultTolerance(const QString &text)
             }
         }
         if (item.count(".") > 1) {
+            int cur = cursorPosition();
             item.remove(".");
             item.insert(firstPoint, ".");
             oldText.replace(list[i], item);
+            setCursorPosition(cur);
         }
     }
     return oldText;

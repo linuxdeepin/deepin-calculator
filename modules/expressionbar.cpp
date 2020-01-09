@@ -20,6 +20,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDebug>
+#include <QTimer>
 #include "expressionbar.h"
 #include "../utils.h"
 
@@ -103,7 +104,7 @@ void ExpressionBar::enterNumberEvent(const QString &text)
         QString exp = m_inputEdit->text();
         exp.remove(selection.curpos, selection.selected.size());
         exp.insert(selection.curpos, text);
-        m_inputEdit->setText(exp);
+        m_inputEdit->setText(pointFaultTolerance(exp));
     } else {
         m_inputEdit->insert(text);
     }
@@ -251,6 +252,9 @@ void ExpressionBar::enterPointEvent()
                 m_inputEdit->insert("0.");
         }
     }
+    exp = pointFaultTolerance(m_inputEdit->text());
+    if (exp != m_inputEdit->text())
+        m_inputEdit->setText(exp);
     m_isUndo = false;
 }
 
@@ -279,6 +283,12 @@ void ExpressionBar::enterBackspaceEvent()
         emit clearStateChanged(false);
         m_isAllClear = false;
     }
+
+    QTimer::singleShot(5000, this, [=] {
+            int curpos = m_inputEdit->cursorPosition();
+            m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
+            m_inputEdit->setCursorPosition(curpos);
+        });
 
     m_isContinue = true;
     m_isUndo = false;
@@ -959,6 +969,8 @@ void ExpressionBar::addUndo()
     m_undo.append(m_inputEdit->text());
     m_redo.clear();
     m_inputEdit->setUndoAction(true);
+    SSelection selection;
+    m_inputEdit->setSelection(selection);
 }
 
 void ExpressionBar::Redo()
