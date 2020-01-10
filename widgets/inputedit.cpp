@@ -132,11 +132,13 @@ void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 
 void InputEdit::mousePressEvent(QMouseEvent *e)
 {
-    setFocus();
-    m_selected.selected = "";
-    emit setResult();
+    if (e->button() == Qt::LeftButton) {
+        setFocus();
+        m_selected.selected = "";
+        emit setResult();
+        qDebug() << m_selected.selected;
+    }
     QLineEdit::mousePressEvent(e);
-    qDebug() << m_selected.selected;
 }
 
 void InputEdit::initAction()
