@@ -126,6 +126,7 @@ private:
     QString pasteFaultTolerance(QString exp);
     QString pointFaultTolerance(const QString &text);
     void clearSelectSymbol();
+    void expressionCheck();
 
 private:
     Evaluator *m_evaluator;

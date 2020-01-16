@@ -188,6 +188,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
     //if (m_inputEdit->text() == oldText)
     //    m_inputEdit->setText(oldText);
     m_isContinue = true;
+    expressionCheck();
 }
 
 void ExpressionBar::enterPercentEvent()
@@ -936,6 +937,40 @@ void ExpressionBar::clearSelectSymbol()
         m_inputEdit->setText(exp);
         m_inputEdit->setCursorPosition(select.curpos);
     }
+}
+
+void ExpressionBar::expressionCheck()
+{
+    QString exp = m_inputEdit->text();
+    int cur = m_inputEdit->cursorPosition();
+
+    for (int i = 0; i < exp.size(); ++i) {
+        if (exp[i] == ",") {
+            exp.remove(i, 1);
+            --i;
+            if (i + 1 < cur)
+                --cur;
+        }
+    }
+    for (int i = 0; i < exp.size(); ++i) {
+        while (exp[i].isNumber()) {
+            if (exp[i] == "0" && exp[i+1] != "." && (i == 0 || !exp[i-1].isNumber()) && (exp.size() == 1 || exp[i+1].isNumber())) {
+                exp.remove(i, 1);
+                --i;
+                if (i + 1 < cur)
+                    --cur;
+            }
+            ++i;
+        }
+        if (exp[i] == "." && (i == 0 || !exp[i-1].isNumber())) {
+            exp.insert(i, "0");
+            ++i;
+            if (i < cur)
+                ++cur;
+        }
+    }
+    m_inputEdit->setText(exp);
+    m_inputEdit->setCursorPosition(cur);
 }
 
 void ExpressionBar::Undo()
