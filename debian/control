@@ -9,5 +9,5 @@ Homepage: http://www.deepin.org
 Package: deepin-calculator
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Calculator for deepin
- deepin calculator tool.
+Description: Calculator for UOS
+ Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.
