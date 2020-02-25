@@ -75,6 +75,7 @@ void ExpressionBar::setContinue(bool isContinue)
 
 void ExpressionBar::enterNumberEvent(const QString &text)
 {
+    int aaa = m_inputEdit->cursorPosition();
     if (m_isLinked)
         clearLinkageCache();
     if (m_inputNumber && m_hisRevision == -1) {
@@ -943,13 +944,17 @@ void ExpressionBar::expressionCheck()
 {
     QString exp = m_inputEdit->text();
     int cur = m_inputEdit->cursorPosition();
+    //光标前的分隔符
+    int separator = 0;
 
     for (int i = 0; i < exp.size(); ++i) {
         if (exp[i] == ",") {
             exp.remove(i, 1);
             --i;
-            if (i + 1 < cur)
+            if (i + 1 < cur) {
+                ++separator;
                 --cur;
+            }
         }
     }
     for (int i = 0; i < exp.size(); ++i) {
@@ -970,7 +975,7 @@ void ExpressionBar::expressionCheck()
         }
     }
     m_inputEdit->setText(exp);
-    m_inputEdit->setCursorPosition(cur);
+    m_inputEdit->setCursorPosition(cur + separator);
 }
 
 void ExpressionBar::Undo()
