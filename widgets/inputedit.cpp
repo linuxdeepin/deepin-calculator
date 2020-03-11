@@ -119,7 +119,6 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
 
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    //QLineEdit::mouseDoubleClickEvent(e);
     selectAll();
     m_selected.selected = text();
     /*if (e->button() == Qt::LeftButton) {
@@ -236,8 +235,8 @@ void InputEdit::autoZoomFontSize()
 {
     QFont font;
 
-    // the maximum font is 30, minimum font is 6.
-    for (int i = 30; i > 6; --i) {
+    // the maximum font is 30, minimum font is 15.
+    for (int i = 30; i > 16; --i) {
         font.setPixelSize(i);
 
         QFontMetrics fm(font);

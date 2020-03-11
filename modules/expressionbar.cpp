@@ -17,29 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "expressionbar.h"
 #include <QApplication>
 #include <QClipboard>
 #include <QDebug>
 #include <QTimer>
-#include "expressionbar.h"
 #include "../utils.h"
 
 ExpressionBar::ExpressionBar(QWidget *parent)
-    : DWidget(parent),
-      m_listView(new SimpleListView),
-      m_listDelegate(new SimpleListDelegate),
-      m_listModel(new SimpleListModel),
-      m_inputEdit(new InputEdit),
-      m_evaluator(Evaluator::instance()),
-      m_isContinue(true),
-      m_isAllClear(false),
-      m_isResult(false),
-      m_inputNumber(false),
-      m_hisRevision(-1),
-      m_linkageIndex(-1),
-      m_isLinked(false),
-      m_isUndo(false),
-      m_Selected(-1)
+    : DWidget(parent)
+    , m_listView(new SimpleListView)
+    , m_listDelegate(new SimpleListDelegate)
+    , m_listModel(new SimpleListModel)
+    , m_inputEdit(new InputEdit)
+    , m_evaluator(Evaluator::instance())
+    , m_isContinue(true)
+    , m_isAllClear(false)
+    , m_isResult(false)
+    , m_inputNumber(false)
+    , m_hisRevision(-1)
+    , m_linkageIndex(-1)
+    , m_isLinked(false)
+    , m_isUndo(false)
+    , m_Selected(-1)
 {
     // init inputEdit attributes.
     m_inputEdit->setFixedHeight(55);
@@ -49,9 +49,9 @@ ExpressionBar::ExpressionBar(QWidget *parent)
     m_listView->setModel(m_listModel);
     m_listView->setItemDelegate(m_listDelegate);
     DPalette pl = this->palette();
-    pl.setColor(DPalette::Light,QColor(0,0,0,0));
-    pl.setColor(DPalette::Dark,QColor(0,0,0,0));
-    pl.setColor(DPalette::Base,QColor(0,0,0,0));
+    pl.setColor(DPalette::Light, QColor(0, 0, 0, 0));
+    pl.setColor(DPalette::Dark, QColor(0, 0, 0, 0));
+    pl.setColor(DPalette::Base, QColor(0, 0, 0, 0));
     this->setPalette(pl);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
@@ -64,9 +64,7 @@ ExpressionBar::ExpressionBar(QWidget *parent)
     initConnect();
 }
 
-ExpressionBar::~ExpressionBar()
-{
-}
+ExpressionBar::~ExpressionBar() {}
 
 void ExpressionBar::setContinue(bool isContinue)
 {
@@ -114,6 +112,7 @@ void ExpressionBar::enterNumberEvent(const QString &text)
 
 void ExpressionBar::enterSymbolEvent(const QString &text)
 {
+    QString oldText = m_inputEdit->text();
     if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
         m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex());
         m_hisLink.last().isLink = true;
@@ -128,12 +127,13 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
     if (m_isUndo) {
         int row = m_listModel->rowCount(QModelIndex());
         if (row != 0) {
-            QString text = m_listModel->index(row - 1).data(SimpleListModel::ExpressionRole).toString();
+            QString text =
+                m_listModel->index(row - 1).data(SimpleListModel::ExpressionRole).toString();
             QString result = text.split("＝").last();
             if (result == m_inputEdit->text()) {
                 historicalLinkageIndex his;
-                his.linkageTerm =row - 1;
-                his.linkageValue =result;
+                his.linkageTerm = row - 1;
+                his.linkageValue = result;
                 his.linkedItem = row;
                 m_hisLink.append(his);
                 m_listDelegate->setHisLink(row - 1);
@@ -143,7 +143,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
     }
     m_isResult = false;
     m_isUndo = false;
-    QString oldText = m_inputEdit->text();
+    // QString oldText = m_inputEdit->text();
     SSelection selection = m_inputEdit->getSelection();
     if (selection.selected != "") {
         QString exp = oldText;
@@ -186,7 +186,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
             }
         }
     }
-    //if (m_inputEdit->text() == oldText)
+    // if (m_inputEdit->text() == oldText)
     //    m_inputEdit->setText(oldText);
     m_isContinue = true;
     expressionCheck();
@@ -211,22 +211,120 @@ void ExpressionBar::enterPercentEvent()
     }
     if (curPos == 0)
         return;
-    QString sRegNum = "[0-9]+";
+    // start edit for task-13519
+    QString sRegNum = "[^0-9,.)]";
     QRegExp rx;
     rx.setPattern(sRegNum);
-    if (cursorPosAtEnd()) {
-        if (rx.exactMatch(exp.right(1)))
-            m_inputEdit->insert("%");
-        else
+    if (rx.exactMatch(exp.at(curPos - 1)))
+        m_inputEdit->setText(oldText);
+    else {
+        m_inputEdit->insert("%");
+        QString newtext = m_inputEdit->text();
+        int percentpos = m_inputEdit->text().indexOf('%');
+        int operatorpos =
+            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.]")), percentpos - 1);
+        bool nooperator = false;
+        if (operatorpos < 0) {
+            operatorpos++;
+            nooperator = true;
+        }
+        QString exptext;  //%表达式
+        if (newtext.at(percentpos - 1) == ')') {
+            if (operatorpos > 0 && newtext.at(operatorpos - 1) == '(') {
+                m_inputEdit->setText(oldText);
+                m_inputEdit->setCursorPosition(percentpos);
+                return;
+            }
+            do {
+                operatorpos = newtext.lastIndexOf('(', operatorpos - 1);
+                if (operatorpos <= 0) {
+                    break;
+                }
+            } while (newtext.mid(operatorpos, newtext.size() - operatorpos).count('(') !=
+                     newtext.mid(operatorpos, percentpos - operatorpos).count(')'));
+            exptext = newtext.mid(operatorpos,
+                                  percentpos - operatorpos + 1);  //截取%表达式
+        } else {
+            exptext =
+                newtext.mid(operatorpos + (nooperator == true ? 0 : 1),
+                            percentpos - operatorpos + (nooperator == true ? 1 : 0));  //截取%表达式
+        }
+
+        qDebug() << "exptext" << exptext;
+        QString express = symbolComplement(exptext);
+        const QString expression = formatExpression(express);
+        m_evaluator->setExpression(expression);
+        Quantity ans = m_evaluator->evalUpdateAns();
+        if (m_evaluator->error().isEmpty()) {
+            if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
+                return;
+            const QString result = DMath::format(ans, Quantity::Format::Fixed());
+            QString formatResult = Utils::formatThousandsSeparators(result);
+            formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
+                               .replace(QString::fromUtf8("－"), "-")
+                               .replace(QString::fromUtf8("×"), "*")
+                               .replace(QString::fromUtf8("÷"), "/");
+            QString tStr = exptext.replace(QString::fromUtf8(","), "");
+            if (formatResult != tStr) {
+                if ((percentpos + 1) < newtext.size() &&
+                    (newtext.at(percentpos + 1).isDigit() || newtext.at(percentpos + 1) == '.')) {
+                    if (operatorpos > 0 &&
+                        (newtext.at(percentpos + 1).isDigit() ||
+                         newtext.at(percentpos + 1) == '.') &&
+                        (newtext.at(operatorpos - 1).isDigit() ||
+                         newtext.at(operatorpos - 1) == '.') &&
+                        newtext.at(percentpos - 1) == ')') {
+                        m_inputEdit->setText(newtext.mid(0, operatorpos) + QString::fromUtf8("×") +
+                                             formatResult + QString::fromUtf8("×") +
+                                             newtext.right(newtext.size() - percentpos - 1));
+                        m_inputEdit->setCursorPosition(operatorpos + 1 + formatResult.size());
+                    } else {
+                        m_inputEdit->setText(
+                            newtext.mid(0, operatorpos + ((nooperator == true ||
+                                                           newtext.at(percentpos - 1) == ')')
+                                                              ? 0
+                                                              : 1)) +
+                            formatResult + QString::fromUtf8("×") +
+                            newtext.right(newtext.size() - percentpos - 1));
+                        m_inputEdit->setCursorPosition(
+                            operatorpos +
+                            ((nooperator == true || newtext.at(operatorpos) == '(') ? 0 : 1) +
+                            formatResult.size());
+                    }
+                } else if (operatorpos > 0 &&
+                           (newtext.at(operatorpos - 1).isDigit() ||
+                            newtext.at(operatorpos - 1) == '.') &&
+                           newtext.at(operatorpos) == '(') {
+                    if (newtext.at(percentpos - 1) == ')') {
+                        m_inputEdit->setText(newtext.mid(0, operatorpos) + QString::fromUtf8("×") +
+                                             formatResult +
+                                             newtext.right(newtext.size() - percentpos - 1));
+                    } else {
+                        m_inputEdit->setText(newtext.mid(0, operatorpos + 1) + formatResult +
+                                             newtext.right(newtext.size() - percentpos - 1));
+                    }
+                    m_inputEdit->setCursorPosition(operatorpos + 1 + formatResult.size());
+                } else if (nooperator == false) {
+                    QString opera = newtext.at(operatorpos);
+                    if (newtext.at(operatorpos) == '(' && newtext.at(percentpos - 1) == ')')
+                        opera = QString();
+                    m_inputEdit->setText(newtext.mid(0, operatorpos) + opera + formatResult +
+                                         newtext.right(newtext.size() - percentpos - 1));
+                    m_inputEdit->setCursorPosition(operatorpos + opera.size() +
+                                                   formatResult.size());
+                } else {
+                    m_inputEdit->setText(newtext.mid(0, operatorpos) + formatResult +
+                                         newtext.right(newtext.size() - percentpos - 1));
+                    m_inputEdit->setCursorPosition(operatorpos + formatResult.size());
+                }
+            }
+        } else {
             m_inputEdit->setText(oldText);
-    } else {
-        QString infront = exp.at(curPos - 1);
-        QString behand = exp.at(curPos);
-        if (rx.exactMatch(infront) && behand != "%")
-            m_inputEdit->insert("%");
-        else
-            m_inputEdit->setText(oldText);
+            m_inputEdit->setCursorPosition(percentpos);
+            return;
+        }
     }
+    // end edit for task-13519
     m_listView->scrollToBottom();
     m_isContinue = true;
     m_isUndo = false;
@@ -264,20 +362,26 @@ void ExpressionBar::enterBackspaceEvent()
 {
     if (m_isResult)
         clearLinkageCache();
-    //m_inputEdit->backspace();
+    // m_inputEdit->backspace();
     SSelection selection = m_inputEdit->getSelection();
     if (selection.selected != "") {
-        m_inputEdit->setText(m_inputEdit->text().remove(selection.curpos, selection.selected.size()));
+        m_inputEdit->setText(
+            m_inputEdit->text().remove(selection.curpos, selection.selected.size()));
         return;
     }
     QString text = m_inputEdit->text();
     int cur = m_inputEdit->cursorPosition();
-    if (text.size() > 0 && text[cur - 1] == ",") {
+    if (text.size() > 0 && cur > 0 && text[cur - 1] == ",") {
         text.remove(cur - 2, 2);
         m_inputEdit->setText(text);
         m_inputEdit->setCursorPosition(cur - 2);
-    } else
+    } else {
+        int proNumber = text.count(",");
         m_inputEdit->backspace();
+        int newPro = m_inputEdit->text().count(",");
+        if (proNumber > newPro)
+            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - (proNumber - newPro));
+    }
     if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
         emit clearStateChanged(true);
         m_isAllClear = true;
@@ -287,10 +391,10 @@ void ExpressionBar::enterBackspaceEvent()
     }
 
     QTimer::singleShot(5000, this, [=] {
-            int curpos = m_inputEdit->cursorPosition();
-            m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
-            m_inputEdit->setCursorPosition(curpos);
-        });
+        int curpos = m_inputEdit->cursorPosition();
+        m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
+        m_inputEdit->setCursorPosition(curpos);
+    });
 
     m_isContinue = true;
     m_isUndo = false;
@@ -359,9 +463,9 @@ void ExpressionBar::enterEqualEvent()
 
         const QString result = DMath::format(ans, Quantity::Format::Fixed());
         QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+").replace(QString::fromUtf8("－"), "-")
-                                   .replace(QString::fromUtf8("×"), "*").replace(QString::fromUtf8("÷"), "/")
-                                   .replace(QString::fromUtf8(","), "");
+        formatResult = formatResult.replace(QString::fromUtf8("＋"),
+    "+").replace(QString::fromUtf8("－"), "-") .replace(QString::fromUtf8("×"),
+    "*").replace(QString::fromUtf8("÷"), "/") .replace(QString::fromUtf8(","), "");
 
         //if (formatResult != m_inputEdit->text()) {
             m_listModel->updataList(resultText + "＝" + formatResult, index);
@@ -397,9 +501,11 @@ void ExpressionBar::enterEqualEvent()
 
         const QString result = DMath::format(ans, Quantity::Format::Fixed());
         QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+").replace(QString::fromUtf8("－"), "-")
-                                   .replace(QString::fromUtf8("×"), "*").replace(QString::fromUtf8("÷"), "/");
-                                   //.replace(QString::fromUtf8(","), "");
+        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
+                           .replace(QString::fromUtf8("－"), "-")
+                           .replace(QString::fromUtf8("×"), "*")
+                           .replace(QString::fromUtf8("÷"), "/");
+        //.replace(QString::fromUtf8(","), "");
 
         QString tStr = m_inputEdit->text().replace(QString::fromUtf8(","), "");
         if (formatResult != tStr) {
@@ -415,7 +521,8 @@ void ExpressionBar::enterEqualEvent()
         else {
             for (int i = 0; i < m_hisLink.size(); ++i) {
                 if (m_hisLink[i].linkageTerm == m_hisRevision) {
-                    //m_listDelegate->removeLine(m_hisLink[i].linkageTerm, m_hisLink[i].linkedItem);
+                    // m_listDelegate->removeLine(m_hisLink[i].linkageTerm,
+                    // m_hisLink[i].linkedItem);
                     m_listDelegate->removeLine(i);
                     m_hisLink.removeAt(i);
                     --i;
@@ -437,17 +544,21 @@ void ExpressionBar::enterEqualEvent()
                     m_listDelegate->removeHisLink();
                     break;
                 }
-                QString text = m_listModel->index(m_hisRevision).data(SimpleListModel::ExpressionRole).toString();
+                QString text = m_listModel->index(m_hisRevision)
+                                   .data(SimpleListModel::ExpressionRole)
+                                   .toString();
                 QString linkedExp = text.split("＝").first();
                 int length = m_hisLink[i].linkageValue.length();
-                if (linkedExp.left(length) != m_hisLink[i].linkageValue || !isOperator(linkedExp.at(length))) {
+                if (linkedExp.left(length) != m_hisLink[i].linkageValue ||
+                    !isOperator(linkedExp.at(length))) {
                     m_hisLink.remove(i);
                     m_listDelegate->removeHisLink();
                     break;
                 }
                 if (newResult.isEmpty())
                     break;
-                newResult = newResult.replace("+", QString::fromUtf8("＋")).replace("-", QString::fromUtf8("－"));
+                newResult = newResult.replace("+", QString::fromUtf8("＋"))
+                                .replace("-", QString::fromUtf8("－"));
                 m_hisLink[i].linkageValue = newResult;
                 QString newText = newResult + linkedExp.right(linkedExp.length() - length);
                 m_inputEdit->setText(newText);
@@ -575,7 +686,7 @@ void ExpressionBar::copyResultToClipboard()
 {
     if (m_inputEdit->text().isEmpty())
         return;
-    //QApplication::clipboard()->setText(m_inputEdit->selectedText());
+    // QApplication::clipboard()->setText(m_inputEdit->selectedText());
 
     const QString expression = formatExpression(m_inputEdit->text());
     m_evaluator->setExpression(expression);
@@ -603,9 +714,11 @@ void ExpressionBar::copyClipboard2Result()
     replaceSelection(oldText);
     QString exp = m_inputEdit->text();
     QString text = QApplication::clipboard()->text();
+    if (text.count("。") != 0 && text.count(".") != 0)
+        text.remove("。");
     text.remove("e");
     text = pasteFaultTolerance(text);
-    //m_inputEdit->insert(text);
+    // m_inputEdit->insert(text);
     m_inputEdit->setText(text);
     clearLinkageCache();
     m_isUndo = false;
@@ -621,6 +734,9 @@ void ExpressionBar::copyClipboard2Result()
 void ExpressionBar::allElection()
 {
     m_inputEdit->selectAll();
+    SSelection selection;
+    selection.selected = m_inputEdit->text();
+    m_inputEdit->setSelection(selection);
 }
 
 void ExpressionBar::shear()
@@ -631,7 +747,7 @@ void ExpressionBar::shear()
     QApplication::clipboard()->setText(selectText);
     int start = m_inputEdit->selectionStart();
     int length = m_inputEdit->selectionLength();
-    text.remove(start,length);
+    text.remove(start, length);
     m_inputEdit->setText(text);
     addUndo();
     m_isUndo = false;
@@ -650,9 +766,12 @@ bool ExpressionBar::cursorPosAtEnd()
 
 QString ExpressionBar::formatExpression(const QString &text)
 {
-    return QString(text).replace(QString::fromUtf8("＋"), "+").replace(QString::fromUtf8("－"), "-")
-                        .replace(QString::fromUtf8("×"), "*").replace(QString::fromUtf8("÷"), "/")
-                        .replace(QString::fromUtf8(","), "");
+    return QString(text)
+        .replace(QString::fromUtf8("＋"), "+")
+        .replace(QString::fromUtf8("－"), "-")
+        .replace(QString::fromUtf8("×"), "*")
+        .replace(QString::fromUtf8("÷"), "/")
+        .replace(QString::fromUtf8(","), "");
 }
 
 void ExpressionBar::revisionResults(const QModelIndex &index)
@@ -688,7 +807,7 @@ void ExpressionBar::computationalResults(const QString &expression, QString &res
         const QString tResult = DMath::format(ans, Quantity::Format::Fixed());
         result = Utils::formatThousandsSeparators(tResult);
         result = formatExpression(result);
-        m_inputEdit->setAnswer(result,ans);
+        m_inputEdit->setAnswer(result, ans);
 
         if (result != m_inputEdit->text()) {
             m_isContinue = false;
@@ -705,7 +824,7 @@ QString ExpressionBar::completedBracketsCalculation(QString &text)
     int rightBrack = text.count(")");
     QString newText = text;
     if (leftBrack > rightBrack) {
-        for (int i = 0;i < leftBrack - rightBrack;i++)
+        for (int i = 0; i < leftBrack - rightBrack; i++)
             newText += ")";
     }
 
@@ -714,11 +833,13 @@ QString ExpressionBar::completedBracketsCalculation(QString &text)
 
 void ExpressionBar::historicalLinkage(int index, QString newValue)
 {
-    for (int i = 0;i < m_hisLink.size();i++) {
+    for (int i = 0; i < m_hisLink.size(); i++) {
         if (m_hisLink[i].linkageTerm == index && m_hisLink[i].isLink) {
             if (m_hisLink[i].linkedItem == -1)
                 return;
-            QString text = m_listModel->index(m_hisLink[i].linkedItem).data(SimpleListModel::ExpressionRole).toString();
+            QString text = m_listModel->index(m_hisLink[i].linkedItem)
+                               .data(SimpleListModel::ExpressionRole)
+                               .toString();
             QString expression = text.split("＝").first();
             QString subStr = m_hisLink[i].linkageValue;
             expression.replace(expression.indexOf(subStr), subStr.size(), newValue);
@@ -734,7 +855,7 @@ void ExpressionBar::historicalLinkage(int index, QString newValue)
                 const QString tResult = DMath::format(ans, Quantity::Format::Fixed());
                 result = Utils::formatThousandsSeparators(tResult);
                 result = formatExpression(result);
-                m_inputEdit->setAnswer(result,ans);
+                m_inputEdit->setAnswer(result, ans);
 
                 if (result != m_inputEdit->text()) {
                     m_isContinue = false;
@@ -744,7 +865,7 @@ void ExpressionBar::historicalLinkage(int index, QString newValue)
                 m_inputEdit->setText(result);
             }
             m_hisLink[i].linkageValue = newValue;
-            m_listModel->updataList(expression + "＝" + result,m_hisLink[i].linkedItem);
+            m_listModel->updataList(expression + "＝" + result, m_hisLink[i].linkedItem);
             historicalLinkage(m_hisLink[i].linkedItem, result);
             m_isLinked = false;
         }
@@ -754,7 +875,7 @@ void ExpressionBar::historicalLinkage(int index, QString newValue)
 void ExpressionBar::setLinkState(const QModelIndex index)
 {
     int row = index.row();
-    for (int i = 0;i < m_hisLink.size();i++) {
+    for (int i = 0; i < m_hisLink.size(); i++) {
         if (m_hisLink[i].linkageTerm == row)
             m_hisLink[i].isLink = true;
     }
@@ -776,9 +897,9 @@ void ExpressionBar::settingLinkage()
 {
     const int hisRecision = m_hisRevision;
     if (hisRecision != -1) {
-        for (int i = 0;i < m_hisLink.size();i++) {
+        for (int i = 0; i < m_hisLink.size(); i++) {
             if (m_hisLink[i].linkedItem == hisRecision) {
-                if (cancelLink(i+1) && i != 0)
+                if (cancelLink(i + 1) && i != 0)
                     --i;
                 if (m_hisLink.size() == 0)
                     break;
@@ -791,21 +912,24 @@ void ExpressionBar::settingLinkage()
         }
         historicalLinkageIndex hisIndex;
         hisIndex.linkageTerm = hisRecision;
-        //hisIndex.isLink = true;
+        // hisIndex.isLink = true;
         enterEqualEvent();
-        QString exp = m_listModel->index(hisRecision).data(SimpleListModel::ExpressionRole).toString();
+        QString exp =
+            m_listModel->index(hisRecision).data(SimpleListModel::ExpressionRole).toString();
         hisIndex.linkageValue = exp.split("＝").last();
         m_hisLink.push_back(hisIndex);
     } else {
         if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1)
             return;
-        //judgeLinkageAgain();
+        // judgeLinkageAgain();
         enterEqualEvent();
         m_isLinked = true;
         historicalLinkageIndex hisIndex;
-        //hisIndex.isLink = true;
+        // hisIndex.isLink = true;
         hisIndex.linkageTerm = m_listModel->rowCount(QModelIndex()) - 1;
-        QString exp = m_listModel->index(hisIndex.linkageTerm).data(SimpleListModel::ExpressionRole).toString();
+        QString exp = m_listModel->index(hisIndex.linkageTerm)
+                          .data(SimpleListModel::ExpressionRole)
+                          .toString();
         hisIndex.linkageValue = exp.split("＝").last();
         m_hisLink.push_back(hisIndex);
     }
@@ -817,11 +941,11 @@ void ExpressionBar::judgeLinkageAgain()
     if (m_hisLink.isEmpty())
         return;
     QString text = m_inputEdit->text();
-    text.replace(",","");
+    text.replace(",", "");
     QStringList list = text.split(QRegExp("[＋－×÷()]"));
     QString linkValue = m_hisLink.last().linkageValue;
     if (list.at(0) != linkValue) {
-        //m_listDelegate->removeLine(m_hisLink.last().linkageTerm,m_hisLink.last().linkedItem);
+        // m_listDelegate->removeLine(m_hisLink.last().linkageTerm,m_hisLink.last().linkedItem);
         m_listDelegate->removeLine(m_hisLink.size() - 1);
         m_hisLink.removeLast();
     }
@@ -829,7 +953,8 @@ void ExpressionBar::judgeLinkageAgain()
 
 void ExpressionBar::initConnect()
 {
-    connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this, &ExpressionBar::revisionResults);
+    connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this,
+            &ExpressionBar::revisionResults);
     connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionBar::handleTextChanged);
     connect(m_inputEdit, &InputEdit::keyPress, this, &ExpressionBar::keyPress);
     connect(m_inputEdit, &InputEdit::equal, this, &ExpressionBar::enterEqualEvent);
@@ -873,14 +998,15 @@ QString ExpressionBar::pasteFaultTolerance(QString exp)
     exp = pointFaultTolerance(exp);
     for (int i = 0; i < exp.size(); ++i) {
         while (exp[i].isNumber()) {
-            if (exp[i] == "0" && exp[i+1] != "." && (i == 0 || !exp[i-1].isNumber()) && (exp.size() == 1 || exp[i+1].isNumber())) {
-                exp.remove(i,1);
+            if (exp[i] == "0" && exp[i + 1] != "." && (i == 0 || !exp[i - 1].isNumber()) &&
+                (exp.size() == 1 || exp[i + 1].isNumber())) {
+                exp.remove(i, 1);
                 --i;
             }
             ++i;
         }
-        if (exp[i] == "." && (i == 0 || !exp[i-1].isNumber())) {
-            exp.insert(i,"0");
+        if (exp[i] == "." && (i == 0 || !exp[i - 1].isNumber())) {
+            exp.insert(i, "0");
             ++i;
         }
     }
@@ -890,18 +1016,18 @@ QString ExpressionBar::pasteFaultTolerance(QString exp)
 QString ExpressionBar::pointFaultTolerance(const QString &text)
 {
     QString oldText = text;
-    //QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
+    // QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
     QString reformatStr = oldText.replace('+', QString::fromUtf8("＋"))
-                             .replace('-', QString::fromUtf8("－"))
-                             .replace("_", QString::fromUtf8("－"))
-                             .replace('*', QString::fromUtf8("×"))
-                             .replace('/', QString::fromUtf8("÷"))
-                             .replace('x', QString::fromUtf8("×"))
-                             .replace('X', QString::fromUtf8("×"))
-                             .replace(QString::fromUtf8("（"), "(")
-                             .replace(QString::fromUtf8("）"), ")")
-                             .replace(QString::fromUtf8("。"), ".")
-                             .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
+                              .replace('-', QString::fromUtf8("－"))
+                              .replace("_", QString::fromUtf8("－"))
+                              .replace('*', QString::fromUtf8("×"))
+                              .replace('/', QString::fromUtf8("÷"))
+                              .replace('x', QString::fromUtf8("×"))
+                              .replace('X', QString::fromUtf8("×"))
+                              .replace(QString::fromUtf8("（"), "(")
+                              .replace(QString::fromUtf8("）"), ")")
+                              .replace(QString::fromUtf8("。"), ".")
+                              .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
     QStringList list = reformatStr.split(QRegExp("[＋－×÷()]"));
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];
@@ -911,7 +1037,7 @@ QString ExpressionBar::pointFaultTolerance(const QString &text)
         if (firstPoint == 0) {
             item.insert(firstPoint, "0");
             ++firstPoint;
-            //oldText.replace(list[i], item);
+            // oldText.replace(list[i], item);
         } else {
             if (item.at(firstPoint - 1) == ")" || item.at(firstPoint - 1) == "%") {
                 item.remove(firstPoint, 1);
@@ -930,11 +1056,11 @@ QString ExpressionBar::pointFaultTolerance(const QString &text)
 void ExpressionBar::clearSelectSymbol()
 {
     SSelection select = m_inputEdit->getSelection();
-    if (select.selected.size() == 1 && (select.selected == "＋" || select.selected == "－"
-                                        || select.selected == "×" || select.selected == "÷")) {
+    if (select.selected.size() == 1 && (select.selected == "＋" || select.selected == "－" ||
+                                        select.selected == "×" || select.selected == "÷")) {
         select.selected = "";
         QString exp = m_inputEdit->text();
-        exp.remove(select.curpos,1);
+        exp.remove(select.curpos, 1);
         m_inputEdit->setText(exp);
         m_inputEdit->setCursorPosition(select.curpos);
     }
@@ -959,7 +1085,9 @@ void ExpressionBar::expressionCheck()
     }
     for (int i = 0; i < exp.size(); ++i) {
         while (exp[i].isNumber()) {
-            if (exp[i] == "0" && exp[i+1] != "." && (i == 0 || !exp[i-1].isNumber()) && (exp.size() == 1 || exp[i+1].isNumber())) {
+            // fix for delete 0 behind "."
+            if (exp[i] == "0" && exp[i + 1] != "." && (i == 0 || exp[i - 1] != ".") &&
+                (i == 0 || !exp[i - 1].isNumber()) && (exp.size() == 1 || exp[i + 1].isNumber())) {
                 exp.remove(i, 1);
                 --i;
                 if (i + 1 < cur)
@@ -967,7 +1095,7 @@ void ExpressionBar::expressionCheck()
             }
             ++i;
         }
-        if (exp[i] == "." && (i == 0 || !exp[i-1].isNumber())) {
+        if (exp[i] == "." && (i == 0 || !exp[i - 1].isNumber())) {
             exp.insert(i, "0");
             ++i;
             if (i < cur)
@@ -1043,7 +1171,7 @@ void ExpressionBar::clearSelection()
     if (!select.selected.isEmpty()) {
         int start = select.curpos - select.selected.length();
         QString exp = m_inputEdit->text();
-        exp = exp.remove(start,select.selected.length());
+        exp = exp.remove(start, select.selected.length());
         select.clearText = exp;
     }
 }
@@ -1063,7 +1191,7 @@ void ExpressionBar::getSelection()
     if (!m_inputEdit->selectedText().isEmpty()) {
         int start = m_inputEdit->selectionStart();
         QString exp = m_inputEdit->text();
-        exp = exp.remove(start,m_inputEdit->selectionLength());
+        exp = exp.remove(start, m_inputEdit->selectionLength());
         m_inputEdit->setText(exp);
         m_inputEdit->setCursorPosition(start);
     }
@@ -1098,7 +1226,7 @@ bool ExpressionBar::cancelLink(int index)
             if (exp[0] == "－")
                 list[0] = "－" + list[1];
             if (list.at(0) != m_hisLink[i].linkageValue) {
-                //m_listDelegate->removeLine(m_hisLink[i].linkageTerm, m_hisLink[i].linkedItem);
+                // m_listDelegate->removeLine(m_hisLink[i].linkageTerm, m_hisLink[i].linkedItem);
                 m_listDelegate->removeLine(i);
                 m_hisLink.remove(i);
                 isRemove = true;
@@ -1111,7 +1239,7 @@ bool ExpressionBar::cancelLink(int index)
 void ExpressionBar::settingLinkage(const QModelIndex &index)
 {
     int row = index.row();
-    for (int i = 0;i < m_hisLink.size();i++) {
+    for (int i = 0; i < m_hisLink.size(); i++) {
         if (m_hisLink[i].linkageTerm == row) {
             m_hisLink[i].isLink = true;
             m_inputEdit->clear();
@@ -1122,7 +1250,7 @@ void ExpressionBar::settingLinkage(const QModelIndex &index)
 bool ExpressionBar::isOperator(const QString &text)
 {
     if (text == QString::fromUtf8("＋") || text == QString::fromUtf8("－") ||
-           text == QString::fromUtf8("×") || text == QString::fromUtf8("÷")) {
+        text == QString::fromUtf8("×") || text == QString::fromUtf8("÷")) {
         return true;
     } else {
         return false;
@@ -1141,7 +1269,7 @@ void ExpressionBar::moveRight()
     m_inputEdit->setFocus();
 }
 
-QLineEdit* ExpressionBar::getInputEdit()
+QLineEdit *ExpressionBar::getInputEdit()
 {
     return m_inputEdit;
 }
