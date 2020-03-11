@@ -164,10 +164,14 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
         int curPos = m_inputEdit->cursorPosition();
         QString exp = m_inputEdit->text();
         if (cursorPosAtEnd()) {
-            QString lastStr = exp.right(1);
-            if (isOperator(lastStr))
-                exp.chop(1);
-            m_inputEdit->setText(exp + text);
+            if (m_inputEdit->text() == "－") {
+                m_inputEdit->setText(oldText);
+            } else {
+                QString lastStr = exp.right(1);
+                if (isOperator(lastStr))
+                    exp.chop(1);
+                m_inputEdit->setText(exp + text);
+            }
         } else if (curPos == 0) {
             QString firstStr = exp.left(1);
             if (firstStr == QString::fromUtf8("－")) {
@@ -998,8 +1002,8 @@ QString ExpressionBar::pasteFaultTolerance(QString exp)
     exp = pointFaultTolerance(exp);
     for (int i = 0; i < exp.size(); ++i) {
         while (exp[i].isNumber()) {
-            if (exp[i] == "0" && exp[i + 1] != "." && (i == 0 || !exp[i - 1].isNumber()) &&
-                (exp.size() == 1 || exp[i + 1].isNumber())) {
+            if (exp[i] == "0" && exp[i + 1] != "." && (i == 0 || exp[i - 1] != ".") &&
+                (i == 0 || !exp[i - 1].isNumber()) && (exp.size() == 1 || exp[i + 1].isNumber())) {
                 exp.remove(i, 1);
                 --i;
             }
