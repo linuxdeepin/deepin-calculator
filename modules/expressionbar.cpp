@@ -371,6 +371,14 @@ void ExpressionBar::enterBackspaceEvent()
     if (selection.selected != "") {
         m_inputEdit->setText(
             m_inputEdit->text().remove(selection.curpos, selection.selected.size()));
+        // fix for pointfault tolerance 16022
+        m_inputEdit->setCursorPosition(selection.curpos);
+        QTimer::singleShot(5000, this, [=] {
+            int curpos = m_inputEdit->cursorPosition();
+            m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
+            m_inputEdit->setCursorPosition(curpos);
+        });
+        // end fix
         return;
     }
     QString text = m_inputEdit->text();
