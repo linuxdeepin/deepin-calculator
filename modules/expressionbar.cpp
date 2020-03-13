@@ -188,6 +188,12 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
             } else {
                 m_inputEdit->insert(text);
             }
+            if (exp.count(",") != m_inputEdit->text().count(",")) {
+                if (exp.at(curPos) == ",")
+                    m_inputEdit->setCursorPosition(curPos + 1);
+                else
+                    m_inputEdit->setCursorPosition(curPos);
+            }
         }
     }
     // if (m_inputEdit->text() == oldText)
@@ -350,9 +356,19 @@ void ExpressionBar::enterPointEvent()
             QString sRegNum = "[0-9]+";
             QRegExp rx;
             rx.setPattern(sRegNum);
-            if (rx.exactMatch(exp.at(curpos - 1)))
+            if (rx.exactMatch(exp.at(curpos - 1))) {
+                int index = exp.indexOf(QRegExp("[^0-9,]"), curpos);
+                QString cut = exp.mid(curpos, index - curpos);
+                int aftercurpos = cut.count(",");
+                int before = exp.count(",");
                 m_inputEdit->insert(".");
-            else
+                int after = m_inputEdit->text().count(",");
+                if (before - aftercurpos == after) {
+                    m_inputEdit->setCursorPosition(curpos + 1);
+                } else {
+                    m_inputEdit->setCursorPosition(curpos);
+                }
+            } else
                 m_inputEdit->insert("0.");
         }
     }
@@ -391,8 +407,21 @@ void ExpressionBar::enterBackspaceEvent()
         int proNumber = text.count(",");
         m_inputEdit->backspace();
         int newPro = m_inputEdit->text().count(",");
-        if (proNumber > newPro)
-            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - (proNumber - newPro));
+        if (cur > 0) {
+            QString sRegNum = "[0-9]+";
+            QRegExp rx;
+            rx.setPattern(sRegNum);
+            //退数字
+            if (rx.exactMatch(text.at(cur - 1)) && proNumber > newPro)
+                m_inputEdit->setCursorPosition(cur - 2);
+            //退小数点
+            if (text.at(cur - 1) == ".") {
+                if (text.mid(0, cur).count(",") != m_inputEdit->text().mid(0, cur).count(","))
+                    m_inputEdit->setCursorPosition(cur);
+                else
+                    m_inputEdit->setCursorPosition(cur - 1);
+            }
+        }
     }
     if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
         emit clearStateChanged(true);
@@ -653,15 +682,35 @@ void ExpressionBar::enterBracketsEvent()
 void ExpressionBar::enterLeftBracketsEvent()
 {
     replaceSelection(m_inputEdit->text());
+    QString exp = m_inputEdit->text();
+    int curpos = m_inputEdit->cursorPosition();
+    int proNumber = m_inputEdit->text().count(",");
     m_inputEdit->insert("(");
+    int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+
+    if (!cursorPosAtEnd()) {
+        if (newPro < proNumber && exp.at(curpos) != ",") {
+            m_inputEdit->setCursorPosition(curpos);
+        }
+    }
 }
 
 void ExpressionBar::enterRightBracketsEvent()
 {
     replaceSelection(m_inputEdit->text());
+    QString exp = m_inputEdit->text();
+    int curpos = m_inputEdit->cursorPosition();
+    int proNumber = m_inputEdit->text().count(",");
     m_inputEdit->insert(")");
+    int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+
+    if (!cursorPosAtEnd()) {
+        if (newPro < proNumber && exp.at(curpos) != ",") {
+            m_inputEdit->setCursorPosition(curpos);
+        }
+    }
 }
 
 void ExpressionBar::enterDeleteEvent()
