@@ -353,7 +353,7 @@ void ExpressionBar::enterPointEvent()
         if (exp.at(curpos - 1) == ".")
             return;
         if (exp.at(curpos - 1) != ")" && exp.at(curpos - 1) != "%") {
-            QString sRegNum = "[0-9]+";
+            QString sRegNum = "[0-9,]+";
             QRegExp rx;
             rx.setPattern(sRegNum);
             if (rx.exactMatch(exp.at(curpos - 1))) {
