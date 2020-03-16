@@ -790,6 +790,7 @@ void ExpressionBar::copyClipboard2Result()
     }
     if (!m_inputEdit->text().isEmpty())
         emit clearStateChanged(false);
+    qDebug() << "result of copy:" << m_inputEdit->text();
 }
 
 void ExpressionBar::allElection()
@@ -1266,10 +1267,13 @@ void ExpressionBar::setResultFalse()
 void ExpressionBar::replaceSelection(QString text)
 {
     SSelection selection = m_inputEdit->getSelection();
+    qDebug() << "selectpart:" << selection.selected;
     int curPos = m_inputEdit->cursorPosition();
     if (selection.selected != "") {
         text.remove(selection.curpos, selection.selected.size());
+        qDebug() << "after delete:" << text;
         m_inputEdit->setText(text);
+        qDebug() << "inputedit" << m_inputEdit->text();
         if (curPos > selection.curpos && curPos <= selection.curpos + selection.selected.size())
             curPos = selection.curpos;
         m_inputEdit->setCursorPosition(curPos);
