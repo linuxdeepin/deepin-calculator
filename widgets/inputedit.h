@@ -27,16 +27,13 @@
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
 
-struct SSelection
-{
+struct SSelection {
     QString oldText;
     QString selected;
     QString clearText;
     bool isChanged;
-    int curpos;
-    SSelection() {
-        isChanged = false;
-    }
+    int curpos = 0;  // fix for bug-14249
+    SSelection() { isChanged = false; }
 };
 
 class InputEdit : public QLineEdit
@@ -50,8 +47,8 @@ public:
     QString expressionText();
     void setAnswer(const QString &str, const Quantity &ans);
     void clear();
-    SSelection getSelection() {return m_selected;};
-    void setSelection(SSelection select) {m_selected = select;};
+    SSelection getSelection() { return m_selected; };
+    void setSelection(SSelection select) { m_selected = select; };
 
 public slots:
     void setUndoAction(bool state);
@@ -103,13 +100,13 @@ private:
     QString m_oldText;
     SSelection m_selected;
 
-    QAction* m_undo;
-    QAction* m_redo;
-    QAction* m_cut;
-    QAction* m_copy;
-    QAction* m_paste;
-    QAction* m_delete;
-    QAction* m_select;
+    QAction *m_undo;
+    QAction *m_redo;
+    QAction *m_cut;
+    QAction *m_copy;
+    QAction *m_paste;
+    QAction *m_delete;
+    QAction *m_select;
 };
 
 #endif
