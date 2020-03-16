@@ -1281,6 +1281,7 @@ void ExpressionBar::replaceSelection(QString text)
     qDebug() << "selectpart:" << selection.selected;
     if (selection.selected != "") {
         text.remove(selection.curpos, selection.selected.size());
+        qDebug() << "selection curpos:" << selection.curpos;
         qDebug() << "after delete:" << text;
         m_inputEdit->setText(text);
         qDebug() << "inputedit" << m_inputEdit->text();
