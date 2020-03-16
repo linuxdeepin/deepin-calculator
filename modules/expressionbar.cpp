@@ -144,13 +144,8 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
     m_isResult = false;
     m_isUndo = false;
     // QString oldText = m_inputEdit->text();
-    SSelection selection = m_inputEdit->getSelection();
-    if (selection.selected != "") {
-        QString exp = oldText;
-        exp.remove(selection.curpos, selection.selected.size());
-        m_inputEdit->setText(exp);
-        m_inputEdit->setCursorPosition(selection.curpos);
-    }
+    // 20200213统一被选中光标复位代码
+    replaceSelection(m_inputEdit->text());
     if (m_inputEdit->text().isEmpty()) {
         if (text != "-") {
             m_inputEdit->setText(oldText);
@@ -158,9 +153,10 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
             m_inputEdit->insert(text);
         }
     } else {
-        if (m_inputEdit->text() == "－")
-            m_inputEdit->setText(oldText);
-        getSelection();
+        // 20200316无效代码删除
+        //        if (m_inputEdit->text() == "－")
+        //            m_inputEdit->setText(oldText);
+        //        getSelection();
         int curPos = m_inputEdit->cursorPosition();
         QString exp = m_inputEdit->text();
         if (cursorPosAtEnd()) {
@@ -185,19 +181,23 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
             QString behand = exp.at(curPos);
             if (isOperator(infront) || isOperator(behand)) {
                 m_inputEdit->setText(oldText);
-            } else {
+            } else
                 m_inputEdit->insert(text);
-            }
-            if (exp.count(",") != m_inputEdit->text().count(",")) {
-                if (exp.at(curPos) == ",")
-                    m_inputEdit->setCursorPosition(curPos + 1);
-                else
-                    m_inputEdit->setCursorPosition(curPos);
-            }
+
+            // 2020316修复添加符号后光标问题
+            //添加符号后左侧数字不会多分隔符，只需考虑添加符号后输入框光标前的数字与添加前是否一致
+            if (exp.mid(0, curPos).remove(QRegExp("[＋－×÷,.%()e]")) ==
+                m_inputEdit->text().mid(0, curPos).remove(QRegExp("[＋－×÷,.%()e]"))) {
+                QString sRegNum = "[＋－×÷]";
+                QRegExp rx;
+                rx.setPattern(sRegNum);
+                rx.exactMatch(m_inputEdit->text().at(curPos))
+                    ? m_inputEdit->setCursorPosition(curPos + 1)
+                    : m_inputEdit->setCursorPosition(curPos);
+            } else
+                m_inputEdit->setCursorPosition(curPos - 1);
         }
     }
-    // if (m_inputEdit->text() == oldText)
-    //    m_inputEdit->setText(oldText);
     m_isContinue = true;
     expressionCheck();
 }
@@ -210,15 +210,10 @@ void ExpressionBar::enterPercentEvent()
         return;
     QString oldText = m_inputEdit->text();
     QString exp = m_inputEdit->text();
-    SSelection selection = m_inputEdit->getSelection();
+
+    // 20200316百分号选中部分格式替代
     int curPos = m_inputEdit->cursorPosition();
-    if (selection.selected != "") {
-        exp.remove(selection.curpos, selection.selected.size());
-        m_inputEdit->setText(exp);
-        if (curPos > selection.curpos && curPos <= selection.curpos + selection.selected.size())
-            curPos = selection.curpos;
-        m_inputEdit->setCursorPosition(curPos);
-    }
+    replaceSelection(m_inputEdit->text());
     if (curPos == 0)
         return;
     // start edit for task-13519
@@ -384,11 +379,25 @@ void ExpressionBar::enterBackspaceEvent()
         clearLinkageCache();
     // m_inputEdit->backspace();
     SSelection selection = m_inputEdit->getSelection();
+    int selcurPos = m_inputEdit->cursorPosition();
     if (selection.selected != "") {
-        m_inputEdit->setText(
-            m_inputEdit->text().remove(selection.curpos, selection.selected.size()));
+        QString text = m_inputEdit->text();
+        QString seloldtext = text;
+        text.remove(selection.curpos, selection.selected.size());
+        m_inputEdit->setText(text);
+        if (selcurPos > selection.curpos &&
+            selcurPos <= selection.curpos + selection.selected.size())
+            selcurPos = selection.curpos;
+        // 20200316选中部分光标置位问题修复
+        if (seloldtext.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()e]")).length() ==
+            m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()e]")).length())
+            m_inputEdit->setCursorPosition(selcurPos);
+        else if (seloldtext.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()e]")).length() >
+                 m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()e]")).length())
+            m_inputEdit->setCursorPosition(selcurPos + 1);
+        else
+            m_inputEdit->setCursorPosition(selcurPos - 1);
         // fix for pointfault tolerance 16022
-        m_inputEdit->setCursorPosition(selection.curpos);
         QTimer::singleShot(5000, this, [=] {
             int curpos = m_inputEdit->cursorPosition();
             m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
@@ -1266,17 +1275,27 @@ void ExpressionBar::setResultFalse()
 
 void ExpressionBar::replaceSelection(QString text)
 {
+    QString seloldtext = text;
     SSelection selection = m_inputEdit->getSelection();
+    int selcurPos = m_inputEdit->cursorPosition();
     qDebug() << "selectpart:" << selection.selected;
-    int curPos = m_inputEdit->cursorPosition();
     if (selection.selected != "") {
         text.remove(selection.curpos, selection.selected.size());
         qDebug() << "after delete:" << text;
         m_inputEdit->setText(text);
         qDebug() << "inputedit" << m_inputEdit->text();
-        if (curPos > selection.curpos && curPos <= selection.curpos + selection.selected.size())
-            curPos = selection.curpos;
-        m_inputEdit->setCursorPosition(curPos);
+        if (selcurPos > selection.curpos &&
+            selcurPos <= selection.curpos + selection.selected.size())
+            selcurPos = selection.curpos;
+        // 20200313选中部分光标置位问题修复
+        if (seloldtext.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()e]")).length() ==
+            m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()e]")).length())
+            m_inputEdit->setCursorPosition(selcurPos);
+        else if (seloldtext.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()e]")).length() >
+                 m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()e]")).length())
+            m_inputEdit->setCursorPosition(selcurPos + 1);
+        else
+            m_inputEdit->setCursorPosition(selcurPos - 1);
     }
 }
 
