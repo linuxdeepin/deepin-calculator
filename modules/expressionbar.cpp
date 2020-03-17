@@ -629,9 +629,13 @@ void ExpressionBar::enterEqualEvent()
 void ExpressionBar::enterBracketsEvent()
 {
     replaceSelection(m_inputEdit->text());
+    QString oldText = m_inputEdit->text();
     int currentPos = m_inputEdit->cursorPosition();
     m_inputEdit->insert("()");
-    m_inputEdit->setCursorPosition(currentPos + 1);
+    if (oldText.mid(0, currentPos).count(",") == m_inputEdit->text().mid(0, currentPos).count(","))
+        m_inputEdit->setCursorPosition(currentPos + 1);
+    else
+        m_inputEdit->setCursorPosition(currentPos);
     m_isUndo = false;
     /*QString sRegNum = "[0-9]+";
     QRegExp rx;
