@@ -123,7 +123,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
             m_listDelegate->removeLine(0);
         }
     }
-    clearSelectSymbol();
+    //    clearSelectSymbol();   //fix for bug-14117
     if (m_isUndo) {
         int row = m_listModel->rowCount(QModelIndex());
         if (row != 0) {
@@ -1298,6 +1298,9 @@ void ExpressionBar::replaceSelection(QString text)
         else
             m_inputEdit->setCursorPosition(selcurPos - 1);
     }
+    // reset selection
+    selection = SSelection();
+    m_inputEdit->setSelection(selection);
 }
 
 bool ExpressionBar::cancelLink(int index)
