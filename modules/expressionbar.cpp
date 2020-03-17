@@ -210,10 +210,9 @@ void ExpressionBar::enterPercentEvent()
         return;
     QString oldText = m_inputEdit->text();
     QString exp = m_inputEdit->text();
-
     // 20200316百分号选中部分格式替代
-    int curPos = m_inputEdit->cursorPosition();
     replaceSelection(m_inputEdit->text());
+    int curPos = m_inputEdit->cursorPosition();
     if (curPos == 0)
         return;
     // start edit for task-13519
