@@ -20,19 +20,19 @@
 #ifndef EXPRESSIONBAR_H
 #define EXPRESSIONBAR_H
 
-#include <QWidget>
-#include <QVBoxLayout>
 #include <QKeyEvent>
-#include <QVector>
 #include <QPair>
+#include <QVBoxLayout>
+#include <QVector>
+#include <QWidget>
 
 #include <DWidget>
 
-#include "simplelistview.h"
-#include "simplelistmodel.h"
-#include "simplelistdelegate.h"
-#include "../widgets/inputedit.h"
 #include "../core/evaluator.h"
+#include "../widgets/inputedit.h"
+#include "simplelistdelegate.h"
+#include "simplelistmodel.h"
+#include "simplelistview.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -43,20 +43,18 @@ struct historicalLinkageIndex
     int linkedItem;
     QString linkageValue;
     bool isLink;
-    historicalLinkageIndex() {
+    historicalLinkageIndex()
+    {
         linkageTerm = -1;
         linkedItem = -1;
         isLink = false;
     }
 };
 
-struct strck
-{
+struct strck {
     QString text;
     bool isResult;
-    strck() {
-        isResult = false;
-    }
+    strck() { isResult = false; }
 };
 
 class ExpressionBar : public DWidget
@@ -95,7 +93,7 @@ public slots:
     void shear();
     void computationalResults(const QString &expression, QString &result);
     void historicalLinkage(int index, QString newValue);
-    void clearLinkageCache();
+    void clearLinkageCache(const QString &text);
     void setLinkState(const QModelIndex index);
     void settingLinkage(const QModelIndex &index);
     void settingLinkage();
@@ -135,20 +133,20 @@ private:
     SimpleListModel *m_listModel;
     InputEdit *m_inputEdit;
 
-    QString m_unfinishedExp;    //未完成表达式
+    QString m_unfinishedExp;  //未完成表达式
     bool m_isContinue;
     bool m_isAllClear;
-    bool m_isResult;             //计算结果
-    bool m_isAutoComputation;    //自动计算
-    bool m_inputNumber;          //输入数字
+    bool m_isResult;           //计算结果
+    bool m_isAutoComputation;  //自动计算
+    bool m_inputNumber;        //输入数字
     bool m_isUndo;
-    int m_hisRevision;           //历史记录修改
+    int m_hisRevision;  //历史记录修改
 
-    bool m_isLinked;             //联动状态
-    int m_linkageIndex;          //联动索引缓存
-    int m_Selected;              //选中
+    bool m_isLinked;     //联动状态
+    int m_linkageIndex;  //联动索引缓存
+    int m_Selected;      //选中
     QString m_selection;
-    QVector<historicalLinkageIndex> m_hisLink;   //历史联动索引
+    QVector<historicalLinkageIndex> m_hisLink;  //历史联动索引
     QVector<QString> m_undo;
     QVector<QString> m_redo;
 };

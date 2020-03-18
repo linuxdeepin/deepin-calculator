@@ -74,8 +74,8 @@ void ExpressionBar::setContinue(bool isContinue)
 void ExpressionBar::enterNumberEvent(const QString &text)
 {
     int aaa = m_inputEdit->cursorPosition();
-    if (m_isLinked)
-        clearLinkageCache();
+    //    if (m_isLinked)
+    //        clearLinkageCache();
     if (m_inputNumber && m_hisRevision == -1) {
         m_inputEdit->clear();
         m_isResult = false;
@@ -83,7 +83,7 @@ void ExpressionBar::enterNumberEvent(const QString &text)
     if (!m_inputEdit->text().isEmpty() && m_isResult) {
         m_inputEdit->clear();
         m_isResult = false;
-        clearLinkageCache();
+        //        clearLinkageCache();
     }
     if (!m_isContinue) {
         // the cursor position at the end, it will clear edit text.
@@ -116,6 +116,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
     if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
         m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex());
         m_hisLink.last().isLink = true;
+        qDebug() << "linked enter";
         m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
         m_isLinked = false;
         if (m_hisLink.size() > 9) {
@@ -204,8 +205,8 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
 
 void ExpressionBar::enterPercentEvent()
 {
-    if (m_isLinked)
-        clearLinkageCache();
+    //    if (m_isLinked)
+    //        clearLinkageCache();
     if (m_inputEdit->text().isEmpty())
         return;
     QString oldText = m_inputEdit->text();
@@ -336,8 +337,8 @@ void ExpressionBar::enterPercentEvent()
 
 void ExpressionBar::enterPointEvent()
 {
-    if (m_isLinked)
-        clearLinkageCache();
+    //    if (m_isLinked)
+    //        clearLinkageCache();
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -374,8 +375,8 @@ void ExpressionBar::enterPointEvent()
 
 void ExpressionBar::enterBackspaceEvent()
 {
-    if (m_isResult)
-        clearLinkageCache();
+    //    if (m_isResult)
+    //        clearLinkageCache();
     // m_inputEdit->backspace();
     SSelection selection = m_inputEdit->getSelection();
     int selcurPos = m_inputEdit->cursorPosition();
@@ -470,7 +471,7 @@ void ExpressionBar::enterClearEvent()
 
         m_inputEdit->clear();
         m_isAllClear = true;
-        clearLinkageCache();
+        //        clearLinkageCache();
     }
     m_isResult = false;
     m_isUndo = false;
@@ -531,7 +532,8 @@ void ExpressionBar::enterEqualEvent()
     m_isResult = false;*/
     if (m_inputEdit->text().isEmpty())
         return;
-
+    if (!m_isLinked)
+        clearLinkageCache(m_inputEdit->text());
     if (m_hisRevision == -1) {
         const QString expression = formatExpression(m_inputEdit->expressionText());
         QString exp = symbolComplement(expression);
@@ -564,6 +566,7 @@ void ExpressionBar::enterEqualEvent()
         }
         m_isContinue = false;
     } else {
+        qDebug() << "down";
         m_listModel->updataList(m_inputEdit->text() + "＝" + tr("Expression error"), m_hisRevision);
         if (m_hisRevision == -1)
             m_hisRevision = m_listModel->rowCount(QModelIndex()) - 1;
@@ -580,6 +583,7 @@ void ExpressionBar::enterEqualEvent()
         }
     }
 
+    qDebug() << m_isLinked;
     if (m_isLinked) {
         if (m_hisRevision == -1) {
             m_isLinked = false;
@@ -793,7 +797,7 @@ void ExpressionBar::copyClipboard2Result()
     text = pasteFaultTolerance(text);
     // m_inputEdit->insert(text);
     m_inputEdit->setText(text);
-    clearLinkageCache();
+    //    clearLinkageCache();
     m_isUndo = false;
     if (m_inputEdit->text() == exp) {
         m_inputEdit->setText(oldText);
@@ -850,7 +854,7 @@ QString ExpressionBar::formatExpression(const QString &text)
 
 void ExpressionBar::revisionResults(const QModelIndex &index)
 {
-    clearLinkageCache();
+    //    clearLinkageCache();
     QString text = index.data(SimpleListModel::ExpressionRole).toString();
     QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
     if (historic.size() != 2)
@@ -860,6 +864,9 @@ void ExpressionBar::revisionResults(const QModelIndex &index)
     m_inputEdit->setText(expression);
     m_Selected = m_hisRevision;
     m_isResult = false;
+    // fix addundo for history revision
+    m_isUndo = false;
+    addUndo();
 
     emit clearStateChanged(false);
 }
@@ -955,15 +962,29 @@ void ExpressionBar::setLinkState(const QModelIndex index)
     }
 }
 
-void ExpressionBar::clearLinkageCache()
+// edit 20200318 for fix cleanlinkcache
+void ExpressionBar::clearLinkageCache(const QString &text)
 {
     if (m_hisLink.isEmpty())
         return;
-    if (m_hisLink.last().linkedItem == -1) {
-        m_hisLink.removeLast();
-        m_isLinked = false;
-        m_listDelegate->removeHisLink();
-        m_isResult = false;
+    QString linkedExp = text.split("＝").first();
+    if (m_hisLink.count() > 0) {
+        int length = m_hisLink.last().linkageValue.length();
+        if (linkedExp.left(length) != m_hisLink.last().linkageValue ||
+            (linkedExp.length() > length && !isOperator(linkedExp.at(length)))) {
+            m_hisLink.removeLast();
+            m_isLinked = false;
+            m_listDelegate->removeHisLink();
+            m_listDelegate->removeHisLinked();
+            //            m_isResult = false;
+        }
+    } else {
+        if (m_hisLink.last().linkedItem == -1) {
+            m_hisLink.removeLast();
+            m_isLinked = false;
+            m_listDelegate->removeHisLink();
+            m_isResult = false;
+        }
     }
 }
 
@@ -1184,7 +1205,7 @@ void ExpressionBar::Undo()
 {
     if (m_undo.isEmpty())
         return;
-    clearLinkageCache();
+    //    clearLinkageCache();
     m_redo.append(m_undo.last());
     m_inputEdit->setRedoAction(true);
     m_undo.removeLast();
@@ -1219,7 +1240,7 @@ void ExpressionBar::Redo()
 {
     if (m_redo.isEmpty())
         return;
-    clearLinkageCache();
+    //    clearLinkageCache();
     m_inputEdit->setText(m_redo.last());
     m_undo.append(m_inputEdit->text());
     m_redo.removeLast();

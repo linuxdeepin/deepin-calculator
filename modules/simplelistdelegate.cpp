@@ -18,13 +18,13 @@
  */
 
 #include "simplelistdelegate.h"
-#include "simplelistmodel.h"
-#include "dthememanager.h"
-#include "utils.h"
-#include <QPainter>
 #include <QDebug>
-#include <QMouseEvent>
 #include <QEvent>
+#include <QMouseEvent>
+#include <QPainter>
+#include "dthememanager.h"
+#include "simplelistmodel.h"
+#include "utils.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -83,12 +83,19 @@ void SimpleListDelegate::removeAllLink()
     m_linkItem.clear();
 }
 
+void SimpleListDelegate::removeHisLinked()
+{
+    if (!m_linkedIten.isEmpty())
+        m_linkedIten.removeLast();
+}
+
 void SimpleListDelegate::setThemeType(int type)
 {
     m_type = type;
 }
 
-void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
+                               const QModelIndex &index) const
 {
     const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
     QRect rect(option.rect);
@@ -97,7 +104,8 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     QString errorFontColor;
     QString fontColor;
     QString linkColor;
-    painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
+    painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing |
+                            QPainter::SmoothPixmapTransform);
 
     QFont font;
     for (int i = 16; i > 6; --i) {
@@ -117,7 +125,8 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     int resultWidth = painter->fontMetrics().width(resultStr);
 
     if (resultWidth > rect.width() / 1.4) {
-        resultStr = painter->fontMetrics().elidedText(resultStr, Qt::ElideRight, rect.width() / 1.4 + padding);
+        resultStr = painter->fontMetrics().elidedText(resultStr, Qt::ElideRight,
+                                                      rect.width() / 1.4 + padding);
         resultWidth = painter->fontMetrics().width(resultStr);
     }
 
@@ -125,8 +134,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         errorFontColor = "#F37D54";
         linkColor = "#3489DF";
         fontColor = "#838483";
-    }
-    else {
+    } else {
         errorFontColor = "#F37D54";
         linkColor = "#3489DF";
         fontColor = "#838483";
@@ -144,20 +152,20 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     }
 
     int equalStrWidth = painter->fontMetrics().width(" ＝ ");
-    QString expStr = painter->fontMetrics().elidedText(splitList.first(), Qt::ElideLeft,
-                                                       rect.width() - resultWidth - padding * 2 - equalStrWidth);
-    //QString expStr = splitList.first();
+    QString expStr = painter->fontMetrics().elidedText(
+        splitList.first(), Qt::ElideLeft, rect.width() - resultWidth - padding * 2 - equalStrWidth);
+    // QString expStr = splitList.first();
 
     if (m_selected) {
-        QRect resultRect(rect.topRight().x() - resultWidth - padding,
-                         rect.y(), resultWidth, rect.height());
+        QRect resultRect(rect.topRight().x() - resultWidth - padding, rect.y(), resultWidth,
+                         rect.height());
         QPainterPath path;
         path.addRoundedRect(resultRect, 8, 8);
 
-        //Setting Gradient
+        // Setting Gradient
         QLinearGradient linear(resultRect.topLeft(), resultRect.bottomRight());
-        linear.setColorAt(0, QColor(0,151,231,255));
-        linear.setColorAt(1, QColor(0,122,219,255));
+        linear.setColorAt(0, QColor(0, 151, 231, 255));
+        linear.setColorAt(1, QColor(0, 122, 219, 255));
         linear.setSpread(QGradient::PadSpread);
         painter->fillPath(path, linear);
 
@@ -168,23 +176,23 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     if (splitList.size() == 1) {
         // draw expression text;
         painter->setPen(QColor(fontColor));
-        painter->drawText(QRect(rect.x() + padding,
-                                rect.y(), rect.width() - padding * 2, rect.height()),
-                          Qt::AlignVCenter | Qt::AlignRight, expStr);
+        painter->drawText(
+            QRect(rect.x() + padding, rect.y(), rect.width() - padding * 2, rect.height()),
+            Qt::AlignVCenter | Qt::AlignRight, expStr);
     } else {
         // draw result text.
-        painter->drawText(QRect(rect.x() + padding,
-                                rect.y(), rect.width() - padding * 2, rect.height()),
-                          Qt::AlignVCenter | Qt::AlignRight, resultStr);
+        painter->drawText(
+            QRect(rect.x() + padding, rect.y(), rect.width() - padding * 2, rect.height()),
+            Qt::AlignVCenter | Qt::AlignRight, resultStr);
 
-        QString linkNum,exp;
-        m_simpleListDelegate->cutApart(expStr,linkNum,exp);
+        QString linkNum, exp;
+        m_simpleListDelegate->cutApart(expStr, linkNum, exp);
         exp = exp + " ＝ ";
 
         // draw expression text;
         painter->setPen(QColor(fontColor));
-        painter->drawText(QRect(rect.x() + padding,
-                                rect.y(), rect.width() - resultWidth - padding * 2, rect.height()),
+        painter->drawText(QRect(rect.x() + padding, rect.y(),
+                                rect.width() - resultWidth - padding * 2, rect.height()),
                           Qt::AlignVCenter | Qt::AlignRight, exp);
 
         painter->setPen(QColor(fontColor));
@@ -194,18 +202,20 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         }
 
         int expWidth = painter->fontMetrics().width(exp);
-        painter->drawText(QRect(rect.x() + padding,
-                                rect.y(), rect.width() - resultWidth - expWidth - padding * 2, rect.height()),
+        painter->drawText(QRect(rect.x() + padding, rect.y(),
+                                rect.width() - resultWidth - expWidth - padding * 2, rect.height()),
                           Qt::AlignVCenter | Qt::AlignRight, linkNum);
     }
 }
 
-QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
+                                   const QModelIndex &index) const
 {
     return QSize(-1, 35);
 }
 
-bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
+bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
+                                     const QStyleOptionViewItem &option, const QModelIndex &index)
 {
     m_selected = true;
     emit obtainingHistorical(index);

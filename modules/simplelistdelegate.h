@@ -36,17 +36,22 @@ public:
     void removeLine(int index);
     void removeHisLink();
     void removeAllLink();
+    void removeHisLinked();  // add 20200318 for fix cleanlinkcache
 public slots:
     void setThemeType(int type);
+
 protected:
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option,
+               const QModelIndex &index) const;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index);
+    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option,
+                     const QModelIndex &index);
 signals:
     void obtainingHistorical(const QModelIndex &index);
     void historicalLinkage(const QModelIndex &index);
+
 private:
-    void setSelect(bool isSelect) {m_selected = isSelect;};
+    void setSelect(bool isSelect) { m_selected = isSelect; };
     void cutApart(const QString text, QString &linkNum, QString &expStr);
 
     SimpleListDelegate *m_simpleListDelegate;
