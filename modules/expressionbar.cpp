@@ -533,7 +533,7 @@ void ExpressionBar::enterEqualEvent()
     if (m_inputEdit->text().isEmpty())
         return;
     if (!m_isLinked)
-        clearLinkageCache(m_inputEdit->text());
+        clearLinkageCache(m_inputEdit->text(), true);
     if (m_hisRevision == -1) {
         const QString expression = formatExpression(m_inputEdit->expressionText());
         QString exp = symbolComplement(expression);
@@ -854,7 +854,7 @@ QString ExpressionBar::formatExpression(const QString &text)
 
 void ExpressionBar::revisionResults(const QModelIndex &index)
 {
-    //    clearLinkageCache();
+    clearLinkageCache(m_inputEdit->text(), false);
     QString text = index.data(SimpleListModel::ExpressionRole).toString();
     QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
     if (historic.size() != 2)
@@ -963,12 +963,12 @@ void ExpressionBar::setLinkState(const QModelIndex index)
 }
 
 // edit 20200318 for fix cleanlinkcache
-void ExpressionBar::clearLinkageCache(const QString &text)
+void ExpressionBar::clearLinkageCache(const QString &text, bool isequal)
 {
     if (m_hisLink.isEmpty())
         return;
     QString linkedExp = text.split("＝").first();
-    if (m_hisLink.count() > 0) {
+    if (m_hisLink.count() > 0 && isequal == true) {
         int length = m_hisLink.last().linkageValue.length();
         if (linkedExp.left(length) != m_hisLink.last().linkageValue ||
             (linkedExp.length() > length && !isOperator(linkedExp.at(length)))) {

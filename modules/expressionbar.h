@@ -93,7 +93,7 @@ public slots:
     void shear();
     void computationalResults(const QString &expression, QString &result);
     void historicalLinkage(int index, QString newValue);
-    void clearLinkageCache(const QString &text);
+    void clearLinkageCache(const QString &text, bool isequal);
     void setLinkState(const QModelIndex index);
     void settingLinkage(const QModelIndex &index);
     void settingLinkage();
