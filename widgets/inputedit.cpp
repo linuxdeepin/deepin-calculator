@@ -532,5 +532,5 @@ void InputEdit::selectionChangedSlot()
     m_selected.oldText = text();
     m_selected.selected = selectedText();
     m_selected.curpos = selectionStart();
-    qDebug() << m_selected.selected;
+    //    qDebug() << m_selected.selected;
 }

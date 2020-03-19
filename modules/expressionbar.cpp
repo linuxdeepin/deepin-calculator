@@ -1207,7 +1207,7 @@ void ExpressionBar::Undo()
     if (!m_undo.isEmpty()) {
         if (m_undo.size() > 1) {
             for (int i = m_undo.size() - 1; i > 0; i--) {
-                if (m_undo.at(i) == m_inputEdit->text())
+                if (m_undo.at(i) == m_inputEdit->text() && m_undo.at(i - 1) == m_inputEdit->text())
                     m_undo.pop_back();
             }
         }
