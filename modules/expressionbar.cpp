@@ -97,16 +97,13 @@ void ExpressionBar::enterNumberEvent(const QString &text)
 
     m_inputNumber = false;
     m_isUndo = false;
-    QString oldText = m_inputEdit->text();
-    SSelection selection = m_inputEdit->getSelection();
-    if (selection.selected != "") {
-        QString exp = m_inputEdit->text();
-        exp.remove(selection.curpos, selection.selected.size());
-        exp.insert(selection.curpos, text);
-        m_inputEdit->setText(pointFaultTolerance(exp));
-    } else {
-        m_inputEdit->insert(text);
-    }
+
+    // 20200319输入数字光标置位修复
+    replaceSelection(m_inputEdit->text());
+    m_inputEdit->insert(text);
+    int nowcur = m_inputEdit->cursorPosition();
+    m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
+    m_inputEdit->setCursorPosition(nowcur);
     emit clearStateChanged(false);
 }
 
@@ -1210,9 +1207,17 @@ void ExpressionBar::Undo()
     m_inputEdit->setRedoAction(true);
     m_undo.removeLast();
     m_isUndo = true;
-    if (!m_undo.isEmpty())
+    // 20200319修复选中某一数字按下相同数字无法清除选中内容的问题
+    if (!m_undo.isEmpty()) {
+        if (m_undo.size() > 1) {
+            for (int i = m_undo.size() - 1; i > 0; i--) {
+                qDebug() << m_undo.at(i) << m_undo.at(i - 1) << "m_undo";
+                if (m_undo.at(i) == m_inputEdit->text())
+                    m_undo.pop_back();
+            }
+        }
         m_inputEdit->setText(m_undo.last());
-    else {
+    } else {
         m_inputEdit->clear();
         m_inputEdit->setUndoAction(false);
     }
@@ -1227,8 +1232,9 @@ void ExpressionBar::Undo()
 
 void ExpressionBar::addUndo()
 {
-    if (!m_undo.isEmpty() && m_inputEdit->text() == m_undo.last())
-        return;
+    // 20200319修复选中某一数字按下相同数字无法清除选中内容的问题
+    //    if (!m_undo.isEmpty() && m_inputEdit->text() == m_undo.last())
+    //        return;
     m_undo.append(m_inputEdit->text());
     m_redo.clear();
     m_inputEdit->setUndoAction(true);
