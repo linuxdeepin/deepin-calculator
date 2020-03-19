@@ -18,27 +18,27 @@
  */
 
 #include "inputedit.h"
-#include "../utils.h"
 #include "../math/floatconfig.h"
+#include "../utils.h"
 
-#include <QKeyEvent>
-#include <QDebug>
-#include <QStringList>
 #include <QApplication>
 #include <QClipboard>
+#include <QDebug>
+#include <QKeyEvent>
 #include <QMouseEvent>
+#include <QStringList>
 
 #include <DMenu>
 
 InputEdit::InputEdit(QWidget *parent)
-    : QLineEdit(parent),
-      m_ans(0),
-      m_ansStartPos(0),
-      m_ansLength(0),
-      m_ansVaild(false),
-      m_currentInAns(false),
-      m_currentOnAnsLeft(false),
-      m_oldText("")
+    : QLineEdit(parent)
+    , m_ans(0)
+    , m_ansStartPos(0)
+    , m_ansLength(0)
+    , m_ansVaild(false)
+    , m_currentInAns(false)
+    , m_currentOnAnsLeft(false)
+    , m_oldText("")
 {
     setAttribute(Qt::WA_InputMethodEnabled, false);
     setAttribute(Qt::WA_TranslucentBackground);
@@ -55,23 +55,20 @@ InputEdit::InputEdit(QWidget *parent)
     connect(this, &QLineEdit::customContextMenuRequested, this, &InputEdit::showTextEditMenu);
     connect(this, &InputEdit::returnPressed, this, &InputEdit::pressSlot);
     connect(this, &QLineEdit::selectionChanged, this, &InputEdit::selectionChangedSlot);
-    connect(this, &QLineEdit::selectionChanged,
-            [=] {
-                int pos = this->cursorPosition();
-                this->cursorPositionChanged(pos, pos);
-            });
+    connect(this, &QLineEdit::selectionChanged, [=] {
+        int pos = this->cursorPosition();
+        this->cursorPositionChanged(pos, pos);
+    });
 
     DPalette pl = this->palette();
-    //pl.setColor(DPalette::Text,QColor(48,48,48));
-    pl.setColor(DPalette::Button,Qt::transparent);
-    pl.setColor(DPalette::Highlight,Qt::transparent);
-    pl.setColor(DPalette::HighlightedText,Qt::blue);
+    // pl.setColor(DPalette::Text,QColor(48,48,48));
+    pl.setColor(DPalette::Button, Qt::transparent);
+    pl.setColor(DPalette::Highlight, Qt::transparent);
+    pl.setColor(DPalette::HighlightedText, Qt::blue);
     this->setPalette(pl);
 }
 
-InputEdit::~InputEdit()
-{
-}
+InputEdit::~InputEdit() {}
 
 QString InputEdit::expressionText()
 {
@@ -135,7 +132,7 @@ void InputEdit::mousePressEvent(QMouseEvent *e)
         setFocus();
         m_selected.selected = "";
         emit setResult();
-        qDebug() << m_selected.selected;
+        //        qDebug() << m_selected.selected;
     }
     QLineEdit::mousePressEvent(e);
 }
@@ -189,7 +186,7 @@ bool InputEdit::isSymbolCategoryChanged(int pos1, int pos2)
 
     if (category1 == QChar::Number_DecimalDigit || category1 == QChar::Punctuation_Other) {
         if (category2 == QChar::Number_DecimalDigit || category2 == QChar::Punctuation_Other) {
-            return false ;
+            return false;
         }
     }
 
@@ -260,7 +257,8 @@ void InputEdit::handleTextChanged(const QString &text)
         int minValue = std::min(textLength, oldTextLength);
 
         int i = 1;
-        for (; i < minValue && text[textLength - i] == m_oldText[oldTextLength - i]; ++i) ;
+        for (; i < minValue && text[textLength - i] == m_oldText[oldTextLength - i]; ++i)
+            ;
 
         int diff = (textLength - i) - (oldTextLength - i);
         m_ansStartPos += diff;
@@ -279,28 +277,27 @@ void InputEdit::handleTextChanged(const QString &text)
     while (ansEnd > text.length()) {
         --ansEnd;
     }
-    m_ansVaild = m_ansLength > 10 &&
-        (m_ansStartPos == 0 || !text[m_ansStartPos - 1].isDigit()) &&
-        (ansEnd == text.length() || !text[ansEnd].isDigit());
+    m_ansVaild = m_ansLength > 10 && (m_ansStartPos == 0 || !text[m_ansStartPos - 1].isDigit()) &&
+                 (ansEnd == text.length() || !text[ansEnd].isDigit());
     m_oldText = text;
 
     int oldPosition = this->cursorPosition();
     QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
     reformatStr = reformatStr.replace('+', QString::fromUtf8("＋"))
-                             .replace('-', QString::fromUtf8("－"))
-                             .replace("_", QString::fromUtf8("－"))
-                             .replace('*', QString::fromUtf8("×"))
-                             .replace('/', QString::fromUtf8("÷"))
-                             .replace('x', QString::fromUtf8("×"))
-                             .replace('X', QString::fromUtf8("×"))
-                             .replace(QString::fromUtf8("（"), "(")
-                             .replace(QString::fromUtf8("）"), ")")
-                             .replace(QString::fromUtf8("。"), ".")
-                             .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
+                      .replace('-', QString::fromUtf8("－"))
+                      .replace("_", QString::fromUtf8("－"))
+                      .replace('*', QString::fromUtf8("×"))
+                      .replace('/', QString::fromUtf8("÷"))
+                      .replace('x', QString::fromUtf8("×"))
+                      .replace('X', QString::fromUtf8("×"))
+                      .replace(QString::fromUtf8("（"), "(")
+                      .replace(QString::fromUtf8("）"), ")")
+                      .replace(QString::fromUtf8("。"), ".")
+                      .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
 
     multipleArithmetic(reformatStr);
     reformatStr.remove(QRegExp("[^0-9＋－×÷,.%()e]"));
-    //reformatStr = pointFaultTolerance(reformatStr);
+    // reformatStr = pointFaultTolerance(reformatStr);
     reformatStr = symbolFaultTolerance(reformatStr);
     setText(reformatStr);
     autoZoomFontSize();
@@ -332,7 +329,7 @@ QString InputEdit::pointFaultTolerance(const QString &text)
         if (firstPoint == 0) {
             item.insert(firstPoint, "0");
             ++firstPoint;
-            //oldText.replace(list[i], item);
+            // oldText.replace(list[i], item);
         } else {
             if (item.at(firstPoint - 1) == ")" || item.at(firstPoint - 1) == "%") {
                 item.remove(firstPoint, 1);
@@ -417,7 +414,7 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
     if (newPos > m_ansStartPos && newPos < ansEnd) {
         m_currentInAns = true;
     } else if (this->hasSelectedText() &&
-               ((selectStart >= m_ansStartPos && selectStart < ansEnd) ) ||
+                   ((selectStart >= m_ansStartPos && selectStart < ansEnd)) ||
                (selectEnd > m_ansStartPos && selectEnd <= ansEnd) ||
                (selectStart < m_ansStartPos && selectEnd > ansEnd)) {
         m_currentInAns = true;
@@ -444,24 +441,24 @@ void InputEdit::BracketCompletion(QKeyEvent *e)
         //光标左侧左括号大于右括号
         if (leftLeftParen > leftRightParen) {
             if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) > 0) {
-                oldText.insert(curs,")");
+                oldText.insert(curs, ")");
             } else if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) < 0) {
-                oldText.insert(curs,"(");
+                oldText.insert(curs, "(");
             } else {
-                oldText.insert(curs,"()");
+                oldText.insert(curs, "()");
             }
-        //如果左侧左括号小于等于左侧右括号
+            //如果左侧左括号小于等于左侧右括号
         } else {
             //如果右侧左括号小于右括号
             if (rightLeftParen < rightrightParen) {
-                oldText.insert(curs,"(");
+                oldText.insert(curs, "(");
             } else {
-                oldText.insert(curs,"()");
+                oldText.insert(curs, "()");
             }
         }
-    //相等则输入一对括号
+        //相等则输入一对括号
     } else {
-        oldText.insert(curs,"()");
+        oldText.insert(curs, "()");
     }
     this->setCursorPosition(curs);
     setText(oldText);
@@ -469,12 +466,12 @@ void InputEdit::BracketCompletion(QKeyEvent *e)
 
 bool InputEdit::eventFilter(QObject *watched, QEvent *event)
 {
-    if (event->type() ==  QEvent::KeyPress) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         Q_EMIT keyPress(keyEvent);
         return true;
     } else if (event->type() == QEvent::MouseButtonDblClick) {
-        QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
         mouseDoubleClickEvent(mouseEvent);
         return true;
     }
@@ -487,11 +484,11 @@ void InputEdit::multipleArithmetic(QString &text)
     if (index != -1) {
         int count = text.count("\n");
         for (int i = 0; i < count; ++i) {
-            index = text.indexOf("\n",i);
+            index = text.indexOf("\n", i);
             if (index == 0)
                 continue;
             if (text.at(index - 1) == ")" || text.at(index - 1) == "%")
-                text.replace(index,1,"×");
+                text.replace(index, 1, "×");
         }
     }
 }

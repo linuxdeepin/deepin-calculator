@@ -113,7 +113,6 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
     if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
         m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex());
         m_hisLink.last().isLink = true;
-        qDebug() << "linked enter";
         m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
         m_isLinked = false;
         if (m_hisLink.size() > 9) {
@@ -563,7 +562,6 @@ void ExpressionBar::enterEqualEvent()
         }
         m_isContinue = false;
     } else {
-        qDebug() << "down";
         m_listModel->updataList(m_inputEdit->text() + "＝" + tr("Expression error"), m_hisRevision);
         if (m_hisRevision == -1)
             m_hisRevision = m_listModel->rowCount(QModelIndex()) - 1;
@@ -580,7 +578,6 @@ void ExpressionBar::enterEqualEvent()
         }
     }
 
-    qDebug() << m_isLinked;
     if (m_isLinked) {
         if (m_hisRevision == -1) {
             m_isLinked = false;
@@ -803,7 +800,6 @@ void ExpressionBar::copyClipboard2Result()
     }
     if (!m_inputEdit->text().isEmpty())
         emit clearStateChanged(false);
-    qDebug() << "result of copy:" << m_inputEdit->text();
 }
 
 void ExpressionBar::allElection()
@@ -1211,7 +1207,6 @@ void ExpressionBar::Undo()
     if (!m_undo.isEmpty()) {
         if (m_undo.size() > 1) {
             for (int i = m_undo.size() - 1; i > 0; i--) {
-                qDebug() << m_undo.at(i) << m_undo.at(i - 1) << "m_undo";
                 if (m_undo.at(i) == m_inputEdit->text())
                     m_undo.pop_back();
             }
@@ -1308,13 +1303,9 @@ void ExpressionBar::replaceSelection(QString text)
     QString seloldtext = text;
     SSelection selection = m_inputEdit->getSelection();
     int selcurPos = m_inputEdit->cursorPosition();
-    qDebug() << "selectpart:" << selection.selected;
     if (selection.selected != "") {
         text.remove(selection.curpos, selection.selected.size());
-        qDebug() << "selection curpos:" << selection.curpos;
-        qDebug() << "after delete:" << text;
         m_inputEdit->setText(text);
-        qDebug() << "inputedit" << m_inputEdit->text();
         if (selcurPos > selection.curpos &&
             selcurPos <= selection.curpos + selection.selected.size())
             selcurPos = selection.curpos;
