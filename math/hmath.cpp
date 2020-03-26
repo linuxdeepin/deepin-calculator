@@ -37,47 +37,42 @@
 
 #define RATIONAL_TOL HNumber("1e-20")
 
-//TODO make this configurable
+// TODO make this configurable
 #define HMATH_WORKING_PREC (DECPRECISION + 3)
 #define HMATH_EVAL_PREC (HMATH_WORKING_PREC + 2)
 
-//TODO should go into a separate format file
+// TODO should go into a separate format file
 // default scale for fall back in formatting
 // rekols: 最大显示多少小数位
 
-#define HMATH_MAX_SHOWN 9
-#define HMATH_BIN_MAX_SHOWN ((33219*HMATH_MAX_SHOWN)/10000 + 1)
-#define HMATH_OCT_MAX_SHOWN ((11073*HMATH_MAX_SHOWN)/10000 + 1)
-#define HMATH_HEX_MAX_SHOWN ((8305*HMATH_MAX_SHOWN)/10000 + 1)
+#define HMATH_MAX_SHOWN 15  // edit 20200326最大显示9 --->15小数位
+#define HMATH_BIN_MAX_SHOWN ((33219 * HMATH_MAX_SHOWN) / 10000 + 1)
+#define HMATH_OCT_MAX_SHOWN ((11073 * HMATH_MAX_SHOWN) / 10000 + 1)
+#define HMATH_HEX_MAX_SHOWN ((8305 * HMATH_MAX_SHOWN) / 10000 + 1)
 
 /*------------------------   Helper routines  -------------------------*/
 
-static void checkfullcancellation(cfloatnum op1, cfloatnum op2,
-                                   floatnum r)
+static void checkfullcancellation(cfloatnum op1, cfloatnum op2, floatnum r)
 {
-    if (float_getlength(op1) != 0
-      && float_getlength(op2) != 0
-      && float_getlength(r) != 0) {
+    if (float_getlength(op1) != 0 && float_getlength(op2) != 0 && float_getlength(r) != 0) {
         // NaN or zero not involved in computation.
         int expr = float_getexponent(r);
-        if (float_getexponent(op1) - expr >= HMATH_WORKING_PREC - 1
-            || float_getexponent(op2) - expr >= HMATH_WORKING_PREC - 1)
+        if (float_getexponent(op1) - expr >= HMATH_WORKING_PREC - 1 ||
+            float_getexponent(op2) - expr >= HMATH_WORKING_PREC - 1)
             float_setzero(r);
     }
 }
 
 static char checkAdd(floatnum dest, cfloatnum s1, cfloatnum s2, int digits)
 {
-    if (float_add(dest, s1, s2, digits)
-      && float_getsign(s1) + float_getsign(s2) == 0)
+    if (float_add(dest, s1, s2, digits) && float_getsign(s1) + float_getsign(s2) == 0)
         checkfullcancellation(s1, s2, dest);
     return float_isnan(dest);
 }
 
 static char checkSub(floatnum dest, cfloatnum s1, cfloatnum s2, int digits)
 {
-    if (float_sub(dest, s1, s2, digits)
-      && float_getsign(s1) - float_getsign(s2) == 0)
+    if (float_sub(dest, s1, s2, digits) && float_getsign(s1) - float_getsign(s2) == 0)
         checkfullcancellation(s1, s2, dest);
     return float_isnan(dest);
 }
@@ -87,7 +82,7 @@ static void h_init()
     static bool h_initialized = false;
     if (!h_initialized) {
         h_initialized = true;
-        //TODO related to formats, get rid of it.
+        // TODO related to formats, get rid of it.
         float_stdconvert();
     }
 }
@@ -96,7 +91,7 @@ static void checkpoleorzero(floatnum result, floatnum x)
 {
     if (float_getlength(result) == 0 || float_getlength(x) == 0)
         return;
-    int expx = float_getexponent(x)-HMATH_WORKING_PREC+1;
+    int expx = float_getexponent(x) - HMATH_WORKING_PREC + 1;
     int expr = float_getexponent(result);
     if (expr <= expx)
         float_setzero(result);
@@ -108,7 +103,7 @@ static void checkpoleorzero(floatnum result, floatnum x)
 
 static char roundResult(floatnum x)
 {
-    if (float_isnan(x)) // Avoids setting float_error.
+    if (float_isnan(x))  // Avoids setting float_error.
         return 0;
     return float_round(x, x, HMATH_WORKING_PREC, TONEAREST);
 }
@@ -120,13 +115,13 @@ class HNumberPrivate
 public:
     HNumberPrivate();
     ~HNumberPrivate();
-    //TODO make this a variant
+    // TODO make this a variant
     floatstruct fnum;
     Error error;
 };
 
 HNumberPrivate::HNumberPrivate()
-  : error(Success)
+    : error(Success)
 {
     h_init();
     float_create(&fnum);
@@ -142,15 +137,14 @@ typedef char (*Float1Arg)(floatnum x, int digits);
 typedef char (*Float2ArgsND)(floatnum result, cfloatnum p1, cfloatnum p2);
 typedef char (*Float2Args)(floatnum result, cfloatnum p1, cfloatnum p2, int digits);
 
-static Error checkNaNParam(const HNumberPrivate& v1,
-                            const HNumberPrivate* v2 = 0)
+static Error checkNaNParam(const HNumberPrivate& v1, const HNumberPrivate* v2 = 0)
 {
     if (!float_isnan(&v1.fnum) && (!v2 || !float_isnan(&v2->fnum)))
         return Success;
     Error error = v1.error;
     if (error == Success && v2)
         error = v2->error;
-    return error == 0? NoOperand : error;
+    return error == 0 ? NoOperand : error;
 }
 
 void roundSetError(HNumberPrivate* dest)
@@ -201,7 +195,7 @@ void call1ArgPoleCheck(HNumberPrivate* dest, HNumberPrivate* n, Float1Arg func)
         floatnum dfnum = &dest->fnum;
         float_copy(dfnum, &n->fnum, HMATH_EVAL_PREC);
         if (func(dfnum, HMATH_EVAL_PREC))
-          checkpoleorzero(dfnum, &n->fnum);
+            checkpoleorzero(dfnum, &n->fnum);
         roundSetError(dest);
     }
 }
@@ -209,8 +203,7 @@ void call1ArgPoleCheck(HNumberPrivate* dest, HNumberPrivate* n, Float1Arg func)
 void call1ArgND(HNumberPrivate* dest, HNumberPrivate* n, Float1ArgND func)
 {
     dest->error = checkNaNParam(*n);
-    if (dest->error == Success)
-    {
+    if (dest->error == Success) {
         floatnum dfnum = &dest->fnum;
         float_copy(dfnum, &n->fnum, HMATH_EVAL_PREC);
         func(dfnum);
@@ -243,14 +236,16 @@ char idivwrap(floatnum result, cfloatnum p1, cfloatnum p2)
 /**
  * Creates a new number.
  */
-HNumber::HNumber() : d(new HNumberPrivate)
+HNumber::HNumber()
+    : d(new HNumberPrivate)
 {
 }
 
 /**
  * Copies from another number.
  */
-HNumber::HNumber(const HNumber& hn) : d(new HNumberPrivate)
+HNumber::HNumber(const HNumber& hn)
+    : d(new HNumberPrivate)
 {
     operator=(hn);
 }
@@ -258,7 +253,8 @@ HNumber::HNumber(const HNumber& hn) : d(new HNumberPrivate)
 /**
  * Creates a new number from an integer value.
  */
-HNumber::HNumber(int i) : d(new HNumberPrivate)
+HNumber::HNumber(int i)
+    : d(new HNumberPrivate)
 {
     float_setinteger(&d->fnum, i);
 }
@@ -266,7 +262,8 @@ HNumber::HNumber(int i) : d(new HNumberPrivate)
 /**
  * Creates a new number from a string.
  */
-HNumber::HNumber(const char* str) : d(new HNumberPrivate)
+HNumber::HNumber(const char* str)
+    : d(new HNumberPrivate)
 {
     t_itokens tokens;
 
@@ -375,7 +372,6 @@ HNumber& HNumber::operator=(const HNumber& hn)
     return *this;
 }
 
-
 /**
  * Adds another number.
  */
@@ -431,7 +427,7 @@ HNumber HNumber::operator*(const HNumber& num) const
  */
 HNumber& HNumber::operator*=(const HNumber& num)
 {
-    return operator=(*this * num);
+    return operator=(*this* num);
 }
 
 /**
@@ -467,8 +463,8 @@ HNumber HNumber::operator%(const HNumber& num) const
  */
 int HNumber::compare(const HNumber& other) const
 {
-    int result = float_relcmp(&d->fnum, &other.d->fnum, HMATH_EVAL_PREC-1);
-    float_geterror(); // clears error, if one operand was a NaN
+    int result = float_relcmp(&d->fnum, &other.d->fnum, HMATH_EVAL_PREC - 1);
+    float_geterror();  // clears error, if one operand was a NaN
     return result;
 }
 
@@ -537,7 +533,7 @@ HNumber HNumber::operator&(const HNumber& num) const
  */
 HNumber& HNumber::operator&=(const HNumber& num)
 {
-    return operator=(*this & num);
+    return operator=(*this& num);
 }
 
 /**
@@ -735,26 +731,27 @@ HNumber::Format HNumber::Format::Engineering()
 
 namespace {
 
-char* _doFormat(cfloatnum x, signed char base, signed char expbase, char outmode, int prec, unsigned flags)
+char* _doFormat(cfloatnum x, signed char base, signed char expbase, char outmode, int prec,
+                unsigned flags)
 {
     t_otokens tokens;
-    char intbuf[BINPRECISION+1];
-    char fracbuf[BINPRECISION+1];
+    char intbuf[BINPRECISION + 1];
+    char fracbuf[BINPRECISION + 1];
     int sz = 0;
     char* str = nullptr;
     switch (base) {
-    case 2:
-        sz = BINPRECISION+1;
-        break;
-    case 8:
-        sz = OCTPRECISION+1;
-        break;
-    case 10:
-        sz = DECPRECISION+1;
-        break;
-    case 16:
-        sz = HEXPRECISION+1;
-        break;
+        case 2:
+            sz = BINPRECISION + 1;
+            break;
+        case 8:
+            sz = OCTPRECISION + 1;
+            break;
+        case 10:
+            sz = DECPRECISION + 1;
+            break;
+        case 16:
+            sz = HEXPRECISION + 1;
+            break;
     }
     tokens.intpart.sz = sz;
     tokens.intpart.buf = intbuf;
@@ -764,8 +761,7 @@ char* _doFormat(cfloatnum x, signed char base, signed char expbase, char outmode
     floatstruct tmp;
     float_create(&tmp);
     float_copy(&tmp, x, DECPRECISION + 2);
-    if (float_out(&tokens, &tmp, prec, base, outmode) == Success)
-    {
+    if (float_out(&tokens, &tmp, prec, base, outmode) == Success) {
         sz = cattokens(nullptr, -1, &tokens, expbase, flags);
         str = (char*)malloc(sz);
         cattokens(str, sz, &tokens, expbase, flags);
@@ -845,7 +841,6 @@ char* formatGeneral(cfloatnum x, int prec, int base = 10)
     return str;
 }
 
-
 } /* unnamed namespace */
 
 /**
@@ -860,35 +855,35 @@ QString HMath::format(const HNumber& hn, HNumber::Format format)
 
     int base;
     switch (format.base) {
-    case HNumber::Format::Base::Binary:
-        base = 2;
-        break;
-    case HNumber::Format::Base::Octal:
-        base = 8;
-        break;
-    case HNumber::Format::Base::Hexadecimal:
-        base = 16;
-        break;
-    case HNumber::Format::Base::Decimal:
-    case HNumber::Format::Base::Null:
-    default:
-        base = 10;
-        break;
+        case HNumber::Format::Base::Binary:
+            base = 2;
+            break;
+        case HNumber::Format::Base::Octal:
+            base = 8;
+            break;
+        case HNumber::Format::Base::Hexadecimal:
+            base = 16;
+            break;
+        case HNumber::Format::Base::Decimal:
+        case HNumber::Format::Base::Null:
+        default:
+            base = 10;
+            break;
     }
 
     switch (format.mode) {
-    case HNumber::Format::Mode::Fixed:
-        rs = formatFixed(&hn.d->fnum, format.precision, base);
-        break;
-    case HNumber::Format::Mode::Scientific:
-        rs = formatScientific(&hn.d->fnum, format.precision, base) ;
-        break;
-    case HNumber::Format::Mode::Engineering:
-        rs = formatEngineering(&hn.d->fnum, format.precision, base);
-        break;
-    case HNumber::Format::Mode::General:
-    default:
-        rs = formatGeneral(&hn.d->fnum, format.precision, base);
+        case HNumber::Format::Mode::Fixed:
+            rs = formatFixed(&hn.d->fnum, format.precision, base);
+            break;
+        case HNumber::Format::Mode::Scientific:
+            rs = formatScientific(&hn.d->fnum, format.precision, base);
+            break;
+        case HNumber::Format::Mode::Engineering:
+            rs = formatEngineering(&hn.d->fnum, format.precision, base);
+            break;
+        case HNumber::Format::Mode::General:
+        default:
+            rs = formatGeneral(&hn.d->fnum, format.precision, base);
     }
 
     QString result(rs);
@@ -974,12 +969,14 @@ HNumber HMath::nan(Error error)
  */
 HNumber HMath::max(const HNumber& n1, const HNumber& n2)
 {
-    switch (float_cmp(&n1.d->fnum, &n2.d->fnum))
-    {
+    switch (float_cmp(&n1.d->fnum, &n2.d->fnum)) {
         case 0:
-        case 1:  return n1;
-        case -1: return n2;
-        default: return HMath::nan(checkNaNParam(*n1.d, n2.d));
+        case 1:
+            return n1;
+        case -1:
+            return n2;
+        default:
+            return HMath::nan(checkNaNParam(*n1.d, n2.d));
     }
 }
 
@@ -988,12 +985,14 @@ HNumber HMath::max(const HNumber& n1, const HNumber& n2)
  */
 HNumber HMath::min(const HNumber& n1, const HNumber& n2)
 {
-    switch (float_cmp(&n1.d->fnum, &n2.d->fnum))
-    {
+    switch (float_cmp(&n1.d->fnum, &n2.d->fnum)) {
         case 0:
-        case 1:  return n2;
-        case -1: return n1;
-        default: return HMath::nan(checkNaNParam(*n1.d, n2.d));
+        case 1:
+            return n2;
+        case -1:
+            return n1;
+        default:
+            return HMath::nan(checkNaNParam(*n1.d, n2.d));
     }
 }
 
@@ -1020,8 +1019,8 @@ HNumber HMath::round(const HNumber& n, int prec)
 
     // Avoid exponent overflow later.
     if (prec > HMATH_WORKING_PREC && exp > 0)
-    prec = HMATH_WORKING_PREC;
-    if (prec < 0 && -exp-1 > prec)
+        prec = HMATH_WORKING_PREC;
+    if (prec < 0 && -exp - 1 > prec)
         float_setzero(rnum);
     else if (exp + prec < HMATH_WORKING_PREC) {
         float_addexp(rnum, prec);
@@ -1044,7 +1043,7 @@ HNumber HMath::trunc(const HNumber& n, int prec)
     // Avoid exponent overflow later on.
     if (prec > HMATH_WORKING_PREC && exp > 0)
         prec = HMATH_WORKING_PREC;
-    if (prec < 0 && -exp-1 > prec)
+    if (prec < 0 && -exp - 1 > prec)
         float_setzero(rnum);
     else if (exp + prec < HMATH_WORKING_PREC) {
         float_addexp(rnum, prec);
@@ -1074,20 +1073,21 @@ HNumber HMath::frac(const HNumber& n)
     return result;
 }
 
-#define CHECK_NAN \
+#define CHECK_NAN  \
     if (n.isNan()) \
         return HMath::nan(checkNaNParam(*n.d));
 
-#define RETURN_IF_NEAR_INT \
-    HNumber nearest_int(n); \
-    float_roundtoint(&nearest_int.d->fnum, TONEAREST); \
-    /* Note: float_relcmp doesn't work here, because it's doesn't check the relative */ \
-    /* tolerance if exponents are not the same. */ \
-    /* FIXME: Put this value as parameter. */ \
-    /* Kudos to the guy who can figure out why we need such a small tolerance here. */ \
-    /* 1e-70 does not work, but 1e-10000 does. */ \
-    if (HMath::abs(n - nearest_int) < HNumber("1e-100") * HMath::abs(n + nearest_int)) /* FIXME: Make configurable. */ \
-        return nearest_int; \
+#define RETURN_IF_NEAR_INT                                                               \
+    HNumber nearest_int(n);                                                              \
+    float_roundtoint(&nearest_int.d->fnum, TONEAREST);                                   \
+    /* Note: float_relcmp doesn't work here, because it's doesn't check the relative */  \
+    /* tolerance if exponents are not the same. */                                       \
+    /* FIXME: Put this value as parameter. */                                            \
+    /* Kudos to the guy who can figure out why we need such a small tolerance here. */   \
+    /* 1e-70 does not work, but 1e-10000 does. */                                        \
+    if (HMath::abs(n - nearest_int) <                                                    \
+        HNumber("1e-100") * HMath::abs(n + nearest_int)) /* FIXME: Make configurable. */ \
+        return nearest_int;
 
 /**
  * Returns the floor of n.
@@ -1202,10 +1202,10 @@ HNumber HMath::cbrt(const HNumber& n)
     float_copy(&q, &a, 2);
     float_sqrt(&q, 2);
 
-    while (digits < HMATH_EVAL_PREC/2 + 3) {
+    while (digits < HMATH_EVAL_PREC / 2 + 3) {
         digits = 4 * digits + 2;
-        if (digits > HMATH_EVAL_PREC+2)
-            digits = HMATH_EVAL_PREC+2;
+        if (digits > HMATH_EVAL_PREC + 2)
+            digits = HMATH_EVAL_PREC + 2;
         float_move(rnum, &q);
         float_mul(&q, rnum, rnum, digits);
         float_div(&q, &a, &q, digits);
@@ -1245,13 +1245,13 @@ HNumber HMath::raise(const HNumber& n1, const HNumber& n2)
     HNumber result;
     HNumber temp = n1;
     Rational exp;
-    bool change_sgn=false;
-    if (n1.isNegative() && !n2.isInteger()){
-        //Try to convert n2 to a Rational. If n2 is not rational, return NaN.
+    bool change_sgn = false;
+    if (n1.isNegative() && !n2.isInteger()) {
+        // Try to convert n2 to a Rational. If n2 is not rational, return NaN.
         // For negative bases only allow odd denominators.
         exp = Rational(n2);
-        if (abs(exp.toHNumber() - n2) >= RATIONAL_TOL
-            || (n1.isNegative() && exp.denominator()%2 == 0))
+        if (abs(exp.toHNumber() - n2) >= RATIONAL_TOL ||
+            (n1.isNegative() && exp.denominator() % 2 == 0))
             return HMath::nan(OutOfDomain);
         if (n1.isNegative() && !n2.isInteger()) {
             temp = -temp;
@@ -1283,7 +1283,6 @@ HNumber HMath::ln(const HNumber& x)
     HNumber result;
     call1Arg(result.d, x.d, float_ln);
     return result;
-
 }
 
 /**
@@ -1397,7 +1396,7 @@ HNumber HMath::arctan2(const HNumber& x, const HNumber& y)
         if (x.isNegative())
             return (HMath::pi() - phi) * HMath::sgn(y);
         if (x.isZero())
-            return HMath::pi()/HNumber(2)*HMath::sgn(y);
+            return HMath::pi() / HNumber(2) * HMath::sgn(y);
         return phi * HMath::sgn(y);
     }
 }
@@ -1524,7 +1523,8 @@ HNumber HMath::nCr(const HNumber& n, const HNumber& r)
     if (error != Success)
         return HMath::nan(error);
 
-    if (r.isInteger() && r < 0) return HNumber(0);
+    if (r.isInteger() && r < 0)
+        return HNumber(0);
 
     // use symmetry nCr(n, r) == nCr(n, n-r) to find r1 such
     // 2*r1 <= n and nCr(n, r) == nCr(n, r1)
@@ -1533,7 +1533,7 @@ HNumber HMath::nCr(const HNumber& n, const HNumber& r)
 
     if (r1 >= 0) {
         if (n.isInteger() && r1.isInteger() && n <= 1000 && r1 <= 50)
-            return factorial(n, r2+1) / factorial(r1, 1);
+            return factorial(n, r2 + 1) / factorial(r1, 1);
         HNumber result(n);
         floatnum rnum = &result.d->fnum;
         floatstruct fn, fr;
@@ -1541,23 +1541,19 @@ HNumber HMath::nCr(const HNumber& n, const HNumber& r)
         float_create(&fr);
         float_copy(&fr, &r1.d->fnum, HMATH_EVAL_PREC);
         float_copy(&fn, rnum, EXACT);
-        float_sub(rnum, rnum, &fr, HMATH_EVAL_PREC)
-            && float_add(&fn, &fn, &c1, HMATH_EVAL_PREC)
-            && float_add(&fr, &fr, &c1, HMATH_EVAL_PREC)
-            && float_add(rnum, rnum, &c1, HMATH_EVAL_PREC)
-            && float_lngamma(&fn, HMATH_EVAL_PREC)
-            && float_lngamma(&fr, HMATH_EVAL_PREC)
-            && float_lngamma(rnum, HMATH_EVAL_PREC)
-            && float_add(rnum, rnum, &fr, HMATH_EVAL_PREC)
-            && float_sub(rnum, &fn, rnum, HMATH_EVAL_PREC)
-            && float_exp(rnum, HMATH_EVAL_PREC);
+        float_sub(rnum, rnum, &fr, HMATH_EVAL_PREC) && float_add(&fn, &fn, &c1, HMATH_EVAL_PREC) &&
+            float_add(&fr, &fr, &c1, HMATH_EVAL_PREC) &&
+            float_add(rnum, rnum, &c1, HMATH_EVAL_PREC) && float_lngamma(&fn, HMATH_EVAL_PREC) &&
+            float_lngamma(&fr, HMATH_EVAL_PREC) && float_lngamma(rnum, HMATH_EVAL_PREC) &&
+            float_add(rnum, rnum, &fr, HMATH_EVAL_PREC) &&
+            float_sub(rnum, &fn, rnum, HMATH_EVAL_PREC) && float_exp(rnum, HMATH_EVAL_PREC);
         float_free(&fn);
         float_free(&fr);
         roundSetError(result.d);
         return result;
     }
     if (r2 >= 0 || !r2.isInteger())
-        return factorial(n, r1+1)/factorial(r2, 1);
+        return factorial(n, r1 + 1) / factorial(r2, 1);
     return 0;
 }
 
@@ -1566,7 +1562,7 @@ HNumber HMath::nCr(const HNumber& n, const HNumber& r)
  */
 HNumber HMath::nPr(const HNumber& n, const HNumber& r)
 {
-    return factorial(n, (n-r+1));
+    return factorial(n, (n - r + 1));
 }
 
 /**
@@ -1588,9 +1584,9 @@ HNumber HMath::factorial(const HNumber& x, const HNumber& base)
     }
     float_create(&tmp);
     HNumber r(base);
-    float_sub(&tmp, &x.d->fnum, &base.d->fnum, HMATH_EVAL_PREC)
-    && float_add(&tmp, &tmp, &c1, HMATH_EVAL_PREC)
-    && float_pochhammer(&r.d->fnum, &tmp, HMATH_EVAL_PREC);
+    float_sub(&tmp, &x.d->fnum, &base.d->fnum, HMATH_EVAL_PREC) &&
+        float_add(&tmp, &tmp, &c1, HMATH_EVAL_PREC) &&
+        float_pochhammer(&r.d->fnum, &tmp, HMATH_EVAL_PREC);
     roundSetError(r.d);
     float_free(&tmp);
     return r;
@@ -1624,7 +1620,7 @@ HNumber HMath::binomialPmf(const HNumber& k, const HNumber& n, const HNumber& p)
 
     // special case: powers of zero, 0^0 == 1 in this context
     if (p.isInteger())
-        return (int)(p.isZero()? k.isZero() : n == k);
+        return (int)(p.isZero() ? k.isZero() : n == k);
 
     return result * raise(p, k) * raise(HNumber(1) - p, n - k);
 }
@@ -1643,7 +1639,8 @@ HNumber HMath::binomialPmf(const HNumber& k, const HNumber& n, const HNumber& p)
  */
 HNumber HMath::binomialCdf(const HNumber& k, const HNumber& n, const HNumber& p)
 {
-    // FIXME: Use the regularized incomplete Beta function to avoid the potentially very expensive loop.
+    // FIXME: Use the regularized incomplete Beta function to avoid the potentially very expensive
+    // loop.
     if (!k.isInteger() || n.isNan())
         return HMath::nan();
 
@@ -1672,7 +1669,7 @@ HNumber HMath::binomialCdf(const HNumber& k, const HNumber& n, const HNumber& p)
     // loop adding binomialPdf
     HNumber result(summand);
     for (HNumber i(0); i < k;) {
-        summand *= p * (n-i);
+        summand *= p * (n - i);
         i += one;
         summand /= pcompl * i;
         result += summand;
@@ -1716,10 +1713,8 @@ HNumber HMath::binomialVariance(const HNumber& n, const HNumber& p)
 
 static bool checkNMn(const HNumber& N, const HNumber& M, const HNumber& n)
 {
-    return N.isInteger() && !N.isNegative()
-        && M.isInteger() && !M.isNegative()
-        && n.isInteger() && !n.isNegative()
-        && HMath::max(M, n) <= N;
+    return N.isInteger() && !N.isNegative() && M.isInteger() && !M.isNegative() && n.isInteger() &&
+           !n.isNegative() && HMath::max(M, n) <= N;
 }
 
 /**
@@ -1736,7 +1731,8 @@ static bool checkNMn(const HNumber& N, const HNumber& M, const HNumber& n)
  * \return the probability of exactly \p k successes, otherwise \p NaN if the
  * function is not defined for the specified parameters.
  */
-HNumber HMath::hypergeometricPmf(const HNumber& k, const HNumber& N, const HNumber& M, const HNumber& n)
+HNumber HMath::hypergeometricPmf(const HNumber& k, const HNumber& N, const HNumber& M,
+                                 const HNumber& n)
 {
     if (!k.isInteger() || !checkNMn(N, M, n))
         return HMath::nan();
@@ -1757,7 +1753,8 @@ HNumber HMath::hypergeometricPmf(const HNumber& k, const HNumber& N, const HNumb
  * \return the probability of up to \p k successes, otherwise \p NaN if the
  * function is not defined for the specified parameters.
  */
-HNumber HMath::hypergeometricCdf(const HNumber& k, const HNumber& N, const HNumber& M, const HNumber& n)
+HNumber HMath::hypergeometricCdf(const HNumber& k, const HNumber& N, const HNumber& M,
+                                 const HNumber& n)
 {
     // Lowest index of non-zero summand in loop.
     HNumber c = M + n - N;
@@ -1775,7 +1772,8 @@ HNumber HMath::hypergeometricCdf(const HNumber& k, const HNumber& N, const HNumb
     if (i > k)
         return 0;
 
-    // Use reflexion formula to limit summations. Numerically unstable where the result is near 0, disable for now.
+    // Use reflexion formula to limit summations. Numerically unstable where the result is near 0,
+    // disable for now.
     //   if (k + k > n)
     //     return one - hypergeometricCdf(n - k - 1, N, N - M, n);
 
@@ -1824,7 +1822,7 @@ HNumber HMath::hypergeometricMean(const HNumber& N, const HNumber& M, const HNum
  */
 HNumber HMath::hypergeometricVariance(const HNumber& N, const HNumber& M, const HNumber& n)
 {
-  return (hypergeometricMean(N, M, n) * (HNumber(1) - M / N) * (N - n)) / (N - HNumber(1));
+    return (hypergeometricMean(N, M, n) * (HNumber(1) - M / N) * (N - n)) / (N - HNumber(1));
 }
 
 /**
@@ -1974,7 +1972,8 @@ HNumber HMath::ashr(const HNumber& val, const HNumber& bits)
 /**
  * Decode an IEEE-754 bit pattern with the default exponent bias
  */
-HNumber HMath::decodeIeee754(const HNumber& val, const HNumber& exp_bits, const HNumber& significand_bits)
+HNumber HMath::decodeIeee754(const HNumber& val, const HNumber& exp_bits,
+                             const HNumber& significand_bits)
 {
     return HMath::decodeIeee754(val, exp_bits, significand_bits, HMath::raise(2, exp_bits - 1) - 1);
 }
@@ -1982,13 +1981,12 @@ HNumber HMath::decodeIeee754(const HNumber& val, const HNumber& exp_bits, const 
 /**
  * Decode an IEEE-754 bit pattern with the given parameters
  */
-HNumber HMath::decodeIeee754(const HNumber& val, const HNumber& exp_bits, const HNumber& significand_bits,
-                             const HNumber& exp_bias)
+HNumber HMath::decodeIeee754(const HNumber& val, const HNumber& exp_bits,
+                             const HNumber& significand_bits, const HNumber& exp_bias)
 {
-    if (val.isNan()
-        || exp_bits <= 0 || exp_bits >= LOGICRANGE || !exp_bits.isInteger()
-        || significand_bits <= 0 || significand_bits >= LOGICRANGE || !significand_bits.isInteger()
-        || !exp_bias.isInteger())
+    if (val.isNan() || exp_bits <= 0 || exp_bits >= LOGICRANGE || !exp_bits.isInteger() ||
+        significand_bits <= 0 || significand_bits >= LOGICRANGE || !significand_bits.isInteger() ||
+        !exp_bias.isInteger())
         return HMath::nan();
 
     HNumber sign(HMath::mask(val >> (exp_bits + significand_bits), 1).isZero() ? 1 : -1);
@@ -2009,13 +2007,14 @@ HNumber HMath::decodeIeee754(const HNumber& val, const HNumber& exp_bits, const 
         // ...and significand not 0, NaN.
         return HMath::nan();
     }
-    return sign * (significand + 1) * HMath::raise(2, exp - exp_bias); // Normalised value.
+    return sign * (significand + 1) * HMath::raise(2, exp - exp_bias);  // Normalised value.
 }
 
 /**
  * Encode a value in a IEEE-754 binary representation with the default exponent bias
  */
-HNumber HMath::encodeIeee754(const HNumber& val, const HNumber& exp_bits, const HNumber& significand_bits)
+HNumber HMath::encodeIeee754(const HNumber& val, const HNumber& exp_bits,
+                             const HNumber& significand_bits)
 {
     return HMath::encodeIeee754(val, exp_bits, significand_bits, HMath::raise(2, exp_bits - 1) - 1);
 }
@@ -2023,12 +2022,11 @@ HNumber HMath::encodeIeee754(const HNumber& val, const HNumber& exp_bits, const 
 /**
  * Encode a value in a IEEE-754 binary representation
  */
-HNumber HMath::encodeIeee754(const HNumber& val, const HNumber& exp_bits, const HNumber& significand_bits,
-                             const HNumber& exp_bias)
+HNumber HMath::encodeIeee754(const HNumber& val, const HNumber& exp_bits,
+                             const HNumber& significand_bits, const HNumber& exp_bias)
 {
-    if (exp_bits <= 0 || exp_bits >= LOGICRANGE || !exp_bits.isInteger()
-        || significand_bits <= 0 || significand_bits >= LOGICRANGE || !significand_bits.isInteger()
-        || !exp_bias.isInteger())
+    if (exp_bits <= 0 || exp_bits >= LOGICRANGE || !exp_bits.isInteger() || significand_bits <= 0 ||
+        significand_bits >= LOGICRANGE || !significand_bits.isInteger() || !exp_bias.isInteger())
         return HMath::nan();
 
     HNumber sign_bit;
@@ -2088,7 +2086,8 @@ HNumber HMath::encodeIeee754(const HNumber& val, const HNumber& exp_bits, const 
         }
     }
 
-    HNumber result = sign_bit << (exp_bits + significand_bits) | exponent << (significand_bits) | significand;
+    HNumber result =
+        sign_bit << (exp_bits + significand_bits) | exponent << (significand_bits) | significand;
     return result;
 }
 
@@ -2100,7 +2099,7 @@ std::ostream& operator<<(std::ostream& s, const HNumber& n)
 }
 
 struct MathInit {
-    MathInit(){ floatmath_init(); }
+    MathInit() { floatmath_init(); }
 };
 
 MathInit mathinit;
@@ -2112,8 +2111,8 @@ MathInit mathinit;
  *   str_in : pointer towards the string to parse
  *   str_out : pointer towards a pointer towards the remaining of the string after parsing
  */
-HNumber HMath::parse_str(const char* str_in, const char** str_out) {
-
+HNumber HMath::parse_str(const char* str_in, const char** str_out)
+{
     // FIXME: Duplicate code.
     // FIXME: Error management.
 
@@ -2125,7 +2124,7 @@ HNumber HMath::parse_str(const char* str_in, const char** str_out) {
 
     x.d = new HNumberPrivate;
     if ((x.d->error = parse(&tokens, &str)) == Success)
-    x.d->error = float_in(&x.d->fnum, &tokens);
+        x.d->error = float_in(&x.d->fnum, &tokens);
     float_geterror();
 
     /* Store remaining of the string */

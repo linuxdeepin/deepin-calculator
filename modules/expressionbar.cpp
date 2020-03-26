@@ -261,6 +261,14 @@ void ExpressionBar::enterPercentEvent()
                 return;
             const QString result = DMath::format(ans, Quantity::Format::Fixed());
             QString formatResult = Utils::formatThousandsSeparators(result);
+            if (result.count("e") < 1) {
+                QString resultsci = result;
+                resultsci.remove(QRegularExpression(QStringLiteral("[^0-9]")));
+                if (resultsci.length() > 16) {
+                    resultsci = DMath::format(ans, Quantity::Format::Scientific());
+                    formatResult = Utils::formatThousandsSeparators(resultsci);
+                }
+            }
             formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                                .replace(QString::fromUtf8("－"), "-")
                                .replace(QString::fromUtf8("×"), "*")
@@ -548,6 +556,14 @@ void ExpressionBar::enterEqualEvent()
 
         const QString result = DMath::format(ans, Quantity::Format::Fixed());
         QString formatResult = Utils::formatThousandsSeparators(result);
+        if (result.count("e") < 1) {
+            QString resultsci = result;
+            resultsci.remove(QRegularExpression(QStringLiteral("[^0-9]")));
+            if (resultsci.length() > 16) {
+                resultsci = DMath::format(ans, Quantity::Format::Scientific());
+                formatResult = Utils::formatThousandsSeparators(resultsci);
+            }
+        }
         formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                            .replace(QString::fromUtf8("－"), "-")
                            .replace(QString::fromUtf8("×"), "*")
@@ -769,6 +785,14 @@ void ExpressionBar::copyResultToClipboard()
 
         const QString result = DMath::format(ans, Quantity::Format::Fixed());
         QString formatResult = Utils::formatThousandsSeparators(result);
+        if (result.count("e") < 1) {
+            QString resultsci = result;
+            resultsci.remove(QRegularExpression(QStringLiteral("[^0-9]")));
+            if (resultsci.length() > 16) {
+                resultsci = DMath::format(ans, Quantity::Format::Scientific());
+                formatResult = Utils::formatThousandsSeparators(resultsci);
+            }
+        }
         formatResult = formatResult.replace('-', "－").replace('+', "＋");
         // m_inputEdit->setAnswer(formatResult, ans);
 
