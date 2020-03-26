@@ -108,7 +108,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                             QPainter::SmoothPixmapTransform);
 
     QFont font;
-    for (int i = 16; i > 6; --i) {
+    for (int i = 16; i > 12; --i) {  // edit for bug-17238
         font.setPixelSize(i);
 
         QFontMetrics fm(font);
