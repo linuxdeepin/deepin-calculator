@@ -2138,3 +2138,17 @@ bool HNumber::isNearZero() const
 {
     return float_iszero(&(d->fnum)) || float_getexponent(&(d->fnum)) <= -80;
 }
+
+int HNumber::realNumberlength() const
+{
+    int sca = d->fnum.significand->n_scale;
+    int ex = d->fnum.exponent;
+    int b = 0;
+    if (ex > 0 && ex < sca)
+        b = sca + 1;
+    if (ex > 0 && ex >= sca)
+        b = ex + 1;
+    if (ex <= 0)
+        b = sca - ex + 1;
+    return b;
+}

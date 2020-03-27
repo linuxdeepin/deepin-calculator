@@ -34,7 +34,8 @@ class CNumber;
 class CMath;
 class Rational;
 
-class HNumber {
+class HNumber
+{
     friend class HMath;
     friend class CNumber;
     friend class CMath;
@@ -72,12 +73,12 @@ public:
     HNumber operator+(const HNumber&) const;
     HNumber& operator+=(const HNumber&);
     HNumber& operator-=(const HNumber&);
-    HNumber operator*(const HNumber&) const;
+    HNumber operator*(const HNumber&)const;
     HNumber& operator*=(const HNumber&);
     HNumber operator/(const HNumber&) const;
     HNumber& operator/=(const HNumber&);
     HNumber operator%(const HNumber&) const;
-    HNumber operator&(const HNumber&) const;
+    HNumber operator&(const HNumber&)const;
     HNumber& operator&=(const HNumber&);
     HNumber operator|(const HNumber&) const;
     HNumber& operator|=(const HNumber&);
@@ -87,6 +88,8 @@ public:
     HNumber operator>>(const HNumber&) const;
     HNumber operator<<(const HNumber&) const;
 
+    int realNumberlength() const;
+
 private:
     HNumberPrivate* d;
 
@@ -94,9 +97,9 @@ private:
 
 public:
     struct Format {
-        enum class Base {Null, Binary, Decimal, Octal, Hexadecimal};
-        enum class RadixChar {Null, Point, Comma};
-        enum class Mode {Null, General, Fixed, Scientific, Engineering};
+        enum class Base { Null, Binary, Decimal, Octal, Hexadecimal };
+        enum class RadixChar { Null, Point, Comma };
+        enum class Mode { Null, General, Fixed, Scientific, Engineering };
 
         Base base;
         RadixChar radixChar;
@@ -125,7 +128,8 @@ public:
     };
 };
 
-class HMath {
+class HMath
+{
 public:
     // FORMAT
     static QString format(const HNumber&, HNumber::Format = HNumber::Format());
@@ -193,8 +197,10 @@ public:
     static HNumber binomialCdf(const HNumber& k, const HNumber& n, const HNumber& p);
     static HNumber binomialMean(const HNumber& n, const HNumber& p);
     static HNumber binomialVariance(const HNumber& n, const HNumber& p);
-    static HNumber hypergeometricPmf(const HNumber& k, const HNumber& N, const HNumber& M, const HNumber& n);
-    static HNumber hypergeometricCdf(const HNumber& k, const HNumber& N, const HNumber& M, const HNumber& n);
+    static HNumber hypergeometricPmf(const HNumber& k, const HNumber& N, const HNumber& M,
+                                     const HNumber& n);
+    static HNumber hypergeometricCdf(const HNumber& k, const HNumber& N, const HNumber& M,
+                                     const HNumber& n);
     static HNumber hypergeometricMean(const HNumber& N, const HNumber& M, const HNumber& n);
     static HNumber hypergeometricVariance(const HNumber& N, const HNumber& M, const HNumber& n);
     static HNumber poissonPmf(const HNumber& k, const HNumber& l);
@@ -206,14 +212,16 @@ public:
     static HNumber sgnext(const HNumber&, const HNumber& bits);
     static HNumber ashr(const HNumber&, const HNumber& bits);
     // IEEE-754 CONVERSION
-    static HNumber decodeIeee754(const HNumber&, const HNumber& exp_bits, const HNumber& significand_bits);
-    static HNumber decodeIeee754(const HNumber&, const HNumber& exp_bits, const HNumber& significand_bits,
-                                 const HNumber& exp_bias);
-    static HNumber encodeIeee754(const HNumber&, const HNumber& exp_bits, const HNumber& significand_bits);
-    static HNumber encodeIeee754(const HNumber&, const HNumber& exp_bits, const HNumber& significand_bits,
-                                 const HNumber& exp_bias);
+    static HNumber decodeIeee754(const HNumber&, const HNumber& exp_bits,
+                                 const HNumber& significand_bits);
+    static HNumber decodeIeee754(const HNumber&, const HNumber& exp_bits,
+                                 const HNumber& significand_bits, const HNumber& exp_bias);
+    static HNumber encodeIeee754(const HNumber&, const HNumber& exp_bits,
+                                 const HNumber& significand_bits);
+    static HNumber encodeIeee754(const HNumber&, const HNumber& exp_bits,
+                                 const HNumber& significand_bits, const HNumber& exp_bias);
 };
 
 std::ostream& operator<<(std::ostream&, const HNumber&);
 
-#endif // MATH_HMATH_H
+#endif  // MATH_HMATH_H

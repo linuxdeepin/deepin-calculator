@@ -201,29 +201,92 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
 
 void ExpressionBar::enterPercentEvent()
 {
-    //    if (m_isLinked)
-    //        clearLinkageCache();
-    if (m_inputEdit->text().isEmpty())
+    if (m_inputEdit->text().isEmpty()) {
+        m_inputEdit->setText("0");
         return;
+    }
+    bool hasselect = (m_inputEdit->getSelection().selected != "");
     QString oldText = m_inputEdit->text();
     QString exp = m_inputEdit->text();
     // 20200316百分号选中部分格式替代
     replaceSelection(m_inputEdit->text());
     int curPos = m_inputEdit->cursorPosition();
-    if (curPos == 0)
+    if (m_inputEdit->text() == QString()) {
+        m_inputEdit->setText("0");
         return;
-    // start edit for task-13519
-    QString sRegNum = "[^0-9,.)]";
+    }
+    QString sRegNum = "[0-9,.]";
     QRegExp rx;
     rx.setPattern(sRegNum);
-    if (rx.exactMatch(exp.at(curPos - 1)))
+    if (curPos == 0 && hasselect == false) {
+        m_inputEdit->setText(oldText);
+        m_inputEdit->setCursorPosition(curPos);
+        return;
+    }
+    if ((curPos == 0 && hasselect == true) ||
+        (m_inputEdit->text().length() > curPos && rx.exactMatch(m_inputEdit->text().at(curPos)))) {
+        m_inputEdit->setText(oldText);
+        m_inputEdit->setCursorPosition(curPos);
+        return;
+    }
+    int epos = m_inputEdit->text().indexOf("e");
+    if (epos > -1) {
+        if (curPos == m_inputEdit->text().length()) {
+            QString scienceexp = m_inputEdit->text();
+            scienceexp.push_front("(");
+            scienceexp.push_back(")");
+            scienceexp.push_back("%");
+            QString sciexpress = symbolComplement(scienceexp);
+            const QString sciexpression = formatExpression(sciexpress);
+            m_evaluator->setExpression(sciexpression);
+            Quantity ans = m_evaluator->evalUpdateAns();
+            if (m_evaluator->error().isEmpty()) {
+                if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
+                    return;
+                QString formatResult;
+                if (ans.numericValue().real.realNumberlength() > 16) {
+                    const QString result = DMath::format(ans, Quantity::Format::Scientific());
+                    formatResult = Utils::formatThousandsSeparators(result);
+                } else {
+                    const QString result = DMath::format(ans, Quantity::Format::Fixed());
+                    formatResult = Utils::formatThousandsSeparators(result);
+                }
+                formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
+                                   .replace(QString::fromUtf8("－"), "-");
+                QString tStr = scienceexp.replace(QString::fromUtf8(","), "");
+                if (formatResult != tStr) {
+                    m_inputEdit->setText(formatResult);
+                    return;
+                } else {
+                    m_inputEdit->setText(oldText);
+                    m_inputEdit->setCursorPosition(curPos);
+                    return;
+                }
+            } else {
+                m_inputEdit->setText(oldText);
+                m_inputEdit->setCursorPosition(curPos);
+                return;
+            }
+        }
+        if (curPos > epos) {
+            m_inputEdit->setText(oldText);
+            m_inputEdit->setCursorPosition(curPos);
+            return;
+        }
+    }
+    // start edit for task-13519
+    //        QString sRegNum1 = "[^0-9,.×÷)]";
+    QString sRegNum1 = "[^0-9,.)]";
+    QRegExp rx1;
+    rx1.setPattern(sRegNum1);
+    if (rx1.exactMatch(exp.at(curPos - 1)))
         m_inputEdit->setText(oldText);
     else {
         m_inputEdit->insert("%");
         QString newtext = m_inputEdit->text();
         int percentpos = m_inputEdit->text().indexOf('%');
         int operatorpos =
-            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.]")), percentpos - 1);
+            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.×÷]")), percentpos - 1);
         bool nooperator = false;
         if (operatorpos < 0) {
             operatorpos++;
@@ -246,11 +309,10 @@ void ExpressionBar::enterPercentEvent()
             exptext = newtext.mid(operatorpos,
                                   percentpos - operatorpos + 1);  //截取%表达式
         } else {
-            exptext =
-                newtext.mid(operatorpos + (nooperator == true ? 0 : 1),
-                            percentpos - operatorpos + (nooperator == true ? 1 : 0));  //截取%表达式
+            exptext = newtext.mid(operatorpos + (nooperator == true ? 0 : 1),
+                                  percentpos - operatorpos + (nooperator == true ? 1 : 0));
+            //截取%表达式
         }
-
         qDebug() << "exptext" << exptext;
         QString express = symbolComplement(exptext);
         const QString expression = formatExpression(express);
@@ -259,15 +321,13 @@ void ExpressionBar::enterPercentEvent()
         if (m_evaluator->error().isEmpty()) {
             if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
                 return;
-            const QString result = DMath::format(ans, Quantity::Format::Fixed());
-            QString formatResult = Utils::formatThousandsSeparators(result);
-            if (result.count("e") < 1) {
-                QString resultsci = result;
-                resultsci.remove(QRegularExpression(QStringLiteral("[^0-9]")));
-                if (resultsci.length() > 16) {
-                    resultsci = DMath::format(ans, Quantity::Format::Scientific());
-                    formatResult = Utils::formatThousandsSeparators(resultsci);
-                }
+            QString formatResult;
+            if (ans.numericValue().real.realNumberlength() > 16) {
+                const QString result = DMath::format(ans, Quantity::Format::Scientific());
+                formatResult = Utils::formatThousandsSeparators(result);
+            } else {
+                const QString result = DMath::format(ans, Quantity::Format::Fixed());
+                formatResult = Utils::formatThousandsSeparators(result);
             }
             formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                                .replace(QString::fromUtf8("－"), "-")
@@ -501,8 +561,9 @@ void ExpressionBar::enterEqualEvent()
         }
         resultText = m_unfinishedExp;
         index = m_listModel->rowCount(QModelIndex()) - 1;
-        QString tmp = m_listModel->index(index).data(SimpleListModel::ExpressionRole).toString();
-        if (tmp.indexOf("＝") != -1)
+        QString tmp =
+    m_listModel->index(index).data(SimpleListModel::ExpressionRole).toString(); if
+    (tmp.indexOf("＝") != -1)
             ++index;
     }
     m_unfinishedExp.clear();
@@ -548,21 +609,17 @@ void ExpressionBar::enterEqualEvent()
         m_evaluator->setExpression(exp);
     }
     Quantity ans = m_evaluator->evalUpdateAns();
-
     QString newResult;
     if (m_evaluator->error().isEmpty()) {
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
             return;
-
-        const QString result = DMath::format(ans, Quantity::Format::Fixed());
-        QString formatResult = Utils::formatThousandsSeparators(result);
-        if (result.count("e") < 1) {
-            QString resultsci = result;
-            resultsci.remove(QRegularExpression(QStringLiteral("[^0-9]")));
-            if (resultsci.length() > 16) {
-                resultsci = DMath::format(ans, Quantity::Format::Scientific());
-                formatResult = Utils::formatThousandsSeparators(resultsci);
-            }
+        QString formatResult;
+        if (ans.numericValue().real.realNumberlength() > 16) {
+            const QString result = DMath::format(ans, Quantity::Format::Scientific());
+            formatResult = Utils::formatThousandsSeparators(result);
+        } else {
+            const QString result = DMath::format(ans, Quantity::Format::Fixed());
+            formatResult = Utils::formatThousandsSeparators(result);
         }
         formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                            .replace(QString::fromUtf8("－"), "-")
@@ -668,7 +725,8 @@ void ExpressionBar::enterBracketsEvent()
                 //if (currentPos != 0 && !rx.exactMatch(oldText.at(currentPos - 1)))
                 //    return;
                 m_inputEdit->insert(")");
-            } else if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) < 0) {
+            } else if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) < 0)
+    {
                 //bracketsText = "(";
                 //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
                 //    return;
@@ -783,15 +841,13 @@ void ExpressionBar::copyResultToClipboard()
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
             return;
 
-        const QString result = DMath::format(ans, Quantity::Format::Fixed());
-        QString formatResult = Utils::formatThousandsSeparators(result);
-        if (result.count("e") < 1) {
-            QString resultsci = result;
-            resultsci.remove(QRegularExpression(QStringLiteral("[^0-9]")));
-            if (resultsci.length() > 16) {
-                resultsci = DMath::format(ans, Quantity::Format::Scientific());
-                formatResult = Utils::formatThousandsSeparators(resultsci);
-            }
+        QString formatResult;
+        if (ans.numericValue().real.realNumberlength() > 16) {
+            const QString result = DMath::format(ans, Quantity::Format::Scientific());
+            formatResult = Utils::formatThousandsSeparators(result);
+        } else {
+            const QString result = DMath::format(ans, Quantity::Format::Fixed());
+            formatResult = Utils::formatThousandsSeparators(result);
         }
         formatResult = formatResult.replace('-', "－").replace('+', "＋");
         // m_inputEdit->setAnswer(formatResult, ans);
@@ -1359,7 +1415,8 @@ bool ExpressionBar::cancelLink(int index)
             if (exp[0] == "－")
                 list[0] = "－" + list[1];
             if (list.at(0) != m_hisLink[i].linkageValue) {
-                // m_listDelegate->removeLine(m_hisLink[i].linkageTerm, m_hisLink[i].linkedItem);
+                // m_listDelegate->removeLine(m_hisLink[i].linkageTerm,
+                // m_hisLink[i].linkedItem);
                 m_listDelegate->removeLine(i);
                 m_hisLink.remove(i);
                 isRemove = true;
