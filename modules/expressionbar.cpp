@@ -244,7 +244,7 @@ void ExpressionBar::enterPercentEvent()
                 if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
                     return;
                 QString formatResult;
-                if (ans.numericValue().real.realNumberlength() > 16) {
+                if (ans.isZero() == false && ans.numericValue().real.realNumberlength() > 16) {
                     const QString result = DMath::format(ans, Quantity::Format::Scientific());
                     formatResult = Utils::formatThousandsSeparators(result);
                 } else {
@@ -322,7 +322,7 @@ void ExpressionBar::enterPercentEvent()
             if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
                 return;
             QString formatResult;
-            if (ans.numericValue().real.realNumberlength() > 16) {
+            if (ans.isZero() == false && ans.numericValue().real.realNumberlength() > 16) {
                 const QString result = DMath::format(ans, Quantity::Format::Scientific());
                 formatResult = Utils::formatThousandsSeparators(result);
             } else {
@@ -614,7 +614,7 @@ void ExpressionBar::enterEqualEvent()
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
             return;
         QString formatResult;
-        if (ans.numericValue().real.realNumberlength() > 16) {
+        if (ans.isZero() == false && ans.numericValue().real.realNumberlength() > 16) {
             const QString result = DMath::format(ans, Quantity::Format::Scientific());
             formatResult = Utils::formatThousandsSeparators(result);
         } else {
@@ -842,7 +842,7 @@ void ExpressionBar::copyResultToClipboard()
             return;
 
         QString formatResult;
-        if (ans.numericValue().real.realNumberlength() > 16) {
+        if (ans.isZero() == false && ans.numericValue().real.realNumberlength() > 16) {
             const QString result = DMath::format(ans, Quantity::Format::Scientific());
             formatResult = Utils::formatThousandsSeparators(result);
         } else {
