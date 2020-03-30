@@ -92,6 +92,15 @@ void InputEdit::setAnswer(const QString &str, const Quantity &ans)
     setText(str);
 }
 
+void InputEdit::setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans)
+{
+    m_ans = ans;
+    m_ansStartPos = 0;
+    m_ansLength = str2.length();
+    m_oldText = "";
+    setText(str1);
+}
+
 void InputEdit::clear()
 {
     m_ansLength = 0;

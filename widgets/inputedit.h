@@ -49,6 +49,7 @@ public:
     void clear();
     SSelection getSelection() { return m_selected; };
     void setSelection(SSelection select) { m_selected = select; };
+    void setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans);
 
 public slots:
     void setUndoAction(bool state);

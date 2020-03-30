@@ -228,7 +228,8 @@ void ExpressionBar::enterPercentEvent()
         m_inputEdit->setText("0");
         return;
     }
-    QString sRegNum = "[0-9,.]";
+    int epos = m_inputEdit->text().indexOf("e");
+    QString sRegNum = "[0-9,.e]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curPos == 0 && hasselect == false) {
@@ -242,50 +243,10 @@ void ExpressionBar::enterPercentEvent()
         m_inputEdit->setCursorPosition(curPos);
         return;
     }
-    int epos = m_inputEdit->text().indexOf("e");
-    if (epos > -1) {
-        if (curPos == m_inputEdit->text().length()) {
-            QString scienceexp = m_inputEdit->text();
-            scienceexp.push_front("(");
-            scienceexp.push_back(")");
-            scienceexp.push_back("%");
-            QString sciexpress = symbolComplement(scienceexp);
-            const QString sciexpression = formatExpression(sciexpress);
-            m_evaluator->setExpression(sciexpression);
-            Quantity ans = m_evaluator->evalUpdateAns();
-            if (m_evaluator->error().isEmpty()) {
-                if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
-                    return;
-                QString formatResult;
-                if (ans.isZero() == false && ans.numericValue().real.realNumberlength() > 16) {
-                    const QString result = DMath::format(ans, Quantity::Format::Scientific());
-                    formatResult = Utils::formatThousandsSeparators(result);
-                } else {
-                    const QString result = DMath::format(ans, Quantity::Format::Fixed());
-                    formatResult = Utils::formatThousandsSeparators(result);
-                }
-                formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
-                                   .replace(QString::fromUtf8("－"), "-");
-                QString tStr = scienceexp.replace(QString::fromUtf8(","), "");
-                if (formatResult != tStr) {
-                    m_inputEdit->setText(formatResult);
-                    return;
-                } else {
-                    m_inputEdit->setText(oldText);
-                    m_inputEdit->setCursorPosition(curPos);
-                    return;
-                }
-            } else {
-                m_inputEdit->setText(oldText);
-                m_inputEdit->setCursorPosition(curPos);
-                return;
-            }
-        }
-        if (curPos > epos) {
-            m_inputEdit->setText(oldText);
-            m_inputEdit->setCursorPosition(curPos);
-            return;
-        }
+    if (epos > -1 && epos == curPos - 1) {
+        m_inputEdit->setText(oldText);
+        m_inputEdit->setCursorPosition(curPos);
+        return;
     }
     // start edit for task-13519
     //        QString sRegNum1 = "[^0-9,.×÷)]";
@@ -299,8 +260,12 @@ void ExpressionBar::enterPercentEvent()
         QString newtext = m_inputEdit->text();
         int percentpos = m_inputEdit->text().indexOf('%');
         int operatorpos =
-            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.×÷]")), percentpos - 1);
+            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
         bool nooperator = false;
+        if (operatorpos > 0 && newtext.at(operatorpos - 1) == "e")
+            operatorpos =
+                newtext.mid(0, operatorpos - 1)
+                    .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
         if (operatorpos < 0) {
             operatorpos++;
             nooperator = true;
@@ -399,6 +364,7 @@ void ExpressionBar::enterPercentEvent()
                                          newtext.right(newtext.size() - percentpos - 1));
                     m_inputEdit->setCursorPosition(operatorpos + formatResult.size());
                 }
+                m_inputEdit->setPercentAnswer(m_inputEdit->text(), formatResult, ans);
             }
         } else {
             m_inputEdit->setText(oldText);
