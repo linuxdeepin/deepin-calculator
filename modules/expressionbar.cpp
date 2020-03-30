@@ -99,9 +99,22 @@ void ExpressionBar::enterNumberEvent(const QString &text)
     m_isUndo = false;
 
     // 20200319输入数字光标置位修复
-    replaceSelection(m_inputEdit->text());
+    // 20200330选中最前端符号前的数字重新输入新数字符号消失问题修复
+    QString symbol = "";
+    SSelection selection = m_inputEdit->getSelection();
+    if (selection.selected != "") {
+        if (selection.curpos + selection.selected.length() < m_inputEdit->text().length() &&
+            isOperator(m_inputEdit->text().at(selection.curpos + selection.selected.length())) &&
+            m_inputEdit->text().at(selection.curpos + selection.selected.length()) != "－") {
+            symbol = m_inputEdit->text().at(selection.curpos + selection.selected.length());
+        }
+        replaceSelection(m_inputEdit->text());
+    }
+
     m_inputEdit->insert(text);
     int nowcur = m_inputEdit->cursorPosition();
+    if (symbol != "")
+        m_inputEdit->insert(symbol);
     m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
     m_inputEdit->setCursorPosition(nowcur);
     emit clearStateChanged(false);
