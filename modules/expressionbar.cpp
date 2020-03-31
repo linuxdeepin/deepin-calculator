@@ -364,7 +364,7 @@ void ExpressionBar::enterPercentEvent()
                                          newtext.right(newtext.size() - percentpos - 1));
                     m_inputEdit->setCursorPosition(operatorpos + formatResult.size());
                 }
-                m_inputEdit->setPercentAnswer(m_inputEdit->text(), formatResult, ans);
+                m_inputEdit->setPercentAnswer(m_inputEdit->text(), formatResult, ans, operatorpos);
             }
         } else {
             m_inputEdit->setText(oldText);
