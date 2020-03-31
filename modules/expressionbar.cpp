@@ -98,25 +98,34 @@ void ExpressionBar::enterNumberEvent(const QString &text)
     m_inputNumber = false;
     m_isUndo = false;
 
-    // 20200319输入数字光标置位修复
-    // 20200330选中最前端符号前的数字重新输入新数字符号消失问题修复
-    QString symbol = "";
+    // 20200331选中部分回退到20200319版本再进行光标置位
+    QString seloldtext = m_inputEdit->text();
     SSelection selection = m_inputEdit->getSelection();
+    int selcurPos = m_inputEdit->cursorPosition();
     if (selection.selected != "") {
-        if (selection.curpos + selection.selected.length() < m_inputEdit->text().length() &&
-            isOperator(m_inputEdit->text().at(selection.curpos + selection.selected.length())) &&
-            m_inputEdit->text().at(selection.curpos + selection.selected.length()) != "－") {
-            symbol = m_inputEdit->text().at(selection.curpos + selection.selected.length());
+        QString exp = m_inputEdit->text();
+        exp.remove(selection.curpos, selection.selected.size());
+        exp.insert(selection.curpos, text);
+        m_inputEdit->setText(pointFaultTolerance(exp));
+        int count = m_inputEdit->text().mid(0, selcurPos).count(",") -
+                    seloldtext.mid(0, selcurPos).count(",");
+        if (count == 0) {
+            selection.selected.at(0) == "," && m_inputEdit->text().at(selcurPos) == ","
+                ? m_inputEdit->setCursorPosition(selcurPos + 2 + count)
+                : m_inputEdit->setCursorPosition(selcurPos + 1 + count);
+        } else {
+            selection.selected.at(0) == "," ? m_inputEdit->setCursorPosition(selcurPos + 2 + count)
+                                            : m_inputEdit->setCursorPosition(selcurPos + 1 + count);
         }
-        replaceSelection(m_inputEdit->text());
-    }
 
-    m_inputEdit->insert(text);
-    int nowcur = m_inputEdit->cursorPosition();
-    if (symbol != "")
-        m_inputEdit->insert(symbol);
-    m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
-    m_inputEdit->setCursorPosition(nowcur);
+        //        m_inputEdit->setText(pointFaultTolerance(seloldtext));
+    } else {
+        m_inputEdit->insert(text);
+        int nowcur = m_inputEdit->cursorPosition();
+        m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
+        m_inputEdit->setCursorPosition(nowcur);
+        qDebug() << "1";
+    }
     emit clearStateChanged(false);
 }
 
