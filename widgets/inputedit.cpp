@@ -308,7 +308,7 @@ void InputEdit::handleTextChanged(const QString &text)
     multipleArithmetic(reformatStr);
     reformatStr.remove(QRegExp("[^0-9＋－×÷,.%()e]"));
     // reformatStr = pointFaultTolerance(reformatStr);
-    reformatStr = symbolFaultTolerance(reformatStr);
+    //    reformatStr = symbolFaultTolerance(reformatStr);
     setText(reformatStr);
     autoZoomFontSize();
     updateAction();

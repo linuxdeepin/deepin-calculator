@@ -55,6 +55,7 @@ public:
 public slots:
     void setUndoAction(bool state);
     void setRedoAction(bool state);
+    QString symbolFaultTolerance(const QString &text);
 
 Q_SIGNALS:
     void keyPress(QKeyEvent *);
@@ -84,7 +85,7 @@ private slots:
     void handleCursorPositionChanged(int oldPos, int newPos);
     void BracketCompletion(QKeyEvent *e);
     QString pointFaultTolerance(const QString &text);
-    QString symbolFaultTolerance(const QString &text);
+
     bool isSymbol(const QString &text);
     bool eventFilter(QObject *watched, QEvent *event);
     void multipleArithmetic(QString &text);
