@@ -661,7 +661,7 @@ void ExpressionBar::enterEqualEvent()
                 QString linkedExp = text.split("＝").first();
                 int length = m_hisLink[i].linkageValue.length();
                 if (linkedExp.left(length) != m_hisLink[i].linkageValue ||
-                    !isOperator(linkedExp.at(length))) {
+                    (!isOperator(linkedExp.at(length)) && (linkedExp.at(length) != "("))) {
                     m_hisLink.remove(i);
                     m_listDelegate->removeHisLink();
                     break;
@@ -690,6 +690,35 @@ void ExpressionBar::enterEqualEvent()
 
 void ExpressionBar::enterBracketsEvent()
 {
+    if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
+        m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex());
+        m_hisLink.last().isLink = true;
+        m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
+        m_isLinked = false;
+        if (m_hisLink.size() > 9) {
+            m_hisLink.removeFirst();
+            m_listDelegate->removeLine(0);
+        }
+    }
+    //    clearSelectSymbol();   //fix for bug-14117
+    if (m_isUndo) {
+        int row = m_listModel->rowCount(QModelIndex());
+        if (row != 0) {
+            QString text =
+                m_listModel->index(row - 1).data(SimpleListModel::ExpressionRole).toString();
+            QString result = text.split("＝").last();
+            if (result == m_inputEdit->text()) {
+                historicalLinkageIndex his;
+                his.linkageTerm = row - 1;
+                his.linkageValue = result;
+                his.linkedItem = row;
+                m_hisLink.append(his);
+                m_listDelegate->setHisLink(row - 1);
+                m_listDelegate->setHisLinked(row);
+            }
+        }
+    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString oldText = m_inputEdit->text();
     int currentPos = m_inputEdit->cursorPosition();
@@ -758,6 +787,35 @@ void ExpressionBar::enterBracketsEvent()
 
 void ExpressionBar::enterLeftBracketsEvent()
 {
+    if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
+        m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex());
+        m_hisLink.last().isLink = true;
+        m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
+        m_isLinked = false;
+        if (m_hisLink.size() > 9) {
+            m_hisLink.removeFirst();
+            m_listDelegate->removeLine(0);
+        }
+    }
+    //    clearSelectSymbol();   //fix for bug-14117
+    if (m_isUndo) {
+        int row = m_listModel->rowCount(QModelIndex());
+        if (row != 0) {
+            QString text =
+                m_listModel->index(row - 1).data(SimpleListModel::ExpressionRole).toString();
+            QString result = text.split("＝").last();
+            if (result == m_inputEdit->text()) {
+                historicalLinkageIndex his;
+                his.linkageTerm = row - 1;
+                his.linkageValue = result;
+                his.linkedItem = row;
+                m_hisLink.append(his);
+                m_listDelegate->setHisLink(row - 1);
+                m_listDelegate->setHisLinked(row);
+            }
+        }
+    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -780,6 +838,35 @@ void ExpressionBar::enterLeftBracketsEvent()
 
 void ExpressionBar::enterRightBracketsEvent()
 {
+    if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
+        m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex());
+        m_hisLink.last().isLink = true;
+        m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
+        m_isLinked = false;
+        if (m_hisLink.size() > 9) {
+            m_hisLink.removeFirst();
+            m_listDelegate->removeLine(0);
+        }
+    }
+    //    clearSelectSymbol();   //fix for bug-14117
+    if (m_isUndo) {
+        int row = m_listModel->rowCount(QModelIndex());
+        if (row != 0) {
+            QString text =
+                m_listModel->index(row - 1).data(SimpleListModel::ExpressionRole).toString();
+            QString result = text.split("＝").last();
+            if (result == m_inputEdit->text()) {
+                historicalLinkageIndex his;
+                his.linkageTerm = row - 1;
+                his.linkageValue = result;
+                his.linkedItem = row;
+                m_hisLink.append(his);
+                m_listDelegate->setHisLink(row - 1);
+                m_listDelegate->setHisLinked(row);
+            }
+        }
+    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1047,7 +1134,8 @@ void ExpressionBar::clearLinkageCache(const QString &text, bool isequal)
     if (m_hisLink.count() > 0 && isequal == true) {
         int length = m_hisLink.last().linkageValue.length();
         if (linkedExp.left(length) != m_hisLink.last().linkageValue ||
-            (linkedExp.length() > length && !isOperator(linkedExp.at(length)))) {
+            (linkedExp.length() > length && !isOperator(linkedExp.at(length)) &&
+             (linkedExp.at(length) != "("))) {
             m_hisLink.removeLast();
             m_isLinked = false;
             m_listDelegate->removeHisLink();
