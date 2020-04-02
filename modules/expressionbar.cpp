@@ -618,7 +618,9 @@ void ExpressionBar::enterEqualEvent()
                            .replace(QString::fromUtf8("÷"), "/");
         //.replace(QString::fromUtf8(","), "");
 
-        QString tStr = m_inputEdit->text().replace(QString::fromUtf8(","), "");
+        //        QString tStr = m_inputEdit->text().replace(QString::fromUtf8(","), "");
+        QString tStr = m_inputEdit->text();
+        // 20200402 需求3.2.1.6当输入的数字中有千位符，点击等号视为前后一致，不计入表达式
         if (formatResult != tStr) {
             m_listModel->updataList(m_inputEdit->text() + "＝" + formatResult, m_hisRevision);
             m_inputEdit->setAnswer(formatResult, ans);
@@ -1207,8 +1209,9 @@ void ExpressionBar::settingLinkage()
         hisIndex.linkageValue = exp.split("＝").last();
         m_hisLink.push_back(hisIndex);
     } else {
-        if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1)
-            return;
+        // 20200402 需求3.2.1.6当输入的数字中有千位符，点击等号视为前后一致，不计入表达式
+        //        if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1)
+        //            return;
         // judgeLinkageAgain();
         enterEqualEvent();
         m_isLinked = true;
