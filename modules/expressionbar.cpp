@@ -950,6 +950,35 @@ void ExpressionBar::copyResultToClipboard()
 
 void ExpressionBar::copyClipboard2Result()
 {
+    if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
+        m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex());
+        m_hisLink.last().isLink = true;
+        m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
+        m_isLinked = false;
+        if (m_hisLink.size() > 9) {
+            m_hisLink.removeFirst();
+            m_listDelegate->removeLine(0);
+        }
+    }
+    //    clearSelectSymbol();   //fix for bug-14117
+    if (m_isUndo) {
+        int row = m_listModel->rowCount(QModelIndex());
+        if (row != 0) {
+            QString text =
+                m_listModel->index(row - 1).data(SimpleListModel::ExpressionRole).toString();
+            QString result = text.split("＝").last();
+            if (result == m_inputEdit->text()) {
+                historicalLinkageIndex his;
+                his.linkageTerm = row - 1;
+                his.linkageValue = result;
+                his.linkedItem = row;
+                m_hisLink.append(his);
+                m_listDelegate->setHisLink(row - 1);
+                m_listDelegate->setHisLinked(row);
+            }
+        }
+    }
+    m_isResult = false;
     QString oldText = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     replaceSelection(oldText);
