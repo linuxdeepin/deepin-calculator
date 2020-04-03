@@ -686,7 +686,11 @@ void ExpressionBar::enterEqualEvent()
             }
         }
         if (m_Selected != -1) {
-            selectedresult = m_hisLink[m_Selected].linkageValue;
+            selectedresult = m_listModel->index(m_Selected)
+                                 .data(SimpleListModel::ExpressionRole)
+                                 .toString()
+                                 .split("＝")
+                                 .last();
             m_inputEdit->setText(selectedresult);
         }
         // 20200403 表达式错误重新输入新表达式输入框无结果
