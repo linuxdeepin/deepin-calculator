@@ -43,12 +43,14 @@ public:
     void appendText(const QString &text);
     void clearItems();
     void updataList(const QString &text, const int index);
+    void deleteItem(const int index);
 
 signals:
     void updateCount(int);
+
 private:
     QList<QString> m_expressionList;
-    bool           m_selectedStatus;
+    bool m_selectedStatus;
 };
 
 #endif

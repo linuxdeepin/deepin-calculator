@@ -681,7 +681,7 @@ void ExpressionBar::enterEqualEvent()
                 m_hisLink[i].linkageValue = newResult;
                 QString newText = newResult + linkedExp.right(linkedExp.length() - length);
                 m_inputEdit->setText(newText);
-                enterEqualEvent();
+                settingLinkage();
             }
         }
         // 20200403 表达式错误重新输入新表达式输入框无结果
@@ -1194,6 +1194,12 @@ void ExpressionBar::settingLinkage()
 {
     const int hisRecision = m_hisRevision;
     if (hisRecision != -1) {
+        // edit 20200403 删除错误表达式
+        if (m_Selected != m_hisRevision && m_hisRevision < m_hisLink.count() &&
+            m_hisLink[m_hisRevision].linkageValue.count(tr("Expression error")) > 0) {
+            m_hisLink.removeAt(m_hisRevision);
+            m_listModel->deleteItem(m_hisRevision);
+        }
         for (int i = 0; i < m_hisLink.size(); i++) {
             if (m_hisLink[i].linkedItem == hisRecision) {
                 if (cancelLink(i + 1) && i != 0)

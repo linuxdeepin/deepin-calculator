@@ -26,9 +26,7 @@ SimpleListModel::SimpleListModel(QObject *parent)
     m_selectedStatus = false;
 }
 
-SimpleListModel::~SimpleListModel()
-{
-}
+SimpleListModel::~SimpleListModel() {}
 
 int SimpleListModel::rowCount(const QModelIndex &parent) const
 {
@@ -42,14 +40,14 @@ QVariant SimpleListModel::data(const QModelIndex &index, int role) const
     const int r = index.row();
 
     switch (role) {
-    case ExpressionRole:
-        return m_expressionList.at(r);
-    case ExpressionCount:
-        return m_expressionList.count();
-    case ExpressionPrevious:
-        return m_expressionList.value(r - 1);
-    case ExpressionNext:
-        return m_expressionList.value(r + 1);
+        case ExpressionRole:
+            return m_expressionList.at(r);
+        case ExpressionCount:
+            return m_expressionList.count();
+        case ExpressionPrevious:
+            return m_expressionList.value(r - 1);
+        case ExpressionNext:
+            return m_expressionList.value(r + 1);
     }
 
     return QVariant();
@@ -89,11 +87,11 @@ void SimpleListModel::updataList(const QString &text, const int index)
 {
     QString exp = text;
     exp = exp.replace('+', QString::fromUtf8("＋"))
-             .replace('-', QString::fromUtf8("－"))
-             .replace('*', QString::fromUtf8("×"))
-             .replace('/', QString::fromUtf8("÷"))
-             //.replace('x', QString::fromUtf8("×"))
-             .replace('X', QString::fromUtf8("×"));
+              .replace('-', QString::fromUtf8("－"))
+              .replace('*', QString::fromUtf8("×"))
+              .replace('/', QString::fromUtf8("÷"))
+              //.replace('x', QString::fromUtf8("×"))
+              .replace('X', QString::fromUtf8("×"));
     if (exp.indexOf("x") != -1) {
         if (exp.at(exp.indexOf("x") - 1) != "E")
             exp = exp.replace('x', QString::fromUtf8("×"));
@@ -104,7 +102,14 @@ void SimpleListModel::updataList(const QString &text, const int index)
     } else {
         beginRemoveRows(QModelIndex(), index, index);
         m_expressionList.removeAt(index);
-        m_expressionList.insert(index,exp);
+        m_expressionList.insert(index, exp);
         endRemoveRows();
     }
+}
+
+void SimpleListModel::deleteItem(const int index)
+{
+    beginRemoveRows(QModelIndex(), index, index);
+    m_expressionList.removeAt(index);
+    endRemoveRows();
 }
