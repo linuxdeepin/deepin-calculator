@@ -688,8 +688,8 @@ void ExpressionBar::enterEqualEvent()
         //        if (m_evaluator->error().isEmpty())
         //            m_inputEdit->clear();
     }
-
-    if (m_evaluator->error().isEmpty())
+    // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
+    if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegExp("[＋－×÷,.%()e]")) != -1))
         m_hisRevision = -1;
     m_listView->scrollToBottom();
     m_isLinked = false;
