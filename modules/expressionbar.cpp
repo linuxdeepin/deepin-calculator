@@ -650,6 +650,7 @@ void ExpressionBar::enterEqualEvent()
         }
     }
 
+    QString selectedresult = QString();
     if (m_isLinked) {
         if (m_hisRevision == -1) {
             m_isLinked = false;
@@ -683,6 +684,10 @@ void ExpressionBar::enterEqualEvent()
                 m_inputEdit->setText(newText);
                 settingLinkage();
             }
+        }
+        if (m_Selected != -1) {
+            selectedresult = m_hisLink[m_Selected].linkageValue;
+            m_inputEdit->setText(selectedresult);
         }
         // 20200403 表达式错误重新输入新表达式输入框无结果
         //        if (m_evaluator->error().isEmpty())
@@ -1550,7 +1555,10 @@ bool ExpressionBar::cancelLink(int index)
             QStringList list = exp.split(QRegExp("[＋－×÷()]"));
             if (exp[0] == "－")
                 list[0] = "－" + list[1];
-            if (list.at(0) != m_hisLink[i].linkageValue) {
+            QString linkvalue = m_hisLink[i].linkageValue;
+            linkvalue = linkvalue.replace(",", "");
+            //            if (list.at(0) != m_hisLink[i].linkageValue) {
+            if (list.at(0) != linkvalue) {
                 // m_listDelegate->removeLine(m_hisLink[i].linkageTerm,
                 // m_hisLink[i].linkedItem);
                 m_listDelegate->removeLine(i);
