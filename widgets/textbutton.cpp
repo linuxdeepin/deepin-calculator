@@ -45,7 +45,7 @@ TextButton::~TextButton()
 
 void TextButton::init()
 {
-    m_font.setPixelSize(18);
+    m_font.setPixelSize(20);
     m_font.setFamily("HelveticaNeue");
     m_font.setStyleName("Light");
 }
@@ -150,8 +150,11 @@ void TextButton::paintEvent(QPaintEvent *e)
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
     painter.setRenderHint(QPainter::HighQualityAntialiasing);
     painter.setFont(m_font);
-    QRectF textRect = painter.fontMetrics().boundingRect(this->text());
-    textRect.moveCenter(rect.center());
+    //    QRectF textRect = painter.fontMetrics().boundingRect(this->text());
+    //    textRect.moveCenter(rect.center());
+    QRectF textRect = painter.fontMetrics().boundingRect(0, 0, rect.width(), rect.height(),
+                                                         Qt::AlignCenter, this->text());
+    //    textRect.moveCenter(rect.center());
     // QRectF
     // textRect(QPointF((rect.width()/2)-(textR.width()/2),(rect.height()/2)-(textR.height()/2)),textR.width(),textR.height());
     QColor pressBrush, focus, hoverFrame, base, text;
