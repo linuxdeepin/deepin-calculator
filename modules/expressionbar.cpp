@@ -636,6 +636,7 @@ void ExpressionBar::enterEqualEvent()
         if (!m_evaluator->error().isEmpty()) {
             m_listModel->updataList(m_inputEdit->text() + "＝" + tr("Expression error"),
                                     m_hisRevision);
+            m_meanexp = false; // 20200409 输入错误表达式后，修改历史记录,再次输入表达式后高亮未取消
         } else {
             m_meanexp = false;
             return;
@@ -1199,6 +1200,7 @@ void ExpressionBar::clearLinkageCache(const QString &text, bool isequal)
             m_hisLink.removeLast();
             m_isLinked = false;
             m_listDelegate->removeHisLink();
+//            m_listDelegate->removeHisLinked();
             m_isResult = false;
         }
     }
