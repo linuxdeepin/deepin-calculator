@@ -149,6 +149,8 @@ private:
     QVector<historicalLinkageIndex> m_hisLink;  //历史联动索引
     QVector<QString> m_undo;
     QVector<QString> m_redo;
+
+    bool m_meanexp;    //是否表达式为纯数字
 };
 
 #endif
