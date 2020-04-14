@@ -331,6 +331,8 @@ void BasicModule::handleKeypadButtonPress(int key)
 {
     m_basicKeypad->update();
     m_expressionBar->clearSelection();
+    //20200414 bug20294鼠标点击取消focus
+    m_expressionBar->getInputEdit()->setFocus();
     switch (key) {
         case BasicKeypad::Key_0:
             m_expressionBar->enterNumberEvent("0");

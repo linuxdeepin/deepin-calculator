@@ -77,8 +77,7 @@ void TextButton::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::RightButton)
         return;
-    //20200414 bug20294鼠标点击取消focus
-//    setFocus();
+    setFocus();
     m_palette = this->palette();
     int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
