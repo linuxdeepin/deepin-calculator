@@ -27,7 +27,7 @@
 
 TextButton::TextButton(const QString &text, QWidget *parent)
     : DPushButton(text, parent)  //,
-                                 // m_effect(new QGraphicsDropShadowEffect(this))
+      // m_effect(new QGraphicsDropShadowEffect(this))
 {
     setFixedSize(80, 58);
     setFocusPolicy(Qt::NoFocus);
@@ -66,7 +66,7 @@ void TextButton::animate(int msec)
     setDown(true);
     m_isPress = true;
 
-    QTimer::singleShot(msec, this, [=] {
+    QTimer::singleShot(msec, this, [ = ] {
         setDown(false);
         m_isPress = false;
         update();
@@ -77,7 +77,8 @@ void TextButton::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::RightButton)
         return;
-    setFocus();
+    //20200414 bug20294鼠标点击取消focus
+//    setFocus();
     m_palette = this->palette();
     int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
@@ -102,6 +103,7 @@ void TextButton::mousePressEvent(QMouseEvent *e)
 
 void TextButton::mouseReleaseEvent(QMouseEvent *e)
 {
+//    clearFocus();
     if (e->button() == Qt::RightButton)
         return;
     this->setPalette(m_palette);

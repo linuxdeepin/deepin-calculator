@@ -46,6 +46,7 @@ ExpressionBar::ExpressionBar(QWidget *parent)
     m_inputEdit->setFixedHeight(55);
     m_inputEdit->setAlignment(Qt::AlignRight);
     m_inputEdit->setTextMargins(10, 0, 10, 6);
+//    m_inputEdit->setFocus();
 
     m_listView->setModel(m_listModel);
     m_listView->setItemDelegate(m_listDelegate);
@@ -1618,8 +1619,8 @@ void ExpressionBar::moveRight()
     m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + 1);
     m_inputEdit->setFocus();
 }
-
-QLineEdit *ExpressionBar::getInputEdit()
+//20200414 bug20294鼠标点击取消focus
+InputEdit *ExpressionBar::getInputEdit()
 {
     return m_inputEdit;
 }

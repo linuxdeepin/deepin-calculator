@@ -106,7 +106,7 @@ public slots:
     void getSelection();
     void setResultFalse();
     void replaceSelection(QString text);
-    QLineEdit *getInputEdit();
+    InputEdit *getInputEdit();
 
 private slots:
     void handleTextChanged(const QString &text);
