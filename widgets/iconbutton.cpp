@@ -54,6 +54,7 @@ void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverF
 
 void IconButton::animate(int msec)
 {
+    m_isHover = false;  //edit for bug-20508 20200414
     setDown(true);
     m_isPress = true;
     m_iconRenderer->load(m_pressUrl);

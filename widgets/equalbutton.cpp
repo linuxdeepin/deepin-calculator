@@ -34,6 +34,7 @@ void EqualButton::init()
 
 void EqualButton::animate(int msec)
 {
+    m_isHover = false;  //edit for bug-20508 20200414
     setDown(true);
     m_isPress = true;
 
