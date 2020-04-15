@@ -289,14 +289,9 @@ void ExpressionBar::enterPercentEvent()
         if (m_evaluator->error().isEmpty()) {
             if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
                 return;
-            QString formatResult;
-            if (ans.isZero() == false && ans.numericValue().real.realNumberlength() > 16) {
-                const QString result = DMath::format(ans, Quantity::Format::Scientific());
-                formatResult = Utils::formatThousandsSeparators(result);
-            } else {
-                const QString result = DMath::format(ans, Quantity::Format::Fixed());
-                formatResult = Utils::formatThousandsSeparators(result);
-            }
+            //edit 20200413 for bug--19653
+            const QString result = DMath::format(ans, Quantity::Format::General());
+            QString formatResult = Utils::formatThousandsSeparators(result);
             formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                            .replace(QString::fromUtf8("－"), "-")
                            .replace(QString::fromUtf8("×"), "*")
@@ -609,14 +604,9 @@ void ExpressionBar::enterEqualEvent()
     if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegExp("[＋－×÷.,%()e]")) != -1)) {
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
             return;
-        QString formatResult;
-        if (ans.isZero() == false && ans.numericValue().real.realNumberlength() > 16) {
-            const QString result = DMath::format(ans, Quantity::Format::Scientific());
-            formatResult = Utils::formatThousandsSeparators(result);
-        } else {
-            const QString result = DMath::format(ans, Quantity::Format::Fixed());
-            formatResult = Utils::formatThousandsSeparators(result);
-        }
+        //edit 20200413 for bug--19653
+        const QString result = DMath::format(ans, Quantity::Format::General());
+        QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                        .replace(QString::fromUtf8("－"), "-")
                        .replace(QString::fromUtf8("×"), "*")
@@ -956,14 +946,9 @@ void ExpressionBar::copyResultToClipboard()
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
             return;
 
-        QString formatResult;
-        if (ans.isZero() == false && ans.numericValue().real.realNumberlength() > 16) {
-            const QString result = DMath::format(ans, Quantity::Format::Scientific());
-            formatResult = Utils::formatThousandsSeparators(result);
-        } else {
-            const QString result = DMath::format(ans, Quantity::Format::Fixed());
-            formatResult = Utils::formatThousandsSeparators(result);
-        }
+        //edit 20200413 for bug--19653
+        const QString result = DMath::format(ans, Quantity::Format::General());
+        QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = formatResult.replace('-', "－").replace('+', "＋");
         // m_inputEdit->setAnswer(formatResult, ans);
 
