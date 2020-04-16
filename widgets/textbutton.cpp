@@ -63,15 +63,17 @@ void TextButton::hideShadow()
 
 void TextButton::animate(int msec)
 {
-    m_isHover = false;  //edit for bug-20508 20200414
-    setDown(true);
-    m_isPress = true;
+    if (m_isPress == false) { //edit for bug-20492 20200416
+        m_isHover = false;  //edit for bug-20508 20200414
+        setDown(true);
+        m_isPress = true;
 
-    QTimer::singleShot(msec, this, [ = ] {
-        setDown(false);
-        m_isPress = false;
-        update();
-    });
+        QTimer::singleShot(msec, this, [ = ] {
+            setDown(false);
+            m_isPress = false;
+            update();
+        });
+    }
 }
 
 void TextButton::mousePressEvent(QMouseEvent *e)
