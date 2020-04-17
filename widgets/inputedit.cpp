@@ -39,6 +39,8 @@ InputEdit::InputEdit(QWidget *parent)
     , m_currentInAns(false)
     , m_currentOnAnsLeft(false)
     , m_oldText("")
+    , m_isprecentans(false)
+    , m_lastPos(0)
 {
     setAttribute(Qt::WA_InputMethodEnabled, false);
     setAttribute(Qt::WA_TranslucentBackground);
@@ -55,7 +57,7 @@ InputEdit::InputEdit(QWidget *parent)
     connect(this, &QLineEdit::customContextMenuRequested, this, &InputEdit::showTextEditMenu);
     connect(this, &InputEdit::returnPressed, this, &InputEdit::pressSlot);
     connect(this, &QLineEdit::selectionChanged, this, &InputEdit::selectionChangedSlot);
-    connect(this, &QLineEdit::selectionChanged, [=] {
+    connect(this, &QLineEdit::selectionChanged, [ = ] {
         int pos = this->cursorPosition();
         this->cursorPositionChanged(pos, pos);
     });
@@ -70,21 +72,64 @@ InputEdit::InputEdit(QWidget *parent)
 
 InputEdit::~InputEdit() {}
 
+QString InputEdit::expressionPercent(QString &str)
+{
+    QString t = str;
+    bool longnumber = false;
+
+    QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
+    if (ans.length() > 17) {
+        for (int i = 17; i < ans.length(); i++) {
+            if (ans.at(i) != "0") {
+                longnumber = true;
+                break;
+            }
+        }
+    }
+    if (longnumber && m_isprecentans && m_lastPos == m_ansStartPos + m_ansLength + 1)
+        t = ans + str.back();
+//    if (m_ansVaild) {
+//        QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
+//        t.remove(m_ansStartPos, m_ansLength);
+//        t.insert(m_ansStartPos, ans);
+//    }
+
+    return t;
+}
+
 QString InputEdit::expressionText()
 {
     QString t = text();
+    //edit for bug-19653 20200416  当数字长度超过精度范围时，保留小数点最后的数。
+    bool longnumber = false;
 
-    if (m_ansVaild) {
-        QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
-        t.remove(m_ansStartPos, m_ansLength);
-        t.insert(m_ansStartPos, ans);
+    QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
+    if (ans.length() > 17) {
+        for (int i = 17; i < ans.length(); i++) {
+            if (ans.at(i) != "0") {
+                longnumber = true;
+                break;
+            }
+        }
     }
+    if (m_ansVaild || longnumber) {
+        t.remove(m_ansStartPos, m_ansLength);
+        if (m_ansLength != 0) {
+            t.insert(m_ansStartPos, ans);
+        }
+    }
+//    if (m_ansVaild) {
+//        QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
+//        t.remove(m_ansStartPos, m_ansLength);
+//        t.insert(m_ansStartPos, ans);
+//    }
 
     return t;
 }
 
 void InputEdit::setAnswer(const QString &str, const Quantity &ans)
 {
+    m_isprecentans = false;
     m_ans = ans;
     m_ansStartPos = 0;
     m_ansLength = str.length();
@@ -95,11 +140,18 @@ void InputEdit::setAnswer(const QString &str, const Quantity &ans)
 void InputEdit::setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans,
                                  const int &Pos)
 {
+    m_isprecentans = true;
     m_ans = ans;
-    m_ansStartPos = Pos;
+    m_ansStartPos = Pos + ((Pos == 0) ? 0 : 1); //edit 20200416
     m_ansLength = str2.length();
     m_oldText = "";
     setText(str1);
+    int ansEnd = m_ansStartPos + m_ansLength;
+    while (ansEnd > str1.length()) {
+        --ansEnd;
+    }
+    m_ansVaild = m_ansLength > 10 && (m_ansStartPos == 0 || !str1[m_ansStartPos - 1].isDigit()) &&
+                 (ansEnd == str1.length() || !str1[ansEnd].isDigit());
 }
 
 void InputEdit::clear()
@@ -294,16 +346,16 @@ void InputEdit::handleTextChanged(const QString &text)
     int oldPosition = this->cursorPosition();
     QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
     reformatStr = reformatStr.replace('+', QString::fromUtf8("＋"))
-                      .replace('-', QString::fromUtf8("－"))
-                      .replace("_", QString::fromUtf8("－"))
-                      .replace('*', QString::fromUtf8("×"))
-                      .replace('/', QString::fromUtf8("÷"))
-                      .replace('x', QString::fromUtf8("×"))
-                      .replace('X', QString::fromUtf8("×"))
-                      .replace(QString::fromUtf8("（"), "(")
-                      .replace(QString::fromUtf8("）"), ")")
-                      .replace(QString::fromUtf8("。"), ".")
-                      .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
+                  .replace('-', QString::fromUtf8("－"))
+                  .replace("_", QString::fromUtf8("－"))
+                  .replace('*', QString::fromUtf8("×"))
+                  .replace('/', QString::fromUtf8("÷"))
+                  .replace('x', QString::fromUtf8("×"))
+                  .replace('X', QString::fromUtf8("×"))
+                  .replace(QString::fromUtf8("（"), "(")
+                  .replace(QString::fromUtf8("）"), ")")
+                  .replace(QString::fromUtf8("。"), ".")
+                  .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
 
     multipleArithmetic(reformatStr);
     reformatStr.remove(QRegExp("[^0-9＋－×÷,.%()e]"));
@@ -424,7 +476,7 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
     if (newPos > m_ansStartPos && newPos < ansEnd) {
         m_currentInAns = true;
     } else if (this->hasSelectedText() &&
-                   ((selectStart >= m_ansStartPos && selectStart < ansEnd)) ||
+               ((selectStart >= m_ansStartPos && selectStart < ansEnd)) ||
                (selectEnd > m_ansStartPos && selectEnd <= ansEnd) ||
                (selectStart < m_ansStartPos && selectEnd > ansEnd)) {
         m_currentInAns = true;
@@ -435,6 +487,7 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
         m_currentInAns = false;
         m_currentOnAnsLeft = false;
     }
+    m_lastPos = newPos;
 }
 
 void InputEdit::BracketCompletion(QKeyEvent *e)

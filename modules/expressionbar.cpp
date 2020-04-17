@@ -281,6 +281,7 @@ void ExpressionBar::enterPercentEvent()
                                   percentpos - operatorpos + (nooperator == true ? 1 : 0));
             //截取%表达式
         }
+        exptext = m_inputEdit->expressionPercent(exptext);
         qDebug() << "exptext" << exptext;
         QString express = symbolComplement(exptext);
         const QString expression = formatExpression(express);

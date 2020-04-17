@@ -45,6 +45,7 @@ public:
     ~InputEdit();
 
     QString expressionText();
+    QString expressionPercent(QString &str); // edit for bug-19653,当对超过17位的数进行百分号处理时，保留超过精度的部分。
     void setAnswer(const QString &str, const Quantity &ans);
     void clear();
     SSelection getSelection() { return m_selected; };
@@ -102,6 +103,8 @@ private:
     bool m_currentOnAnsLeft;
     QString m_oldText;
     SSelection m_selected;
+    bool m_isprecentans; //百分号结果
+    int m_lastPos; //最后进入计算时的光标位置
 
     QAction *m_undo;
     QAction *m_redo;
