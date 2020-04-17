@@ -128,7 +128,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     const QString keyText = e->text();
     bool lineFocus = m_expressionBar->getInputEdit()->hasFocus();
     //20200414 bug20294鼠标点击取消focus
-    m_expressionBar->getInputEdit()->setFocus();
+//    m_expressionBar->getInputEdit()->setFocus();
     // m_expressionBar->clearSelection();
 
     switch (e->key()) {
@@ -320,6 +320,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         default:
             break;
     }
+    m_expressionBar->getInputEdit()->setFocus(); //edit 20200417 for bug--21146
     // m_expressionBar->setSelection();
 //    if (lineFocus)
 //        m_expressionBar->getInputEdit()->setFocus();
