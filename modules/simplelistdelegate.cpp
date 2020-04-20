@@ -131,11 +131,11 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     }
 
     if (m_type == 1) {
-        errorFontColor = "#F37D54";
+        errorFontColor = "#FF5736";  //edit for bug-21508
         linkColor = "#3489DF";
         fontColor = "#838483";
     } else {
-        errorFontColor = "#F37D54";
+        errorFontColor = "#9A2F2F";  //edit for bug-21508
         linkColor = "#3489DF";
         fontColor = "#838483";
     }
@@ -153,21 +153,25 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
     int equalStrWidth = painter->fontMetrics().width(" ＝ ");
     QString expStr = painter->fontMetrics().elidedText(
-        splitList.first(), Qt::ElideLeft, rect.width() - resultWidth - padding * 2 - equalStrWidth);
+                         splitList.first(), Qt::ElideLeft, rect.width() - resultWidth - padding * 2 - equalStrWidth);
     // QString expStr = splitList.first();
 
     if (m_selected) {
-        QRect resultRect(rect.topRight().x() - resultWidth - padding, rect.y(), resultWidth,
-                         rect.height());
+        //edit for bug--21508
+        QRect resultRect(rect.topRight().x() - resultWidth - padding - 2, rect.y() + 3, resultWidth + 7,
+                         rect.height() - 6);
         QPainterPath path;
-        path.addRoundedRect(resultRect, 8, 8);
+        path.addRoundedRect(resultRect, 4, 4);
 
         // Setting Gradient
-        QLinearGradient linear(resultRect.topLeft(), resultRect.bottomRight());
-        linear.setColorAt(0, QColor(0, 151, 231, 255));
-        linear.setColorAt(1, QColor(0, 122, 219, 255));
-        linear.setSpread(QGradient::PadSpread);
-        painter->fillPath(path, linear);
+//        QLinearGradient linear(resultRect.topLeft(), resultRect.bottomRight());
+//        linear.setColorAt(0, QColor(0, 151, 231, 255));
+//        linear.setColorAt(1, QColor(0, 122, 219, 255));
+//        linear.setColorAt(0, QColor("#0081FF"));
+//        linear.setColorAt(1, QColor("#0081FF"));
+//        linear.setSpread(QGradient::PadSpread);
+        QBrush brush(QColor("#0081FF"));
+        painter->fillPath(path, brush);
 
         painter->setPen(QPen(QColor(Qt::white)));
         m_simpleListDelegate->setSelect(false);
