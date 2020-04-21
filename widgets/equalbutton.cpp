@@ -17,7 +17,7 @@ EqualButton::EqualButton(const QString &text, QWidget *parent)
     init();
     m_isHover = m_isPress = false;
     m_effect->setOffset(0, 4);
-    m_effect->setBlurRadius(6);
+    m_effect->setBlurRadius(4);
 }
 
 EqualButton::~EqualButton()
@@ -110,26 +110,26 @@ void EqualButton::paintEvent(QPaintEvent *e)
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
-        base = QColor(0, 129, 255);
+        base = QColor("#0081FF");
         text = Qt::white;
         pressText = QColor(255, 255, 255, 0.6 * 255);
-        hover0 = QColor(32, 155, 255);
-        hover1 = QColor(1, 136, 255);
-        press0 = QColor(0, 119, 206);
-        press1 = QColor(0, 112, 255);
+        hover0 = QColor("#209BFF");
+        hover1 = QColor("#0188FF");
+        press0 = QColor("#0077CE");
+        press1 = QColor("#0070FF");
         frame = Qt::white;
         normalShadow = QColor(44, 167, 248, 0.4 * 255);
         hoverShadow = QColor(0, 145, 255, 0.3 * 255);
         pressShadow = QColor(0, 145, 255, 0.3 * 255);
         focusShadow = QColor(0, 0, 0, 0.05 * 255);
     } else {
-        base = QColor(0, 89, 210);
+        base = QColor("#0059D2");
         pressText = QColor(255, 255, 255, 0.3 * 255);
         text = Qt::white;
-        hover0 = QColor(9, 102, 228);
-        hover1 = QColor(0, 99, 234);
-        press0 = QColor(0, 50, 121);
-        press1 = QColor(12, 46, 122);
+        hover0 = QColor("#0966E4");
+        hover1 = QColor("#0063EA");
+        press0 = QColor("#003279");
+        press1 = QColor("#0C2E7A");
         frame = QColor(0, 0, 0, 0.4 * 255);
         normalShadow = QColor(0, 42, 175, 0.4 * 255);
         hoverShadow = QColor(0, 37, 255, 0.3 * 255);

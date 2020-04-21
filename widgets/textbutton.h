@@ -54,7 +54,7 @@ public:
     void paintEvent(QPaintEvent *e);
     void focusOutEvent(QFocusEvent *);
 private:
-    //QGraphicsDropShadowEffect *m_effect;
+    QGraphicsDropShadowEffect *m_effect;
 
     DPalette m_palette;
     bool m_isHover;
