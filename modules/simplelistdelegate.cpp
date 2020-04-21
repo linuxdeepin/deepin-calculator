@@ -170,8 +170,14 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 //        linear.setColorAt(0, QColor("#0081FF"));
 //        linear.setColorAt(1, QColor("#0081FF"));
 //        linear.setSpread(QGradient::PadSpread);
-        QBrush brush(QColor("#0081FF"));
-        painter->fillPath(path, brush);
+        //edit for bug--21476
+        if (m_type == 1) {
+            QBrush brush(QColor("#0081FF"));
+            painter->fillPath(path, brush);
+        } else {
+            QBrush brush(QColor("#0059D2"));
+            painter->fillPath(path, brush);
+        }
 
         painter->setPen(QPen(QColor(Qt::white)));
         m_simpleListDelegate->setSelect(false);
