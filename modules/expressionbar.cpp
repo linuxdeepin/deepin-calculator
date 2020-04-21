@@ -22,6 +22,7 @@
 #include <QClipboard>
 #include <QDebug>
 #include <QTimer>
+#include <DGuiApplicationHelper>
 #include "../utils.h"
 
 ExpressionBar::ExpressionBar(QWidget *parent)
@@ -1482,7 +1483,12 @@ void ExpressionBar::Redo()
 
 void ExpressionBar::initTheme(int type)
 {
-    m_listDelegate->setThemeType(type);
+    //edit for bug-21476
+    int typeIn = type;
+    if (typeIn == 0) {
+        typeIn = DGuiApplicationHelper::instance()->themeType();
+    }
+    m_listDelegate->setThemeType(typeIn);
 }
 
 void ExpressionBar::clearSelection()
