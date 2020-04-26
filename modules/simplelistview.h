@@ -20,6 +20,7 @@
 #ifndef SIMPLELISTVIEW_H
 #define SIMPLELISTVIEW_H
 
+#include <DWidget>
 #include <DListView>
 #include <QScrollBar>
 
@@ -30,7 +31,7 @@ class SimpleListView : public DListView
     Q_OBJECT
 
 public:
-    SimpleListView(QWidget *parent = nullptr);
+    explicit SimpleListView(DWidget *parent = nullptr);
     ~SimpleListView();
 
 protected:

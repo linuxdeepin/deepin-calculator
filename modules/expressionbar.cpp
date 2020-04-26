@@ -27,22 +27,22 @@
 
 ExpressionBar::ExpressionBar(QWidget *parent)
     : DWidget(parent)
-    , m_listView(new SimpleListView)
-    , m_listDelegate(new SimpleListDelegate)
-    , m_listModel(new SimpleListModel)
-    , m_inputEdit(new InputEdit)
-    , m_evaluator(Evaluator::instance())
-    , m_isContinue(true)
-    , m_isAllClear(false)
-    , m_isResult(false)
-    , m_inputNumber(false)
-    , m_hisRevision(-1)
-    , m_linkageIndex(-1)
-    , m_isLinked(false)
-    , m_isUndo(false)
-    , m_Selected(-1)
-    , m_meanexp(true)
 {
+    m_listView = new SimpleListView;
+    m_listDelegate = new SimpleListDelegate;
+    m_listModel = new SimpleListModel;
+    m_inputEdit = new InputEdit;
+    m_evaluator = Evaluator::instance();
+    m_isContinue = true;
+    m_isAllClear = false;
+    m_isResult = false;
+    m_inputNumber = false;
+    m_hisRevision = -1;
+    m_linkageIndex = -1;
+    m_isLinked = false;
+    m_isUndo = false;
+    m_Selected = -1;
+    m_meanexp = true;
     // init inputEdit attributes.
     m_inputEdit->setFixedHeight(55);
     m_inputEdit->setAlignment(Qt::AlignRight);

@@ -35,11 +35,11 @@
 DGUI_USE_NAMESPACE
 
 MainWindow::MainWindow(QWidget *parent)
-    : DMainWindow(parent),
-      m_settings(DSettings::instance()),
-      m_mainLayout(new QStackedLayout),
-      m_tbMenu(new DMenu)
+    : DMainWindow(parent)
 {
+    m_settings = DSettings::instance();
+    m_mainLayout = new QStackedLayout;
+    m_tbMenu = new DMenu;
     //titlebar()->setBackgroundTransparent(true);
     QIcon t_icon = QIcon::fromTheme("deepin-calculator");
 //    QPixmap pixmap = t_icon.pixmap(24,24);

@@ -36,9 +36,9 @@ SimpleListView::SimpleListView(QWidget *parent)
     setAutoScroll(false);
     setFixedHeight(105);
     setSelectionBehavior(QAbstractItemView::SelectRows);
-    setSelectionMode ( QAbstractItemView::SingleSelection);
+    setSelectionMode(QAbstractItemView::SingleSelection);
 
-    connect(this,&QListView::clicked,this,&SimpleListView::selectHistory);
+    connect(this, &QListView::clicked, this, &SimpleListView::selectHistory);
     connect(verticalScrollBar(), &QScrollBar::rangeChanged, this, &SimpleListView::adjustScrollbarMargins);
     //connect(model(), &QAbstractListModel::updateCount, this, &QListView::updateCount);
 }

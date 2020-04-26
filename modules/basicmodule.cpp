@@ -28,13 +28,12 @@
 
 BasicModule::BasicModule(QWidget *parent)
     : DWidget(parent)
-    , m_expressionBar(new ExpressionBar)
-    , m_basicKeypad(new BasicKeypad)
-    , m_keypadLayout(new QStackedLayout)
 {
+    m_keypadLayout = new QStackedLayout;
+    m_basicKeypad = new BasicKeypad;
     m_keypadLayout->addWidget(m_basicKeypad);
-
     QVBoxLayout *layout = new QVBoxLayout(this);
+    m_expressionBar = new ExpressionBar;
     layout->addWidget(m_expressionBar);
     layout->addLayout(m_keypadLayout);
 
