@@ -27,6 +27,7 @@
 #include <DSuggestButton>
 #include "textbutton.h"
 #include "iconbutton.h"
+#include "memorybutton.h"
 #include "equalbutton.h"
 
 DWIDGET_USE_NAMESPACE
@@ -42,7 +43,8 @@ public:
         Key_7, Key_8, Key_9, Key_Mult,
         Key_4, Key_5, Key_6, Key_Min,
         Key_1, Key_2, Key_3, Key_Plus,
-        Key_0, Key_Point, Key_Brackets, Key_Equals
+        Key_0, Key_Point, Key_Brackets, Key_Equals, Key_MC,
+        Key_MR, Key_Mplus, Key_Mminus, Key_MS, Key_Mlist
     };
 
     BasicKeypad(QWidget *parent = nullptr);
@@ -58,6 +60,8 @@ public:
         Buttons button;
         int row;
         int column;
+        int rowcount;
+        int columncount;
     } keyDescriptions[];
 public slots:
     void initButtons();

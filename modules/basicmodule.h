@@ -45,6 +45,9 @@ public:
     void switchToScientificKeypad();
     void setKeyPress(QKeyEvent *e);
 
+public slots:
+    void mAvailableEvent();
+    void mUnAvailableEvent();
 private slots:
     void initTheme(int type);
 private:

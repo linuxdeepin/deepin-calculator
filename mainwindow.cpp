@@ -154,7 +154,7 @@ void MainWindow::switchToSimpleMode()
     m_basicModule->switchToSimpleKeypad();
     m_mainLayout->setCurrentIndex(0);
     m_settings->setOption("mode", 0);
-    setFixedSize(344, 510);
+    setFixedSize(344, 560);//344.510
 }
 
 void MainWindow::switchToScientificMode()

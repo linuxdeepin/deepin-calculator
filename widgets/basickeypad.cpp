@@ -25,31 +25,24 @@
 #include "dthememanager.h"
 
 const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
-    { "C", Key_Clear, 1, 0 },
-    { "%", Key_Percent, 1, 1 },
-    { "", Key_Backspace, 1, 2 },
-    { "", Key_Div, 1, 3 },
+    {"MC", Key_MC, 1, 0, 1, 2},       {"MR", Key_MR, 1, 2, 1, 2},
+    {"M+", Key_Mplus, 1, 4, 1, 2},    {"M-", Key_Mminus, 1, 6, 1, 2},
+    {"MS", Key_MS, 1, 8, 1, 2},       {"M^", Key_Mlist, 1, 10, 1, 2},
 
-    { "7", Key_7, 2, 0 },
-    { "8", Key_8, 2, 1 },
-    { "9", Key_9, 2, 2 },
-    { "", Key_Mult, 2, 3 },
+    {"C", Key_Clear, 2, 0, 1, 3},     {"%", Key_Percent, 2, 3, 1, 3},
+    {"", Key_Backspace, 2, 6, 1, 3},  {"", Key_Div, 2, 9, 1, 3},
 
-    { "4", Key_4, 3, 0 },
-    { "5", Key_5, 3, 1 },
-    { "6", Key_6, 3, 2 },
-    { "", Key_Min, 3, 3 },
+    {"7", Key_7, 3, 0, 1, 3},         {"8", Key_8, 3, 3, 1, 3},
+    {"9", Key_9, 3, 6, 1, 3},         {"", Key_Mult, 3, 9, 1, 3},
 
-    { "1", Key_1, 4, 0 },
-    { "2", Key_2, 4, 1 },
-    { "3", Key_3, 4, 2 },
-    { "", Key_Plus, 4, 3 },
+    {"4", Key_4, 4, 0, 1, 3},         {"5", Key_5, 4, 3, 1, 3},
+    {"6", Key_6, 4, 6, 1, 3},         {"", Key_Min, 4, 9, 1, 3},
 
-    { "0", Key_0, 5, 0 },
-    { ".", Key_Point, 5, 1 },
-    { "()" , Key_Brackets, 5, 2 },
-    { "=", Key_Equals, 5, 3 }
-};
+    {"1", Key_1, 5, 0, 1, 3},         {"2", Key_2, 5, 3, 1, 3},
+    {"3", Key_3, 5, 6, 1, 3},         {"", Key_Plus, 5, 9, 1, 3},
+
+    {"0", Key_0, 6, 0, 1, 3},         {".", Key_Point, 6, 3, 1, 3},
+    {"()", Key_Brackets, 6, 6, 1, 3}, {"=", Key_Equals, 6, 9, 1, 3}};
 
 static DPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
     IconButton *button = new IconButton;
@@ -120,6 +113,11 @@ void BasicKeypad::animate(Buttons key)
         if (button(key)->text() == "=") {
             EqualButton *btn = dynamic_cast<EqualButton *>(button(key));
             btn->animate();
+        } else if (button(key)->text() == "MC" || button(key)->text() == "MR" ||
+                   button(key)->text() == "M+" || button(key)->text() == "M-" ||
+                   button(key)->text() == "MS" || button(key)->text() == "M^") {
+            MemoryButton *btn = static_cast<MemoryButton *>(button(key));
+            btn->animate();
         } else {
             TextButton *btn = static_cast<TextButton *>(button(key));
             btn->animate();
@@ -147,7 +145,13 @@ void BasicKeypad::initButtons()
         } else {
             if (desc->text == "=")
                 button = new EqualButton(desc->text);
-            else {
+            else if (desc->text == "MC" || desc->text == "MR" || desc->text == "M+" ||
+                     desc->text == "M-" || desc->text == "MS" || desc->text == "M^") {
+                button = new MemoryButton(desc->text);
+                QFont font = button->font();
+                font.setFamily("HelveticaNeue");
+                button->setFont(font);
+            } else {
                 button = new TextButton(desc->text);
                 QFont font = button->font();
                 font.setFamily("HelveticaNeue");
@@ -155,7 +159,8 @@ void BasicKeypad::initButtons()
             }
         }
 
-        m_layout->addWidget(button, desc->row, desc->column);
+        m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
+                            Qt::AlignHCenter | Qt::AlignBottom);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue);
 

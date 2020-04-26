@@ -73,7 +73,8 @@ HEADERS += mainwindow.h \
            widgets/inputedit.h \
            widgets/scientifickeypad.h \
            widgets/textbutton.h \
-    widgets/equalbutton.h
+    widgets/equalbutton.h \
+    widgets/memorybutton.h
 SOURCES += main.cpp \
            mainwindow.cpp \
            dsettings.cpp \
@@ -124,7 +125,8 @@ SOURCES += main.cpp \
            widgets/inputedit.cpp \
            widgets/scientifickeypad.cpp \
            widgets/textbutton.cpp \
-    widgets/equalbutton.cpp
+    widgets/equalbutton.cpp \
+    widgets/memorybutton.cpp
 
 RESOURCES += deepin-calculator.qrc
 TRANSLATIONS += $$PWD/translations/deepin-calculator.ts \
