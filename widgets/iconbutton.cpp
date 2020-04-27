@@ -25,7 +25,7 @@
 IconButton::IconButton(QWidget *parent)
     : TextButton("", parent),
       m_iconWidget(new DLabel),
-      m_iconRenderer(new DSvgRenderer)
+      m_iconRenderer(new DSvgRenderer(this))
 {
     QGridLayout *layout = new QGridLayout(this);
     layout->addWidget(m_iconWidget, 0, Qt::AlignCenter);

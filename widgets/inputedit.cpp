@@ -201,13 +201,13 @@ void InputEdit::mousePressEvent(QMouseEvent *e)
 
 void InputEdit::initAction()
 {
-    m_undo = new QAction(tr("&Undo"));
-    m_redo = new QAction(tr("&Redo"));
-    m_cut = new QAction(tr("Cu&t"));
-    m_copy = new QAction(tr("&Copy"));
-    m_paste = new QAction(tr("&Paste"));
-    m_delete = new QAction(tr("Delete"));
-    m_select = new QAction(tr("Select All"));
+    m_undo = new QAction(tr("&Undo"), this);
+    m_redo = new QAction(tr("&Redo"), this);
+    m_cut = new QAction(tr("Cu&t"), this);
+    m_copy = new QAction(tr("&Copy"), this);
+    m_paste = new QAction(tr("&Paste"), this);
+    m_delete = new QAction(tr("Delete"), this);
+    m_select = new QAction(tr("Select All"), this);
 
     connect(m_undo, &QAction::triggered, this, &InputEdit::undo);
     connect(m_redo, &QAction::triggered, this, &InputEdit::redo);

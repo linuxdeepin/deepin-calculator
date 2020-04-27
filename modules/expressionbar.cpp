@@ -29,7 +29,7 @@ ExpressionBar::ExpressionBar(QWidget *parent)
     : DWidget(parent)
 {
     m_listView = new SimpleListView;
-    m_listDelegate = new SimpleListDelegate;
+    m_listDelegate = new SimpleListDelegate(this);
     m_listModel = new SimpleListModel;
     m_inputEdit = new InputEdit;
     m_evaluator = Evaluator::instance();
