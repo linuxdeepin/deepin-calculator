@@ -26,16 +26,18 @@
 class DSettings : public QObject
 {
     Q_OBJECT
-
+private:
+    explicit DSettings(QObject *parent = nullptr);
 public:
-    static DSettings *instance();
+    static DSettings *instance(QObject *p);
 
-    DSettings(QObject *parent = nullptr);
     ~DSettings();
 
-    void initConfig();
     QVariant getOption(const QString &key);
     void setOption(const QString &key, const QVariant &value);
+
+private:
+    void initConfig();
 
 private:
     QSettings *m_settings;

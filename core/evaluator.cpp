@@ -2199,7 +2199,7 @@ void Evaluator::setVariable(const QString& id, Quantity value,
                             Variable::Type type)
 {
     if (!m_session)
-        m_session = new Session;
+        m_session = new Session(this);
     m_session->addVariable(Variable(id, value, type));
 }
 

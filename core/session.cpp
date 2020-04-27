@@ -25,6 +25,12 @@
 #include <QFile>
 #include <QJsonDocument>
 
+Session::Session(QObject *p)
+    : QObject (p)
+{
+
+}
+
 void Session::serialize(QJsonObject &json) const
 {
     json["version"] = QString("1.0");

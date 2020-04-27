@@ -55,7 +55,7 @@ QVariant SimpleListModel::data(const QModelIndex &index, int role) const
 
 void SimpleListModel::appendText(const QString &text)
 {
-    const QString expression = QString(text).simplified();
+    auto expression = text.simplified();
 
     /*if (m_expressionList.contains(expression)) {
         m_expressionList.removeOne(expression);

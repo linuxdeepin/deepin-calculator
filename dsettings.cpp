@@ -21,12 +21,12 @@
 #include "utils.h"
 #include <QDir>
 
-static DSettings *INSTANCE = 0;
+static DSettings *INSTANCE = nullptr;
 
-DSettings* DSettings::instance()
+DSettings* DSettings::instance(QObject *p)
 {
     if (!INSTANCE) {
-        INSTANCE = new DSettings;
+        INSTANCE = new DSettings(p);
     }
 
     return INSTANCE;
@@ -34,14 +34,14 @@ DSettings* DSettings::instance()
 
 DSettings::DSettings(QObject *parent)
     : QObject(parent),
-      m_settings(new QSettings(QDir(Utils::getConfigDir()).filePath("config.config") ,QSettings::IniFormat))
+      m_settings(new QSettings(QDir(Utils::getConfigDir()).filePath("config.config") ,QSettings::IniFormat, this))
 {
     initConfig();
 }
 
 DSettings::~DSettings()
 {
-    delete m_settings;
+//    delete m_settings;
 }
 
 void DSettings::initConfig()

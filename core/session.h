@@ -28,7 +28,7 @@
 #include <QString>
 #include <QJsonArray>
 
-class Session {
+class Session : public QObject {
 private:
     typedef QList<HistoryEntry> History ;
     typedef QHash<QString, Variable> VariableContainer;
@@ -38,8 +38,8 @@ private:
     FunctionContainer m_userFunctions;
 
 public:
-    Session() {}
-    Session(QJsonObject & json);
+    Session(QObject *p = nullptr);
+//    Session(QJsonObject & json);
 
     void load();
     void save();

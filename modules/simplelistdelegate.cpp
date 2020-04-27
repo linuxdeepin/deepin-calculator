@@ -37,8 +37,8 @@ SimpleListDelegate::SimpleListDelegate(QObject *parent)
 
 SimpleListDelegate::~SimpleListDelegate()
 {
-    delete m_simpleListDelegate;
-    m_simpleListDelegate = NULL;
+//    delete m_simpleListDelegate;
+//    m_simpleListDelegate = NULL;
 }
 
 void SimpleListDelegate::setHisLink(const int link)
