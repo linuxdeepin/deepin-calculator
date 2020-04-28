@@ -28,7 +28,9 @@
 #include "../widgets/textbutton.h"
 #include "../widgets/iconbutton.h"
 #include "../widgets/basickeypad.h"
+#include "../widgets/memorykeypad.h"
 #include "expressionbar.h"
+#include "memorylistwidget.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
@@ -45,9 +47,13 @@ public:
     void switchToScientificKeypad();
     void setKeyPress(QKeyEvent *e);
 
+    void mousePressEvent(QMouseEvent *event);
+
 public slots:
+    //memory func
     void mAvailableEvent();
     void mUnAvailableEvent();
+    void showListWidget();
 private slots:
     void initTheme(int type);
 private:
@@ -62,10 +68,13 @@ protected:
 private:
     ExpressionBar *m_expressionBar;
     BasicKeypad *m_basicKeypad;
+    MemoryKeypad *m_memoryKeypad;
     QStackedLayout *m_keypadLayout;
+    MemoryListWidget *m_memorylistwidget;
     QColor m_expBarColor;
     QColor m_expBarSepColor;
     QColor m_btnSepColor;
+    bool m_insidewidget;
 };
 
 #endif
