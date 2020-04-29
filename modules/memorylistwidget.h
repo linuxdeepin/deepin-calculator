@@ -33,6 +33,8 @@ signals:
     void widgetplus(int row);
     void widgetminus(int row);
     void insidewidget();
+    void mListUnavailable();
+    void mListAvailable();
 private:
     QListWidget *m_listwidget;
     QScopedPointer<QPushButton> m_pDeleteBtn;

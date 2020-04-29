@@ -9,7 +9,7 @@
 
 MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *parent)
     : DPushButton(text, parent)  //,
-                                 // m_effect(new QGraphicsDropShadowEffect(this))
+      // m_effect(new QGraphicsDropShadowEffect(this))
 {
     setFixedSize(50, 33);
     setFocusPolicy(Qt::NoFocus);
@@ -17,6 +17,11 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
     widgetbtn = listwidgetbtn;
 
     init();
+//    if (this->text() == "MC" || this->text() == "MR" || this->text() == "M^") {
+//        if (m_islistwidgetbtn == true) {
+//            this->setEnabled(true);
+//        }
+//    }
 
     // connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &MemoryButton::init);
     m_isHover = m_isPress = false;
@@ -33,9 +38,12 @@ void MemoryButton::init()
     m_font.setFamily("HelveticaNeue");
     m_font.setStyleName("Light");
 
-    if (text() == "MC" || text() == "MR" || text() == "M^")
-        m_isgray = true;
-    else
+    if (text() == "MC" || text() == "MR" || text() == "M^") {
+        if (!widgetbtn) {
+            m_isgray = true;
+            this->setEnabled(false);
+        }
+    } else
         m_isgray = false;
 }
 
@@ -55,7 +63,7 @@ void MemoryButton::animate(int msec)
     setDown(true);
     m_isPress = true;
 
-    QTimer::singleShot(msec, this, [=] {
+    QTimer::singleShot(msec, this, [ = ] {
         setDown(false);
         m_isPress = false;
         update();
@@ -179,7 +187,14 @@ void MemoryButton::keyPressEvent(QKeyEvent *e)
 
 void MemoryButton::paintEvent(QPaintEvent *e)
 {
-
+    if (isEnabled() == false) {
+        m_font.setPixelSize(15);
+        m_font.setStyleName("Light");
+        m_isHover = false;
+        m_isgray = true;
+    } else {
+        m_isgray = false;
+    }
     QRectF rect = this->rect();
     QRectF normal(rect.left() + 2, rect.top() + 2, rect.width() - 4, rect.height() - 4);
     QRectF hover(rect.left() + 3, rect.top() + 3, rect.width() - 6, rect.height() - 6);

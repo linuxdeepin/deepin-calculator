@@ -75,6 +75,7 @@ private:
     QColor m_expBarSepColor;
     QColor m_btnSepColor;
     bool m_insidewidget;
+    bool m_avail = false;
 };
 
 #endif

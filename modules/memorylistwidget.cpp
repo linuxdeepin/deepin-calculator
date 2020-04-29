@@ -51,7 +51,11 @@ MemoryListWidget::MemoryListWidget(QWidget *parent)
 
 void MemoryListWidget::generateData(const QString str)
 {
+    if (m_isempty == true) {
+        m_listwidget->clear();
+    }
     m_isempty = false;
+    emit mListAvailable();
     QListWidgetItem *item1 = new QListWidgetItem();
     if (str == QString()) {
         item1->setData(Qt::DisplayRole, "0");
@@ -82,6 +86,7 @@ void MemoryListWidget::generateData(const QString str)
         if (m_listwidget->count() == 0) {
             m_listwidget->addItem("内存中没有内容");
             m_isempty = true;
+            emit mListUnavailable();
         }
     });
 }
@@ -133,6 +138,7 @@ void MemoryListWidget::mousePressEvent(QMouseEvent *event)
         m_listwidget->clear();
         m_listwidget->addItem("内存中没有内容");
         m_isempty = true;
+        emit mListUnavailable();
     }
 
     QRect rect = this->frameGeometry();
@@ -168,6 +174,7 @@ void MemoryListWidget::memoryclean()
 {
     m_listwidget->clear();
     m_isempty = true;
+    emit mListUnavailable();
 }
 
 QString MemoryListWidget::getfirstnumber()
