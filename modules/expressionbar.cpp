@@ -1001,8 +1001,10 @@ void ExpressionBar::copyClipboard2Result()
     text.remove("e");
     text = pasteFaultTolerance(text);
     // m_inputEdit->insert(text);
-    m_inputEdit->setText(text);
+//    m_inputEdit->setText(text);
     //    clearLinkageCache();
+    //edit for bug--23649 20200429
+    m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(text));
     m_isUndo = false;
     if (m_inputEdit->text() == exp) {
         m_inputEdit->setText(oldText);
