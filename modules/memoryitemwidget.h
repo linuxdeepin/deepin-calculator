@@ -16,7 +16,6 @@ public:
     ~MemoryItemWidget();
     void enterEvent(QEvent *event);
     void leaveEvent(QEvent *event);
-//    void paintEvent(QPaintEvent *event);
 signals:
     void plusbtnclicked();
     void minusbtnclicked();
@@ -30,7 +29,7 @@ private:
     MemoryButton *btnplus;
     MemoryButton *btnminus;
     MemoryButton *btnclean;
-
+    int m_type = 0;
 };
 
 #endif // MEMORYITEMWIDGET_H

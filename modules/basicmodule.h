@@ -30,7 +30,7 @@
 #include "../widgets/basickeypad.h"
 #include "../widgets/memorykeypad.h"
 #include "expressionbar.h"
-#include "memorylistwidget.h"
+#include "memorywidget.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
@@ -70,7 +70,7 @@ private:
     BasicKeypad *m_basicKeypad;
     MemoryKeypad *m_memoryKeypad;
     QStackedLayout *m_keypadLayout;
-    MemoryListWidget *m_memorylistwidget;
+    MemoryWidget *m_memorylistwidget;
     QColor m_expBarColor;
     QColor m_expBarSepColor;
     QColor m_btnSepColor;

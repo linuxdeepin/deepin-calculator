@@ -1,4 +1,5 @@
 #include "memoryitemwidget.h"
+#include <QPainter>
 
 MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     : QWidget(parent)
@@ -20,7 +21,7 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     lay->addWidget(btnclean);
     lay->addWidget(btnplus);
     lay->addWidget(btnminus);
-    lay->addSpacing(40);
+    lay->addSpacing(20);
     layV->addLayout(lay);
     this->setLayout(layV);
     connect(btnplus, &QPushButton::clicked, this, &MemoryItemWidget::plusbtnclicked);
@@ -29,9 +30,6 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     btnplus->setHidden(true);
     btnminus->setHidden(true);
     btnclean->setHidden(true);
-    QPalette pal(this->palette());
-    pal.setColor(QPalette::Background, Qt::gray);
-    this->setPalette(pal);
 }
 
 void MemoryItemWidget::enterEvent(QEvent *event)
@@ -49,12 +47,6 @@ void MemoryItemWidget::leaveEvent(QEvent *event)
     btnclean->setHidden(true);
     QWidget::leaveEvent(event);
 }
-
-//void ItemWidget::paintEvent(QPaintEvent *event)
-//{
-//    QPainter painter(this);
-//    painter.setBrush(QBrush(QColor(125,125,125,254)));
-//}
 
 MemoryItemWidget::~MemoryItemWidget()
 {

@@ -32,7 +32,7 @@ BasicModule::BasicModule(QWidget *parent)
     m_keypadLayout = new QStackedLayout;
     m_basicKeypad = new BasicKeypad;
     m_memoryKeypad = new MemoryKeypad;
-    m_memorylistwidget = new MemoryListWidget(this);
+    m_memorylistwidget = new MemoryWidget(this);
     m_insidewidget = false;
 //    m_keypadLayout->addWidget(m_basicKeypad);
     QVBoxLayout *layout = new QVBoxLayout(this);
@@ -73,22 +73,41 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_basicKeypad, &BasicKeypad::moveRight, [ = ] { m_expressionBar->moveRight(); });
     connect(m_memoryKeypad, &MemoryKeypad::buttonPressed, this,
             &BasicModule::handleKeypadButtonPress);
-    connect(m_memorylistwidget, &MemoryListWidget::widgetplus, this, [ = ](int row) {
+    connect(m_memorylistwidget, &MemoryWidget::widgetplus, this, [ = ](int row) {
         m_memorylistwidget->widgetplusslot(row, m_expressionBar->getInputEdit()->text());
     });
-    connect(m_memorylistwidget, &MemoryListWidget::widgetminus, this, [ = ](int row) {
+    connect(m_memorylistwidget, &MemoryWidget::widgetminus, this, [ = ](int row) {
         m_memorylistwidget->widgetminusslot(row, m_expressionBar->getInputEdit()->text());
     });
-    connect(m_memorylistwidget, &MemoryListWidget::insidewidget, this, [ = ]() {
+    connect(m_memorylistwidget, &MemoryWidget::insidewidget, this, [ = ]() {
         m_insidewidget = true;
     });
-    connect(m_memorylistwidget, &MemoryListWidget::mListUnavailable, this, [ = ]() {
+    connect(m_memorylistwidget, &MemoryWidget::mListUnavailable, this, [ = ]() {
         mUnAvailableEvent();
         m_avail = false;
     });
-    connect(m_memorylistwidget, &MemoryListWidget::mListAvailable, this, [ = ]() {
+    connect(m_memorylistwidget, &MemoryWidget::mListAvailable, this, [ = ]() {
         mAvailableEvent();
         m_avail = true;
+    });
+    connect(m_memorylistwidget, &MemoryWidget::itemclick, this, [ = ](const QString str) {
+        m_expressionBar->getInputEdit()->setText(str);
+        m_expressionBar->getInputEdit()->setFocus();
+        if (m_keypadLayout->currentIndex() == 1) {
+            m_keypadLayout->setCurrentIndex(0);
+            m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+            m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+            MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
+            btn->setEnabled(true);
+            MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MR));
+            btn1->setEnabled(true);
+            MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
+            btn2->setEnabled(true);
+            MemoryButton *btn3 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mminus));
+            btn3->setEnabled(true);
+            MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
+            btn4->setEnabled(true);
+        }
     });
     // m_expBarColor = "#F8F8F8";
     // m_expBarSepColor = "#F8F8F8";
