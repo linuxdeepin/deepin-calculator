@@ -20,6 +20,7 @@ signals:
     void plusbtnclicked();
     void minusbtnclicked();
     void cleanbtnclicked();
+    void itemchanged();
 
 public:
 

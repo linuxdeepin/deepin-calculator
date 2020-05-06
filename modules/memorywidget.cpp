@@ -60,6 +60,11 @@ MemoryWidget::MemoryWidget(QWidget *parent)
         if (item->flags() != Qt::NoItemFlags)
             emit itemclick(str);
     });
+    connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
+        m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:rgb(150,150,150);} \
+                                     QListWidget::item:selected{color:black;background-color:rgb(115,115,115);} \
+                                     QListWidget{color:black;background-color:rgb(150,150,150);}");
+    });
 }
 
 void MemoryWidget::generateData(const QString str)
@@ -103,6 +108,11 @@ void MemoryWidget::generateData(const QString str)
             emit mListUnavailable();
         }
     });
+    connect(widget, &MemoryItemWidget::itemchanged, this, [ = ]() {
+        m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:rgb(150,150,150);} \
+                                     QListWidget::item:hover{color:black;background-color:rgb(180,180,180);} \
+                                     QListWidget{color:black;background-color:rgb(150,150,150);}");
+    });
 }
 
 void MemoryWidget::paintEvent(QPaintEvent *event)
@@ -125,6 +135,7 @@ void MemoryWidget::mousePressEvent(QMouseEvent *event)
     QRect rect(this->frameGeometry());
     if (rect.contains(m_mousepoint) == true)
         emit insidewidget();
+
     QWidget::mousePressEvent(event);
 }
 

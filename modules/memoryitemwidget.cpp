@@ -45,6 +45,7 @@ void MemoryItemWidget::leaveEvent(QEvent *event)
     btnplus->setHidden(true);
     btnminus->setHidden(true);
     btnclean->setHidden(true);
+    emit itemchanged();
     QWidget::leaveEvent(event);
 }
 
