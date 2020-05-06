@@ -78,7 +78,8 @@ HEADERS += mainwindow.h \
     modules/memoryitemwidget.h \
     widgets/memorykeypad.h \
     modules/memorywidget.h \
-    modules/memorylistwidget.h
+    modules/memorylistwidget.h \
+    widgets/scibasickeypad.h
 SOURCES += main.cpp \
            mainwindow.cpp \
            dsettings.cpp \
@@ -134,7 +135,8 @@ SOURCES += main.cpp \
     modules/memoryitemwidget.cpp \
     widgets/memorykeypad.cpp \
     modules/memorywidget.cpp \
-    modules/memorylistwidget.cpp
+    modules/memorylistwidget.cpp \
+    widgets/scibasickeypad.cpp
 
 RESOURCES += deepin-calculator.qrc
 TRANSLATIONS += $$PWD/translations/deepin-calculator.ts \

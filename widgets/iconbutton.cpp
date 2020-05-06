@@ -27,6 +27,9 @@ IconButton::IconButton(QWidget *parent)
       m_iconWidget(new DLabel),
       m_iconRenderer(new DSvgRenderer(this))
 {
+    m_settings = DSettings::instance(this);
+    int mode = m_settings->getOption("mode").toInt();
+    mode == 0 ? setFixedSize(80, 58) : setFixedSize(70, 48);
     QGridLayout *layout = new QGridLayout(this);
     layout->addWidget(m_iconWidget, 0, Qt::AlignCenter);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -123,6 +126,8 @@ void IconButton::leaveEvent(QEvent *e)
 
 void IconButton::paintEvent(QPaintEvent *)
 {
+    int mode = m_settings->getOption("mode").toInt();
+    mode == 0 ? setFixedSize(80, 58) : setFixedSize(70, 48);
     QRectF frameRect = this->rect();
     QRectF rect(frameRect.left() + 2, frameRect.top() + 2, frameRect.width() - 4, frameRect.height() - 4);
     QRectF hover(frameRect.left() + 3, frameRect.top() + 3, frameRect.width() - 6, frameRect.height() - 6);

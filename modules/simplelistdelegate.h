@@ -22,6 +22,8 @@
 
 #include <QAbstractItemDelegate>
 #include <QObject>
+
+#include "./dsettings.h"
 class SimpleListDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT
@@ -57,6 +59,7 @@ private:
     SimpleListDelegate *m_simpleListDelegate;
     QVector<int> m_linkItem;
     QVector<int> m_linkedIten;
+    DSettings *m_settings;
     bool m_selected;
     int m_type;
 };

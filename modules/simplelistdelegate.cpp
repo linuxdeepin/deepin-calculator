@@ -31,6 +31,7 @@ DWIDGET_USE_NAMESPACE
 SimpleListDelegate::SimpleListDelegate(QObject *parent)
     : QAbstractItemDelegate(parent)
 {
+    m_settings = DSettings::instance(this);
     m_selected = false;
     m_simpleListDelegate = this;
 }
@@ -99,7 +100,9 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 {
     const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
     QRect rect(option.rect);
-    rect.setRight(321);
+    int mode = m_settings->getOption("mode").toInt();
+    mode == 0 ? rect.setRight(321) : rect.setRight(352);
+//    rect.setRight(321);
     const int padding = 15;
     QString errorFontColor;
     QString fontColor;

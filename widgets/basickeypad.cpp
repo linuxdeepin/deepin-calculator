@@ -115,11 +115,6 @@ void BasicKeypad::animate(Buttons key)
         if (button(key)->text() == "=") {
             EqualButton *btn = dynamic_cast<EqualButton *>(button(key));
             btn->animate();
-        } else if (button(key)->text() == "MC" || button(key)->text() == "MR" ||
-                   button(key)->text() == "M+" || button(key)->text() == "M-" ||
-                   button(key)->text() == "MS" || button(key)->text() == "M^") {
-            MemoryButton *btn = static_cast<MemoryButton *>(button(key));
-            btn->animate();
         } else {
             TextButton *btn = static_cast<TextButton *>(button(key));
             btn->animate();

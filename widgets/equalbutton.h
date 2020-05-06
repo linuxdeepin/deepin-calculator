@@ -25,6 +25,8 @@
 
 #include <QGraphicsDropShadowEffect>
 
+#include "./dsettings.h"
+
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
 
@@ -53,7 +55,7 @@ protected:
     void keyPressEvent(QKeyEvent *e);
 private:
     QGraphicsDropShadowEffect *m_effect;
-
+    DSettings *m_settings;
     DPalette m_palette;
     bool m_isHover;
     bool m_isPress;

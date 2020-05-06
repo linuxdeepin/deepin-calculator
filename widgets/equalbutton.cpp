@@ -10,7 +10,9 @@ EqualButton::EqualButton(const QString &text, QWidget *parent)
     : DPushButton(text, parent),
       m_effect(new QGraphicsDropShadowEffect(this))
 {
-    setFixedSize(80, 58);
+    m_settings = DSettings::instance(this);
+    int mode = m_settings->getOption("mode").toInt();
+    mode == 0 ? setFixedSize(80, 58) : setFixedSize(70, 48);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");
 

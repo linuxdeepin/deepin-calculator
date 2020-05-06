@@ -21,6 +21,7 @@
 #define ICONBUTTON_H
 
 #include "textbutton.h"
+#include "./dsettings.h"
 
 #include <QPaintEvent>
 
@@ -47,13 +48,14 @@ protected:
     void mouseReleaseEvent(QMouseEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
-    void paintEvent(QPaintEvent*);
+    void paintEvent(QPaintEvent *);
 
 private:
     //void setIconSize(const int &size);
 
     DLabel *m_iconWidget;
     DSvgRenderer *m_iconRenderer;
+    DSettings *m_settings;
 
     int m_normalSize;
     int m_hoverSize;

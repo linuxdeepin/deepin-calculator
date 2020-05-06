@@ -31,6 +31,7 @@
 #include "../widgets/memorykeypad.h"
 #include "expressionbar.h"
 #include "memorywidget.h"
+#include "./widgets/scibasickeypad.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
@@ -46,6 +47,7 @@ public:
     void switchToSimpleKeypad();
     void switchToScientificKeypad();
     void setKeyPress(QKeyEvent *e);
+    void setmode(int m);
 
     void mousePressEvent(QMouseEvent *event);
 
@@ -71,11 +73,13 @@ private:
     MemoryKeypad *m_memoryKeypad;
     QStackedLayout *m_keypadLayout;
     MemoryWidget *m_memorylistwidget;
+    SciBasicKeyPad *m_scikeypadwidget;
     QColor m_expBarColor;
     QColor m_expBarSepColor;
     QColor m_btnSepColor;
     bool m_insidewidget;
     bool m_avail = false;
+    int m_mode = 0;//0-标准 1-科学
 };
 
 #endif

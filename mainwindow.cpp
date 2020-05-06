@@ -151,6 +151,7 @@ void MainWindow::initModule()
 
 void MainWindow::switchToSimpleMode()
 {
+    m_basicModule->setmode(0);
     m_basicModule->switchToSimpleKeypad();
     m_mainLayout->setCurrentIndex(0);
     m_settings->setOption("mode", 0);
@@ -159,10 +160,11 @@ void MainWindow::switchToSimpleMode()
 
 void MainWindow::switchToScientificMode()
 {
+    m_basicModule->setmode(1);
     m_basicModule->switchToScientificKeypad();
     m_mainLayout->setCurrentIndex(0);
     m_settings->setOption("mode", 1);
-    setFixedSize(565, 505);
+    setFixedSize(375, 610);//565.505
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
