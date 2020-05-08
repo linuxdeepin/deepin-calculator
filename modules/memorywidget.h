@@ -8,6 +8,7 @@
 #include <QListWidget>
 #include "memoryitemwidget.h"
 #include "memorylistwidget.h"
+#include "../core/evaluator.h"
 
 class MemoryWidget : public QWidget
 {
@@ -20,6 +21,7 @@ public:
     void generateData(const QString str);
     void paintEvent(QPaintEvent *event);
     void mousePressEvent(QMouseEvent *event);
+    void contextMenuEvent(QContextMenuEvent *event);
 //    bool event(QEvent *event);
 
     void memoryplus(const QString str);
@@ -43,6 +45,12 @@ private:
     DPushButton *m_clearbutton;
     int m_type;
     bool m_isempty;
+    Evaluator *m_evaluator;
+    Quantity m_ans;
+    bool m_ansVaild;
+
+private:
+    QString formatExpression(const QString &text);
 public slots:
 //    void on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 };

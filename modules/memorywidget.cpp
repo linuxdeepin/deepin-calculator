@@ -3,12 +3,15 @@
 #include <QDebug>
 #include <QFont>
 #include <QModelIndex>
-#include <QProxyStyle>
 #include <QApplication>
 #include <QPainter>
 #include <QPalette>
 #include <QEvent>
 #include <QPen>
+#include <QContextMenuEvent>
+#include <QMenu>
+#include <QClipboard>
+#include "../utils.h"
 
 MemoryWidget::MemoryWidget(QWidget *parent)
     : QWidget(parent)
@@ -16,6 +19,7 @@ MemoryWidget::MemoryWidget(QWidget *parent)
     , m_clearbutton(new DPushButton(this))
     , m_isempty(true)
 {
+    m_evaluator = Evaluator::instance();
     this->setContentsMargins(0, 0, 0, 0);
 //    this->setFixedSize(344, 300);
 //    m_pDeleteBtn->setStyleSheet("QPushButton {border: none; background-color: transparent; image:url(:/images/light/+_normal.svg);} \
@@ -128,22 +132,69 @@ void MemoryWidget::paintEvent(QPaintEvent *event)
 
 void MemoryWidget::mousePressEvent(QMouseEvent *event)
 {
-    m_type = -1;
-    QMouseEvent *pEvent = static_cast<QMouseEvent *>(event);
-    m_mousepoint = pEvent->pos();
+    if (event->button() == Qt::LeftButton) {
+        m_type = -1;
+        QMouseEvent *pEvent = static_cast<QMouseEvent *>(event);
+        m_mousepoint = pEvent->pos();
 
-    QRect rect(this->frameGeometry());
-    if (rect.contains(m_mousepoint) == true)
-        emit insidewidget();
-
+        QRect rect(this->frameGeometry());
+        if (rect.contains(m_mousepoint) == true)
+            emit insidewidget();
+    }
     QWidget::mousePressEvent(event);
+}
+
+void MemoryWidget::contextMenuEvent(QContextMenuEvent *event)
+{
+    if (m_listwidget->itemAt(event->pos()) && !m_isempty) {
+        QMenu *menu = new QMenu(this);
+        QAction *copy = new QAction("复制");
+        QAction *clean = new QAction("清除内存项");
+        QAction *plus = new QAction("添加到内存项");
+        QAction *minus = new QAction("从内存项中减去");
+        menu->addAction(copy);
+        menu->addAction(clean);
+        menu->addAction(plus);
+        menu->addAction(minus);
+        connect(copy, &QAction::triggered, this, [ = ]() {
+            QClipboard *clipboard = QApplication::clipboard();
+            QString originalText = clipboard->text();
+            clipboard->setText(m_listwidget->itemAt(event->pos())->data(Qt::EditRole).toString());
+        });
+        connect(clean, &QAction::triggered, this, [ = ]() {
+            m_listwidget->takeItem(m_listwidget->row(m_listwidget->itemAt(event->pos())));
+            if (m_listwidget->count() == 0) {
+                m_listwidget->addItem("内存中没有内容");
+                m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
+                m_isempty = true;
+                emit mListUnavailable();
+            }
+        });
+        connect(plus, &QAction::triggered, this, [ = ]() {
+            int row = m_listwidget->row(m_listwidget->itemAt(event->pos()));
+            emit MemoryWidget::widgetplus(row);
+        });
+        connect(minus, &QAction::triggered, this, [ = ]() {
+            int row = m_listwidget->row(m_listwidget->itemAt(event->pos()));
+            emit MemoryWidget::widgetminus(row);
+        });
+        menu->exec(event->globalPos());
+        delete menu;
+    }
 }
 
 void MemoryWidget::memoryplus(const QString str)
 {
     QString str1 = (str == QString()) ? "0" : str;
     if (m_isempty == false) {
-        m_listwidget->item(0)->setData(Qt::DisplayRole, m_listwidget->item(0)->data(Qt::EditRole).toInt() + str1.toInt());
+        QString exp = QString(m_listwidget->item(0)->data(Qt::EditRole).toString() + "+" + str1);
+        m_evaluator->setExpression(formatExpression(exp));
+        Quantity ans = m_evaluator->evalUpdateAns();
+        const QString result = DMath::format(ans, Quantity::Format::General());
+        QString formatResult = Utils::formatThousandsSeparators(result);
+        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
+                       .replace(QString::fromUtf8("－"), "-");
+        m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
     } else {
         m_listwidget->clear();
         generateData(str1);
@@ -154,11 +205,25 @@ void MemoryWidget::memoryminus(const QString str)
 {
     QString str1 = (str == QString()) ? "0" : str;
     if (m_isempty == false) {
-        m_listwidget->item(0)->setData(Qt::DisplayRole, m_listwidget->item(0)->data(Qt::EditRole).toInt() - str1.toInt());
+        QString exp = QString(m_listwidget->item(0)->data(Qt::EditRole).toString() + "-" + str1);
+        m_evaluator->setExpression(formatExpression(exp));
+        Quantity ans = m_evaluator->evalUpdateAns();
+        const QString result = DMath::format(ans, Quantity::Format::General());
+        QString formatResult = Utils::formatThousandsSeparators(result);
+        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
+                       .replace(QString::fromUtf8("－"), "-");
+        m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
     } else {
         m_listwidget->clear();
         generateData(QString());
-        m_listwidget->item(0)->setData(Qt::DisplayRole, 0 - str1.toInt());
+        QString exp = QString("0-" + str1);
+        m_evaluator->setExpression(formatExpression(exp));
+        Quantity ans = m_evaluator->evalUpdateAns();
+        const QString result = DMath::format(ans, Quantity::Format::General());
+        QString formatResult = Utils::formatThousandsSeparators(result);
+        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
+                       .replace(QString::fromUtf8("－"), "-");
+        m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
     }
 }
 
@@ -181,29 +246,46 @@ QString MemoryWidget::getfirstnumber()
 void MemoryWidget::widgetplusslot(int row, const QString str)
 {
     if (str == QString())
-        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole).toInt() + 0);
-    else
-        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole).toInt() + str.toInt());
+        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole));
+    else {
+        QString exp = QString(m_listwidget->item(row)->data(Qt::EditRole).toString() + "+" + str);
+        m_evaluator->setExpression(formatExpression(exp));
+        Quantity ans = m_evaluator->evalUpdateAns();
+        const QString result = DMath::format(ans, Quantity::Format::General());
+        QString formatResult = Utils::formatThousandsSeparators(result);
+        qDebug() << formatResult;
+        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
+                       .replace(QString::fromUtf8("－"), "-");
+        m_listwidget->item(row)->setData(Qt::DisplayRole, formatResult);
+    }
 }
 
 void MemoryWidget::widgetminusslot(int row, const QString str)
 {
     if (str == QString())
-        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole).toInt() - 0);
-    else
-        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole).toInt() - str.toInt());
+        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole));
+    else {
+        QString exp = QString(m_listwidget->item(row)->data(Qt::EditRole).toString() + "-" + str);
+        m_evaluator->setExpression(formatExpression(exp));
+        Quantity ans = m_evaluator->evalUpdateAns();
+        const QString result = DMath::format(ans, Quantity::Format::General());
+        QString formatResult = Utils::formatThousandsSeparators(result);
+        qDebug() << formatResult;
+        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
+                       .replace(QString::fromUtf8("－"), "-");
+        m_listwidget->item(row)->setData(Qt::DisplayRole, formatResult);
+    }
 }
 
-//bool MemoryListWidget::event(QEvent *event)
-//{
-//    if (event->type() == QEvent::ActivationChange) {
-//        qDebug() << "out!";
-//        if (QApplication::activePopupWidget() != this) {
-//            emit outofwidget();
-//        }
-//    }
-//    return QWidget::event(event);
-//}
+QString MemoryWidget::formatExpression(const QString &text)
+{
+    return QString(text)
+           .replace(QString::fromUtf8("＋"), "+")
+           .replace(QString::fromUtf8("－"), "-")
+           .replace(QString::fromUtf8("×"), "*")
+           .replace(QString::fromUtf8("÷"), "/")
+           .replace(QString::fromUtf8(","), "");
+}
 
 MemoryWidget::~MemoryWidget()
 {

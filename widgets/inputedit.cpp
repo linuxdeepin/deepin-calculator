@@ -597,3 +597,9 @@ void InputEdit::selectionChangedSlot()
     m_selected.curpos = selectionStart();
     //    qDebug() << m_selected.selected;
 }
+
+Quantity InputEdit::getanswer()
+{
+    Quantity ans = m_ans;
+    return ans;
+}

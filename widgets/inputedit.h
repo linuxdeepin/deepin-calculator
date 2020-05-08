@@ -52,6 +52,7 @@ public:
     void setSelection(SSelection select) { m_selected = select; };
     void setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans,
                           const int &Pos);
+    Quantity getanswer(); //edit 20200507,获取上一次计算的全精度结果，用于数字内存。
 
 public slots:
     void setUndoAction(bool state);
