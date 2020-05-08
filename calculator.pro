@@ -79,7 +79,9 @@ HEADERS += mainwindow.h \
     widgets/memorykeypad.h \
     modules/memorywidget.h \
     modules/memorylistwidget.h \
-    widgets/scibasickeypad.h
+    widgets/scibasickeypad.h \
+    widgets/tricombobox.h \
+    widgets/funcombobox.h
 SOURCES += main.cpp \
            mainwindow.cpp \
            dsettings.cpp \
@@ -136,7 +138,9 @@ SOURCES += main.cpp \
     widgets/memorykeypad.cpp \
     modules/memorywidget.cpp \
     modules/memorylistwidget.cpp \
-    widgets/scibasickeypad.cpp
+    widgets/scibasickeypad.cpp \
+    widgets/tricombobox.cpp \
+    widgets/funcombobox.cpp
 
 RESOURCES += deepin-calculator.qrc
 TRANSLATIONS += $$PWD/translations/deepin-calculator.ts \

@@ -40,6 +40,8 @@ BasicModule::BasicModule(QWidget *parent)
     m_expressionBar = new ExpressionBar;
     layout->addWidget(m_expressionBar);
     layout->addWidget(m_memoryKeypad);
+//    m_triCombobox->setFixedSize(60, 40);
+//    layout->addWidget(m_triCombobox);
     layout->addLayout(m_keypadLayout);
     m_keypadLayout->addWidget(m_basicKeypad);
     m_keypadLayout->addWidget(m_memorylistwidget);
@@ -74,6 +76,8 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_basicKeypad, &BasicKeypad::moveLeft, [ = ] { m_expressionBar->moveLeft(); });
     connect(m_basicKeypad, &BasicKeypad::moveRight, [ = ] { m_expressionBar->moveRight(); });
     connect(m_memoryKeypad, &MemoryKeypad::buttonPressed, this,
+            &BasicModule::handleKeypadButtonPress);
+    connect(m_scikeypadwidget, &SciBasicKeyPad::buttonPressed, this,
             &BasicModule::handleKeypadButtonPress);
     connect(m_memorylistwidget, &MemoryWidget::widgetplus, this, [ = ](int row) {
         m_memorylistwidget->widgetplusslot(row, m_expressionBar->getInputEdit()->text());

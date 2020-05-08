@@ -83,11 +83,14 @@ static DPushButton *createSpecialKeyButton(SciBasicKeyPad::Buttons key)
 
 SciBasicKeyPad::SciBasicKeyPad(QWidget *parent)
     : DWidget(parent),
-      m_hlayout(new QHBoxLayout(this)),
+      m_hlayout(new QHBoxLayout),
+      m_vlayout(new QVBoxLayout(this)),
       m_mapper(new QSignalMapper(this)),
       m_stacklayout(new QStackedLayout),
       m_gridlayout1(new QGridLayout),
-      m_gridlayout2(new QGridLayout)
+      m_gridlayout2(new QGridLayout),
+      m_triCombobox(new ComboBox),
+      m_funCombobox(new FunCombobox)
 {
     QWidget *page1 = new QWidget(this);
     QWidget *page2 = new QWidget(this);
@@ -95,16 +98,21 @@ SciBasicKeyPad::SciBasicKeyPad(QWidget *parent)
     page2->setLayout(m_gridlayout2);
     m_stacklayout->addWidget(page1);
     m_stacklayout->addWidget(page2);
-    m_hlayout->addLayout(m_stacklayout);
-    m_hlayout->setMargin(0);
-    m_hlayout->setSpacing(0);
-    m_hlayout->setContentsMargins(0, 0, 0, 0);
-    this->setLayout(m_hlayout);
+    m_hlayout->addWidget(m_triCombobox);
+    m_hlayout->addWidget(m_funCombobox);
+    m_hlayout->addStretch();
+    m_vlayout->addLayout(m_hlayout);
+    m_vlayout->addLayout(m_stacklayout);
+    m_vlayout->setMargin(0);
+    m_vlayout->setSpacing(0);
+    m_vlayout->setContentsMargins(0, 0, 0, 0);
+    this->setLayout(m_vlayout);
 
     initButtons();
     initUI();
 
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
+    connect(m_triCombobox, SIGNAL(buttonPressed(int)), SIGNAL(buttonPressed(int)));
     connect(this, &SciBasicKeyPad::buttonPressed, this,
             &SciBasicKeyPad::turnPage);
     //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &SciBasicKeyPad::handleThemeChanged);
@@ -116,7 +124,11 @@ SciBasicKeyPad::~SciBasicKeyPad()
 
 DPushButton *SciBasicKeyPad::button(Buttons key)
 {
-    return m_keys.value(key).first;
+    if (m_stacklayout->currentIndex() == 0) {
+        return m_keys.value(key).first;
+    } else {
+        return m_keys1.value(key).first;
+    }
 }
 
 DSuggestButton *SciBasicKeyPad::button()

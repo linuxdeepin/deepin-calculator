@@ -29,6 +29,7 @@
 #include "../widgets/iconbutton.h"
 #include "../widgets/basickeypad.h"
 #include "../widgets/memorykeypad.h"
+#include "../widgets/tricombobox.h"
 #include "expressionbar.h"
 #include "memorywidget.h"
 #include "./widgets/scibasickeypad.h"
