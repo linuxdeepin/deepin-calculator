@@ -83,6 +83,8 @@ static DPushButton *createSpecialKeyButton(SciBasicKeyPad::Buttons key)
 
 SciBasicKeyPad::SciBasicKeyPad(QWidget *parent)
     : DWidget(parent),
+      tri(new DPushButton(this)),
+      fun(new DPushButton(this)),
       m_hlayout(new QHBoxLayout),
       m_vlayout(new QVBoxLayout(this)),
       m_mapper(new QSignalMapper(this)),
@@ -269,10 +271,22 @@ void SciBasicKeyPad::buttonThemeChanged(int type)
 void SciBasicKeyPad::turnPage(int key)
 {
     if (key == Key_2page) {
-        if (m_stacklayout->currentIndex() == 0)
+        TextButton *degbtn = static_cast<TextButton *>(button(Key_exp));
+        QString degtext = degbtn->text();
+        TextButton *acbtn = static_cast<TextButton *>(button(Key_Clear));
+        QString actext = acbtn->text();
+        if (m_stacklayout->currentIndex() == 0) {
             m_stacklayout->setCurrentIndex(1);
-        else {
+            TextButton *degbtn1 = static_cast<TextButton *>(button(Key_exp));
+            degbtn1->setText(degtext);
+            TextButton *acbtn1 = static_cast<TextButton *>(button(Key_Clear));
+            acbtn1->setText(actext);
+        } else {
             m_stacklayout->setCurrentIndex(0);
+            TextButton *degbtn2 = static_cast<TextButton *>(button(Key_exp));
+            degbtn2->setText(degtext);
+            TextButton *acbtn2 = static_cast<TextButton *>(button(Key_Clear));
+            acbtn2->setText(actext);
         }
     }
 }

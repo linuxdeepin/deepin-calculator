@@ -64,6 +64,7 @@ private:
     void handleKeypadButtonPress(int);
     void equalButtonPress();
     void handleClearStateChanged(bool isAllClear);
+    void handleDegChanged();
 
 protected:
     //void paintEvent(QPaintEvent *);
@@ -81,6 +82,7 @@ private:
     bool m_insidewidget;
     bool m_avail = false;
     int m_mode = 0;//0-标准 1-科学
+    int m_deg = 1;//1-deg 2-rad 3-grad
 };
 
 #endif

@@ -7,6 +7,7 @@
 #include <QHBoxLayout>
 #include <QStackedLayout>
 #include <QSignalMapper>
+#include <DPushButton>
 #include <DGuiApplicationHelper>
 #include <DSuggestButton>
 #include "textbutton.h"
@@ -73,6 +74,8 @@ private:
     void initUI();
 
 private:
+    DPushButton *tri;
+    DPushButton *fun;
     QStackedLayout *m_stacklayout;
     QHBoxLayout *m_hlayout;
     QVBoxLayout *m_vlayout;

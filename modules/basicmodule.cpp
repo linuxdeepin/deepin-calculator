@@ -71,6 +71,7 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_expressionBar, &ExpressionBar::keyPress, this, &BasicModule::handleEditKeyPress);
     connect(m_expressionBar, &ExpressionBar::clearStateChanged, this,
             &BasicModule::handleClearStateChanged);
+    connect(m_expressionBar, &ExpressionBar::turnDeg, this, &BasicModule::handleDegChanged);
     connect(m_basicKeypad, &BasicKeypad::buttonPressed, this,
             &BasicModule::handleKeypadButtonPress);
     connect(m_basicKeypad, &BasicKeypad::equalPressed, this, &BasicModule::equalButtonPress);
@@ -483,6 +484,8 @@ void BasicModule::handleKeypadButtonPress(int key)
     case MemoryKeypad::Key_MR:
         m_expressionBar->getInputEdit()->setText(m_memorylistwidget->getfirstnumber());
         break;
+    case SciBasicKeyPad::Key_exp:
+        m_expressionBar->enterExpEvent(m_deg);
     }
     m_expressionBar->addUndo();
 }
@@ -501,6 +504,25 @@ void BasicModule::handleClearStateChanged(bool isAllClear)
         btn->setText("AC");
     } else {
         btn->setText("C");
+    }
+}
+
+void BasicModule::handleDegChanged()
+{
+    TextButton *btn = static_cast<TextButton *>(m_scikeypadwidget->button(SciBasicKeyPad::Key_exp));
+
+    if (btn->text() == "exp") {
+        btn->setText("deg");
+        m_deg = 1;
+    } else if (btn->text() == "deg") {
+        btn->setText("rad");
+        m_deg = 2;
+    } else if (btn->text() == "rad") {
+        btn->setText("grad");
+        m_deg = 3;
+    } else if (btn->text() == "grad") {
+        btn->setText("deg");
+        m_deg = 1;
     }
 }
 

@@ -60,9 +60,9 @@ FunCombobox::FunCombobox(DComboBox *parent)
     this->setView(m_listwidget);
     m_listwidget->setFrameShape(QFrame::NoFrame);
     this->setStyleSheet("QComboBox { width: 80px;}"
-                        "QComboBox QAbstractItemView { height: 60px; min-width: 210px; \
+                        "QComboBox QAbstractItemView { min-height: 80px; min-width: 210px; \
                         selection-background-color: transparent; background-color:transparent;}"
-                        "QComboBox QAbstractItemView::item { height: 60px; min-width: 210px; }");
+                        "QComboBox QAbstractItemView::item { min-height: 80px; min-width: 210px; }");
     initButtons();
     initUI();
     updateData();
@@ -111,7 +111,7 @@ void FunCombobox::updateData()
     m_listwidget->clear();
     QListWidgetItem *item = new QListWidgetItem(m_listwidget);
     m_listwidget->setItemWidget(item, widget);
-    item->setSizeHint(QSize(90, 90));
+    item->setSizeHint(QSize(95, 95));
     item->setFlags(Qt::NoItemFlags);
 }
 

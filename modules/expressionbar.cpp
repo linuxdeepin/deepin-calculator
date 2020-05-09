@@ -934,6 +934,11 @@ void ExpressionBar::entereEvent()
     m_isUndo = false;
 }
 
+void ExpressionBar::enterExpEvent(int mod)
+{
+    emit turnDeg();
+}
+
 void ExpressionBar::copyResultToClipboard()
 {
     if (m_inputEdit->text().isEmpty())

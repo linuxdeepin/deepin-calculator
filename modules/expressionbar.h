@@ -71,6 +71,7 @@ signals:
     void keyPress(QKeyEvent *);
     void clearStateChanged(bool);
     void themeChange(int type);
+    void turnDeg();
 
 public slots:
     void enterNumberEvent(const QString &text);
@@ -85,6 +86,7 @@ public slots:
     void enterRightBracketsEvent();
     void enterDeleteEvent();
     void entereEvent();
+    void enterExpEvent(int mod);
     void moveLeft();
     void moveRight();
     void copyResultToClipboard();
