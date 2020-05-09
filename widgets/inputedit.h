@@ -23,6 +23,7 @@
 #include <DLineEdit>
 #include <DPalette>
 #include "../math/quantity.h"
+#include "../core/evaluator.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
@@ -52,7 +53,7 @@ public:
     void setSelection(SSelection select) { m_selected = select; };
     void setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans,
                           const int &Pos);
-    Quantity getanswer(); //edit 20200507,获取上一次计算的全精度结果，用于数字内存。
+    Quantity getMemoryAnswer(); //edit 20200507,获取上一次计算的全精度结果，用于数字内存。
 
 public slots:
     void setUndoAction(bool state);
@@ -114,6 +115,10 @@ private:
     QAction *m_paste;
     QAction *m_delete;
     QAction *m_select;
+
+    Quantity m_memoryans; //用于内存的结果
+    Evaluator *m_evaluator;
+    QString m_percentexp;
 };
 
 #endif

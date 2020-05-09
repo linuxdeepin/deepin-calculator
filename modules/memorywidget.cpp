@@ -21,17 +21,14 @@ MemoryWidget::MemoryWidget(QWidget *parent)
 {
     m_evaluator = Evaluator::instance();
     this->setContentsMargins(0, 0, 0, 0);
-//    this->setFixedSize(344, 300);
-//    m_pDeleteBtn->setStyleSheet("QPushButton {border: none; background-color: transparent; image:url(:/images/light/+_normal.svg);} \
-//                                 QPushButton:hover {image:url(:/images/light/+_hover.svg);} \
-//                                 QPushButton:pressed {image:url(:/images/light/+_press.svg);}");
+
     QVBoxLayout *lay = new QVBoxLayout(this);
     QHBoxLayout *layH = new QHBoxLayout();
 
     lay->setSpacing(0);
     lay->setMargin(0);
     lay->addWidget(m_listwidget);
-//    lay->addLayout(layH);
+
     m_listwidget->setFrameShape(QFrame::NoFrame);
     m_listwidget->setFixedHeight(260);
     m_listwidget->setVerticalScrollMode(QListView::ScrollPerPixel);
@@ -55,6 +52,7 @@ MemoryWidget::MemoryWidget(QWidget *parent)
         m_listwidget->addItem("内存中没有内容");
         m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
         m_isempty = true;
+        list.clear();
         emit mListUnavailable();
     });
     lay->addLayout(layH);
@@ -71,7 +69,7 @@ MemoryWidget::MemoryWidget(QWidget *parent)
     });
 }
 
-void MemoryWidget::generateData(const QString str)
+void MemoryWidget::generateData(Quantity answer)
 {
     if (m_isempty == true) {
         m_listwidget->clear();
@@ -79,11 +77,15 @@ void MemoryWidget::generateData(const QString str)
     m_isempty = false;
     emit mListAvailable();
     QListWidgetItem *item1 = new QListWidgetItem();
-    if (str == QString()) {
+    if (answer == Quantity(0)) {
         item1->setData(Qt::DisplayRole, "0");
     } else {
-        item1->setData(Qt::DisplayRole, str);
+        const QString result = DMath::format(answer, Quantity::Format::General());
+        QString formatResult = Utils::formatThousandsSeparators(result);
+        formatResult = formatResult.replace('-', "－").replace('+', "＋");
+        item1->setData(Qt::DisplayRole, formatResult);
     }
+    list.insert(0, answer);
     item1->setTextAlignment(Qt::AlignRight | Qt::AlignTop);
     QFont font;
     font.setPixelSize(24);
@@ -104,6 +106,7 @@ void MemoryWidget::generateData(const QString str)
         emit MemoryWidget::widgetminus(row);
     });
     connect(widget, &MemoryItemWidget::cleanbtnclicked, this, [ = ]() {
+        list.removeAt(m_listwidget->row(item1));
         m_listwidget->takeItem(m_listwidget->row(item1));
         if (m_listwidget->count() == 0) {
             m_listwidget->addItem("内存中没有内容");
@@ -167,6 +170,7 @@ void MemoryWidget::contextMenuEvent(QContextMenuEvent *event)
                 m_listwidget->addItem("内存中没有内容");
                 m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
                 m_isempty = true;
+                list.clear();
                 emit mListUnavailable();
             }
         });
@@ -183,11 +187,14 @@ void MemoryWidget::contextMenuEvent(QContextMenuEvent *event)
     }
 }
 
-void MemoryWidget::memoryplus(const QString str)
+void MemoryWidget::memoryplus(Quantity answer)
 {
-    QString str1 = (str == QString()) ? "0" : str;
+    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(78));
+    QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
+    formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
     if (m_isempty == false) {
-        QString exp = QString(m_listwidget->item(0)->data(Qt::EditRole).toString() + "+" + str1);
+//        QString exp = QString(m_listwidget->item(0)->data(Qt::EditRole).toString() + "+(" + formatResultmem + ")");
+        QString exp = QString(DMath::format(list.value(0), Quantity::Format::Fixed() + Quantity::Format::Precision(78)) + "+(" + formatResultmem + ")");
         m_evaluator->setExpression(formatExpression(exp));
         Quantity ans = m_evaluator->evalUpdateAns();
         const QString result = DMath::format(ans, Quantity::Format::General());
@@ -195,17 +202,21 @@ void MemoryWidget::memoryplus(const QString str)
         formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                        .replace(QString::fromUtf8("－"), "-");
         m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
+        list.replace(0, ans);
     } else {
         m_listwidget->clear();
-        generateData(str1);
+        generateData(answer);
     }
 }
 
-void MemoryWidget::memoryminus(const QString str)
+void MemoryWidget::memoryminus(Quantity answer)
 {
-    QString str1 = (str == QString()) ? "0" : str;
+    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(78));
+    QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
+    formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
     if (m_isempty == false) {
-        QString exp = QString(m_listwidget->item(0)->data(Qt::EditRole).toString() + "-" + str1);
+//        QString exp = QString(m_listwidget->item(0)->data(Qt::EditRole).toString() + "-(" + formatResultmem + ")");
+        QString exp = QString(DMath::format(list.value(0), Quantity::Format::Fixed() + Quantity::Format::Precision(78)) + "-(" + formatResultmem + ")");
         m_evaluator->setExpression(formatExpression(exp));
         Quantity ans = m_evaluator->evalUpdateAns();
         const QString result = DMath::format(ans, Quantity::Format::General());
@@ -213,10 +224,11 @@ void MemoryWidget::memoryminus(const QString str)
         formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                        .replace(QString::fromUtf8("－"), "-");
         m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
+        list.replace(0, ans);
     } else {
         m_listwidget->clear();
-        generateData(QString());
-        QString exp = QString("0-" + str1);
+        generateData(Quantity(0));
+        QString exp = QString("0-(" + formatResultmem + ")");
         m_evaluator->setExpression(formatExpression(exp));
         Quantity ans = m_evaluator->evalUpdateAns();
         const QString result = DMath::format(ans, Quantity::Format::General());
@@ -224,6 +236,7 @@ void MemoryWidget::memoryminus(const QString str)
         formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                        .replace(QString::fromUtf8("－"), "-");
         m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
+        list.replace(0, ans);
     }
 }
 
@@ -231,6 +244,7 @@ void MemoryWidget::memoryclean()
 {
     m_listwidget->clear();
     m_isempty = true;
+    list.clear();
     emit mListUnavailable();
 }
 
@@ -243,37 +257,45 @@ QString MemoryWidget::getfirstnumber()
     }
 }
 
-void MemoryWidget::widgetplusslot(int row, const QString str)
+void MemoryWidget::widgetplusslot(int row, Quantity answer)
 {
-    if (str == QString())
+    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(78));
+    QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
+    formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
+    if (answer == Quantity(0)) {
         m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole));
-    else {
-        QString exp = QString(m_listwidget->item(row)->data(Qt::EditRole).toString() + "+" + str);
+    } else {
+//        QString exp = QString(m_listwidget->item(row)->data(Qt::EditRole).toString() + "+(" + formatResultmem + ")");
+        QString exp = QString(DMath::format(list.value(row), Quantity::Format::Fixed() + Quantity::Format::Precision(78)) + "+(" + formatResultmem + ")");
         m_evaluator->setExpression(formatExpression(exp));
         Quantity ans = m_evaluator->evalUpdateAns();
         const QString result = DMath::format(ans, Quantity::Format::General());
         QString formatResult = Utils::formatThousandsSeparators(result);
-        qDebug() << formatResult;
         formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                        .replace(QString::fromUtf8("－"), "-");
         m_listwidget->item(row)->setData(Qt::DisplayRole, formatResult);
+        list.replace(row, ans);
     }
 }
 
-void MemoryWidget::widgetminusslot(int row, const QString str)
+void MemoryWidget::widgetminusslot(int row, Quantity answer)
 {
-    if (str == QString())
+    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(78));
+    QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
+    formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
+    if (answer == Quantity(0))
         m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole));
     else {
-        QString exp = QString(m_listwidget->item(row)->data(Qt::EditRole).toString() + "-" + str);
+//        QString exp = QString(m_listwidget->item(row)->data(Qt::EditRole).toString() + "-(" + formatResultmem + ")");
+        QString exp = QString(DMath::format(list.value(row), Quantity::Format::Fixed() + Quantity::Format::Precision(78)) + "-(" + formatResultmem + ")");
         m_evaluator->setExpression(formatExpression(exp));
         Quantity ans = m_evaluator->evalUpdateAns();
         const QString result = DMath::format(ans, Quantity::Format::General());
         QString formatResult = Utils::formatThousandsSeparators(result);
-        qDebug() << formatResult;
         formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                        .replace(QString::fromUtf8("－"), "-");
         m_listwidget->item(row)->setData(Qt::DisplayRole, formatResult);
+        list.replace(row, ans);
     }
 }
 

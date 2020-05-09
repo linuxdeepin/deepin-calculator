@@ -29,6 +29,7 @@
 #include <QMap>
 #include <QString>
 #include <QStringList>
+#include <QDebug>
 
 #include <cstdio>
 #include <cstdlib>
@@ -843,6 +844,14 @@ char *formatGeneral(cfloatnum x, int prec, int base = 10)
     else
         str = formatFixed(x, prec, base);
 
+    //edit 20200509 当出现循环小数时，位数由于小于科学计数法的临界值，format后进位，导致0.999...变成1e0
+    QString strnew = QString(QLatin1String(str));
+    strnew.remove(QRegExp("[^0-9e]"));
+    int e = strnew.indexOf("e");
+    if (e > 0) {
+        if (strnew.left(e).length() + (strnew.right(strnew.length() - e - 1)).toInt() < 17)
+            str = formatFixed(x, prec, base);
+    }
     return str;
 }
 

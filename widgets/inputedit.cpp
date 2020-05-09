@@ -41,7 +41,10 @@ InputEdit::InputEdit(QWidget *parent)
     , m_oldText("")
     , m_isprecentans(false)
     , m_lastPos(0)
+    , m_memoryans(0)
+    , m_percentexp(QString())
 {
+    m_evaluator = Evaluator::instance();
     setAttribute(Qt::WA_InputMethodEnabled, false);
     setAttribute(Qt::WA_TranslucentBackground);
     setFocusPolicy(Qt::StrongFocus);
@@ -77,7 +80,7 @@ QString InputEdit::expressionPercent(QString &str)
     QString t = str;
     bool longnumber = false;
 
-    QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
+    QString ans = DMath::format(m_ans, Quantity::Format::Fixed() + Quantity::Format::Precision(DECPRECISION));
     if (ans.length() > 17) {
         for (int i = 17; i < ans.length(); i++) {
             if (ans.at(i) != "0") {
@@ -93,7 +96,9 @@ QString InputEdit::expressionPercent(QString &str)
 //        t.remove(m_ansStartPos, m_ansLength);
 //        t.insert(m_ansStartPos, ans);
 //    }
-
+    QString first = text().left(m_ansStartPos);
+    QString last = text().right(text().length() - m_lastPos);
+    m_percentexp = first + t + last;
     return t;
 }
 
@@ -103,7 +108,7 @@ QString InputEdit::expressionText()
     //edit for bug-19653 20200416  当数字长度超过精度范围时，保留小数点最后的数。
     bool longnumber = false;
 
-    QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
+    QString ans = DMath::format(m_ans, Quantity::Format::Fixed() + Quantity::Format::Precision(DECPRECISION));
     if (ans.length() > 17) {
         for (int i = 17; i < ans.length(); i++) {
             if (ans.at(i) != "0") {
@@ -123,7 +128,6 @@ QString InputEdit::expressionText()
 //        t.remove(m_ansStartPos, m_ansLength);
 //        t.insert(m_ansStartPos, ans);
 //    }
-
     return t;
 }
 
@@ -598,8 +602,32 @@ void InputEdit::selectionChangedSlot()
     //    qDebug() << m_selected.selected;
 }
 
-Quantity InputEdit::getanswer()
+Quantity InputEdit::getMemoryAnswer()
 {
-    Quantity ans = m_ans;
-    return ans;
+    if (text().isEmpty())
+        return Quantity(0);
+    QString expression;
+    if (!m_isprecentans) {
+        expression = expressionText().replace(QString::fromUtf8("＋"), "+")
+                     .replace(QString::fromUtf8("－"), "-")
+                     .replace(QString::fromUtf8("×"), "*")
+                     .replace(QString::fromUtf8("÷"), "/")
+                     .replace(QString::fromUtf8(","), "");
+    } else {
+        expression = m_percentexp.replace(QString::fromUtf8("＋"), "+")
+                     .replace(QString::fromUtf8("－"), "-")
+                     .replace(QString::fromUtf8("×"), "*")
+                     .replace(QString::fromUtf8("÷"), "/")
+                     .replace(QString::fromUtf8(","), "");
+    }
+    m_evaluator->setExpression(expression);
+    m_memoryans = m_evaluator->evalUpdateAns();
+
+    if (m_evaluator->error().isEmpty()) {
+        if (m_memoryans.isNan() && !m_evaluator->isUserFunctionAssign())
+            return Quantity(0);
+        return m_memoryans;
+    } else {
+        return Quantity(0);
+    }
 }

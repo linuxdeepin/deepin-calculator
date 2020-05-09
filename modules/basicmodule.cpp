@@ -25,6 +25,7 @@
 #include <QVBoxLayout>
 #include "dthememanager.h"
 #include "utils.h"
+#include "../math/quantity.h"
 
 BasicModule::BasicModule(QWidget *parent)
     : DWidget(parent)
@@ -80,10 +81,10 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_scikeypadwidget, &SciBasicKeyPad::buttonPressed, this,
             &BasicModule::handleKeypadButtonPress);
     connect(m_memorylistwidget, &MemoryWidget::widgetplus, this, [ = ](int row) {
-        m_memorylistwidget->widgetplusslot(row, m_expressionBar->getInputEdit()->text());
+        m_memorylistwidget->widgetplusslot(row, m_expressionBar->getInputEdit()->getMemoryAnswer());
     });
     connect(m_memorylistwidget, &MemoryWidget::widgetminus, this, [ = ](int row) {
-        m_memorylistwidget->widgetminusslot(row, m_expressionBar->getInputEdit()->text());
+        m_memorylistwidget->widgetminusslot(row, m_expressionBar->getInputEdit()->getMemoryAnswer());
     });
     connect(m_memorylistwidget, &MemoryWidget::insidewidget, this, [ = ]() {
         m_insidewidget = true;
@@ -455,7 +456,7 @@ void BasicModule::handleKeypadButtonPress(int key)
         m_expressionBar->enterBracketsEvent();
         break;
     case MemoryKeypad::Key_MS:
-        m_memorylistwidget->generateData(m_expressionBar->getInputEdit()->text());
+        m_memorylistwidget->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer());
         break;
     case MemoryKeypad::Key_MC:
         m_memorylistwidget->memoryclean();
@@ -474,10 +475,10 @@ void BasicModule::handleKeypadButtonPress(int key)
         m_memorylistwidget->setFocus();
         break;
     case MemoryKeypad::Key_Mplus:
-        m_memorylistwidget->memoryplus(m_expressionBar->getInputEdit()->text());
+        m_memorylistwidget->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer());
         break;
     case MemoryKeypad::Key_Mminus:
-        m_memorylistwidget->memoryminus(m_expressionBar->getInputEdit()->text());
+        m_memorylistwidget->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer());
         break;
     case MemoryKeypad::Key_MR:
         m_expressionBar->getInputEdit()->setText(m_memorylistwidget->getfirstnumber());

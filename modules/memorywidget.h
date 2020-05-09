@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QListWidget>
+#include <QList>
 #include "memoryitemwidget.h"
 #include "memorylistwidget.h"
 #include "../core/evaluator.h"
@@ -18,19 +19,19 @@ public:
     explicit MemoryWidget(QWidget *parent = nullptr);
     ~MemoryWidget();
 
-    void generateData(const QString str);
+    void generateData(Quantity answer);
     void paintEvent(QPaintEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void contextMenuEvent(QContextMenuEvent *event);
 //    bool event(QEvent *event);
 
-    void memoryplus(const QString str);
-    void memoryminus(const QString str);
+    void memoryplus(Quantity answer);
+    void memoryminus(Quantity answer);
     void memoryclean();
     QString getfirstnumber();
 
-    void widgetplusslot(int row, const QString str);
-    void widgetminusslot(int row, const QString str);
+    void widgetplusslot(int row, Quantity answer);
+    void widgetminusslot(int row, Quantity answer);
 
 signals:
     void widgetplus(int row);
@@ -48,6 +49,7 @@ private:
     Evaluator *m_evaluator;
     Quantity m_ans;
     bool m_ansVaild;
+    QList<Quantity> list;
 
 private:
     QString formatExpression(const QString &text);
