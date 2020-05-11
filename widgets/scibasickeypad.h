@@ -15,6 +15,7 @@
 #include "equalbutton.h"
 #include "tricombobox.h"
 #include "funcombobox.h"
+#include <QDebug>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -33,16 +34,29 @@ public:
         Key_1, Key_2, Key_3, Key_Plus,
         Key_Percent, Key_0, Key_Point, Key_Equal,
         Key_2page, Key_x2, Key_x3, Key_xy, Key_10x, Key_log, Key_ln,
-        Key_sqrt2, Key_sqrt3, Key_yx, Key_2x, Key_logyx, Key_ex
+        Key_sqrt2, Key_sqrt3, Key_yx, Key_2x, Key_logyx, Key_ex,
+        Key_abs = 95, Key_down, Key_up,
+        Key_rand, Key_dms, Key_deg,
+        Key_Combo1page = 67, Key_sin, Key_cos, Key_tan,
+        Key_hyp1, Key_sec, Key_csc, Key_cot,
+        Key_arcsin, Key_arccos, Key_arctan,
+        Key_arcsec, Key_arccsc, Key_arccot,
+        Key_sinh, Key_cosh, Key_tanh,
+        Key_sech, Key_csch, Key_coth,
+        Key_arcsinh, Key_arccosh, Key_arctanh,
+        Key_arcsech, Key_arccsch, Key_arccoth,
+        Key_Combo2page, Key_hyp2
     };
 
     SciBasicKeyPad(QWidget *parent = nullptr);
     ~SciBasicKeyPad();
 
     DPushButton *button(Buttons key);
+    DPushButton *funbutton(Buttons key);
     DSuggestButton *button();
     void animate(Buttons key);
     void animate();
+    void mousePressEvent(QMouseEvent *event);
 
     static const struct KeyDescription {
         QString text;
@@ -60,15 +74,58 @@ public:
         int rowcount;
         int columncount;
     } keyDescriptions1[];
+    static const struct KeyDescriptionfun {
+        QString text;
+        Buttons button;
+        int row;
+        int column;
+        int rowcount;
+        int columncount;
+    } keyDescriptionsfun[];
+    static const struct KeyDescriptiontri {
+        QString text;
+        Buttons button;
+        int row;
+        int column;
+        int rowcount;
+        int columncount;
+    } KeyDescriptionstri[];
+    static const struct KeyDescriptiontri1 {
+        QString text;
+        Buttons button;
+        int row;
+        int column;
+        int rowcount;
+        int columncount;
+    } KeyDescriptionstri1[];
+    static const struct KeyDescriptiontri2 {
+        QString text;
+        Buttons button;
+        int row;
+        int column;
+        int rowcount;
+        int columncount;
+    } KeyDescriptionstri2[];
+    static const struct KeyDescriptiontri3 {
+        QString text;
+        Buttons button;
+        int row;
+        int column;
+        int rowcount;
+        int columncount;
+    } KeyDescriptionstri3[];
 public slots:
     void initButtons();
     void buttonThemeChanged(int type);
     void turnPage(int key);
+    void funhide();
 signals:
     void buttonPressed(int);
     void equalPressed();
     void moveLeft();
     void moveRight();
+    void funshow();
+    void funinside();
 
 private:
     void initUI();
@@ -81,11 +138,17 @@ private:
     QVBoxLayout *m_vlayout;
     QGridLayout *m_gridlayout1;
     QGridLayout *m_gridlayout2;
+    QGridLayout *m_fungridlayout;
+    QWidget *m_funwidget;
     QSignalMapper *m_mapper;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription1 *>> m_keys1;
+    QHash<Buttons, QPair<DPushButton *, const KeyDescriptionfun *>> m_funkeys;
     ComboBox *m_triCombobox;
     FunCombobox *m_funCombobox;
+    QPoint m_mousepoint;
+    QWidget *hwidget;
+    QWidget *stackwidget;
     //DSuggestButton *m_equal;
     //EqualButton *m_equal;
 };

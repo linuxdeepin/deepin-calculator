@@ -83,6 +83,7 @@ private:
     bool m_avail = false;
     int m_mode = 0;//0-标准 1-科学
     int m_deg = 1;//1-deg 2-rad 3-grad
+    bool m_isinsidefun = false;//鼠标点击在函数widget内
 };
 
 #endif

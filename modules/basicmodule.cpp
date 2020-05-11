@@ -117,6 +117,13 @@ BasicModule::BasicModule(QWidget *parent)
             btn4->setEnabled(true);
         }
     });
+    connect(m_scikeypadwidget, &SciBasicKeyPad::funshow, this, [ = ]() {
+        m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents);
+        m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents);
+    });
+    connect(m_scikeypadwidget, &SciBasicKeyPad::funinside, this, [ = ]() {
+        m_isinsidefun = true;
+    });
     // m_expBarColor = "#F8F8F8";
     // m_expBarSepColor = "#F8F8F8";
 }
@@ -128,6 +135,9 @@ void BasicModule::switchToSimpleKeypad()
     if (m_keypadLayout->currentIndex() == 2) {
         m_keypadLayout->setCurrentIndex(0);
     }
+    m_scikeypadwidget->funhide();
+    m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
 }
 
 void BasicModule::switchToScientificKeypad()
@@ -626,6 +636,11 @@ void BasicModule::mousePressEvent(QMouseEvent *event)
             MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mlist));
             btn5->setEnabled(false);
         }
+    }
+    if (m_isinsidefun == false) {
+        m_scikeypadwidget->funhide();
+        m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+        m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
     }
     m_insidewidget = false;
     QWidget::mousePressEvent(event);

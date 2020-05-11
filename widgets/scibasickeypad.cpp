@@ -52,6 +52,44 @@ const SciBasicKeyPad::KeyDescription1 SciBasicKeyPad::keyDescriptions1[] = {
     {".", Key_Point, 7, 3, 1, 1},     {"=", Key_Equal, 7, 4, 1, 1},
 };
 
+const SciBasicKeyPad::KeyDescriptionfun SciBasicKeyPad::keyDescriptionsfun[] = {
+    {"a", Key_abs, 1, 0, 1, 1}, {"b", Key_down, 1, 1, 1, 1}, {"c", Key_up, 1, 2, 1, 1},
+
+    {"d", Key_rand, 2, 0, 1, 1},  {"e", Key_dms, 2, 1, 1, 1}, {"f", Key_deg, 2, 2, 1, 1},
+};
+
+const SciBasicKeyPad::KeyDescriptiontri SciBasicKeyPad::KeyDescriptionstri[] = {
+    {"page1", Key_Combo1page, 1, 0, 1, 1}, {"sin", Key_sin, 1, 1, 1, 1},
+    {"cos", Key_cos, 1, 2, 1, 1},          {"tan", Key_tan, 1, 3, 1, 1},
+
+    {"hyp", Key_hyp1, 2, 0, 1, 1},  {"sec", Key_sec, 2, 1, 1, 1},
+    {"csc", Key_csc, 2, 2, 1, 1},       {"cot", Key_cot, 2, 3, 1, 1}
+};
+
+const SciBasicKeyPad::KeyDescriptiontri1 SciBasicKeyPad::KeyDescriptionstri1[] = {
+    {"page2", Key_Combo2page, 1, 0, 1, 1}, {"arcsin", Key_arcsin, 1, 1, 1, 1},
+    {"arccos", Key_arccos, 1, 2, 1, 1},    {"arctan", Key_arctan, 1, 3, 1, 1},
+
+    {"hyp", Key_hyp1, 2, 0, 1, 1},     {"arcsec", Key_arcsec, 2, 1, 1, 1},
+    {"arccsc", Key_arccsc, 2, 2, 1, 1},    {"arccot", Key_arccot, 2, 3, 1, 1}
+};
+
+const SciBasicKeyPad::KeyDescriptiontri2 SciBasicKeyPad::KeyDescriptionstri2[] = {
+    {"page1", Key_Combo1page, 1, 0, 1, 1}, {"sinh", Key_sinh, 1, 1, 1, 1},
+    {"cosh", Key_cosh, 1, 2, 1, 1},        {"tanh", Key_tanh, 1, 3, 1, 1},
+
+    {"hyp", Key_hyp2, 2, 0, 1, 1},    {"sech", Key_sech, 2, 1, 1, 1},
+    {"csch", Key_csch, 2, 2, 1, 1},       {"coth", Key_coth, 2, 3, 1, 1}
+};
+
+const SciBasicKeyPad::KeyDescriptiontri3 SciBasicKeyPad::KeyDescriptionstri3[] = {
+    {"page2", Key_Combo2page, 1, 0, 1, 1}, {"arcsinh", Key_arcsinh, 1, 1, 1, 1},
+    {"arccosh", Key_arccosh, 1, 2, 1, 1},  {"arctanh", Key_arctanh, 1, 3, 1, 1},
+
+    {"hyp", Key_hyp2, 2, 0, 1, 1},     {"arcsech", Key_arcsech, 2, 1, 1, 1},
+    {"arccsch", Key_arccsch, 2, 2, 1, 1},  {"arccoth", Key_arccoth, 2, 3, 1, 1}
+};
+
 static DPushButton *createSpecialKeyButton(SciBasicKeyPad::Buttons key)
 {
     IconButton *button = new IconButton;
@@ -83,28 +121,48 @@ static DPushButton *createSpecialKeyButton(SciBasicKeyPad::Buttons key)
 
 SciBasicKeyPad::SciBasicKeyPad(QWidget *parent)
     : DWidget(parent),
-      tri(new DPushButton(this)),
-      fun(new DPushButton(this)),
+      tri(new DPushButton("tri")),
+      fun(new DPushButton("fun")),
       m_hlayout(new QHBoxLayout),
       m_vlayout(new QVBoxLayout(this)),
       m_mapper(new QSignalMapper(this)),
       m_stacklayout(new QStackedLayout),
       m_gridlayout1(new QGridLayout),
       m_gridlayout2(new QGridLayout),
+      m_fungridlayout(new QGridLayout),
+      m_funwidget(new QWidget),
       m_triCombobox(new ComboBox),
-      m_funCombobox(new FunCombobox)
+      m_funCombobox(new FunCombobox),
+      hwidget(new QWidget(this)),
+      stackwidget(new QWidget(this))
 {
     QWidget *page1 = new QWidget(this);
     QWidget *page2 = new QWidget(this);
+
     page1->setLayout(m_gridlayout1);
     page2->setLayout(m_gridlayout2);
     m_stacklayout->addWidget(page1);
     m_stacklayout->addWidget(page2);
-    m_hlayout->addWidget(m_triCombobox);
-    m_hlayout->addWidget(m_funCombobox);
+    stackwidget->setLayout(m_stacklayout);
+//    m_hlayout->addWidget(m_triCombobox);
+//    m_hlayout->addWidget(m_funCombobox);
+    m_hlayout->addWidget(tri);
+    m_hlayout->addWidget(fun);
+    m_hlayout->setMargin(0);
+    m_hlayout->setSpacing(0);
+    m_hlayout->setContentsMargins(0, 0, 0, 0);
+    hwidget->setLayout(m_hlayout);
+    m_funwidget->setParent(this);
+    m_funwidget->setFixedSize(210, 95);
+    m_funwidget->setLayout(m_fungridlayout);
+
+    m_funwidget->setStyleSheet("QWidget { border: 0px solid #000000; background-color:grey}");
+    m_funwidget->move(12, hwidget->height() + 5);
+    m_funwidget->hide();
+
     m_hlayout->addStretch();
-    m_vlayout->addLayout(m_hlayout);
-    m_vlayout->addLayout(m_stacklayout);
+    m_vlayout->addWidget(hwidget);
+    m_vlayout->addWidget(stackwidget);
     m_vlayout->setMargin(0);
     m_vlayout->setSpacing(0);
     m_vlayout->setContentsMargins(0, 0, 0, 0);
@@ -117,6 +175,13 @@ SciBasicKeyPad::SciBasicKeyPad(QWidget *parent)
     connect(m_triCombobox, SIGNAL(buttonPressed(int)), SIGNAL(buttonPressed(int)));
     connect(this, &SciBasicKeyPad::buttonPressed, this,
             &SciBasicKeyPad::turnPage);
+    connect(fun, &DPushButton::clicked, m_funwidget, [ = ]() {
+        m_funwidget->show();
+        hwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
+        stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
+        emit funshow();
+    });
+
     //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &SciBasicKeyPad::handleThemeChanged);
 }
 
@@ -131,6 +196,11 @@ DPushButton *SciBasicKeyPad::button(Buttons key)
     } else {
         return m_keys1.value(key).first;
     }
+}
+
+DPushButton *SciBasicKeyPad::funbutton(Buttons key)
+{
+    return m_funkeys.value(key).first;
 }
 
 DSuggestButton *SciBasicKeyPad::button()
@@ -153,6 +223,10 @@ void SciBasicKeyPad::animate(Buttons key)
         }
     }
 
+    if (!funbutton(key)->text().isEmpty()) {
+        TextButton *btn = static_cast<TextButton *>(funbutton(key));
+        btn->animate();
+    }
 }
 
 void SciBasicKeyPad::animate()
@@ -160,6 +234,20 @@ void SciBasicKeyPad::animate()
     //m_equal->setChecked(true);
 
     //QTimer::singleShot(100, this, [=] { m_equal->setChecked(false); });
+}
+
+void SciBasicKeyPad::mousePressEvent(QMouseEvent *event)
+{
+    if (event->type() == QEvent::MouseButtonPress) {
+        QMouseEvent *pEvent = static_cast<QMouseEvent *>(event);
+        m_mousepoint = pEvent->pos();
+
+        QRect qrect(this->frameGeometry());
+        if (qrect.contains(m_mousepoint) == true) {
+            emit funinside();
+        }
+    }
+    QWidget::mousePressEvent(event);
 }
 
 void SciBasicKeyPad::initButtons()
@@ -193,6 +281,10 @@ void SciBasicKeyPad::initButtons()
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &SciBasicKeyPad::moveRight);
         m_mapper->setMapping(button, desc->button);
     }
+    m_gridlayout1->setMargin(0);
+    m_gridlayout1->setSpacing(0);
+    m_gridlayout1->setContentsMargins(0, 0, 0, 0);
+
     const int count1 = sizeof(keyDescriptions1) / sizeof(keyDescriptions1[0]);
     for (int i = 0; i < count1; ++i) {
         const KeyDescription1 *desc1 = keyDescriptions1 + i;
@@ -222,6 +314,39 @@ void SciBasicKeyPad::initButtons()
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &SciBasicKeyPad::moveRight);
         m_mapper->setMapping(button, desc1->button);
     }
+    m_gridlayout2->setMargin(0);
+    m_gridlayout2->setSpacing(0);
+    m_gridlayout2->setContentsMargins(0, 0, 0, 0);
+
+    const int countfun = sizeof(keyDescriptionsfun) / sizeof(keyDescriptionsfun[0]);
+    for (int i = 0; i < countfun; ++i) {
+        const KeyDescriptionfun *desc1 = keyDescriptionsfun + i;
+        DPushButton *button;
+
+        button = new TextButton(desc1->text);
+        QFont font = button->font();
+        font.setFamily("HelveticaNeue");
+        button->setFont(font);
+
+        m_fungridlayout->addWidget(button, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,
+                                   Qt::AlignHCenter | Qt::AlignBottom);
+        const QPair<DPushButton *, const KeyDescriptionfun *> hashValue(button, desc1);
+        m_funkeys.insert(desc1->button, hashValue);
+
+        connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();});
+        connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+        connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &SciBasicKeyPad::moveLeft);
+        connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &SciBasicKeyPad::moveRight);
+        connect(button, &DPushButton::clicked, m_funwidget, [ = ]() {
+            m_funwidget->hide();
+            hwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+            stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+        });
+        m_mapper->setMapping(button, desc1->button);
+    }
+    m_fungridlayout->setMargin(0);
+    m_fungridlayout->setSpacing(0);
+    m_fungridlayout->setContentsMargins(0, 0, 0, 0);
 }
 
 void SciBasicKeyPad::initUI()
@@ -238,6 +363,13 @@ void SciBasicKeyPad::initUI()
     while (i1.hasNext()) {
         i1.next();
         i1.value().first->setFocusPolicy(Qt::NoFocus);
+    }
+
+    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescriptionfun *>> ifun(m_funkeys);
+
+    while (ifun.hasNext()) {
+        ifun.next();
+        ifun.value().first->setFocusPolicy(Qt::NoFocus);
     }
 
     button(Key_Div)->setObjectName("SymbolButton");
@@ -289,4 +421,11 @@ void SciBasicKeyPad::turnPage(int key)
             acbtn2->setText(actext);
         }
     }
+}
+
+void SciBasicKeyPad::funhide()
+{
+    m_funwidget->hide();
+    hwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
 }
