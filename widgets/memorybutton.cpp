@@ -38,13 +38,17 @@ void MemoryButton::init()
     m_font.setFamily("HelveticaNeue");
     m_font.setStyleName("Light");
 
-    if (text() == "MC" || text() == "MR" || text() == "M^") {
-        if (!widgetbtn) {
-            m_isgray = true;
-            this->setEnabled(false);
-        }
-    } else
-        m_isgray = false;
+//    if (text() == "MC" || text() == "MR" || text() == "M^" || text() == "M+" || text() == "M-" || text() == "MS") {
+//        if (!widgetbtn) {
+//            m_isgray = true;
+//            this->setEnabled(false);
+//        }
+//    } else
+//        m_isgray = false;
+    if (!widgetbtn) {
+        m_isgray = true;
+        this->setEnabled(false);
+    }
 }
 
 /*void MemoryButton::showShadow()

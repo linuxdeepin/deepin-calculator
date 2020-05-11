@@ -65,6 +65,8 @@ InputEdit::InputEdit(QWidget *parent)
         this->cursorPositionChanged(pos, pos);
     });
 
+    connect(this, &QLineEdit::textChanged, this, &InputEdit::isExpressionCorrect);
+
     DPalette pl = this->palette();
     // pl.setColor(DPalette::Text,QColor(48,48,48));
     pl.setColor(DPalette::Button, Qt::transparent);
@@ -629,5 +631,26 @@ Quantity InputEdit::getMemoryAnswer()
         return m_memoryans;
     } else {
         return Quantity(0);
+    }
+}
+
+void InputEdit::isExpressionCorrect()
+{
+    if (text().isEmpty())
+        emit correctExpression(false);
+    QString expression = text();
+    expression = expression.replace(QString::fromUtf8("＋"), "+")
+                 .replace(QString::fromUtf8("－"), "-")
+                 .replace(QString::fromUtf8("×"), "*")
+                 .replace(QString::fromUtf8("÷"), "/")
+                 .replace(QString::fromUtf8(","), "");
+    m_evaluator->setExpression(expression);
+    Quantity anstemp = m_evaluator->evalUpdateAns();
+    if (m_evaluator->error().isEmpty()) {
+        if (anstemp.isNan() && !m_evaluator->isUserFunctionAssign())
+            emit correctExpression(false);
+        emit correctExpression(true);
+    } else {
+        emit correctExpression(false);
     }
 }

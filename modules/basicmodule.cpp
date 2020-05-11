@@ -124,6 +124,23 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_scikeypadwidget, &SciBasicKeyPad::funinside, this, [ = ]() {
         m_isinsidefun = true;
     });
+    connect(m_expressionBar->getInputEdit(), &InputEdit::correctExpression, this, [ = ](bool b) {
+        if (b == true) {
+            MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
+            btn2->setEnabled(true);
+            MemoryButton *btn3 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mminus));
+            btn3->setEnabled(true);
+            MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
+            btn4->setEnabled(true);
+        } else {
+            MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
+            btn2->setEnabled(false);
+            MemoryButton *btn3 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mminus));
+            btn3->setEnabled(false);
+            MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
+            btn4->setEnabled(false);
+        }
+    });
     // m_expBarColor = "#F8F8F8";
     // m_expBarSepColor = "#F8F8F8";
 }

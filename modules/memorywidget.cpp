@@ -71,6 +71,11 @@ MemoryWidget::MemoryWidget(QWidget *parent)
 
 void MemoryWidget::generateData(Quantity answer)
 {
+    //500 memory number limit
+    if (list.count() == 500) {
+        list.pop_back();
+        m_listwidget->takeItem(499);
+    }
     if (m_isempty == true) {
         m_listwidget->clear();
     }
@@ -85,7 +90,7 @@ void MemoryWidget::generateData(Quantity answer)
         formatResult = formatResult.replace('-', "－").replace('+', "＋");
         item1->setData(Qt::DisplayRole, formatResult);
     }
-    list.insert(0, answer);
+    list.insert(0, answer); //对于新增数据，同步在list中加入对应的Quantity
     item1->setTextAlignment(Qt::AlignRight | Qt::AlignTop);
     QFont font;
     font.setPixelSize(24);

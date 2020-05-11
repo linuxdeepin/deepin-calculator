@@ -33,6 +33,7 @@
 #include "expressionbar.h"
 #include "memorywidget.h"
 #include "./widgets/scibasickeypad.h"
+#include "../widgets/inputedit.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
