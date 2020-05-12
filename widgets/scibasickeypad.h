@@ -53,6 +53,7 @@ public:
 
     DPushButton *button(Buttons key);
     DPushButton *funbutton(Buttons key);
+    DPushButton *tributton(Buttons key);
     DSuggestButton *button();
     void animate(Buttons key);
     void animate();
@@ -134,16 +135,26 @@ private:
     DPushButton *tri;
     DPushButton *fun;
     QStackedLayout *m_stacklayout;
+    QStackedLayout *m_tristacklayout;
     QHBoxLayout *m_hlayout;
     QVBoxLayout *m_vlayout;
     QGridLayout *m_gridlayout1;
     QGridLayout *m_gridlayout2;
     QGridLayout *m_fungridlayout;
+    QGridLayout *m_trigridlayout1;
+    QGridLayout *m_trigridlayout2;
+    QGridLayout *m_trigridlayout3;
+    QGridLayout *m_trigridlayout4;
     QWidget *m_funwidget;
+    QWidget *m_triwidget;
     QSignalMapper *m_mapper;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription1 *>> m_keys1;
     QHash<Buttons, QPair<DPushButton *, const KeyDescriptionfun *>> m_funkeys;
+    QHash<Buttons, QPair<DPushButton *, const KeyDescriptiontri *>> m_trikeys;
+    QHash<Buttons, QPair<DPushButton *, const KeyDescriptiontri1 *>> m_trikeys1;
+    QHash<Buttons, QPair<DPushButton *, const KeyDescriptiontri2 *>> m_trikeys2;
+    QHash<Buttons, QPair<DPushButton *, const KeyDescriptiontri3 *>> m_trikeys3;
     ComboBox *m_triCombobox;
     FunCombobox *m_funCombobox;
     QPoint m_mousepoint;
