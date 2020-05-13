@@ -566,8 +566,6 @@ void BasicModule::mousePressEvent(QMouseEvent *event)
 {
     if (m_keypadLayout->currentIndex() == 1 && m_insidewidget == false)
         m_keypadLayout->setCurrentIndex(0);
-    else
-        m_keypadLayout->setCurrentIndex(1);
     m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
     m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
     m_expressionBar->getInputEdit()->setFocus();

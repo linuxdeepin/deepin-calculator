@@ -54,6 +54,7 @@ public:
     void setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans,
                           const int &Pos);
     Quantity getMemoryAnswer(); //edit 20200507,获取上一次计算的全精度结果，用于数字内存。
+    QString symbolComplement(const QString exp);
 
 public slots:
     void setUndoAction(bool state);

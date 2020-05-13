@@ -610,13 +610,13 @@ Quantity InputEdit::getMemoryAnswer()
         return Quantity(0);
     QString expression;
     if (!m_isprecentans) {
-        expression = expressionText().replace(QString::fromUtf8("＋"), "+")
+        expression = symbolComplement(expressionText()).replace(QString::fromUtf8("＋"), "+")
                      .replace(QString::fromUtf8("－"), "-")
                      .replace(QString::fromUtf8("×"), "*")
                      .replace(QString::fromUtf8("÷"), "/")
                      .replace(QString::fromUtf8(","), "");
     } else {
-        expression = m_percentexp.replace(QString::fromUtf8("＋"), "+")
+        expression = symbolComplement(m_percentexp).replace(QString::fromUtf8("＋"), "+")
                      .replace(QString::fromUtf8("－"), "-")
                      .replace(QString::fromUtf8("×"), "*")
                      .replace(QString::fromUtf8("÷"), "/")
@@ -639,6 +639,7 @@ void InputEdit::isExpressionCorrect()
     if (text().isEmpty())
         emit correctExpression(false);
     QString expression = text();
+    expression = symbolComplement(expression);
     expression = expression.replace(QString::fromUtf8("＋"), "+")
                  .replace(QString::fromUtf8("－"), "-")
                  .replace(QString::fromUtf8("×"), "*")
@@ -654,3 +655,28 @@ void InputEdit::isExpressionCorrect()
         emit correctExpression(false);
     }
 }
+
+QString InputEdit::symbolComplement(const QString exp)
+{
+    QString text = exp;
+    int index = text.indexOf("(", 0);
+    while (index != -1) {
+        if (index >= 1 && text.at(index - 1).isNumber()) {
+            text.insert(index, "×");
+            ++index;
+        }
+        ++index;
+        index = text.indexOf("(", index);
+    }
+    index = text.indexOf(")", 0);
+    while (index != -1) {
+        if (index < text.length() - 1 && text.at(index + 1).isNumber()) {
+            text.insert(index + 1, "×");
+            ++index;
+        }
+        ++index;
+        index = text.indexOf(")", index);
+    }
+    return text;
+}
+
