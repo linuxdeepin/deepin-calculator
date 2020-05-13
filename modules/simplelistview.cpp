@@ -25,18 +25,21 @@
 #include <QModelIndex>
 #include <QDebug>
 
-SimpleListView::SimpleListView(QWidget *parent)
+SimpleListView::SimpleListView(int mode, QWidget *parent)
     : DListView(parent)
 {
+    m_mode = mode;
+
     setVerticalScrollMode(ScrollPerPixel);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setEditTriggers(QAbstractItemView::SelectedClicked | QAbstractItemView::DoubleClicked);
     setFocusPolicy(Qt::NoFocus);
     setAutoScroll(false);
-    setFixedHeight(105);
     setSelectionBehavior(QAbstractItemView::SelectRows);
     setSelectionMode(QAbstractItemView::SingleSelection);
+    if (m_mode == 0)
+        setFixedHeight(105);
 
     connect(this, &QListView::clicked, this, &SimpleListView::selectHistory);
     connect(verticalScrollBar(), &QScrollBar::rangeChanged, this, &SimpleListView::adjustScrollbarMargins);

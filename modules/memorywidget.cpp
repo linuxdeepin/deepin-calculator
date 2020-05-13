@@ -140,15 +140,13 @@ void MemoryWidget::paintEvent(QPaintEvent *event)
 
 void MemoryWidget::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton) {
-        m_type = -1;
-        QMouseEvent *pEvent = static_cast<QMouseEvent *>(event);
-        m_mousepoint = pEvent->pos();
+    m_type = -1;
+    QMouseEvent *pEvent = static_cast<QMouseEvent *>(event);
+    m_mousepoint = pEvent->pos();
 
-        QRect rect(this->frameGeometry());
-        if (rect.contains(m_mousepoint) == true)
-            emit insidewidget();
-    }
+    QRect rect(this->frameGeometry());
+    if (rect.contains(m_mousepoint) == true)
+        emit insidewidget();
     QWidget::mousePressEvent(event);
 }
 

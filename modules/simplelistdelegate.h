@@ -30,7 +30,7 @@ class SimpleListDelegate : public QAbstractItemDelegate
 
     Q_PROPERTY(bool m_selected WRITE setSelect)
 public:
-    SimpleListDelegate(QObject *parent = nullptr);
+    SimpleListDelegate(int mode, QObject *parent = nullptr);//mode:0-标准模式 1-科学模式
     ~SimpleListDelegate();
     void setHisLink(const int link);
     void setHisLinked(const int linked);
@@ -62,6 +62,7 @@ private:
     DSettings *m_settings;
     bool m_selected;
     int m_type;
+    int m_mode = 0;
 };
 
 #endif

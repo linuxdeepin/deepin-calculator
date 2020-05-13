@@ -28,9 +28,10 @@
 
 DWIDGET_USE_NAMESPACE
 
-SimpleListDelegate::SimpleListDelegate(QObject *parent)
+SimpleListDelegate::SimpleListDelegate(int mode, QObject *parent)
     : QAbstractItemDelegate(parent)
 {
+    m_mode = mode;
     m_settings = DSettings::instance(this);
     m_selected = false;
     m_simpleListDelegate = this;
@@ -99,132 +100,232 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                                const QModelIndex &index) const
 {
     const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
-    QRect rect(option.rect);
-    int mode = m_settings->getOption("mode").toInt();
-    mode == 0 ? rect.setRight(321) : rect.setRight(352);
-//    rect.setRight(321);
-    const int padding = 15;
-    QString errorFontColor;
-    QString fontColor;
-    QString linkColor;
-    painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing |
-                            QPainter::SmoothPixmapTransform);
+    if (m_mode == 0) {
+        QRect rect(option.rect);
+        rect.setRight(321);
+        const int padding = 15;
+        QString errorFontColor;
+        QString fontColor;
+        QString linkColor;
+        painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing |
+                                QPainter::SmoothPixmapTransform);
 
-    QFont font;
-    for (int i = 16; i > 12; --i) {  // edit for bug-17238
-        font.setPixelSize(i);
+        QFont font;
+        for (int i = 16; i > 12; --i) {  // edit for bug-17238
+            font.setPixelSize(i);
 
-        QFontMetrics fm(font);
-        int fontWidth = fm.width(expression);
-        int editWidth = rect.width() - 24;
+            QFontMetrics fm(font);
+            int fontWidth = fm.width(expression);
+            int editWidth = rect.width() - 24;
 
-        if (fontWidth < editWidth)
-            break;
-    }
-    painter->setFont(font);
-
-    QStringList splitList = expression.split("＝");
-    QString resultStr = splitList.last();
-    int resultWidth = painter->fontMetrics().width(resultStr);
-
-    if (resultWidth > rect.width() / 1.4) {
-        resultStr = painter->fontMetrics().elidedText(resultStr, Qt::ElideRight,
-                                                      rect.width() / 1.4 + padding);
-        resultWidth = painter->fontMetrics().width(resultStr);
-    }
-
-    if (m_type == 1) {
-        errorFontColor = "#FF5736";  //edit for bug-21508
-        linkColor = "#3489DF";
-        fontColor = "#838483";
-    } else {
-        errorFontColor = "#9A2F2F";  //edit for bug-21508
-        linkColor = "#3489DF";
-        fontColor = "#838483";
-    }
-
-    // check result text is error.
-    if (resultStr == tr("Expression error")) {
-        painter->setPen(QColor(errorFontColor));
-    } else {
-        painter->setPen(QColor(fontColor));
-        for (int i = 0; i < m_linkItem.size(); ++i) {
-            if (m_linkItem[i] == index.row())
-                painter->setPen(QColor(linkColor));
+            if (fontWidth < editWidth)
+                break;
         }
-    }
+        painter->setFont(font);
 
-    int equalStrWidth = painter->fontMetrics().width(" ＝ ");
-    QString expStr = painter->fontMetrics().elidedText(
-                         splitList.first(), Qt::ElideLeft, rect.width() - resultWidth - padding * 2 - equalStrWidth);
-    // QString expStr = splitList.first();
+        QStringList splitList = expression.split("＝");
+        QString resultStr = splitList.last();
+        int resultWidth = painter->fontMetrics().width(resultStr);
 
-    if (m_selected) {
-        //edit for bug--21508
-        QRect resultRect(rect.topRight().x() - resultWidth - padding - 2, rect.y() + 3, resultWidth + 7,
-                         rect.height() - 6);
-        QPainterPath path;
-        path.addRoundedRect(resultRect, 4, 4);
+        if (resultWidth > rect.width() / 1.4) {
+            resultStr = painter->fontMetrics().elidedText(resultStr, Qt::ElideRight,
+                                                          rect.width() / 1.4 + padding);
+            resultWidth = painter->fontMetrics().width(resultStr);
+        }
 
-        // Setting Gradient
-//        QLinearGradient linear(resultRect.topLeft(), resultRect.bottomRight());
-//        linear.setColorAt(0, QColor(0, 151, 231, 255));
-//        linear.setColorAt(1, QColor(0, 122, 219, 255));
-//        linear.setColorAt(0, QColor("#0081FF"));
-//        linear.setColorAt(1, QColor("#0081FF"));
-//        linear.setSpread(QGradient::PadSpread);
-        //edit for bug--21476
         if (m_type == 1) {
-            QBrush brush(QColor("#0081FF"));
-            painter->fillPath(path, brush);
+            errorFontColor = "#FF5736";  //edit for bug-21508
+            linkColor = "#3489DF";
+            fontColor = "#838483";
         } else {
-            QBrush brush(QColor("#0059D2"));
-            painter->fillPath(path, brush);
+            errorFontColor = "#9A2F2F";  //edit for bug-21508
+            linkColor = "#3489DF";
+            fontColor = "#838483";
         }
 
-        painter->setPen(QPen(QColor(Qt::white)));
-        m_simpleListDelegate->setSelect(false);
-    }
-
-    if (splitList.size() == 1) {
-        // draw expression text;
-        painter->setPen(QColor(fontColor));
-        painter->drawText(
-            QRect(rect.x() + padding, rect.y(), rect.width() - padding * 2, rect.height()),
-            Qt::AlignVCenter | Qt::AlignRight, expStr);
-    } else {
-        // draw result text.
-        painter->drawText(
-            QRect(rect.x() + padding, rect.y(), rect.width() - padding * 2, rect.height()),
-            Qt::AlignVCenter | Qt::AlignRight, resultStr);
-
-        QString linkNum, exp;
-        m_simpleListDelegate->cutApart(expStr, linkNum, exp);
-        exp = exp + " ＝ ";
-
-        // draw expression text;
-        painter->setPen(QColor(fontColor));
-        painter->drawText(QRect(rect.x() + padding, rect.y(),
-                                rect.width() - resultWidth - padding * 2, rect.height()),
-                          Qt::AlignVCenter | Qt::AlignRight, exp);
-
-        painter->setPen(QColor(fontColor));
-        for (int i = 0; i < m_linkedIten.size(); ++i) {
-            if (m_linkedIten[i] == index.row())
-                painter->setPen(QColor(linkColor));
+        // check result text is error.
+        if (resultStr == tr("Expression error")) {
+            painter->setPen(QColor(errorFontColor));
+        } else {
+            painter->setPen(QColor(fontColor));
+            for (int i = 0; i < m_linkItem.size(); ++i) {
+                if (m_linkItem[i] == index.row())
+                    painter->setPen(QColor(linkColor));
+            }
         }
 
-        int expWidth = painter->fontMetrics().width(exp);
-        painter->drawText(QRect(rect.x() + padding, rect.y(),
-                                rect.width() - resultWidth - expWidth - padding * 2, rect.height()),
-                          Qt::AlignVCenter | Qt::AlignRight, linkNum);
+        int equalStrWidth = painter->fontMetrics().width(" ＝ ");
+        QString expStr = painter->fontMetrics().elidedText(
+                             splitList.first(), Qt::ElideLeft, rect.width() - resultWidth - padding * 2 - equalStrWidth);
+        // QString expStr = splitList.first();
+
+        if (m_selected) {
+            //edit for bug--21508
+            QRect resultRect(rect.topRight().x() - resultWidth - padding - 2, rect.y() + 3, resultWidth + 7,
+                             rect.height() - 6);
+            QPainterPath path;
+            path.addRoundedRect(resultRect, 4, 4);
+
+            // Setting Gradient
+            //        QLinearGradient linear(resultRect.topLeft(), resultRect.bottomRight());
+            //        linear.setColorAt(0, QColor(0, 151, 231, 255));
+            //        linear.setColorAt(1, QColor(0, 122, 219, 255));
+            //        linear.setColorAt(0, QColor("#0081FF"));
+            //        linear.setColorAt(1, QColor("#0081FF"));
+            //        linear.setSpread(QGradient::PadSpread);
+            //edit for bug--21476
+            if (m_type == 1) {
+                QBrush brush(QColor("#0081FF"));
+                painter->fillPath(path, brush);
+            } else {
+                QBrush brush(QColor("#0059D2"));
+                painter->fillPath(path, brush);
+            }
+
+            painter->setPen(QPen(QColor(Qt::white)));
+            m_simpleListDelegate->setSelect(false);
+        }
+
+        if (splitList.size() == 1) {
+            // draw expression text;
+            painter->setPen(QColor(fontColor));
+            painter->drawText(
+                QRect(rect.x() + padding, rect.y(), rect.width() - padding * 2, rect.height()),
+                Qt::AlignVCenter | Qt::AlignRight, expStr);
+        } else {
+            // draw result text.
+            painter->drawText(
+                QRect(rect.x() + padding, rect.y(), rect.width() - padding * 2, rect.height()),
+                Qt::AlignVCenter | Qt::AlignRight, resultStr);
+
+            QString linkNum, exp;
+            m_simpleListDelegate->cutApart(expStr, linkNum, exp);
+            exp = exp + " ＝ ";
+
+            // draw expression text;
+            painter->setPen(QColor(fontColor));
+            painter->drawText(QRect(rect.x() + padding, rect.y(),
+                                    rect.width() - resultWidth - padding * 2, rect.height()),
+                              Qt::AlignVCenter | Qt::AlignRight, exp);
+
+            painter->setPen(QColor(fontColor));
+            for (int i = 0; i < m_linkedIten.size(); ++i) {
+                if (m_linkedIten[i] == index.row())
+                    painter->setPen(QColor(linkColor));
+            }
+
+            int expWidth = painter->fontMetrics().width(exp);
+            painter->drawText(QRect(rect.x() + padding, rect.y(),
+                                    rect.width() - resultWidth - expWidth - padding * 2, rect.height()),
+                              Qt::AlignVCenter | Qt::AlignRight, linkNum);
+        }
+    } else if (m_mode == 1) {
+        QRect rect(option.rect);
+        rect.setRight(277);
+        const int padding = 15;
+        QString errorFontColor;
+        QString fontColor;
+        QString linkColor;
+        painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing |
+                                QPainter::SmoothPixmapTransform);
+
+        QFont font;
+        for (int i = 16; i > 12; --i) {  // edit for bug-17238
+            font.setPixelSize(i);
+
+            QFontMetrics fm(font);
+            int fontWidth = fm.width(expression);
+            int editWidth = rect.width() - 24;
+
+            if (fontWidth < editWidth)
+                break;
+        }
+        QFont fontresult; //结果字体
+        for (int i = 24; i > 16; --i) {  // edit for bug-17238
+            font.setPixelSize(i);
+
+            QFontMetrics fm(fontresult);
+            int fontWidth = fm.width(expression);
+            int editWidth = rect.width() - 24;
+
+            if (fontWidth < editWidth)
+                break;
+        }
+        painter->setFont(font);
+
+        QStringList splitList = expression.split("＝");
+        QString resultStr = splitList.last();
+        int resultWidth = painter->fontMetrics().width(resultStr);
+
+        if (resultWidth > rect.width() / 1.4) {
+            resultStr = painter->fontMetrics().elidedText(resultStr, Qt::ElideRight,
+                                                          rect.width() / 1.4 + padding);
+            resultWidth = painter->fontMetrics().width(resultStr);
+        }
+
+        if (m_type == 1) {
+            errorFontColor = "#FF5736";  //edit for bug-21508
+            linkColor = "#000000";
+            fontColor = "#838483";
+        } else {
+            errorFontColor = "#9A2F2F";  //edit for bug-21508
+            linkColor = "#FFFFFF";
+            fontColor = "#838483";
+        }
+
+        // check result text is error.
+        if (resultStr == tr("Expression error")) {
+            painter->setPen(QColor(errorFontColor));
+        } else {
+            painter->setPen(QColor(linkColor));
+        }
+
+        int equalStrWidth = painter->fontMetrics().width(" ＝ ");
+        QString expStr = painter->fontMetrics().elidedText(
+                             splitList.first(), Qt::ElideLeft, rect.width() - resultWidth - padding * 2 - equalStrWidth);
+        // QString expStr = splitList.first();
+
+        if (splitList.size() == 1) {
+            // draw expression text;
+            painter->setPen(QColor(fontColor));
+            painter->drawText(
+                QRect(rect.x() + padding, rect.y(), rect.width() - padding * 2, rect.height()),
+                Qt::AlignVCenter | Qt::AlignRight, expStr);
+        } else {
+            // draw result text.
+            painter->drawText(
+                QRect(rect.x() + padding, rect.y(), rect.width() - padding * 2, rect.height()),
+                Qt::AlignVCenter | Qt::AlignRight, resultStr);
+
+            QString linkNum, exp;
+            m_simpleListDelegate->cutApart(expStr, linkNum, exp);
+            exp = exp + " ＝ ";
+
+            // draw expression text;
+            painter->setPen(QColor(fontColor));
+            painter->drawText(QRect(rect.x() + padding, rect.y(),
+                                    rect.width() - resultWidth - padding * 2, rect.height()),
+                              Qt::AlignVCenter | Qt::AlignRight, exp);
+
+            painter->setPen(QColor(fontColor));
+            for (int i = 0; i < m_linkedIten.size(); ++i) {
+                if (m_linkedIten[i] == index.row())
+                    painter->setPen(QColor(linkColor));
+            }
+
+            int expWidth = painter->fontMetrics().width(exp);
+            painter->drawText(QRect(rect.x() + padding, rect.y(),
+                                    rect.width() - resultWidth - expWidth - padding * 2, rect.height()),
+                              Qt::AlignVCenter | Qt::AlignRight, linkNum);
+        }
     }
+
 }
 
 QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
                                    const QModelIndex &index) const
 {
-    return QSize(-1, 35);
+    return (m_mode == 0) ? QSize(-1, 35) : QSize(-1, 100);
 }
 
 bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,

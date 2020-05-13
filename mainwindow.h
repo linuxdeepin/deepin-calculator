@@ -25,6 +25,7 @@
 #include <QMenu>
 
 #include "modules/basicmodule.h"
+#include "modules/scientificmodule.h"
 #include "dsettings.h"
 
 #define ENABLE_SCIENTIFIC 1
@@ -62,6 +63,7 @@ private:
     QColor m_titlebarColor;
 
     BasicModule *m_basicModule;
+    scientificModule *m_scientificModule;
 };
 
 #endif

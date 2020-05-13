@@ -31,16 +31,20 @@ class SimpleListView : public DListView
     Q_OBJECT
 
 public:
-    explicit SimpleListView(DWidget *parent = nullptr);
+    explicit SimpleListView(int mode = 0, DWidget *parent = nullptr); //mode:0-标准模式 1-科学模式
     ~SimpleListView();
 
 protected:
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *event);
     void adjustScrollbarMargins();
+Q_SIGNALS:
+    void clickrow(QString str);
 
 private slots:
     void selectHistory(const QModelIndex &index);
+private:
+    int m_mode = 0;
 };
 
 #endif

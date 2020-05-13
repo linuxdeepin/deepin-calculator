@@ -46,7 +46,10 @@ void MemoryButton::init()
 //    } else
 //        m_isgray = false;
     if (!widgetbtn) {
-        m_isgray = true;
+        if (text() == "M+" || text() == "M-" || text() == "MS")
+            m_isgray = false;
+        else
+            m_isgray = true;
         this->setEnabled(false);
     }
 }
@@ -195,7 +198,10 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         m_font.setPixelSize(15);
         m_font.setStyleName("Light");
         m_isHover = false;
-        m_isgray = true;
+        if (text() == "M+" || text() == "M-" || text() == "MS")
+            m_isgray = false;
+        else
+            m_isgray = true;
     } else {
         m_isgray = false;
     }

@@ -122,9 +122,11 @@ void MainWindow::initModule()
     setCentralWidget(centralWidget);
 
     m_basicModule = new BasicModule;
+    m_scientificModule = new scientificModule;
 
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->addWidget(m_basicModule);
+    m_mainLayout->addWidget(m_scientificModule);
 
     switch (mode) {
     case 0:
@@ -151,8 +153,6 @@ void MainWindow::initModule()
 
 void MainWindow::switchToSimpleMode()
 {
-    m_basicModule->setmode(0);
-    m_basicModule->switchToSimpleKeypad();
     m_mainLayout->setCurrentIndex(0);
     m_settings->setOption("mode", 0);
     setFixedSize(344, 560);//344.510
@@ -160,16 +160,17 @@ void MainWindow::switchToSimpleMode()
 
 void MainWindow::switchToScientificMode()
 {
-    m_basicModule->setmode(1);
-    m_basicModule->switchToScientificKeypad();
-    m_mainLayout->setCurrentIndex(0);
+    m_mainLayout->setCurrentIndex(1);
     m_settings->setOption("mode", 1);
-    setFixedSize(375, 610);//565.505
+    setFixedSize(675, 610);//565.505  //375+300
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    m_basicModule->setKeyPress(event);
+    if (m_mainLayout->currentIndex() == 0)
+        m_basicModule->setKeyPress(event);
+    else
+        m_scientificModule->setKeyPress(event);
     return;
 }
 

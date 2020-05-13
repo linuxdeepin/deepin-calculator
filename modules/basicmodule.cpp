@@ -34,7 +34,6 @@ BasicModule::BasicModule(QWidget *parent)
     m_basicKeypad = new BasicKeypad;
     m_memoryKeypad = new MemoryKeypad;
     m_memorylistwidget = new MemoryWidget(this);
-    m_scikeypadwidget = new SciBasicKeyPad;
     m_insidewidget = false;
 //    m_keypadLayout->addWidget(m_basicKeypad);
     QVBoxLayout *layout = new QVBoxLayout(this);
@@ -46,7 +45,6 @@ BasicModule::BasicModule(QWidget *parent)
     layout->addLayout(m_keypadLayout);
     m_keypadLayout->addWidget(m_basicKeypad);
     m_keypadLayout->addWidget(m_memorylistwidget);
-    m_keypadLayout->addWidget(m_scikeypadwidget);
 
     layout->setSpacing(0);
     layout->setMargin(0);
@@ -71,15 +69,12 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_expressionBar, &ExpressionBar::keyPress, this, &BasicModule::handleEditKeyPress);
     connect(m_expressionBar, &ExpressionBar::clearStateChanged, this,
             &BasicModule::handleClearStateChanged);
-    connect(m_expressionBar, &ExpressionBar::turnDeg, this, &BasicModule::handleDegChanged);
     connect(m_basicKeypad, &BasicKeypad::buttonPressed, this,
             &BasicModule::handleKeypadButtonPress);
     connect(m_basicKeypad, &BasicKeypad::equalPressed, this, &BasicModule::equalButtonPress);
     connect(m_basicKeypad, &BasicKeypad::moveLeft, [ = ] { m_expressionBar->moveLeft(); });
     connect(m_basicKeypad, &BasicKeypad::moveRight, [ = ] { m_expressionBar->moveRight(); });
     connect(m_memoryKeypad, &MemoryKeypad::buttonPressed, this,
-            &BasicModule::handleKeypadButtonPress);
-    connect(m_scikeypadwidget, &SciBasicKeyPad::buttonPressed, this,
             &BasicModule::handleKeypadButtonPress);
     connect(m_memorylistwidget, &MemoryWidget::widgetplus, this, [ = ](int row) {
         m_memorylistwidget->widgetplusslot(row, m_expressionBar->getInputEdit()->getMemoryAnswer());
@@ -109,20 +104,13 @@ BasicModule::BasicModule(QWidget *parent)
             btn->setEnabled(true);
             MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MR));
             btn1->setEnabled(true);
-            MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
-            btn2->setEnabled(true);
-            MemoryButton *btn3 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mminus));
-            btn3->setEnabled(true);
-            MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
-            btn4->setEnabled(true);
+//            MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
+//            btn2->setEnabled(true);
+//            MemoryButton *btn3 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mminus));
+//            btn3->setEnabled(true);
+//            MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
+//            btn4->setEnabled(true);
         }
-    });
-    connect(m_scikeypadwidget, &SciBasicKeyPad::funshow, this, [ = ]() {
-        m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents);
-        m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents);
-    });
-    connect(m_scikeypadwidget, &SciBasicKeyPad::funinside, this, [ = ]() {
-        m_isinsidefun = true;
     });
     connect(m_expressionBar->getInputEdit(), &InputEdit::correctExpression, this, [ = ](bool b) {
         if (b == true) {
@@ -146,23 +134,6 @@ BasicModule::BasicModule(QWidget *parent)
 }
 
 BasicModule::~BasicModule() {}
-
-void BasicModule::switchToSimpleKeypad()
-{
-    if (m_keypadLayout->currentIndex() == 2) {
-        m_keypadLayout->setCurrentIndex(0);
-    }
-    m_scikeypadwidget->funhide();
-    m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-    m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-}
-
-void BasicModule::switchToScientificKeypad()
-{
-    if (m_keypadLayout->currentIndex() == 0) {
-        m_keypadLayout->setCurrentIndex(2);
-    }
-}
 
 void BasicModule::initTheme(int type)
 {
@@ -511,8 +482,6 @@ void BasicModule::handleKeypadButtonPress(int key)
     case MemoryKeypad::Key_MR:
         m_expressionBar->getInputEdit()->setText(m_memorylistwidget->getfirstnumber());
         break;
-    case SciBasicKeyPad::Key_exp:
-        m_expressionBar->enterExpEvent(m_deg);
     }
     m_expressionBar->addUndo();
 }
@@ -531,25 +500,6 @@ void BasicModule::handleClearStateChanged(bool isAllClear)
         btn->setText("AC");
     } else {
         btn->setText("C");
-    }
-}
-
-void BasicModule::handleDegChanged()
-{
-    TextButton *btn = static_cast<TextButton *>(m_scikeypadwidget->button(SciBasicKeyPad::Key_exp));
-
-    if (btn->text() == "exp") {
-        btn->setText("deg");
-        m_deg = 1;
-    } else if (btn->text() == "deg") {
-        btn->setText("rad");
-        m_deg = 2;
-    } else if (btn->text() == "rad") {
-        btn->setText("grad");
-        m_deg = 3;
-    } else if (btn->text() == "grad") {
-        btn->setText("deg");
-        m_deg = 1;
     }
 }
 
@@ -578,11 +528,6 @@ void BasicModule::handleDegChanged()
 void BasicModule::setKeyPress(QKeyEvent *e)
 {
     handleEditKeyPress(e);
-}
-
-void BasicModule::setmode(int m)
-{
-    m_mode = m;
 }
 
 void BasicModule::mAvailableEvent()
@@ -619,46 +564,27 @@ void BasicModule::showListWidget()
 
 void BasicModule::mousePressEvent(QMouseEvent *event)
 {
-    if (m_keypadLayout->currentIndex() == 1 && m_insidewidget == false) {
-        if (m_mode == 0) {
-            m_keypadLayout->setCurrentIndex(0);
-        } else if (m_mode == 1) {
-            m_keypadLayout->setCurrentIndex(2);
-        }
-        m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-        m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-        m_expressionBar->getInputEdit()->setFocus();
-        if (m_avail == true) {
-            MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
-            btn->setEnabled(true);
-            MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MR));
-            btn1->setEnabled(true);
-            MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
-            btn2->setEnabled(true);
-            MemoryButton *btn3 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mminus));
-            btn3->setEnabled(true);
-            MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
-            btn4->setEnabled(true);
-        } else {
-            MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
-            btn->setEnabled(false);
-            MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MR));
-            btn1->setEnabled(false);
-            MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
-            btn2->setEnabled(true);
-            MemoryButton *btn3 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mminus));
-            btn3->setEnabled(true);
-            MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
-            btn4->setEnabled(true);
-            MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mlist));
-            btn5->setEnabled(false);
-        }
-    }
-    if (m_isinsidefun == false) {
-        m_scikeypadwidget->funhide();
-        m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-        m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    if (m_keypadLayout->currentIndex() == 1 && m_insidewidget == false)
+        m_keypadLayout->setCurrentIndex(0);
+    else
+        m_keypadLayout->setCurrentIndex(1);
+    m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    m_expressionBar->getInputEdit()->setFocus();
+    if (m_avail == true) {
+        MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
+        btn->setEnabled(true);
+        MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
+        btn4->setEnabled(true);
+    } else {
+        MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
+        btn->setEnabled(false);
+        MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MR));
+        btn1->setEnabled(false);
+        MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mlist));
+        btn5->setEnabled(false);
     }
     m_insidewidget = false;
+    m_expressionBar->getInputEdit()->isExpressionCorrect();
     QWidget::mousePressEvent(event);
 }
