@@ -59,5 +59,11 @@
         <file>images/dark/divide_hover.svg</file>
         <file>images/dark/divide_normal.svg</file>
         <file>images/dark/divide_press.svg</file>
+        <file>images/dark/empty_hover.svg</file>
+        <file>images/dark/empty_normal.svg</file>
+        <file>images/dark/empty_press.svg</file>
+        <file>images/light/empty_hover.svg</file>
+        <file>images/light/empty_normal.svg</file>
+        <file>images/light/empty_press.svg</file>
     </qresource>
 </RCC>

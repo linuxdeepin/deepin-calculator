@@ -1,5 +1,6 @@
 #include "memoryitemwidget.h"
 #include <QPainter>
+#include <QDebug>
 
 MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     : QWidget(parent)
@@ -45,8 +46,13 @@ void MemoryItemWidget::leaveEvent(QEvent *event)
     btnplus->setHidden(true);
     btnminus->setHidden(true);
     btnclean->setHidden(true);
-    emit itemchanged();
+    emit itemchanged(m_themetype);
     QWidget::leaveEvent(event);
+}
+
+void MemoryItemWidget::themetypechanged(int type)
+{
+    m_themetype = type;
 }
 
 MemoryItemWidget::~MemoryItemWidget()

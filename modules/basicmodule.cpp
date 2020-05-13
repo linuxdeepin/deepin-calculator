@@ -66,6 +66,8 @@ BasicModule::BasicModule(QWidget *parent)
             &BasicModule::initTheme);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_basicKeypad, &BasicKeypad::buttonThemeChanged);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+            m_memorylistwidget, &MemoryWidget::setThemeType);
     connect(m_expressionBar, &ExpressionBar::keyPress, this, &BasicModule::handleEditKeyPress);
     connect(m_expressionBar, &ExpressionBar::clearStateChanged, this,
             &BasicModule::handleClearStateChanged);
@@ -102,14 +104,16 @@ BasicModule::BasicModule(QWidget *parent)
             m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
             MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
             btn->setEnabled(true);
+            btn->setbuttongray(false);
             MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MR));
             btn1->setEnabled(true);
-//            MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
-//            btn2->setEnabled(true);
-//            MemoryButton *btn3 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mminus));
-//            btn3->setEnabled(true);
-//            MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
-//            btn4->setEnabled(true);
+            btn1->setbuttongray(false);
+            MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
+            btn2->setbuttongray(false);
+            MemoryButton *btn3 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mminus));
+            btn3->setbuttongray(false);
+            MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
+            btn4->setbuttongray(false);
         }
     });
     connect(m_expressionBar->getInputEdit(), &InputEdit::correctExpression, this, [ = ](bool b) {
@@ -554,9 +558,18 @@ void BasicModule::mUnAvailableEvent()
 
 void BasicModule::showListWidget()
 {
-    if (m_keypadLayout->currentIndex() == 0 || m_keypadLayout->currentIndex() == 2) {
+    if (m_keypadLayout->currentIndex() == 0) {
         m_keypadLayout->setCurrentIndex(1);
-
+        MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
+        btn2->setbuttongray(true);
+        MemoryButton *btn3 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mminus));
+        btn3->setbuttongray(true);
+        MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
+        btn4->setbuttongray(true);
+        MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MR));
+        btn->setbuttongray(true);
+        MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
+        btn1->setbuttongray(true);
     } /*else {
         m_keypadLayout->setCurrentIndex(0);
     }*/
@@ -564,8 +577,19 @@ void BasicModule::showListWidget()
 
 void BasicModule::mousePressEvent(QMouseEvent *event)
 {
-    if (m_keypadLayout->currentIndex() == 1 && m_insidewidget == false)
+    if (m_keypadLayout->currentIndex() == 1 && m_insidewidget == false) {
         m_keypadLayout->setCurrentIndex(0);
+        MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
+        btn2->setbuttongray(false);
+        MemoryButton *btn3 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mminus));
+        btn3->setbuttongray(false);
+        MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
+        btn4->setbuttongray(false);
+        MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MR));
+        btn->setbuttongray(false);
+        MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
+        btn1->setbuttongray(false);
+    }
     m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
     m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
     m_expressionBar->getInputEdit()->setFocus();

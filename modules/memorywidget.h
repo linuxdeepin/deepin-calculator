@@ -7,6 +7,7 @@
 #include <QHBoxLayout>
 #include <QListWidget>
 #include <QList>
+#include <QObject>
 #include "memoryitemwidget.h"
 #include "memorylistwidget.h"
 #include "../core/evaluator.h"
@@ -40,6 +41,7 @@ signals:
     void mListUnavailable();
     void mListAvailable();
     void itemclick(const QString str);
+    void themechange(int type);
 private:
     MemoryListWidget *m_listwidget;
     QPoint m_mousepoint;
@@ -50,11 +52,13 @@ private:
     Quantity m_ans;
     bool m_ansVaild;
     QList<Quantity> list;
+    int m_themetype = 0;
 
 private:
     QString formatExpression(const QString &text);
 public slots:
 //    void on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+    void setThemeType(int type);
 };
 
 

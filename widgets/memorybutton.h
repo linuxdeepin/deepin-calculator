@@ -25,6 +25,8 @@ public:
     void animate(int msec = 100);
     bool *getm_isgray() { return &m_isgray; }
     void printm_isgray() { qDebug() << "m_isgray" << m_isgray; }
+public slots:
+    void setbuttongray(bool b);
 
 signals:
     void moveLeft();
@@ -50,6 +52,7 @@ private:
     bool m_isgray;
     QFont m_font;
     bool widgetbtn;
+    bool m_isallgray;
 };
 
 #endif  // MEMORYBUTTON_H

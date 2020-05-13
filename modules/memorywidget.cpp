@@ -11,6 +11,7 @@
 #include <QContextMenuEvent>
 #include <QMenu>
 #include <QClipboard>
+#include <DGuiApplicationHelper>
 #include "../utils.h"
 
 MemoryWidget::MemoryWidget(QWidget *parent)
@@ -37,16 +38,17 @@ MemoryWidget::MemoryWidget(QWidget *parent)
     m_listwidget->setAutoScroll(false);
     m_listwidget->setSelectionRectVisible(false);
     m_listwidget->setFocusPolicy(Qt::NoFocus);
-    m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:rgb(150,150,150);} \
-                                 QListWidget::item:hover{color:black;background-color:rgb(180,180,180);} \
-                                 QListWidget{color:black;background-color:rgb(150,150,150);}");
+    m_listwidget->setWordWrap(true);
+//    m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
+//                                 QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.1 * 255);} \
+//                                 QListWidget{color:black;background-color:transparent;}");
     lay->addStretch();
     layH->addStretch();
     layH->addWidget(m_clearbutton);
-    m_clearbutton->setFixedSize(30, 30);
-    m_clearbutton->setStyleSheet("QPushButton {border:none;background-color: transparent;image:url(:/images/light/clear_normal.svg);} \
-                                  QPushButton:hover {border: 1px solid #000000;image:url(:/images/light/clear_hover.svg);} \
-                                  QPushButton:pressed {image:url(:/images/light/clear_press.svg);}");
+    m_clearbutton->setFixedSize(40, 40);
+//    m_clearbutton->setStyleSheet("QPushButton {border:none;background-color: transparent;image:url(:/images/light/clear_normal.svg);} \
+//                                  QPushButton:hover {border: 1px solid #000000;image:url(:/images/light/clear_hover.svg);} \
+//                                  QPushButton:pressed {image:url(:/images/light/clear_press.svg);}");
     connect(m_clearbutton, &DPushButton::clicked, this, [ = ]() {
         m_listwidget->clear();
         m_listwidget->addItem("内存中没有内容");
@@ -62,11 +64,11 @@ MemoryWidget::MemoryWidget(QWidget *parent)
         if (item->flags() != Qt::NoItemFlags)
             emit itemclick(str);
     });
-    connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
-        m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:rgb(150,150,150);} \
-                                     QListWidget::item:selected{color:black;background-color:rgb(115,115,115);} \
-                                     QListWidget{color:black;background-color:rgb(150,150,150);}");
-    });
+//    connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
+//        m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
+//                                     QListWidget::item:selected{color:#FFFFFF;background-color:#0081FF;} \
+//                                     QListWidget{color:black;background-color:transparent;}");
+//    });
 }
 
 void MemoryWidget::generateData(Quantity answer)
@@ -93,7 +95,7 @@ void MemoryWidget::generateData(Quantity answer)
     list.insert(0, answer); //对于新增数据，同步在list中加入对应的Quantity
     item1->setTextAlignment(Qt::AlignRight | Qt::AlignTop);
     QFont font;
-    font.setPixelSize(24);
+    font.setPixelSize(30);
     item1->setFont(font);
     item1->setSizeHint(QSize(344, 130));
 //    item1->setBackgroundColor(QColor(125,125,125,254));
@@ -120,19 +122,32 @@ void MemoryWidget::generateData(Quantity answer)
             emit mListUnavailable();
         }
     });
-    connect(widget, &MemoryItemWidget::itemchanged, this, [ = ]() {
-        m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:rgb(150,150,150);} \
-                                     QListWidget::item:hover{color:black;background-color:rgb(180,180,180);} \
-                                     QListWidget{color:black;background-color:rgb(150,150,150);}");
+    widget->themetypechanged(m_themetype);
+    connect(this, &MemoryWidget::themechange, widget, &MemoryItemWidget::themetypechanged);
+    connect(widget, &MemoryItemWidget::itemchanged, this, [ = ](int type) {
+        if (type == 1) {
+            m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
+                                         QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.1 * 255);} \
+                                         QListWidget{color:black;background-color:transparent;}");
+        } else {
+            m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
+                                         QListWidget::item:hover{color:#B4B4B4;background-color:rgba(255,255,255,0.05);} \
+                                         QListWidget{color:#B4B4B4;background-color:transparent;}");
+        }
     });
 }
 
 void MemoryWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
-    QPen pen(QBrush(QColor(150, 150, 150)), 0);
-    painter.setPen(pen);
-    painter.setBrush(QBrush(QColor(150, 150, 150)));
+    if (m_themetype == 1) {
+        QPen pen(QBrush(QColor("#F8F8F8")), 0);
+        painter.setPen(pen);
+    } else {
+        QPen pen(QBrush(QColor("#252525")), 0);
+        painter.setPen(pen);
+    }
+//    painter.setBrush(QBrush(QColor("#F8F8F8")));
     QRect rect(this->rect().left(), this->rect().top(), this->rect().width(), this->rect().bottom() + 30);
     painter.drawRect(rect);
     QWidget::paintEvent(event);
@@ -310,6 +325,42 @@ QString MemoryWidget::formatExpression(const QString &text)
            .replace(QString::fromUtf8("×"), "*")
            .replace(QString::fromUtf8("÷"), "/")
            .replace(QString::fromUtf8(","), "");
+}
+
+void MemoryWidget::setThemeType(int type)
+{
+    int typeIn = type;
+    if (typeIn == 0) {
+        typeIn = DGuiApplicationHelper::instance()->themeType();
+    }
+    m_themetype = typeIn;
+    emit themechange(m_themetype);
+    if (m_themetype == 1) {
+        m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
+                                     QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.1 * 255);} \
+                                     QListWidget{color:black;background-color:transparent;}");
+        m_clearbutton->setStyleSheet("QPushButton {border:none;background-color: transparent;image:url(:/images/light/empty_normal.svg);} \
+                                      QPushButton:hover {image:url(:/images/light/empty_hover.svg);} \
+                                      QPushButton:pressed {image:url(:/images/light/empty_press.svg);}");
+        connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
+            m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
+                                         QListWidget::item:selected{color:#FFFFFF;background-color:#0081FF;} \
+                                         QListWidget{color:black;background-color:transparent;}");
+        });
+    } else {
+        m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
+                                     QListWidget::item:hover{color:#B4B4B4;background-color:rgba(255,255,255,0.05);} \
+                                     QListWidget{color:#B4B4B4;background-color:transparent;}");
+        m_clearbutton->setStyleSheet("QPushButton {border:none;background-color: transparent;image:url(:/images/dark/empty_normal.svg);} \
+                                      QPushButton:hover {image:url(:/images/dark/empty_hover.svg);} \
+                                      QPushButton:pressed {image:url(:/images/dark/empty_press.svg);}");
+        connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
+            m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
+                                         QListWidget::item:selected{color:#FFFFFF;background-color:#0059D2;} \
+                                         QListWidget{color:#B4B4B4;background-color:transparent;}");
+        });
+    }
+
 }
 
 MemoryWidget::~MemoryWidget()

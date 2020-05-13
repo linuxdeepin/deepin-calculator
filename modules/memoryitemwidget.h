@@ -20,7 +20,9 @@ signals:
     void plusbtnclicked();
     void minusbtnclicked();
     void cleanbtnclicked();
-    void itemchanged();
+    void itemchanged(int type);
+public slots:
+    void themetypechanged(int type);
 
 public:
 
@@ -31,6 +33,7 @@ private:
     MemoryButton *btnminus;
     MemoryButton *btnclean;
     int m_type = 0;
+    int m_themetype = 1;
 };
 
 #endif // MEMORYITEMWIDGET_H

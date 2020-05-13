@@ -8,7 +8,8 @@
 #include <DGuiApplicationHelper>
 
 MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *parent)
-    : DPushButton(text, parent)  //,
+    : DPushButton(text, parent)
+    , m_isallgray(false)//,
       // m_effect(new QGraphicsDropShadowEffect(this))
 {
     setFixedSize(50, 33);
@@ -34,7 +35,7 @@ MemoryButton::~MemoryButton()
 
 void MemoryButton::init()
 {
-    m_font.setPixelSize(15);
+    m_font.setPixelSize(16);
     m_font.setFamily("HelveticaNeue");
     m_font.setStyleName("Light");
 
@@ -77,6 +78,15 @@ void MemoryButton::animate(int msec)
     });
 }
 
+void MemoryButton::setbuttongray(bool b)
+{
+    if (text() != "M^")
+        m_isallgray = true;
+    if (b == false)
+        m_isallgray = false;
+    update();
+}
+
 void MemoryButton::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::RightButton)
@@ -115,7 +125,7 @@ void MemoryButton::mouseReleaseEvent(QMouseEvent *e)
 
 void MemoryButton::enterEvent(QEvent *e)
 {
-    m_font.setPixelSize(16);
+    m_font.setPixelSize(17);
     m_font.setStyleName("");
     m_isHover = true;
 
@@ -171,7 +181,7 @@ bool MemoryButton::event(QEvent *e)
 
 void MemoryButton::leaveEvent(QEvent *e)
 {
-    m_font.setPixelSize(15);
+    m_font.setPixelSize(16);
     m_font.setStyleName("Light");
     m_isHover = false;
     DPushButton::leaveEvent(e);
@@ -195,7 +205,7 @@ void MemoryButton::keyPressEvent(QKeyEvent *e)
 void MemoryButton::paintEvent(QPaintEvent *e)
 {
     if (isEnabled() == false) {
-        m_font.setPixelSize(15);
+        m_font.setPixelSize(16);
         m_font.setStyleName("Light");
         m_isHover = false;
         if (text() == "M+" || text() == "M-" || text() == "MS")
@@ -230,24 +240,30 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         hoverFrame = QColor("#A7E0FF");
         base = Qt::white;
         text = Qt::black;
+        if (m_isgray == true || m_isallgray == true) {
+            base = QColor("#FFFFFF");
+            text = QColor(0, 26, 46, 0.4 * 255);
+            pressText = Qt::black;
+            pressBrush = QColor("#FFFFFF");
+        }
     } else {
         pressBrush = QColor(0, 0, 0, 0.5 * 255);
         focus = QColor(0, 79, 156);
         hoverFrame = QColor(0, 79, 156, 0.5 * 255);
-        base = QColor(48, 48, 48);
+        if (widgetbtn == false)
+            base = QColor(48, 48, 48);
+        else
+            base = QColor(255, 255, 255, 0.1 * 255);
         if (m_isHover)
             text = Qt::white;
         else
             text = QColor(224, 224, 224);
-    }
-    if (m_isgray == true) {
-        base = Qt::gray;
-        text = Qt::black;
-        pressText = Qt::black;
-        pressBrush = Qt::gray;
-    }
-    if (widgetbtn == true) {
-        base = Qt::blue;
+        if (m_isgray == true || m_isallgray == true) {
+            base = QColor(48, 48, 48, 0.4 * 255);
+            text = QColor(224, 224, 224, 0.4 * 255);
+            pressText = Qt::black;
+            pressBrush = QColor("#FFFFFF");
+        }
     }
     if (hasFocus()) {
         painter.setPen(Qt::NoPen);
@@ -265,11 +281,12 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             pen.setWidth(2);
             painter.setPen(pen);
             painter.setBrush(Qt::NoBrush);
-            QPainterPath path;
-            path.addRoundedRect(rect, 10, 10);
-            painter.fillPath(path, QBrush(focus));
-            painter.drawPath(path);
-
+            if (widgetbtn == false) {
+                QPainterPath path;
+                path.addRoundedRect(rect, 10, 10);
+                painter.fillPath(path, QBrush(focus));
+                painter.drawPath(path);
+            }
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
             painter.drawRoundRect(normal, 18, 18);
