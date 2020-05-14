@@ -169,10 +169,10 @@ void MemoryWidget::contextMenuEvent(QContextMenuEvent *event)
 {
     if (m_listwidget->itemAt(event->pos()) && !m_isempty) {
         QMenu *menu = new QMenu(this);
-        QAction *copy = new QAction("复制");
-        QAction *clean = new QAction("清除内存项");
-        QAction *plus = new QAction("添加到内存项");
-        QAction *minus = new QAction("从内存项中减去");
+        QAction *copy = new QAction("复制", menu);
+        QAction *clean = new QAction("清除内存项", menu);
+        QAction *plus = new QAction("添加到内存项", menu);
+        QAction *minus = new QAction("从内存项中减去", menu);
         menu->addAction(copy);
         menu->addAction(clean);
         menu->addAction(plus);
