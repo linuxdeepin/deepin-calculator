@@ -503,7 +503,6 @@ void scientificModule::mUnAvailableEvent()
 void scientificModule::mousePressEvent(QMouseEvent *event)
 {
     if (m_isinsidefun == false) {
-        m_scikeypadwidget->funhide();
         m_sciexpressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
         m_scikeypadwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
     }

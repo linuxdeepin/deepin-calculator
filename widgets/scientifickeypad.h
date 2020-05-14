@@ -1,18 +1,14 @@
 #include <QWidget>
 #include <QGridLayout>
 #include <QVBoxLayout>
-#include <QHBoxLayout>
 #include <QStackedLayout>
 #include <QSignalMapper>
-#include <DPushButton>
 #include <DGuiApplicationHelper>
 #include <DSuggestButton>
 #include "textbutton.h"
 #include "iconbutton.h"
 #include "equalbutton.h"
 #include "memorybutton.h"
-#include "tricombobox.h"
-#include "funcombobox.h"
 #include <QDebug>
 
 DWIDGET_USE_NAMESPACE
@@ -68,7 +64,6 @@ public slots:
     void initButtons();
     void buttonThemeChanged(int type);
     void turnPage(int key);
-    void funhide();
 signals:
     void buttonPressed(int);
     void equalPressed();

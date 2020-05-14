@@ -27,4 +27,12 @@ public slots:
 //    void on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 };
 
+class MemoryListWidgetItem : public QListWidgetItem
+{
+    friend class MemoryListWidget;
+public:
+    explicit MemoryListWidgetItem(MemoryListWidget *view = nullptr);
+    ~MemoryListWidgetItem();
+};
+
 #endif // MEMORYLISTWIDGET_H

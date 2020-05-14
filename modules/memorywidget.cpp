@@ -83,13 +83,13 @@ void MemoryWidget::generateData(Quantity answer)
     }
     m_isempty = false;
     emit mListAvailable();
-    QListWidgetItem *item1 = new QListWidgetItem();
+    MemoryListWidgetItem *item1 = new MemoryListWidgetItem(m_listwidget);
     if (answer == Quantity(0)) {
         item1->setData(Qt::DisplayRole, "0");
     } else {
         const QString result = DMath::format(answer, Quantity::Format::General());
         QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace('-', "－").replace('+', "＋");
+        formatResult = setitemwordwrap(formatResult);
         item1->setData(Qt::DisplayRole, formatResult);
     }
     list.insert(0, answer); //对于新增数据，同步在list中加入对应的Quantity

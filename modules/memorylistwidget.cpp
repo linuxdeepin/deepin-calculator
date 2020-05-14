@@ -36,3 +36,14 @@ MemoryListWidget::~MemoryListWidget()
 {
 
 }
+
+MemoryListWidgetItem::MemoryListWidgetItem(MemoryListWidget *view)
+    : QListWidgetItem(view)
+{
+    view->takeItem(view->count() - 1);
+}
+
+MemoryListWidgetItem::~MemoryListWidgetItem()
+{
+
+}

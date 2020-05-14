@@ -590,31 +590,31 @@ void SciExpressionBar::enterEqualEvent()
     QString newResult;
     // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
     // 20200407 超过16位小数未科学计数
-//    if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegExp("[＋－×÷.,%()e]")) != -1)) {
-    if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
-        return;
-    //edit 20200413 for bug--19653
-    const QString result = DMath::format(ans, Quantity::Format::General());
-    QString formatResult = Utils::formatThousandsSeparators(result);
-    formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
-                   .replace(QString::fromUtf8("－"), "-")
-                   .replace(QString::fromUtf8("×"), "*")
-                   .replace(QString::fromUtf8("÷"), "/");
-    //.replace(QString::fromUtf8(","), "");
+    if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegExp("[＋－×÷.,%()e]")) != -1)) {
+        if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
+            return;
+        //edit 20200413 for bug--19653
+        const QString result = DMath::format(ans, Quantity::Format::General());
+        QString formatResult = Utils::formatThousandsSeparators(result);
+        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
+                       .replace(QString::fromUtf8("－"), "-")
+                       .replace(QString::fromUtf8("×"), "*")
+                       .replace(QString::fromUtf8("÷"), "/");
+        //.replace(QString::fromUtf8(","), "");
 
-    //        QString tStr = m_inputEdit->text().replace(QString::fromUtf8(","), "");
-    QString tStr = m_inputEdit->text();
-    // 20200402 需求3.2.1.6当输入的数字中有千位符，点击等号视为前后一致，不计入表达式
-    if (formatResult != tStr) {
+        //        QString tStr = m_inputEdit->text().replace(QString::fromUtf8(","), "");
+        QString tStr = m_inputEdit->text();
+        // 20200402 需求3.2.1.6当输入的数字中有千位符，点击等号视为前后一致，不计入表达式
+        if (formatResult != tStr) {
 //        m_listModel->updataList(m_inputEdit->text() + "＝" + formatResult, m_hisRevision);
-        m_inputEdit->setAnswer(formatResult, ans);
-        newResult = formatResult;
-    }
-    m_isContinue = false;
+            m_inputEdit->setAnswer(formatResult, ans);
+            newResult = formatResult;
+        }
+        m_isContinue = false;
 //    qDebug() << "formatResult";
-    m_inputEdit->setText(formatResult);
-    m_lineEdit->setText(exp + "=" + formatResult);
-//    }
+        m_inputEdit->setText(formatResult);
+        m_lineEdit->setText(exp + "=" + formatResult);
+    }
 
 //    else {
 //        // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换

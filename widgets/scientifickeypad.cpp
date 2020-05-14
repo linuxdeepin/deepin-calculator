@@ -315,7 +315,3 @@ void ScientificKeyPad::turnPage(int key)
         }
     }
 }
-
-void ScientificKeyPad::funhide()
-{
-}
