@@ -83,7 +83,8 @@ HEADERS += mainwindow.h \
     widgets/tricombobox.h \
     widgets/funcombobox.h \
     modules/scihistorywidget.h \
-    modules/scientificmodule.h
+    modules/scientificmodule.h \
+    modules/sciexpressionbar.h
 SOURCES += main.cpp \
            mainwindow.cpp \
            dsettings.cpp \
@@ -144,7 +145,8 @@ SOURCES += main.cpp \
     widgets/tricombobox.cpp \
     widgets/funcombobox.cpp \
     modules/scihistorywidget.cpp \
-    modules/scientificmodule.cpp
+    modules/scientificmodule.cpp \
+    modules/sciexpressionbar.cpp
 
 RESOURCES += deepin-calculator.qrc
 TRANSLATIONS += $$PWD/translations/deepin-calculator.ts \

@@ -11,9 +11,9 @@
 #include "../widgets/basickeypad.h"
 #include "../widgets/memorykeypad.h"
 #include "../widgets/tricombobox.h"
-#include "expressionbar.h"
+#include "sciexpressionbar.h"
 #include "memorywidget.h"
-#include "./widgets/scibasickeypad.h"
+#include "./widgets/scientifickeypad.h"
 #include "../widgets/inputedit.h"
 #include "scihistorywidget.h"
 
@@ -48,9 +48,9 @@ protected:
     //void paintEvent(QPaintEvent *);
 
 private:
-    ExpressionBar *m_expressionBar;
-    MemoryKeypad *m_memoryKeypad;
-    SciBasicKeyPad *m_scikeypadwidget;
+    SciExpressionBar *m_sciexpressionBar;
+//    MemoryKeypad *m_memoryKeypad;
+    ScientificKeyPad *m_scikeypadwidget;
     QColor m_expBarColor;
     QColor m_expBarSepColor;
     QColor m_btnSepColor;
