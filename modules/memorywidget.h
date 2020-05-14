@@ -23,7 +23,6 @@ public:
     void generateData(Quantity answer);
     void paintEvent(QPaintEvent *event);
     void mousePressEvent(QMouseEvent *event);
-    void contextMenuEvent(QContextMenuEvent *event);
 //    bool event(QEvent *event);
 
     void memoryplus(Quantity answer);

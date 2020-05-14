@@ -16,11 +16,16 @@ public:
     ~MemoryItemWidget();
     void enterEvent(QEvent *event);
     void leaveEvent(QEvent *event);
+    void contextMenuEvent(QContextMenuEvent *event);
 signals:
     void plusbtnclicked();
     void minusbtnclicked();
     void cleanbtnclicked();
     void itemchanged(int type);
+    void menuclean();
+    void menucopy();
+    void menuplus();
+    void menuminus();
 public slots:
     void themetypechanged(int type);
 

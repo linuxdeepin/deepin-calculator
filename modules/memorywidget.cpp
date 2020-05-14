@@ -83,7 +83,7 @@ void MemoryWidget::generateData(Quantity answer)
     }
     m_isempty = false;
     emit mListAvailable();
-    MemoryListWidgetItem *item1 = new MemoryListWidgetItem(m_listwidget);
+    QListWidgetItem *item1 = new QListWidgetItem();
     if (answer == Quantity(0)) {
         item1->setData(Qt::DisplayRole, "0");
     } else {
@@ -115,6 +115,7 @@ void MemoryWidget::generateData(Quantity answer)
     connect(widget, &MemoryItemWidget::cleanbtnclicked, this, [ = ]() {
         list.removeAt(m_listwidget->row(item1));
         m_listwidget->takeItem(m_listwidget->row(item1));
+        delete item1;
         if (m_listwidget->count() == 0) {
             m_listwidget->addItem("内存中没有内容");
             m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
@@ -134,6 +135,30 @@ void MemoryWidget::generateData(Quantity answer)
                                          QListWidget::item:hover{color:#B4B4B4;background-color:rgba(255,255,255,0.05);} \
                                          QListWidget{color:#B4B4B4;background-color:transparent;}");
         }
+    });
+    connect(widget, &MemoryItemWidget::menuclean, this, [ = ]() {
+        list.removeAt(m_listwidget->row(item1));
+        m_listwidget->takeItem(m_listwidget->row(item1));
+        delete item1;
+        if (m_listwidget->count() == 0) {
+            m_listwidget->addItem("内存中没有内容");
+            m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
+            m_isempty = true;
+            emit mListUnavailable();
+        }
+    });
+    connect(widget, &MemoryItemWidget::menucopy, this, [ = ]() {
+        QClipboard *clipboard = QApplication::clipboard();
+        QString originalText = clipboard->text();
+        clipboard->setText(item1->data(Qt::EditRole).toString().remove("\n"));
+    });
+    connect(widget, &MemoryItemWidget::menuplus, this, [ = ]() {
+        int row = m_listwidget->row(item1);
+        emit MemoryWidget::widgetplus(row);
+    });
+    connect(widget, &MemoryItemWidget::menuminus, this, [ = ]() {
+        int row = m_listwidget->row(item1);
+        emit MemoryWidget::widgetminus(row);
     });
 }
 
@@ -163,46 +188,6 @@ void MemoryWidget::mousePressEvent(QMouseEvent *event)
     if (rect.contains(m_mousepoint) == true)
         emit insidewidget();
     QWidget::mousePressEvent(event);
-}
-
-void MemoryWidget::contextMenuEvent(QContextMenuEvent *event)
-{
-    if (m_listwidget->itemAt(event->pos()) && !m_isempty) {
-        QMenu *menu = new QMenu(this);
-        QAction *copy = new QAction("复制", menu);
-        QAction *clean = new QAction("清除内存项", menu);
-        QAction *plus = new QAction("添加到内存项", menu);
-        QAction *minus = new QAction("从内存项中减去", menu);
-        menu->addAction(copy);
-        menu->addAction(clean);
-        menu->addAction(plus);
-        menu->addAction(minus);
-        connect(copy, &QAction::triggered, this, [ = ]() {
-            QClipboard *clipboard = QApplication::clipboard();
-            QString originalText = clipboard->text();
-            clipboard->setText(m_listwidget->itemAt(event->pos())->data(Qt::EditRole).toString().remove("\n"));
-        });
-        connect(clean, &QAction::triggered, this, [ = ]() {
-            m_listwidget->takeItem(m_listwidget->row(m_listwidget->itemAt(event->pos())));
-            if (m_listwidget->count() == 0) {
-                m_listwidget->addItem("内存中没有内容");
-                m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
-                m_isempty = true;
-                list.clear();
-                emit mListUnavailable();
-            }
-        });
-        connect(plus, &QAction::triggered, this, [ = ]() {
-            int row = m_listwidget->row(m_listwidget->itemAt(event->pos()));
-            emit MemoryWidget::widgetplus(row);
-        });
-        connect(minus, &QAction::triggered, this, [ = ]() {
-            int row = m_listwidget->row(m_listwidget->itemAt(event->pos()));
-            emit MemoryWidget::widgetminus(row);
-        });
-        menu->exec(event->globalPos());
-        delete menu;
-    }
 }
 
 void MemoryWidget::memoryplus(Quantity answer)
