@@ -38,7 +38,7 @@ MemoryWidget::MemoryWidget(QWidget *parent)
     m_listwidget->setAutoScroll(false);
     m_listwidget->setSelectionRectVisible(false);
     m_listwidget->setFocusPolicy(Qt::NoFocus);
-    m_listwidget->setWordWrap(true);
+//    m_listwidget->setWordWrap(true);
 //    m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
 //                                 QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.1 * 255);} \
 //                                 QListWidget{color:black;background-color:transparent;}");
@@ -180,7 +180,7 @@ void MemoryWidget::contextMenuEvent(QContextMenuEvent *event)
         connect(copy, &QAction::triggered, this, [ = ]() {
             QClipboard *clipboard = QApplication::clipboard();
             QString originalText = clipboard->text();
-            clipboard->setText(m_listwidget->itemAt(event->pos())->data(Qt::EditRole).toString());
+            clipboard->setText(m_listwidget->itemAt(event->pos())->data(Qt::EditRole).toString().remove("\n"));
         });
         connect(clean, &QAction::triggered, this, [ = ]() {
             m_listwidget->takeItem(m_listwidget->row(m_listwidget->itemAt(event->pos())));
@@ -217,8 +217,7 @@ void MemoryWidget::memoryplus(Quantity answer)
         Quantity ans = m_evaluator->evalUpdateAns();
         const QString result = DMath::format(ans, Quantity::Format::General());
         QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
-                       .replace(QString::fromUtf8("－"), "-");
+        formatResult = setitemwordwrap(formatResult);
         m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
         list.replace(0, ans);
     } else {
@@ -239,8 +238,7 @@ void MemoryWidget::memoryminus(Quantity answer)
         Quantity ans = m_evaluator->evalUpdateAns();
         const QString result = DMath::format(ans, Quantity::Format::General());
         QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
-                       .replace(QString::fromUtf8("－"), "-");
+        formatResult = setitemwordwrap(formatResult);
         m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
         list.replace(0, ans);
     } else {
@@ -251,8 +249,7 @@ void MemoryWidget::memoryminus(Quantity answer)
         Quantity ans = m_evaluator->evalUpdateAns();
         const QString result = DMath::format(ans, Quantity::Format::General());
         QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
-                       .replace(QString::fromUtf8("－"), "-");
+        formatResult = setitemwordwrap(formatResult);
         m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
         list.replace(0, ans);
     }
@@ -289,8 +286,7 @@ void MemoryWidget::widgetplusslot(int row, Quantity answer)
         Quantity ans = m_evaluator->evalUpdateAns();
         const QString result = DMath::format(ans, Quantity::Format::General());
         QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
-                       .replace(QString::fromUtf8("－"), "-");
+        formatResult = setitemwordwrap(formatResult);
         m_listwidget->item(row)->setData(Qt::DisplayRole, formatResult);
         list.replace(row, ans);
     }
@@ -310,8 +306,7 @@ void MemoryWidget::widgetminusslot(int row, Quantity answer)
         Quantity ans = m_evaluator->evalUpdateAns();
         const QString result = DMath::format(ans, Quantity::Format::General());
         QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
-                       .replace(QString::fromUtf8("－"), "-");
+        formatResult = setitemwordwrap(formatResult);
         m_listwidget->item(row)->setData(Qt::DisplayRole, formatResult);
         list.replace(row, ans);
     }
@@ -325,6 +320,19 @@ QString MemoryWidget::formatExpression(const QString &text)
            .replace(QString::fromUtf8("×"), "*")
            .replace(QString::fromUtf8("÷"), "/")
            .replace(QString::fromUtf8(","), "");
+}
+
+QString MemoryWidget::setitemwordwrap(const QString &text)
+{
+    QString result = text;
+    result.replace('-', "－").replace('+', "＋");
+    int index = result.indexOf("e");
+    if (index > 0 && result.left(index).length() > 13) {
+        result.insert(index, "\n");
+    } else if (index <= 0 && result.length() > 21) {
+        result.insert(20, "\n");
+    }
+    return result;
 }
 
 void MemoryWidget::setThemeType(int type)
