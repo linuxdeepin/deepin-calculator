@@ -1002,7 +1002,7 @@ void ExpressionBar::copyClipboard2Result()
     QString exp = m_inputEdit->text();
     QString text = QApplication::clipboard()->text();
     if (text.count("。") != 0 && text.count(".") != 0)
-        text.remove("。");
+        text.replace(QString::fromUtf8("。"), ".");
     text.remove("e");
     text = pasteFaultTolerance(text);
     // m_inputEdit->insert(text);
