@@ -14,12 +14,13 @@
 #include <DGuiApplicationHelper>
 #include "../utils.h"
 
-MemoryWidget::MemoryWidget(QWidget *parent)
+MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     : QWidget(parent)
     , m_listwidget(new MemoryListWidget(this))
     , m_clearbutton(new DPushButton(this))
     , m_isempty(true)
 {
+    calculatormode = mode;
     m_evaluator = Evaluator::instance();
     this->setContentsMargins(0, 0, 0, 0);
 
@@ -31,7 +32,7 @@ MemoryWidget::MemoryWidget(QWidget *parent)
     lay->addWidget(m_listwidget);
 
     m_listwidget->setFrameShape(QFrame::NoFrame);
-    m_listwidget->setFixedHeight(260);
+    mode == 0 ? m_listwidget->setFixedHeight(260) : m_listwidget->setFixedHeight(500);
     m_listwidget->setVerticalScrollMode(QListView::ScrollPerPixel);
     m_listwidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     m_listwidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -44,7 +45,10 @@ MemoryWidget::MemoryWidget(QWidget *parent)
 //                                 QListWidget{color:black;background-color:transparent;}");
     lay->addStretch();
     layH->addStretch();
+
     layH->addWidget(m_clearbutton);
+    if (mode == 1)
+        m_clearbutton->hide();
     m_clearbutton->setFixedSize(40, 40);
 //    m_clearbutton->setStyleSheet("QPushButton {border:none;background-color: transparent;image:url(:/images/light/clear_normal.svg);} \
 //                                  QPushButton:hover {border: 1px solid #000000;image:url(:/images/light/clear_hover.svg);} \
@@ -69,6 +73,7 @@ MemoryWidget::MemoryWidget(QWidget *parent)
 //                                     QListWidget::item:selected{color:#FFFFFF;background-color:#0081FF;} \
 //                                     QListWidget{color:black;background-color:transparent;}");
 //    });
+
 }
 
 void MemoryWidget::generateData(Quantity answer)
@@ -328,6 +333,7 @@ void MemoryWidget::setThemeType(int type)
     }
     m_themetype = typeIn;
     emit themechange(m_themetype);
+    QColor c = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
     if (m_themetype == 1) {
         m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
                                      QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.1 * 255);} \

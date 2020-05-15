@@ -24,6 +24,10 @@
 #include <QObject>
 
 #include "./dsettings.h"
+
+#include <DGuiApplicationHelper>
+
+DGUI_USE_NAMESPACE
 class SimpleListDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT

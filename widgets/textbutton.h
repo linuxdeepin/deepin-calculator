@@ -23,6 +23,7 @@
 #include <DPushButton>
 #include <DPalette>
 #include <QGraphicsDropShadowEffect>
+#include <QDebug>
 
 #include "./dsettings.h"
 

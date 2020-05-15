@@ -29,6 +29,7 @@ class SciHistoryWidget : public DWidget
 public:
     SciHistoryWidget(QWidget *parent = nullptr);
     ~SciHistoryWidget();
+    void paintEvent(QPaintEvent *event);
 
 public slots:
 

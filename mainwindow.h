@@ -28,7 +28,7 @@
 #include "modules/scientificmodule.h"
 #include "dsettings.h"
 
-//#define ENABLE_SCIENTIFIC 1
+#define ENABLE_SCIENTIFIC 1
 
 DWIDGET_USE_NAMESPACE
 

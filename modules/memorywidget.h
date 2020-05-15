@@ -17,7 +17,7 @@ class MemoryWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit MemoryWidget(QWidget *parent = nullptr);
+    explicit MemoryWidget(int mode = 0, QWidget *parent = nullptr);
     ~MemoryWidget();
 
     void generateData(Quantity answer);
@@ -52,6 +52,7 @@ private:
     bool m_ansVaild;
     QList<Quantity> list;
     int m_themetype = 0;
+    int calculatormode;
 
 private:
     QString formatExpression(const QString &text);

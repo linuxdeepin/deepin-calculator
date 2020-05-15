@@ -7,12 +7,12 @@
 #include <DGuiApplicationHelper>
 
 EqualButton::EqualButton(const QString &text, QWidget *parent)
-    : DPushButton(text, parent),
+    : DSuggestButton(text, parent),
       m_effect(new QGraphicsDropShadowEffect(this))
 {
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
-    mode == 0 ? setFixedSize(80, 58) : setFixedSize(50, 33);
+    mode == 0 ? setFixedSize(80, 58) : setFixedSize(67, 44);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");
 
@@ -95,8 +95,9 @@ void EqualButton::leaveEvent(QEvent *e)
 
 void EqualButton::paintEvent(QPaintEvent *e)
 {
+    this->setBackgroundRole(DPalette::Base);
     int mode = m_settings->getOption("mode").toInt();
-    mode == 0 ? setFixedSize(80, 58) : setFixedSize(50, 33);
+    mode == 0 ? setFixedSize(80, 58) : setFixedSize(67, 44);
     QRectF rect = this->rect();
     QRectF normal(rect.left() + 2, rect.top() + 2, rect.width() - 4, rect.height() - 4);
     QRectF focusBase(rect.left() + 3, rect.top() + 3, rect.width() - 6, rect.height() - 6);
@@ -109,37 +110,23 @@ void EqualButton::paintEvent(QPaintEvent *e)
     QRectF textRect = painter.fontMetrics().boundingRect("=");
     textRect.moveCenter(rect.center());
     QColor base, text, pressText, hover0, hover1, press0, press1, frame;
-    QColor normalShadow, hoverShadow, pressShadow, focusShadow;
-    int type = DGuiApplicationHelper::instance()->paletteType();
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
-    if (type == 1) {
-        base = QColor("#0081FF");
-        text = Qt::white;
-        pressText = QColor(255, 255, 255, 0.6 * 255);
-        hover0 = QColor("#209BFF");
-        hover1 = QColor("#0188FF");
-        press0 = QColor("#0077CE");
-        press1 = QColor("#0070FF");
-        frame = Qt::white;
-        normalShadow = QColor(44, 167, 248, 0.4 * 255);
-        hoverShadow = QColor(0, 145, 255, 0.3 * 255);
-        pressShadow = QColor(0, 145, 255, 0.3 * 255);
-        focusShadow = QColor(0, 0, 0, 0.05 * 255);
-    } else {
-        base = QColor("#0059D2");
-        pressText = QColor(255, 255, 255, 0.3 * 255);
-        text = Qt::white;
-        hover0 = QColor("#0966E4");
-        hover1 = QColor("#0063EA");
-        press0 = QColor("#003279");
-        press1 = QColor("#0C2E7A");
-        frame = QColor(0, 0, 0, 0.4 * 255);
-        normalShadow = QColor(0, 42, 175, 0.4 * 255);
-        hoverShadow = QColor(0, 37, 255, 0.3 * 255);
-        pressShadow = QColor(6, 26, 121, 0.3 * 255);
-        focusShadow = QColor(0, 0, 0, 0.05 * 255);
-    }
+    QColor shadow;
+
+    base = QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color());
+    text = Qt::white;
+    pressText = QColor(255, 255, 255, 0.6 * 255);
+    hover0 = QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color());
+    hover0.setAlphaF(0.7);
+    hover1 = QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color());
+    hover1.setAlphaF(0.9);
+    press0 = QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color());
+    press0.setAlphaF(1);
+    press1 = QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color());
+    press1.setAlphaF(0.8);
+    frame = Qt::white;
+    shadow = QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color());
+    shadow.setAlphaF(0.2);
+
     if (hasFocus()) {
         painter.setPen(Qt::NoPen);
         if (m_isPress) {
@@ -152,7 +139,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setFont(m_font);
             painter.drawText(textRect, "=");
-            m_effect->setColor(pressShadow);
+            m_effect->setColor(shadow);
             this->setGraphicsEffect(m_effect);
         } else {
             QPen pen;
@@ -174,7 +161,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setFont(m_font);
             painter.drawText(textRect, "=");
-            m_effect->setColor(focusShadow);
+            m_effect->setColor(shadow);
             this->setGraphicsEffect(m_effect);
         }
     } else {
@@ -189,7 +176,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setFont(m_font);
             painter.drawText(textRect, "=");
-            m_effect->setColor(hoverShadow);
+            m_effect->setColor(shadow);
             this->setGraphicsEffect(m_effect);
         } else if (m_isPress) {
             linearGradient.setColorAt(0, press0);
@@ -201,7 +188,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setFont(m_font);
             painter.drawText(textRect, "=");
-            m_effect->setColor(pressShadow);
+            m_effect->setColor(shadow);
             this->setGraphicsEffect(m_effect);
         } else {
             painter.setBrush(QBrush(base));
@@ -211,7 +198,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setFont(m_font);
             painter.drawText(textRect, "=");
-            m_effect->setColor(normalShadow);
+            m_effect->setColor(shadow);
             this->setGraphicsEffect(m_effect);
         }
     }

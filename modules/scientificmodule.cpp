@@ -16,7 +16,7 @@ scientificModule::scientificModule(QWidget *parent)
 //    m_scikeypadwidget = new ScientificKeyPad;
     m_scikeypadwidget = new ScientificKeyPad;
     m_insidewidget = false;
-    m_scihiswidget = new SciHistoryWidget;
+    m_scihiswidget = new SciHistoryWidget(this);
 //    m_keypadLayout->addWidget(m_basicKeypad);
     QHBoxLayout *layout = new QHBoxLayout(this);
     QVBoxLayout *leftlay = new QVBoxLayout();
@@ -52,8 +52,8 @@ scientificModule::scientificModule(QWidget *parent)
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this,
             &scientificModule::initTheme);
-//    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-//            m_basicKeypad, &BasicKeypad::buttonThemeChanged);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+            m_scikeypadwidget, &ScientificKeyPad::buttonThemeChanged);
     connect(m_sciexpressionBar, &SciExpressionBar::keyPress, this, &scientificModule::handleEditKeyPress);
     connect(m_sciexpressionBar, &SciExpressionBar::clearStateChanged, this,
             &scientificModule::handleClearStateChanged);

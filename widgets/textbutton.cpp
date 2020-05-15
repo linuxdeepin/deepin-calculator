@@ -31,7 +31,7 @@ TextButton::TextButton(const QString &text, QWidget *parent)
 {
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
-    mode == 0 ? setFixedSize(80, 58) : setFixedSize(50, 33);
+    mode == 0 ? setFixedSize(80, 58) : setFixedSize(67, 44);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");
 
@@ -41,6 +41,9 @@ TextButton::TextButton(const QString &text, QWidget *parent)
 
     m_effect->setOffset(0, 4);
     m_effect->setBlurRadius(12);
+    Dtk::Gui::DPalette plt = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette();
+    plt.setColor(Dtk::Gui::DPalette::WindowText, plt.color(Dtk::Gui::DPalette::TextTips));
+    setPalette(plt);
 }
 
 TextButton::~TextButton()
@@ -151,8 +154,10 @@ void TextButton::keyPressEvent(QKeyEvent *e)
 
 void TextButton::paintEvent(QPaintEvent *e)
 {
+
+//    qDebug() << Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
     int mode = m_settings->getOption("mode").toInt();
-    mode == 0 ? setFixedSize(80, 58) : setFixedSize(50, 33);
+    mode == 0 ? setFixedSize(80, 58) : setFixedSize(67, 44);
     QRectF rect = this->rect();
     QRectF normal(rect.left() + 2, rect.top() + 2, rect.width() - 4, rect.height() - 4);
     QRectF hover(rect.left() + 3, rect.top() + 3, rect.width() - 6, rect.height() - 6);
@@ -170,14 +175,14 @@ void TextButton::paintEvent(QPaintEvent *e)
     // textRect(QPointF((rect.width()/2)-(textR.width()/2),(rect.height()/2)-(textR.height()/2)),textR.width(),textR.height());
     QColor pressBrush, focus, hoverFrame, base, text;
     QColor hoverShadow, focusShadow, normalShadow;
-    QColor pressText = QColor(0, 129, 255);
+    QColor pressText = QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color());
     int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         pressBrush = QColor(0, 0, 0, 0.1 * 255);
-        focus = QColor("#0081FF");
-        hoverFrame = QColor("#A7E0FF");
+        focus = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+        hoverFrame = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
         base = QColor("#FFFFFF");
         text = QColor("#000000");
         normalShadow = QColor(44, 167, 248, 0.4 * 255);
@@ -185,8 +190,8 @@ void TextButton::paintEvent(QPaintEvent *e)
         focusShadow = QColor(0, 0, 0, 0.05 * 255);
     } else {
         pressBrush = QColor(0, 0, 0, 0.5 * 255);
-        focus = QColor("#004F9C");
-        hoverFrame = QColor(0, 79, 156, 0.5 * 255);
+        focus = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+        hoverFrame = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
         base = QColor("#303030");
         normalShadow = QColor(44, 167, 248, 0.4 * 255);
         hoverShadow = QColor(12, 155, 246, 0.1 * 255);

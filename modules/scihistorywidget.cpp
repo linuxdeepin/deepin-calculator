@@ -13,7 +13,7 @@
 
 SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     : DWidget(parent)
-    , m_memorywidget(new MemoryWidget(this))
+    , m_memorywidget(new MemoryWidget(1, this))
     , m_listView(new SimpleListView(1))
     , m_listDelegate(new SimpleListDelegate(1, this))
     , m_listModel(new SimpleListModel(this))
@@ -41,6 +41,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_Vlayout->setMargin(0);
     m_Vlayout->setContentsMargins(0, 0, 0, 11);
     this->setLayout(m_Vlayout);
+    this->setFixedWidth(370);
 
     QList<DButtonBoxButton *> listBtnBox;
     DButtonBoxButton *historybtn = new DButtonBoxButton(QStringLiteral("历史记录"));
@@ -57,6 +58,19 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     connect(m_buttonbox->button(1), &QAbstractButton::clicked, this, [ = ]() {
         m_stacklayout->setCurrentIndex(1);
     });
+//    this->setStyleSheet("border:1px solid #000000;background-color:transparent;");
 }
 
 SciHistoryWidget::~SciHistoryWidget() {}
+
+void SciHistoryWidget::paintEvent(QPaintEvent *event)
+{
+//    QPainter painter(this);
+//    QPen pen(QBrush(QColor("#F8F8F8")), 0);
+//    painter.setPen(pen);
+
+////    painter.setBrush(QBrush(QColor("#F8F8F8")));
+//    QRect rect(this->rect().left(), this->rect().top(), this->rect().width(), this->rect().bottom() + 30);
+//    painter.drawRect(rect);
+//    QWidget::paintEvent(event);
+}

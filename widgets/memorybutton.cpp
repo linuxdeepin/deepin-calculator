@@ -12,7 +12,9 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
     , m_isallgray(false)//,
       // m_effect(new QGraphicsDropShadowEffect(this))
 {
-    setFixedSize(50, 33);
+    m_settings = DSettings::instance(this);
+    int mode = m_settings->getOption("mode").toInt();
+    mode == 0 ? setFixedSize(50, 33) : setFixedSize(67, 44);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("MemoryButton");
     widgetbtn = listwidgetbtn;
@@ -204,6 +206,8 @@ void MemoryButton::keyPressEvent(QKeyEvent *e)
 
 void MemoryButton::paintEvent(QPaintEvent *e)
 {
+    int mode = m_settings->getOption("mode").toInt();
+    mode == 0 ? setFixedSize(50, 33) : setFixedSize(67, 44);
     if (isEnabled() == false) {
         m_font.setPixelSize(16);
         m_font.setStyleName("Light");
@@ -230,14 +234,14 @@ void MemoryButton::paintEvent(QPaintEvent *e)
     // QRectF
     // textRect(QPointF((rect.width()/2)-(textR.width()/2),(rect.height()/2)-(textR.height()/2)),textR.width(),textR.height());
     QColor pressBrush, focus, hoverFrame, base, text;
-    QColor pressText = QColor(0, 129, 255);
+    QColor pressText = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
     int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         pressBrush = QColor(0, 0, 0, 0.1 * 255);
-        focus = QColor("#0081FF");
-        hoverFrame = QColor("#A7E0FF");
+        focus = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+        hoverFrame = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
         base = Qt::white;
         text = Qt::black;
         if (m_isgray == true || m_isallgray == true) {
@@ -248,8 +252,8 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         }
     } else {
         pressBrush = QColor(0, 0, 0, 0.5 * 255);
-        focus = QColor(0, 79, 156);
-        hoverFrame = QColor(0, 79, 156, 0.5 * 255);
+        focus = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+        hoverFrame = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
         if (widgetbtn == false)
             base = QColor(48, 48, 48);
         else

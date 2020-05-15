@@ -29,7 +29,7 @@ IconButton::IconButton(QWidget *parent)
 {
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
-    mode == 0 ? setFixedSize(80, 58) : setFixedSize(50, 33);
+    mode == 0 ? setFixedSize(80, 58) : setFixedSize(67, 44);
     QGridLayout *layout = new QGridLayout(this);
     layout->addWidget(m_iconWidget, 0, Qt::AlignCenter);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -127,7 +127,7 @@ void IconButton::leaveEvent(QEvent *e)
 void IconButton::paintEvent(QPaintEvent *)
 {
     int mode = m_settings->getOption("mode").toInt();
-    mode == 0 ? setFixedSize(80, 58) : setFixedSize(50, 33);
+    mode == 0 ? setFixedSize(80, 58) : setFixedSize(67, 44);
     QRectF frameRect = this->rect();
     QRectF rect(frameRect.left() + 2, frameRect.top() + 2, frameRect.width() - 4, frameRect.height() - 4);
     QRectF hover(frameRect.left() + 3, frameRect.top() + 3, frameRect.width() - 6, frameRect.height() - 6);
@@ -143,29 +143,32 @@ void IconButton::paintEvent(QPaintEvent *)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         pressBrush = QColor(0, 0, 0, 0.1 * 255);
-        focus = QColor(0, 129, 255);
-        hoverFrame = QColor(167, 224, 255);
+        focus = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+        hoverFrame = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
         base = Qt::white;
     } else {
         pressBrush = QColor(0, 0, 0, 0.5 * 255);
-        focus = QColor(0, 79, 156);
-        hoverFrame = QColor(0, 79, 156, 0.5 * 255);
+        focus = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+        hoverFrame = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
         base = QColor(48, 48, 48);
     }
     if (hasFocus()) {
         if (m_isPress) {
             painter.setBrush(QBrush(pressBrush));
-            painter.drawRoundRect(rect, 30, 40);
+            QPen pen;
+            pen.setColor(pressBrush);
+            painter.setPen(pen);
+            painter.drawRoundRect(rect, 18, 18);
         } else {
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
-            painter.drawRoundRect(rect, 30, 40);
+            painter.drawRoundRect(rect, 18, 18);
             QPen pen;
             pen.setColor(focus);
             pen.setWidth(2);
             painter.setPen(pen);
             painter.setBrush(Qt::NoBrush);
-            painter.drawRoundRect(rect, 30, 40);
+            painter.drawRoundRect(rect, 18, 18);
         }
     } else {
         if (m_isHover) {
@@ -183,7 +186,7 @@ void IconButton::paintEvent(QPaintEvent *)
         } else {
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
-            painter.drawRoundRect(rect, 30, 40);
+            painter.drawRoundRect(rect, 18, 18);
         }
         //painter.setPen(QPen(hoverFrame));
         //painter.setBrush(Qt::NoBrush);

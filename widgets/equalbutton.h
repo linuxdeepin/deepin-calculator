@@ -21,7 +21,9 @@
 #define EQUALBUTTON_H
 
 #include <DPushButton>
+#include <DSuggestButton>
 #include <DPalette>
+#include <QDebug>
 
 #include <QGraphicsDropShadowEffect>
 
@@ -30,7 +32,7 @@
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
 
-class EqualButton : public DPushButton
+class EqualButton : public DSuggestButton
 {
     Q_OBJECT
 public:

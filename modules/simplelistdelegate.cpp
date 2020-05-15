@@ -175,10 +175,10 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
             //        linear.setSpread(QGradient::PadSpread);
             //edit for bug--21476
             if (m_type == 1) {
-                QBrush brush(QColor("#0081FF"));
+                QBrush brush(QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name()));
                 painter->fillPath(path, brush);
             } else {
-                QBrush brush(QColor("#0059D2"));
+                QBrush brush(QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name()));
                 painter->fillPath(path, brush);
             }
 

@@ -33,7 +33,7 @@ BasicModule::BasicModule(QWidget *parent)
     m_keypadLayout = new QStackedLayout;
     m_basicKeypad = new BasicKeypad;
     m_memoryKeypad = new MemoryKeypad;
-    m_memorylistwidget = new MemoryWidget(this);
+    m_memorylistwidget = new MemoryWidget();
     m_insidewidget = false;
     m_memCalbtn = false;
     m_memRCbtn = false;

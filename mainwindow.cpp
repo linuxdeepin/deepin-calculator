@@ -153,16 +153,18 @@ void MainWindow::initModule()
 
 void MainWindow::switchToSimpleMode()
 {
-    m_mainLayout->setCurrentIndex(0);
     m_settings->setOption("mode", 0);
+    m_mainLayout->setCurrentIndex(0);
+
     setFixedSize(344, 560);//344.510
 }
 
 void MainWindow::switchToScientificMode()
 {
-    m_mainLayout->setCurrentIndex(1);
     m_settings->setOption("mode", 1);
-    setFixedSize(675, 610);//565.505  //375+300
+    m_mainLayout->setCurrentIndex(1);
+
+    setFixedSize(800, 610);//565.505  //375+300
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
