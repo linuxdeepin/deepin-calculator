@@ -108,7 +108,6 @@ private:
     bool m_currentOnAnsLeft;
     QString m_oldText;
     SSelection m_selected;
-    bool m_isprecentans; //百分号结果
     int m_lastPos; //最后进入计算时的光标位置
 
     QAction *m_undo;

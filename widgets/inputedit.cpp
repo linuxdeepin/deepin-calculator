@@ -39,7 +39,6 @@ InputEdit::InputEdit(QWidget *parent)
     , m_currentInAns(false)
     , m_currentOnAnsLeft(false)
     , m_oldText("")
-    , m_isprecentans(false)
     , m_lastPos(0)
     , m_memoryans(0)
     , m_percentexp(QString())
@@ -91,16 +90,13 @@ QString InputEdit::expressionPercent(QString &str)
             }
         }
     }
-    if (longnumber && m_isprecentans && m_lastPos == m_ansStartPos + m_ansLength + 1)
+    if (longnumber && m_lastPos == m_ansStartPos + m_ansLength + 1)
         t = ans + str.back();
 //    if (m_ansVaild) {
 //        QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
 //        t.remove(m_ansStartPos, m_ansLength);
 //        t.insert(m_ansStartPos, ans);
 //    }
-    QString first = text().left(m_ansStartPos);
-    QString last = text().right(text().length() - m_lastPos);
-    m_percentexp = first + t + last;
     return t;
 }
 
@@ -135,7 +131,6 @@ QString InputEdit::expressionText()
 
 void InputEdit::setAnswer(const QString &str, const Quantity &ans)
 {
-    m_isprecentans = false;
     m_ans = ans;
     m_ansStartPos = 0;
     m_ansLength = str.length();
@@ -146,7 +141,6 @@ void InputEdit::setAnswer(const QString &str, const Quantity &ans)
 void InputEdit::setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans,
                                  const int &Pos)
 {
-    m_isprecentans = true;
     m_ans = ans;
     m_ansStartPos = Pos + ((Pos == 0) ? 0 : 1); //edit 20200416
     m_ansLength = str2.length();
@@ -609,19 +603,11 @@ Quantity InputEdit::getMemoryAnswer()
     if (text().isEmpty())
         return Quantity(0);
     QString expression;
-    if (!m_isprecentans) {
-        expression = symbolComplement(expressionText()).replace(QString::fromUtf8("＋"), "+")
-                     .replace(QString::fromUtf8("－"), "-")
-                     .replace(QString::fromUtf8("×"), "*")
-                     .replace(QString::fromUtf8("÷"), "/")
-                     .replace(QString::fromUtf8(","), "");
-    } else {
-        expression = symbolComplement(m_percentexp).replace(QString::fromUtf8("＋"), "+")
-                     .replace(QString::fromUtf8("－"), "-")
-                     .replace(QString::fromUtf8("×"), "*")
-                     .replace(QString::fromUtf8("÷"), "/")
-                     .replace(QString::fromUtf8(","), "");
-    }
+    expression = symbolComplement(expressionText()).replace(QString::fromUtf8("＋"), "+")
+                 .replace(QString::fromUtf8("－"), "-")
+                 .replace(QString::fromUtf8("×"), "*")
+                 .replace(QString::fromUtf8("÷"), "/")
+                 .replace(QString::fromUtf8(","), "");
     m_evaluator->setExpression(expression);
     m_memoryans = m_evaluator->evalUpdateAns();
 
