@@ -11,6 +11,7 @@
 #include "memoryitemwidget.h"
 #include "memorylistwidget.h"
 #include "../core/evaluator.h"
+#include "../widgets/iconbutton.h"
 
 class MemoryWidget : public QWidget
 {
@@ -44,7 +45,7 @@ signals:
 private:
     MemoryListWidget *m_listwidget;
     QPoint m_mousepoint;
-    DPushButton *m_clearbutton;
+    IconButton *m_clearbutton;
     int m_type;
     bool m_isempty;
     Evaluator *m_evaluator;

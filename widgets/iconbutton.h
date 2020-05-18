@@ -28,6 +28,7 @@
 #include <DLabel>
 #include <DSvgRenderer>
 #include <DGuiApplicationHelper>
+#include <QDomElement>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -37,10 +38,10 @@ class IconButton : public TextButton
     Q_OBJECT
 
 public:
-    IconButton(QWidget *parent = nullptr);
+    IconButton(QWidget *parent = nullptr, bool b = false);
     ~IconButton();
 
-    void setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName);
+    void setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode = 0);
     void animate(int msec = 100);
 
 protected:
@@ -65,6 +66,13 @@ private:
     QString m_normalUrl;
     QString m_hoverUrl;
     QString m_pressUrl;
+    int m_mode = 0; //0-四则运算符 1-退格符 2-退格符press
+    QString m_currentUrl;
+    int m_buttonStatus = 0; //0-normal 1-hover 2-press
+    bool m_isEmptyBtn; //内存中的清空按钮
+private:
+    void SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval);
+    void drawCenterPixMap(QPainter &painter);
 };
 
 #endif

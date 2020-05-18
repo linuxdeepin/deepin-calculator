@@ -17,7 +17,7 @@
 MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     : QWidget(parent)
     , m_listwidget(new MemoryListWidget(this))
-    , m_clearbutton(new DPushButton(this))
+    , m_clearbutton(new IconButton(this, true))
     , m_isempty(true)
 {
     calculatormode = mode;
@@ -49,7 +49,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     layH->addWidget(m_clearbutton);
     if (mode == 1)
         m_clearbutton->hide();
-    m_clearbutton->setFixedSize(40, 40);
+//    m_clearbutton->setFixedSize(40, 40);
 //    m_clearbutton->setStyleSheet("QPushButton {border:none;background-color: transparent;image:url(:/images/light/clear_normal.svg);} \
 //                                  QPushButton:hover {border: 1px solid #000000;image:url(:/images/light/clear_hover.svg);} \
 //                                  QPushButton:pressed {image:url(:/images/light/clear_press.svg);}");
@@ -327,6 +327,7 @@ QString MemoryWidget::setitemwordwrap(const QString &text)
 
 void MemoryWidget::setThemeType(int type)
 {
+    m_listwidget->update();
     int typeIn = type;
     if (typeIn == 0) {
         typeIn = DGuiApplicationHelper::instance()->themeType();
@@ -334,25 +335,24 @@ void MemoryWidget::setThemeType(int type)
     m_themetype = typeIn;
     emit themechange(m_themetype);
     QColor c = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
+    QString path;
     if (m_themetype == 1) {
+        path = QString(":/images/%1/").arg("light");
         m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
                                      QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.1 * 255);} \
                                      QListWidget{color:black;background-color:transparent;}");
-        m_clearbutton->setStyleSheet("QPushButton {border:none;background-color: transparent;image:url(:/images/light/empty_normal.svg);} \
-                                      QPushButton:hover {image:url(:/images/light/empty_hover.svg);} \
-                                      QPushButton:pressed {image:url(:/images/light/empty_press.svg);}");
+        m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
         connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
             m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
                                          QListWidget::item:selected{color:#FFFFFF;background-color:#0081FF;} \
                                          QListWidget{color:black;background-color:transparent;}");
         });
     } else {
+        path = QString(":/images/%1/").arg("dark");
         m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
                                      QListWidget::item:hover{color:#B4B4B4;background-color:rgba(255,255,255,0.05);} \
                                      QListWidget{color:#B4B4B4;background-color:transparent;}");
-        m_clearbutton->setStyleSheet("QPushButton {border:none;background-color: transparent;image:url(:/images/dark/empty_normal.svg);} \
-                                      QPushButton:hover {image:url(:/images/dark/empty_hover.svg);} \
-                                      QPushButton:pressed {image:url(:/images/dark/empty_press.svg);}");
+        m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
         connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
             m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
                                          QListWidget::item:selected{color:#FFFFFF;background-color:#0059D2;} \
