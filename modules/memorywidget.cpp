@@ -133,11 +133,11 @@ void MemoryWidget::generateData(Quantity answer)
     connect(widget, &MemoryItemWidget::itemchanged, this, [ = ](int type) {
         if (type == 1) {
             m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
-                                         QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.1 * 255);} \
+                                         QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.05 * 255);} \
                                          QListWidget{color:black;background-color:transparent;}");
         } else {
             m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
-                                         QListWidget::item:hover{color:#B4B4B4;background-color:rgba(255,255,255,0.05);} \
+                                         QListWidget::item:hover{color:#B4B4B4;background-color:rgba(255,255,255,0.05 * 255);} \
                                          QListWidget{color:#B4B4B4;background-color:transparent;}");
         }
     });
@@ -339,23 +339,23 @@ void MemoryWidget::setThemeType(int type)
     if (m_themetype == 1) {
         path = QString(":/images/%1/").arg("light");
         m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
-                                     QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.1 * 255);} \
+                                     QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.05 * 255);} \
                                      QListWidget{color:black;background-color:transparent;}");
         m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
         connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
             m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
-                                         QListWidget::item:selected{color:#FFFFFF;background-color:#0081FF;} \
+                                         QListWidget::item:selected{color:black;background-color:rgba(0,0,0,0.2 * 255);} \
                                          QListWidget{color:black;background-color:transparent;}");
         });
     } else {
         path = QString(":/images/%1/").arg("dark");
         m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
-                                     QListWidget::item:hover{color:#B4B4B4;background-color:rgba(255,255,255,0.05);} \
+                                     QListWidget::item:hover{color:#B4B4B4;background-color:rgba(255,255,255,0.05 * 255);} \
                                      QListWidget{color:#B4B4B4;background-color:transparent;}");
         m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
         connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
             m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
-                                         QListWidget::item:selected{color:#FFFFFF;background-color:#0059D2;} \
+                                         QListWidget::item:selected{color:#FFFFFF;background-color:rgba(255,255,255,0.2 * 255);} \
                                          QListWidget{color:#B4B4B4;background-color:transparent;}");
         });
     }
