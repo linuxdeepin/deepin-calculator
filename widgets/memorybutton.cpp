@@ -287,7 +287,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             painter.setBrush(Qt::NoBrush);
             if (widgetbtn == false) {
                 QPainterPath path;
-                path.addRoundedRect(rect, 10, 10);
+                path.addRoundedRect(rect, 8, 8);
                 painter.fillPath(path, QBrush(focus));
                 painter.drawPath(path);
             }
