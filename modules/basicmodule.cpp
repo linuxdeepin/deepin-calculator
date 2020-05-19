@@ -84,12 +84,12 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_memorylistwidget, &MemoryWidget::widgetplus, this, [ = ](int row) {
         m_expressionBar->settingLinkage();
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
-            m_memorylistwidget->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+            m_memorylistwidget->widgetplusslot(row, m_expressionBar->getInputEdit()->getMemoryAnswer().second);
     });
     connect(m_memorylistwidget, &MemoryWidget::widgetminus, this, [ = ](int row) {
         m_expressionBar->settingLinkage();
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
-            m_memorylistwidget->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+            m_memorylistwidget->widgetminusslot(row, m_expressionBar->getInputEdit()->getMemoryAnswer().second);
     });
     connect(m_memorylistwidget, &MemoryWidget::insidewidget, this, [ = ]() {
         m_insidewidget = true;
