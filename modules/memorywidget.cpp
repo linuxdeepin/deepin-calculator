@@ -90,6 +90,15 @@ void MemoryWidget::generateData(Quantity answer)
     m_isempty = false;
     emit mListAvailable();
     QListWidgetItem *item1 = new QListWidgetItem();
+    item1->setTextAlignment(Qt::AlignRight | Qt::AlignTop);
+    QFont font;
+    font.setPixelSize(30);
+    item1->setFont(font);
+    item1->setSizeHint(QSize(344, 40 + 45 * line));
+    MemoryItemWidget *widget = new MemoryItemWidget(this);
+    widget->setFixedSize(344, 40 + 45 * line);
+    m_listwidget->insertItem(0, item1);
+    m_listwidget->setItemWidget(item1, widget);
     if (answer == Quantity(0)) {
         item1->setData(Qt::DisplayRole, "0");
     } else {
@@ -99,18 +108,6 @@ void MemoryWidget::generateData(Quantity answer)
         item1->setData(Qt::DisplayRole, formatResult);
     }
     list.insert(0, answer); //对于新增数据，同步在list中加入对应的Quantity
-    item1->setTextAlignment(Qt::AlignRight | Qt::AlignTop);
-    QFont font;
-    font.setPixelSize(30);
-    item1->setFont(font);
-    item1->setSizeHint(QSize(344, 40 + 45 * line));
-
-//    item1->setBackgroundColor(QColor(125,125,125,254));
-//    item1->setFlags(Qt::NoItemFlags);
-    MemoryItemWidget *widget = new MemoryItemWidget(this);
-    widget->setFixedSize(344, 40 + 45 * line);
-    m_listwidget->insertItem(0, item1);
-    m_listwidget->setItemWidget(item1, widget);
     connect(widget, &MemoryItemWidget::plusbtnclicked, this, [ = ]() {
         int row = m_listwidget->row(item1);
         emit MemoryWidget::widgetplus(row);
