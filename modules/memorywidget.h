@@ -54,6 +54,7 @@ private:
     QList<Quantity> list;
     int m_themetype = 0;
     int calculatormode;
+    int line = 1; //item数字行数
 
 private:
     QString formatExpression(const QString &text);

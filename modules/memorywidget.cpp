@@ -102,11 +102,12 @@ void MemoryWidget::generateData(Quantity answer)
     QFont font;
     font.setPixelSize(30);
     item1->setFont(font);
-    item1->setSizeHint(QSize(344, 130));
+    item1->setSizeHint(QSize(344, 40 + 45 * line));
+
 //    item1->setBackgroundColor(QColor(125,125,125,254));
 //    item1->setFlags(Qt::NoItemFlags);
     MemoryItemWidget *widget = new MemoryItemWidget(this);
-    widget->setFixedSize(344, 130);
+    widget->setFixedSize(344, 40 + 45 * line);
     m_listwidget->insertItem(0, item1);
     m_listwidget->setItemWidget(item1, widget);
     connect(widget, &MemoryItemWidget::plusbtnclicked, this, [ = ]() {
@@ -317,10 +318,13 @@ QString MemoryWidget::setitemwordwrap(const QString &text)
     QString result = text;
     result.replace('-', "－").replace('+', "＋");
     int index = result.indexOf("e");
+    line = 1;
     if (index > 0 && result.left(index).length() > 13) {
         result.insert(index, "\n");
+        line = 2;
     } else if (index <= 0 && result.length() > 21) {
         result.insert(20, "\n");
+        line = 2;
     }
     return result;
 }
