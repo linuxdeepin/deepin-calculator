@@ -54,7 +54,7 @@ TextButton::~TextButton()
 void TextButton::init()
 {
     m_font.setPixelSize(18);
-    m_font.setFamily("HelveticaNeue");
+    m_font.setFamily("Noto Sans CJK SC");
     m_font.setStyleName("Light");
 }
 

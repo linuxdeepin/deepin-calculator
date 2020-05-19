@@ -146,12 +146,12 @@ void BasicKeypad::initButtons()
                      desc->text == "M-" || desc->text == "MS" || desc->text == "M^") {
                 button = new MemoryButton(desc->text);
                 QFont font = button->font();
-                font.setFamily("HelveticaNeue");
+                font.setFamily("Noto Sans CJK SC");
                 button->setFont(font);
             } else {
                 button = new TextButton(desc->text);
                 QFont font = button->font();
-                font.setFamily("HelveticaNeue");
+                font.setFamily("Noto Sans CJK SC");
                 button->setFont(font);
             }
         }

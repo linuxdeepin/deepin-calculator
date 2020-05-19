@@ -58,7 +58,7 @@ void MemoryKeypad::initButtons()
         DPushButton *button;
         button = new MemoryButton(desc->text);
         QFont font = button->font();
-        font.setFamily("HelveticaNeue");
+        font.setFamily("Noto Sans CJK SC");
         button->setFont(font);
 
         m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
