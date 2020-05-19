@@ -22,6 +22,7 @@
 #include <QEvent>
 #include <QMouseEvent>
 #include <QPainter>
+#include <DGuiApplicationHelper>
 #include "dthememanager.h"
 #include "simplelistmodel.h"
 #include "utils.h"
@@ -135,11 +136,11 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
         if (m_type == 1) {
             errorFontColor = "#FF5736";  //edit for bug-21508
-            linkColor = "#3489DF";
+            linkColor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
             fontColor = "#838483";
         } else {
             errorFontColor = "#9A2F2F";  //edit for bug-21508
-            linkColor = "#3489DF";
+            linkColor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
             fontColor = "#838483";
         }
 
