@@ -64,7 +64,7 @@ InputEdit::InputEdit(QWidget *parent)
         this->cursorPositionChanged(pos, pos);
     });
 
-    connect(this, &QLineEdit::textChanged, this, &InputEdit::isExpressionCorrect);
+    connect(this, &QLineEdit::textChanged, this, &InputEdit::isExpressionEmpty);
 
     DPalette pl = this->palette();
     // pl.setColor(DPalette::Text,QColor(48,48,48));
@@ -598,10 +598,9 @@ void InputEdit::selectionChangedSlot()
     //    qDebug() << m_selected.selected;
 }
 
-Quantity InputEdit::getMemoryAnswer()
+QPair<bool, Quantity> InputEdit::getMemoryAnswer()
 {
-    if (text().isEmpty())
-        return Quantity(0);
+    QPair<bool, Quantity> pair;
     QString expression;
     expression = symbolComplement(expressionText()).replace(QString::fromUtf8("＋"), "+")
                  .replace(QString::fromUtf8("－"), "-")
@@ -610,36 +609,28 @@ Quantity InputEdit::getMemoryAnswer()
                  .replace(QString::fromUtf8(","), "");
     m_evaluator->setExpression(expression);
     m_memoryans = m_evaluator->evalUpdateAns();
-
     if (m_evaluator->error().isEmpty()) {
-        if (m_memoryans.isNan() && !m_evaluator->isUserFunctionAssign())
-            return Quantity(0);
-        return m_memoryans;
+        if (m_memoryans.isNan() && !m_evaluator->isUserFunctionAssign()) {
+            pair.first = false;
+            pair.second = Quantity(0);
+            return pair;
+        }
+        pair.first = true;
+        pair.second = m_memoryans;
+        return pair;
     } else {
-        return Quantity(0);
+        pair.first = false;
+        pair.second = Quantity(0);
+        return pair;
     }
 }
 
-void InputEdit::isExpressionCorrect()
+void InputEdit::isExpressionEmpty()
 {
     if (text().isEmpty())
-        emit correctExpression(false);
-    QString expression = text();
-    expression = symbolComplement(expression);
-    expression = expression.replace(QString::fromUtf8("＋"), "+")
-                 .replace(QString::fromUtf8("－"), "-")
-                 .replace(QString::fromUtf8("×"), "*")
-                 .replace(QString::fromUtf8("÷"), "/")
-                 .replace(QString::fromUtf8(","), "");
-    m_evaluator->setExpression(expression);
-    Quantity anstemp = m_evaluator->evalUpdateAns();
-    if (m_evaluator->error().isEmpty()) {
-        if (anstemp.isNan() && !m_evaluator->isUserFunctionAssign())
-            emit correctExpression(false);
-        emit correctExpression(true);
-    } else {
-        emit correctExpression(false);
-    }
+        emit emptyExpression(true);
+    else
+        emit emptyExpression(false);
 }
 
 QString InputEdit::symbolComplement(const QString exp)

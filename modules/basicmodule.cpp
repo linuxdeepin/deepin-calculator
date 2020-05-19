@@ -82,10 +82,14 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_memoryKeypad, &MemoryKeypad::buttonPressed, this,
             &BasicModule::handleKeypadButtonPress);
     connect(m_memorylistwidget, &MemoryWidget::widgetplus, this, [ = ](int row) {
-        m_memorylistwidget->widgetplusslot(row, m_expressionBar->getInputEdit()->getMemoryAnswer());
+        m_expressionBar->settingLinkage();
+        if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_memorylistwidget->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
     });
     connect(m_memorylistwidget, &MemoryWidget::widgetminus, this, [ = ](int row) {
-        m_memorylistwidget->widgetminusslot(row, m_expressionBar->getInputEdit()->getMemoryAnswer());
+        m_expressionBar->settingLinkage();
+        if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_memorylistwidget->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
     });
     connect(m_memorylistwidget, &MemoryWidget::insidewidget, this, [ = ]() {
         m_insidewidget = true;
@@ -122,8 +126,8 @@ BasicModule::BasicModule(QWidget *parent)
             m_isallgray = false;
         }
     });
-    connect(m_expressionBar->getInputEdit(), &InputEdit::correctExpression, this, [ = ](bool b) {
-        if (b == true) {
+    connect(m_expressionBar->getInputEdit(), &InputEdit::emptyExpression, this, [ = ](bool b) {
+        if (b == false) {
             MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
             btn2->setEnabled(true);
             MemoryButton *btn3 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mminus));
@@ -387,24 +391,40 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
             m_expressionBar->Redo();
         break;
     case Qt::Key_L:
-        if (isPressCtrl && m_memRCbtn && !m_isallgray)
+        if (isPressCtrl && m_memRCbtn && !m_isallgray) {
+            m_memoryKeypad->animate(MemoryKeypad::Key_MC);
             m_memorylistwidget->memoryclean();
+        }
         break;
     case Qt::Key_R:
-        if (isPressCtrl && m_memRCbtn && !m_isallgray)
+        if (isPressCtrl && m_memRCbtn && !m_isallgray) {
+            m_memoryKeypad->animate(MemoryKeypad::Key_MR);
             m_expressionBar->getInputEdit()->setText(m_memorylistwidget->getfirstnumber());
+        }
         break;
     case Qt::Key_P:
-        if (isPressCtrl && m_memCalbtn && !m_isallgray)
-            m_memorylistwidget->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer());
+        if (isPressCtrl && m_memCalbtn && !m_isallgray) {
+            m_memoryKeypad->animate(MemoryKeypad::Key_Mplus);
+            m_expressionBar->settingLinkage();
+            if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
+                m_memorylistwidget->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+        }
         break;
     case Qt::Key_Q:
-        if (isPressCtrl && m_memCalbtn && !m_isallgray)
-            m_memorylistwidget->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer());
+        if (isPressCtrl && m_memCalbtn && !m_isallgray) {
+            m_memoryKeypad->animate(MemoryKeypad::Key_Mminus);
+            m_expressionBar->settingLinkage();
+            if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
+                m_memorylistwidget->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+        }
         break;
     case Qt::Key_M:
-        if (isPressCtrl && m_memCalbtn && !m_isallgray)
-            m_memorylistwidget->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer());
+        if (isPressCtrl && m_memCalbtn && !m_isallgray) {
+            m_memoryKeypad->animate(MemoryKeypad::Key_MS);
+            m_expressionBar->settingLinkage();
+            if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
+                m_memorylistwidget->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+        }
         break;
     /*case Qt::Key_E:
         m_expressionBar->entereEvent();
@@ -489,7 +509,9 @@ void BasicModule::handleKeypadButtonPress(int key)
         m_expressionBar->enterBracketsEvent();
         break;
     case MemoryKeypad::Key_MS:
-        m_memorylistwidget->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer());
+        m_expressionBar->settingLinkage();
+        if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_memorylistwidget->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case MemoryKeypad::Key_MC:
         m_memorylistwidget->memoryclean();
@@ -508,10 +530,14 @@ void BasicModule::handleKeypadButtonPress(int key)
         m_memorylistwidget->setFocus();
         break;
     case MemoryKeypad::Key_Mplus:
-        m_memorylistwidget->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer());
+        m_expressionBar->settingLinkage();
+        if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_memorylistwidget->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case MemoryKeypad::Key_Mminus:
-        m_memorylistwidget->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer());
+        m_expressionBar->settingLinkage();
+        if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_memorylistwidget->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case MemoryKeypad::Key_MR:
         m_expressionBar->getInputEdit()->setText(m_memorylistwidget->getfirstnumber());
@@ -643,6 +669,6 @@ void BasicModule::mousePressEvent(QMouseEvent *event)
         m_memRCbtn = false;
     }
     m_insidewidget = false;
-    m_expressionBar->getInputEdit()->isExpressionCorrect();
+    m_expressionBar->getInputEdit()->isExpressionEmpty();
     QWidget::mousePressEvent(event);
 }

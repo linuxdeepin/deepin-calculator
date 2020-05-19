@@ -14,7 +14,7 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
 {
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
-    mode == 0 ? setFixedSize(50, 33) : setFixedSize(67, 44);
+    mode == 0 ? setFixedSize(50, 30) : setFixedSize(67, 44);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("MemoryButton");
     widgetbtn = listwidgetbtn;
@@ -49,10 +49,7 @@ void MemoryButton::init()
 //    } else
 //        m_isgray = false;
     if (!widgetbtn) {
-        if (text() == "M+" || text() == "M-" || text() == "MS")
-            m_isgray = false;
-        else
-            m_isgray = true;
+        m_isgray = true;
         this->setEnabled(false);
     }
 }
@@ -212,10 +209,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         m_font.setPixelSize(16);
         m_font.setStyleName("Light");
         m_isHover = false;
-        if (text() == "M+" || text() == "M-" || text() == "MS")
-            m_isgray = false;
-        else
-            m_isgray = true;
+        m_isgray = true;
     } else {
         m_isgray = false;
     }

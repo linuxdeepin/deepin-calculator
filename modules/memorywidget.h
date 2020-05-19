@@ -58,7 +58,7 @@ private:
 
 private:
     QString formatExpression(const QString &text);
-    QString setitemwordwrap(const QString &text);
+    QString setitemwordwrap(const QString &text, int row = 0);
 public slots:
 //    void on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void setThemeType(int type);

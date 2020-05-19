@@ -53,14 +53,14 @@ public:
     void setSelection(SSelection select) { m_selected = select; };
     void setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans,
                           const int &Pos);
-    Quantity getMemoryAnswer(); //edit 20200507,获取上一次计算的全精度结果，用于数字内存。
+    QPair<bool, Quantity> getMemoryAnswer(); //edit 20200507,获取上一次计算的全精度结果，用于数字内存。
     QString symbolComplement(const QString exp);
 
 public slots:
     void setUndoAction(bool state);
     void setRedoAction(bool state);
     QString symbolFaultTolerance(const QString &text);
-    void isExpressionCorrect(); //edit 20200511,判断表达式是否有解，错误表达式无法存入内存
+    void isExpressionEmpty(); //edit 20200511,判断表达式是否有解，错误表达式无法存入内存  20200519 判断表达式是否为空
 
 Q_SIGNALS:
     void keyPress(QKeyEvent *);
@@ -73,7 +73,7 @@ Q_SIGNALS:
     void selectAllText();
     void deleteText();
     void setResult();
-    void correctExpression(bool b);
+    void emptyExpression(bool b);
 
 protected:
     void keyPressEvent(QKeyEvent *);

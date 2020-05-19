@@ -107,8 +107,8 @@ scientificModule::scientificModule(QWidget *parent)
     connect(m_scikeypadwidget, &ScientificKeyPad::funinside, this, [ = ]() {
         m_isinsidefun = true;
     });
-    connect(m_sciexpressionBar->getInputEdit(), &InputEdit::correctExpression, this, [ = ](bool b) {
-        if (b == true) {
+    connect(m_sciexpressionBar->getInputEdit(), &InputEdit::emptyExpression, this, [ = ](bool b) {
+        if (b == false) {
             MemoryButton *btn2 = static_cast<MemoryButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_Mplus));
             btn2->setEnabled(true);
             MemoryButton *btn3 = static_cast<MemoryButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_Mmin));
@@ -507,7 +507,7 @@ void scientificModule::mousePressEvent(QMouseEvent *event)
         m_scikeypadwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
     }
     m_insidewidget = false;
-    m_sciexpressionBar->getInputEdit()->isExpressionCorrect();
+    m_sciexpressionBar->getInputEdit()->isExpressionEmpty();
     QWidget::mousePressEvent(event);
 }
 
