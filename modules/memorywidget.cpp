@@ -60,6 +60,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
         m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
         m_isempty = true;
         list.clear();
+        m_clearbutton->hide();
         emit mListUnavailable();
     });
     lay->addLayout(layH);
@@ -336,6 +337,8 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
         m_listwidget->item(row)->setSizeHint(QSize(344, 40 + 45 * line));
         m_listwidget->itemWidget(m_listwidget->item(row))->setFixedSize(QSize(344, 40 + 45 * line));
     }
+    if (m_clearbutton->isHidden() == true)
+        m_clearbutton->show();
     return result;
 }
 
