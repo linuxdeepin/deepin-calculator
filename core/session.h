@@ -23,6 +23,7 @@
 #include "sessionhistory.h"
 #include "variable.h"
 #include "userfunction.h"
+#include <QObject>
 #include <QList>
 #include <QHash>
 #include <QString>
