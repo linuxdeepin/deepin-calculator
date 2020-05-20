@@ -661,10 +661,11 @@ void BasicModule::mousePressEvent(QMouseEvent *event)
         MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mlist));
         btn5->setbtnlight(false);
         m_isallgray = false;
+        m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+        m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+        m_expressionBar->getInputEdit()->setFocus();
     }
-    m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-    m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-    m_expressionBar->getInputEdit()->setFocus();
+
     if (m_avail == true) {
         MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
         btn->setEnabled(true);
