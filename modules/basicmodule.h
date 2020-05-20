@@ -24,6 +24,7 @@
 #include <DGuiApplicationHelper>
 #include <QStackedLayout>
 #include <QGridLayout>
+#include <QTimer>
 
 #include "../widgets/textbutton.h"
 #include "../widgets/iconbutton.h"

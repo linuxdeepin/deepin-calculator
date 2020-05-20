@@ -16,11 +16,11 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     QVBoxLayout *layV = new QVBoxLayout(this);
     layV->addStretch();
     QHBoxLayout *lay = new QHBoxLayout();
-    btnplus->setText("M+");
+//    btnplus->setText("M+");
 //    btnplus->setFixedSize(40, 30);
-    btnminus->setText("M-");
+//    btnminus->setText("M-");
 //    btnminus->setFixedSize(40, 30);
-    btnclean->setText("MC");
+//    btnclean->setText("MC");
 //    btnclean->setFixedSize(40, 30);
     lay->addStretch();
     lay->setSpacing(0);

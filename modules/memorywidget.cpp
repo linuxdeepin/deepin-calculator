@@ -113,13 +113,16 @@ void MemoryWidget::generateData(Quantity answer)
     list.insert(0, answer); //对于新增数据，同步在list中加入对应的Quantity
     connect(widget, &MemoryItemWidget::plusbtnclicked, this, [ = ]() {
         int row = m_listwidget->row(item1);
+        widget->setFocus();
         emit MemoryWidget::widgetplus(row);
     });
     connect(widget, &MemoryItemWidget::minusbtnclicked, this, [ = ]() {
         int row = m_listwidget->row(item1);
+        widget->setFocus();
         emit MemoryWidget::widgetminus(row);
     });
     connect(widget, &MemoryItemWidget::cleanbtnclicked, this, [ = ]() {
+        widget->setFocus();
         list.removeAt(m_listwidget->row(item1));
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;

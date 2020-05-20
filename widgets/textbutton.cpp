@@ -182,6 +182,7 @@ void TextButton::paintEvent(QPaintEvent *e)
         pressBrush = QColor(0, 0, 0, 0.1 * 255);
         focus = actcolor;
         hoverFrame = actcolor;
+        hoverFrame.setAlphaF(0.2);
         base = QColor("#FFFFFF");
         text = QColor("#000000");
         normalShadow = QColor(44, 167, 248, 0.4 * 255);
@@ -191,6 +192,7 @@ void TextButton::paintEvent(QPaintEvent *e)
         pressBrush = QColor(0, 0, 0, 0.5 * 255);
         focus = actcolor;
         hoverFrame = actcolor;
+        hoverFrame.setAlphaF(0.2);
         base = QColor("#303030");
         normalShadow = QColor(44, 167, 248, 0.4 * 255);
         hoverShadow = QColor(12, 155, 246, 0.1 * 255);
@@ -204,7 +206,7 @@ void TextButton::paintEvent(QPaintEvent *e)
         painter.setPen(Qt::NoPen);
         if (m_isPress) {
             painter.setBrush(QBrush(pressBrush));
-            painter.drawRoundRect(normal, 18, 18);
+            painter.drawRoundRect(normal, 25, 30);
             QPen pen;
             pen.setColor(pressText);
             painter.setPen(pen);
@@ -217,13 +219,13 @@ void TextButton::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setBrush(Qt::NoBrush);
             QPainterPath path;
-            path.addRoundedRect(rect, 10, 10);
+            path.addRoundedRect(rect, 25, 30);
             painter.fillPath(path, QBrush(focus));
             painter.drawPath(path);
 
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
-            painter.drawRoundRect(normal, 18, 18);
+            painter.drawRoundRect(normal, 25, 30);
 
             // painter.drawRoundRect(rect,10,10);
             pen.setColor(text);
@@ -237,11 +239,11 @@ void TextButton::paintEvent(QPaintEvent *e)
         if (m_isHover) {
             painter.setPen(QPen(hoverFrame));
             painter.setBrush(QBrush(hoverFrame));
-            painter.drawRoundRect(normal, 10, 10);
+            painter.drawRoundRect(normal, 25, 30);
 
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
-            painter.drawRoundRect(hover, 10, 10);
+            painter.drawRoundRect(hover, 25, 30);
             QPen pen;
             pen.setColor(text);
             painter.setPen(pen);
@@ -251,7 +253,7 @@ void TextButton::paintEvent(QPaintEvent *e)
             this->setGraphicsEffect(m_effect);
         } else if (m_isPress) {
             painter.setBrush(QBrush(pressBrush));
-            painter.drawRoundRect(normal, 18, 18);
+            painter.drawRoundRect(normal, 25, 30);
             QPen pen;
             pen.setColor(pressText);
             painter.setPen(pen);
@@ -260,7 +262,7 @@ void TextButton::paintEvent(QPaintEvent *e)
             m_effect->setColor(focusShadow);
             this->setGraphicsEffect(m_effect);
         } else {
-            painter.drawRoundRect(normal, 18, 18);
+            painter.drawRoundRect(normal, 25, 30);
             QPen pen;
             pen.setColor(text);
             painter.setPen(pen);

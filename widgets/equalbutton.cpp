@@ -134,7 +134,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
             linearGradient.setColorAt(0, press0);
             linearGradient.setColorAt(1, press1);
             painter.setBrush(QBrush(linearGradient));
-            painter.drawRoundRect(normal, 18, 18);
+            painter.drawRoundRect(normal, 25, 30);
             QPen pen;
             pen.setColor(pressText);
             painter.setPen(pen);
@@ -149,13 +149,13 @@ void EqualButton::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
-            painter.drawRoundRect(rect, 25, 25);
+            painter.drawRoundRect(rect, 25, 30);
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(frame));
-            painter.drawRoundRect(normal, 25, 25);
+            painter.drawRoundRect(normal, 25, 30);
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
-            painter.drawRoundRect(focusBase, 25, 25);
+            painter.drawRoundRect(focusBase, 25, 30);
 
             //painter.drawRoundRect(rect,10,10);
             pen.setColor(text);
@@ -171,7 +171,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
             linearGradient.setColorAt(0, hover0);
             linearGradient.setColorAt(1, hover1);
             painter.setBrush(linearGradient);
-            painter.drawRoundRect(normal, 18, 18);
+            painter.drawRoundRect(normal, 25, 30);
             QPen pen;
             pen.setColor(text);
             painter.setPen(pen);
@@ -183,7 +183,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
             linearGradient.setColorAt(0, press0);
             linearGradient.setColorAt(1, press1);
             painter.setBrush(QBrush(linearGradient));
-            painter.drawRoundRect(normal, 18, 18);
+            painter.drawRoundRect(normal, 25, 30);
             QPen pen;
             pen.setColor(pressText);
             painter.setPen(pen);
@@ -193,7 +193,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
             this->setGraphicsEffect(m_effect);
         } else {
             painter.setBrush(QBrush(base));
-            painter.drawRoundRect(normal, 18, 18);
+            painter.drawRoundRect(normal, 25, 30);
             QPen pen;
             pen.setColor(text);
             painter.setPen(pen);

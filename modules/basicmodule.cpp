@@ -396,7 +396,9 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_L:
         if (isPressCtrl && m_memRCbtn && !m_isallgray) {
             m_memoryKeypad->animate(MemoryKeypad::Key_MC);
-            m_memorylistwidget->memoryclean();
+            QTimer::singleShot(100, this, [ = ] {
+                m_memorylistwidget->memoryclean();
+            });
         }
         break;
     case Qt::Key_R:
