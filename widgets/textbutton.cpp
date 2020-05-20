@@ -154,8 +154,6 @@ void TextButton::keyPressEvent(QKeyEvent *e)
 
 void TextButton::paintEvent(QPaintEvent *e)
 {
-
-//    qDebug() << Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
     int mode = m_settings->getOption("mode").toInt();
     mode == 0 ? setFixedSize(80, 58) : setFixedSize(67, 44);
     QRectF rect = this->rect();
@@ -173,16 +171,17 @@ void TextButton::paintEvent(QPaintEvent *e)
     //    textRect.moveCenter(rect.center());
     // QRectF
     // textRect(QPointF((rect.width()/2)-(textR.width()/2),(rect.height()/2)-(textR.height()/2)),textR.width(),textR.height());
+    QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();//活动色
     QColor pressBrush, focus, hoverFrame, base, text;
     QColor hoverShadow, focusShadow, normalShadow;
-    QColor pressText = QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color());
+    QColor pressText = actcolor;
     int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         pressBrush = QColor(0, 0, 0, 0.1 * 255);
-        focus = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
-        hoverFrame = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+        focus = actcolor;
+        hoverFrame = actcolor;
         base = QColor("#FFFFFF");
         text = QColor("#000000");
         normalShadow = QColor(44, 167, 248, 0.4 * 255);
@@ -190,8 +189,8 @@ void TextButton::paintEvent(QPaintEvent *e)
         focusShadow = QColor(0, 0, 0, 0.05 * 255);
     } else {
         pressBrush = QColor(0, 0, 0, 0.5 * 255);
-        focus = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
-        hoverFrame = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+        focus = actcolor;
+        hoverFrame = actcolor;
         base = QColor("#303030");
         normalShadow = QColor(44, 167, 248, 0.4 * 255);
         hoverShadow = QColor(12, 155, 246, 0.1 * 255);

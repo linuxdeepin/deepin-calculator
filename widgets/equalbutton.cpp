@@ -109,22 +109,23 @@ void EqualButton::paintEvent(QPaintEvent *e)
     painter.setFont(m_font);
     QRectF textRect = painter.fontMetrics().boundingRect("=");
     textRect.moveCenter(rect.center());
+    QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();//活动色
     QColor base, text, pressText, hover0, hover1, press0, press1, frame;
     QColor shadow;
 
-    base = QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color());
+    base = actcolor;
     text = Qt::white;
     pressText = QColor(255, 255, 255, 0.6 * 255);
-    hover0 = QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color());
+    hover0 = actcolor;
     hover0.setAlphaF(0.7);
-    hover1 = QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color());
+    hover1 = actcolor;
     hover1.setAlphaF(0.9);
-    press0 = QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color());
+    press0 = actcolor;
     press0.setAlphaF(1);
-    press1 = QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color());
+    press1 = actcolor;
     press1.setAlphaF(0.8);
     frame = Qt::white;
-    shadow = QColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color());
+    shadow = actcolor;
     shadow.setAlphaF(0.2);
 
     if (hasFocus()) {

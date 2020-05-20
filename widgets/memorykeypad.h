@@ -38,7 +38,7 @@ public:
     } keyDescriptions[];
 public slots:
     void initButtons();
-//    void buttonThemeChanged(int type);
+    void buttonThemeChanged(int type);
 signals:
     void buttonPressed(int);
     void equalPressed();

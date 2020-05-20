@@ -122,6 +122,8 @@ BasicModule::BasicModule(QWidget *parent)
             btn3->setbuttongray(false);
             MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
             btn4->setbuttongray(false);
+            MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mlist));
+            btn5->setbtnlight(false);
             m_memRCbtn = true;
             m_memCalbtn = true;
             m_isallgray = false;
@@ -517,8 +519,11 @@ void BasicModule::handleKeypadButtonPress(int key)
         break;
     case MemoryKeypad::Key_MC:
         m_memorylistwidget->memoryclean();
-        if (m_keypadLayout->currentIndex() == 1)
+        if (m_keypadLayout->currentIndex() == 1) {
             m_keypadLayout->setCurrentIndex(0);
+            MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mlist));
+            btn5->setbtnlight(false);
+        }
         break;
     case MemoryKeypad::Key_Mlist:
         showListWidget();
@@ -631,6 +636,8 @@ void BasicModule::showListWidget()
         btn->setbuttongray(true);
         MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
         btn1->setbuttongray(true);
+        MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mlist));
+        btn5->setbtnlight(true);
         m_isallgray = true;
     } /*else {
         m_keypadLayout->setCurrentIndex(0);
@@ -651,6 +658,8 @@ void BasicModule::mousePressEvent(QMouseEvent *event)
         btn->setbuttongray(false);
         MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
         btn1->setbuttongray(false);
+        MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mlist));
+        btn5->setbtnlight(false);
         m_isallgray = false;
     }
     m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);

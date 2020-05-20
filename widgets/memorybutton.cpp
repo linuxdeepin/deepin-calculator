@@ -77,9 +77,18 @@ void MemoryButton::animate(int msec)
     });
 }
 
+void MemoryButton::setbtnlight(bool light)
+{
+    m_islight = light;
+    if (light == true)
+        setText("M˄");
+    else
+        setText("M˅");
+}
+
 void MemoryButton::setbuttongray(bool b)
 {
-    if (text() != "M^")
+    if (text() != "M˅" || text() != "M˄")
         m_isallgray = true;
     if (b == false)
         m_isallgray = false;
@@ -151,7 +160,7 @@ bool MemoryButton::event(QEvent *e)
                 tooltext = "内存减少";
             else if (this->text() == "MS")
                 tooltext = "内存存储";
-            else if (this->text() == "M^")
+            else if (this->text() == "M˄" || this->text() == "M˅")
                 tooltext = "内存";
 
             QToolTip::showText(helpEvent->globalPos(), tooltext);
@@ -227,15 +236,16 @@ void MemoryButton::paintEvent(QPaintEvent *e)
                                                          Qt::AlignCenter, this->text());
     // QRectF
     // textRect(QPointF((rect.width()/2)-(textR.width()/2),(rect.height()/2)-(textR.height()/2)),textR.width(),textR.height());
+    QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();//活动色
     QColor pressBrush, focus, hoverFrame, base, text;
-    QColor pressText = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+    QColor pressText = actcolor;
     int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         pressBrush = QColor(0, 0, 0, 0.1 * 255);
-        focus = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
-        hoverFrame = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+        focus = actcolor;
+        hoverFrame = actcolor;
         base = Qt::white;
         text = Qt::black;
         if (m_isgray == true || m_isallgray == true) {
@@ -244,10 +254,13 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             pressText = Qt::black;
             pressBrush = QColor("#FFFFFF");
         }
+        if (this->text() == "M˄") {
+            text = actcolor;
+        }
     } else {
         pressBrush = QColor(0, 0, 0, 0.5 * 255);
-        focus = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
-        hoverFrame = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+        focus = actcolor;
+        hoverFrame = actcolor;
         if (widgetbtn == false)
             base = QColor(48, 48, 48);
         else
@@ -261,6 +274,9 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             text = QColor(224, 224, 224, 0.4 * 255);
             pressText = Qt::black;
             pressBrush = QColor("#FFFFFF");
+        }
+        if (this->text() == "M˄") {
+            text = actcolor;
         }
     }
     if (hasFocus()) {

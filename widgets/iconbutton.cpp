@@ -165,19 +165,20 @@ void IconButton::paintEvent(QPaintEvent *)
         //m_pixmap = m_pixmap.scaled(m_pixmap.size() * devicePixelRatioF());
         QRectF pixRect = m_pixmap.rect();
         pixRect.moveCenter(rect.center());
+        QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();//活动色
         QColor pressBrush, focus, hoverFrame, base;
         int type = DGuiApplicationHelper::instance()->paletteType();
         if (type == 0)
             type = DGuiApplicationHelper::instance()->themeType();
         if (type == 1) {
             pressBrush = QColor(0, 0, 0, 0.1 * 255);
-            focus = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
-            hoverFrame = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+            focus = actcolor;
+            hoverFrame = actcolor;
             base = Qt::white;
         } else {
             pressBrush = QColor(0, 0, 0, 0.5 * 255);
-            focus = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
-            hoverFrame = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+            focus = actcolor;
+            hoverFrame = actcolor;
             base = QColor(48, 48, 48);
         }
         if (hasFocus()) {

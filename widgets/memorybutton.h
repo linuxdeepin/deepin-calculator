@@ -25,8 +25,7 @@ public:
     // void showShadow();
     // void hideShadow();
     void animate(int msec = 100);
-    bool *getm_isgray() { return &m_isgray; }
-    void printm_isgray() { qDebug() << "m_isgray" << m_isgray; }
+    void setbtnlight(bool light);
 public slots:
     void setbuttongray(bool b);
 
@@ -56,6 +55,7 @@ private:
     QFont m_font;
     bool widgetbtn;
     bool m_isallgray;
+    bool m_islight = false;
 };
 
 #endif  // MEMORYBUTTON_H

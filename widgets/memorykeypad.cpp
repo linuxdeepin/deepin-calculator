@@ -8,8 +8,39 @@
 const MemoryKeypad::KeyDescription MemoryKeypad::keyDescriptions[] = {
     {"MC", Key_MC, 1, 0, 1, 1},       {"MR", Key_MR, 1, 1, 1, 1},
     {"M+", Key_Mplus, 1, 2, 1, 1},    {"M-", Key_Mminus, 1, 3, 1, 1},
-    {"MS", Key_MS, 1, 4, 1, 1},       {"M^", Key_Mlist, 1, 5, 1, 1},
+    {"MS", Key_MS, 1, 4, 1, 1},       {"M˅", Key_Mlist, 1, 5, 1, 1},
 };
+
+static DPushButton *createSpecialKeyButton(MemoryKeypad::Buttons key)
+{
+    IconButton *button = new IconButton;
+
+    QString path;
+    if (DGuiApplicationHelper::instance()->themeType() == 2)
+        path = QString(":/images/%1/").arg("dark");
+    else
+        path = QString(":/images/%1/").arg("light");
+
+//    if (key == BasicKeypad::Key_Div) {
+//        button->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");
+//    } else if (key == BasicKeypad::Key_Mult) {
+//        button->setIconUrl(path + "x_normal.svg", path + "x_hover.svg", path + "x_press.svg");
+//    } else if (key == BasicKeypad::Key_Min) {
+//        button->setIconUrl(path + "-_normal.svg", path + "-_hover.svg", path + "-_press.svg");
+//    } else if (key == BasicKeypad::Key_Plus) {
+//        button->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
+//    } else if (key == BasicKeypad::Key_Backspace) {
+//        button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
+//    } else if (key == BasicKeypad::Key_Clear) {
+//        button->setIconUrl(path + "AC_normal.svg", path + "AC_hover.svg", path + "AC_press.svg");
+//    } else if (key == BasicKeypad::Key_Percent) {
+//        button->setIconUrl(path + "%_normal.svg", path + "%_hover.svg", path + "%_press.svg");
+//    } else if (key == BasicKeypad::Key_Brackets) {
+//        button->setIconUrl(path + "( )_normal.svg", path + "( )_hover.svg", path + "( )_press.svg");
+//    }
+    //connect(button, &IconButton::updateInterface, this, &BasicKeypad::updateInterface);
+    return button;
+}
 
 MemoryKeypad::MemoryKeypad(QWidget *parent)
     : DWidget(parent),
@@ -56,10 +87,14 @@ void MemoryKeypad::initButtons()
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
         DPushButton *button;
-        button = new MemoryButton(desc->text);
-        QFont font = button->font();
-        font.setFamily("Noto Sans CJK SC");
-        button->setFont(font);
+        if (desc->text.isEmpty()) {
+            button = createSpecialKeyButton(desc->button);
+        } else {
+            button = new MemoryButton(desc->text);
+            QFont font = button->font();
+            font.setFamily("Noto Sans CJK SC");
+            button->setFont(font);
+        }
 
         m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
                             Qt::AlignHCenter | Qt::AlignBottom);
@@ -86,13 +121,13 @@ void MemoryKeypad::initUI()
     this->setContentsMargins(12, 0, 13, 0);
 }
 
-//void MemoryKeypad::buttonThemeChanged(int type)
-//{
-//    QString path;
-//    if (type == 2)
-//        path = QString(":/images/%1/").arg("dark");
-//    else
-//        path = QString(":/images/%1/").arg("light");
+void MemoryKeypad::buttonThemeChanged(int type)
+{
+    QString path;
+    if (type == 2)
+        path = QString(":/images/%1/").arg("dark");
+    else
+        path = QString(":/images/%1/").arg("light");
 
 //    IconButton *btn = static_cast<IconButton *>(button(Key_Div));
 //    btn->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");
@@ -104,4 +139,4 @@ void MemoryKeypad::initUI()
 //    btn->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
 //    btn = static_cast<IconButton *>(button(Key_Backspace));
 //    btn->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
-//}
+}

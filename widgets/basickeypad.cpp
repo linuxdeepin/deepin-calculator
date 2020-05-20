@@ -142,13 +142,7 @@ void BasicKeypad::initButtons()
         } else {
             if (desc->text == "=")
                 button = new EqualButton(desc->text);
-            else if (desc->text == "MC" || desc->text == "MR" || desc->text == "M+" ||
-                     desc->text == "M-" || desc->text == "MS" || desc->text == "M^") {
-                button = new MemoryButton(desc->text);
-                QFont font = button->font();
-                font.setFamily("Noto Sans CJK SC");
-                button->setFont(font);
-            } else {
+            else {
                 button = new TextButton(desc->text);
                 QFont font = button->font();
                 font.setFamily("Noto Sans CJK SC");
