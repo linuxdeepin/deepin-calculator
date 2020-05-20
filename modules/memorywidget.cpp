@@ -65,9 +65,11 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     lay->addLayout(layH);
     this->setLayout(lay);
     connect(m_listwidget, &QListWidget::itemClicked, this, [ = ](QListWidgetItem * item) {
-        QString str = item->data(Qt::DisplayRole).toString();
+        QPair<QString, Quantity> p;
+        p.first = item->data(Qt::DisplayRole).toString();
+        p.second = list.at(m_listwidget->row(item));
         if (item->flags() != Qt::NoItemFlags)
-            emit itemclick(str);
+            emit itemclick(p);
     });
 //    connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
 //        m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
@@ -252,12 +254,18 @@ void MemoryWidget::memoryclean()
     emit mListUnavailable();
 }
 
-QString MemoryWidget::getfirstnumber()
+QPair<QString, Quantity> MemoryWidget::getfirstnumber()
 {
+    QPair<QString, Quantity> p1;
     if (m_isempty == false) {
-        return m_listwidget->item(0)->data(Qt::EditRole).toString();
+        QString str = m_listwidget->item(0)->data(Qt::EditRole).toString();
+        p1.first = str.remove("\n");
+        p1.second = list.at(0);
+        return p1;
     } else {
-        return QString();
+        p1.first = QString();
+        p1.second = Quantity(0);
+        return p1;
     }
 }
 

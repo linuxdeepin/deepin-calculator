@@ -29,7 +29,7 @@ public:
     void memoryplus(Quantity answer);
     void memoryminus(Quantity answer);
     void memoryclean();
-    QString getfirstnumber();
+    QPair<QString, Quantity> getfirstnumber();
 
     void widgetplusslot(int row, Quantity answer);
     void widgetminusslot(int row, Quantity answer);
@@ -40,7 +40,7 @@ signals:
     void insidewidget();
     void mListUnavailable();
     void mListAvailable();
-    void itemclick(const QString str);
+    void itemclick(const QPair<QString, Quantity>);
     void themechange(int type);
 private:
     MemoryListWidget *m_listwidget;

@@ -102,8 +102,9 @@ BasicModule::BasicModule(QWidget *parent)
         mAvailableEvent();
         m_avail = true;
     });
-    connect(m_memorylistwidget, &MemoryWidget::itemclick, this, [ = ](const QString str) {
-        m_expressionBar->getInputEdit()->setText(str);
+    connect(m_memorylistwidget, &MemoryWidget::itemclick, this, [ = ](const QPair<QString, Quantity> p) {
+        QString str = p.first;
+        m_expressionBar->getInputEdit()->setAnswer(str.remove("\n"), p.second);
         m_expressionBar->getInputEdit()->setFocus();
         if (m_keypadLayout->currentIndex() == 1) {
             m_keypadLayout->setCurrentIndex(0);
@@ -399,7 +400,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_R:
         if (isPressCtrl && m_memRCbtn && !m_isallgray) {
             m_memoryKeypad->animate(MemoryKeypad::Key_MR);
-            m_expressionBar->getInputEdit()->setText(m_memorylistwidget->getfirstnumber());
+            m_expressionBar->getInputEdit()->setAnswer(m_memorylistwidget->getfirstnumber().first, m_memorylistwidget->getfirstnumber().second);
         }
         break;
     case Qt::Key_P:
@@ -447,6 +448,7 @@ void BasicModule::handleKeypadButtonPress(int key)
     m_expressionBar->clearSelection();
     //20200414 bug20294鼠标点击取消focus
     m_expressionBar->getInputEdit()->setFocus();
+    QPair<QString, Quantity> p;
     switch (key) {
     case BasicKeypad::Key_0:
         m_expressionBar->enterNumberEvent("0");
@@ -540,7 +542,8 @@ void BasicModule::handleKeypadButtonPress(int key)
             m_memorylistwidget->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case MemoryKeypad::Key_MR:
-        m_expressionBar->getInputEdit()->setText(m_memorylistwidget->getfirstnumber());
+        p = m_memorylistwidget->getfirstnumber();
+        m_expressionBar->getInputEdit()->setAnswer(p.first, p.second);
         break;
     }
     m_expressionBar->addUndo();
