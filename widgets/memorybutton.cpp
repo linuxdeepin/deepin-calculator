@@ -292,19 +292,28 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             painter.setFont(m_font);
             painter.drawText(textRect, this->text());
         } else {
+//            QPen pen;
+//            pen.setColor(focus);
+//            pen.setWidth(2);
+//            painter.setPen(pen);
+//            painter.setBrush(Qt::NoBrush);
+////            if (widgetbtn == false) {
+//            QPainterPath path;
+//            path.addRoundedRect(rect, 8, 8);
+//            painter.fillPath(path, QBrush(focus));
+//            painter.drawPath(path);
+////            }
+//            painter.setPen(Qt::NoPen);
+//            painter.setBrush(QBrush(base));
+//            painter.drawRoundRect(normal, 25, 30);
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(base));
+            painter.drawRoundRect(normal, 25, 30);
             QPen pen;
             pen.setColor(focus);
             pen.setWidth(2);
             painter.setPen(pen);
             painter.setBrush(Qt::NoBrush);
-//            if (widgetbtn == false) {
-            QPainterPath path;
-            path.addRoundedRect(rect, 8, 8);
-            painter.fillPath(path, QBrush(focus));
-            painter.drawPath(path);
-//            }
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(QBrush(base));
             painter.drawRoundRect(normal, 25, 30);
 
             // painter.drawRoundRect(rect,10,10);

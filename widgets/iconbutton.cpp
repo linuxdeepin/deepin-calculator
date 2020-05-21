@@ -291,7 +291,8 @@ void IconButton::drawCenterPixMap(QPainter &painter)
     QRectF rect(frameRect.left() + 2, frameRect.top() + 2, frameRect.width() - 4, frameRect.height() - 4);
     QRectF pixRect = m_pixmap.rect();
     pixRect.moveCenter(rect.center());
-    m_iconRenderer = new DSvgRenderer(doc.toByteArray());
+//    m_iconRenderer = new DSvgRenderer(doc.toByteArray(), this);
+    m_iconRenderer->load(doc.toByteArray());
     m_iconRenderer->render(&painter, pixRect);
     painter.restore();
 }
