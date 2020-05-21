@@ -2,6 +2,7 @@
 #include <QMouseEvent>
 #include <QColor>
 #include <QPainter>
+#include <QDebug>
 
 MemoryListWidget::MemoryListWidget(QWidget *parent)
     : QListWidget(parent)
@@ -25,10 +26,10 @@ void MemoryListWidget::mousePressEvent(QMouseEvent *event)
 
 void MemoryListWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    emit itemreleased();
     if (this->itemAt(event->pos()) && this->row(this->itemAt(event->pos())) == clickrow) {
         emit itemselected(clickrow);
     }
+    clickrow = -1;
     QListWidget::mouseReleaseEvent(event);
 }
 

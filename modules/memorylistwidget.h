@@ -16,7 +16,6 @@ public:
 
 signals:
     void itempressed(int row);
-    void itemreleased();
     void itemselected(int row);
 
 private:

@@ -65,11 +65,11 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     });
     lay->addLayout(layH);
     this->setLayout(lay);
-    connect(m_listwidget, &QListWidget::itemClicked, this, [ = ](QListWidgetItem * item) {
+    connect(m_listwidget, &MemoryListWidget::itemselected, this, [ = ](int row) {
         QPair<QString, Quantity> p;
-        p.first = item->data(Qt::DisplayRole).toString();
-        p.second = list.at(m_listwidget->row(item));
-        if (item->flags() != Qt::NoItemFlags)
+        p.first = m_listwidget->item(row)->data(Qt::DisplayRole).toString();
+        p.second = list.at(row);
+        if (m_listwidget->item(row)->flags() != Qt::NoItemFlags)
             emit itemclick(p);
     });
 //    connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
