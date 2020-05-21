@@ -155,6 +155,7 @@ void MemoryWidget::generateData(Quantity answer)
             m_listwidget->addItem("内存中没有内容");
             m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
             m_isempty = true;
+            m_clearbutton->hide();
             emit mListUnavailable();
         }
     });
