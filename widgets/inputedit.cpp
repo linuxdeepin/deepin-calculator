@@ -115,7 +115,7 @@ QString InputEdit::expressionText()
             }
         }
     }
-    if (m_ansVaild || longnumber) {
+    if (m_ansVaild && longnumber) {
         t.remove(m_ansStartPos, m_ansLength);
         if (m_ansLength != 0) {
             t.insert(m_ansStartPos, ans);
@@ -150,8 +150,8 @@ void InputEdit::setPercentAnswer(const QString &str1, const QString &str2, const
     while (ansEnd > str1.length()) {
         --ansEnd;
     }
-    m_ansVaild = m_ansLength > 10 && (m_ansStartPos == 0 || !str1[m_ansStartPos - 1].isDigit()) &&
-                 (ansEnd == str1.length() || !str1[ansEnd].isDigit());
+    m_ansVaild = /*m_ansLength > 10 &&*/ (m_ansStartPos == 0 || !str1[m_ansStartPos - 1].isDigit()) &&
+                                         (ansEnd == str1.length() || !str1[ansEnd].isDigit());
 }
 
 void InputEdit::clear()
@@ -339,8 +339,8 @@ void InputEdit::handleTextChanged(const QString &text)
     while (ansEnd > text.length()) {
         --ansEnd;
     }
-    m_ansVaild = m_ansLength > 10 && (m_ansStartPos == 0 || !text[m_ansStartPos - 1].isDigit()) &&
-                 (ansEnd == text.length() || !text[ansEnd].isDigit());
+    m_ansVaild = /*m_ansLength > 10 &&*/ (m_ansStartPos == 0 || !text[m_ansStartPos - 1].isDigit()) &&
+                                         (ansEnd == text.length() || !text[ansEnd].isDigit());
     m_oldText = text;
 
     int oldPosition = this->cursorPosition();
