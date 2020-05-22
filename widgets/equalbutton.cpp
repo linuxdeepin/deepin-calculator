@@ -117,13 +117,13 @@ void EqualButton::paintEvent(QPaintEvent *e)
     text = Qt::white;
     pressText = QColor(255, 255, 255, 0.6 * 255);
     hover0 = actcolor;
-    hover0.setAlphaF(0.7);
+    hover0.setAlphaF(0.8);
     hover1 = actcolor;
-    hover1.setAlphaF(0.9);
+    hover1.setAlphaF(1);
     press0 = actcolor;
-    press0.setAlphaF(1);
+    press0.setAlphaF(0.7);
     press1 = actcolor;
-    press1.setAlphaF(0.8);
+    press1.setAlphaF(0.9);
     frame = Qt::white;
     shadow = actcolor;
     shadow.setAlphaF(0.2);

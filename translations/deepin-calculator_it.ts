@@ -2,39 +2,80 @@
 <context>
     <name>ExpressionBar</name>
     <message>
-        <source>Expression Error</source>
-        <translation>Errore dell&apos;espressione</translation>
+        <location filename="../modules/expressionbar.cpp" line="362"/>
+        <location filename="../modules/expressionbar.cpp" line="636"/>
+        <location filename="../modules/expressionbar.cpp" line="682"/>
+        <source>Expression error</source>
+        <translation>Errore espressione</translation>
+    </message>
+</context>
+<context>
+    <name>InputEdit</name>
+    <message>
+        <location filename="../widgets/inputedit.cpp" line="142"/>
+        <source>&amp;Undo</source>
+        <translation>Annulla (&amp;U)</translation>
+    </message>
+    <message>
+        <location filename="../widgets/inputedit.cpp" line="143"/>
+        <source>&amp;Redo</source>
+        <translation>Ripeti (&amp;R)</translation>
+    </message>
+    <message>
+        <location filename="../widgets/inputedit.cpp" line="144"/>
+        <source>Cu&amp;t</source>
+        <translation>Taglia (&amp;T)</translation>
+    </message>
+    <message>
+        <location filename="../widgets/inputedit.cpp" line="145"/>
+        <source>&amp;Copy</source>
+        <translation>Copia (&amp;C)</translation>
+    </message>
+    <message>
+        <location filename="../widgets/inputedit.cpp" line="146"/>
+        <source>&amp;Paste</source>
+        <translation>Incolla (&amp;P)</translation>
+    </message>
+    <message>
+        <location filename="../widgets/inputedit.cpp" line="147"/>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
+    <message>
+        <location filename="../widgets/inputedit.cpp" line="148"/>
+        <source>Select All</source>
+        <translation>Seleziona tutti</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Dark theme</source>
-        <translation>Tema scuro</translation>
+        <location filename="../main.cpp" line="96"/>
+        <location filename="../mainwindow.cpp" line="68"/>
+        <source>Calculator</source>
+        <translation>Calcolatrice</translation>
     </message>
     <message>
-        <source>Simple mode</source>
-        <translation>Modalità semplice</translation>
+        <location filename="../main.cpp" line="97"/>
+        <source>Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
+        <translation>Calculator è una calcolatrice desktop semplice e facile da usare. Supporta l&apos;addizione, ls sottrazione, la moltiplicazione e la divisione.
+Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
+</context>
+<context>
+    <name>QObject</name>
     <message>
-        <source>Scientific mode</source>
-        <translation>Modalità scientifica</translation>
-    </message>
-    <message>
-        <source>Deepin Calculator</source>
-        <translation>Deepin Calculator</translation>
-    </message>
-    <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>Deepin Calculator è una calcolatrice semplice e facile da usare. Supporta le somme, le sottrazioni, moltiplicazioni e divisioni.
-Localizzazione italiana a cura di Massimo A. Carofano. </translation>
+        <location filename="../main.cpp" line="104"/>
+        <source>Calculator</source>
+        <translation>Calcolatrice</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
-        <source>Expression Error</source>
-        <translation>Errore dell&apos;espressione</translation>
+        <location filename="../modules/simplelistdelegate.cpp" line="136"/>
+        <source>Expression error</source>
+        <translation>Errore espressione</translation>
     </message>
 </context>
 </TS>

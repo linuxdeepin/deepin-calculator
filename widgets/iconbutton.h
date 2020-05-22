@@ -50,6 +50,7 @@ protected:
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
     void paintEvent(QPaintEvent *);
+    bool event(QEvent *);
 
 private:
     //void setIconSize(const int &size);

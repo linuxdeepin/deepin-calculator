@@ -21,6 +21,7 @@
 #include <QGridLayout>
 #include <QDebug>
 #include <QTimer>
+#include <QToolTip>
 
 IconButton::IconButton(QWidget *parent, bool b)
     : TextButton("", parent),
@@ -166,7 +167,7 @@ void IconButton::paintEvent(QPaintEvent *)
         QRectF pixRect = m_pixmap.rect();
         pixRect.moveCenter(rect.center());
         QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();//活动色
-        QColor pressBrush, focus, hoverFrame, base;
+        QColor pressBrush, focus, hoverFrame, base, hoverbrush;
         int type = DGuiApplicationHelper::instance()->paletteType();
         if (type == 0)
             type = DGuiApplicationHelper::instance()->themeType();
@@ -176,12 +177,14 @@ void IconButton::paintEvent(QPaintEvent *)
             hoverFrame = actcolor;
             hoverFrame.setAlphaF(0.2);
             base = Qt::white;
+            hoverbrush = Qt::white;
         } else {
             pressBrush = QColor(0, 0, 0, 0.5 * 255);
             focus = actcolor;
             hoverFrame = actcolor;
             hoverFrame.setAlphaF(0.2);
             base = QColor(48, 48, 48);
+            hoverbrush = QColor(255, 255, 255, 0.1 * 255);
         }
         if (hasFocus()) {
             if (m_isPress) {
@@ -207,12 +210,12 @@ void IconButton::paintEvent(QPaintEvent *)
                 pen.setColor(hoverFrame);
                 pen.setWidth(1);
                 painter.setPen(pen);
-                painter.setBrush(QBrush(hoverFrame));
+                painter.setBrush(QBrush(hoverbrush));
                 painter.drawRoundRect(rect, 25, 30);
 
-                painter.setPen(Qt::NoPen);
-                painter.setBrush(QBrush(base));
-                painter.drawRoundRect(hover, 25, 30);
+//                painter.setPen(Qt::NoPen);
+//                painter.setBrush(QBrush(base));
+//                painter.drawRoundRect(hover, 25, 30);
             } else if (m_isPress) {
                 painter.setPen(Qt::NoPen);
                 painter.setBrush(QBrush(pressBrush));
@@ -229,6 +232,22 @@ void IconButton::paintEvent(QPaintEvent *)
     }
     //painter.drawPixmap(pixRect.topLeft(),m_pixmap);
     drawCenterPixMap(painter);
+}
+
+bool IconButton::event(QEvent *e)
+{
+    if (e->type() == QEvent::ToolTip) {
+        QHelpEvent *helpEvent = static_cast<QHelpEvent *>(e);
+        if (this->m_isHover == true && m_isEmptyBtn) {
+            QString tooltext = tr("Clear all memory");
+            QToolTip::showText(helpEvent->globalPos(), tooltext);
+        } else {
+            QToolTip::hideText();
+            e->ignore();
+        }
+        return true;
+    }
+    return DPushButton::event(e);
 }
 
 void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval)

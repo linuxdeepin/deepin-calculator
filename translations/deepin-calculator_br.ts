@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="br" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -6,7 +6,7 @@
         <location filename="../modules/expressionbar.cpp" line="636"/>
         <location filename="../modules/expressionbar.cpp" line="682"/>
         <source>Expression error</source>
-        <translation>Lausekkeen virhe</translation>
+        <translation>Fazi ezteurel</translation>
     </message>
 </context>
 <context>
@@ -14,37 +14,37 @@
     <message>
         <location filename="../widgets/inputedit.cpp" line="142"/>
         <source>&amp;Undo</source>
-        <translation>Kumoa (&amp;Z)</translation>
+        <translation>Null&amp;añ</translation>
     </message>
     <message>
         <location filename="../widgets/inputedit.cpp" line="143"/>
         <source>&amp;Redo</source>
-        <translation>Toista (&amp;Y)</translation>
+        <translation>Adober</translation>
     </message>
     <message>
         <location filename="../widgets/inputedit.cpp" line="144"/>
         <source>Cu&amp;t</source>
-        <translation>Leikkaa (&amp;X)</translation>
+        <translation>&amp;Troc&apos;hañ</translation>
     </message>
     <message>
         <location filename="../widgets/inputedit.cpp" line="145"/>
         <source>&amp;Copy</source>
-        <translation>Kopioi (&amp;C)</translation>
+        <translation>&amp;Eilañ</translation>
     </message>
     <message>
         <location filename="../widgets/inputedit.cpp" line="146"/>
         <source>&amp;Paste</source>
-        <translation>Liitä (&amp;V)</translation>
+        <translation>&amp;Pegañ</translation>
     </message>
     <message>
         <location filename="../widgets/inputedit.cpp" line="147"/>
         <source>Delete</source>
-        <translation>Poista</translation>
+        <translation>Dilemel</translation>
     </message>
     <message>
         <location filename="../widgets/inputedit.cpp" line="148"/>
         <source>Select All</source>
-        <translation>Valitse kaikki</translation>
+        <translation>Diuzañ pep-tra</translation>
     </message>
 </context>
 <context>
@@ -53,12 +53,12 @@
         <location filename="../main.cpp" line="96"/>
         <location filename="../mainwindow.cpp" line="68"/>
         <source>Calculator</source>
-        <translation>Laskin</translation>
+        <translation>Jederezig</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="97"/>
         <source>Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>Laskin on yksinkertainen ja helppokäyttöinen työpöytälaskin. Se tukee yhteenlaskua, vähentämistä, kertoamista ja jakamista.</translation>
+        <translation>Jederezig a zo ur jederezig burev aes-tre d&apos;ober ganti. Posupl eo sammañ, tennañ, lieskementiñ ha rannañ gantañ.</translation>
     </message>
 </context>
 <context>
@@ -66,7 +66,7 @@
     <message>
         <location filename="../main.cpp" line="104"/>
         <source>Calculator</source>
-        <translation>Laskin</translation>
+        <translation>Jederezig</translation>
     </message>
 </context>
 <context>
@@ -74,7 +74,7 @@
     <message>
         <location filename="../modules/simplelistdelegate.cpp" line="136"/>
         <source>Expression error</source>
-        <translation>Lausekkeen virhe</translation>
+        <translation>Fazi ezteurel</translation>
     </message>
 </context>
 </TS>

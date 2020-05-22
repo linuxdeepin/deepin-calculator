@@ -2,38 +2,79 @@
 <context>
     <name>ExpressionBar</name>
     <message>
-        <source>Expression Error</source>
-        <translation>Помилковий вираз</translation>
+        <location filename="../modules/expressionbar.cpp" line="362"/>
+        <location filename="../modules/expressionbar.cpp" line="636"/>
+        <location filename="../modules/expressionbar.cpp" line="682"/>
+        <source>Expression error</source>
+        <translation>Помилка у виразі</translation>
+    </message>
+</context>
+<context>
+    <name>InputEdit</name>
+    <message>
+        <location filename="../widgets/inputedit.cpp" line="142"/>
+        <source>&amp;Undo</source>
+        <translation>&amp;Скасувати</translation>
+    </message>
+    <message>
+        <location filename="../widgets/inputedit.cpp" line="143"/>
+        <source>&amp;Redo</source>
+        <translation>&amp;Повторити</translation>
+    </message>
+    <message>
+        <location filename="../widgets/inputedit.cpp" line="144"/>
+        <source>Cu&amp;t</source>
+        <translation>Виріза&amp;ти</translation>
+    </message>
+    <message>
+        <location filename="../widgets/inputedit.cpp" line="145"/>
+        <source>&amp;Copy</source>
+        <translation>&amp;Копіювати</translation>
+    </message>
+    <message>
+        <location filename="../widgets/inputedit.cpp" line="146"/>
+        <source>&amp;Paste</source>
+        <translation>&amp;Вставити</translation>
+    </message>
+    <message>
+        <location filename="../widgets/inputedit.cpp" line="147"/>
+        <source>Delete</source>
+        <translation>Вилучити</translation>
+    </message>
+    <message>
+        <location filename="../widgets/inputedit.cpp" line="148"/>
+        <source>Select All</source>
+        <translation>Позначити все</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Dark theme</source>
-        <translation>Темна тема</translation>
+        <location filename="../main.cpp" line="96"/>
+        <location filename="../mainwindow.cpp" line="68"/>
+        <source>Calculator</source>
+        <translation>Калькулятор</translation>
     </message>
     <message>
-        <source>Simple mode</source>
-        <translation>Простий режим</translation>
+        <location filename="../main.cpp" line="97"/>
+        <source>Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
+        <translation>Калькулятор є нескладним та простим у користуванні комп&apos;ютерним калькулятором. Передбачено підтримку додавання, віднімання, множення і ділення.</translation>
     </message>
+</context>
+<context>
+    <name>QObject</name>
     <message>
-        <source>Scientific mode</source>
-        <translation>Науковий режим</translation>
-    </message>
-    <message>
-        <source>Deepin Calculator</source>
-        <translation>Калькулятор Deepin</translation>
-    </message>
-    <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>Deepin Калькулятор це простий і зручний настільний калькулятор. Він підтримує додавання, віднімання, множення і ділення.</translation>
+        <location filename="../main.cpp" line="104"/>
+        <source>Calculator</source>
+        <translation>Калькулятор</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
-        <source>Expression Error</source>
-        <translation>Помилковий вираз</translation>
+        <location filename="../modules/simplelistdelegate.cpp" line="136"/>
+        <source>Expression error</source>
+        <translation>Помилка у виразі</translation>
     </message>
 </context>
 </TS>

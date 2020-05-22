@@ -56,7 +56,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
 //                                  QPushButton:pressed {image:url(:/images/light/clear_press.svg);}");
     connect(m_clearbutton, &DPushButton::clicked, this, [ = ]() {
         m_listwidget->clear();
-        m_listwidget->addItem("内存中没有内容");
+        m_listwidget->addItem(tr("Nothing saved in memory"));
         m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
         m_isempty = true;
         list.clear();
@@ -127,7 +127,7 @@ void MemoryWidget::generateData(Quantity answer)
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
         if (m_listwidget->count() == 0) {
-            m_listwidget->addItem("内存中没有内容");
+            m_listwidget->addItem(tr("Nothing saved in memory"));
             m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
             m_isempty = true;
             m_clearbutton->hide();
@@ -152,7 +152,7 @@ void MemoryWidget::generateData(Quantity answer)
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
         if (m_listwidget->count() == 0) {
-            m_listwidget->addItem("内存中没有内容");
+            m_listwidget->addItem(tr("Nothing saved in memory"));
             m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
             m_isempty = true;
             m_clearbutton->hide();

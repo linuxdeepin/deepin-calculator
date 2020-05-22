@@ -172,7 +172,7 @@ void TextButton::paintEvent(QPaintEvent *e)
     // QRectF
     // textRect(QPointF((rect.width()/2)-(textR.width()/2),(rect.height()/2)-(textR.height()/2)),textR.width(),textR.height());
     QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();//活动色
-    QColor pressBrush, focus, hoverFrame, base, text;
+    QColor pressBrush, focus, hoverFrame, base, text, hoverbrush;
     QColor hoverShadow, focusShadow, normalShadow;
     QColor pressText = actcolor;
     int type = DGuiApplicationHelper::instance()->paletteType();
@@ -184,6 +184,7 @@ void TextButton::paintEvent(QPaintEvent *e)
         hoverFrame = actcolor;
         hoverFrame.setAlphaF(0.2);
         base = QColor("#FFFFFF");
+        hoverbrush = QColor("#FFFFFF");
         text = QColor("#000000");
         normalShadow = QColor(44, 167, 248, 0.4 * 255);
         hoverShadow = QColor(12, 155, 246, 0.1 * 255);
@@ -194,6 +195,7 @@ void TextButton::paintEvent(QPaintEvent *e)
         hoverFrame = actcolor;
         hoverFrame.setAlphaF(0.2);
         base = QColor("#303030");
+        hoverbrush = QColor(255, 255, 255, 0.1 * 255);
         normalShadow = QColor(44, 167, 248, 0.4 * 255);
         hoverShadow = QColor(12, 155, 246, 0.1 * 255);
         focusShadow = QColor(0, 0, 0, 0.05 * 255);
@@ -234,12 +236,12 @@ void TextButton::paintEvent(QPaintEvent *e)
         painter.setBrush(QBrush(base));
         if (m_isHover) {
             painter.setPen(QPen(hoverFrame));
-            painter.setBrush(QBrush(hoverFrame));
+            painter.setBrush(QBrush(hoverbrush));
             painter.drawRoundRect(normal, 25, 30);
 
             painter.setPen(Qt::NoPen);
-            painter.setBrush(QBrush(base));
-            painter.drawRoundRect(hover, 25, 30);
+            painter.setBrush(QBrush(hoverbrush));
+//            painter.drawRoundRect(hover, 25, 30);
             QPen pen;
             pen.setColor(text);
             painter.setPen(pen);

@@ -58,10 +58,10 @@ void MemoryItemWidget::leaveEvent(QEvent *event)
 void MemoryItemWidget::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu *menu = new QMenu(this);
-    QAction *copy = new QAction("复制", menu);
-    QAction *clean = new QAction("清除内存项", menu);
-    QAction *plus = new QAction("添加到内存项", menu);
-    QAction *minus = new QAction("从内存项中减去", menu);
+    QAction *copy = new QAction(tr("Copy"), menu);
+    QAction *clean = new QAction(tr("Clear memory item"), menu);
+    QAction *plus = new QAction(tr("Add to memory item"), menu);
+    QAction *minus = new QAction(tr("Subtract from memory item"), menu);
     menu->addAction(copy);
     menu->addAction(clean);
     menu->addAction(plus);

@@ -150,18 +150,27 @@ bool MemoryButton::event(QEvent *e)
         QHelpEvent *helpEvent = static_cast<QHelpEvent *>(e);
         if (this->m_isHover == true) {
             QString tooltext;
-            if (this->text() == "MC")
-                tooltext = "清除所有内存";
-            else if (this->text() == "MR")
-                tooltext = "内存重新调用";
-            else if (this->text() == "M+")
-                tooltext = "内存增加";
-            else if (this->text() == "M-")
-                tooltext = "内存减少";
-            else if (this->text() == "MS")
-                tooltext = "内存存储";
+            if (this->text() == "MC") {
+                if (widgetbtn)
+                    tooltext = tr("Clear memory item");
+                else
+                    tooltext = tr("Clear all memory");
+            } else if (this->text() == "MR")
+                tooltext = tr("Memory recall");
+            else if (this->text() == "M+") {
+                if (widgetbtn)
+                    tooltext = tr("Add to memory item");
+                else
+                    tooltext = tr("Memory add");
+            } else if (this->text() == "M-") {
+                if (widgetbtn)
+                    tooltext = tr("Subtract from memory item");
+                else
+                    tooltext = tr("Memory subtract");
+            } else if (this->text() == "MS")
+                tooltext = tr("Memory store");
             else if (this->text() == "M˄" || this->text() == "M˅")
-                tooltext = "内存";
+                tooltext = tr("Memory");
 
             QToolTip::showText(helpEvent->globalPos(), tooltext);
         } else {
@@ -237,7 +246,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
     // QRectF
     // textRect(QPointF((rect.width()/2)-(textR.width()/2),(rect.height()/2)-(textR.height()/2)),textR.width(),textR.height());
     QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();//活动色
-    QColor pressBrush, focus, hoverFrame, base, text;
+    QColor pressBrush, focus, hoverFrame, base, text, hoverbrush;
     QColor pressText = actcolor;
     int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
@@ -248,9 +257,11 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         hoverFrame = actcolor;
         hoverFrame.setAlphaF(0.2);
         base = Qt::white;
+        hoverbrush = Qt::white;
         text = Qt::black;
         if (m_isgray == true || m_isallgray == true) {
             base = QColor("#FFFFFF");
+            hoverbrush = QColor("#FFFFFF");
             text = QColor(0, 26, 46, 0.4 * 255);
             pressText = Qt::black;
             pressBrush = QColor("#FFFFFF");
@@ -271,11 +282,13 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             text = Qt::white;
         else
             text = QColor(224, 224, 224);
+        hoverbrush = QColor(255, 255, 255, 0.1 * 255);
         if ((m_isgray == true || m_isallgray == true) && widgetbtn == false) {
             base = QColor(48, 48, 48, 0.4 * 255);
             text = QColor(224, 224, 224, 0.4 * 255);
             pressText = Qt::black;
             pressBrush = QColor("#FFFFFF");
+            hoverbrush = QColor(48, 48, 48, 0.4 * 255);
         }
         if (this->text() == "M˄") {
             text = actcolor;
@@ -326,13 +339,13 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         painter.setPen(Qt::NoPen);
         if (m_isHover) {
             painter.setPen(QPen(hoverFrame));
-            painter.setBrush(QBrush(hoverFrame));
+            painter.setBrush(QBrush(hoverbrush));
             painter.drawRoundRect(normal, 25, 30);
 
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(Qt::NoBrush);
-            painter.setBrush(QBrush(base));
-            painter.drawRoundRect(hover, 25, 30);
+//            painter.setPen(Qt::NoPen);
+//            painter.setBrush(Qt::NoBrush);
+//            painter.setBrush(QBrush(base));
+//            painter.drawRoundRect(hover, 25, 30);
             QPen pen;
             pen.setColor(text);
             painter.setPen(pen);
