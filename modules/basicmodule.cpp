@@ -138,6 +138,7 @@ BasicModule::BasicModule(QWidget *parent)
             MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
             btn4->setEnabled(true);
             m_memCalbtn = true;
+            m_memorylistwidget->expressionempty(b);
         } else {
             MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
             btn2->setEnabled(false);
@@ -146,6 +147,7 @@ BasicModule::BasicModule(QWidget *parent)
             MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
             btn4->setEnabled(false);
             m_memCalbtn = false;
+            m_memorylistwidget->expressionempty(b);
         }
     });
     // m_expBarColor = "#F8F8F8";

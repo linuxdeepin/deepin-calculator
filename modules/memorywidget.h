@@ -62,6 +62,7 @@ private:
 public slots:
 //    void on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void setThemeType(int type);
+    void expressionempty(bool b);
 };
 
 

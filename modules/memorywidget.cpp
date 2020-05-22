@@ -315,6 +315,15 @@ void MemoryWidget::widgetminusslot(int row, Quantity answer)
     }
 }
 
+void MemoryWidget::expressionempty(bool b)
+{
+    if (!m_isempty) {
+        for (int i = 0; i < m_listwidget->count(); i++) {
+            static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->isexpressionempty(b);
+        }
+    }
+}
+
 QString MemoryWidget::formatExpression(const QString &text)
 {
     return QString(text)

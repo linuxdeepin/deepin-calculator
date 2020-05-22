@@ -28,6 +28,7 @@ signals:
     void menuminus();
 public slots:
     void themetypechanged(int type);
+    void isexpressionempty(bool b);
 
 public:
 
@@ -39,6 +40,7 @@ private:
     MemoryButton *btnclean;
     int m_type = 0;
     int m_themetype = 1;
+    bool isExpressionEmpty = false;
 };
 
 #endif // MEMORYITEMWIDGET_H

@@ -66,11 +66,15 @@ void MemoryItemWidget::contextMenuEvent(QContextMenuEvent *event)
     menu->addAction(clean);
     menu->addAction(plus);
     menu->addAction(minus);
+    if (isExpressionEmpty) {
+        plus->setEnabled(false);
+        minus->setEnabled(false);
+    } else {
+        plus->setEnabled(true);
+        minus->setEnabled(true);
+    }
     connect(copy, &QAction::triggered, this, [ = ]() {
         emit menucopy();
-//        QClipboard *clipboard = QApplication::clipboard();
-//        QString originalText = clipboard->text();
-//        clipboard->setText(m_listwidget->itemAt(event->pos())->data(Qt::EditRole).toString().remove("\n"));
     });
     connect(clean, &QAction::triggered, this, [ = ]() {
         emit menuclean();
@@ -88,6 +92,18 @@ void MemoryItemWidget::contextMenuEvent(QContextMenuEvent *event)
 void MemoryItemWidget::themetypechanged(int type)
 {
     m_themetype = type;
+}
+
+void MemoryItemWidget::isexpressionempty(bool b)
+{
+    isExpressionEmpty = b;
+    if (isExpressionEmpty) {
+        btnplus->setEnabled(false);
+        btnminus->setEnabled(false);
+    } else {
+        btnplus->setEnabled(true);
+        btnminus->setEnabled(true);
+    }
 }
 
 MemoryItemWidget::~MemoryItemWidget()
