@@ -124,7 +124,14 @@ void EqualButton::paintEvent(QPaintEvent *e)
     press0.setAlphaF(0.7);
     press1 = actcolor;
     press1.setAlphaF(0.9);
-    frame = Qt::white;
+    int type = DGuiApplicationHelper::instance()->paletteType();
+    if (type == 0)
+        type = DGuiApplicationHelper::instance()->themeType();
+    if (type == 1)
+        frame = Qt::white;
+    else {
+        frame = QColor(0, 0, 0, 0.6 * 255);
+    }
     shadow = actcolor;
     shadow.setAlphaF(0.2);
 
