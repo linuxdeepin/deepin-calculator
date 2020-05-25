@@ -95,7 +95,6 @@ void EqualButton::leaveEvent(QEvent *e)
 
 void EqualButton::paintEvent(QPaintEvent *e)
 {
-    this->setBackgroundRole(DPalette::Base);
     int mode = m_settings->getOption("mode").toInt();
     mode == 0 ? setFixedSize(80, 58) : setFixedSize(67, 44);
     QRectF rect = this->rect();

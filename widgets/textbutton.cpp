@@ -41,9 +41,6 @@ TextButton::TextButton(const QString &text, QWidget *parent)
 
     m_effect->setOffset(0, 4);
     m_effect->setBlurRadius(12);
-    Dtk::Gui::DPalette plt = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette();
-    plt.setColor(Dtk::Gui::DPalette::WindowText, plt.color(Dtk::Gui::DPalette::TextTips));
-    setPalette(plt);
 }
 
 TextButton::~TextButton()
