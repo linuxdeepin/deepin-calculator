@@ -2,47 +2,44 @@
 <context>
     <name>ExpressionBar</name>
     <message>
-        <location filename="../modules/expressionbar.cpp" line="362"/>
-        <location filename="../modules/expressionbar.cpp" line="636"/>
-        <location filename="../modules/expressionbar.cpp" line="682"/>
         <source>Expression error</source>
         <translation>Помилка у виразі</translation>
     </message>
 </context>
 <context>
+    <name>IconButton</name>
+    <message>
+        <source>Clear all memory</source>
+        <translation>Спорожнити усю пам&apos;ять</translation>
+    </message>
+</context>
+<context>
     <name>InputEdit</name>
     <message>
-        <location filename="../widgets/inputedit.cpp" line="142"/>
         <source>&amp;Undo</source>
         <translation>&amp;Скасувати</translation>
     </message>
     <message>
-        <location filename="../widgets/inputedit.cpp" line="143"/>
         <source>&amp;Redo</source>
         <translation>&amp;Повторити</translation>
     </message>
     <message>
-        <location filename="../widgets/inputedit.cpp" line="144"/>
         <source>Cu&amp;t</source>
         <translation>Виріза&amp;ти</translation>
     </message>
     <message>
-        <location filename="../widgets/inputedit.cpp" line="145"/>
         <source>&amp;Copy</source>
         <translation>&amp;Копіювати</translation>
     </message>
     <message>
-        <location filename="../widgets/inputedit.cpp" line="146"/>
         <source>&amp;Paste</source>
         <translation>&amp;Вставити</translation>
     </message>
     <message>
-        <location filename="../widgets/inputedit.cpp" line="147"/>
         <source>Delete</source>
         <translation>Вилучити</translation>
     </message>
     <message>
-        <location filename="../widgets/inputedit.cpp" line="148"/>
         <source>Select All</source>
         <translation>Позначити все</translation>
     </message>
@@ -50,29 +47,96 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../main.cpp" line="96"/>
-        <location filename="../mainwindow.cpp" line="68"/>
         <source>Calculator</source>
         <translation>Калькулятор</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="97"/>
         <source>Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
         <translation>Калькулятор є нескладним та простим у користуванні комп&apos;ютерним калькулятором. Передбачено підтримку додавання, віднімання, множення і ділення.</translation>
     </message>
 </context>
 <context>
+    <name>MemoryButton</name>
+    <message>
+        <source>Clear memory item</source>
+        <translation>Спорожнити запис пам&apos;яті</translation>
+    </message>
+    <message>
+        <source>Clear all memory</source>
+        <translation>Спорожнити усю пам&apos;ять</translation>
+    </message>
+    <message>
+        <source>Memory recall</source>
+        <translation>Відновлення з пам&apos;яті</translation>
+    </message>
+    <message>
+        <source>Add to memory item</source>
+        <translation>Додати до запису пам&apos;яті</translation>
+    </message>
+    <message>
+        <source>Memory add</source>
+        <translation>Додати до пам&apos;яті</translation>
+    </message>
+    <message>
+        <source>Subtract from memory item</source>
+        <translation>Відняти від запису пам&apos;яті</translation>
+    </message>
+    <message>
+        <source>Memory subtract</source>
+        <translation>Відняти від пам&apos;яті</translation>
+    </message>
+    <message>
+        <source>Memory store</source>
+        <translation>Зберегти у пам&apos;яті</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation>Запам&apos;ятати</translation>
+    </message>
+</context>
+<context>
+    <name>MemoryItemWidget</name>
+    <message>
+        <source>Copy</source>
+        <translation>Копіювати</translation>
+    </message>
+    <message>
+        <source>Clear memory item</source>
+        <translation>Спорожнити запис пам&apos;яті</translation>
+    </message>
+    <message>
+        <source>Add to memory item</source>
+        <translation>Додати до запису пам&apos;яті</translation>
+    </message>
+    <message>
+        <source>Subtract from memory item</source>
+        <translation>Відняти від запису пам&apos;яті</translation>
+    </message>
+</context>
+<context>
+    <name>MemoryWidget</name>
+    <message>
+        <source>Nothing saved in memory</source>
+        <translation>У пам&apos;яті нічого не збережено</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
-        <location filename="../main.cpp" line="104"/>
         <source>Calculator</source>
         <translation>Калькулятор</translation>
     </message>
 </context>
 <context>
+    <name>SciExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Помилка у виразі</translation>
+    </message>
+</context>
+<context>
     <name>SimpleListDelegate</name>
     <message>
-        <location filename="../modules/simplelistdelegate.cpp" line="136"/>
         <source>Expression error</source>
         <translation>Помилка у виразі</translation>
     </message>

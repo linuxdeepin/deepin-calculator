@@ -75,7 +75,7 @@
     </message>
     <message>
         <source>Memory add</source>
-        <translation>内存添加</translation>
+        <translation>内存增加</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>

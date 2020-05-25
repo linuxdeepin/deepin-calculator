@@ -2,47 +2,44 @@
 <context>
     <name>ExpressionBar</name>
     <message>
-        <location filename="../modules/expressionbar.cpp" line="362"/>
-        <location filename="../modules/expressionbar.cpp" line="636"/>
-        <location filename="../modules/expressionbar.cpp" line="682"/>
         <source>Expression error</source>
         <translation>Errore espressione</translation>
     </message>
 </context>
 <context>
+    <name>IconButton</name>
+    <message>
+        <source>Clear all memory</source>
+        <translation>Cancella la memoria</translation>
+    </message>
+</context>
+<context>
     <name>InputEdit</name>
     <message>
-        <location filename="../widgets/inputedit.cpp" line="142"/>
         <source>&amp;Undo</source>
         <translation>Annulla (&amp;U)</translation>
     </message>
     <message>
-        <location filename="../widgets/inputedit.cpp" line="143"/>
         <source>&amp;Redo</source>
         <translation>Ripeti (&amp;R)</translation>
     </message>
     <message>
-        <location filename="../widgets/inputedit.cpp" line="144"/>
         <source>Cu&amp;t</source>
         <translation>Taglia (&amp;T)</translation>
     </message>
     <message>
-        <location filename="../widgets/inputedit.cpp" line="145"/>
         <source>&amp;Copy</source>
         <translation>Copia (&amp;C)</translation>
     </message>
     <message>
-        <location filename="../widgets/inputedit.cpp" line="146"/>
         <source>&amp;Paste</source>
         <translation>Incolla (&amp;P)</translation>
     </message>
     <message>
-        <location filename="../widgets/inputedit.cpp" line="147"/>
         <source>Delete</source>
         <translation>Elimina</translation>
     </message>
     <message>
-        <location filename="../widgets/inputedit.cpp" line="148"/>
         <source>Select All</source>
         <translation>Seleziona tutti</translation>
     </message>
@@ -50,30 +47,97 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../main.cpp" line="96"/>
-        <location filename="../mainwindow.cpp" line="68"/>
         <source>Calculator</source>
-        <translation>Calcolatrice</translation>
+        <translation>Calculatrice</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="97"/>
         <source>Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
         <translation>Calculator è una calcolatrice desktop semplice e facile da usare. Supporta l&apos;addizione, ls sottrazione, la moltiplicazione e la divisione.
 Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
 </context>
 <context>
+    <name>MemoryButton</name>
+    <message>
+        <source>Clear memory item</source>
+        <translation>Cancella elementi in memoria</translation>
+    </message>
+    <message>
+        <source>Clear all memory</source>
+        <translation>Cancella la memoria</translation>
+    </message>
+    <message>
+        <source>Memory recall</source>
+        <translation>Richiama da memoria</translation>
+    </message>
+    <message>
+        <source>Add to memory item</source>
+        <translation>Aggiungi agli elementi in memoria</translation>
+    </message>
+    <message>
+        <source>Memory add</source>
+        <translation>Aggiungi in memoria</translation>
+    </message>
+    <message>
+        <source>Subtract from memory item</source>
+        <translation>Sottrai dagli elementi in memoria</translation>
+    </message>
+    <message>
+        <source>Memory subtract</source>
+        <translation>Memoria sottratta</translation>
+    </message>
+    <message>
+        <source>Memory store</source>
+        <translation>Memoria attuale</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation>Memoria</translation>
+    </message>
+</context>
+<context>
+    <name>MemoryItemWidget</name>
+    <message>
+        <source>Copy</source>
+        <translation>Copia</translation>
+    </message>
+    <message>
+        <source>Clear memory item</source>
+        <translation>Cancella elementi in memoria</translation>
+    </message>
+    <message>
+        <source>Add to memory item</source>
+        <translation>Aggiungi agli elementi in memoria</translation>
+    </message>
+    <message>
+        <source>Subtract from memory item</source>
+        <translation>Sottrai dagli elementi in memoria</translation>
+    </message>
+</context>
+<context>
+    <name>MemoryWidget</name>
+    <message>
+        <source>Nothing saved in memory</source>
+        <translation>Nessun elemento in memoria</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
-        <location filename="../main.cpp" line="104"/>
         <source>Calculator</source>
-        <translation>Calcolatrice</translation>
+        <translation>Calculatrice</translation>
+    </message>
+</context>
+<context>
+    <name>SciExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Errore espressione</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
-        <location filename="../modules/simplelistdelegate.cpp" line="136"/>
         <source>Expression error</source>
         <translation>Errore espressione</translation>
     </message>
