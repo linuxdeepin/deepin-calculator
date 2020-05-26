@@ -448,6 +448,23 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
     }
     if (!symbolList.isEmpty())
         newText.append(symbolList.last());
+    //edit 20200526 for bug-28491
+    int expPos = newText.indexOf("e");
+    if (expPos > 0) {
+        if (newText.length() > expPos + 1 && newText.at(expPos + 1) != QString::fromUtf8("－") && newText.at(expPos + 1) != QString::fromUtf8("＋")
+                && newText.at(expPos + 1) != "-" && newText.at(expPos + 1) != "+")
+            return newText;
+        if (newText.length() > expPos + 2) {
+            while (newText.at(expPos + 2).isNumber() == false) {
+                newText.remove(expPos + 2, 1);
+            }
+            int nextsymbolpos = newText.right(newText.length() - expPos - 2).indexOf(QRegExp("[＋－×÷()]"));
+            for (int i = expPos; i < (nextsymbolpos == -1 ? newText.length() : nextsymbolpos); i++) {
+                if (newText.at(i) == "." || newText.at(i) == QString::fromUtf8("。"))
+                    newText.remove(i, 1);
+            }
+        }
+    }
     return newText;
 }
 

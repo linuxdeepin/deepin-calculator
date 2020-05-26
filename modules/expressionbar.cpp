@@ -409,6 +409,7 @@ void ExpressionBar::enterPointEvent()
         }
     }
     exp = pointFaultTolerance(m_inputEdit->text());
+    exp = m_inputEdit->symbolFaultTolerance(exp);
     if (exp != m_inputEdit->text())
         m_inputEdit->setText(exp);
     m_isUndo = false;
@@ -668,6 +669,7 @@ void ExpressionBar::enterEqualEvent()
     if (m_isLinked) {
         if (m_hisRevision == -1) {
             m_isLinked = false;
+            m_listView->scrollToBottom();
             return;
         }
         for (int i = 0; i < m_hisLink.size(); ++i) {
@@ -756,11 +758,13 @@ void ExpressionBar::enterBracketsEvent()
     int currentPos = m_inputEdit->cursorPosition();
     m_inputEdit->insert("()");
     // 20200401 symbolFaultTolerance
-    m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
+    QString formatexp = m_inputEdit->symbolFaultTolerance(m_inputEdit->text());
     if (oldText.mid(0, currentPos).count(",") == m_inputEdit->text().mid(0, currentPos).count(","))
         m_inputEdit->setCursorPosition(currentPos + 1);
     else
         m_inputEdit->setCursorPosition(currentPos);
+    if (formatexp == oldText)
+        m_inputEdit->setText(formatexp);
     m_isUndo = false;
     /*QString sRegNum = "[0-9]+";
     QRegExp rx;
@@ -855,7 +859,7 @@ void ExpressionBar::enterLeftBracketsEvent()
     m_inputEdit->insert("(");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
-    m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
+    QString formatexp = m_inputEdit->symbolFaultTolerance(m_inputEdit->text());
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
 
@@ -866,6 +870,8 @@ void ExpressionBar::enterLeftBracketsEvent()
             m_inputEdit->setCursorPosition(curpos + 1);
         }
     }
+    if (formatexp == exp)
+        m_inputEdit->setText(formatexp);
 }
 
 void ExpressionBar::enterRightBracketsEvent()
@@ -906,7 +912,7 @@ void ExpressionBar::enterRightBracketsEvent()
     m_inputEdit->insert(")");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
-    m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
+    QString formatexp = m_inputEdit->symbolFaultTolerance(m_inputEdit->text());
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
 
@@ -917,6 +923,8 @@ void ExpressionBar::enterRightBracketsEvent()
             m_inputEdit->setCursorPosition(curpos + 1);
         }
     }
+    if (formatexp == exp)
+        m_inputEdit->setText(formatexp);
 }
 
 void ExpressionBar::enterDeleteEvent()
