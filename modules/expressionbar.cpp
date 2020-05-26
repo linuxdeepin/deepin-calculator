@@ -1405,8 +1405,11 @@ void ExpressionBar::expressionCheck()
 {
     QString exp = m_inputEdit->text();
     int cur = m_inputEdit->cursorPosition();
+    int n = m_inputEdit->cursorPosition();
+    int length = exp.length() - n;//原表达式光标右长度
     //光标前的分隔符
     int separator = 0;
+    int sum = 0;
 
     for (int i = 0; i < exp.size(); ++i) {
         if (exp[i] == ",") {
@@ -1419,6 +1422,8 @@ void ExpressionBar::expressionCheck()
         }
     }
     for (int i = 0; i < exp.size(); ++i) {
+        int num = 0;
+        int a = 0;
         while (exp[i].isNumber()) {
             // fix for delete 0 behind "."
             if (exp[i] == "0" && exp[i + 1] != "." && (i == 0 || exp[i - 1] != ".") &&
@@ -1427,9 +1432,15 @@ void ExpressionBar::expressionCheck()
                 --i;
                 if (i + 1 < cur)
                     --cur;
+                else {
+                    a++;//光标后每个数字段被去掉0的个数
+                }
             }
             ++i;
+            if (i >= cur)
+                num++;//光标后每个数字段长度
         }
+        sum = sum + ((num - 1) / 3 - (num - a - 1) / 3) + a;
         if (exp[i] == "." && (i == 0 || !exp[i - 1].isNumber())) {
             exp.insert(i, "0");
             ++i;
@@ -1438,7 +1449,8 @@ void ExpressionBar::expressionCheck()
         }
     }
     m_inputEdit->setText(exp);
-    m_inputEdit->setCursorPosition(cur + separator);
+//    m_inputEdit->setCursorPosition(cur + separator);
+    m_inputEdit->setCursorPosition(m_inputEdit->text().length() - (length - sum)); //20200525数字前有0时容错删除0光标错位
 }
 
 void ExpressionBar::Undo()
