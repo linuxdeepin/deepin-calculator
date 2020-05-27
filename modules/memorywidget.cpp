@@ -19,6 +19,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     , m_listwidget(new MemoryListWidget(this))
     , m_clearbutton(new IconButton(this, true))
     , m_isempty(true)
+    , memoryDelegate(new MemoryItemDelegate(this))
 {
     calculatormode = mode;
     m_evaluator = Evaluator::instance();
@@ -31,6 +32,10 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     lay->setMargin(0);
     lay->addWidget(m_listwidget);
 
+//    DPalette pal = m_listwidget->palette();
+//    pal.setColor(DPalette::Light, QColor(248, 248, 248));
+//    m_listwidget->setPalette(pal);
+
     m_listwidget->setFrameShape(QFrame::NoFrame);
     mode == 0 ? m_listwidget->setFixedHeight(260) : m_listwidget->setFixedHeight(500);
     m_listwidget->setVerticalScrollMode(QListView::ScrollPerPixel);
@@ -40,10 +45,15 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     m_listwidget->setSelectionRectVisible(false);
     m_listwidget->setFocusPolicy(Qt::NoFocus);
     m_listwidget->setUniformItemSizes(false);
+    m_listwidget->setItemDelegate(memoryDelegate);
+//    m_listwidget->setAttribute(Qt::WA_TranslucentBackground, true);
 //    m_listwidget->setWordWrap(true);
 //    m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
 //                                 QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.1 * 255);} \
 //                                 QListWidget{color:black;background-color:transparent;}");
+//    QPalette palette = m_listwidget->palette();
+//    palette.setBrush(backgroundRole(), QBrush(QColor(Qt::black)));
+//    m_listwidget->setPalette(palette);
     lay->addStretch();
     layH->addStretch();
 
@@ -58,6 +68,14 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
         m_listwidget->clear();
         m_listwidget->addItem(tr("Nothing saved in memory"));
         m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
+        int type = DGuiApplicationHelper::instance()->paletteType();
+        if (type == 0)
+            type = DGuiApplicationHelper::instance()->themeType();
+        if (type == 1) {
+            m_listwidget->item(0)->setTextColor(Qt::black);
+        } else {
+            m_listwidget->item(0)->setTextColor(QColor("#B4B4B4"));
+        }
         m_isempty = true;
         list.clear();
         m_clearbutton->hide();
@@ -66,11 +84,15 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     lay->addLayout(layH);
     this->setLayout(lay);
     connect(m_listwidget, &MemoryListWidget::itemselected, this, [ = ](int row) {
-        QPair<QString, Quantity> p;
-        p.first = m_listwidget->item(row)->data(Qt::DisplayRole).toString();
-        p.second = list.at(row);
-        if (m_listwidget->item(row)->flags() != Qt::NoItemFlags)
-            emit itemclick(p);
+        if (!m_isempty) {
+            QPair<QString, Quantity> p;
+            MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
+            //        p.first = m_listwidget->item(row)->data(Qt::DisplayRole).toString();
+            p.first = w1->textLabel();
+            p.second = list.at(row);
+            if (m_listwidget->item(row)->flags() != Qt::NoItemFlags)
+                emit itemclick(p);
+        }
     });
 //    connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
 //        m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
@@ -93,42 +115,55 @@ void MemoryWidget::generateData(Quantity answer)
     m_isempty = false;
     emit mListAvailable();
     QListWidgetItem *item1 = new QListWidgetItem();
-    item1->setTextAlignment(Qt::AlignRight | Qt::AlignTop);
+    item1->setFlags(Qt::ItemIsSelectable);
+//    item1->setTextAlignment(Qt::AlignRight | Qt::AlignTop);
     QFont font;
     font.setPixelSize(30);
     item1->setFont(font);
     item1->setSizeHint(QSize(344, 40 + 45 * line));
     MemoryItemWidget *widget = new MemoryItemWidget(this);
-    widget->setFixedSize(344, 40 + 45 * line);
+    widget->setFixedSize(QSize(344, 40 + 45 * line));
+
     m_listwidget->insertItem(0, item1);
     m_listwidget->setItemWidget(item1, widget);
     if (answer == Quantity(0)) {
-        item1->setData(Qt::DisplayRole, "0");
+//        item1->setData(Qt::DisplayRole, "0");
+        widget->setTextLabel("0");
     } else {
         const QString result = DMath::format(answer, Quantity::Format::General());
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = setitemwordwrap(formatResult);
-        item1->setData(Qt::DisplayRole, formatResult);
+//        item1->setData(Qt::DisplayRole, formatResult);
+        widget->setTextLabel(formatResult);
     }
+    widget->setLineHight(line);
     list.insert(0, answer); //对于新增数据，同步在list中加入对应的Quantity
     connect(widget, &MemoryItemWidget::plusbtnclicked, this, [ = ]() {
         int row = m_listwidget->row(item1);
-        widget->setFocus();
+//        widget->setFocus();
         emit MemoryWidget::widgetplus(row);
     });
     connect(widget, &MemoryItemWidget::minusbtnclicked, this, [ = ]() {
         int row = m_listwidget->row(item1);
-        widget->setFocus();
+//        widget->setFocus();
         emit MemoryWidget::widgetminus(row);
     });
     connect(widget, &MemoryItemWidget::cleanbtnclicked, this, [ = ]() {
-        widget->setFocus();
+//        widget->setFocus();
         list.removeAt(m_listwidget->row(item1));
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
         if (m_listwidget->count() == 0) {
             m_listwidget->addItem(tr("Nothing saved in memory"));
             m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
+            int type = DGuiApplicationHelper::instance()->paletteType();
+            if (type == 0)
+                type = DGuiApplicationHelper::instance()->themeType();
+            if (type == 1) {
+                m_listwidget->item(0)->setTextColor(Qt::black);
+            } else {
+                m_listwidget->item(0)->setTextColor(QColor("#B4B4B4"));
+            }
             m_isempty = true;
             m_clearbutton->hide();
             emit mListUnavailable();
@@ -137,14 +172,15 @@ void MemoryWidget::generateData(Quantity answer)
     widget->themetypechanged(m_themetype);
     connect(this, &MemoryWidget::themechange, widget, &MemoryItemWidget::themetypechanged);
     connect(widget, &MemoryItemWidget::itemchanged, this, [ = ](int type) {
+        widget->update();
         if (type == 1) {
-            m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
-                                         QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.05 * 255);} \
-                                         QListWidget{color:black;background-color:transparent;}");
+//            m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
+//                                         QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.05 * 255);} \
+//                                         QListWidget{color:black;background-color:transparent;}");
         } else {
-            m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
-                                         QListWidget::item:hover{color:#B4B4B4;background-color:rgba(255,255,255,0.05 * 255);} \
-                                         QListWidget{color:#B4B4B4;background-color:transparent;}");
+//            m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
+//                                         QListWidget::item:hover{color:#B4B4B4;background-color:rgba(255,255,255,0.05 * 255);} \
+//                                         QListWidget{color:#B4B4B4;background-color:transparent;}");
         }
     });
     connect(widget, &MemoryItemWidget::menuclean, this, [ = ]() {
@@ -154,6 +190,14 @@ void MemoryWidget::generateData(Quantity answer)
         if (m_listwidget->count() == 0) {
             m_listwidget->addItem(tr("Nothing saved in memory"));
             m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
+            int type = DGuiApplicationHelper::instance()->paletteType();
+            if (type == 0)
+                type = DGuiApplicationHelper::instance()->themeType();
+            if (type == 1) {
+                m_listwidget->item(0)->setTextColor(Qt::black);
+            } else {
+                m_listwidget->item(0)->setTextColor(QColor("#B4B4B4"));
+            }
             m_isempty = true;
             m_clearbutton->hide();
             emit mListUnavailable();
@@ -162,7 +206,9 @@ void MemoryWidget::generateData(Quantity answer)
     connect(widget, &MemoryItemWidget::menucopy, this, [ = ]() {
         QClipboard *clipboard = QApplication::clipboard();
         QString originalText = clipboard->text();
-        clipboard->setText(item1->data(Qt::EditRole).toString().remove("\n"));
+//        clipboard->setText(item1->data(Qt::EditRole).toString().remove("\n"));
+        MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(item1));
+        clipboard->setText(w1->textLabel().remove("\n"));
     });
     connect(widget, &MemoryItemWidget::menuplus, this, [ = ]() {
         int row = m_listwidget->row(item1);
@@ -215,7 +261,9 @@ void MemoryWidget::memoryplus(Quantity answer)
         const QString result = DMath::format(ans, Quantity::Format::General());
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = setitemwordwrap(formatResult);
-        m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
+        MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
+//        m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
+        w1->setTextLabel(formatResult);
         list.replace(0, ans);
     } else {
         m_listwidget->clear();
@@ -236,7 +284,9 @@ void MemoryWidget::memoryminus(Quantity answer)
         const QString result = DMath::format(ans, Quantity::Format::General());
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = setitemwordwrap(formatResult);
-        m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
+//        m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
+        MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
+        w1->setTextLabel(formatResult);
         list.replace(0, ans);
     } else {
         m_listwidget->clear();
@@ -247,7 +297,9 @@ void MemoryWidget::memoryminus(Quantity answer)
         const QString result = DMath::format(ans, Quantity::Format::General());
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = setitemwordwrap(formatResult);
-        m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
+//        m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
+        MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
+        w1->setTextLabel(formatResult);
         list.replace(0, ans);
     }
 }
@@ -264,7 +316,9 @@ QPair<QString, Quantity> MemoryWidget::getfirstnumber()
 {
     QPair<QString, Quantity> p1;
     if (m_isempty == false) {
-        QString str = m_listwidget->item(0)->data(Qt::EditRole).toString();
+//        QString str = m_listwidget->item(0)->data(Qt::EditRole).toString();
+        MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
+        QString str = w1->textLabel();
         p1.first = str.remove("\n");
         p1.second = list.at(0);
         return p1;
@@ -281,7 +335,7 @@ void MemoryWidget::widgetplusslot(int row, Quantity answer)
     QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
     formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
     if (answer == Quantity(0)) {
-        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole));
+//        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole));
     } else {
 //        QString exp = QString(m_listwidget->item(row)->data(Qt::EditRole).toString() + "+(" + formatResultmem + ")");
         QString exp = QString(DMath::format(list.value(row), Quantity::Format::Fixed() + Quantity::Format::Precision(78)) + "+(" + formatResultmem + ")");
@@ -290,7 +344,9 @@ void MemoryWidget::widgetplusslot(int row, Quantity answer)
         const QString result = DMath::format(ans, Quantity::Format::General());
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = setitemwordwrap(formatResult, row);
-        m_listwidget->item(row)->setData(Qt::DisplayRole, formatResult);
+//        m_listwidget->item(row)->setData(Qt::DisplayRole, formatResult);
+        MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
+        w1->setTextLabel(formatResult);
         list.replace(row, ans);
     }
 }
@@ -300,9 +356,9 @@ void MemoryWidget::widgetminusslot(int row, Quantity answer)
     const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(78));
     QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
     formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
-    if (answer == Quantity(0))
-        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole));
-    else {
+    if (answer == Quantity(0)) {
+        //        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole));
+    } else {
 //        QString exp = QString(m_listwidget->item(row)->data(Qt::EditRole).toString() + "-(" + formatResultmem + ")");
         QString exp = QString(DMath::format(list.value(row), Quantity::Format::Fixed() + Quantity::Format::Precision(78)) + "-(" + formatResultmem + ")");
         m_evaluator->setExpression(formatExpression(exp));
@@ -310,7 +366,9 @@ void MemoryWidget::widgetminusslot(int row, Quantity answer)
         const QString result = DMath::format(ans, Quantity::Format::General());
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = setitemwordwrap(formatResult, row);
-        m_listwidget->item(row)->setData(Qt::DisplayRole, formatResult);
+//        m_listwidget->item(row)->setData(Qt::DisplayRole, formatResult);
+        MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
+        w1->setTextLabel(formatResult);
         list.replace(row, ans);
     }
 }
@@ -369,25 +427,25 @@ void MemoryWidget::setThemeType(int type)
     QString path;
     if (m_themetype == 1) {
         path = QString(":/images/%1/").arg("light");
-        m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
-                                     QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.05 * 255);} \
-                                     QListWidget{color:black;background-color:transparent;}");
+//        m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
+//                                     QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.05 * 255);} \
+//                                     QListWidget{color:black;background-color:transparent;}");
         m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
         connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
-            m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
-                                         QListWidget::item:selected{color:black;background-color:rgba(0,0,0,0.2 * 255);} \
-                                         QListWidget{color:black;background-color:transparent;height}");
+//            m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
+//                                         QListWidget::item:selected{color:black;background-color:rgba(0,0,0,0.2 * 255);} \
+//                                         QListWidget{color:black;background-color:transparent;height}");
         });
     } else {
         path = QString(":/images/%1/").arg("dark");
-        m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
-                                     QListWidget::item:hover{color:#B4B4B4;background-color:rgba(255,255,255,0.05 * 255);} \
-                                     QListWidget{color:#B4B4B4;background-color:transparent;}");
+//        m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
+//                                     QListWidget::item:hover{color:#B4B4B4;background-color:rgba(255,255,255,0.05 * 255);} \
+//                                     QListWidget{color:#B4B4B4;background-color:transparent;}");
         m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
         connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
-            m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
-                                         QListWidget::item:selected{color:#FFFFFF;background-color:rgba(255,255,255,0.2 * 255);} \
-                                         QListWidget{color:#B4B4B4;background-color:transparent;}");
+//            m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
+//                                         QListWidget::item:selected{color:#FFFFFF;background-color:rgba(255,255,255,0.2 * 255);} \
+//                                         QListWidget{color:#B4B4B4;background-color:transparent;}");
         });
     }
 

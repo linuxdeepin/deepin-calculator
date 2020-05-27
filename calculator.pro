@@ -84,7 +84,8 @@ HEADERS += mainwindow.h \
     widgets/funcombobox.h \
     modules/scihistorywidget.h \
     modules/scientificmodule.h \
-    modules/sciexpressionbar.h
+    modules/sciexpressionbar.h \
+    modules/memoryitemdelegate.h
 SOURCES += main.cpp \
            mainwindow.cpp \
            dsettings.cpp \
@@ -146,7 +147,8 @@ SOURCES += main.cpp \
     widgets/funcombobox.cpp \
     modules/scihistorywidget.cpp \
     modules/scientificmodule.cpp \
-    modules/sciexpressionbar.cpp
+    modules/sciexpressionbar.cpp \
+    modules/memoryitemdelegate.cpp
 
 RESOURCES += deepin-calculator.qrc
 TRANSLATIONS += $$PWD/translations/deepin-calculator.ts \

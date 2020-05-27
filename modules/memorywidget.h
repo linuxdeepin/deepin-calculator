@@ -12,6 +12,7 @@
 #include "memorylistwidget.h"
 #include "../core/evaluator.h"
 #include "../widgets/iconbutton.h"
+#include "memoryitemdelegate.h"
 
 class MemoryWidget : public QWidget
 {
@@ -55,6 +56,7 @@ private:
     int m_themetype = 0;
     int calculatormode;
     int line = 1; //item数字行数
+    MemoryItemDelegate *memoryDelegate;
 
 private:
     QString formatExpression(const QString &text);

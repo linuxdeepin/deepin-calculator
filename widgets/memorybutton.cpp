@@ -283,12 +283,16 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         else
             text = QColor(224, 224, 224);
         hoverbrush = QColor(255, 255, 255, 0.1 * 255);
-        if ((m_isgray == true || m_isallgray == true) && widgetbtn == false) {
+        if (m_isgray == true || m_isallgray == true) {
             base = QColor(48, 48, 48, 0.4 * 255);
             text = QColor(224, 224, 224, 0.4 * 255);
             pressText = Qt::black;
             pressBrush = QColor("#FFFFFF");
             hoverbrush = QColor(48, 48, 48, 0.4 * 255);
+            if (widgetbtn) {
+                base = QColor(65, 65, 65);
+                text = QColor(224, 224, 224, 0.3 * 255);
+            }
         }
         if (this->text() == "M˄") {
             text = actcolor;

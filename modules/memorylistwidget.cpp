@@ -3,11 +3,20 @@
 #include <QColor>
 #include <QPainter>
 #include <QDebug>
+#include <DPalette>
+
+DGUI_USE_NAMESPACE
 
 MemoryListWidget::MemoryListWidget(QWidget *parent)
     : QListWidget(parent)
 {
-
+//    DPalette pal = this->palette();
+//    pal.setColor(DPalette::Light, QColor(248, 248, 248));
+//    this->setPalette(pal);
+//    this->setAttribute(Qt::WA_StyledBackground, false);
+//    DPalette pal = this->palette();
+//    pal.setColor(DPalette::Light, QColor(248, 248, 248));
+//    this->setPalette(pal);
 }
 
 void MemoryListWidget::mousePressEvent(QMouseEvent *event)
