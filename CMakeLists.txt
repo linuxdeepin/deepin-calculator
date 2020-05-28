@@ -183,7 +183,7 @@ set (DC_HEADER_FILES
 )
 
 set (DC_QRC_FILES
-    deepin-calculator.qrc
+    src/deepin-calculator.qrc
 )
 
 add_executable (${EXE_NAME}

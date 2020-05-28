@@ -96,9 +96,9 @@ static DPushButton *createSpecialKeyButton(SciBasicKeyPad::Buttons key)
 
     QString path;
     if (DGuiApplicationHelper::instance()->themeType() == 2)
-        path = QString(":/src/assets/images/%1/").arg("dark");
+        path = QString(":/assets/images/%1/").arg("dark");
     else
-        path = QString(":/src/assets/images/%1/").arg("light");
+        path = QString(":/assets/images/%1/").arg("light");
 
     if (key == SciBasicKeyPad::Key_Div) {
         button->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");
@@ -580,9 +580,9 @@ void SciBasicKeyPad::buttonThemeChanged(int type)
 {
     QString path;
     if (type == 2)
-        path = QString(":/src/assets/images/%1/").arg("dark");
+        path = QString(":/assets/images/%1/").arg("dark");
     else
-        path = QString(":/src/assets/images/%1/").arg("light");
+        path = QString(":/assets/images/%1/").arg("light");
 
     IconButton *btn = static_cast<IconButton *>(button(Key_Div));
     btn->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");

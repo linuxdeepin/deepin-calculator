@@ -426,7 +426,7 @@ void MemoryWidget::setThemeType(int type)
     QColor c = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
     QString path;
     if (m_themetype == 1) {
-        path = QString(":/src/assets/images/%1/").arg("light");
+        path = QString(":/assets/images/%1/").arg("light");
 //        m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
 //                                     QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.05 * 255);} \
 //                                     QListWidget{color:black;background-color:transparent;}");
@@ -437,7 +437,7 @@ void MemoryWidget::setThemeType(int type)
 //                                         QListWidget{color:black;background-color:transparent;height}");
         });
     } else {
-        path = QString(":/src/assets/images/%1/").arg("dark");
+        path = QString(":/assets/images/%1/").arg("dark");
 //        m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
 //                                     QListWidget::item:hover{color:#B4B4B4;background-color:rgba(255,255,255,0.05 * 255);} \
 //                                     QListWidget{color:#B4B4B4;background-color:transparent;}");
