@@ -1,69 +1,72 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/deepin-calculator.svg</file>
-        <file>images/title_icon.svg</file>
-        <file>qss/light.qss</file>
-        <file>qss/dark.qss</file>
-        <file>images/delete_light_normal.svg</file>
-        <file>images/delete_light_hover.svg</file>
-        <file>images/delete_light_press.svg</file>
-        <file>images/delete_dark_normal.svg</file>
-        <file>images/delete_dark_hover.svg</file>
-        <file>images/delete_dark_press.svg</file>
-        <file>images/plus_normal.svg</file>
-        <file>images/min_normal.svg</file>
-        <file>images/mult_normal.svg</file>
-        <file>images/div_normal.svg</file>
-        <file>images/light/( )_hover.svg</file>
-        <file>images/light/( )_normal.svg</file>
-        <file>images/light/( )_press.svg</file>
-        <file>images/light/-_hover.svg</file>
-        <file>images/light/-_normal.svg</file>
-        <file>images/light/-_press.svg</file>
-        <file>images/light/%_hover.svg</file>
-        <file>images/light/%_normal.svg</file>
-        <file>images/light/%_press.svg</file>
-        <file>images/light/clear_hover.svg</file>
-        <file>images/light/clear_normal.svg</file>
-        <file>images/light/clear_press.svg</file>
-        <file>images/light/+_hover.svg</file>
-        <file>images/light/+_normal.svg</file>
-        <file>images/light/+_press.svg</file>
-        <file>images/light/x_hover.svg</file>
-        <file>images/light/x_normal.svg</file>
-        <file>images/light/x_press.svg</file>
-        <file>images/dark/%_hover.svg</file>
-        <file>images/dark/-_hover.svg</file>
-        <file>images/dark/-_normal.svg</file>
-        <file>images/dark/-_press.svg</file>
-        <file>images/dark/( )_hover.svg</file>
-        <file>images/dark/( )_normal.svg</file>
-        <file>images/dark/( )_press.svg</file>
-        <file>images/dark/%_normal.svg</file>
-        <file>images/dark/%_press.svg</file>
-        <file>images/dark/+_hover.svg</file>
-        <file>images/dark/+_normal.svg</file>
-        <file>images/dark/+_press.svg</file>
-        <file>images/dark/AC_hover.svg</file>
-        <file>images/dark/AC_normal.svg</file>
-        <file>images/dark/AC_press.svg</file>
-        <file>images/dark/clear_hover.svg</file>
-        <file>images/dark/clear_normal.svg</file>
-        <file>images/dark/clear_press.svg</file>
-        <file>images/dark/x_hover.svg</file>
-        <file>images/dark/x_normal.svg</file>
-        <file>images/dark/x_press.svg</file>
-        <file>images/light/divide_hover.svg</file>
-        <file>images/light/divide_normal.svg</file>
-        <file>images/light/divide_press.svg</file>
-        <file>images/dark/divide_hover.svg</file>
-        <file>images/dark/divide_normal.svg</file>
-        <file>images/dark/divide_press.svg</file>
-        <file>images/dark/empty_hover.svg</file>
-        <file>images/dark/empty_normal.svg</file>
-        <file>images/dark/empty_press.svg</file>
-        <file>images/light/empty_hover.svg</file>
-        <file>images/light/empty_normal.svg</file>
-        <file>images/light/empty_press.svg</file>
+        <file>src/assets/images/dark/-_hover.svg</file>
+        <file>src/assets/images/dark/-_normal.svg</file>
+        <file>src/assets/images/dark/-_press.svg</file>
+        <file>src/assets/images/dark/( )_hover.svg</file>
+        <file>src/assets/images/dark/( )_normal.svg</file>
+        <file>src/assets/images/dark/( )_press.svg</file>
+        <file>src/assets/images/dark/%_hover.svg</file>
+        <file>src/assets/images/dark/%_normal.svg</file>
+        <file>src/assets/images/dark/%_press.svg</file>
+        <file>src/assets/images/dark/+_hover.svg</file>
+        <file>src/assets/images/dark/+_normal.svg</file>
+        <file>src/assets/images/dark/+_press.svg</file>
+        <file>src/assets/images/dark/AC_hover.svg</file>
+        <file>src/assets/images/dark/AC_normal.svg</file>
+        <file>src/assets/images/dark/AC_press.svg</file>
+        <file>src/assets/images/dark/clear_hover.svg</file>
+        <file>src/assets/images/dark/clear_normal.svg</file>
+        <file>src/assets/images/dark/clear_press.svg</file>
+        <file>src/assets/images/dark/divide_hover.svg</file>
+        <file>src/assets/images/dark/divide_normal.svg</file>
+        <file>src/assets/images/dark/divide_press.svg</file>
+        <file>src/assets/images/dark/empty_hover.svg</file>
+        <file>src/assets/images/dark/empty_normal.svg</file>
+        <file>src/assets/images/dark/empty_press.svg</file>
+        <file>src/assets/images/dark/x_hover.svg</file>
+        <file>src/assets/images/dark/x_normal.svg</file>
+        <file>src/assets/images/dark/x_press.svg</file>
+        <file>src/assets/images/light/-_hover.svg</file>
+        <file>src/assets/images/light/-_normal.svg</file>
+        <file>src/assets/images/light/-_press.svg</file>
+        <file>src/assets/images/light/( )_hover.svg</file>
+        <file>src/assets/images/light/( )_normal.svg</file>
+        <file>src/assets/images/light/( )_press.svg</file>
+        <file>src/assets/images/light/%_hover.svg</file>
+        <file>src/assets/images/light/%_normal.svg</file>
+        <file>src/assets/images/light/%_press.svg</file>
+        <file>src/assets/images/light/+_hover.svg</file>
+        <file>src/assets/images/light/+_normal.svg</file>
+        <file>src/assets/images/light/+_press.svg</file>
+        <file>src/assets/images/light/clear_hover.svg</file>
+        <file>src/assets/images/light/clear_normal.svg</file>
+        <file>src/assets/images/light/clear_press.svg</file>
+        <file>src/assets/images/light/divide_hover.svg</file>
+        <file>src/assets/images/light/divide_normal.svg</file>
+        <file>src/assets/images/light/divide_press.svg</file>
+        <file>src/assets/images/light/empty_hover.svg</file>
+        <file>src/assets/images/light/empty_normal.svg</file>
+        <file>src/assets/images/light/empty_press.svg</file>
+        <file>src/assets/images/light/x_hover.svg</file>
+        <file>src/assets/images/light/x_normal.svg</file>
+        <file>src/assets/images/light/x_press.svg</file>
+        <file>src/assets/images/÷_hover.svg</file>
+        <file>src/assets/images/÷_normal.svg</file>
+        <file>src/assets/images/÷_press.svg</file>
+        <file>src/assets/images/deepin-calculator.svg</file>
+        <file>src/assets/images/delete_dark_hover.svg</file>
+        <file>src/assets/images/delete_dark_normal.svg</file>
+        <file>src/assets/images/delete_dark_press.svg</file>
+        <file>src/assets/images/delete_light_hover.svg</file>
+        <file>src/assets/images/delete_light_normal.svg</file>
+        <file>src/assets/images/delete_light_press.svg</file>
+        <file>src/assets/images/div_normal.svg</file>
+        <file>src/assets/images/min_normal.svg</file>
+        <file>src/assets/images/mult_normal.svg</file>
+        <file>src/assets/images/plus_normal.svg</file>
+        <file>src/assets/images/title_icon.svg</file>
+        <file>src/assets/qss/dark.qss</file>
+        <file>src/assets/qss/light.qss</file>
     </qresource>
 </RCC>
