@@ -184,12 +184,10 @@ set (DC_QRC_FILES
     deepin-calculator.qrc
 )
 
-file(GLOB QM_FILES "translations/*.qm")
 add_executable (${EXE_NAME}
     ${DC_HEADER_FILES}
     ${DC_CPP_FILES}
     ${DC_QRC_FILES}
-    ${QM_FILES}
 )
 
 target_include_directories(${EXE_NAME} PUBLIC ${Qt5Widgets_LIBRARIES}
@@ -201,6 +199,9 @@ target_include_directories(${EXE_NAME} PUBLIC ${Qt5Widgets_LIBRARIES}
 
 target_link_libraries (${EXE_NAME} ${LINK_LIBS})
 
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/deepin-calculator
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+file(GLOB QM_FILES "translations/*.qm")
 install(FILES ${QM_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/deepin-calculator/translations)
 install(FILES deepin-calculator.desktop
         DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications/)
