@@ -20,6 +20,7 @@
 #include "textbutton.h"
 #include <QMouseEvent>
 #include <QPainter>
+#include <QPainterPath>
 #include <QTimer>
 #include "dthememanager.h"
 
