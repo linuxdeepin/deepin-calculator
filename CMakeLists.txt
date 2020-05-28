@@ -18,6 +18,7 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5DBus REQUIRED)
 find_package(Qt5Xml REQUIRED)
+find_package(Qt5Svg REQUIRED)
 
 find_package(DtkWidget REQUIRED dtkwidget)
 find_package(DtkGui REQUIRED dtkgui)
@@ -39,6 +40,7 @@ set(LINK_LIBS
     Qt5::DBus
     Qt5::Widgets
     Qt5::Xml
+    Qt5::Svg
 
     ${DtkWidget_LIBRARIES}
     ${DtkCore_LIBRARIES}
