@@ -1,25 +1,18 @@
 #!/usr/bin/make -f
-# See debhelper(7) (uncomment to enable)
-# output every command that modifies files on the build system.
-#export DH_VERBOSE = 1
-include /usr/share/dpkg/pkg-info.mk
 
-# see FEATURE AREAS in dpkg-buildflags(1)
-export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export QT_SELECT=5
+include /usr/share/dpkg/default.mk
 
-# see ENVIRONMENT in dpkg-buildflags(1)
-# package maintainers to append CFLAGS
-export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
-# package maintainers to append LDFLAGS
-export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+DEB_BUILD_ARCH ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+DH_AUTO_ARGS = --parallel --buildsystem=cmake
 
-export QT_SELECT := 5
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
 
 %:
-	dh $@
+	dh $@ --parallel
 
 override_dh_auto_configure:
-	dh_auto_configure -- DEFINES+="VERSION=$(DEB_VERSION)"
-
-override_dh_missing:
-	dh_missing --fail-missing
+	dh_auto_configure -- \
+	  -DCMAKE_BUILD_TYPE=Release \
+	  -DAPP_VERSION=$(DEB_VERSION_UPSTREAM) -DVERSION=$(DEB_VERSION_UPSTREAM) LIB_INSTALL_DIR=/usr/lib/$(DEB_HOST_MULTIARCH)
