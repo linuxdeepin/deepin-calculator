@@ -67,14 +67,16 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     connect(m_clearbutton, &DPushButton::clicked, this, [ = ]() {
         m_listwidget->clear();
         m_listwidget->addItem(tr("Nothing saved in memory"));
+        m_listwidget->item(0)->setSizeHint(QSize(344, 260));
         m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
+        m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
         int type = DGuiApplicationHelper::instance()->paletteType();
         if (type == 0)
             type = DGuiApplicationHelper::instance()->themeType();
         if (type == 1) {
-            m_listwidget->item(0)->setTextColor(Qt::black);
+            m_listwidget->item(0)->setTextColor(QColor(192, 198, 212, 0.4 * 255));
         } else {
-            m_listwidget->item(0)->setTextColor(QColor("#B4B4B4"));
+            m_listwidget->item(0)->setTextColor(QColor(85, 85, 85, 0.4 * 255));
         }
         m_isempty = true;
         list.clear();
@@ -155,14 +157,16 @@ void MemoryWidget::generateData(Quantity answer)
         delete item1;
         if (m_listwidget->count() == 0) {
             m_listwidget->addItem(tr("Nothing saved in memory"));
+            m_listwidget->item(0)->setSizeHint(QSize(344, 260));
             m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
+            m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
             int type = DGuiApplicationHelper::instance()->paletteType();
             if (type == 0)
                 type = DGuiApplicationHelper::instance()->themeType();
             if (type == 1) {
-                m_listwidget->item(0)->setTextColor(Qt::black);
+                m_listwidget->item(0)->setTextColor(QColor(192, 198, 212, 0.4 * 255));
             } else {
-                m_listwidget->item(0)->setTextColor(QColor("#B4B4B4"));
+                m_listwidget->item(0)->setTextColor(QColor(85, 85, 85, 0.4 * 255));
             }
             m_isempty = true;
             m_clearbutton->hide();
@@ -189,14 +193,16 @@ void MemoryWidget::generateData(Quantity answer)
         delete item1;
         if (m_listwidget->count() == 0) {
             m_listwidget->addItem(tr("Nothing saved in memory"));
+            m_listwidget->item(0)->setSizeHint(QSize(344, 260));
             m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
+            m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
             int type = DGuiApplicationHelper::instance()->paletteType();
             if (type == 0)
                 type = DGuiApplicationHelper::instance()->themeType();
             if (type == 1) {
-                m_listwidget->item(0)->setTextColor(Qt::black);
+                m_listwidget->item(0)->setTextColor(QColor(192, 198, 212, 0.4 * 255));
             } else {
-                m_listwidget->item(0)->setTextColor(QColor("#B4B4B4"));
+                m_listwidget->item(0)->setTextColor(QColor(85, 85, 85, 0.4 * 255));
             }
             m_isempty = true;
             m_clearbutton->hide();
