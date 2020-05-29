@@ -29,6 +29,7 @@
 #include <QDir>
 #include <QIcon>
 #include "mainwindow.h"
+#include "environments.h"
 
 DWIDGET_USE_NAMESPACE
 static QString g_appPath;  //全局路径
@@ -89,7 +90,7 @@ int main(int argc, char *argv[])
     app.loadTranslator();
     app.setOrganizationName("deepin");
     app.setApplicationName("deepin-calculator");
-    app.setApplicationVersion(DApplication::buildVersion("1.0.1"));
+//    app.setApplicationVersion(DApplication::buildVersion("1.0.1"));
     app.setApplicationAcknowledgementPage(
         "https://www.deepin.org/acknowledgments/deepin-calculator");
     QIcon t_icon = QIcon::fromTheme("deepin-calculator");
@@ -104,7 +105,8 @@ int main(int argc, char *argv[])
         QLocale(QLocale::English).toDate(QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
     QString t_date = buildDate.toString("MMdd");
     // Version Time
-    app.setApplicationVersion(DApplication::buildVersion(t_date));
+//    app.setApplicationVersion(DApplication::buildVersion(t_date));
+    app.setApplicationVersion(VERSION);
     // app.setTheme("light");
     app.setQuitOnLastWindowClosed(true);
     app.setApplicationDisplayName(QObject::tr("Calculator"));

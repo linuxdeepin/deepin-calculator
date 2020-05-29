@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.9.5)
 
+if (NOT DEFINED VERSION)
+    set(VERSION 1.2.2)
+endif ()
+
 project(deepin-calculator)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
@@ -22,6 +26,7 @@ if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
                     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 endif ()
 
+configure_file(src/environments.h.in environments.h @ONLY)
 
 # Find the library
 find_package(PkgConfig REQUIRED)
