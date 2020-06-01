@@ -45,7 +45,7 @@ private:
     SimpleListDelegate *m_listDelegate;
     SimpleListModel *m_listModel;
     DButtonBox *m_buttonbox;
-    DIconButton *m_clearbutton;
+    IconButton *m_clearbutton;
 };
 
 #endif // SCIHISTORYWIDGET_H

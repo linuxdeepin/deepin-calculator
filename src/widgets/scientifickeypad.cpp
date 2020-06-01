@@ -10,8 +10,8 @@ const ScientificKeyPad::KeyDescription ScientificKeyPad::keyDescriptions[] = {
     {"F-E", Key_FE, 1, 0, 1, 1},   {"MC", Key_MC, 1, 1, 1, 1},   {"MR", Key_MR, 1, 2, 1, 1},
     {"M+", Key_Mplus, 1, 3, 1, 1}, {"M-", Key_Mmin, 1, 4, 1, 1}, {"MS", Key_MS, 1, 5, 1, 1},
 
-    {"deg", Key_deg, 2, 0, 1, 1}, {"page", Key_page, 2, 1, 1, 1}, {"PI", Key_PI, 2, 2, 1, 1},
-    {"e", Key_e, 2, 3, 1, 1},     {"Mod", Key_Mod, 2, 4, 1, 1},   {"", Key_Backspace, 2, 5, 1, 1},
+    {">deg\n   rad", Key_deg, 2, 0, 1, 1}, {"2ⁿᵈ", Key_page, 2, 1, 1, 1}, {"π", Key_PI, 2, 2, 1, 1},
+    {"e", Key_e, 2, 3, 1, 1},     {"mod", Key_Mod, 2, 4, 1, 1},   {"", Key_Backspace, 2, 5, 1, 1},
 
     {"sin", Key_sin, 3, 0, 1, 1},       {"x²", Key_x2, 3, 1, 1, 1},   {"1/x", Key_Derivative, 3, 2, 1, 1},
     {"x!", Key_Factorials, 3, 3, 1, 1}, {"exp", Key_exp, 3, 4, 1, 1}, {"C", Key_Clear, 3, 5, 1, 1},
@@ -36,19 +36,19 @@ const ScientificKeyPad::KeyDescription1 ScientificKeyPad::keyDescriptions1[] = {
     {"F-E", Key_FE, 1, 0, 1, 1},   {"MC", Key_MC, 1, 1, 1, 1},   {"MR", Key_MR, 1, 2, 1, 1},
     {"M+", Key_Mplus, 1, 3, 1, 1}, {"M-", Key_Mmin, 1, 4, 1, 1}, {"MS", Key_MS, 1, 5, 1, 1},
 
-    {"deg", Key_deg, 2, 0, 1, 1}, {"page", Key_page, 2, 1, 1, 1}, {"PI", Key_PI, 2, 2, 1, 1},
-    {"e", Key_e, 2, 3, 1, 1},     {"Mod", Key_Mod, 2, 4, 1, 1},   {"", Key_Backspace, 2, 5, 1, 1},
+    {">deg\n   rad", Key_deg, 2, 0, 1, 1}, {"2ⁿᵈ", Key_page, 2, 1, 1, 1}, {"π", Key_PI, 2, 2, 1, 1},
+    {"e", Key_e, 2, 3, 1, 1},     {"mod", Key_Mod, 2, 4, 1, 1},   {"", Key_Backspace, 2, 5, 1, 1},
 
-    {"sin¹", Key_sin, 3, 0, 1, 1},       {"√x", Key_x2, 3, 1, 1, 1},   {"1/x", Key_Derivative, 3, 2, 1, 1},
+    {"sinˉ¹", Key_sin, 3, 0, 1, 1},       {"", Key_sqrt2, 3, 1, 1, 1},   {"1/x", Key_Derivative, 3, 2, 1, 1},
     {"x!", Key_Factorials, 3, 3, 1, 1}, {"exp", Key_exp, 3, 4, 1, 1}, {"C", Key_Clear, 3, 5, 1, 1},
 
-    {"cos¹", Key_cos, 4, 0, 1, 1}, {"³√x", Key_x3, 4, 1, 1, 1},     {"(", Key_left, 4, 2, 1, 1},
+    {"cosˉ¹", Key_cos, 4, 0, 1, 1}, {"", Key_sqrt3, 4, 1, 1, 1},     {"(", Key_left, 4, 2, 1, 1},
     {")", Key_right, 4, 3, 1, 1}, {"%", Key_Percent, 4, 4, 1, 1}, {"", Key_Div, 4, 5, 1, 1},
 
-    {"tan¹", Key_tan, 5, 0, 1, 1},       {"ʸ√x", Key_xy, 5, 1, 1, 1}, {"7", Key_7, 5, 2, 1, 1},
+    {"tanˉ¹", Key_tan, 5, 0, 1, 1},       {"", Key_ysqrtx, 5, 1, 1, 1}, {"7", Key_7, 5, 2, 1, 1},
     {"8", Key_8, 5, 3, 1, 1},         {"9", Key_9, 5, 4, 1, 1}, {"", Key_Mult, 5, 5, 1, 1},
 
-    {"cot¹", Key_cot, 6, 0, 1, 1}, {"2ˣ", Key_10x, 6, 1, 1, 1}, {"4", Key_4, 6, 2, 1, 1},
+    {"cotˉ¹", Key_cot, 6, 0, 1, 1}, {"2ˣ", Key_10x, 6, 1, 1, 1}, {"4", Key_4, 6, 2, 1, 1},
     {"5", Key_5, 6, 3, 1, 1},     {"6", Key_6, 6, 4, 1, 1},     {"", Key_Min, 6, 5, 1, 1},
 
     {"|x|", Key_Modulus, 7, 0, 1, 1}, {"logᵧx", Key_log, 7, 1, 1, 1}, {"1", Key_1, 7, 2, 1, 1},
@@ -77,11 +77,17 @@ static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key)
     } else if (key == ScientificKeyPad::Key_Plus) {
         button->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
     } else if (key == ScientificKeyPad::Key_Backspace) {
-        button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
+        button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg", 1);
     } else if (key == ScientificKeyPad::Key_Clear) {
         button->setIconUrl(path + "AC_normal.svg", path + "AC_hover.svg", path + "AC_press.svg");
     } else if (key == ScientificKeyPad::Key_Percent) {
         button->setIconUrl(path + "%_normal.svg", path + "%_hover.svg", path + "%_press.svg");
+    } else if (key == ScientificKeyPad::Key_sqrt2) {
+        button->setIconUrl(path + "squareroot_normal.svg", path + "squareroot_hover.svg", path + "squareroot_press.svg", 3);
+    } else if (key == ScientificKeyPad::Key_sqrt3) {
+        button->setIconUrl(path + "cuberoot_normal.svg", path + "cuberoot_hover.svg", path + "cuberoot_press.svg", 3);
+    } else if (key == ScientificKeyPad::Key_ysqrtx) {
+        button->setIconUrl(path + "yroot_normal.svg", path + "yroot_hover.svg", path + "yroot_press.svg", 3);
     }
     //connect(button, &IconButton::updateInterface, this, &ScientificKeyPad::updateInterface);
     return button;
@@ -188,7 +194,10 @@ void ScientificKeyPad::initButtons()
                 font.setFamily("HelveticaNeue");
                 button->setFont(font);
             } else {
-                button = new TextButton(desc->text);
+                if (i > 5 && (i % 6 == 0 || i % 6 == 1))
+                    button = new TextButton(desc->text, true);
+                else
+                    button = new TextButton(desc->text);
                 QFont font = button->font();
                 font.setFamily("HelveticaNeue");
                 button->setFont(font);
@@ -226,7 +235,10 @@ void ScientificKeyPad::initButtons()
                 font.setFamily("HelveticaNeue");
                 button->setFont(font);
             } else {
-                button = new TextButton(desc1->text);
+                if (i > 5 && (i % 6 == 0 || i % 6 == 1))
+                    button = new TextButton(desc1->text, true);
+                else
+                    button = new TextButton(desc1->text);
                 QFont font = button->font();
                 font.setFamily("HelveticaNeue");
                 button->setFont(font);
@@ -290,11 +302,22 @@ void ScientificKeyPad::buttonThemeChanged(int type)
     btn = static_cast<IconButton *>(button(Key_Plus));
     btn->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
     btn = static_cast<IconButton *>(button(Key_Backspace));
-    btn->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
+    btn->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg", 1);
+    if (m_stacklayout->currentIndex() == 1) {
+        btn = static_cast<IconButton *>(button(Key_sqrt2));
+        btn->setIconUrl(path + "squareroot_normal.svg", path + "squareroot_hover.svg", path + "squareroot_press.svg", 3);
+        btn = static_cast<IconButton *>(button(Key_sqrt3));
+        btn->setIconUrl(path + "cuberoot_normal.svg", path + "cuberoot_hover.svg", path + "cuberoot_press.svg", 3);
+        btn = static_cast<IconButton *>(button(Key_ysqrtx));
+        btn->setIconUrl(path + "yroot_normal.svg", path + "yroot_hover.svg", path + "yroot_press.svg", 3);
+    }
 }
 
 void ScientificKeyPad::turnPage(int key)
 {
+    int type = DGuiApplicationHelper::instance()->paletteType();
+    if (type == 0)
+        type = DGuiApplicationHelper::instance()->themeType();
     if (key == Key_page) {
         TextButton *degbtn = static_cast<TextButton *>(button(Key_exp));
         QString degtext = degbtn->text();
@@ -302,6 +325,7 @@ void ScientificKeyPad::turnPage(int key)
         QString actext = acbtn->text();
         if (m_stacklayout->currentIndex() == 0) {
             m_stacklayout->setCurrentIndex(1);
+            buttonThemeChanged(type);
             TextButton *degbtn1 = static_cast<TextButton *>(button(Key_exp));
             degbtn1->setText(degtext);
             TextButton *acbtn1 = static_cast<TextButton *>(button(Key_Clear));

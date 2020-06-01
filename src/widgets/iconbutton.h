@@ -38,7 +38,7 @@ class IconButton : public TextButton
     Q_OBJECT
 
 public:
-    IconButton(QWidget *parent = nullptr, bool b = false);
+    IconButton(QWidget *parent = nullptr, bool b = false, bool page = false);
     ~IconButton();
 
     void setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode = 0);
@@ -67,10 +67,11 @@ private:
     QString m_normalUrl;
     QString m_hoverUrl;
     QString m_pressUrl;
-    int m_mode = 0; //0-四则运算符 1-退格符 2-退格符press
+    int m_mode = 0; //0-四则运算符 1-退格符 2-退格符press 3-根号 4-根号press
     QString m_currentUrl;
     int m_buttonStatus = 0; //0-normal 1-hover 2-press
     bool m_isEmptyBtn; //内存中的清空按钮
+    int m_themetype;
 private:
     void SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval);
     void drawCenterPixMap(QPainter &painter);

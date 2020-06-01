@@ -35,7 +35,7 @@ class TextButton : public DPushButton
     Q_OBJECT
 
 public:
-    TextButton(const QString &text = QString(), QWidget *parent = nullptr);
+    TextButton(const QString &text = QString(), bool page = false, QWidget *parent = nullptr);
     ~TextButton();
 
 
@@ -64,6 +64,7 @@ private:
     bool m_isHover;
     bool m_isPress;
     QFont m_font;
+    bool m_page;
 };
 
 #endif

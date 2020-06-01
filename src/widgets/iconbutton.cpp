@@ -23,7 +23,7 @@
 #include <QTimer>
 #include <QToolTip>
 
-IconButton::IconButton(QWidget *parent, bool b)
+IconButton::IconButton(QWidget *parent, bool b, bool page)
     : TextButton("", parent),
       m_iconWidget(new DLabel),
       m_iconRenderer(new DSvgRenderer(this))
@@ -48,6 +48,10 @@ IconButton::~IconButton()
 
 void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode)
 {
+    int type = DGuiApplicationHelper::instance()->paletteType();
+    if (type == 0)
+        type = DGuiApplicationHelper::instance()->themeType();
+    m_themetype = type;
     m_normalUrl = normalFileName;
     m_hoverUrl = hoverFileName;
     m_pressUrl = pressFileName;
@@ -74,6 +78,8 @@ void IconButton::animate(int msec)
         m_buttonStatus = 2;
         if (m_mode == 1)
             m_mode = 2;
+        if (m_mode == 3)
+            m_mode = 4;
         QPixmap pixmap(m_pressUrl);
         m_pixmap = pixmap;
 
@@ -84,6 +90,8 @@ void IconButton::animate(int msec)
             m_buttonStatus = 0;
             if (m_mode == 2)
                 m_mode = 1;
+            if (m_mode == 4)
+                m_mode = 3;
             m_pixmap = pixmap;
             m_iconRenderer->load(m_normalUrl);
             m_isPress = false;
@@ -99,6 +107,8 @@ void IconButton::mousePressEvent(QMouseEvent *e)
     m_buttonStatus = 2;
     if (m_mode == 1)
         m_mode = 2;
+    if (m_mode == 3)
+        m_mode = 4;
     QPixmap pixmap(m_pressUrl);
     m_pixmap = pixmap;
     m_isPress = true;
@@ -115,6 +125,8 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
     m_buttonStatus = 0;
     if (m_mode == 2)
         m_mode = 1;
+    if (m_mode == 4)
+        m_mode = 3;
     QPixmap pixmap(m_normalUrl);
     m_pixmap = pixmap;
     m_isPress = false;
@@ -252,7 +264,7 @@ bool IconButton::event(QEvent *e)
 
 void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval)
 {
-    if (m_mode != 1) {
+    if (m_mode != 1 && m_mode != 3) {
         if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
             elem.setAttribute(strattr, strattrval);
             if (m_buttonStatus == 0)
@@ -271,16 +283,16 @@ void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString stra
             if (m_buttonStatus == 2)
                 elem.setAttribute("fill-opacity", 1);
         }
-        if (m_isEmptyBtn == true) {
+        if (m_isEmptyBtn == true || (m_mode == 4 && m_themetype == 1)) {
             strtagname = "path";
             if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
                 elem.setAttribute(strattr, strattrval);
-                if (m_buttonStatus == 0)
-                    elem.setAttribute("fill-opacity", 0.75);
-                if (m_buttonStatus == 1)
-                    elem.setAttribute("fill-opacity", 0.65);
-                if (m_buttonStatus == 2)
-                    elem.setAttribute("fill-opacity", 1);
+            }
+        }
+        if (m_mode == 4 && m_themetype == 2) {
+            strtagname = "text";
+            if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
+                elem.setAttribute(strattr, strattrval);
             }
         }
         for (int i = 0; i < elem.childNodes().count(); i++) {

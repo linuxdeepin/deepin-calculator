@@ -25,7 +25,7 @@
 
 #include <DGuiApplicationHelper>
 
-TextButton::TextButton(const QString &text, QWidget *parent)
+TextButton::TextButton(const QString &text, bool page, QWidget *parent)
     : DPushButton(text, parent)
     , m_effect(new QGraphicsDropShadowEffect(this))
 {
@@ -38,6 +38,7 @@ TextButton::TextButton(const QString &text, QWidget *parent)
     init();
     // connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &TextButton::init);
     m_isHover = m_isPress = false;
+    m_page = page;
 
     m_effect->setOffset(0, 4);
     m_effect->setBlurRadius(12);
@@ -50,7 +51,10 @@ TextButton::~TextButton()
 
 void TextButton::init()
 {
-    m_font.setPixelSize(18);
+    if (this->text() == ">deg\n   rad")
+        m_font.setPixelSize(11);
+    else
+        m_font.setPixelSize(18);
     m_font.setFamily("Noto Sans CJK SC");
     m_font.setStyleName("Light");
 }
@@ -120,7 +124,10 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
 
 void TextButton::enterEvent(QEvent *e)
 {
-    m_font.setPixelSize(20);
+    if (this->text() == ">deg\n   rad")
+        m_font.setPixelSize(12);
+    else
+        m_font.setPixelSize(20);
     m_font.setStyleName("");
     m_isHover = true;
     DPushButton::enterEvent(e);
@@ -128,7 +135,10 @@ void TextButton::enterEvent(QEvent *e)
 
 void TextButton::leaveEvent(QEvent *e)
 {
-    m_font.setPixelSize(18);
+    if (this->text() == ">deg\n   rad")
+        m_font.setPixelSize(11);
+    else
+        m_font.setPixelSize(18);
     m_font.setStyleName("Light");
     m_isHover = false;
     DPushButton::leaveEvent(e);
@@ -180,8 +190,13 @@ void TextButton::paintEvent(QPaintEvent *e)
         focus = actcolor;
         hoverFrame = actcolor;
         hoverFrame.setAlphaF(0.2);
-        base = QColor("#FFFFFF");
-        hoverbrush = QColor("#FFFFFF");
+        if (m_page) {
+            base = QColor(0, 0, 0, 0.04 * 255);
+            hoverbrush = QColor(0, 0, 0, 0.04 * 255);
+        } else {
+            base = QColor("#FFFFFF");
+            hoverbrush = QColor("#FFFFFF");
+        }
         text = QColor("#000000");
         normalShadow = QColor(44, 167, 248, 0.4 * 255);
         hoverShadow = QColor(12, 155, 246, 0.1 * 255);

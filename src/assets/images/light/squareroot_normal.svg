@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>square root_normal</title>
+    <g id="科学计数模式" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="计算器-切图light" transform="translate(-95.000000, -704.000000)">
+            <g id="square-root_normal" transform="translate(95.000000, 704.000000)">
+                <text id="x" font-family="SourceHanSansSC-Normal, Source Han Sans SC" font-size="18" font-weight="normal" fill="#071D3F">
+                    <tspan x="16.626" y="23">x</tspan>
+                </text>
+                <text id="2" font-family="SourceHanSansSC-Normal, Source Han Sans SC" font-size="11" font-weight="normal" fill="#071D3F">
+                    <tspan x="4.9805" y="13">2</tspan>
+                </text>
+                <text id="√" font-family="SourceHanSansSC-Normal, Source Han Sans SC" font-size="18" font-weight="normal" fill="#071D3F">
+                    <tspan x="5.5" y="23">√</tspan>
+                </text>
+                <rect id="矩形" x="0" y="0" width="30" height="30"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -364,7 +364,7 @@ void MemoryWidget::nothinginmemory()
     QFont m_clearbuttonfont;
     m_clearbuttonfont.setPixelSize(16);
     m_listwidget->item(0)->setFont(m_clearbuttonfont);
-    m_listwidget->item(0)->setSizeHint(QSize(344, 260));
+    m_listwidget->item(0)->setSizeHint(QSize(344, m_listwidget->frameRect().height()));
     m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
     m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
     emptymemoryfontcolor();

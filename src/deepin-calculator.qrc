@@ -65,5 +65,23 @@
         <file>assets/images/title_icon.svg</file>
         <file>assets/qss/dark.qss</file>
         <file>assets/qss/light.qss</file>
+        <file>assets/images/light/squareroot_hover.svg</file>
+        <file>assets/images/light/squareroot_normal.svg</file>
+        <file>assets/images/light/squareroot_press.svg</file>
+        <file>assets/images/light/cuberoot_hover.svg</file>
+        <file>assets/images/light/cuberoot_normal.svg</file>
+        <file>assets/images/light/cuberoot_press.svg</file>
+        <file>assets/images/light/yroot_hover.svg</file>
+        <file>assets/images/light/yroot_normal.svg</file>
+        <file>assets/images/light/yroot_press.svg</file>
+        <file>assets/images/dark/yroot_hover.svg</file>
+        <file>assets/images/dark/yroot_normal.svg</file>
+        <file>assets/images/dark/yroot_press.svg</file>
+        <file>assets/images/dark/squareroot_hover.svg</file>
+        <file>assets/images/dark/squareroot_normal.svg</file>
+        <file>assets/images/dark/squareroot_press.svg</file>
+        <file>assets/images/dark/cuberoot_hover.svg</file>
+        <file>assets/images/dark/cuberoot_normal.svg</file>
+        <file>assets/images/dark/cuberoot_press.svg</file>
     </qresource>
 </RCC>

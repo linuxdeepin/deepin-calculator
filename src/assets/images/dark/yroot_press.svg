@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>y root_press</title>
+    <g id="科学计数模式" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="计算器-切图dark" transform="translate(-466.000000, -801.000000)">
+            <g id="y-root_press" transform="translate(466.000000, 801.000000)">
+                <text id="x" font-family="SourceHanSansSC-Normal, Source Han Sans SC" font-size="18" font-weight="normal" fill="#0C2E7A">
+                    <tspan x="16.626" y="23">x</tspan>
+                </text>
+                <text id="y" font-family="SourceHanSansSC-Normal, Source Han Sans SC" font-size="11" font-weight="normal" fill="#0C2E7A">
+                    <tspan x="5.184" y="13">y</tspan>
+                </text>
+                <text id="√" font-family="SourceHanSansSC-Normal, Source Han Sans SC" font-size="18" font-weight="normal" fill="#0C2E7A">
+                    <tspan x="5.5" y="23">√</tspan>
+                </text>
+                <rect id="矩形" x="0" y="0" width="30" height="30"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

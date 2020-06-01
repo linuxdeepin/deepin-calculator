@@ -18,7 +18,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     , m_listDelegate(new SimpleListDelegate(1, this))
     , m_listModel(new SimpleListModel(this))
     , m_buttonbox(new DButtonBox(this))
-    , m_clearbutton(new DIconButton(this))
+    , m_clearbutton(new IconButton(this, true))
 {
     m_stacklayout = new QStackedLayout();
     QVBoxLayout *m_Vlayout = new QVBoxLayout(this);
@@ -28,6 +28,9 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_buttonbox->setFixedWidth(160);
     m_Hlayout->addSpacing(30);
     m_Hlayout->addWidget(m_clearbutton);
+    QString path;
+    path = QString(":/assets/images/%1/").arg("light");
+    m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
     m_Hlayout->addSpacing(20);
     m_Vlayout->addLayout(m_Hlayout);
     m_Vlayout->addLayout(m_stacklayout);
