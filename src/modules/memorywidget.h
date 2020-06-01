@@ -30,6 +30,7 @@ public:
     void memoryplus(Quantity answer);
     void memoryminus(Quantity answer);
     void memoryclean();
+    void emptymemoryfontcolor();
     QPair<QString, Quantity> getfirstnumber();
 
     void widgetplusslot(int row, Quantity answer);

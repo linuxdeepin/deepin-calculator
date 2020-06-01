@@ -46,38 +46,31 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     m_listwidget->setFocusPolicy(Qt::NoFocus);
     m_listwidget->setUniformItemSizes(false);
     m_listwidget->setItemDelegate(memoryDelegate);
-//    m_listwidget->setAttribute(Qt::WA_TranslucentBackground, true);
-//    m_listwidget->setWordWrap(true);
-//    m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
-//                                 QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.1 * 255);} \
-//                                 QListWidget{color:black;background-color:transparent;}");
-//    QPalette palette = m_listwidget->palette();
-//    palette.setBrush(backgroundRole(), QBrush(QColor(Qt::black)));
-//    m_listwidget->setPalette(palette);
+    m_listwidget->addItem(tr("Nothing saved in memory"));
+    QFont initfont;
+    initfont.setPixelSize(16);
+    m_listwidget->item(0)->setFont(initfont);
+    m_listwidget->item(0)->setSizeHint(QSize(344, 260));
+    m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
+    m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
+    emptymemoryfontcolor();
+    m_clearbutton->hide();
     lay->addStretch();
     layH->addStretch();
 
     layH->addWidget(m_clearbutton);
     if (mode == 1)
         m_clearbutton->hide();
-//    m_clearbutton->setFixedSize(40, 40);
-//    m_clearbutton->setStyleSheet("QPushButton {border:none;background-color: transparent;image:url(:/images/light/clear_normal.svg);} \
-//                                  QPushButton:hover {border: 1px solid #000000;image:url(:/images/light/clear_hover.svg);} \
-//                                  QPushButton:pressed {image:url(:/images/light/clear_press.svg);}");
     connect(m_clearbutton, &DPushButton::clicked, this, [ = ]() {
         m_listwidget->clear();
         m_listwidget->addItem(tr("Nothing saved in memory"));
+        QFont m_clearbuttonfont;
+        m_clearbuttonfont.setPixelSize(16);
+        m_listwidget->item(0)->setFont(m_clearbuttonfont);
         m_listwidget->item(0)->setSizeHint(QSize(344, 260));
         m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
         m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
-        int type = DGuiApplicationHelper::instance()->paletteType();
-        if (type == 0)
-            type = DGuiApplicationHelper::instance()->themeType();
-        if (type == 1) {
-            m_listwidget->item(0)->setTextColor(QColor(192, 198, 212, 0.4 * 255));
-        } else {
-            m_listwidget->item(0)->setTextColor(QColor(85, 85, 85, 0.4 * 255));
-        }
+        emptymemoryfontcolor();
         m_isempty = true;
         list.clear();
         m_clearbutton->hide();
@@ -96,12 +89,6 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
                 emit itemclick(p);
         }
     });
-//    connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
-//        m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
-//                                     QListWidget::item:selected{color:#FFFFFF;background-color:#0081FF;} \
-//                                     QListWidget{color:black;background-color:transparent;}");
-//    });
-
 }
 
 void MemoryWidget::generateData(Quantity answer)
@@ -157,17 +144,13 @@ void MemoryWidget::generateData(Quantity answer)
         delete item1;
         if (m_listwidget->count() == 0) {
             m_listwidget->addItem(tr("Nothing saved in memory"));
+            QFont cleanbtnfont;
+            cleanbtnfont.setPixelSize(16);
+            m_listwidget->item(0)->setFont(cleanbtnfont);
             m_listwidget->item(0)->setSizeHint(QSize(344, 260));
             m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
             m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
-            int type = DGuiApplicationHelper::instance()->paletteType();
-            if (type == 0)
-                type = DGuiApplicationHelper::instance()->themeType();
-            if (type == 1) {
-                m_listwidget->item(0)->setTextColor(QColor(192, 198, 212, 0.4 * 255));
-            } else {
-                m_listwidget->item(0)->setTextColor(QColor(85, 85, 85, 0.4 * 255));
-            }
+            emptymemoryfontcolor();
             m_isempty = true;
             m_clearbutton->hide();
             emit mListUnavailable();
@@ -177,15 +160,6 @@ void MemoryWidget::generateData(Quantity answer)
     connect(this, &MemoryWidget::themechange, widget, &MemoryItemWidget::themetypechanged);
     connect(widget, &MemoryItemWidget::itemchanged, this, [ = ](int type) {
         widget->update();
-        if (type == 1) {
-//            m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
-//                                         QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.05 * 255);} \
-//                                         QListWidget{color:black;background-color:transparent;}");
-        } else {
-//            m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
-//                                         QListWidget::item:hover{color:#B4B4B4;background-color:rgba(255,255,255,0.05 * 255);} \
-//                                         QListWidget{color:#B4B4B4;background-color:transparent;}");
-        }
     });
     connect(widget, &MemoryItemWidget::menuclean, this, [ = ]() {
         list.removeAt(m_listwidget->row(item1));
@@ -193,17 +167,13 @@ void MemoryWidget::generateData(Quantity answer)
         delete item1;
         if (m_listwidget->count() == 0) {
             m_listwidget->addItem(tr("Nothing saved in memory"));
+            QFont menucleanfont;
+            menucleanfont.setPixelSize(16);
+            m_listwidget->item(0)->setFont(menucleanfont);
             m_listwidget->item(0)->setSizeHint(QSize(344, 260));
             m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
             m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
-            int type = DGuiApplicationHelper::instance()->paletteType();
-            if (type == 0)
-                type = DGuiApplicationHelper::instance()->themeType();
-            if (type == 1) {
-                m_listwidget->item(0)->setTextColor(QColor(192, 198, 212, 0.4 * 255));
-            } else {
-                m_listwidget->item(0)->setTextColor(QColor(85, 85, 85, 0.4 * 255));
-            }
+            emptymemoryfontcolor();
             m_isempty = true;
             m_clearbutton->hide();
             emit mListUnavailable();
@@ -318,6 +288,15 @@ void MemoryWidget::memoryclean()
     emit mListUnavailable();
 }
 
+void MemoryWidget::emptymemoryfontcolor()
+{
+    if (m_themetype == 1) {
+        m_listwidget->item(0)->setTextColor(QColor(85, 85, 85, 0.4 * 255));
+    } else {
+        m_listwidget->item(0)->setTextColor(QColor(192, 198, 212, 0.4 * 255));
+    }
+}
+
 QPair<QString, Quantity> MemoryWidget::getfirstnumber()
 {
     QPair<QString, Quantity> p1;
@@ -429,32 +408,20 @@ void MemoryWidget::setThemeType(int type)
     }
     m_themetype = typeIn;
     emit themechange(m_themetype);
-    QColor c = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
     QString path;
     if (m_themetype == 1) {
         path = QString(":/assets/images/%1/").arg("light");
-//        m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
-//                                     QListWidget::item:hover{color:black;background-color:rgba(0,0,0,0.05 * 255);} \
-//                                     QListWidget{color:black;background-color:transparent;}");
         m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
-        connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
-//            m_listwidget->setStyleSheet("QListWidget::item{color:black;background-color:transparent;} \
-//                                         QListWidget::item:selected{color:black;background-color:rgba(0,0,0,0.2 * 255);} \
-//                                         QListWidget{color:black;background-color:transparent;height}");
-        });
+        if (m_isempty) {
+            emptymemoryfontcolor();
+        }
     } else {
         path = QString(":/assets/images/%1/").arg("dark");
-//        m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
-//                                     QListWidget::item:hover{color:#B4B4B4;background-color:rgba(255,255,255,0.05 * 255);} \
-//                                     QListWidget{color:#B4B4B4;background-color:transparent;}");
         m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
-        connect(m_listwidget, &QListWidget::itemPressed, this, [ = ](QListWidgetItem * item) {
-//            m_listwidget->setStyleSheet("QListWidget::item{color:#B4B4B4;background-color:transparent;} \
-//                                         QListWidget::item:selected{color:#FFFFFF;background-color:rgba(255,255,255,0.2 * 255);} \
-//                                         QListWidget{color:#B4B4B4;background-color:transparent;}");
-        });
+        if (m_isempty) {
+            emptymemoryfontcolor();
+        }
     }
-
 }
 
 MemoryWidget::~MemoryWidget()

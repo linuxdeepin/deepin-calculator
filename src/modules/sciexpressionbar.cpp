@@ -62,7 +62,6 @@ void SciExpressionBar::setContinue(bool isContinue)
 
 void SciExpressionBar::enterNumberEvent(const QString &text)
 {
-    int aaa = m_inputEdit->cursorPosition();
     //    if (m_isLinked)
     //        clearLinkageCache();
     if (m_inputNumber && m_isResult == true) {
