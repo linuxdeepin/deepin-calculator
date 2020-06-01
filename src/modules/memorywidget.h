@@ -30,7 +30,6 @@ public:
     void memoryplus(Quantity answer);
     void memoryminus(Quantity answer);
     void memoryclean();
-    void emptymemoryfontcolor();
     QPair<QString, Quantity> getfirstnumber();
 
     void widgetplusslot(int row, Quantity answer);
@@ -62,6 +61,8 @@ private:
 private:
     QString formatExpression(const QString &text);
     QString setitemwordwrap(const QString &text, int row = 0);
+    void nothinginmemory(); //内存列表为空时插入一个item
+    void emptymemoryfontcolor();
 public slots:
 //    void on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void setThemeType(int type);

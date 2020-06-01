@@ -46,15 +46,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     m_listwidget->setFocusPolicy(Qt::NoFocus);
     m_listwidget->setUniformItemSizes(false);
     m_listwidget->setItemDelegate(memoryDelegate);
-    m_listwidget->addItem(tr("Nothing saved in memory"));
-    QFont initfont;
-    initfont.setPixelSize(16);
-    m_listwidget->item(0)->setFont(initfont);
-    m_listwidget->item(0)->setSizeHint(QSize(344, 260));
-    m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
-    m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
-    emptymemoryfontcolor();
-    m_clearbutton->hide();
+    nothinginmemory();
     lay->addStretch();
     layH->addStretch();
 
@@ -62,19 +54,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     if (mode == 1)
         m_clearbutton->hide();
     connect(m_clearbutton, &DPushButton::clicked, this, [ = ]() {
-        m_listwidget->clear();
-        m_listwidget->addItem(tr("Nothing saved in memory"));
-        QFont m_clearbuttonfont;
-        m_clearbuttonfont.setPixelSize(16);
-        m_listwidget->item(0)->setFont(m_clearbuttonfont);
-        m_listwidget->item(0)->setSizeHint(QSize(344, 260));
-        m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
-        m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
-        emptymemoryfontcolor();
-        m_isempty = true;
-        list.clear();
-        m_clearbutton->hide();
-        emit mListUnavailable();
+        nothinginmemory();
     });
     lay->addLayout(layH);
     this->setLayout(lay);
@@ -143,17 +123,7 @@ void MemoryWidget::generateData(Quantity answer)
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
         if (m_listwidget->count() == 0) {
-            m_listwidget->addItem(tr("Nothing saved in memory"));
-            QFont cleanbtnfont;
-            cleanbtnfont.setPixelSize(16);
-            m_listwidget->item(0)->setFont(cleanbtnfont);
-            m_listwidget->item(0)->setSizeHint(QSize(344, 260));
-            m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
-            m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
-            emptymemoryfontcolor();
-            m_isempty = true;
-            m_clearbutton->hide();
-            emit mListUnavailable();
+            nothinginmemory();
         }
     });
     widget->themetypechanged(m_themetype);
@@ -166,17 +136,7 @@ void MemoryWidget::generateData(Quantity answer)
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
         if (m_listwidget->count() == 0) {
-            m_listwidget->addItem(tr("Nothing saved in memory"));
-            QFont menucleanfont;
-            menucleanfont.setPixelSize(16);
-            m_listwidget->item(0)->setFont(menucleanfont);
-            m_listwidget->item(0)->setSizeHint(QSize(344, 260));
-            m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
-            m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
-            emptymemoryfontcolor();
-            m_isempty = true;
-            m_clearbutton->hide();
-            emit mListUnavailable();
+            nothinginmemory();
         }
     });
     connect(widget, &MemoryItemWidget::menucopy, this, [ = ]() {
@@ -282,10 +242,7 @@ void MemoryWidget::memoryminus(Quantity answer)
 
 void MemoryWidget::memoryclean()
 {
-    m_listwidget->clear();
-    m_isempty = true;
-    list.clear();
-    emit mListUnavailable();
+    nothinginmemory();
 }
 
 void MemoryWidget::emptymemoryfontcolor()
@@ -397,6 +354,23 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
     if (m_clearbutton->isHidden() == true)
         m_clearbutton->show();
     return result;
+}
+
+void MemoryWidget::nothinginmemory()
+{
+    m_listwidget->clear();
+    list.clear();
+    m_listwidget->addItem(tr("Nothing saved in memory"));
+    QFont m_clearbuttonfont;
+    m_clearbuttonfont.setPixelSize(16);
+    m_listwidget->item(0)->setFont(m_clearbuttonfont);
+    m_listwidget->item(0)->setSizeHint(QSize(344, 260));
+    m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
+    m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
+    emptymemoryfontcolor();
+    m_isempty = true;
+    m_clearbutton->hide();
+    emit mListUnavailable();
 }
 
 void MemoryWidget::setThemeType(int type)
