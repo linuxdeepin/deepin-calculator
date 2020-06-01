@@ -72,6 +72,7 @@ private:
     int m_buttonStatus = 0; //0-normal 1-hover 2-press
     bool m_isEmptyBtn; //内存中的清空按钮
     int m_themetype;
+    int m_page;
 private:
     void SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval);
     void drawCenterPixMap(QPainter &painter);

@@ -40,6 +40,7 @@ IconButton::IconButton(QWidget *parent, bool b, bool page)
     m_isHover = false;
     m_isPress = false;
     m_isEmptyBtn = b;
+    m_page = page;
 }
 
 IconButton::~IconButton()
@@ -188,8 +189,13 @@ void IconButton::paintEvent(QPaintEvent *)
             focus = actcolor;
             hoverFrame = actcolor;
             hoverFrame.setAlphaF(0.2);
-            base = Qt::white;
-            hoverbrush = Qt::white;
+            if (m_page) {
+                base = QColor(0, 0, 0, 0.04 * 255);
+                hoverbrush = QColor(0, 0, 0, 0.04 * 255);
+            } else {
+                base = Qt::white;
+                hoverbrush = Qt::white;
+            }
         } else {
             pressBrush = QColor(0, 0, 0, 0.5 * 255);
             focus = actcolor;

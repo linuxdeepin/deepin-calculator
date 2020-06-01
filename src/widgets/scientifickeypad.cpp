@@ -58,9 +58,13 @@ const ScientificKeyPad::KeyDescription1 ScientificKeyPad::keyDescriptions1[] = {
     {"0", Key_0, 8, 3, 1, 1},       {".", Key_Point, 8, 4, 1, 1}, {"=", Key_Equals, 8, 5, 1, 1},
 };
 
-static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key)
+static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool page)
 {
-    IconButton *button = new IconButton;
+    IconButton *button;
+    if (page)
+        button = new IconButton(nullptr, false, true);
+    else
+        button = new IconButton();
 
     QString path;
     if (DGuiApplicationHelper::instance()->themeType() == 2)
@@ -184,7 +188,10 @@ void ScientificKeyPad::initButtons()
         DPushButton *button;
 
         if (desc->text.isEmpty()) {
-            button = createSpecialKeyButton(desc->button);
+            if (i > 5 && (i % 6 == 0 || i % 6 == 1))
+                button = createSpecialKeyButton(desc->button, true);
+            else
+                button = createSpecialKeyButton(desc->button, false);
         } else {
             if (desc->text == "=")
                 button = new EqualButton(desc->text);
@@ -225,7 +232,10 @@ void ScientificKeyPad::initButtons()
         DPushButton *button;
 
         if (desc1->text.isEmpty()) {
-            button = createSpecialKeyButton(desc1->button);
+            if (i > 5 && (i % 6 == 0 || i % 6 == 1))
+                button = createSpecialKeyButton(desc1->button, true);
+            else
+                button = createSpecialKeyButton(desc1->button, false);
         } else {
             if (desc1->text == "=")
                 button = new EqualButton(desc1->text);
