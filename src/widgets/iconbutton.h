@@ -43,6 +43,7 @@ public:
 
     void setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode = 0);
     void animate(int msec = 100);
+    void settooltip(bool b);
 
 protected:
     void mousePressEvent(QMouseEvent *);
@@ -74,6 +75,7 @@ private:
     int m_themetype;
     int m_page;
     bool m_isHistorybtn = false;
+    QString cleartooltip = QString();
 private:
     void SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval);
     void drawCenterPixMap(QPainter &painter);

@@ -62,7 +62,6 @@ void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverF
     m_pressUrl = pressFileName;
     m_currentUrl = normalFileName;
 
-    m_iconRenderer->load(m_normalUrl);
     m_currentUrl = m_normalUrl;
     m_buttonStatus = 0;
     QPixmap pix(m_normalUrl);
@@ -78,7 +77,6 @@ void IconButton::animate(int msec)
         m_isHover = false;  //edit for bug-20508 20200414
         setDown(true);
         m_isPress = true;
-        m_iconRenderer->load(m_pressUrl);
         m_currentUrl = m_pressUrl;
         m_buttonStatus = 2;
         if (m_mode == 1)
@@ -98,16 +96,22 @@ void IconButton::animate(int msec)
             if (m_mode == 4)
                 m_mode = 3;
             m_pixmap = pixmap;
-            m_iconRenderer->load(m_normalUrl);
             m_isPress = false;
             update();
         });
     }
 }
 
+void IconButton::settooltip(bool b)
+{
+    if (b == true)
+        cleartooltip = tr("Clear all memory");
+    else
+        cleartooltip = tr("Clear history");
+}
+
 void IconButton::mousePressEvent(QMouseEvent *e)
 {
-    m_iconRenderer->load(m_pressUrl);
     m_currentUrl = m_pressUrl;
     m_buttonStatus = 2;
     if (m_mode == 1)
@@ -127,27 +131,28 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
 {
     if (m_isHistorybtn)
         clearFocus();
-    m_iconRenderer->load(m_normalUrl);
     m_currentUrl = m_normalUrl;
-    m_buttonStatus = 0;
+//    m_buttonStatus = 0;
     if (m_mode == 2)
         m_mode = 1;
     if (m_mode == 4)
         m_mode = 3;
     QPixmap pixmap(m_normalUrl);
     m_pixmap = pixmap;
-    if (m_isPress == true && this->rect().contains(e->pos()))
+    if (m_isPress == true && this->rect().contains(e->pos())) {
+        m_currentUrl = m_hoverUrl;
+        m_buttonStatus = 1;
         emit isclicked();
+    } else {
+        m_buttonStatus = 0;
+    }
     m_isPress = false;
-    //pixmap.setDevicePixelRatio(devicePixelRatioF());
-    //DPushButton::setIcon(QIcon(pixmap));
 
     TextButton::mouseReleaseEvent(e);
 }
 
 void IconButton::enterEvent(QEvent *e)
 {
-    m_iconRenderer->load(m_hoverUrl);
     m_currentUrl = m_hoverUrl;
     m_buttonStatus = 1;
     QPixmap pixmap(m_hoverUrl);
@@ -161,7 +166,6 @@ void IconButton::enterEvent(QEvent *e)
 
 void IconButton::leaveEvent(QEvent *e)
 {
-    m_iconRenderer->load(m_normalUrl);
     m_currentUrl = m_normalUrl;
     m_buttonStatus = 0;
     QPixmap pixmap(m_normalUrl);
@@ -307,7 +311,7 @@ bool IconButton::event(QEvent *e)
     if (e->type() == QEvent::ToolTip) {
         QHelpEvent *helpEvent = static_cast<QHelpEvent *>(e);
         if (this->m_isHover == true && m_isEmptyBtn) {
-            QString tooltext = tr("Clear all memory");
+            QString tooltext = cleartooltip;
             QToolTip::showText(helpEvent->globalPos(), tooltext);
         } else {
             QToolTip::hideText();

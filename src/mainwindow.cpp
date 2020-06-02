@@ -52,8 +52,8 @@ MainWindow::MainWindow(QWidget *parent)
     // init titlebar menu.
     //m_themeAction = new QAction(tr("Dark theme"), this);
     //m_themeAction->setCheckable(true);
-    m_simpleAction = new QAction(/*tr*/("Simple mode"), this);
-    m_scAction = new QAction(/*tr*/("Scientific mode"), this);
+    m_simpleAction = new QAction(tr("Standard"), this);
+    m_scAction = new QAction(tr("Scientific"), this);
     //m_tbMenu->addAction(m_themeAction);
 
 #ifdef ENABLE_SCIENTIFIC

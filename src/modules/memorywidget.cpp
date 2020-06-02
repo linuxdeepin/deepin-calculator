@@ -351,8 +351,10 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
         m_listwidget->item(row)->setSizeHint(QSize(344, 40 + 45 * line));
         m_listwidget->itemWidget(m_listwidget->item(row))->setFixedSize(QSize(344, 40 + 45 * line));
     }
-    if (m_clearbutton->isHidden() == true)
+    if (m_clearbutton->isHidden() == true) {
         m_clearbutton->show();
+        m_clearbutton->settooltip(true);
+    }
     return result;
 }
 
