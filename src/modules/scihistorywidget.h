@@ -33,6 +33,7 @@ public:
     void focusOnButtonbox();
 
 public slots:
+    void themeChanged(int type);
 
 private:
 

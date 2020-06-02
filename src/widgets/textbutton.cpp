@@ -51,7 +51,7 @@ TextButton::~TextButton()
 
 void TextButton::init()
 {
-    if (this->text() == ">deg\n   rad")
+    if (this->text() == ">deg\n   rad" || this->text() == ">rad\n   grad" || this->text() == ">grad\n   deg")
         m_font.setPixelSize(11);
     else
         m_font.setPixelSize(18);
@@ -124,7 +124,7 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
 
 void TextButton::enterEvent(QEvent *e)
 {
-    if (this->text() == ">deg\n   rad")
+    if (this->text() == ">deg\n   rad" || this->text() == ">rad\n   grad" || this->text() == ">grad\n   deg")
         m_font.setPixelSize(12);
     else
         m_font.setPixelSize(20);
@@ -135,7 +135,7 @@ void TextButton::enterEvent(QEvent *e)
 
 void TextButton::leaveEvent(QEvent *e)
 {
-    if (this->text() == ">deg\n   rad")
+    if (this->text() == ">deg\n   rad" || this->text() == ">rad\n   grad" || this->text() == ">grad\n   deg")
         m_font.setPixelSize(11);
     else
         m_font.setPixelSize(18);

@@ -122,6 +122,7 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     m_vlayout->setSpacing(0);
     m_vlayout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(m_vlayout);
+    this->setFixedWidth(430);
 
     initButtons();
     initUI();
@@ -342,6 +343,7 @@ void ScientificKeyPad::turnPage(int key)
             acbtn1->setText(actext);
         } else {
             m_stacklayout->setCurrentIndex(0);
+            buttonThemeChanged(type);
             TextButton *degbtn2 = static_cast<TextButton *>(button(Key_exp));
             degbtn2->setText(degtext);
             TextButton *acbtn2 = static_cast<TextButton *>(button(Key_Clear));

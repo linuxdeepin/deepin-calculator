@@ -54,6 +54,8 @@ scientificModule::scientificModule(QWidget *parent)
             &scientificModule::initTheme);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_scikeypadwidget, &ScientificKeyPad::buttonThemeChanged);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+            m_scihiswidget, &SciHistoryWidget::themeChanged);
     connect(m_sciexpressionBar, &SciExpressionBar::keyPress, this, &scientificModule::handleEditKeyPress);
     connect(m_sciexpressionBar, &SciExpressionBar::clearStateChanged, this,
             &scientificModule::handleClearStateChanged);
@@ -414,8 +416,12 @@ void scientificModule::handleKeypadButtonPress(int key)
     case ScientificKeyPad::Key_MR:
 //        m_sciexpressionBar->getInputEdit()->setText(m_memorylistwidget->getfirstnumber());
         break;
-    case ScientificKeyPad::Key_exp:
+    case ScientificKeyPad::Key_deg:
         m_sciexpressionBar->enterExpEvent(m_deg);
+        break;
+    case ScientificKeyPad::Key_sin:
+        m_sciexpressionBar->enterSinEvent();
+        break;
     }
     m_sciexpressionBar->addUndo();
 }
@@ -442,18 +448,15 @@ void scientificModule::handleDegChanged()
 {
     TextButton *btn = static_cast<TextButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_exp));
 
-    if (btn->text() == "exp") {
-        btn->setText("deg");
+    if (btn->text() == ">deg\n   rad") {
+        btn->setText(">rad\n   grad");
         m_deg = 1;
-    } else if (btn->text() == "deg") {
-        btn->setText("rad");
+    } else if (btn->text() == ">rad\n   grad") {
+        btn->setText(">grad\n   deg");
         m_deg = 2;
-    } else if (btn->text() == "rad") {
-        btn->setText("grad");
+    } else if (btn->text() == ">grad\n   deg") {
+        btn->setText(">deg\n   rad");
         m_deg = 3;
-    } else if (btn->text() == "grad") {
-        btn->setText("deg");
-        m_deg = 1;
     }
 }
 

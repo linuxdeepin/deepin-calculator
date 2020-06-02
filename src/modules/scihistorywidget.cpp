@@ -28,9 +28,9 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_buttonbox->setFixedWidth(160);
     m_Hlayout->addSpacing(30);
     m_Hlayout->addWidget(m_clearbutton);
-    QString path;
-    path = QString(":/assets/images/%1/").arg("light");
-    m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
+//    QString path;
+//    path = QString(":/assets/images/%1/").arg("light");
+//    m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
     m_Hlayout->addSpacing(20);
     m_Vlayout->addLayout(m_Hlayout);
     m_Vlayout->addLayout(m_stacklayout);
@@ -85,4 +85,14 @@ void SciHistoryWidget::focusOnButtonbox()
     } else {
         emit m_buttonbox->button(1)->clicked();
     }
+}
+
+void SciHistoryWidget::themeChanged(int type)
+{
+    QString path;
+    if (type == 2)
+        path = QString(":/assets/images/%1/").arg("dark");
+    else
+        path = QString(":/assets/images/%1/").arg("light");
+    m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
 }
