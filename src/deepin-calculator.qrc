@@ -83,5 +83,11 @@
         <file>assets/images/dark/cuberoot_hover.svg</file>
         <file>assets/images/dark/cuberoot_normal.svg</file>
         <file>assets/images/dark/cuberoot_press.svg</file>
+        <file>assets/images/dark/memory_hover.svg</file>
+        <file>assets/images/dark/memory_normal.svg</file>
+        <file>assets/images/dark/memory_press.svg</file>
+        <file>assets/images/light/memory_hover.svg</file>
+        <file>assets/images/light/memory_normal.svg</file>
+        <file>assets/images/light/memory_press.svg</file>
     </qresource>
 </RCC>

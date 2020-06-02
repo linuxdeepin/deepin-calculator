@@ -26,6 +26,7 @@
 
 #include "modules/basicmodule.h"
 #include "modules/scientificmodule.h"
+#include "widgets/iconbutton.h"
 #include "dsettings.h"
 
 #define ENABLE_SCIENTIFIC 1
@@ -52,6 +53,8 @@ private:
     void initModule();
     void switchToSimpleMode();
     void switchToScientificMode();
+    void showHistoryWidget();
+    void hideHistoryWidget(bool b);
 
 private:
     DSettings *m_settings;
@@ -64,6 +67,7 @@ private:
 
     BasicModule *m_basicModule;
     scientificModule *m_scientificModule;
+    IconButton *m_historyBtn;
 };
 
 #endif

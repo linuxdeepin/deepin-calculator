@@ -75,5 +75,14 @@ void SciHistoryWidget::paintEvent(QPaintEvent *event)
 ////    painter.setBrush(QBrush(QColor("#F8F8F8")));
 //    QRect rect(this->rect().left(), this->rect().top(), this->rect().width(), this->rect().bottom() + 30);
 //    painter.drawRect(rect);
-//    QWidget::paintEvent(event);
+    //    QWidget::paintEvent(event);
+}
+
+void SciHistoryWidget::focusOnButtonbox()
+{
+    if (m_stacklayout->currentIndex() == 0) {
+        emit m_buttonbox->button(0)->clicked();
+    } else {
+        emit m_buttonbox->button(1)->clicked();
+    }
 }

@@ -23,7 +23,7 @@
 
 static DSettings *INSTANCE = nullptr;
 
-DSettings* DSettings::instance(QObject *p)
+DSettings *DSettings::instance(QObject *p)
 {
     if (!INSTANCE) {
         INSTANCE = new DSettings(p);
@@ -34,7 +34,7 @@ DSettings* DSettings::instance(QObject *p)
 
 DSettings::DSettings(QObject *parent)
     : QObject(parent),
-      m_settings(new QSettings(QDir(Utils::getConfigDir()).filePath("config.config") ,QSettings::IniFormat, this))
+      m_settings(new QSettings(QDir(Utils::getConfigDir()).filePath("config.config"), QSettings::IniFormat, this))
 {
     initConfig();
 }
@@ -52,6 +52,10 @@ void DSettings::initConfig()
 
     if (m_settings->value("mode").toString().isEmpty()) {
         setOption("mode", 0);
+    }
+
+    if (m_settings->value("history").toString().isEmpty()) {
+        setOption("history", 0);
     }
 }
 

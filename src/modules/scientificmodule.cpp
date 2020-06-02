@@ -511,3 +511,13 @@ void scientificModule::mousePressEvent(QMouseEvent *event)
     QWidget::mousePressEvent(event);
 }
 
+void scientificModule::showOrHideHistory(bool b)
+{
+    if (b == true)
+        m_scihiswidget->hide();
+    else {
+        m_scihiswidget->show();
+        m_scihiswidget->focusOnButtonbox();
+    }
+}
+

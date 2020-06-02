@@ -30,6 +30,7 @@ public:
     SciHistoryWidget(QWidget *parent = nullptr);
     ~SciHistoryWidget();
     void paintEvent(QPaintEvent *event);
+    void focusOnButtonbox();
 
 public slots:
 

@@ -62,7 +62,7 @@ static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool p
 {
     IconButton *button;
     if (page)
-        button = new IconButton(nullptr, false, true);
+        button = new IconButton(nullptr, 0, true);
     else
         button = new IconButton();
 

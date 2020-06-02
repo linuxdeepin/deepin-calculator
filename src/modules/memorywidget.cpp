@@ -17,7 +17,7 @@
 MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     : QWidget(parent)
     , m_listwidget(new MemoryListWidget(this))
-    , m_clearbutton(new IconButton(this, true))
+    , m_clearbutton(new IconButton(this, 1))
     , m_isempty(true)
     , memoryDelegate(new MemoryItemDelegate(this))
 {

@@ -30,6 +30,7 @@ public:
     void setKeyPress(QKeyEvent *e);
 
     void mousePressEvent(QMouseEvent *event);
+    void showOrHideHistory(bool b);
 
 public slots:
     //memory func

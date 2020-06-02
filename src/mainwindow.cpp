@@ -40,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_settings = DSettings::instance(this);
     m_mainLayout = new QStackedLayout;
     m_tbMenu = new DMenu(this);
+    m_historyBtn = new IconButton(this, 2);
     //titlebar()->setBackgroundTransparent(true);
     QIcon t_icon = QIcon::fromTheme("deepin-calculator");
 //    QPixmap pixmap = t_icon.pixmap(24,24);
@@ -65,6 +66,10 @@ MainWindow::MainWindow(QWidget *parent)
     initModule();
     initTheme();
 
+    titlebar()->addWidget(m_historyBtn, Qt::AlignRight);
+    if (m_settings->getOption("mode").toInt() == 0)
+        m_historyBtn->hide();
+
     setWindowTitle(tr("Calculator"));
 
     m_basicModule->setFocus();
@@ -72,6 +77,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &MainWindow::initTheme);
     connect(m_simpleAction, &QAction::triggered, this, &MainWindow::switchToSimpleMode);
     connect(m_scAction, &QAction::triggered, this, &MainWindow::switchToScientificMode);
+    connect(m_historyBtn, &IconButton::isclicked, this, [ = ]() {
+        if (m_mainLayout->currentIndex() == 1) {
+            if (m_settings->getOption("history").toInt() == 0)
+                showHistoryWidget();
+            else
+                hideHistoryWidget(true);
+        } else
+            hideHistoryWidget(false);
+    });
 
     //QShortcut *viewshortcut = new QShortcut(this);
     //viewshortcut->setKey(QKeySequence(QLatin1String("Ctrl+Shift+/")));
@@ -96,6 +110,7 @@ MainWindow::~MainWindow()
 void MainWindow::initTheme()
 {
     int type = DGuiApplicationHelper::instance()->paletteType();
+    QString path;
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
@@ -104,18 +119,23 @@ void MainWindow::initTheme()
         titlePa.setColor(DPalette::Dark, QColor(240, 240, 240));
         titlePa.setColor(DPalette::Base, QColor(240, 240, 240));
         titlebar()->setPalette(titlePa);
+        path = QString(":/assets/images/%1/").arg("light");
+        m_historyBtn->setIconUrl(path + "memory_normal.svg", path + "memory_hover.svg", path + "memory_press.svg");
     } else {
         DPalette titlePa = titlebar()->palette();
         titlePa.setColor(DPalette::Light, QColor(37, 37, 37));
         titlePa.setColor(DPalette::Dark, QColor(37, 37, 37));
         titlePa.setColor(DPalette::Base, QColor(37, 37, 37));
         titlebar()->setPalette(titlePa);
+        path = QString(":/assets/images/%1/").arg("dark");
+        m_historyBtn->setIconUrl(path + "memory_normal.svg", path + "memory_hover.svg", path + "memory_press.svg");
     }
 }
 
 void MainWindow::initModule()
 {
     int mode = m_settings->getOption("mode").toInt();
+    int hismode = m_settings->getOption("history").toInt();
     QWidget *centralWidget = new QWidget;
 
     centralWidget->setLayout(m_mainLayout);
@@ -131,9 +151,14 @@ void MainWindow::initModule()
     switch (mode) {
     case 0:
         switchToSimpleMode();
+        hideHistoryWidget(false);
         break;
     case 1:
         switchToScientificMode();
+        if (hismode == 1)
+            showHistoryWidget();
+        else
+            hideHistoryWidget(true);
         break;
     }
 }
@@ -155,16 +180,47 @@ void MainWindow::switchToSimpleMode()
 {
     m_settings->setOption("mode", 0);
     m_mainLayout->setCurrentIndex(0);
+    if (m_historyBtn->isHidden() == false)
+        m_historyBtn->hide();
+    hideHistoryWidget(false);
 
-    setFixedSize(344, 560);//344.510
+//    setFixedSize(344, 560);//344.510
 }
 
 void MainWindow::switchToScientificMode()
 {
     m_settings->setOption("mode", 1);
     m_mainLayout->setCurrentIndex(1);
+    if (m_historyBtn->isHidden() == true)
+        m_historyBtn->show();
 
-    setFixedSize(800, 610);//565.505  //375+300
+//    setFixedSize(800, 610);//565.505  //375+300
+    if (m_settings->getOption("history").toInt() == 1)
+        showHistoryWidget();
+    else
+        hideHistoryWidget(true);
+}
+
+void MainWindow::showHistoryWidget()
+{
+    m_settings->setOption("history", 1);
+    m_scientificModule->showOrHideHistory(false);
+    setFixedSize(800, 610);
+}
+
+void MainWindow::hideHistoryWidget(bool b)
+{
+    if (b == true)
+        m_settings->setOption("history", 0);
+    m_scientificModule->showOrHideHistory(true);
+    switch (m_settings->getOption("mode").toInt()) {
+    case 0:
+        setFixedSize(344, 560);
+        break;
+    case 1:
+        setFixedSize(430, 610);
+        break;
+    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)

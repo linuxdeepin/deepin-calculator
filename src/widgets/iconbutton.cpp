@@ -23,7 +23,7 @@
 #include <QTimer>
 #include <QToolTip>
 
-IconButton::IconButton(QWidget *parent, bool b, bool page)
+IconButton::IconButton(QWidget *parent, int b, bool page)
     : TextButton("", parent),
       m_iconWidget(new DLabel),
       m_iconRenderer(new DSvgRenderer(this))
@@ -31,15 +31,19 @@ IconButton::IconButton(QWidget *parent, bool b, bool page)
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
     mode == 0 ? setFixedSize(80, 58) : setFixedSize(67, 44);
-    if (b == true)
+    if (b == 1)
         setFixedSize(40, 40);
+    if (b == 2) {
+        m_isHistorybtn = true;
+        setFixedSize(50, 50);
+    }
     QGridLayout *layout = new QGridLayout(this);
     layout->addWidget(m_iconWidget, 0, Qt::AlignCenter);
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
     m_isHover = false;
     m_isPress = false;
-    m_isEmptyBtn = b;
+    m_isEmptyBtn = (b == 1);
     m_page = page;
 }
 
@@ -121,6 +125,8 @@ void IconButton::mousePressEvent(QMouseEvent *e)
 
 void IconButton::mouseReleaseEvent(QMouseEvent *e)
 {
+    if (m_isHistorybtn)
+        clearFocus();
     m_iconRenderer->load(m_normalUrl);
     m_currentUrl = m_normalUrl;
     m_buttonStatus = 0;
@@ -130,6 +136,8 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
         m_mode = 3;
     QPixmap pixmap(m_normalUrl);
     m_pixmap = pixmap;
+    if (m_isPress == true && this->rect().contains(e->pos()))
+        emit isclicked();
     m_isPress = false;
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
     //DPushButton::setIcon(QIcon(pixmap));
@@ -169,11 +177,15 @@ void IconButton::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     if (m_isEmptyBtn == false) {
-        int mode = m_settings->getOption("mode").toInt();
-        mode == 0 ? setFixedSize(80, 58) : setFixedSize(67, 44);
+        if (!m_isHistorybtn) {
+            int mode = m_settings->getOption("mode").toInt();
+            mode == 0 ? setFixedSize(80, 58) : setFixedSize(67, 44);
+        }
         QRectF frameRect = this->rect();
         QRectF rect(frameRect.left() + 2, frameRect.top() + 2, frameRect.width() - 4, frameRect.height() - 4);
         QRectF hover(frameRect.left() + 3, frameRect.top() + 3, frameRect.width() - 6, frameRect.height() - 6);
+        if (m_isHistorybtn)
+            rect = hover = frameRect;
         painter.setRenderHint(QPainter::Antialiasing, true);
         painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
         //m_pixmap = m_pixmap.scaled(m_pixmap.size() * devicePixelRatioF());
@@ -204,51 +216,89 @@ void IconButton::paintEvent(QPaintEvent *)
             base = QColor(48, 48, 48);
             hoverbrush = QColor(255, 255, 255, 0.1 * 255);
         }
-        if (hasFocus()) {
-            if (m_isPress) {
-                painter.setBrush(QBrush(pressBrush));
-                QPen pen;
-                pen.setColor(pressBrush);
-                painter.setPen(pen);
-                painter.drawRoundRect(rect, 25, 30);
+        if (m_isHistorybtn) {
+            if (type == 1) {
+                pressBrush = QColor(0, 0, 0, 0.1 * 255);
+                focus = actcolor;
+                base = Qt::transparent;
+                hoverbrush = QColor(255, 255, 255, 0.6 * 255);
             } else {
-                painter.setPen(Qt::NoPen);
-                painter.setBrush(QBrush(base));
-                painter.drawRoundRect(rect, 25, 30);
-                QPen pen;
-                pen.setColor(focus);
-                pen.setWidth(2);
-                painter.setPen(pen);
-                painter.setBrush(Qt::NoBrush);
-                painter.drawRoundRect(rect, 25, 30);
+                pressBrush = QColor(0, 0, 0, 0.5 * 255);
+                focus = actcolor;
+                base = QColor("#252525");
+                hoverbrush = QColor(255, 255, 255, 0.1 * 255);
+            }
+            if (hasFocus()) {
+                if (m_isPress) {
+                    painter.setBrush(QBrush(pressBrush));
+                    QPen pen;
+                    pen.setColor(pressBrush);
+                    painter.setPen(pen);
+                    painter.drawRect(rect);
+                } else {
+                    painter.setPen(Qt::NoPen);
+                    painter.setBrush(QBrush(base));
+                    painter.drawRect(rect);
+                    QPen pen;
+                    painter.setPen(Qt::NoPen);
+                    painter.setBrush(Qt::NoBrush);
+                    painter.drawRect(rect);
+                }
+            } else {
+                if (m_isHover) {
+                    QPen pen;
+                    painter.setPen(Qt::NoPen);
+                    painter.setBrush(QBrush(hoverbrush));
+                    painter.drawRect(rect);
+                } else if (m_isPress) {
+                    painter.setPen(Qt::NoPen);
+                    painter.setBrush(QBrush(pressBrush));
+                    painter.drawRect(rect);
+                } else {
+                    painter.setPen(Qt::NoPen);
+                    painter.setBrush(QBrush(base));
+                    painter.drawRect(rect);
+                }
             }
         } else {
-            if (m_isHover) {
-                QPen pen;
-                pen.setColor(hoverFrame);
-                pen.setWidth(1);
-                painter.setPen(pen);
-                painter.setBrush(QBrush(hoverbrush));
-                painter.drawRoundRect(rect, 25, 30);
-
-//                painter.setPen(Qt::NoPen);
-//                painter.setBrush(QBrush(base));
-//                painter.drawRoundRect(hover, 25, 30);
-            } else if (m_isPress) {
-                painter.setPen(Qt::NoPen);
-                painter.setBrush(QBrush(pressBrush));
-                painter.drawRoundRect(rect, 25, 30);
+            if (hasFocus()) {
+                if (m_isPress) {
+                    painter.setBrush(QBrush(pressBrush));
+                    QPen pen;
+                    pen.setColor(pressBrush);
+                    painter.setPen(pen);
+                    painter.drawRoundRect(rect, 25, 30);
+                } else {
+                    painter.setPen(Qt::NoPen);
+                    painter.setBrush(QBrush(base));
+                    painter.drawRoundRect(rect, 25, 30);
+                    QPen pen;
+                    pen.setColor(focus);
+                    pen.setWidth(2);
+                    painter.setPen(pen);
+                    painter.setBrush(Qt::NoBrush);
+                    painter.drawRoundRect(rect, 25, 30);
+                }
             } else {
-                painter.setPen(Qt::NoPen);
-                painter.setBrush(QBrush(base));
-                painter.drawRoundRect(rect, 25, 30);
+                if (m_isHover) {
+                    QPen pen;
+                    pen.setColor(hoverFrame);
+                    pen.setWidth(1);
+                    painter.setPen(pen);
+                    painter.setBrush(QBrush(hoverbrush));
+                    painter.drawRoundRect(rect, 25, 30);
+                } else if (m_isPress) {
+                    painter.setPen(Qt::NoPen);
+                    painter.setBrush(QBrush(pressBrush));
+                    painter.drawRoundRect(rect, 25, 30);
+                } else {
+                    painter.setPen(Qt::NoPen);
+                    painter.setBrush(QBrush(base));
+                    painter.drawRoundRect(rect, 25, 30);
+                }
             }
-            //painter.setPen(QPen(hoverFrame));
-            //painter.setBrush(Qt::NoBrush);
-            //painter.drawRoundRect(rect,30,40);
         }
     }
-    //painter.drawPixmap(pixRect.topLeft(),m_pixmap);
     drawCenterPixMap(painter);
 }
 
@@ -270,7 +320,7 @@ bool IconButton::event(QEvent *e)
 
 void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval)
 {
-    if (m_mode != 1 && m_mode != 3) {
+    if (m_mode != 1 && m_mode != 3 && !m_isHistorybtn) {
         if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
             elem.setAttribute(strattr, strattrval);
             if (m_buttonStatus == 0)
@@ -292,7 +342,9 @@ void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString stra
         if (m_isEmptyBtn == true || (m_mode == 4 && m_themetype == 1)) {
             strtagname = "path";
             if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
-                elem.setAttribute(strattr, strattrval);
+                if (m_buttonStatus == 2) {
+                    elem.setAttribute(strattr, strattrval);
+                }
             }
         }
         if (m_mode == 4 && m_themetype == 2) {
