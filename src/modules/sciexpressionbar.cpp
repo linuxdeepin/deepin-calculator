@@ -35,6 +35,9 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
     pl1.setColor(DPalette::Highlight, Qt::transparent);
     pl1.setColor(DPalette::HighlightedText, Qt::blue);
     m_lineEdit->setPalette(pl1);
+    QFont font;
+    font.setPixelSize(16);
+    m_lineEdit->setFont(font);
 
     DPalette pl = this->palette();
     pl.setColor(DPalette::Light, QColor(0, 0, 0, 0));
@@ -49,7 +52,7 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
     layout->setMargin(0);
     layout->setSpacing(0);
 
-    setMinimumHeight(130);
+    setFixedHeight(100);
     initConnect();
 }
 
@@ -927,12 +930,21 @@ void SciExpressionBar::entereEvent()
 
 void SciExpressionBar::enterExpEvent(int mod)
 {
+    //mod=1,enter走rad运算
     emit turnDeg();
 }
 
 void SciExpressionBar::enterSinEvent()
 {
     m_inputEdit->setText("sin(");
+}
+
+void SciExpressionBar::enterFEEvent(bool isdown)
+{
+    if (isdown)
+        emit fEStateChanged(false);
+    else
+        emit fEStateChanged(true);
 }
 
 void SciExpressionBar::copyResultToClipboard()

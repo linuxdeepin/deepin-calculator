@@ -68,7 +68,7 @@ private:
     QString m_normalUrl;
     QString m_hoverUrl;
     QString m_pressUrl;
-    int m_mode = 0; //0-四则运算符 1-退格符 2-退格符press 3-根号 4-根号press
+    int m_mode = 0; //0-四则运算符 1-退格符 2-退格符press 3-根号 4-根号press 5-deg 6-degpress
     QString m_currentUrl;
     int m_buttonStatus = 0; //0-normal 1-hover 2-press
     bool m_isEmptyBtn; //内存中的清空按钮

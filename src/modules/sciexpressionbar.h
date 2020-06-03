@@ -53,6 +53,7 @@ signals:
     void clearStateChanged(bool);
     void themeChange(int type);
     void turnDeg();
+    void fEStateChanged(bool);
 
 public slots:
     void enterNumberEvent(const QString &text);
@@ -69,6 +70,7 @@ public slots:
     void entereEvent();
     void enterExpEvent(int mod);
     void enterSinEvent();
+    void enterFEEvent(bool isdown);
     void moveLeft();
     void moveRight();
     void copyResultToClipboard();

@@ -67,6 +67,7 @@ public slots:
     void initButtons();
     void buttonThemeChanged(int type);
     void turnPage(int key);
+    void getdeg(int deg);
 signals:
     void buttonPressed(int);
     void equalPressed();
@@ -79,7 +80,7 @@ private:
     void initUI();
 
 private:
-    QStackedLayout *m_stacklayout;
+    QWidget *page2;
     QVBoxLayout *m_vlayout;
     QGridLayout *m_gridlayout1;
     QGridLayout *m_gridlayout2;
@@ -87,8 +88,8 @@ private:
     QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription1 *>> m_keys1;
     QPoint m_mousepoint;
-    QWidget *hwidget;
-    QWidget *stackwidget;
+    int m_themetype;
+    int m_deg = 3; //1-deg  2-rad  3-grad
     //DSuggestButton *m_equal;
     //EqualButton *m_equal;
 };

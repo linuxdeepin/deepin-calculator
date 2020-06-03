@@ -89,5 +89,47 @@
         <file>assets/images/light/memory_hover.svg</file>
         <file>assets/images/light/memory_normal.svg</file>
         <file>assets/images/light/memory_press.svg</file>
+        <file>assets/images/light/sin-1_hover.svg</file>
+        <file>assets/images/light/sin-1_normal.svg</file>
+        <file>assets/images/light/sin-1_press.svg</file>
+        <file>assets/images/light/tan-1_hover.svg</file>
+        <file>assets/images/light/tan-1_normal.svg</file>
+        <file>assets/images/light/tan-1_press.svg</file>
+        <file>assets/images/light/cos-1_hover.svg</file>
+        <file>assets/images/light/cos-1_normal.svg</file>
+        <file>assets/images/light/cos-1_press.svg</file>
+        <file>assets/images/light/cot-1_hover.svg</file>
+        <file>assets/images/light/cot-1_normal.svg</file>
+        <file>assets/images/light/cot-1_press.svg</file>
+        <file>assets/images/dark/cos-1_hover.svg</file>
+        <file>assets/images/dark/cos-1_normal.svg</file>
+        <file>assets/images/dark/cos-1_press.svg</file>
+        <file>assets/images/dark/cot-1_hover.svg</file>
+        <file>assets/images/dark/cot-1_normal.svg</file>
+        <file>assets/images/dark/cot-1_press.svg</file>
+        <file>assets/images/dark/tan-1_hover.svg</file>
+        <file>assets/images/dark/tan-1_normal.svg</file>
+        <file>assets/images/dark/tan-1_press.svg</file>
+        <file>assets/images/dark/sin-1_hover.svg</file>
+        <file>assets/images/dark/sin-1_normal.svg</file>
+        <file>assets/images/dark/sin-1_press.svg</file>
+        <file>assets/images/light/deg_hover.svg</file>
+        <file>assets/images/light/deg_normal.svg</file>
+        <file>assets/images/light/deg_press.svg</file>
+        <file>assets/images/light/grad_hover.svg</file>
+        <file>assets/images/light/grad_normal.svg</file>
+        <file>assets/images/light/grad_press.svg</file>
+        <file>assets/images/light/rad_hover.svg</file>
+        <file>assets/images/light/rad_normal.svg</file>
+        <file>assets/images/light/rad_press.svg</file>
+        <file>assets/images/dark/grad_hover.svg</file>
+        <file>assets/images/dark/grad_normal.svg</file>
+        <file>assets/images/dark/grad_press.svg</file>
+        <file>assets/images/dark/rad_hover.svg</file>
+        <file>assets/images/dark/rad_normal.svg</file>
+        <file>assets/images/dark/rad_press.svg</file>
+        <file>assets/images/dark/deg_hover.svg</file>
+        <file>assets/images/dark/deg_normal.svg</file>
+        <file>assets/images/dark/deg_press.svg</file>
     </qresource>
 </RCC>

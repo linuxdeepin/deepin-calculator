@@ -205,7 +205,7 @@ void MainWindow::showHistoryWidget()
 {
     m_settings->setOption("history", 1);
     m_scientificModule->showOrHideHistory(false);
-    setFixedSize(800, 610);
+    setFixedSize(800, 580);
 }
 
 void MainWindow::hideHistoryWidget(bool b)
@@ -218,7 +218,7 @@ void MainWindow::hideHistoryWidget(bool b)
         setFixedSize(344, 560);
         break;
     case 1:
-        setFixedSize(430, 610);
+        setFixedSize(430, 580);
         break;
     }
 }

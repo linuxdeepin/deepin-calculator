@@ -60,6 +60,8 @@ scientificModule::scientificModule(QWidget *parent)
     connect(m_sciexpressionBar, &SciExpressionBar::clearStateChanged, this,
             &scientificModule::handleClearStateChanged);
     connect(m_sciexpressionBar, &SciExpressionBar::turnDeg, this, &scientificModule::handleDegChanged);
+    connect(m_sciexpressionBar, &SciExpressionBar::fEStateChanged, this, &scientificModule::handleFEStateChanged);
+    connect(this, &scientificModule::changedeg, m_scikeypadwidget, &ScientificKeyPad::getdeg);
 //    connect(m_basicKeypad, &BasicKeypad::buttonPressed, this,
 //            &scientificModule::handleKeypadButtonPress);
 //    connect(m_basicKeypad, &BasicKeypad::equalPressed, this, &scientificModule::equalButtonPress);
@@ -406,7 +408,7 @@ void scientificModule::handleKeypadButtonPress(int key)
 //            m_scikeypadwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
 //        }
 //        m_memorylistwidget->setFocus();
-        break;
+//        break;
     case ScientificKeyPad::Key_Mplus:
 //        m_memorylistwidget->memoryplus(m_sciexpressionBar->getInputEdit()->getMemoryAnswer());
         break;
@@ -421,6 +423,12 @@ void scientificModule::handleKeypadButtonPress(int key)
         break;
     case ScientificKeyPad::Key_sin:
         m_sciexpressionBar->enterSinEvent();
+        break;
+    case ScientificKeyPad::Key_FE:
+        m_sciexpressionBar->enterFEEvent(m_FEisdown);
+        break;
+    case ScientificKeyPad::Key_page:
+        handlePageStateChanged();
         break;
     }
     m_sciexpressionBar->addUndo();
@@ -446,18 +454,36 @@ void scientificModule::handleClearStateChanged(bool isAllClear)
 
 void scientificModule::handleDegChanged()
 {
-    TextButton *btn = static_cast<TextButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_exp));
-
-    if (btn->text() == ">deg\n   rad") {
-        btn->setText(">rad\n   grad");
-        m_deg = 1;
-    } else if (btn->text() == ">rad\n   grad") {
-        btn->setText(">grad\n   deg");
+    emit changedeg(m_deg);
+    if (m_deg == 1) {
         m_deg = 2;
-    } else if (btn->text() == ">grad\n   deg") {
-        btn->setText(">deg\n   rad");
+    } else if (m_deg == 2) {
         m_deg = 3;
+    } else if (m_deg == 3) {
+        m_deg = 1;
     }
+}
+
+void scientificModule::handleFEStateChanged(bool isdown)
+{
+    TextButton *btn = static_cast<TextButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_FE));
+    if (isdown) {
+        m_FEisdown = true;
+    } else {
+        m_FEisdown = false;
+    }
+    btn->setTextUnderLine(m_FEisdown);
+}
+
+void scientificModule::handlePageStateChanged()
+{
+    TextButton *btn = static_cast<TextButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_page));
+    if (m_Pageisdown) {
+        m_Pageisdown = false;
+    } else {
+        m_Pageisdown = true;
+    }
+    btn->setPageDown(m_Pageisdown);
 }
 
 /*void scientificModule::paintEvent(QPaintEvent *)

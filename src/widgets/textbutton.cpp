@@ -51,12 +51,10 @@ TextButton::~TextButton()
 
 void TextButton::init()
 {
-    if (this->text() == ">deg\n   rad" || this->text() == ">rad\n   grad" || this->text() == ">grad\n   deg")
-        m_font.setPixelSize(11);
-    else
-        m_font.setPixelSize(18);
+    m_font.setPixelSize(18);
     m_font.setFamily("Noto Sans CJK SC");
     m_font.setStyleName("Light");
+    m_font.setWeight(2);
 }
 
 /*void TextButton::showShadow()
@@ -83,6 +81,16 @@ void TextButton::animate(int msec)
             update();
         });
     }
+}
+
+void TextButton::setTextUnderLine(bool down)
+{
+    m_font.setUnderline(down);
+}
+
+void TextButton::setPageDown(bool down)
+{
+    m_Pageisdown = down;
 }
 
 void TextButton::mousePressEvent(QMouseEvent *e)
@@ -124,10 +132,7 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
 
 void TextButton::enterEvent(QEvent *e)
 {
-    if (this->text() == ">deg\n   rad" || this->text() == ">rad\n   grad" || this->text() == ">grad\n   deg")
-        m_font.setPixelSize(12);
-    else
-        m_font.setPixelSize(20);
+    m_font.setPixelSize(20);
     m_font.setStyleName("");
     m_isHover = true;
     DPushButton::enterEvent(e);
@@ -135,10 +140,7 @@ void TextButton::enterEvent(QEvent *e)
 
 void TextButton::leaveEvent(QEvent *e)
 {
-    if (this->text() == ">deg\n   rad" || this->text() == ">rad\n   grad" || this->text() == ">grad\n   deg")
-        m_font.setPixelSize(11);
-    else
-        m_font.setPixelSize(18);
+    m_font.setPixelSize(18);
     m_font.setStyleName("Light");
     m_isHover = false;
     DPushButton::leaveEvent(e);
@@ -191,8 +193,12 @@ void TextButton::paintEvent(QPaintEvent *e)
         hoverFrame = actcolor;
         hoverFrame.setAlphaF(0.2);
         if (m_page) {
-            base = QColor(0, 0, 0, 0.04 * 255);
-            hoverbrush = QColor(0, 0, 0, 0.04 * 255);
+            base = QColor(238, 238, 238);
+            hoverbrush = QColor(238, 238, 238);
+            if (m_Pageisdown) {
+                base = QColor(0, 129, 255);
+                hoverbrush = QColor(0, 129, 255);
+            }
         } else {
             base = QColor("#FFFFFF");
             hoverbrush = QColor("#FFFFFF");

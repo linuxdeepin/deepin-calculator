@@ -83,6 +83,8 @@ void IconButton::animate(int msec)
             m_mode = 2;
         if (m_mode == 3)
             m_mode = 4;
+        if (m_mode == 5)
+            m_mode = 6;
         QPixmap pixmap(m_pressUrl);
         m_pixmap = pixmap;
 
@@ -95,6 +97,8 @@ void IconButton::animate(int msec)
                 m_mode = 1;
             if (m_mode == 4)
                 m_mode = 3;
+            if (m_mode == 5)
+                m_mode = 6;
             m_pixmap = pixmap;
             m_isPress = false;
             update();
@@ -118,6 +122,8 @@ void IconButton::mousePressEvent(QMouseEvent *e)
         m_mode = 2;
     if (m_mode == 3)
         m_mode = 4;
+    if (m_mode == 5)
+        m_mode = 6;
     QPixmap pixmap(m_pressUrl);
     m_pixmap = pixmap;
     m_isPress = true;
@@ -137,6 +143,8 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
         m_mode = 1;
     if (m_mode == 4)
         m_mode = 3;
+    if (m_mode == 6)
+        m_mode = 5;
     QPixmap pixmap(m_normalUrl);
     m_pixmap = pixmap;
     if (m_isPress == true && this->rect().contains(e->pos())) {
@@ -324,7 +332,7 @@ bool IconButton::event(QEvent *e)
 
 void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval)
 {
-    if (m_mode != 1 && m_mode != 3 && !m_isHistorybtn) {
+    if (m_mode != 1 && m_mode != 3 && !m_isHistorybtn && m_mode != 5) {
         if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
             elem.setAttribute(strattr, strattrval);
             if (m_buttonStatus == 0)
@@ -352,6 +360,12 @@ void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString stra
             }
         }
         if (m_mode == 4 && m_themetype == 2) {
+            strtagname = "text";
+            if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
+                elem.setAttribute(strattr, strattrval);
+            }
+        }
+        if (m_mode == 6) {
             strtagname = "text";
             if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
                 elem.setAttribute(strattr, strattrval);
