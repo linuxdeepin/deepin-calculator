@@ -332,66 +332,69 @@ void scientificModule::handleKeypadButtonPress(int key)
     //20200414 bug20294鼠标点击取消focus
     m_sciexpressionBar->getInputEdit()->setFocus();
     switch (key) {
-//    case BasicKeypad::Key_0:
-//        m_sciexpressionBar->enterNumberEvent("0");
-//        break;
-//    case BasicKeypad::Key_1:
-//        m_sciexpressionBar->enterNumberEvent("1");
-//        break;
-//    case BasicKeypad::Key_2:
-//        m_sciexpressionBar->enterNumberEvent("2");
-//        break;
-//    case BasicKeypad::Key_3:
-//        m_sciexpressionBar->enterNumberEvent("3");
-//        break;
-//    case BasicKeypad::Key_4:
-//        m_sciexpressionBar->enterNumberEvent("4");
-//        break;
-//    case BasicKeypad::Key_5:
-//        m_sciexpressionBar->enterNumberEvent("5");
-//        break;
-//    case BasicKeypad::Key_6:
-//        m_sciexpressionBar->enterNumberEvent("6");
-//        break;
-//    case BasicKeypad::Key_7:
-//        m_sciexpressionBar->enterNumberEvent("7");
-//        break;
-//    case BasicKeypad::Key_8:
-//        m_sciexpressionBar->enterNumberEvent("8");
-//        break;
-//    case BasicKeypad::Key_9:
-//        m_sciexpressionBar->enterNumberEvent("9");
-//        break;
-//    case BasicKeypad::Key_Plus:
-//        m_sciexpressionBar->enterSymbolEvent("+");
-//        break;
-//    case BasicKeypad::Key_Min:
-//        m_sciexpressionBar->enterSymbolEvent("-");
-//        break;
-//    case BasicKeypad::Key_Mult:
-//        m_sciexpressionBar->enterSymbolEvent("*");
-//        break;
-//    case BasicKeypad::Key_Div:
-//        m_sciexpressionBar->enterSymbolEvent("/");
-//        break;
-//    case BasicKeypad::Key_Percent:
-//        m_sciexpressionBar->enterPercentEvent();
-//        break;
-//    case BasicKeypad::Key_Equals:
-//        m_sciexpressionBar->settingLinkage();
-//        break;
-//    case BasicKeypad::Key_Clear:
-//        m_sciexpressionBar->enterClearEvent();
-//        break;
-//    case BasicKeypad::Key_Backspace:
-//        m_sciexpressionBar->enterBackspaceEvent();
-//        break;
-//    case BasicKeypad::Key_Point:
-//        m_sciexpressionBar->enterPointEvent();
-//        break;
-//    case BasicKeypad::Key_Brackets:
-//        m_sciexpressionBar->enterBracketsEvent();
-//        break;
+    case ScientificKeyPad::Key_0:
+        m_sciexpressionBar->enterNumberEvent("0");
+        break;
+    case ScientificKeyPad::Key_1:
+        m_sciexpressionBar->enterNumberEvent("1");
+        break;
+    case ScientificKeyPad::Key_2:
+        m_sciexpressionBar->enterNumberEvent("2");
+        break;
+    case ScientificKeyPad::Key_3:
+        m_sciexpressionBar->enterNumberEvent("3");
+        break;
+    case ScientificKeyPad::Key_4:
+        m_sciexpressionBar->enterNumberEvent("4");
+        break;
+    case ScientificKeyPad::Key_5:
+        m_sciexpressionBar->enterNumberEvent("5");
+        break;
+    case ScientificKeyPad::Key_6:
+        m_sciexpressionBar->enterNumberEvent("6");
+        break;
+    case ScientificKeyPad::Key_7:
+        m_sciexpressionBar->enterNumberEvent("7");
+        break;
+    case ScientificKeyPad::Key_8:
+        m_sciexpressionBar->enterNumberEvent("8");
+        break;
+    case ScientificKeyPad::Key_9:
+        m_sciexpressionBar->enterNumberEvent("9");
+        break;
+    case ScientificKeyPad::Key_Plus:
+        m_sciexpressionBar->enterSymbolEvent("+");
+        break;
+    case ScientificKeyPad::Key_Min:
+        m_sciexpressionBar->enterSymbolEvent("-");
+        break;
+    case ScientificKeyPad::Key_Mult:
+        m_sciexpressionBar->enterSymbolEvent("*");
+        break;
+    case ScientificKeyPad::Key_Div:
+        m_sciexpressionBar->enterSymbolEvent("/");
+        break;
+    case ScientificKeyPad::Key_Percent:
+        m_sciexpressionBar->enterPercentEvent();
+        break;
+    case ScientificKeyPad::Key_Equals:
+        m_sciexpressionBar->enterEqualEvent();
+        break;
+    case ScientificKeyPad::Key_Clear:
+        m_sciexpressionBar->enterClearEvent();
+        break;
+    case ScientificKeyPad::Key_Backspace:
+        m_sciexpressionBar->enterBackspaceEvent();
+        break;
+    case ScientificKeyPad::Key_Point:
+        m_sciexpressionBar->enterPointEvent();
+        break;
+    case ScientificKeyPad::Key_left:
+        m_sciexpressionBar->enterLeftBracketsEvent();
+        break;
+    case ScientificKeyPad::Key_right:
+        m_sciexpressionBar->enterRightBracketsEvent();
+        break;
     case ScientificKeyPad::Key_MS:
 //        m_memorylistwidget->generateData(m_sciexpressionBar->getInputEdit()->getMemoryAnswer());
         break;
@@ -430,6 +433,9 @@ void scientificModule::handleKeypadButtonPress(int key)
     case ScientificKeyPad::Key_page:
         handlePageStateChanged();
         break;
+    case ScientificKeyPad::Key_PI:
+        m_sciexpressionBar->enterPIEvent();
+        break;
     }
     m_sciexpressionBar->addUndo();
 }
@@ -443,13 +449,13 @@ void scientificModule::equalButtonPress()
 
 void scientificModule::handleClearStateChanged(bool isAllClear)
 {
-//    TextButton *btn = static_cast<TextButton *>(m_basicKeypad->button(BasicKeypad::Key_Clear));
+    TextButton *btn = static_cast<TextButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_Clear));
 
-//    if (isAllClear) {
-//        btn->setText("AC");
-//    } else {
-//        btn->setText("C");
-//    }
+    if (isAllClear) {
+        btn->setText("AC");
+    } else {
+        btn->setText("C");
+    }
 }
 
 void scientificModule::handleDegChanged()
@@ -472,7 +478,7 @@ void scientificModule::handleFEStateChanged(bool isdown)
     } else {
         m_FEisdown = false;
     }
-    btn->setTextUnderLine(m_FEisdown);
+    btn->setButtonDown(m_FEisdown);
 }
 
 void scientificModule::handlePageStateChanged()
@@ -483,7 +489,7 @@ void scientificModule::handlePageStateChanged()
     } else {
         m_Pageisdown = true;
     }
-    btn->setPageDown(m_Pageisdown);
+    btn->setButtonDown(m_Pageisdown);
 }
 
 /*void scientificModule::paintEvent(QPaintEvent *)

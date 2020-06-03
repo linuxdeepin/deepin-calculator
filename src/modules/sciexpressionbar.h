@@ -71,6 +71,7 @@ public slots:
     void enterExpEvent(int mod);
     void enterSinEvent();
     void enterFEEvent(bool isdown);
+    void enterPIEvent();
     void moveLeft();
     void moveRight();
     void copyResultToClipboard();

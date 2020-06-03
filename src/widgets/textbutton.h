@@ -43,8 +43,7 @@ public:
     //void showShadow();
     //void hideShadow();
     void animate(int msec = 100);
-    void setTextUnderLine(bool down);
-    void setPageDown(bool down);
+    void setButtonDown(bool down);
 signals:
     void moveLeft();
     void moveRight();
@@ -67,7 +66,7 @@ private:
     bool m_isPress;
     QFont m_font;
     bool m_page;
-    bool m_Pageisdown = false;
+    bool m_Btnisdown = false;
 };
 
 #endif

@@ -83,14 +83,9 @@ void TextButton::animate(int msec)
     }
 }
 
-void TextButton::setTextUnderLine(bool down)
+void TextButton::setButtonDown(bool down)
 {
-    m_font.setUnderline(down);
-}
-
-void TextButton::setPageDown(bool down)
-{
-    m_Pageisdown = down;
+    m_Btnisdown = down;
 }
 
 void TextButton::mousePressEvent(QMouseEvent *e)
@@ -195,10 +190,6 @@ void TextButton::paintEvent(QPaintEvent *e)
         if (m_page) {
             base = QColor(238, 238, 238);
             hoverbrush = QColor(238, 238, 238);
-            if (m_Pageisdown) {
-                base = QColor(0, 129, 255);
-                hoverbrush = QColor(0, 129, 255);
-            }
         } else {
             base = QColor("#FFFFFF");
             hoverbrush = QColor("#FFFFFF");
@@ -222,6 +213,8 @@ void TextButton::paintEvent(QPaintEvent *e)
         else
             text = QColor(224, 224, 224);
     }
+    if (m_Btnisdown)
+        text = actcolor;
     if (hasFocus()) {
         painter.setPen(Qt::NoPen);
         if (m_isPress) {
