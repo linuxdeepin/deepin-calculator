@@ -13,13 +13,15 @@
 
 SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     : DWidget(parent)
-    , m_memorywidget(new MemoryWidget(1, this))
+//    , m_memorywidget(new MemoryWidget(1, this))
     , m_listView(new SimpleListView(1))
     , m_listDelegate(new SimpleListDelegate(1, this))
     , m_listModel(new SimpleListModel(this))
     , m_buttonbox(new DButtonBox(this))
     , m_clearbutton(new IconButton(this, true))
 {
+    memoryPublic = MemoryPublic::instance(this);
+    m_memorywidget = memoryPublic->getwidget(MemoryPublic::scientificright);
     m_stacklayout = new QStackedLayout();
     QVBoxLayout *m_Vlayout = new QVBoxLayout(this);
     QHBoxLayout *m_Hlayout = new QHBoxLayout();
@@ -60,6 +62,10 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     connect(m_buttonbox->button(1), &QAbstractButton::clicked, this, [ = ]() {
         m_stacklayout->setCurrentIndex(1);
         m_clearbutton->settooltip(true);
+    });
+    connect(m_clearbutton, &IconButton::clicked, this, [ = ]() {
+        if (m_stacklayout->currentIndex() == 1)
+            memoryPublic->memoryclean();
     });
 }
 

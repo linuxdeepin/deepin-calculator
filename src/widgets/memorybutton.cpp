@@ -223,6 +223,8 @@ void MemoryButton::paintEvent(QPaintEvent *e)
 {
     int mode = m_settings->getOption("mode").toInt();
     mode == 0 ? setFixedSize(50, 33) : setFixedSize(67, 44);
+    if (widgetbtn)
+        setFixedSize(50, 33);
     if (isEnabled() == false) {
         m_font.setPixelSize(16);
         m_font.setStyleName("Light");

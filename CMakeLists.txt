@@ -113,6 +113,7 @@ set (DC_CPP_FILES
         src/modules/simplelistdelegate.cpp
         src/modules/simplelistmodel.cpp
         src/modules/simplelistview.cpp
+        src/modules/memorypublic.cpp
         src/widgets/basickeypad.cpp
         src/widgets/equalbutton.cpp
         src/widgets/funcombobox.cpp
@@ -182,6 +183,7 @@ set (DC_HEADER_FILES
         src/modules/simplelistdelegate.h
         src/modules/simplelistmodel.h
         src/modules/simplelistview.h
+        src/modules/memorypublic.h
         src/widgets/basickeypad.h
         src/widgets/equalbutton.h
         src/widgets/funcombobox.h

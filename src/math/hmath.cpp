@@ -784,6 +784,10 @@ char *formatFixed(cfloatnum x, int prec, int base = 10)
         flags |= IO_FLAG_SUPPRESS_TRL_ZERO;
         prec = HMATH_MAX_SHOWN;
     }
+    //add 20200603 不需要为精度补0
+    if (prec == 15 || prec == 31) {
+        flags |= IO_FLAG_SUPPRESS_TRL_ZERO;
+    }
     char *result = _doFormat(x, base, base, IO_MODE_FIXPOINT, prec, flags);
     return result ? result : _doFormat(x, base, base, IO_MODE_SCIENTIFIC, HMATH_MAX_SHOWN, flags);
 }
@@ -800,6 +804,10 @@ char *formatScientific(cfloatnum x, int prec, int base = 10)
     if (prec < 0) {
         flags |= IO_FLAG_SUPPRESS_TRL_ZERO;
         prec = HMATH_MAX_SHOWN;
+    }
+    //add 20200603 不需要为精度补0
+    if (prec == 15 || prec == 31) {
+        flags |= IO_FLAG_SUPPRESS_TRL_ZERO;
     }
     return _doFormat(x, base, base, IO_MODE_SCIENTIFIC, prec, flags);
 }
@@ -831,15 +839,15 @@ char *formatGeneral(cfloatnum x, int prec, int base = 10)
 
     char *str;
     //edit 20200413 for bug-19653
-    if (expd > 15)
+    if (expd > prec)
         str = formatScientific(x, prec, base);
-    else if (expd < -15)
+    else if (expd < -prec)
         str = formatScientific(x, prec, base);
     else if ((expd < 0) && (prec >= 0) && (expd < -prec))
         str = formatScientific(x, prec, base);
-    else if ((expd < 0) && ((x->significand->n_scale + 1) <= 13) && ((x->significand->n_scale - expd) > 15))
+    else if ((expd < 0) && ((x->significand->n_scale + 1) <= prec - 2) && ((x->significand->n_scale - expd) > prec))
         str = formatScientific(x, prec, base);
-    else if ((expd < -3) && ((x->significand->n_scale + 1) > 13))
+    else if ((expd < -3) && ((x->significand->n_scale + 1) > prec - 2))
         str = formatScientific(x, prec, base);
     else
         str = formatFixed(x, prec, base);
@@ -849,7 +857,7 @@ char *formatGeneral(cfloatnum x, int prec, int base = 10)
     strnew.remove(QRegExp("[^0-9e]"));
     int e = strnew.indexOf("e");
     if (e > 0) {
-        if (strnew.left(e).length() + (strnew.right(strnew.length() - e - 1)).toInt() < 17)
+        if (strnew.left(e).length() + (strnew.right(strnew.length() - e - 1)).toInt() < prec + 2)
             str = formatFixed(x, prec, base);
     }
     return str;

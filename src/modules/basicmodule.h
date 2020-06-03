@@ -33,6 +33,7 @@
 #include "../widgets/tricombobox.h"
 #include "expressionbar.h"
 #include "memorywidget.h"
+#include "memorypublic.h"
 #include "../widgets/scibasickeypad.h"
 #include "../widgets/inputedit.h"
 
@@ -81,6 +82,7 @@ private:
     bool m_memCalbtn; //m+,m-,ms
     bool m_memRCbtn;//mr,mc
     bool m_isallgray; //内存按钮全部置灰;
+    MemoryPublic *memoryPublic;
 };
 
 #endif

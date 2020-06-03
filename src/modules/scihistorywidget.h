@@ -16,6 +16,7 @@
 #include "../widgets/tricombobox.h"
 #include "expressionbar.h"
 #include "memorywidget.h"
+#include "memorypublic.h"
 #include "../widgets/scibasickeypad.h"
 #include "../widgets/inputedit.h"
 
@@ -48,6 +49,7 @@ private:
     SimpleListModel *m_listModel;
     DButtonBox *m_buttonbox;
     IconButton *m_clearbutton;
+    MemoryPublic *memoryPublic;
 };
 
 #endif // SCIHISTORYWIDGET_H

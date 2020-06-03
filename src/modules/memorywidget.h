@@ -43,6 +43,7 @@ signals:
     void mListAvailable();
     void itemclick(const QPair<QString, Quantity>);
     void themechange(int type);
+    void widgetclean(int row, int mode);
 private:
     MemoryListWidget *m_listwidget;
     QPoint m_mousepoint;
@@ -54,9 +55,11 @@ private:
     bool m_ansVaild;
     QList<Quantity> list;
     int m_themetype = 0;
-    int calculatormode;
+    int calculatormode;//0-标准下拉 1-科学右侧
     int line = 1; //item数字行数
     MemoryItemDelegate *memoryDelegate;
+    int itemwidth = 0;
+    int precision = -1;//计算精度
 
 private:
     QString formatExpression(const QString &text);
@@ -67,6 +70,7 @@ public slots:
 //    void on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void setThemeType(int type);
     void expressionempty(bool b);
+    void widgetcleanslot(int row, int mode);
 };
 
 

@@ -291,7 +291,7 @@ void ExpressionBar::enterPercentEvent()
             if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
                 return;
             //edit 20200413 for bug--19653
-            const QString result = DMath::format(ans, Quantity::Format::General());
+            const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(15));
             QString formatResult = Utils::formatThousandsSeparators(result);
             formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                            .replace(QString::fromUtf8("－"), "-")
@@ -613,7 +613,7 @@ void ExpressionBar::enterEqualEvent()
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
             return;
         //edit 20200413 for bug--19653
-        const QString result = DMath::format(ans, Quantity::Format::General());
+        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(15));
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                        .replace(QString::fromUtf8("－"), "-")
@@ -976,7 +976,7 @@ void ExpressionBar::copyResultToClipboard()
             return;
 
         //edit 20200413 for bug--19653
-        const QString result = DMath::format(ans, Quantity::Format::General());
+        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(15));
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = formatResult.replace('-', "－").replace('+', "＋");
         // m_inputEdit->setAnswer(formatResult, ans);
@@ -1118,7 +1118,7 @@ void ExpressionBar::computationalResults(const QString &expression, QString &res
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
             return;
 
-        const QString tResult = DMath::format(ans, Quantity::Format::Fixed());
+        const QString tResult = DMath::format(ans, Quantity::Format::Fixed() + Quantity::Format::Precision(15));
         result = Utils::formatThousandsSeparators(tResult);
         result = formatExpression(result);
         m_inputEdit->setAnswer(result, ans);
@@ -1166,7 +1166,7 @@ void ExpressionBar::historicalLinkage(int index, QString newValue)
                 if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
                     return;
 
-                const QString tResult = DMath::format(ans, Quantity::Format::Fixed());
+                const QString tResult = DMath::format(ans, Quantity::Format::Fixed() + Quantity::Format::Precision(15));
                 result = Utils::formatThousandsSeparators(tResult);
                 result = formatExpression(result);
                 m_inputEdit->setAnswer(result, ans);
