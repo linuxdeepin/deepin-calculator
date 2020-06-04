@@ -882,7 +882,7 @@ void SciExpressionBar::enterEulerEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("E");
+    m_inputEdit->insert(QString::fromUtf8("ℯ"));
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1392,7 +1392,9 @@ QString SciExpressionBar::formatExpression(const QString &text)
            .replace(QString::fromUtf8("－"), "-")
            .replace(QString::fromUtf8("×"), "*")
            .replace(QString::fromUtf8("÷"), "/")
-           .replace(QString::fromUtf8(","), "");
+           .replace(QString::fromUtf8(","), "")
+           .replace(QString::fromUtf8("π"), QLatin1String("pi"))
+           .replace(QString::fromUtf8("ℯ"), QLatin1String("e"));
 }
 
 void SciExpressionBar::revisionResults(const QModelIndex &index)
