@@ -321,6 +321,9 @@ bool IconButton::event(QEvent *e)
         if (this->m_isHover == true && m_isEmptyBtn) {
             QString tooltext = cleartooltip;
             QToolTip::showText(helpEvent->globalPos(), tooltext);
+        } else if (this->m_isHover == true && m_isHistorybtn) {
+            QString tooltext = cleartooltip;
+            QToolTip::showText(helpEvent->globalPos(), tr("History"));
         } else {
             QToolTip::hideText();
             e->ignore();
