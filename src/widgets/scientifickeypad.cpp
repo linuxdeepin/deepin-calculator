@@ -41,9 +41,9 @@ const ScientificKeyPad::KeyDescription1 ScientificKeyPad::keyDescriptions1[] = {
 
     {"", Key_arccot, 4, 0, 1, 1}, {"2ˣ", Key_10x, 4, 1, 1, 1},
 
-    {"|x|", Key_Modulus, 5, 0, 1, 1}, {"logᵧx", Key_log, 5, 1, 1, 1},
+    {"|x|", Key_Modulus, 5, 0, 1, 1}, {"logᵧx", Key_logyx, 5, 1, 1, 1},
 
-    {"Rand", Key_Rand, 6, 0, 1, 1}, {"eˣ", Key_ln, 6, 1, 1, 1},
+    {"Rand", Key_Rand, 6, 0, 1, 1}, {"eˣ", Key_ex, 6, 1, 1, 1},
 };
 
 static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool page)

@@ -469,6 +469,12 @@ void scientificModule::handleKeypadButtonPress(int key)
     case ScientificKeyPad::Key_cot:
         m_sciexpressionBar->enterCotEvent();
         break;
+    case ScientificKeyPad::Key_10x:
+        m_sciexpressionBar->enter10xEvent();
+        break;
+    case ScientificKeyPad::Key_Modulus:
+        m_sciexpressionBar->enterModulusEvent();
+        break;
     case ScientificKeyPad::Key_log:
         m_sciexpressionBar->enterLogEvent();
         break;
@@ -477,6 +483,39 @@ void scientificModule::handleKeypadButtonPress(int key)
         break;
     case ScientificKeyPad::Key_ln:
         m_sciexpressionBar->enterLnEvent();
+        break;
+    case ScientificKeyPad::Key_arcsin:
+        m_sciexpressionBar->enterArcsinEvent();
+        break;
+    case ScientificKeyPad::Key_sqrt2:
+        m_sciexpressionBar->enterSqrtEvent();
+        break;
+    case ScientificKeyPad::Key_arccos:
+        m_sciexpressionBar->enterArccosEvent();
+        break;
+    case ScientificKeyPad::Key_sqrt3:
+        m_sciexpressionBar->enterCbrtEvent();
+        break;
+    case ScientificKeyPad::Key_arctan:
+        m_sciexpressionBar->enterArctanEvent();
+        break;
+    case ScientificKeyPad::Key_ysqrtx:
+        m_sciexpressionBar->enterYrootEvent();
+        break;
+    case ScientificKeyPad::Key_arccot:
+        m_sciexpressionBar->enterArccotEvent();
+        break;
+    case ScientificKeyPad::Key_2x:
+        m_sciexpressionBar->enter2xEvent();
+        break;
+    case ScientificKeyPad::Key_logyx:
+        m_sciexpressionBar->enterlogyxEvent();
+        break;
+    case ScientificKeyPad::Key_ex:
+        m_sciexpressionBar->enterexEvent();
+        break;
+    case ScientificKeyPad::Key_opposite:
+        m_sciexpressionBar->enterOppositeEvent();
         break;
     }
     m_sciexpressionBar->addUndo();
