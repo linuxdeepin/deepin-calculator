@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QVector>
 #include <QWidget>
+#include <QToolTip>
 
 #include <DWidget>
 
@@ -47,6 +48,7 @@ public:
     ~SciExpressionBar();
 
     void setContinue(bool isContinue);
+    bool eventFilter(QObject *obj, QEvent *event);
 
 signals:
     void keyPress(QKeyEvent *);
@@ -67,11 +69,24 @@ public slots:
     void enterLeftBracketsEvent();
     void enterRightBracketsEvent();
     void enterDeleteEvent();
-    void entereEvent();
-    void enterExpEvent(int mod);
+    void enterDegEvent(int mod);
     void enterSinEvent();
     void enterFEEvent(bool isdown);
     void enterPIEvent();
+    void enterEulerEvent();
+    void enterModEvent();
+    void enterx2Event();
+    void enterDerivativeEvent();
+    void enterFactorialsEvent();
+    void enterExpEvent();
+    void enterCosEvent();
+    void enterx3Event();
+    void enterTanEvent();
+    void enterxyEvent();
+    void enterCotEvent();
+    void enterLogEvent();
+    void enterRandEvent();
+    void enterLnEvent();
     void moveLeft();
     void moveRight();
     void copyResultToClipboard();
@@ -139,5 +154,6 @@ private:
     QVector<QString> m_redo;
 
     bool m_meanexp;    //是否表达式为纯数字
+    bool m_FEisdown = false; //科学计算开关打开
 };
 #endif // SCIEXPRESSIONBAR_H

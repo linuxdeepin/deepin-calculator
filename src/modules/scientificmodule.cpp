@@ -422,7 +422,7 @@ void scientificModule::handleKeypadButtonPress(int key)
 //        m_sciexpressionBar->getInputEdit()->setText(m_memorylistwidget->getfirstnumber());
         break;
     case ScientificKeyPad::Key_deg:
-        m_sciexpressionBar->enterExpEvent(m_deg);
+        m_sciexpressionBar->enterDegEvent(m_deg);
         break;
     case ScientificKeyPad::Key_sin:
         m_sciexpressionBar->enterSinEvent();
@@ -435,6 +435,48 @@ void scientificModule::handleKeypadButtonPress(int key)
         break;
     case ScientificKeyPad::Key_PI:
         m_sciexpressionBar->enterPIEvent();
+        break;
+    case ScientificKeyPad::Key_e:
+        m_sciexpressionBar->enterEulerEvent();
+        break;
+    case ScientificKeyPad::Key_Mod:
+        m_sciexpressionBar->enterModEvent();
+        break;
+    case ScientificKeyPad::Key_x2:
+        m_sciexpressionBar->enterx2Event();
+        break;
+    case ScientificKeyPad::Key_Derivative:
+        m_sciexpressionBar->enterDerivativeEvent();
+        break;
+    case ScientificKeyPad::Key_Factorials:
+        m_sciexpressionBar->enterFactorialsEvent();
+        break;
+    case ScientificKeyPad::Key_exp:
+        m_sciexpressionBar->enterExpEvent();
+        break;
+    case ScientificKeyPad::Key_cos:
+        m_sciexpressionBar->enterCosEvent();
+        break;
+    case ScientificKeyPad::Key_x3:
+        m_sciexpressionBar->enterx3Event();
+        break;
+    case ScientificKeyPad::Key_tan:
+        m_sciexpressionBar->enterTanEvent();
+        break;
+    case ScientificKeyPad::Key_xy:
+        m_sciexpressionBar->enterxyEvent();
+        break;
+    case ScientificKeyPad::Key_cot:
+        m_sciexpressionBar->enterCotEvent();
+        break;
+    case ScientificKeyPad::Key_log:
+        m_sciexpressionBar->enterLogEvent();
+        break;
+    case ScientificKeyPad::Key_Rand:
+        m_sciexpressionBar->enterRandEvent();
+        break;
+    case ScientificKeyPad::Key_ln:
+        m_sciexpressionBar->enterLnEvent();
         break;
     }
     m_sciexpressionBar->addUndo();
