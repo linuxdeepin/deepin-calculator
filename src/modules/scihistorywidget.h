@@ -26,13 +26,17 @@ DWIDGET_USE_NAMESPACE
 class SciHistoryWidget : public DWidget
 {
     Q_OBJECT
-
 public:
+    enum memOperate {
+        generateData, memoryplus, memoryminus, memoryclean,
+        widgetplus, widgetminus
+    };
     SciHistoryWidget(QWidget *parent = nullptr);
     ~SciHistoryWidget();
     void paintEvent(QPaintEvent *event);
     void focusOnButtonbox();
-
+    MemoryWidget *getMemoryWidget();
+    void memoryFunctions(int row = -1, Quantity answer = Quantity(), memOperate operate = generateData);
 public slots:
     void themeChanged(int type);
 

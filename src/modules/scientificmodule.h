@@ -5,6 +5,7 @@
 #include <DGuiApplicationHelper>
 #include <QStackedLayout>
 #include <QGridLayout>
+#include <QTimer>
 
 #include "../widgets/textbutton.h"
 #include "../widgets/iconbutton.h"
@@ -65,6 +66,8 @@ private:
     bool m_FEisdown = false;
     bool m_Pageisdown = false;
     bool m_isinsidefun = false;//鼠标点击在函数widget内
+    bool m_memCalbtn; //m+,m-,ms
+    bool m_memRCbtn;//mr,mc
     SciHistoryWidget *m_scihiswidget;
 };
 

@@ -91,12 +91,46 @@ void SciHistoryWidget::focusOnButtonbox()
     }
 }
 
+MemoryWidget *SciHistoryWidget::getMemoryWidget()
+{
+    return m_memorywidget;
+}
+
+void SciHistoryWidget::memoryFunctions(int row, Quantity answer, SciHistoryWidget::memOperate operate)
+{
+    switch (operate) {
+    case generateData:
+        memoryPublic->generateData(answer);
+        break;
+    case memoryplus:
+        memoryPublic->memoryplus(answer);
+        break;
+    case memoryminus:
+        memoryPublic->memoryminus(answer);
+        break;
+    case memoryclean:
+        memoryPublic->memoryclean();
+        break;
+    case widgetplus:
+        memoryPublic->widgetplus(row, answer);
+        break;
+    case widgetminus:
+        memoryPublic->widgetminus(row, answer);
+        break;
+    }
+}
+
 void SciHistoryWidget::themeChanged(int type)
 {
     QString path;
-    if (type == 2)
+    int typeIn = type;
+    if (typeIn == 0) {
+        typeIn = DGuiApplicationHelper::instance()->themeType();
+    }
+    if (typeIn == 2)
         path = QString(":/assets/images/%1/").arg("dark");
     else
         path = QString(":/assets/images/%1/").arg("light");
     m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
+    memoryPublic->setThemeType(typeIn);
 }
