@@ -614,6 +614,11 @@ void BasicModule::setKeyPress(QKeyEvent *e)
     handleEditKeyPress(e);
 }
 
+void BasicModule::checkLineEmpty()
+{
+    m_expressionBar->getInputEdit()->isExpressionEmpty();
+}
+
 void BasicModule::mAvailableEvent()
 {
     MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));

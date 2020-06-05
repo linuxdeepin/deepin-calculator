@@ -180,6 +180,7 @@ void MainWindow::switchToSimpleMode()
 {
     m_settings->setOption("mode", 0);
     m_mainLayout->setCurrentIndex(0);
+    m_basicModule->checkLineEmpty();
     if (m_historyBtn->isHidden() == false)
         m_historyBtn->hide();
     hideHistoryWidget(false);
@@ -191,6 +192,7 @@ void MainWindow::switchToScientificMode()
 {
     m_settings->setOption("mode", 1);
     m_mainLayout->setCurrentIndex(1);
+    m_scientificModule->checkLineEmpty();
     if (m_historyBtn->isHidden() == true)
         m_historyBtn->show();
 

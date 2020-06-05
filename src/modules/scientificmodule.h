@@ -32,6 +32,7 @@ public:
 
     void mousePressEvent(QMouseEvent *event);
     void showOrHideHistory(bool b);
+    void checkLineEmpty();
 signals:
     void changedeg(int deg);
 

@@ -49,6 +49,7 @@ public:
     ~BasicModule();
 
     void setKeyPress(QKeyEvent *e);
+    void checkLineEmpty();
 
     void mousePressEvent(QMouseEvent *event);
 public slots:

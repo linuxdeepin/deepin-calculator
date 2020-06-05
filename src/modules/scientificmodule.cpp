@@ -688,3 +688,8 @@ void scientificModule::showOrHideHistory(bool b)
     }
 }
 
+void scientificModule::checkLineEmpty()
+{
+    m_sciexpressionBar->getInputEdit()->isExpressionEmpty();
+}
+
