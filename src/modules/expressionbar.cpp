@@ -963,6 +963,7 @@ void ExpressionBar::enterExpEvent(int mod)
 
 void ExpressionBar::copyResultToClipboard()
 {
+    m_evaluator->unsetVariable(QLatin1String("e"), true);
     if (m_inputEdit->text().isEmpty())
         return;
     // QApplication::clipboard()->setText(m_inputEdit->selectedText());
@@ -1225,6 +1226,7 @@ void ExpressionBar::clearLinkageCache(const QString &text, bool isequal)
 
 void ExpressionBar::settingLinkage()
 {
+    m_evaluator->unsetVariable(QLatin1String("e"), true);
     const int hisRecision = m_hisRevision;
     if (hisRecision != -1) {
         // edit 20200403 删除错误表达式
