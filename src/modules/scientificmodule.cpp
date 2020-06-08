@@ -52,6 +52,8 @@ scientificModule::scientificModule(QWidget *parent)
     pal.setColor(DPalette::Light, QColor(248, 248, 248));
     this->setPalette(pal);
 
+    connect(m_scihiswidget->m_listDelegate, &SimpleListDelegate::obtainingHistorical, m_sciexpressionBar,
+            &SciExpressionBar::revisionResults);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this,
             &scientificModule::initTheme);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
@@ -426,6 +428,10 @@ void scientificModule::handleKeypadButtonPress(int key)
         break;
     case ScientificKeyPad::Key_Equals:
         m_sciexpressionBar->enterEqualEvent();
+        if (m_sciexpressionBar->getResult() != "") {
+            QString str = m_sciexpressionBar->getResult();
+            m_scihiswidget->m_listModel->updataList(str, -2, true);
+        }
         break;
     case ScientificKeyPad::Key_Clear:
         m_sciexpressionBar->enterClearEvent();

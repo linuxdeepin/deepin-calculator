@@ -455,7 +455,7 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
                 && newText.at(expPos + 1) != "-" && newText.at(expPos + 1) != "+")
             return newText;
         if (newText.length() > expPos + 2) {
-            while (newText.at(expPos + 2).isNumber() == false) {
+            while (newText.length() > expPos + 2 && newText.at(expPos + 2).isNumber() == false) {
                 newText.remove(expPos + 2, 1);
             }
             int nextsymbolpos = newText.right(newText.length() - expPos - 2).indexOf(QRegExp("[＋－×÷()]"));

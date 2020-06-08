@@ -319,6 +319,7 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
 bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
                                      const QStyleOptionViewItem &option, const QModelIndex &index)
 {
+    qDebug() << "edit";
     m_selected = true;
     emit obtainingHistorical(index);
     return true;

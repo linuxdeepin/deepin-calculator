@@ -63,11 +63,15 @@ void SimpleListModel::appendText(const QString &text, bool sci)
 
     const int size = m_expressionList.size();
 
-    if (sci)
+    if (sci) {
         beginInsertRows(QModelIndex(), 1, 1);
-    else
+        m_expressionList.removeAt(1);
+        m_expressionList.insert(1, expression);
+        endRemoveRows();
+    } else {
         beginInsertRows(QModelIndex(), size, size);
-    m_expressionList << expression;
+        m_expressionList << expression;
+    }
     endInsertRows();
 }
 
