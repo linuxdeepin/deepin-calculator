@@ -48,16 +48,17 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     m_listwidget->setFocusPolicy(Qt::NoFocus);
     m_listwidget->setUniformItemSizes(false);
     m_listwidget->setItemDelegate(memoryDelegate);
-    nothinginmemory();
+    memoryclean();
     lay->addStretch();
     layH->addStretch();
 
     layH->addWidget(m_clearbutton);
     if (mode == 1)
         m_clearbutton->hide();
-    connect(m_clearbutton, &DPushButton::clicked, this, [ = ]() {
-        nothinginmemory();
-    });
+//    connect(m_clearbutton, &DPushButton::clicked, this, [ = ]() {
+//        memoryclean();
+//    });
+    connect(m_clearbutton, &DPushButton::clicked, this, &MemoryWidget::memorycleansig);
     lay->addLayout(layH);
     this->setLayout(lay);
     connect(m_listwidget, &MemoryListWidget::itemselected, this, [ = ](int row) {
@@ -126,7 +127,7 @@ void MemoryWidget::generateData(Quantity answer)
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
         if (m_listwidget->count() == 0) {
-            nothinginmemory();
+            memoryclean();
         }
     });
     widget->themetypechanged(m_themetype);
@@ -140,7 +141,7 @@ void MemoryWidget::generateData(Quantity answer)
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
         if (m_listwidget->count() == 0) {
-            nothinginmemory();
+            memoryclean();
         }
     });
     connect(widget, &MemoryItemWidget::menucopy, this, [ = ]() {
@@ -246,7 +247,19 @@ void MemoryWidget::memoryminus(Quantity answer)
 
 void MemoryWidget::memoryclean()
 {
-    nothinginmemory();
+    m_listwidget->clear();
+    list.clear();
+    m_listwidget->addItem(tr("Nothing saved in memory"));
+    QFont m_clearbuttonfont;
+    m_clearbuttonfont.setPixelSize(16);
+    m_listwidget->item(0)->setFont(m_clearbuttonfont);
+    m_listwidget->item(0)->setSizeHint(QSize(itemwidth, m_listwidget->frameRect().height()));
+    m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
+    m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
+    emptymemoryfontcolor();
+    m_isempty = true;
+    m_clearbutton->hide();
+    emit mListUnavailable();
 }
 
 void MemoryWidget::emptymemoryfontcolor()
@@ -334,7 +347,7 @@ void MemoryWidget::widgetcleanslot(int row, int mode)
         list.removeAt(row);
         delete m_listwidget->takeItem(row);
         if (m_listwidget->count() == 0) {
-            nothinginmemory();
+            memoryclean();
         }
     }
 }
@@ -392,22 +405,22 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
     return result;
 }
 
-void MemoryWidget::nothinginmemory()
-{
-    m_listwidget->clear();
-    list.clear();
-    m_listwidget->addItem(tr("Nothing saved in memory"));
-    QFont m_clearbuttonfont;
-    m_clearbuttonfont.setPixelSize(16);
-    m_listwidget->item(0)->setFont(m_clearbuttonfont);
-    m_listwidget->item(0)->setSizeHint(QSize(itemwidth, m_listwidget->frameRect().height()));
-    m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
-    m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
-    emptymemoryfontcolor();
-    m_isempty = true;
-    m_clearbutton->hide();
-    emit mListUnavailable();
-}
+//void MemoryWidget::nothinginmemory()
+//{
+//    m_listwidget->clear();
+//    list.clear();
+//    m_listwidget->addItem(tr("Nothing saved in memory"));
+//    QFont m_clearbuttonfont;
+//    m_clearbuttonfont.setPixelSize(16);
+//    m_listwidget->item(0)->setFont(m_clearbuttonfont);
+//    m_listwidget->item(0)->setSizeHint(QSize(itemwidth, m_listwidget->frameRect().height()));
+//    m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
+//    m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
+//    emptymemoryfontcolor();
+//    m_isempty = true;
+//    m_clearbutton->hide();
+//    emit mListUnavailable();
+//}
 
 void MemoryWidget::setThemeType(int type)
 {

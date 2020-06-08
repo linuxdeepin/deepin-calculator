@@ -34,6 +34,7 @@ void MemoryPublic::initconnects()
 //    });
     connect(standard_l, &MemoryWidget::widgetclean, this, &MemoryPublic::widgetclean);
     connect(scientific_r, &MemoryWidget::widgetclean, this, &MemoryPublic::widgetclean);
+    connect(standard_l, &MemoryWidget::memorycleansig, this, &MemoryPublic::memoryclean);
 }
 
 MemoryWidget *MemoryPublic::getwidget(memorymode mode)

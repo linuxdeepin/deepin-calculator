@@ -98,14 +98,8 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_memorylistwidget, &MemoryWidget::insidewidget, this, [ = ]() {
         m_insidewidget = true;
     });
-    connect(m_memorylistwidget, &MemoryWidget::mListUnavailable, this, [ = ]() {
-        mUnAvailableEvent();
-        m_avail = false;
-    });
-    connect(m_memorylistwidget, &MemoryWidget::mListAvailable, this, [ = ]() {
-        mAvailableEvent();
-        m_avail = true;
-    });
+    connect(m_memorylistwidget, &MemoryWidget::mListUnavailable, this, &BasicModule::mUnAvailableEvent);
+    connect(m_memorylistwidget, &MemoryWidget::mListAvailable, this, &BasicModule::mAvailableEvent);
     connect(m_memorylistwidget, &MemoryWidget::itemclick, this, [ = ](const QPair<QString, Quantity> p) {
         QString str = p.first;
         m_expressionBar->getInputEdit()->setAnswer(str.remove("\n"), p.second);
@@ -621,6 +615,7 @@ void BasicModule::checkLineEmpty()
 
 void BasicModule::mAvailableEvent()
 {
+    m_avail = true;
     MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
     btn->setEnabled(true);
     MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MR));
@@ -632,6 +627,7 @@ void BasicModule::mAvailableEvent()
 
 void BasicModule::mUnAvailableEvent()
 {
+    m_avail = false;
     MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
     btn->setEnabled(false);
     MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MR));
