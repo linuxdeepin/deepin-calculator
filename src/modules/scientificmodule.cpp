@@ -230,9 +230,10 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         // m_basicKeypad->button()->animateClick();
 //        m_sciexpressionBar->settingLinkage();
         m_sciexpressionBar->enterEqualEvent();
-        if (m_sciexpressionBar->getResult() != "") {
-            QString str = m_sciexpressionBar->getResult();
-            m_scihiswidget->m_listModel->updataList(str, -2, true);
+        if (m_sciexpressionBar->m_expression != "") {
+            if (!m_sciexpressionBar->expressionIsError()) {
+                m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->m_expression, -2, true);
+            }
         }
         m_sciexpressionBar->addUndo();
         setFocus();
@@ -428,9 +429,10 @@ void scientificModule::handleKeypadButtonPress(int key)
         break;
     case ScientificKeyPad::Key_Equals:
         m_sciexpressionBar->enterEqualEvent();
-        if (m_sciexpressionBar->getResult() != "") {
-            QString str = m_sciexpressionBar->getResult();
-            m_scihiswidget->m_listModel->updataList(str, -2, true);
+        if (m_sciexpressionBar->m_expression != "") {
+            if (!m_sciexpressionBar->expressionIsError()) {
+                m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->m_expression, -2, true);
+            }
         }
         break;
     case ScientificKeyPad::Key_Clear:

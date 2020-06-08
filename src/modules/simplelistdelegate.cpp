@@ -105,7 +105,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
     if (m_mode == 0) {
         QRect rect(option.rect);
-        rect.setRight(321);
+        rect.setRight(option.widget->width() - 13);
         const int padding = 15;
         QString errorFontColor;
         QString fontColor;
@@ -224,7 +224,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         }
     } else if (m_mode == 1) {
         QRect rect(option.rect);
-        rect.setRight(357);
+        rect.setRight(option.widget->width() - 13);
         const int padding = 15;
         QString errorFontColor;
         QString fontColor;
@@ -261,11 +261,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         }
 
         // check result text is error.
-        if (resultStr == tr("Expression error")) {
-            painter->setPen(QColor(errorFontColor));
-        } else {
-            painter->setPen(QColor(fontColor));
-        }
+        painter->setPen(QColor(fontColor));
 
         // draw result text.
         painter->drawText(
@@ -277,9 +273,17 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                          (painter->fontMetrics().width(resultStr) / (rect.width() - padding * 2) + 1) :
                          (painter->fontMetrics().width(resultStr) / (rect.width() - padding * 2));
         resultHeight = painter->fontMetrics().height() * resultline;
+        if (resultStr == tr("Expression error")) {
+            qDebug() << tr("Expression error");
+            qDebug() << "dele";
+            painter->setPen(QColor(errorFontColor));
+        } else {
+            painter->setPen(QColor(fontColor));
+        }
         painter->drawText(
             QRectF(rect.x() + padding, rect.y() + expHeight, rect.width() - padding * 2, resultHeight),
             resultStr, option);
+
     }
 
 }

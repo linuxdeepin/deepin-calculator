@@ -48,8 +48,8 @@ public:
     ~SciExpressionBar();
 
     void setContinue(bool isContinue);
-    bool eventFilter(QObject *obj, QEvent *event);
-    QString getResult();
+    QString m_expression = QString("");
+    bool expressionIsError();
 
 signals:
     void keyPress(QKeyEvent *);
@@ -145,11 +145,10 @@ private:
 
 private:
     Evaluator *m_evaluator;
-//    SciListView *m_scilistview;
-//    SimpleListDelegate *m_listDelegate;
-//    SimpleListModel *m_listModel;
+    SimpleListView *m_listView;
+    SimpleListDelegate *m_listDelegate;
+    SimpleListModel *m_listModel;
     InputEdit *m_inputEdit;
-    QLineEdit *m_lineEdit;
 
     QString m_unfinishedExp;  //未完成表达式
     bool m_isContinue;

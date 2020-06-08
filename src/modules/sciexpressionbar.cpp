@@ -10,11 +10,10 @@
 SciExpressionBar::SciExpressionBar(QWidget *parent)
     : DWidget(parent)
 {
-//    m_scilistview = new SciListView;
-    m_lineEdit = new QLineEdit;
+    m_listView = new SimpleListView;
+    m_listDelegate = new SimpleListDelegate(0, this);
+    m_listModel = new SimpleListModel(this);
     m_inputEdit = new InputEdit;
-    m_lineEdit->setReadOnly(true);
-    m_lineEdit->setAttribute(Qt::WA_TranslucentBackground);
     m_evaluator = Evaluator::instance();
     m_isContinue = true;
     m_isAllClear = false;
@@ -22,22 +21,19 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
     m_inputNumber = false;
     m_isUndo = false;
     m_meanexp = true;
+    m_listView->setModel(m_listModel);
+    m_listView->setItemDelegate(m_listDelegate);
     // init inputEdit attributes.
     m_inputEdit->setFixedHeight(55);
     m_inputEdit->setAlignment(Qt::AlignRight);
     m_inputEdit->setTextMargins(10, 0, 10, 6);
 //    m_inputEdit->setFocus();
 
-    m_lineEdit->setFixedHeight(55);
-    m_lineEdit->setAlignment(Qt::AlignRight);
-    m_lineEdit->setTextMargins(10, 0, 10, 6);
     DPalette pl1 = this->palette();
     // pl.setColor(DPalette::Text,QColor(48,48,48));
     pl1.setColor(DPalette::Button, Qt::transparent);
     pl1.setColor(DPalette::Highlight, Qt::transparent);
     pl1.setColor(DPalette::HighlightedText, Qt::blue);
-    m_lineEdit->setPalette(pl1);
-    m_lineEdit->installEventFilter(this);
 
     DPalette pl = this->palette();
     pl.setColor(DPalette::Light, QColor(0, 0, 0, 0));
@@ -47,7 +43,7 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
 
     QVBoxLayout *layout = new QVBoxLayout(this);
 //    layout->addWidget(m_listView);
-    layout->addWidget(m_lineEdit);
+    layout->addWidget(m_listView);
     layout->addWidget(m_inputEdit);
     layout->setMargin(0);
     layout->setSpacing(0);
@@ -65,27 +61,15 @@ void SciExpressionBar::setContinue(bool isContinue)
     m_isContinue = isContinue;
 }
 
-bool SciExpressionBar::eventFilter(QObject *obj, QEvent *event)
+bool SciExpressionBar::expressionIsError()
 {
-    if (obj == m_lineEdit) {
-        if (event->type() == QEvent::ToolTip) {
-            QHelpEvent *pHelpEvent = static_cast<QHelpEvent *>(event);
-
-            if (m_lineEdit->rect().contains(pHelpEvent->pos()))
-                QToolTip::showText(pHelpEvent->globalPos(), m_lineEdit->text());
-            else {
-                QToolTip::hideText();
-                event->ignore();
-            }
-            return true;
-        }
+    QStringList splitList = m_expression.split("＝");
+    QString resultStr = splitList.last();
+    if (resultStr == tr("Expression error")) {
+        return true;
+    } else {
+        return false;
     }
-    return DWidget::eventFilter(obj, event);
-}
-
-QString SciExpressionBar::getResult()
-{
-    return m_lineEdit->text();
 }
 
 void SciExpressionBar::enterNumberEvent(const QString &text)
@@ -353,7 +337,7 @@ void SciExpressionBar::enterBackspaceEvent()
             }
         }
     }
-    if (m_inputEdit->text().isEmpty() && !m_lineEdit->text().isEmpty()) {
+    if (m_inputEdit->text().isEmpty() && !m_expression.isEmpty()) {
         emit clearStateChanged(true);
         m_isAllClear = true;
     } else {
@@ -374,8 +358,8 @@ void SciExpressionBar::enterBackspaceEvent()
 void SciExpressionBar::enterClearEvent()
 {
     if (m_isAllClear) {
-//        m_listModel->clearItems();
-//        m_listView->reset();
+        m_listModel->clearItems();
+        m_listView->reset();
         m_isAllClear = false;
         m_unfinishedExp.clear();
         m_isAutoComputation = false;
@@ -383,10 +367,9 @@ void SciExpressionBar::enterClearEvent()
 //        m_hisLink.clear();
 //        m_listDelegate->removeAllLink();
 
-        m_lineEdit->setText("");
         emit clearStateChanged(false);
     } else {
-        if (m_lineEdit->text().isEmpty())
+        if (m_expression.isEmpty())
             emit clearStateChanged(false);
         else
             emit clearStateChanged(true);
@@ -520,18 +503,15 @@ void SciExpressionBar::enterEqualEvent()
             if (fontWidth < editWidth)
                 break;
         }
-        m_lineEdit->setFont(font);
-        m_lineEdit->setText(exp + " ＝ " + formatResult);
+        m_expression = exp + " ＝ " + formatResult;
+        m_listModel->updataList(m_expression,
+                                -1, true);
     } else {
-//        if (!m_evaluator->error().isEmpty()) {
-//            m_lineEdit->setText(exp + " ＝ ");
-//            QBrush myBrush;
-//            QPalette palette;
-//            myBrush = QBrush(Qt::red, Qt::DiagCrossPattern);
-//            palette.setBrush(QPalette::Text,  myBrush);
-//            m_lineEdit->setPalette(palette);
-//            m_lineEdit->insert(tr("Expression error"));
-//    }
+        if (!m_evaluator->error().isEmpty()) {
+            m_expression = exp + "＝" + tr("Expression error");
+            m_listModel->updataList(m_expression,
+                                    -1, true);
+        }
     }
 //    else {
 //        // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
@@ -1908,8 +1888,8 @@ QString SciExpressionBar::completedBracketsCalculation(QString &text)
 
 void SciExpressionBar::initConnect()
 {
-//    connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this,
-//            &SciExpressionBar::revisionResults);
+    connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this,
+            &SciExpressionBar::revisionResults);
     connect(m_inputEdit, &InputEdit::textChanged, this, &SciExpressionBar::handleTextChanged);
     connect(m_inputEdit, &InputEdit::keyPress, this, &SciExpressionBar::keyPress);
     connect(m_inputEdit, &InputEdit::equal, this, &SciExpressionBar::enterEqualEvent);
@@ -2083,7 +2063,7 @@ void SciExpressionBar::Undo()
         m_inputEdit->clear();
         m_inputEdit->setUndoAction(false);
     }
-    if (m_inputEdit->text().isEmpty() && !m_lineEdit->text().isEmpty()) {
+    if (m_inputEdit->text().isEmpty() && !m_expression.isEmpty()) {
         emit clearStateChanged(true);
         m_isAllClear = true;
     } else {
@@ -2114,7 +2094,7 @@ void SciExpressionBar::Redo()
     m_redo.removeLast();
     if (m_redo.isEmpty())
         m_inputEdit->setRedoAction(false);
-    if (m_inputEdit->text().isEmpty() && !m_lineEdit->text().isEmpty()) {
+    if (m_inputEdit->text().isEmpty() && !m_expression.isEmpty()) {
         emit clearStateChanged(true);
         m_isAllClear = true;
     } else {
@@ -2130,7 +2110,7 @@ void SciExpressionBar::initTheme(int type)
     if (typeIn == 0) {
         typeIn = DGuiApplicationHelper::instance()->themeType();
     }
-//    m_listDelegate->setThemeType(typeIn);
+    m_listDelegate->setThemeType(typeIn);
 }
 
 void SciExpressionBar::clearSelection()

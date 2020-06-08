@@ -64,15 +64,15 @@ void SimpleListModel::appendText(const QString &text, bool sci)
     const int size = m_expressionList.size();
 
     if (sci) {
-        beginInsertRows(QModelIndex(), 1, 1);
-        m_expressionList.removeAt(1);
-        m_expressionList.insert(1, expression);
+        beginRemoveRows(QModelIndex(), 0, 0);
+        m_expressionList.removeAt(0);
+        m_expressionList.insert(0, expression);
         endRemoveRows();
     } else {
         beginInsertRows(QModelIndex(), size, size);
         m_expressionList << expression;
+        endInsertRows();
     }
-    endInsertRows();
 }
 
 void SimpleListModel::clearItems()
