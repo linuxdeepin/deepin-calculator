@@ -36,6 +36,8 @@ private:
 signals:
     void widgetplus(int row);
     void widgetminus(int row);
+    void filledMem();
+    void emptyMem();
 
 public slots:
 };

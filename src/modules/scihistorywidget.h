@@ -8,6 +8,7 @@
 #include <QGridLayout>
 #include <DButtonBox>
 #include <DIconButton>
+#include <QStackedWidget>
 
 #include "../widgets/textbutton.h"
 #include "../widgets/iconbutton.h"
@@ -43,6 +44,7 @@ public:
     SimpleListModel *m_listModel;
 public slots:
     void themeChanged(int type);
+    void ishistoryfilled(bool b);
 
 private:
 
@@ -54,7 +56,14 @@ private:
     MemoryWidget *m_memorywidget;
     DButtonBox *m_buttonbox;
     IconButton *m_clearbutton;
+    IconButton *m_clearbuttonM;
     MemoryPublic *memoryPublic;
+    QStackedWidget *m_buttonstack;
+    //0-hide 1-show,hide-是否为空,index-当前界面
+    bool ishideM = false;
+    bool indexM = false;
+    bool ishideH = false;
+    bool indexH = true;
 };
 
 #endif // SCIHISTORYWIDGET_H

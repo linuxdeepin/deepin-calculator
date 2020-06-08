@@ -233,6 +233,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         if (m_sciexpressionBar->m_expression != "") {
             if (!m_sciexpressionBar->expressionIsError()) {
                 m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->m_expression, -2, true);
+                m_scihiswidget->ishistoryfilled(true);
             }
         }
         m_sciexpressionBar->addUndo();
@@ -432,6 +433,7 @@ void scientificModule::handleKeypadButtonPress(int key)
         if (m_sciexpressionBar->m_expression != "") {
             if (!m_sciexpressionBar->expressionIsError()) {
                 m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->m_expression, -2, true);
+                m_scihiswidget->ishistoryfilled(true);
             }
         }
         break;

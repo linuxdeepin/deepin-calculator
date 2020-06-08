@@ -19,6 +19,8 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     , m_listModel(new SimpleListModel(this))
     , m_buttonbox(new DButtonBox(this))
     , m_clearbutton(new IconButton(this, true))
+    , m_clearbuttonM(new IconButton(this, true))
+    , m_buttonstack(new QStackedWidget(this))
 {
     memoryPublic = MemoryPublic::instance(this);
     m_memorywidget = memoryPublic->getwidget(MemoryPublic::scientificright);
@@ -29,10 +31,22 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_Hlayout->addWidget(m_buttonbox, 0, Qt::AlignCenter);
     m_buttonbox->setFixedWidth(160);
     m_Hlayout->addSpacing(30);
-    m_Hlayout->addWidget(m_clearbutton);
+
+    //button stack
+    m_Hlayout->addWidget(m_buttonstack);
+    m_buttonstack->setFixedSize(40, 40);
+    m_buttonstack->addWidget(m_clearbutton);
+    m_buttonstack->addWidget(m_clearbuttonM);
+    m_buttonstack->setCurrentIndex(0);
     m_clearbutton->settooltip(false);
+    m_clearbuttonM->settooltip(true);
+    m_clearbutton->setHidden(!(ishideH & indexH));
+    m_clearbuttonM->setHidden(!(ishideM & indexM));
+
     m_Hlayout->addSpacing(20);
     m_Vlayout->addLayout(m_Hlayout);
+
+    //mem & his stack
     m_Vlayout->addLayout(m_stacklayout);
     m_stacklayout->addWidget(m_listView);
     m_listView->setModel(m_listModel);
@@ -56,16 +70,39 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_buttonbox->setId(historybtn, 0);
     m_buttonbox->setId(memorybtn, 1);
     connect(m_buttonbox->button(0), &QAbstractButton::clicked, this, [ = ]() {
+        indexH = true;
+        indexM = false;
         m_stacklayout->setCurrentIndex(0);
+        m_buttonstack->setCurrentIndex(0);
         m_clearbutton->settooltip(false);
+        m_clearbutton->setHidden(!(ishideH & indexH));
     });
     connect(m_buttonbox->button(1), &QAbstractButton::clicked, this, [ = ]() {
+        indexH = false;
+        indexM = true;
+        bool b = m_clearbuttonM->isHidden();
         m_stacklayout->setCurrentIndex(1);
-        m_clearbutton->settooltip(true);
+        m_buttonstack->setCurrentIndex(1);
+        m_clearbuttonM->settooltip(true);
+        m_clearbuttonM->setHidden(!(ishideM & indexM));
     });
     connect(m_clearbutton, &IconButton::clicked, this, [ = ]() {
-        if (m_stacklayout->currentIndex() == 1)
-            memoryPublic->memoryclean();
+        m_listModel->clearItems();
+        ishideH = false;
+        m_clearbutton->setHidden(!(ishideH & indexH));
+        setFocus();
+    });
+    connect(m_clearbuttonM, &IconButton::clicked, this, [ = ]() {
+        memoryPublic->memoryclean();
+        setFocus();
+    });
+    connect(memoryPublic, &MemoryPublic::filledMem, this, [ = ]() {
+        ishideM = true;
+        m_clearbuttonM->setHidden(!(ishideM & indexM));
+    });
+    connect(memoryPublic, &MemoryPublic::emptyMem, this, [ = ]() {
+        ishideM = false;
+        m_clearbuttonM->setHidden(!(ishideM & indexM));
     });
 }
 
@@ -132,5 +169,13 @@ void SciHistoryWidget::themeChanged(int type)
     else
         path = QString(":/assets/images/%1/").arg("light");
     m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
+    m_clearbuttonM->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
     memoryPublic->setThemeType(typeIn);
+    m_listDelegate->setThemeType(typeIn);
+}
+
+void SciHistoryWidget::ishistoryfilled(bool b)
+{
+    ishideH = b;
+    m_clearbutton->setHidden(!(ishideH & indexH));
 }
