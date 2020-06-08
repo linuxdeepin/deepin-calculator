@@ -228,6 +228,10 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         // m_basicKeypad->button()->animateClick();
 //        m_sciexpressionBar->settingLinkage();
         m_sciexpressionBar->enterEqualEvent();
+        if (m_sciexpressionBar->getResult() != "") {
+            QString str = m_sciexpressionBar->getResult();
+            m_scihiswidget->m_listModel->updataList(str, -2, true);
+        }
         m_sciexpressionBar->addUndo();
         setFocus();
         break;

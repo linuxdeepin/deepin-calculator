@@ -20,7 +20,7 @@
 #ifndef SIMPLELISTDELEGATE_H
 #define SIMPLELISTDELEGATE_H
 
-#include <QAbstractItemDelegate>
+#include <QStyledItemDelegate>
 #include <QObject>
 
 #include "../dsettings.h"
@@ -28,7 +28,7 @@
 #include <DGuiApplicationHelper>
 
 DGUI_USE_NAMESPACE
-class SimpleListDelegate : public QAbstractItemDelegate
+class SimpleListDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 
@@ -67,6 +67,10 @@ private:
     bool m_selected;
     int m_type;
     int m_mode = 0;
+    QString sciexpStr;
+    QString sciresultStr;
+    int sciexpHeight;
+    int sciresultHeight;
 };
 
 #endif

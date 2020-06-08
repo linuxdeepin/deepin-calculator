@@ -40,9 +40,9 @@ public:
 
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
-    void appendText(const QString &text);
+    void appendText(const QString &text, bool sci);
     void clearItems();
-    void updataList(const QString &text, const int index);
+    void updataList(const QString &text, const int index, bool sci = false);
     void deleteItem(const int index);
 
 signals:

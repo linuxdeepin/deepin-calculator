@@ -37,6 +37,10 @@ public:
     void focusOnButtonbox();
     MemoryWidget *getMemoryWidget();
     void memoryFunctions(int row = -1, Quantity answer = Quantity(), memOperate operate = generateData);
+
+    SimpleListView *m_listView;
+    SimpleListDelegate *m_listDelegate;
+    SimpleListModel *m_listModel;
 public slots:
     void themeChanged(int type);
 
@@ -48,9 +52,6 @@ protected:
 private:
     QStackedLayout *m_stacklayout;
     MemoryWidget *m_memorywidget;
-    SimpleListView *m_listView;
-    SimpleListDelegate *m_listDelegate;
-    SimpleListModel *m_listModel;
     DButtonBox *m_buttonbox;
     IconButton *m_clearbutton;
     MemoryPublic *memoryPublic;

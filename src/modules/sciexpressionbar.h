@@ -49,6 +49,7 @@ public:
 
     void setContinue(bool isContinue);
     bool eventFilter(QObject *obj, QEvent *event);
+    QString getResult();
 
 signals:
     void keyPress(QKeyEvent *);
@@ -143,7 +144,7 @@ private:
 
 private:
     Evaluator *m_evaluator;
-//    SimpleListView *m_listView;
+//    SciListView *m_scilistview;
 //    SimpleListDelegate *m_listDelegate;
 //    SimpleListModel *m_listModel;
     InputEdit *m_inputEdit;

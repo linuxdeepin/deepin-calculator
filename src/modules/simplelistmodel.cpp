@@ -40,20 +40,20 @@ QVariant SimpleListModel::data(const QModelIndex &index, int role) const
     const int r = index.row();
 
     switch (role) {
-        case ExpressionRole:
-            return m_expressionList.at(r);
-        case ExpressionCount:
-            return m_expressionList.count();
-        case ExpressionPrevious:
-            return m_expressionList.value(r - 1);
-        case ExpressionNext:
-            return m_expressionList.value(r + 1);
+    case ExpressionRole:
+        return m_expressionList.at(r);
+    case ExpressionCount:
+        return m_expressionList.count();
+    case ExpressionPrevious:
+        return m_expressionList.value(r - 1);
+    case ExpressionNext:
+        return m_expressionList.value(r + 1);
     }
 
     return QVariant();
 }
 
-void SimpleListModel::appendText(const QString &text)
+void SimpleListModel::appendText(const QString &text, bool sci)
 {
     auto expression = text.simplified();
 
@@ -63,7 +63,10 @@ void SimpleListModel::appendText(const QString &text)
 
     const int size = m_expressionList.size();
 
-    beginInsertRows(QModelIndex(), size, size);
+    if (sci)
+        beginInsertRows(QModelIndex(), 1, 1);
+    else
+        beginInsertRows(QModelIndex(), size, size);
     m_expressionList << expression;
     endInsertRows();
 }
@@ -83,22 +86,22 @@ void SimpleListModel::refrushModel()
     emit updateCount(this->rowCount(QModelIndex()));
 }
 
-void SimpleListModel::updataList(const QString &text, const int index)
+void SimpleListModel::updataList(const QString &text, const int index, bool sci)
 {
     QString exp = text;
     exp = exp.replace('+', QString::fromUtf8("＋"))
-              .replace('-', QString::fromUtf8("－"))
-              .replace('*', QString::fromUtf8("×"))
-              .replace('/', QString::fromUtf8("÷"))
-              //.replace('x', QString::fromUtf8("×"))
-              .replace('X', QString::fromUtf8("×"));
+          .replace('-', QString::fromUtf8("－"))
+          .replace('*', QString::fromUtf8("×"))
+          .replace('/', QString::fromUtf8("÷"))
+          //.replace('x', QString::fromUtf8("×"))
+          .replace('X', QString::fromUtf8("×"));
     if (exp.indexOf("x") != -1) {
         if (exp.at(exp.indexOf("x") - 1) != "E")
             exp = exp.replace('x', QString::fromUtf8("×"));
     }
 
     if (index == -1) {
-        appendText(exp);
+        appendText(exp, sci);
     } else {
         beginRemoveRows(QModelIndex(), index, index);
         m_expressionList.removeAt(index);
