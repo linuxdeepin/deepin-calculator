@@ -169,5 +169,7 @@ private:
 
     bool m_meanexp;    //是否表达式为纯数字
     bool m_FEisdown = false; //科学计算开关打开
+    //支持的功能列表
+    QList<QString> funclist;
 };
 #endif // SCIEXPRESSIONBAR_H

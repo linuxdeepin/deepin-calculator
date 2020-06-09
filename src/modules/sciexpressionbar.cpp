@@ -52,6 +52,9 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
     initConnect();
 
     Settings::instance()->angleUnit = 'd';
+    funclist = {"sin", "cos", "tan", "cot", "arcsin", "arccos", "arctan", "arccot"
+                , "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π"
+               };
 }
 
 SciExpressionBar::~SciExpressionBar() {}
@@ -1930,6 +1933,7 @@ QString SciExpressionBar::symbolComplement(const QString exp)
 QString SciExpressionBar::pasteFaultTolerance(QString exp)
 {
     exp = m_inputEdit->text().insert(m_inputEdit->cursorPosition(), exp);
+    exp = Utils::reformatSeparators(QString(exp).remove(',').remove(QString::fromUtf8("，")));
     exp = pointFaultTolerance(exp);
     for (int i = 0; i < exp.size(); ++i) {
         while (exp[i].isNumber()) {
@@ -1944,6 +1948,20 @@ QString SciExpressionBar::pasteFaultTolerance(QString exp)
             exp.insert(i, "0");
             ++i;
         }
+    }
+    //匹配函数方法
+    QStringList list = exp.split(QRegExp("[0-9＋－×÷()%^!e.,]"));
+    for (int i = 0; i < list.size(); i++) {
+        QString item = list[i];
+        for (int j = 0; j < funclist.size(); j++) {
+            if (item.toLower().contains(funclist[j])) {
+                item.replace(item, funclist[j]);
+                break;
+            }
+            if (j == funclist.size() - 1)
+                item.replace(item, QString());
+        }
+        exp.replace(list[i], item);
     }
     return exp;
 }
