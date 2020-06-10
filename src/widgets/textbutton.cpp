@@ -99,15 +99,35 @@ void TextButton::mousePressEvent(QMouseEvent *e)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         DPalette pa = this->palette();
-        pa.setColor(DPalette::Light, QColor(0, 0, 0, 0.1 * 255));
-        pa.setColor(DPalette::Dark, QColor(0, 0, 0, 0.1 * 255));
-        pa.setColor(DPalette::ButtonText, QColor(0, 129, 255, 255));
+        QColor light, dark, buttontext;
+        light = QColor(0, 0, 0);
+        light.setAlphaF(0.1);
+        dark = QColor(0, 0, 0);
+        dark.setAlphaF(0.1);
+        buttontext = QColor(0, 129, 255);
+        buttontext.setAlphaF(1);
+        pa.setColor(DPalette::Light, light);
+        pa.setColor(DPalette::Dark, dark);
+        pa.setColor(DPalette::ButtonText, buttontext);
+//        pa.setColor(DPalette::Light, QColor(0, 0, 0, 0.1 * 255));
+//        pa.setColor(DPalette::Dark, QColor(0, 0, 0, 0.1 * 255));
+//        pa.setColor(DPalette::ButtonText, QColor(0, 129, 255, 255));
         this->setPalette(pa);
     } else {
         DPalette pa = this->palette();
-        pa.setColor(DPalette::Light, QColor(0, 0, 0, 0.5 * 255));
-        pa.setColor(DPalette::Dark, QColor(0, 0, 0, 0.5 * 255));
-        pa.setColor(DPalette::ButtonText, QColor(0, 129, 255, 255));
+        QColor light, dark, buttontext;
+        light = QColor(0, 0, 0);
+        light.setAlphaF(0.5);
+        dark = QColor(0, 0, 0);
+        dark.setAlphaF(0.5);
+        buttontext = QColor(0, 129, 255);
+        buttontext.setAlphaF(1);
+        pa.setColor(DPalette::Light, light);
+        pa.setColor(DPalette::Dark, dark);
+        pa.setColor(DPalette::ButtonText, buttontext);
+//        pa.setColor(DPalette::Light, QColor(0, 0, 0, 0.5 * 255));
+//        pa.setColor(DPalette::Dark, QColor(0, 0, 0, 0.5 * 255));
+//        pa.setColor(DPalette::ButtonText, QColor(0, 129, 255, 255));
         this->setPalette(pa);
     }
     m_isPress = true;
@@ -158,6 +178,7 @@ void TextButton::keyPressEvent(QKeyEvent *e)
 
 void TextButton::paintEvent(QPaintEvent *e)
 {
+    Q_UNUSED(e);
     int mode = m_settings->getOption("mode").toInt();
     mode == 0 ? setFixedSize(80, 58) : setFixedSize(67, 44);
     QRectF rect = this->rect();
@@ -170,7 +191,7 @@ void TextButton::paintEvent(QPaintEvent *e)
     painter.setFont(m_font);
     //    QRectF textRect = painter.fontMetrics().boundingRect(this->text());
     //    textRect.moveCenter(rect.center());
-    QRectF textRect = painter.fontMetrics().boundingRect(0, 0, rect.width(), rect.height(),
+    QRectF textRect = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                          Qt::AlignCenter, this->text());
     //    textRect.moveCenter(rect.center());
     // QRectF
@@ -183,7 +204,8 @@ void TextButton::paintEvent(QPaintEvent *e)
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
-        pressBrush = QColor(0, 0, 0, 0.1 * 255);
+        pressBrush = QColor(0, 0, 0);
+        pressBrush.setAlphaF(0.1);
         focus = actcolor;
         hoverFrame = actcolor;
         hoverFrame.setAlphaF(0.2);
@@ -195,19 +217,27 @@ void TextButton::paintEvent(QPaintEvent *e)
             hoverbrush = QColor("#FFFFFF");
         }
         text = QColor("#000000");
-        normalShadow = QColor(44, 167, 248, 0.4 * 255);
-        hoverShadow = QColor(12, 155, 246, 0.1 * 255);
-        focusShadow = QColor(0, 0, 0, 0.05 * 255);
+        normalShadow = QColor(44, 167, 248);
+        normalShadow.setAlphaF(0.4);
+        hoverShadow = QColor(12, 155, 246);
+        hoverShadow.setAlphaF(0.1);
+        focusShadow = QColor(0, 0, 0);
+        focusShadow.setAlphaF(0.05);
     } else {
-        pressBrush = QColor(0, 0, 0, 0.5 * 255);
+        pressBrush = QColor(0, 0, 0);
+        pressBrush.setAlphaF(0.5);
         focus = actcolor;
         hoverFrame = actcolor;
         hoverFrame.setAlphaF(0.2);
         base = QColor("#303030");
-        hoverbrush = QColor(255, 255, 255, 0.1 * 255);
-        normalShadow = QColor(44, 167, 248, 0.4 * 255);
-        hoverShadow = QColor(12, 155, 246, 0.1 * 255);
-        focusShadow = QColor(0, 0, 0, 0.05 * 255);
+        hoverbrush = QColor(255, 255, 255);
+        hoverbrush.setAlphaF(0.1);
+        normalShadow = QColor(44, 167, 248);
+        normalShadow.setAlphaF(0.4);
+        hoverShadow = QColor(12, 155, 246);
+        hoverShadow.setAlphaF(0.1);
+        focusShadow = QColor(0, 0, 0);
+        focusShadow.setAlphaF(0.05);
         if (m_isHover)
             text = Qt::white;
         else

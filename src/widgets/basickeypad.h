@@ -50,7 +50,7 @@ public:
     ~BasicKeypad();
 
     DPushButton *button(Buttons key);
-    DSuggestButton *button();
+//    DSuggestButton *button();
     void animate(Buttons key);
     void animate();
 

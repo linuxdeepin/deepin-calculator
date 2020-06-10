@@ -106,15 +106,35 @@ void MemoryButton::mousePressEvent(QMouseEvent *e)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         DPalette pa = this->palette();
-        pa.setColor(DPalette::Light, QColor(0, 0, 0, 0.1 * 255));
-        pa.setColor(DPalette::Dark, QColor(0, 0, 0, 0.1 * 255));
-        pa.setColor(DPalette::ButtonText, QColor(0, 129, 255, 255));
+        QColor light, dark, buttontext;
+        light = QColor(0, 0, 0);
+        light.setAlphaF(0.1);
+        dark = QColor(0, 0, 0);
+        dark.setAlphaF(0.1);
+        buttontext = QColor(0, 129, 255);
+        buttontext.setAlphaF(1);
+        pa.setColor(DPalette::Light, light);
+        pa.setColor(DPalette::Dark, dark);
+        pa.setColor(DPalette::ButtonText, buttontext);
+//        pa.setColor(DPalette::Light, QColor(0, 0, 0, 0.1 * 255));
+//        pa.setColor(DPalette::Dark, QColor(0, 0, 0, 0.1 * 255));
+//        pa.setColor(DPalette::ButtonText, QColor(0, 129, 255, 255));
         this->setPalette(pa);
     } else {
         DPalette pa = this->palette();
-        pa.setColor(DPalette::Light, QColor(0, 0, 0, 0.5 * 255));
-        pa.setColor(DPalette::Dark, QColor(0, 0, 0, 0.5 * 255));
-        pa.setColor(DPalette::ButtonText, QColor(0, 129, 255, 255));
+        QColor light, dark, buttontext;
+        light = QColor(0, 0, 0);
+        light.setAlphaF(0.5);
+        dark = QColor(0, 0, 0);
+        dark.setAlphaF(0.5);
+        buttontext = QColor(0, 129, 255);
+        buttontext.setAlphaF(1);
+        pa.setColor(DPalette::Light, light);
+        pa.setColor(DPalette::Dark, dark);
+        pa.setColor(DPalette::ButtonText, buttontext);
+//        pa.setColor(DPalette::Light, QColor(0, 0, 0, 0.5 * 255));
+//        pa.setColor(DPalette::Dark, QColor(0, 0, 0, 0.5 * 255));
+//        pa.setColor(DPalette::ButtonText, QColor(0, 129, 255, 255));
         this->setPalette(pa);
     }
     m_isPress = true;
@@ -221,6 +241,7 @@ void MemoryButton::keyPressEvent(QKeyEvent *e)
 
 void MemoryButton::paintEvent(QPaintEvent *e)
 {
+    Q_UNUSED(e);
     int mode = m_settings->getOption("mode").toInt();
     mode == 0 ? setFixedSize(50, 33) : setFixedSize(67, 44);
     if (widgetbtn)
@@ -243,7 +264,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
     painter.setFont(m_font);
 //    QRectF textRect = painter.fontMetrics().boundingRect(this->text());
 //    textRect.moveCenter(rect.center());
-    QRectF textRect = painter.fontMetrics().boundingRect(0, 0, rect.width(), rect.height(),
+    QRectF textRect = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                          Qt::AlignCenter, this->text());
     // QRectF
     // textRect(QPointF((rect.width()/2)-(textR.width()/2),(rect.height()/2)-(textR.height()/2)),textR.width(),textR.height());
@@ -254,7 +275,8 @@ void MemoryButton::paintEvent(QPaintEvent *e)
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
-        pressBrush = QColor(0, 0, 0, 0.1 * 255);
+        pressBrush = QColor(0, 0, 0);
+        pressBrush.setAlphaF(0.1);
         focus = actcolor;
         hoverFrame = actcolor;
         hoverFrame.setAlphaF(0.2);
@@ -264,7 +286,8 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         if (m_isgray == true || m_isallgray == true) {
             base = QColor("#FFFFFF");
             hoverbrush = QColor("#FFFFFF");
-            text = QColor(0, 26, 46, 0.4 * 255);
+            text = QColor(0, 26, 46);
+            text.setAlphaF(0.4);
             pressText = Qt::black;
             pressBrush = QColor("#FFFFFF");
         }
@@ -272,7 +295,8 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             text = actcolor;
         }
     } else {
-        pressBrush = QColor(0, 0, 0, 0.5 * 255);
+        pressBrush = QColor(0, 0, 0);
+        pressBrush.setAlphaF(0.5);
         focus = actcolor;
         hoverFrame = actcolor;
         hoverFrame.setAlphaF(0.2);
@@ -284,16 +308,21 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             text = Qt::white;
         else
             text = QColor(224, 224, 224);
-        hoverbrush = QColor(255, 255, 255, 0.1 * 255);
+        hoverbrush = QColor(255, 255, 255);
+        hoverbrush.setAlphaF(0.1);
         if (m_isgray == true || m_isallgray == true) {
-            base = QColor(48, 48, 48, 0.4 * 255);
-            text = QColor(224, 224, 224, 0.4 * 255);
+            base = QColor(48, 48, 48);
+            base.setAlphaF(0.4);
+            text = QColor(224, 224, 224);
+            text.setAlphaF(0.4);
             pressText = Qt::black;
             pressBrush = QColor("#FFFFFF");
-            hoverbrush = QColor(48, 48, 48, 0.4 * 255);
+            hoverbrush = QColor(48, 48, 48);
+            hoverbrush.setAlphaF(0.4);
             if (widgetbtn) {
                 base = QColor(65, 65, 65);
-                text = QColor(224, 224, 224, 0.3 * 255);
+                text = QColor(224, 224, 224);
+                text.setAlphaF(0.3);
             }
         }
         if (this->text() == "M˄") {

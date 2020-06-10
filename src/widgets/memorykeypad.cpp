@@ -13,6 +13,7 @@ const MemoryKeypad::KeyDescription MemoryKeypad::keyDescriptions[] = {
 
 static DPushButton *createSpecialKeyButton(MemoryKeypad::Buttons key)
 {
+    Q_UNUSED(key);
     IconButton *button = new IconButton;
 
     QString path;

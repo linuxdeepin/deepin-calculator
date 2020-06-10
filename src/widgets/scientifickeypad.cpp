@@ -96,12 +96,13 @@ static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool p
 }
 
 ScientificKeyPad::ScientificKeyPad(QWidget *parent)
-    : DWidget(parent),
-      m_vlayout(new QVBoxLayout(this)),
-      m_mapper(new QSignalMapper(this)),
-      m_gridlayout1(new QGridLayout),
-      m_gridlayout2(new QGridLayout),
-      page2(new QWidget)
+    : DWidget(parent)
+    , page2(new QWidget)
+    , m_vlayout(new QVBoxLayout(this))
+    , m_gridlayout1(new QGridLayout)
+    , m_gridlayout2(new QGridLayout)
+    , m_mapper(new QSignalMapper(this))
+
 {
     QWidget *page1 = new QWidget(this);
 
@@ -144,10 +145,10 @@ DPushButton *ScientificKeyPad::button(Buttons key)
     }
 }
 
-DSuggestButton *ScientificKeyPad::button()
-{
-    //return m_equal;
-}
+//DSuggestButton *ScientificKeyPad::button()
+//{
+//    //return m_equal;
+//}
 
 void ScientificKeyPad::animate(Buttons key)
 {
@@ -160,6 +161,7 @@ void ScientificKeyPad::animate(Buttons key)
             btn->animate();
         } else if (key == Key_MC || key == Key_MR || key == Key_Mplus || key == Key_Mmin || key == Key_MS) {
             MemoryButton *btn = static_cast<MemoryButton *>(button(key));
+            btn->animate();
         } else {
             TextButton *btn = static_cast<TextButton *>(button(key));
             btn->animate();
@@ -172,10 +174,6 @@ void ScientificKeyPad::animate()
     //m_equal->setChecked(true);
 
     //QTimer::singleShot(100, this, [=] { m_equal->setChecked(false); });
-}
-
-void ScientificKeyPad::mousePressEvent(QMouseEvent *event)
-{
 }
 
 void ScientificKeyPad::initButtons()

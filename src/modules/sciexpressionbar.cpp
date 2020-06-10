@@ -1660,6 +1660,7 @@ void SciExpressionBar::shear()
 
 void SciExpressionBar::handleTextChanged(const QString &text)
 {
+    Q_UNUSED(text);
     m_isAllClear = false;
     m_isContinue = true;
 }

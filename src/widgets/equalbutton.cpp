@@ -95,6 +95,7 @@ void EqualButton::leaveEvent(QEvent *e)
 
 void EqualButton::paintEvent(QPaintEvent *e)
 {
+    Q_UNUSED(e);
     int mode = m_settings->getOption("mode").toInt();
     mode == 0 ? setFixedSize(80, 58) : setFixedSize(67, 44);
     QRectF rect = this->rect();
@@ -114,7 +115,8 @@ void EqualButton::paintEvent(QPaintEvent *e)
 
     base = actcolor;
     text = Qt::white;
-    pressText = QColor(255, 255, 255, 0.6 * 255);
+    pressText = QColor(255, 255, 255);
+    pressText.setAlphaF(0.6);
     hover0 = actcolor;
     hover0.setAlphaF(0.8);
     hover1 = actcolor;
@@ -129,7 +131,8 @@ void EqualButton::paintEvent(QPaintEvent *e)
     if (type == 1)
         frame = Qt::white;
     else {
-        frame = QColor(0, 0, 0, 0.6 * 255);
+        frame = QColor(0, 0, 0);
+        frame.setAlphaF(0.6);
     }
     shadow = actcolor;
     shadow.setAlphaF(0.2);

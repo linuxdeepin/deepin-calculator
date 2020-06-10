@@ -146,7 +146,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
 {
     const bool isPressCtrl = e->modifiers() == Qt::ControlModifier;
     const QString keyText = e->text();
-    bool lineFocus = m_sciexpressionBar->getInputEdit()->hasFocus();
+//    bool lineFocus = m_sciexpressionBar->getInputEdit()->hasFocus();
     //20200414 bug20294鼠标点击取消focus
 //    m_sciexpressionBar->getInputEdit()->setFocus();
     // m_sciexpressionBar->clearSelection();

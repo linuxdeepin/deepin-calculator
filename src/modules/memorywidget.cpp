@@ -133,6 +133,7 @@ void MemoryWidget::generateData(Quantity answer)
     widget->themetypechanged(m_themetype);
     connect(this, &MemoryWidget::themechange, widget, &MemoryItemWidget::themetypechanged);
     connect(widget, &MemoryItemWidget::itemchanged, this, [ = ](int type) {
+        Q_UNUSED(type);
         widget->update();
     });
     connect(widget, &MemoryItemWidget::menuclean, this, [ = ]() {
@@ -265,9 +266,13 @@ void MemoryWidget::memoryclean()
 void MemoryWidget::emptymemoryfontcolor()
 {
     if (m_themetype == 1) {
-        m_listwidget->item(0)->setTextColor(QColor(85, 85, 85, 0.4 * 255));
+        QColor color(85, 85, 85);
+        color.setAlphaF(0.4);
+        m_listwidget->item(0)->setTextColor(color);
     } else {
-        m_listwidget->item(0)->setTextColor(QColor(192, 198, 212, 0.4 * 255));
+        QColor color(192, 198, 212);
+        color.setAlphaF(0.4);
+        m_listwidget->item(0)->setTextColor(color);
     }
 }
 

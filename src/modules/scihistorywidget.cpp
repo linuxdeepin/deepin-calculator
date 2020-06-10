@@ -80,7 +80,6 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     connect(m_buttonbox->button(1), &QAbstractButton::clicked, this, [ = ]() {
         indexH = false;
         indexM = true;
-        bool b = m_clearbuttonM->isHidden();
         m_stacklayout->setCurrentIndex(1);
         m_buttonstack->setCurrentIndex(1);
         m_clearbuttonM->settooltip(true);
@@ -108,16 +107,10 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 
 SciHistoryWidget::~SciHistoryWidget() {}
 
-void SciHistoryWidget::paintEvent(QPaintEvent *event)
-{
-//    QPainter painter(this);
-//    QPen pen(QBrush(QColor("#F8F8F8")), 0);
-//    painter.setPen(pen);
-
-//    QRect rect(this->rect().left(), this->rect().top(), this->rect().width(), this->rect().bottom() + 30);
-//    painter.drawRect(rect);
-    //    QWidget::paintEvent(event);
-}
+//void SciHistoryWidget::paintEvent(QPaintEvent *event)
+//{
+//    //    QWidget::paintEvent(event);
+//}
 
 void SciHistoryWidget::focusOnButtonbox()
 {

@@ -101,10 +101,10 @@ DPushButton *BasicKeypad::button(Buttons key)
     return m_keys.value(key).first;
 }
 
-DSuggestButton *BasicKeypad::button()
-{
-    //return m_equal;
-}
+//DSuggestButton *BasicKeypad::button()
+//{
+//    //return m_equal;
+//}
 
 void BasicKeypad::animate(Buttons key)
 {

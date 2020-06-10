@@ -958,6 +958,7 @@ void ExpressionBar::entereEvent()
 
 void ExpressionBar::enterExpEvent(int mod)
 {
+    Q_UNUSED(mod);
     emit turnDeg();
 }
 
@@ -1067,6 +1068,7 @@ void ExpressionBar::shear()
 
 void ExpressionBar::handleTextChanged(const QString &text)
 {
+    Q_UNUSED(text);
     m_isAllClear = false;
     m_isContinue = true;
 }

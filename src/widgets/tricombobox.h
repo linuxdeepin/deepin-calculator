@@ -39,7 +39,7 @@ public:
     ~ComboBox();
 
     DPushButton *button(Buttons key);
-    DSuggestButton *button();
+//    DSuggestButton *button();
     void animate(Buttons key);
     void animate();
     void updateData();
@@ -78,7 +78,7 @@ public:
     } keyDescriptions3[];
 public slots:
     void initButtons();
-    void buttonThemeChanged(int type);
+//    void buttonThemeChanged(int type);
     void turnPage(int key);
 Q_SIGNALS:
     void buttonPressed(int);

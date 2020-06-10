@@ -69,15 +69,15 @@ const ComboBox::KeyDescription3 ComboBox::keyDescriptions3[] = {
 //}
 
 ComboBox::ComboBox(DComboBox *parent)
-    : DComboBox(parent),
-      m_hlayout(new QHBoxLayout(this)),
-      m_mapper(new QSignalMapper(this)),
-      m_stacklayout(new QStackedLayout),
-      m_gridlayout1(new QGridLayout),
-      m_gridlayout2(new QGridLayout),
-      m_gridlayout3(new QGridLayout),
-      m_gridlayout4(new QGridLayout),
-      m_listwidget(new DListWidget)
+    : DComboBox(parent)
+    , m_stacklayout(new QStackedLayout)
+    , m_hlayout(new QHBoxLayout(this))
+    , m_gridlayout1(new QGridLayout)
+    , m_gridlayout2(new QGridLayout)
+    , m_gridlayout3(new QGridLayout)
+    , m_gridlayout4(new QGridLayout)
+    , m_listwidget(new DListWidget)
+    , m_mapper(new QSignalMapper(this))
 {
     widget = new QWidget;
     QWidget *page1 = new QWidget;
@@ -144,14 +144,9 @@ DPushButton *ComboBox::button(Buttons key)
         return m_keys1.value(key).first;
     } else if (m_stacklayout->currentIndex() == 2) {
         return m_keys2.value(key).first;
-    } else if (m_stacklayout->currentIndex() == 3) {
+    } else {
         return m_keys3.value(key).first;
     }
-}
-
-DSuggestButton *ComboBox::button()
-{
-    //return m_equal;
 }
 
 void ComboBox::animate(Buttons key)
@@ -300,10 +295,6 @@ void ComboBox::initUI()
     }
 
     this->setContentsMargins(12, 0, 13, 0);
-}
-
-void ComboBox::buttonThemeChanged(int type)
-{
 }
 
 void ComboBox::turnPage(int key)

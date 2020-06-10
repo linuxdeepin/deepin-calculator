@@ -46,7 +46,8 @@ SimpleListView::SimpleListView(int mode, QWidget *parent)
     if (m_mode == 0)
         setFixedHeight(105);
 
-    setMouseTracking(true);
+    if (m_mode == 1)
+        setMouseTracking(true);
 
     connect(this, &QListView::clicked, this, &SimpleListView::selectHistory);
     connect(verticalScrollBar(), &QScrollBar::rangeChanged, this, &SimpleListView::adjustScrollbarMargins);
@@ -75,6 +76,7 @@ void SimpleListView::mouseMoveEvent(QMouseEvent *e)
 void SimpleListView::selectHistory(const QModelIndex &index)
 {
     int row = index.row();
+    Q_UNUSED(row);
 }
 
 void SimpleListView::adjustScrollbarMargins()
@@ -96,17 +98,21 @@ void SimpleListView::adjustScrollbarMargins()
 void SimpleListView::mousePressEvent(QMouseEvent *event)
 {
     static_cast<SimpleListModel *>(model())->refrushModel();
-    if (indexAt(event->pos()).row() > -1) {
-        static_cast<SimpleListDelegate *>(itemDelegate(indexAt(event->pos())))->paintback(indexAt(event->pos()), 2);
-        currentrow = indexAt(event->pos()).row();
+    if (m_mode == 1) {
+        if (indexAt(event->pos()).row() > -1) {
+            static_cast<SimpleListDelegate *>(itemDelegate(indexAt(event->pos())))->paintback(indexAt(event->pos()), 2);
+            currentrow = indexAt(event->pos()).row();
+        }
     }
 }
 
 void SimpleListView::mouseReleaseEvent(QMouseEvent *event)
 {
-    static_cast<SimpleListModel *>(model())->refrushModel();
-    if (currentrow == indexAt(event->pos()).row()) {
-        static_cast<SimpleListDelegate *>(itemDelegate(indexAt(event->pos())))->paintback(indexAt(event->pos()), 1);
+    if (m_mode == 1) {
+        static_cast<SimpleListModel *>(model())->refrushModel();
+        if (currentrow == indexAt(event->pos()).row()) {
+            static_cast<SimpleListDelegate *>(itemDelegate(indexAt(event->pos())))->paintback(indexAt(event->pos()), 1);
+        }
     }
     DListView::mouseReleaseEvent(event);
 }

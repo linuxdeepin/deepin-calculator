@@ -120,27 +120,27 @@ static DPushButton *createSpecialKeyButton(SciBasicKeyPad::Buttons key)
 }
 
 SciBasicKeyPad::SciBasicKeyPad(QWidget *parent)
-    : DWidget(parent),
-      tri(new DPushButton("tri")),
-      fun(new DPushButton("fun")),
-      m_hlayout(new QHBoxLayout),
-      m_vlayout(new QVBoxLayout(this)),
-      m_mapper(new QSignalMapper(this)),
-      m_stacklayout(new QStackedLayout),
-      m_tristacklayout(new QStackedLayout),
-      m_gridlayout1(new QGridLayout),
-      m_gridlayout2(new QGridLayout),
-      m_fungridlayout(new QGridLayout),
-      m_trigridlayout1(new QGridLayout),
-      m_trigridlayout2(new QGridLayout),
-      m_trigridlayout3(new QGridLayout),
-      m_trigridlayout4(new QGridLayout),
-      m_funwidget(new QWidget),
-      m_triwidget(new QWidget),
-      m_triCombobox(new ComboBox),
-      m_funCombobox(new FunCombobox),
-      hwidget(new QWidget(this)),
-      stackwidget(new QWidget(this))
+    : DWidget(parent)
+    , tri(new DPushButton("tri"))
+    , fun(new DPushButton("fun"))
+    , m_stacklayout(new QStackedLayout)
+    , m_tristacklayout(new QStackedLayout)
+    , m_hlayout(new QHBoxLayout)
+    , m_vlayout(new QVBoxLayout(this))
+    , m_gridlayout1(new QGridLayout)
+    , m_gridlayout2(new QGridLayout)
+    , m_fungridlayout(new QGridLayout)
+    , m_trigridlayout1(new QGridLayout)
+    , m_trigridlayout2(new QGridLayout)
+    , m_trigridlayout3(new QGridLayout)
+    , m_trigridlayout4(new QGridLayout)
+    , m_funwidget(new QWidget)
+    , m_triwidget(new QWidget)
+    , m_mapper(new QSignalMapper(this))
+    , m_triCombobox(new ComboBox)
+    , m_funCombobox(new FunCombobox)
+    , hwidget(new QWidget(this))
+    , stackwidget(new QWidget(this))
 {
     QWidget *page1 = new QWidget(this);
     QWidget *page2 = new QWidget(this);
@@ -259,15 +259,15 @@ DPushButton *SciBasicKeyPad::tributton(Buttons key)
         return m_trikeys1.value(key).first;
     } else if (m_tristacklayout->currentIndex() == 2) {
         return m_trikeys2.value(key).first;
-    } else if (m_tristacklayout->currentIndex() == 3) {
+    } else {
         return m_trikeys3.value(key).first;
     }
 }
 
-DSuggestButton *SciBasicKeyPad::button()
-{
-    //return m_equal;
-}
+//DSuggestButton *SciBasicKeyPad::button()
+//{
+//    //return m_equal;
+//}
 
 void SciBasicKeyPad::animate(Buttons key)
 {

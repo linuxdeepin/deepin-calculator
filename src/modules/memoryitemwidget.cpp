@@ -175,6 +175,7 @@ QString MemoryItemWidget::textLabel()
 
 void MemoryItemWidget::paintEvent(QPaintEvent *e)
 {
+    Q_UNUSED(e);
     QRectF rect = this->rect();
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);

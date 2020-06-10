@@ -178,6 +178,7 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
 
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
+    Q_UNUSED(e);
     selectAll();
     m_selected.selected = text();
     /*if (e->button() == Qt::LeftButton) {
@@ -492,10 +493,10 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
 
     if (newPos > m_ansStartPos && newPos < ansEnd) {
         m_currentInAns = true;
-    } else if (this->hasSelectedText() &&
-               ((selectStart >= m_ansStartPos && selectStart < ansEnd)) ||
-               (selectEnd > m_ansStartPos && selectEnd <= ansEnd) ||
-               (selectStart < m_ansStartPos && selectEnd > ansEnd)) {
+    } else if (this->hasSelectedText() && (
+                   ((selectStart >= m_ansStartPos && selectStart < ansEnd)) ||
+                   (selectEnd > m_ansStartPos && selectEnd <= ansEnd) ||
+                   (selectStart < m_ansStartPos && selectEnd > ansEnd))) {
         m_currentInAns = true;
     } else if (newPos <= m_ansStartPos) {
         m_currentInAns = false;
@@ -509,6 +510,7 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
 
 void InputEdit::BracketCompletion(QKeyEvent *e)
 {
+    Q_UNUSED(e);
     QString oldText = text();
     int curs = this->cursorPosition();
     int right = oldText.length() - curs;
@@ -575,6 +577,7 @@ void InputEdit::multipleArithmetic(QString &text)
 
 void InputEdit::showTextEditMenu(QPoint p)
 {
+    Q_UNUSED(p);
     DMenu *menu = new DMenu(this);
     menu->addAction(m_undo);
     menu->addAction(m_redo);

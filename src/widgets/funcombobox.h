@@ -32,7 +32,7 @@ public:
     ~FunCombobox();
 
     DPushButton *button(Buttons key);
-    DSuggestButton *button();
+//    DSuggestButton *button();
     void animate(Buttons key);
     void animate();
     void updateData();
@@ -48,7 +48,7 @@ public:
 
 public slots:
     void initButtons();
-    void buttonThemeChanged(int type);
+//    void buttonThemeChanged(int type);
 Q_SIGNALS:
     void buttonPressed(int);
     void equalPressed();

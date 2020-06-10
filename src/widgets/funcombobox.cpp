@@ -44,11 +44,11 @@ const FunCombobox::KeyDescription FunCombobox::keyDescriptions[] = {
 
 FunCombobox::FunCombobox(DComboBox *parent)
     : DComboBox(parent),
-      m_hlayout(new QHBoxLayout(this)),
-      m_mapper(new QSignalMapper(this)),
       m_stacklayout(new QStackedLayout),
+      m_hlayout(new QHBoxLayout(this)),
       m_gridlayout1(new QGridLayout),
-      m_listwidget(new DListWidget)
+      m_listwidget(new DListWidget),
+      m_mapper(new QSignalMapper(this))
 {
     widget = new QWidget;
     widget->setLayout(m_gridlayout1);
@@ -88,10 +88,10 @@ DPushButton *FunCombobox::button(Buttons key)
     return m_keys.value(key).first;
 }
 
-DSuggestButton *FunCombobox::button()
-{
-    //return m_equal;
-}
+//DSuggestButton *FunCombobox::button()
+//{
+//    //return m_equal;
+//}
 
 void FunCombobox::animate(Buttons key)
 {
@@ -153,6 +153,6 @@ void FunCombobox::initUI()
     this->setContentsMargins(12, 0, 13, 0);
 }
 
-void FunCombobox::buttonThemeChanged(int type)
-{
-}
+//void FunCombobox::buttonThemeChanged(int type)
+//{
+//}

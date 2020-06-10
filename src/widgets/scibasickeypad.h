@@ -54,7 +54,7 @@ public:
     DPushButton *button(Buttons key);
     DPushButton *funbutton(Buttons key);
     DPushButton *tributton(Buttons key);
-    DSuggestButton *button();
+//    DSuggestButton *button();
     void animate(Buttons key);
     void animate();
     void mousePressEvent(QMouseEvent *event);

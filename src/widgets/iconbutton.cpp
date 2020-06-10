@@ -209,36 +209,45 @@ void IconButton::paintEvent(QPaintEvent *)
         if (type == 0)
             type = DGuiApplicationHelper::instance()->themeType();
         if (type == 1) {
-            pressBrush = QColor(0, 0, 0, 0.1 * 255);
+            pressBrush = QColor(0, 0, 0);
+            pressBrush.setAlphaF(0.1);
             focus = actcolor;
             hoverFrame = actcolor;
             hoverFrame.setAlphaF(0.2);
             if (m_page) {
-                base = QColor(0, 0, 0, 0.04 * 255);
-                hoverbrush = QColor(0, 0, 0, 0.04 * 255);
+                base = QColor(0, 0, 0);
+                base.setAlphaF(0.04);
+                hoverbrush = QColor(0, 0, 0);
+                hoverbrush.setAlphaF(0.04);
             } else {
                 base = Qt::white;
                 hoverbrush = Qt::white;
             }
         } else {
-            pressBrush = QColor(0, 0, 0, 0.5 * 255);
+            pressBrush = QColor(0, 0, 0);
+            pressBrush.setAlphaF(0.5);
             focus = actcolor;
             hoverFrame = actcolor;
             hoverFrame.setAlphaF(0.2);
             base = QColor(48, 48, 48);
-            hoverbrush = QColor(255, 255, 255, 0.1 * 255);
+            hoverbrush = QColor(255, 255, 255);
+            hoverbrush.setAlphaF(0.1);
         }
         if (m_isHistorybtn) {
             if (type == 1) {
-                pressBrush = QColor(0, 0, 0, 0.1 * 255);
+                pressBrush = QColor(0, 0, 0);
+                pressBrush.setAlphaF(0.1);
                 focus = actcolor;
                 base = Qt::transparent;
-                hoverbrush = QColor(255, 255, 255, 0.6 * 255);
+                hoverbrush = QColor(255, 255, 255);
+                hoverbrush.setAlphaF(0.6);
             } else {
-                pressBrush = QColor(0, 0, 0, 0.5 * 255);
+                pressBrush = QColor(0, 0, 0);
+                pressBrush.setAlphaF(0.5);
                 focus = actcolor;
                 base = QColor("#252525");
-                hoverbrush = QColor(255, 255, 255, 0.1 * 255);
+                hoverbrush = QColor(255, 255, 255);
+                hoverbrush.setAlphaF(0.1);
             }
             if (hasFocus()) {
                 if (m_isPress) {

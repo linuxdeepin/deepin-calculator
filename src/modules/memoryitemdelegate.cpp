@@ -31,5 +31,6 @@ void MemoryItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
 void MemoryItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    Q_UNUSED(index);
     editor->setGeometry(option.rect);
 }

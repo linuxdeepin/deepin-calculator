@@ -136,7 +136,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
         if (resultWidth > rect.width() / 1.4) {
             resultStr = painter->fontMetrics().elidedText(resultStr, Qt::ElideRight,
-                                                          rect.width() / 1.4 + padding);
+                                                          int(rect.width() / 1.4) + padding);
             resultWidth = painter->fontMetrics().width(resultStr);
         }
 
@@ -348,6 +348,9 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
 bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
                                      const QStyleOptionViewItem &option, const QModelIndex &index)
 {
+    Q_UNUSED(event);
+    Q_UNUSED(model);
+    Q_UNUSED(option);
     m_selected = true;
     emit obtainingHistorical(index);
     return true;

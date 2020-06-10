@@ -34,7 +34,7 @@ public:
     };
     SciHistoryWidget(QWidget *parent = nullptr);
     ~SciHistoryWidget();
-    void paintEvent(QPaintEvent *event);
+//    void paintEvent(QPaintEvent *event);
     void focusOnButtonbox();
     MemoryWidget *getMemoryWidget();
     void memoryFunctions(int row = -1, Quantity answer = Quantity(), memOperate operate = generateData);
