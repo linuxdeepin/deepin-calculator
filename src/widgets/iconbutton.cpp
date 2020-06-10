@@ -105,12 +105,15 @@ void IconButton::animate(int msec)
     }
 }
 
-void IconButton::settooltip(bool b)
+void IconButton::showtooltip(bool b)
 {
-    if (b == true)
+    if (b == true) {
         cleartooltip = tr("Clear all memory");
-    else
+        this->setToolTip(cleartooltip);
+    } else {
         cleartooltip = tr("Clear history");
+        this->setToolTip(cleartooltip);
+    }
 }
 
 void IconButton::mousePressEvent(QMouseEvent *e)
@@ -320,25 +323,6 @@ void IconButton::paintEvent(QPaintEvent *)
         }
     }
     drawCenterPixMap(painter);
-}
-
-bool IconButton::event(QEvent *e)
-{
-    if (e->type() == QEvent::ToolTip) {
-        QHelpEvent *helpEvent = static_cast<QHelpEvent *>(e);
-        if (this->m_isHover == true && m_isEmptyBtn) {
-            QString tooltext = cleartooltip;
-            QToolTip::showText(helpEvent->globalPos(), tooltext, this);
-        } else if (this->m_isHover == true && m_isHistorybtn) {
-            QString tooltext = cleartooltip;
-            QToolTip::showText(helpEvent->globalPos(), tr("History"), this);
-        } else {
-            QToolTip::hideText();
-            e->ignore();
-        }
-        return true;
-    }
-    return DPushButton::event(e);
 }
 
 void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval)

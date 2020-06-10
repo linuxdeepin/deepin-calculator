@@ -20,14 +20,8 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
     widgetbtn = listwidgetbtn;
 
     init();
-//    if (this->text() == "MC" || this->text() == "MR" || this->text() == "M^") {
-//        if (m_islistwidgetbtn == true) {
-//            this->setEnabled(true);
-//        }
-//    }
-
-    // connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &MemoryButton::init);
     m_isHover = m_isPress = false;
+    showtips();
 }
 
 MemoryButton::~MemoryButton()
@@ -84,6 +78,33 @@ void MemoryButton::setbtnlight(bool light)
         setText("M˄");
     else
         setText("M˅");
+}
+
+void MemoryButton::showtips()
+{
+    QString tooltext;
+    if (this->text() == "MC") {
+        if (widgetbtn)
+            tooltext = tr("Clear memory item");
+        else
+            tooltext = tr("Clear all memory");
+    } else if (this->text() == "MR")
+        tooltext = tr("Memory recall");
+    else if (this->text() == "M+") {
+        if (widgetbtn)
+            tooltext = tr("Add to memory item");
+        else
+            tooltext = tr("Memory add");
+    } else if (this->text() == "M-") {
+        if (widgetbtn)
+            tooltext = tr("Subtract from memory item");
+        else
+            tooltext = tr("Memory subtract");
+    } else if (this->text() == "MS")
+        tooltext = tr("Memory store");
+    else if (this->text() == "M˄" || this->text() == "M˅")
+        tooltext = tr("Memory");
+    this->setToolTip(tooltext);
 }
 
 void MemoryButton::setbuttongray(bool b)
@@ -162,58 +183,6 @@ void MemoryButton::enterEvent(QEvent *e)
     //        QToolTip::showText(helpEvent->globalPos(), this->text());
     //    }
     DPushButton::enterEvent(e);
-}
-
-bool MemoryButton::event(QEvent *e)
-{
-    if (e->type() == QEvent::ToolTip) {
-        QHelpEvent *helpEvent = static_cast<QHelpEvent *>(e);
-        if (this->m_isHover == true) {
-            QString tooltext;
-            if (this->text() == "MC") {
-                if (widgetbtn)
-                    tooltext = tr("Clear memory item");
-                else
-                    tooltext = tr("Clear all memory");
-            } else if (this->text() == "MR")
-                tooltext = tr("Memory recall");
-            else if (this->text() == "M+") {
-                if (widgetbtn)
-                    tooltext = tr("Add to memory item");
-                else
-                    tooltext = tr("Memory add");
-            } else if (this->text() == "M-") {
-                if (widgetbtn)
-                    tooltext = tr("Subtract from memory item");
-                else
-                    tooltext = tr("Memory subtract");
-            } else if (this->text() == "MS")
-                tooltext = tr("Memory store");
-            else if (this->text() == "M˄" || this->text() == "M˅")
-                tooltext = tr("Memory");
-
-            QToolTip::showText(helpEvent->globalPos(), tooltext, this);
-        } else {
-            QToolTip::hideText();
-            e->ignore();
-        }
-
-        return true;
-    }
-//    if(e->type() == QEvent::MouseButtonPress)
-//    {
-//        if (m_isgray == true) {
-//            setEnabled(false);
-//            qDebug() << "unable";
-//        }
-//        else {
-//            setEnabled(true);
-//            qDebug() << "enable";
-//        }
-
-//        return true;
-//    }
-    return DPushButton::event(e);
 }
 
 void MemoryButton::leaveEvent(QEvent *e)

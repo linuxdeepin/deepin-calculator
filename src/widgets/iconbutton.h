@@ -43,7 +43,7 @@ public:
 
     void setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode = 0);
     void animate(int msec = 100);
-    void settooltip(bool b);
+    void showtooltip(bool b);
 
 protected:
     void mousePressEvent(QMouseEvent *);
@@ -51,7 +51,6 @@ protected:
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
     void paintEvent(QPaintEvent *);
-    bool event(QEvent *);
 
 private:
     //void setIconSize(const int &size);

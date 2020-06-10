@@ -26,6 +26,7 @@ public:
     // void hideShadow();
     void animate(int msec = 100);
     void setbtnlight(bool light);
+    void showtips();
 public slots:
     void setbuttongray(bool b);
 
@@ -38,7 +39,6 @@ public:
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     void enterEvent(QEvent *);
-    bool event(QEvent *);
     void leaveEvent(QEvent *);
     void keyPressEvent(QKeyEvent *);
     void paintEvent(QPaintEvent *e);

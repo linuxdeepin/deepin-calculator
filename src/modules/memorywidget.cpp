@@ -37,7 +37,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
 //    m_listwidget->setPalette(pal);
 
     m_listwidget->setFrameShape(QFrame::NoFrame);
-    mode == 0 ? m_listwidget->setFixedHeight(260) : m_listwidget->setFixedHeight(500);
+    mode == 0 ? m_listwidget->setFixedHeight(260) : m_listwidget->setFixedHeight(463);
     itemwidth = (mode == 0) ? 344 : 370;
     precision = (mode == 0) ? 15 : 31;
     m_listwidget->setVerticalScrollMode(QListView::ScrollPerPixel);
@@ -254,7 +254,7 @@ void MemoryWidget::memoryclean()
     QFont m_clearbuttonfont;
     m_clearbuttonfont.setPixelSize(16);
     m_listwidget->item(0)->setFont(m_clearbuttonfont);
-    m_listwidget->item(0)->setSizeHint(QSize(itemwidth, 463));
+    m_listwidget->item(0)->setSizeHint(QSize(itemwidth, m_listwidget->frameRect().height()));
     m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
     m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
     emptymemoryfontcolor();
@@ -383,7 +383,7 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
         }
         if (m_clearbutton->isHidden() == true) {
             m_clearbutton->show();
-            m_clearbutton->settooltip(true);
+            m_clearbutton->showtooltip(true);
         }
     } else {
         if (index > 15) {
