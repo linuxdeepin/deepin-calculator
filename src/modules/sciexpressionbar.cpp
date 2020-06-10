@@ -64,20 +64,10 @@ void SciExpressionBar::setContinue(bool isContinue)
     m_isContinue = isContinue;
 }
 
-QString SciExpressionBar::getexpression()
+QPair<bool, QString> SciExpressionBar::getexpression()
 {
-    return m_expression;
-}
-
-bool SciExpressionBar::expressionIsError()
-{
-    QStringList splitList = m_expression.split("＝");
-    QString resultStr = splitList.last();
-    if (resultStr == tr("Expression error")) {
-        return true;
-    } else {
-        return false;
-    }
+    pair.second = m_expression;
+    return pair;
 }
 
 void SciExpressionBar::enterNumberEvent(const QString &text)
@@ -512,14 +502,18 @@ void SciExpressionBar::enterEqualEvent()
             if (fontWidth < editWidth)
                 break;
         }
+        pair.first = true;
         m_expression = exp + " ＝ " + formatResult;
         m_listModel->updataList(m_expression,
                                 -1, true);
     } else {
+        pair.first = false;
         if (!m_evaluator->error().isEmpty()) {
             m_expression = exp + "＝" + tr("Expression error");
             m_listModel->updataList(m_expression,
                                     -1, true);
+        } else {
+            return;
         }
     }
 //    else {

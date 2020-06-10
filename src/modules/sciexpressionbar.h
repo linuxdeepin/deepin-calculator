@@ -48,8 +48,7 @@ public:
     ~SciExpressionBar();
 
     void setContinue(bool isContinue);
-    QString getexpression();
-    bool expressionIsError();
+    QPair<bool, QString> getexpression();
 
 signals:
     void keyPress(QKeyEvent *);
@@ -172,5 +171,6 @@ private:
     //支持的功能列表
     QList<QString> funclist;
     QString m_expression = QString();
+    QPair<bool, QString> pair;
 };
 #endif // SCIEXPRESSIONBAR_H
