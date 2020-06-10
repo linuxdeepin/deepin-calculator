@@ -24,6 +24,7 @@
 #include <QScrollBar>
 #include <QModelIndex>
 #include <QDebug>
+#include <DGuiApplicationHelper>
 
 SimpleListView::SimpleListView(int mode, QWidget *parent)
     : DListView(parent)
@@ -33,6 +34,10 @@ SimpleListView::SimpleListView(int mode, QWidget *parent)
     setVerticalScrollMode(ScrollPerPixel);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    if (mode == 0)
+//        setEditTriggers(QAbstractItemView::SelectedClicked | QAbstractItemView::DoubleClicked);
+//    else
+//        setEditTriggers(QAbstractItemView::CurrentChanged);
     setEditTriggers(QAbstractItemView::SelectedClicked | QAbstractItemView::DoubleClicked);
     setFocusPolicy(Qt::NoFocus);
     setAutoScroll(false);
@@ -40,6 +45,8 @@ SimpleListView::SimpleListView(int mode, QWidget *parent)
     setSelectionMode(QAbstractItemView::SingleSelection);
     if (m_mode == 0)
         setFixedHeight(105);
+
+    setMouseTracking(true);
 
     connect(this, &QListView::clicked, this, &SimpleListView::selectHistory);
     connect(verticalScrollBar(), &QScrollBar::rangeChanged, this, &SimpleListView::adjustScrollbarMargins);
@@ -52,11 +59,17 @@ SimpleListView::~SimpleListView()
 
 void SimpleListView::mouseMoveEvent(QMouseEvent *e)
 {
-    if (e->x() < width() - 12) {
+    if (m_mode == 1) {
+        static_cast<SimpleListDelegate *>(itemDelegate(indexAt(e->pos())))->paintback(indexAt(e->pos()), 0);
         QWidget::mouseMoveEvent(e);
     } else {
-        QListView::mouseMoveEvent(e);
+        if (e->x() < width() - 12) {
+            QWidget::mouseMoveEvent(e);
+        } else {
+            QListView::mouseMoveEvent(e);
+        }
     }
+
 }
 
 void SimpleListView::selectHistory(const QModelIndex &index)
@@ -83,4 +96,17 @@ void SimpleListView::adjustScrollbarMargins()
 void SimpleListView::mousePressEvent(QMouseEvent *event)
 {
     static_cast<SimpleListModel *>(model())->refrushModel();
+    if (indexAt(event->pos()).row() > -1) {
+        static_cast<SimpleListDelegate *>(itemDelegate(indexAt(event->pos())))->paintback(indexAt(event->pos()), 2);
+        currentrow = indexAt(event->pos()).row();
+    }
+}
+
+void SimpleListView::mouseReleaseEvent(QMouseEvent *event)
+{
+    static_cast<SimpleListModel *>(model())->refrushModel();
+    if (currentrow == indexAt(event->pos()).row()) {
+        static_cast<SimpleListDelegate *>(itemDelegate(indexAt(event->pos())))->paintback(indexAt(event->pos()), 1);
+    }
+    DListView::mouseReleaseEvent(event);
 }

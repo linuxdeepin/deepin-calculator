@@ -184,11 +184,15 @@ void MemoryItemWidget::paintEvent(QPaintEvent *e)
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
-        press = QColor(0, 0, 0, 0.2 * 255);
-        hover = QColor(0, 0, 0, 0.05 * 255);
+        press = QColor(0, 0, 0);
+        press.setAlphaF(0.2);
+        hover = QColor(0, 0, 0);
+        hover.setAlphaF(0.05);
     } else {
-        press = QColor(255, 255, 255, 0.2 * 255);
-        hover = QColor(255, 255, 255, 0.05 * 255);
+        press = QColor(255, 255, 255);
+        press.setAlphaF(0.2);
+        hover = QColor(255, 255, 255);
+        hover.setAlphaF(0.05);
     }
     if (ishover) {
         painter.setPen(Qt::NoPen);

@@ -18,8 +18,8 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     , m_listDelegate(new SimpleListDelegate(1, this))
     , m_listModel(new SimpleListModel(this))
     , m_buttonbox(new DButtonBox(this))
-    , m_clearbutton(new IconButton(this, true))
-    , m_clearbuttonM(new IconButton(this, true))
+    , m_clearbutton(new IconButton(this, 1))
+    , m_clearbuttonM(new IconButton(this, 1))
     , m_buttonstack(new QStackedWidget(this))
 {
     memoryPublic = MemoryPublic::instance(this);

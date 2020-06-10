@@ -97,11 +97,15 @@ void SimpleListDelegate::setThemeType(int type)
     m_type = type;
 }
 
+void SimpleListDelegate::paintback(const QModelIndex &index, int state)
+{
+    m_row = index.row();
+    m_state = state;
+}
+
 void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                                const QModelIndex &index) const
 {
-//    QString aaa = "11\n";
-//    qDebug() << "aa";
     const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
     if (m_mode == 0) {
         QRect rect(option.rect);
@@ -228,11 +232,12 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         const int padding = 15;
         QString errorFontColor;
         QString fontColor;
-        QString linkColor;
+        QString resultColor;
+        QColor normalbackground, pressbackground;
         painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing |
                                 QPainter::SmoothPixmapTransform);
-        QTextOption option(Qt::AlignRight | Qt::AlignVCenter);
-        option.setWrapMode(QTextOption::WrapAnywhere);
+        QTextOption textoption(Qt::AlignRight | Qt::AlignVCenter);
+        textoption.setWrapMode(QTextOption::WrapAnywhere);
         QFontMetrics fm1 = painter->fontMetrics();
         QFont font;
         font.setPixelSize(16);
@@ -252,12 +257,20 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
         if (m_type == 1) {
             errorFontColor = "#FF5736";  //edit for bug-21508
-            linkColor = "#000000";
+            resultColor = "#303030";
             fontColor = "#838483";
+            normalbackground = QColor(0, 0, 0);
+            normalbackground.setAlphaF(0.05);
+            pressbackground = QColor(0, 0, 0);
+            pressbackground.setAlphaF(0.2);
         } else {
             errorFontColor = "#9A2F2F";  //edit for bug-21508
-            linkColor = "#FFFFFF";
+            resultColor = "#B4B4B4";
             fontColor = "#838483";
+            normalbackground = QColor(255, 255, 255);
+            normalbackground.setAlphaF(0.05);
+            pressbackground = QColor(255, 255, 255);
+            pressbackground.setAlphaF(0.2);
         }
 
         // check result text is error.
@@ -266,7 +279,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         // draw result text.
         painter->drawText(
             QRectF(rect.x() + padding, rect.y(), rect.width() - padding * 2, expHeight),
-            exp, option);
+            exp, textoption);
         painter->setFont(fontresult);
         int resultHeight;
         int resultline = (painter->fontMetrics().width(resultStr) % (rect.width() - padding * 2)) ?
@@ -274,16 +287,28 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                          (painter->fontMetrics().width(resultStr) / (rect.width() - padding * 2));
         resultHeight = painter->fontMetrics().height() * resultline;
         if (resultStr == tr("Expression error")) {
-            qDebug() << tr("Expression error");
-            qDebug() << "dele";
             painter->setPen(QColor(errorFontColor));
         } else {
-            painter->setPen(QColor(fontColor));
+            painter->setPen(QColor(resultColor));
         }
         painter->drawText(
             QRectF(rect.x() + padding, rect.y() + expHeight, rect.width() - padding * 2, resultHeight),
-            resultStr, option);
-
+            resultStr, textoption);
+        if (option.state & QStyle::State_MouseOver) {
+            painter->setBrush(normalbackground);
+            painter->setPen(Qt::NoPen);
+            painter->drawRect(rect);
+        }
+        if (m_state == 1 && m_row == index.row()) {
+            painter->setBrush(normalbackground);
+            painter->setPen(Qt::NoPen);
+            painter->drawRect(rect);
+        }
+        if (m_state == 2 && m_row == index.row()) {
+            painter->setPen(Qt::NoPen);
+            painter->setBrush(pressbackground);
+            painter->drawRect(rect);
+        }
     }
 
 }
@@ -323,7 +348,6 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
 bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
                                      const QStyleOptionViewItem &option, const QModelIndex &index)
 {
-    qDebug() << "edit";
     m_selected = true;
     emit obtainingHistorical(index);
     return true;

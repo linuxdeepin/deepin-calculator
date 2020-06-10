@@ -23,6 +23,7 @@
 #include <DWidget>
 #include <DListView>
 #include <QScrollBar>
+#include "simplelistdelegate.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -37,6 +38,7 @@ public:
 protected:
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
     void adjustScrollbarMargins();
 Q_SIGNALS:
     void clickrow(QString str);
@@ -45,6 +47,7 @@ private slots:
     void selectHistory(const QModelIndex &index);
 private:
     int m_mode = 0;
+    int currentrow = -1;
 };
 
 #endif

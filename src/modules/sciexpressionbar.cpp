@@ -64,6 +64,11 @@ void SciExpressionBar::setContinue(bool isContinue)
     m_isContinue = isContinue;
 }
 
+QString SciExpressionBar::getexpression()
+{
+    return m_expression;
+}
+
 bool SciExpressionBar::expressionIsError()
 {
     QStringList splitList = m_expression.split("＝");
@@ -389,6 +394,7 @@ void SciExpressionBar::enterClearEvent()
 
 void SciExpressionBar::enterEqualEvent()
 {
+    m_evaluator->setVariable(QLatin1String("e"), DMath::e(), Variable::BuiltIn);
     /*QString resultText;
     int index;
     if (m_unfinishedExp == "" && m_hisRevision == -1) {

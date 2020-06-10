@@ -48,7 +48,7 @@ public:
     ~SciExpressionBar();
 
     void setContinue(bool isContinue);
-    QString m_expression = QString("");
+    QString getexpression();
     bool expressionIsError();
 
 signals:
@@ -171,5 +171,6 @@ private:
     bool m_FEisdown = false; //科学计算开关打开
     //支持的功能列表
     QList<QString> funclist;
+    QString m_expression = QString();
 };
 #endif // SCIEXPRESSIONBAR_H

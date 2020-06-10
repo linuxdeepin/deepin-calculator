@@ -230,9 +230,9 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         // m_basicKeypad->button()->animateClick();
 //        m_sciexpressionBar->settingLinkage();
         m_sciexpressionBar->enterEqualEvent();
-        if (m_sciexpressionBar->m_expression != "") {
+        if (m_sciexpressionBar->getexpression() != "") {
             if (!m_sciexpressionBar->expressionIsError()) {
-                m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->m_expression, -2, true);
+                m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->getexpression(), -2, true);
                 m_scihiswidget->ishistoryfilled(true);
             }
         }
@@ -430,9 +430,9 @@ void scientificModule::handleKeypadButtonPress(int key)
         break;
     case ScientificKeyPad::Key_Equals:
         m_sciexpressionBar->enterEqualEvent();
-        if (m_sciexpressionBar->m_expression != "") {
+        if (m_sciexpressionBar->getexpression() != "") {
             if (!m_sciexpressionBar->expressionIsError()) {
-                m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->m_expression, -2, true);
+                m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->getexpression(), -2, true);
                 m_scihiswidget->ishistoryfilled(true);
             }
         }

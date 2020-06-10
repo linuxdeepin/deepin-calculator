@@ -43,8 +43,10 @@ public:
     void removeHisLink();
     void removeAllLink();
     void removeHisLinked();  // add 20200318 for fix cleanlinkcache
+
 public slots:
     void setThemeType(int type);
+    void paintback(const QModelIndex &index, int state);//state 0-normal 1-hover 2-press
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
@@ -71,6 +73,8 @@ private:
     QString sciresultStr;
     int sciexpHeight;
     int sciresultHeight;
+    int m_row = -1;
+    int m_state = 0;
 };
 
 #endif
