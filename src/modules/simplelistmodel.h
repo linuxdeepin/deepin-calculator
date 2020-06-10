@@ -27,7 +27,7 @@ class SimpleListModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    SimpleListModel(QObject *parent = nullptr);
+    SimpleListModel(int mode = 0, QObject *parent = nullptr);//mode:0-标准模式 1-科学模式
     ~SimpleListModel();
     void refrushModel();
 
@@ -51,6 +51,7 @@ signals:
 private:
     QList<QString> m_expressionList;
     bool m_selectedStatus;
+    int m_mode; //0-标准模式 1-科学模式
 };
 
 #endif

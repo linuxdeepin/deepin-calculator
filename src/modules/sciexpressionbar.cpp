@@ -12,7 +12,7 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
 {
     m_listView = new SimpleListView;
     m_listDelegate = new SimpleListDelegate(0, this);
-    m_listModel = new SimpleListModel(this);
+    m_listModel = new SimpleListModel(0, this);
     m_inputEdit = new InputEdit;
     m_evaluator = Evaluator::instance();
     m_isContinue = true;
@@ -975,83 +975,6 @@ void SciExpressionBar::enterx2Event()
 
 void SciExpressionBar::enterDerivativeEvent()
 {
-    if (m_inputEdit->text().isEmpty()) {
-        m_inputEdit->insert("0");
-    }
-    bool hasselect = (m_inputEdit->getSelection().selected != "");
-    QString oldText = m_inputEdit->text();
-    QString exp = m_inputEdit->text();
-    // 20200316百分号选中部分格式替代
-    replaceSelection(m_inputEdit->text());
-    int curPos = m_inputEdit->cursorPosition();
-    if (m_inputEdit->text() == QString()) {
-        m_inputEdit->setText("0");
-        return;
-    }
-    int epos = m_inputEdit->text().indexOf("e");
-    QString sRegNum = "[0-9,.e]";
-    QRegExp rx;
-    rx.setPattern(sRegNum);
-    if (curPos == 0 && hasselect == false) {
-        m_inputEdit->setText(oldText);
-        m_inputEdit->setCursorPosition(curPos);
-        return;
-    }
-    if ((curPos == 0 && hasselect == true) ||
-            (m_inputEdit->text().length() > curPos && rx.exactMatch(m_inputEdit->text().at(curPos)))) {
-        m_inputEdit->setText(oldText);
-        m_inputEdit->setCursorPosition(curPos);
-        return;
-    }
-    if (epos > -1 && epos == curPos - 1) {
-        m_inputEdit->setText(oldText);
-        m_inputEdit->setCursorPosition(curPos);
-        return;
-    }
-    // start edit for task-13519
-    //        QString sRegNum1 = "[^0-9,.×÷)]";
-    QString sRegNum1 = "[^0-9,.)]";
-    QRegExp rx1;
-    rx1.setPattern(sRegNum1);
-    if (rx1.exactMatch(exp.at(curPos - 1)))
-        m_inputEdit->setText(oldText);
-    else {
-        m_inputEdit->insert("%");
-        QString newtext = m_inputEdit->text();
-        int percentpos = m_inputEdit->text().indexOf('%');
-        int operatorpos =
-            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
-        bool nooperator = false;
-        if (operatorpos > 0 && newtext.at(operatorpos - 1) == "e")
-            operatorpos =
-                newtext.mid(0, operatorpos - 1)
-                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
-        if (operatorpos < 0) {
-            operatorpos++;
-            nooperator = true;
-        }
-        QString exptext;  //%表达式
-        if (newtext.at(percentpos - 1) == ')') {
-            if (operatorpos > 0 && newtext.at(operatorpos - 1) == '(') {
-                m_inputEdit->setText(oldText);
-                m_inputEdit->setCursorPosition(percentpos);
-                return;
-            }
-            do {
-                operatorpos = newtext.lastIndexOf('(', operatorpos - 1);
-                if (operatorpos <= 0) {
-                    break;
-                }
-            } while (newtext.mid(operatorpos, newtext.size() - operatorpos).count('(') !=
-                     newtext.mid(operatorpos, percentpos - operatorpos).count(')'));
-            exptext = newtext.mid(operatorpos,
-                                  percentpos - operatorpos + 1);  //截取%表达式
-        } else {
-            exptext = newtext.mid(operatorpos + (nooperator == true ? 0 : 1),
-                                  percentpos - operatorpos + (nooperator == true ? 1 : 0));
-            //截取%表达式
-        }
-    }
 }
 
 void SciExpressionBar::enterFactorialsEvent()

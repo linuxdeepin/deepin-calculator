@@ -64,8 +64,7 @@ void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverF
 
     m_currentUrl = m_normalUrl;
     m_buttonStatus = 0;
-    QPixmap pix(m_normalUrl);
-    m_pixmap = pix;
+    m_pixmap.load(m_normalUrl);
     //setIcon(QIcon(m_pixmap));
     //setIconSize(QSize(30,30)*devicePixelRatioF());
     m_mode = mode;
@@ -329,10 +328,10 @@ bool IconButton::event(QEvent *e)
         QHelpEvent *helpEvent = static_cast<QHelpEvent *>(e);
         if (this->m_isHover == true && m_isEmptyBtn) {
             QString tooltext = cleartooltip;
-            QToolTip::showText(helpEvent->globalPos(), tooltext);
+            QToolTip::showText(helpEvent->globalPos(), tooltext, this);
         } else if (this->m_isHover == true && m_isHistorybtn) {
             QString tooltext = cleartooltip;
-            QToolTip::showText(helpEvent->globalPos(), tr("History"));
+            QToolTip::showText(helpEvent->globalPos(), tr("History"), this);
         } else {
             QToolTip::hideText();
             e->ignore();

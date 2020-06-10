@@ -20,10 +20,14 @@
 #include "simplelistmodel.h"
 #include <QDebug>
 
-SimpleListModel::SimpleListModel(QObject *parent)
+SimpleListModel::SimpleListModel(int mode, QObject *parent)
     : QAbstractListModel(parent)
 {
     m_selectedStatus = false;
+    if (mode == 1) {
+        m_mode = mode;
+        clearItems();
+    }
 }
 
 SimpleListModel::~SimpleListModel() {}
@@ -80,6 +84,11 @@ void SimpleListModel::clearItems()
     beginRemoveRows(QModelIndex(), 0, m_expressionList.size());
     m_expressionList.clear();
     endRemoveRows();
+    if (m_mode == 1) {
+        beginInsertRows(QModelIndex(), 0, 0);
+        m_expressionList << "历史记录中没有数据";
+        endInsertRows();
+    }
 }
 
 void SimpleListModel::refrushModel()
@@ -107,10 +116,16 @@ void SimpleListModel::updataList(const QString &text, const int index, bool sci)
     if (index == -1) {
         appendText(exp, sci);
     } else {
-        beginRemoveRows(QModelIndex(), index, index);
-        m_expressionList.removeAt(index);
-        m_expressionList.insert(index, exp);
-        endRemoveRows();
+        if (sci) {
+            beginInsertRows(QModelIndex(), index, index);
+            m_expressionList.insert(index, exp);
+            endInsertRows();
+        } else {
+            beginRemoveRows(QModelIndex(), index, index);
+            m_expressionList.removeAt(index);
+            m_expressionList.insert(index, exp);
+            endRemoveRows();
+        }
     }
 }
 

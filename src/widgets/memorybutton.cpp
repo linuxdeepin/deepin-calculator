@@ -192,7 +192,7 @@ bool MemoryButton::event(QEvent *e)
             else if (this->text() == "M˄" || this->text() == "M˅")
                 tooltext = tr("Memory");
 
-            QToolTip::showText(helpEvent->globalPos(), tooltext);
+            QToolTip::showText(helpEvent->globalPos(), tooltext, this);
         } else {
             QToolTip::hideText();
             e->ignore();

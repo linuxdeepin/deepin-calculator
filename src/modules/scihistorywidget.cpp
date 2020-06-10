@@ -16,7 +16,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 //    , m_memorywidget(new MemoryWidget(1, this))
     , m_listView(new SimpleListView(1))
     , m_listDelegate(new SimpleListDelegate(1, this))
-    , m_listModel(new SimpleListModel(this))
+    , m_listModel(new SimpleListModel(1, this))
     , m_buttonbox(new DButtonBox(this))
     , m_clearbutton(new IconButton(this, 1))
     , m_clearbuttonM(new IconButton(this, 1))
@@ -169,6 +169,8 @@ void SciHistoryWidget::themeChanged(int type)
 
 void SciHistoryWidget::ishistoryfilled(bool b)
 {
+    if (ishideH == false)
+        m_listModel->deleteItem(1);
     ishideH = b;
     m_clearbutton->setHidden(!(ishideH & indexH));
 }

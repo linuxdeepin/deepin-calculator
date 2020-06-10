@@ -233,7 +233,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         QString errorFontColor;
         QString fontColor;
         QString resultColor;
-        QColor normalbackground, pressbackground;
+        QColor normalbackground, pressbackground, nohistory;
         painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing |
                                 QPainter::SmoothPixmapTransform);
         QTextOption textoption(Qt::AlignRight | Qt::AlignVCenter);
@@ -263,6 +263,8 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
             normalbackground.setAlphaF(0.05);
             pressbackground = QColor(0, 0, 0);
             pressbackground.setAlphaF(0.2);
+            nohistory = QColor(85, 85, 85);
+            nohistory.setAlphaF(0.4);
         } else {
             errorFontColor = "#9A2F2F";  //edit for bug-21508
             resultColor = "#B4B4B4";
@@ -271,43 +273,52 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
             normalbackground.setAlphaF(0.05);
             pressbackground = QColor(255, 255, 255);
             pressbackground.setAlphaF(0.2);
+            nohistory = QColor(192, 198, 212);
+            nohistory.setAlphaF(0.4);
         }
 
         // check result text is error.
         painter->setPen(QColor(fontColor));
 
-        // draw result text.
-        painter->drawText(
-            QRectF(rect.x() + padding, rect.y(), rect.width() - padding * 2, expHeight),
-            exp, textoption);
-        painter->setFont(fontresult);
-        int resultHeight;
-        int resultline = (painter->fontMetrics().width(resultStr) % (rect.width() - padding * 2)) ?
-                         (painter->fontMetrics().width(resultStr) / (rect.width() - padding * 2) + 1) :
-                         (painter->fontMetrics().width(resultStr) / (rect.width() - padding * 2));
-        resultHeight = painter->fontMetrics().height() * resultline;
-        if (resultStr == tr("Expression error")) {
-            painter->setPen(QColor(errorFontColor));
+        if (splitList.size() == 1) {
+            painter->setPen(QColor(nohistory));
+            painter->drawText(
+                QRectF(rect.x() + padding, rect.y(), rect.width() - padding * 2, rect.height()),
+                expression, Qt::AlignCenter | Qt::AlignVCenter);
         } else {
-            painter->setPen(QColor(resultColor));
-        }
-        painter->drawText(
-            QRectF(rect.x() + padding, rect.y() + expHeight, rect.width() - padding * 2, resultHeight),
-            resultStr, textoption);
-        if (option.state & QStyle::State_MouseOver) {
-            painter->setBrush(normalbackground);
-            painter->setPen(Qt::NoPen);
-            painter->drawRect(rect);
-        }
-        if (m_state == 1 && m_row == index.row()) {
-            painter->setBrush(normalbackground);
-            painter->setPen(Qt::NoPen);
-            painter->drawRect(rect);
-        }
-        if (m_state == 2 && m_row == index.row()) {
-            painter->setPen(Qt::NoPen);
-            painter->setBrush(pressbackground);
-            painter->drawRect(rect);
+            // draw result text.
+            painter->drawText(
+                QRectF(rect.x() + padding, rect.y(), rect.width() - padding * 2, expHeight),
+                exp, textoption);
+            painter->setFont(fontresult);
+            int resultHeight;
+            int resultline = (painter->fontMetrics().width(resultStr) % (rect.width() - padding * 2)) ?
+                             (painter->fontMetrics().width(resultStr) / (rect.width() - padding * 2) + 1) :
+                             (painter->fontMetrics().width(resultStr) / (rect.width() - padding * 2));
+            resultHeight = painter->fontMetrics().height() * resultline;
+            if (resultStr == tr("Expression error")) {
+                painter->setPen(QColor(errorFontColor));
+            } else {
+                painter->setPen(QColor(resultColor));
+            }
+            painter->drawText(
+                QRectF(rect.x() + padding, rect.y() + expHeight, rect.width() - padding * 2, resultHeight),
+                resultStr, textoption);
+            if (option.state & QStyle::State_MouseOver) {
+                painter->setBrush(normalbackground);
+                painter->setPen(Qt::NoPen);
+                painter->drawRect(rect);
+            }
+            if (m_state == 1 && m_row == index.row()) {
+                painter->setBrush(normalbackground);
+                painter->setPen(Qt::NoPen);
+                painter->drawRect(rect);
+            }
+            if (m_state == 2 && m_row == index.row()) {
+                painter->setPen(Qt::NoPen);
+                painter->setBrush(pressbackground);
+                painter->drawRect(rect);
+            }
         }
     }
 
@@ -321,6 +332,8 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
         QRect rect(option.rect);
         const int padding = 15;
         QStringList splitList = expression.split("＝");
+        if (splitList.size() == 1)
+            return QSize(-1, rect.height());
         QString resultStr = splitList.last();
         QString exp = splitList.first() + "＝";
         QFont font;
