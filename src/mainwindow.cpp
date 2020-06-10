@@ -67,6 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
     initTheme();
 
     titlebar()->addWidget(m_historyBtn, Qt::AlignRight);
+    m_historyBtn->setToolTip(tr("History"));
     if (m_settings->getOption("mode").toInt() == 0)
         m_historyBtn->hide();
 

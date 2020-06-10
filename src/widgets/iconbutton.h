@@ -55,7 +55,7 @@ protected:
 private:
     //void setIconSize(const int &size);
 
-    DLabel *m_iconWidget;
+//    DLabel *m_iconWidget;
     DSvgRenderer *m_iconRenderer;
     DSettings *m_settings;
 

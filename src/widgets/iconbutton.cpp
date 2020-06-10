@@ -25,7 +25,7 @@
 
 IconButton::IconButton(QWidget *parent, int b, bool page)
     : TextButton("", parent),
-      m_iconWidget(new DLabel),
+//      m_iconWidget(new DLabel),
       m_iconRenderer(new DSvgRenderer(this))
 {
     m_settings = DSettings::instance(this);
@@ -38,7 +38,7 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
         setFixedSize(50, 50);
     }
     QGridLayout *layout = new QGridLayout(this);
-    layout->addWidget(m_iconWidget, 0, Qt::AlignCenter);
+//    layout->addWidget(m_iconWidget, 0, Qt::AlignCenter);
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
     m_isHover = false;
