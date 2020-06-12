@@ -284,7 +284,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
             painter->setPen(QColor(nohistory));
             painter->drawText(
                 QRectF(rect.x() + padding, rect.y(), rect.width() - padding * 2, rect.height()),
-                expression, Qt::AlignCenter | Qt::AlignVCenter);
+                expression, Qt::AlignHCenter | Qt::AlignVCenter);
         } else {
             // draw result text.
             painter->drawText(
@@ -333,7 +333,7 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
         const int padding = 15;
         QStringList splitList = expression.split("＝");
         if (splitList.size() == 1)
-            return QSize(-1, rect.height());
+            return QSize(-1, 463);
         QString resultStr = splitList.last();
         QString exp = splitList.first() + "＝";
         QFont font;
@@ -374,7 +374,7 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
     QString exp = text;
     QStringList list;
     int index = 0;
-    list = exp.split(QRegExp("[＋－×÷()]"), QString::SkipEmptyParts);
+    list = exp.split(QRegExp("[＋－×÷/()]"), QString::SkipEmptyParts);
     if (list.isEmpty() || list.size() == 1) {
         linkNum = "";
         expStr = exp;

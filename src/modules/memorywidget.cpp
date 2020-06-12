@@ -256,7 +256,7 @@ void MemoryWidget::memoryclean()
     m_listwidget->item(0)->setFont(m_clearbuttonfont);
     m_listwidget->item(0)->setSizeHint(QSize(itemwidth, m_listwidget->frameRect().height()));
     m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
-    m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
+    m_listwidget->item(0)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     emptymemoryfontcolor();
     m_isempty = true;
     m_clearbutton->hide();

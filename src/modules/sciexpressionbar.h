@@ -123,6 +123,7 @@ public slots:
     void replaceSelection(QString text);
     InputEdit *getInputEdit();
     void revisionResults(const QModelIndex &index);
+    void hisRevisionResults(const QModelIndex &index);
 
 private slots:
     void handleTextChanged(const QString &text);

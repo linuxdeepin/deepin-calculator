@@ -112,6 +112,8 @@ void ExpressionBar::enterNumberEvent(const QString &text)
 
 void ExpressionBar::enterSymbolEvent(const QString &text)
 {
+    QString symbol = text;
+    symbol.replace('/', QString::fromUtf8("÷"));
     QString oldText = m_inputEdit->text();
     if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
         m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex());
@@ -147,10 +149,10 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
     // 20200213统一被选中光标复位代码
     replaceSelection(m_inputEdit->text());
     if (m_inputEdit->text().isEmpty()) {
-        if (text != "-") {
+        if (symbol != "-") {
             m_inputEdit->setText(oldText);
         } else {
-            m_inputEdit->insert(text);
+            m_inputEdit->insert(symbol);
         }
     } else {
         // 20200316无效代码删除
@@ -166,15 +168,15 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
                 QString lastStr = exp.right(1);
                 if (isOperator(lastStr))
                     exp.chop(1);
-                m_inputEdit->setText(exp + text);
+                m_inputEdit->setText(exp + symbol);
             }
         } else if (curPos == 0) {
             QString firstStr = exp.left(1);
             if (firstStr == QString::fromUtf8("－")) {
                 m_inputEdit->setText(oldText);
             } else {
-                if (text == QString::fromUtf8("－") || text == "-")
-                    m_inputEdit->insert(text);
+                if (symbol == QString::fromUtf8("－") || symbol == "-")
+                    m_inputEdit->insert(symbol);
             }
         } else {
             QString infront = exp.at(curPos - 1);
@@ -182,7 +184,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
             if (isOperator(infront) || isOperator(behand)) {
                 m_inputEdit->setText(oldText);
             } else
-                m_inputEdit->insert(text);
+                m_inputEdit->insert(symbol);
 
             // 2020316修复添加符号后光标问题
             //添加符号后左侧数字不会多分隔符，只需考虑添加符号后输入框光标前的数字与添加前是否一致
@@ -1033,6 +1035,7 @@ void ExpressionBar::copyClipboard2Result()
 //    m_inputEdit->setText(text);
     //    clearLinkageCache();
     //edit for bug--23649 20200429
+    text.remove(QRegExp("[^0-9＋－×÷,.%()e]"));
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(text));
     m_isUndo = false;
     if (m_inputEdit->text() == exp) {

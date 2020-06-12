@@ -47,6 +47,7 @@ MemoryWidget *MemoryPublic::getwidget(memorymode mode)
     case scientificright:
         return scientific_r;
     }
+    return nullptr;
 }
 
 void MemoryPublic::generateData(Quantity answer)

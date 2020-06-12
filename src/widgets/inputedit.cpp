@@ -350,7 +350,6 @@ void InputEdit::handleTextChanged(const QString &text)
                   .replace('-', QString::fromUtf8("－"))
                   .replace("_", QString::fromUtf8("－"))
                   .replace('*', QString::fromUtf8("×"))
-                  .replace('/', QString::fromUtf8("÷"))
                   .replace('x', QString::fromUtf8("×"))
                   .replace('X', QString::fromUtf8("×"))
                   .replace(QString::fromUtf8("（"), "(")
@@ -383,7 +382,7 @@ QString InputEdit::pointFaultTolerance(const QString &text)
 {
     QString exp = text;
     QString oldText = text;
-    QStringList list = exp.split(QRegExp("[＋－×÷()]"));
+    QStringList list = exp.split(QRegExp("[＋－×÷/()]"));
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];
         int firstPoint = item.indexOf(".");
@@ -459,7 +458,7 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
             while (newText.length() > expPos + 2 && newText.at(expPos + 2).isNumber() == false) {
                 newText.remove(expPos + 2, 1);
             }
-            int nextsymbolpos = newText.right(newText.length() - expPos - 2).indexOf(QRegExp("[＋－×÷()]"));
+            int nextsymbolpos = newText.right(newText.length() - expPos - 2).indexOf(QRegExp("[＋－×÷/()]"));
             for (int i = expPos; i < (nextsymbolpos == -1 ? newText.length() : nextsymbolpos); i++) {
                 if (newText.at(i) == "." || newText.at(i) == QString::fromUtf8("。"))
                     newText.remove(i, 1);

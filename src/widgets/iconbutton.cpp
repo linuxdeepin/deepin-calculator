@@ -37,10 +37,10 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
         m_isHistorybtn = true;
         setFixedSize(50, 50);
     }
-    QGridLayout *layout = new QGridLayout(this);
+//    QGridLayout *layout = new QGridLayout(this);
 //    layout->addWidget(m_iconWidget, 0, Qt::AlignCenter);
-    layout->setContentsMargins(0, 0, 0, 0);
-    setLayout(layout);
+//    layout->setContentsMargins(0, 0, 0, 0);
+//    setLayout(layout);
     m_isHover = false;
     m_isPress = false;
     m_isEmptyBtn = (b == 1);

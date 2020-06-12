@@ -53,7 +53,7 @@ scientificModule::scientificModule(QWidget *parent)
     this->setPalette(pal);
 
     connect(m_scihiswidget->m_listDelegate, &SimpleListDelegate::obtainingHistorical, m_sciexpressionBar,
-            &SciExpressionBar::revisionResults);
+            &SciExpressionBar::hisRevisionResults);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this,
             &scientificModule::initTheme);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,

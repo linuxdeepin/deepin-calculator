@@ -39,7 +39,7 @@ const ScientificKeyPad::KeyDescription1 ScientificKeyPad::keyDescriptions1[] = {
 
     {"", Key_arctan, 3, 0, 1, 1},       {"", Key_ysqrtx, 3, 1, 1, 1},
 
-    {"", Key_arccot, 4, 0, 1, 1}, {"2ˣ", Key_10x, 4, 1, 1, 1},
+    {"", Key_arccot, 4, 0, 1, 1}, {"2ˣ", Key_2x, 4, 1, 1, 1},
 
     {"|x|", Key_Modulus, 5, 0, 1, 1}, {"logᵧx", Key_logyx, 5, 1, 1, 1},
 
