@@ -145,6 +145,7 @@ void scientificModule::initTheme(int type)
 void scientificModule::handleEditKeyPress(QKeyEvent *e)
 {
     const bool isPressCtrl = e->modifiers() == Qt::ControlModifier;
+    const bool isPressShift = e->modifiers() == Qt::ShiftModifier;
     const QString keyText = e->text();
 //    bool lineFocus = m_sciexpressionBar->getInputEdit()->hasFocus();
     //20200414 bug20294鼠标点击取消focus
@@ -182,9 +183,14 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_6:
-        m_sciexpressionBar->enterNumberEvent("6");
-        // m_basicKeypad->button(BasicKeypad::Key_6)->animateClick();
-        m_sciexpressionBar->addUndo();
+        if (isPressShift) {
+            m_sciexpressionBar->enterxyEvent();
+            m_sciexpressionBar->addUndo();
+        } else {
+            m_sciexpressionBar->enterNumberEvent("6");
+            // m_basicKeypad->button(BasicKeypad::Key_6)->animateClick();
+            m_sciexpressionBar->addUndo();
+        }
         break;
     case Qt::Key_7:
         m_sciexpressionBar->enterNumberEvent("7");
@@ -280,6 +286,9 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         if (isPressCtrl) {
             m_sciexpressionBar->copyClipboard2Result();
             m_sciexpressionBar->addUndo();
+        } else {
+            m_sciexpressionBar->enterFEEvent(m_FEisdown);
+            m_sciexpressionBar->addUndo();
         }
         break;
     case Qt::Key_A:
@@ -314,6 +323,10 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_Y:
         if (isPressCtrl)
             m_sciexpressionBar->Redo();
+        else {
+            m_sciexpressionBar->enterxyEvent();
+            m_sciexpressionBar->addUndo();
+        }
         break;
     case Qt::Key_L:
         if (isPressCtrl && m_memRCbtn) {
@@ -322,6 +335,14 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
 //                m_memorylistwidget->memoryclean();
                 m_scihiswidget->memoryFunctions(-1, Quantity(), SciHistoryWidget::memoryclean);
             });
+        } else {
+            if (isPressShift) {
+                m_sciexpressionBar->enterlogyxEvent();
+                m_sciexpressionBar->addUndo();
+            } else {
+                m_sciexpressionBar->enterLogEvent();
+                m_sciexpressionBar->addUndo();
+            }
         }
         break;
     case Qt::Key_R:
@@ -329,6 +350,14 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
 //            m_memoryKeypad->animate(MemoryKeypad::Key_MR);
             m_sciexpressionBar->getInputEdit()->setAnswer(m_scihiswidget->getMemoryWidget()->getfirstnumber().first
                                                           , m_scihiswidget->getMemoryWidget()->getfirstnumber().second);
+        } else {
+            if (isPressShift) {
+                m_sciexpressionBar->enterRandEvent();
+                m_sciexpressionBar->addUndo();
+            } else {
+                m_sciexpressionBar->enterDerivativeEvent();
+                m_sciexpressionBar->addUndo();
+            }
         }
         break;
     case Qt::Key_P:
@@ -338,6 +367,9 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
                 m_scihiswidget->memoryFunctions(-1, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second, SciHistoryWidget::memoryplus);
 //                memoryPublic->memoryplus(m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
+        } else {
+            m_sciexpressionBar->enterPIEvent();
+            m_sciexpressionBar->addUndo();
         }
         break;
     case Qt::Key_Q:
@@ -347,6 +379,9 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
                 m_scihiswidget->memoryFunctions(-1, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second, SciHistoryWidget::memoryminus);
 //                memoryPublic->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+        } else {
+            m_sciexpressionBar->enterx2Event();
+            m_sciexpressionBar->addUndo();
         }
         break;
     case Qt::Key_M:
@@ -362,6 +397,80 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         m_sciexpressionBar->entereEvent();
         m_sciexpressionBar->addUndo();
         breal;*/
+    case Qt::Key_NumberSign:
+        m_sciexpressionBar->enterx3Event();
+        m_sciexpressionBar->addUndo();
+        break;
+    case Qt::Key_N:
+        if (isPressCtrl) {
+            m_sciexpressionBar->enterexEvent();
+            m_sciexpressionBar->addUndo();
+        } else {
+            m_sciexpressionBar->enterLnEvent();
+            m_sciexpressionBar->addUndo();
+        }
+        break;
+    case Qt::Key_At:
+        m_sciexpressionBar->enterSqrtEvent();
+        m_sciexpressionBar->addUndo();
+        break;
+    case Qt::Key_B:
+        m_sciexpressionBar->enterCbrtEvent();
+        m_sciexpressionBar->addUndo();
+        break;
+    case Qt::Key_Bar:
+        m_sciexpressionBar->enterModulusEvent();
+        m_sciexpressionBar->addUndo();
+        break;
+    case Qt::Key_E:
+        if (isPressShift) {
+            m_sciexpressionBar->enterEulerEvent();
+            m_sciexpressionBar->addUndo();
+        } else {
+            m_sciexpressionBar->enterExpEvent();
+            m_sciexpressionBar->addUndo();
+        }
+        break;
+    case Qt::Key_S:
+        if (isPressShift) {
+            m_sciexpressionBar->enterArcsinEvent();
+            m_sciexpressionBar->addUndo();
+        } else {
+            m_sciexpressionBar->enterSinEvent();
+            m_sciexpressionBar->addUndo();
+        }
+        break;
+    case Qt::Key_O:
+        if (isPressShift) {
+            m_sciexpressionBar->enterArccosEvent();
+            m_sciexpressionBar->addUndo();
+        } else {
+            m_sciexpressionBar->enterCosEvent();
+            m_sciexpressionBar->addUndo();
+        }
+        break;
+    case Qt::Key_T:
+        if (isPressShift) {
+            m_sciexpressionBar->enterArctanEvent();
+            m_sciexpressionBar->addUndo();
+        } else {
+            m_sciexpressionBar->enterTanEvent();
+            m_sciexpressionBar->addUndo();
+        }
+        break;
+    case Qt::Key_J:
+        if (isPressShift) {
+            m_sciexpressionBar->enterArccotEvent();
+            m_sciexpressionBar->addUndo();
+        } else {
+            m_sciexpressionBar->enterCotEvent();
+            m_sciexpressionBar->addUndo();
+        }
+        break;
+    case Qt::Key_Exclam:
+        m_sciexpressionBar->enterFactorialsEvent();
+        m_sciexpressionBar->addUndo();
+        break;
     default:
         break;
     }

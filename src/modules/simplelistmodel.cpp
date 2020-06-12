@@ -101,6 +101,12 @@ void SimpleListModel::refrushModel()
 
 void SimpleListModel::updataList(const QString &text, const int index, bool sci)
 {
+    if (m_expressionList.count() == 500) {
+        if (sci)
+            deleteItem(499);
+        else
+            deleteItem(0);
+    }
     QString exp = text;
     exp = exp.replace('+', QString::fromUtf8("＋"))
           .replace('-', QString::fromUtf8("－"))

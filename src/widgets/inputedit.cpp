@@ -312,7 +312,8 @@ void InputEdit::autoZoomFontSize()
 
 void InputEdit::handleTextChanged(const QString &text)
 {
-    if (m_currentInAns) {
+    //20200612修复下方m_ansValid赋值判断text[m_ansStartPos - 1]越界问题
+    if (m_currentInAns || (m_selected.selected.length() > 0 && m_selected.selected.length() == m_oldText.length())) {
         m_ansLength = 0;
     } else if (m_currentOnAnsLeft && m_oldText.length() != 0) {
         int textLength = text.length();
@@ -326,7 +327,6 @@ void InputEdit::handleTextChanged(const QString &text)
         int diff = (textLength - i) - (oldTextLength - i);
         m_ansStartPos += diff;
     }
-
     if (text.indexOf("=") != -1) {
         QString exp = text;
         exp.remove(text.indexOf("="), 1);
