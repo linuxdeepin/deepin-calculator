@@ -250,9 +250,9 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         QString exp = splitList.first() + " ＝ ";
 
         int expHeight;
-        int expline = (painter->fontMetrics().width(exp) % (rect.width() - padding * 2)) ?
-                      (painter->fontMetrics().width(exp) / (rect.width() - padding * 2) + 1) :
-                      (painter->fontMetrics().width(exp) / (rect.width() - padding * 2));
+        int expline = (painter->fontMetrics().width(exp) % (370 - 23 * 2)) ?
+                      (painter->fontMetrics().width(exp) / (370 - 23 * 2) + 1) :
+                      (painter->fontMetrics().width(exp) / (370 - 23 * 2));
         expHeight = painter->fontMetrics().height() * expline;
 
         if (m_type == 1) {
@@ -292,9 +292,9 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                 exp, textoption);
             painter->setFont(fontresult);
             int resultHeight;
-            int resultline = (painter->fontMetrics().width(resultStr) % (rect.width() - padding * 2)) ?
-                             (painter->fontMetrics().width(resultStr) / (rect.width() - padding * 2) + 1) :
-                             (painter->fontMetrics().width(resultStr) / (rect.width() - padding * 2));
+            int resultline = (painter->fontMetrics().width(resultStr) % (370 - 23 * 2)) ?
+                             (painter->fontMetrics().width(resultStr) / (370 - 23 * 2) + 1) :
+                             (painter->fontMetrics().width(resultStr) / (370 - 23 * 2));
             resultHeight = painter->fontMetrics().height() * resultline;
             if (resultStr == tr("Expression error")) {
                 painter->setPen(QColor(errorFontColor));
@@ -330,7 +330,7 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
     if (m_mode == 1) {
         const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
         QRect rect(option.rect);
-        const int padding = 15;
+        const int padding = 23;
         QStringList splitList = expression.split("＝");
         if (splitList.size() == 1)
             return QSize(-1, 463);
@@ -343,19 +343,19 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
         fontresult.setPixelSize(30);
         QFontMetrics fmresult(fontresult);
         int expHeight;
-        int expline = (fmexp.width(exp) % (rect.width() - padding * 2)) ?
-                      (fmexp.width(exp) / (rect.width() - padding * 2) + 1) :
-                      (fmexp.width(exp) / (rect.width() - padding * 2));
+        int expline = (fmexp.width(exp) % (370 - padding * 2)) ?
+                      (fmexp.width(exp) / (370 - padding * 2) + 1) :
+                      (fmexp.width(exp) / (370 - padding * 2));
         expHeight = fmexp.height() * expline;
         int resultHeight;
-        int resultline = (fmresult.width(resultStr) % (rect.width() - padding * 2)) ?
-                         (fmresult.width(resultStr) / (rect.width() - padding * 2) + 1) :
-                         (fmresult.width(resultStr) / (rect.width() - padding * 2));
+        int resultline = (fmresult.width(resultStr) % (370 - padding * 2)) ?
+                         (fmresult.width(resultStr) / (370 - padding * 2) + 1) :
+                         (fmresult.width(resultStr) / (370 - padding * 2));
         resultHeight = fmresult.height() * resultline;
-        return QSize(-1, expHeight + resultHeight + 20);
+        return QSize(370, expHeight + resultHeight + 20);
     } else
         return QSize(-1, 35);
-//    QAbstractItemDelegate::sizeHint(option, index);
+//    QStyledItemDelegate::sizeHint(option, index);
 }
 
 bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,

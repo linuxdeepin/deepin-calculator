@@ -36,6 +36,7 @@ public:
     explicit SimpleListView(int mode = 0, DWidget *parent = nullptr); //mode:0-标准模式 1-科学模式
     ~SimpleListView();
     void contextMenuEvent(QContextMenuEvent *event);
+    void listItemFill(bool itemfill);
 
 protected:
     void mouseMoveEvent(QMouseEvent *);
@@ -50,6 +51,7 @@ private slots:
 private:
     int m_mode = 0;
     int currentrow = -1;
+    bool m_itemfill = false;
 };
 
 #endif

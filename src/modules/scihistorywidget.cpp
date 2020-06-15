@@ -87,12 +87,14 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     });
     connect(m_clearbutton, &IconButton::clicked, this, [ = ]() {
         m_listModel->clearItems();
+        m_listView->listItemFill(false);
         ishideH = false;
         m_clearbutton->setHidden(!(ishideH & indexH));
         setFocus();
     });
     connect(m_listModel, &SimpleListModel::hisbtnhidden, this, [ = ]() {
         m_listModel->clearItems();
+        m_listView->listItemFill(false);
         ishideH = false;
         m_clearbutton->setHidden(!(ishideH & indexH));
         setFocus();
@@ -177,6 +179,7 @@ void SciHistoryWidget::ishistoryfilled(bool b)
 {
     if (ishideH == false)
         m_listModel->deleteItem(1);
+    m_listView->listItemFill(b);
     ishideH = b;
     m_clearbutton->setHidden(!(ishideH & indexH));
 }

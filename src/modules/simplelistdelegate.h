@@ -59,7 +59,7 @@ signals:
     void historicalLinkage(const QModelIndex &index);
 
 private:
-    void setSelect(bool isSelect) { m_selected = isSelect; };
+    void setSelect(bool isSelect) { m_selected = isSelect; }
     void cutApart(const QString text, QString &linkNum, QString &expStr);
 
     SimpleListDelegate *m_simpleListDelegate;

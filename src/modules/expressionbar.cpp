@@ -82,7 +82,8 @@ void ExpressionBar::enterNumberEvent(const QString &text)
         m_inputEdit->clear();
         m_isResult = false;
     }
-    if (!m_inputEdit->text().isEmpty() && m_isResult) {
+    //20200615 按等于号后退格结果再输入十位数十位消失问题
+    if (m_isResult) {
         m_inputEdit->clear();
         m_isResult = false;
         //        clearLinkageCache();

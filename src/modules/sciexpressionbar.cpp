@@ -78,7 +78,7 @@ void SciExpressionBar::enterNumberEvent(const QString &text)
         m_inputEdit->clear();
         m_isResult = false;
     }
-    if (!m_inputEdit->text().isEmpty() && m_isResult) {
+    if (m_isResult) {
         m_inputEdit->clear();
         m_isResult = false;
         //        clearLinkageCache();

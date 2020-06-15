@@ -63,6 +63,7 @@ SimpleListView::~SimpleListView()
 
 void SimpleListView::contextMenuEvent(QContextMenuEvent *event)
 {
+
     QMenu *menu = new QMenu(this);
     //缺翻译
     QAction *copy = new QAction(tr("Copy"), menu);
@@ -75,8 +76,15 @@ void SimpleListView::contextMenuEvent(QContextMenuEvent *event)
     connect(clean, &QAction::triggered, this, [ = ]() {
         static_cast<SimpleListModel *>(model())->deleteItem(indexAt(event->pos()).row());
     });
-    menu->exec(event->globalPos());
+    if (indexAt(event->pos()).row() >= 0 && m_itemfill) {
+        menu->exec(event->globalPos());
+    }
     delete menu;
+}
+
+void SimpleListView::listItemFill(bool itemfill)
+{
+    m_itemfill = itemfill;
 }
 
 void SimpleListView::mouseMoveEvent(QMouseEvent *e)
@@ -91,7 +99,7 @@ void SimpleListView::mouseMoveEvent(QMouseEvent *e)
             QListView::mouseMoveEvent(e);
         }
     }
-
+//    qDebug() << "1";
 }
 
 void SimpleListView::selectHistory(const QModelIndex &index)
