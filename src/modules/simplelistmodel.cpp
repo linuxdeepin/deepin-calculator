@@ -19,6 +19,8 @@
 
 #include "simplelistmodel.h"
 #include <QDebug>
+#include <QClipboard>
+#include <QApplication>
 
 SimpleListModel::SimpleListModel(int mode, QObject *parent)
     : QAbstractListModel(parent)
@@ -86,6 +88,7 @@ void SimpleListModel::clearItems()
     endRemoveRows();
     if (m_mode == 1) {
         beginInsertRows(QModelIndex(), 0, 0);
+        //缺翻译
         m_expressionList << "历史记录中没有数据";
         endInsertRows();
     }
@@ -140,4 +143,14 @@ void SimpleListModel::deleteItem(const int index)
     beginRemoveRows(QModelIndex(), index, index);
     m_expressionList.removeAt(index);
     endRemoveRows();
+    if (m_expressionList.count() == 0) {
+        emit hisbtnhidden();
+    }
+}
+
+void SimpleListModel::copyToClipboard(const int index)
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    QString copy = m_expressionList.at(index);
+    clipboard->setText(copy.replace(" ", ""));
 }

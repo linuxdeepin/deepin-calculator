@@ -44,9 +44,11 @@ public:
     void clearItems();
     void updataList(const QString &text, const int index, bool sci = false);
     void deleteItem(const int index);
+    void copyToClipboard(const int index);
 
 signals:
     void updateCount(int);
+    void hisbtnhidden();
 
 private:
     QList<QString> m_expressionList;

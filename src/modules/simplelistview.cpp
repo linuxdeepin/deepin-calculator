@@ -25,6 +25,9 @@
 #include <QModelIndex>
 #include <QDebug>
 #include <DGuiApplicationHelper>
+#include <QMenu>
+#include <QAction>
+#include <QClipboard>
 
 SimpleListView::SimpleListView(int mode, QWidget *parent)
     : DListView(parent)
@@ -56,6 +59,24 @@ SimpleListView::SimpleListView(int mode, QWidget *parent)
 
 SimpleListView::~SimpleListView()
 {
+}
+
+void SimpleListView::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu *menu = new QMenu(this);
+    //缺翻译
+    QAction *copy = new QAction(tr("Copy"), menu);
+    QAction *clean = new QAction(tr("Clear"), menu);
+    menu->addAction(copy);
+    menu->addAction(clean);
+    connect(copy, &QAction::triggered, this, [ = ]() {
+        static_cast<SimpleListModel *>(model())->copyToClipboard(indexAt(event->pos()).row());
+    });
+    connect(clean, &QAction::triggered, this, [ = ]() {
+        static_cast<SimpleListModel *>(model())->deleteItem(indexAt(event->pos()).row());
+    });
+    menu->exec(event->globalPos());
+    delete menu;
 }
 
 void SimpleListView::mouseMoveEvent(QMouseEvent *e)

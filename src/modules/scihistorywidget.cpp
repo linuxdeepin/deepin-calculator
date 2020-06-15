@@ -91,6 +91,12 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
         m_clearbutton->setHidden(!(ishideH & indexH));
         setFocus();
     });
+    connect(m_listModel, &SimpleListModel::hisbtnhidden, this, [ = ]() {
+        m_listModel->clearItems();
+        ishideH = false;
+        m_clearbutton->setHidden(!(ishideH & indexH));
+        setFocus();
+    });
     connect(m_clearbuttonM, &IconButton::clicked, this, [ = ]() {
         memoryPublic->memoryclean();
         setFocus();

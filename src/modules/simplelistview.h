@@ -24,6 +24,7 @@
 #include <DListView>
 #include <QScrollBar>
 #include "simplelistdelegate.h"
+#include "simplelistmodel.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -34,6 +35,7 @@ class SimpleListView : public DListView
 public:
     explicit SimpleListView(int mode = 0, DWidget *parent = nullptr); //mode:0-标准模式 1-科学模式
     ~SimpleListView();
+    void contextMenuEvent(QContextMenuEvent *event);
 
 protected:
     void mouseMoveEvent(QMouseEvent *);
