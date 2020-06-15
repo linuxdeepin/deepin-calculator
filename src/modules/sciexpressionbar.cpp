@@ -382,6 +382,8 @@ void SciExpressionBar::enterClearEvent()
     m_isUndo = false;
 //    m_Selected = -1;
     addUndo();
+    m_FEisdown = false;
+    emit fEStateChanged(false);
 }
 
 void SciExpressionBar::enterEqualEvent()
@@ -480,8 +482,10 @@ void SciExpressionBar::enterEqualEvent()
                     .replace("-", QString::fromUtf8("－"))
                     .replace("*", QString::fromUtf8("×"))
                     .replace("/", QString::fromUtf8("÷"));
-        if (StrToComp == exp)
+        if (StrToComp == exp) {
+            pair.first = false;
             return;
+        }
         //end edit 20200518 for bug-26628
         // 20200402 需求3.2.1.6当输入的数字中有千位符，点击等号视为前后一致，不计入表达式
         if (formatResult != tStr) {
@@ -543,7 +547,7 @@ void SciExpressionBar::enterEqualEvent()
 //        }
 //    }
 
-    QString selectedresult = QString();
+//    QString selectedresult = QString();
 //    if (m_isLinked) {
 //        if (m_hisRevision == -1) {
 //            m_isLinked = false;
