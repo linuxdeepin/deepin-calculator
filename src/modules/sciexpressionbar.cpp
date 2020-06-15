@@ -293,10 +293,10 @@ void SciExpressionBar::enterBackspaceEvent()
             m_inputEdit->setCursorPosition(selcurPos - 1);
         // 20200401 选中部分左侧为分隔符按退格的光标处理
         int curpos = m_inputEdit->cursorPosition();
-        if (selection.curpos > 0 && text.at(selection.curpos - 1) == ",") {
-            curpos = curpos - 1;
-            m_inputEdit->setCursorPosition(curpos);
-        }
+//        if (selection.curpos > 0 && text.at(selection.curpos - 1) == ",") {
+//            curpos = curpos - 1;
+//            m_inputEdit->setCursorPosition(curpos);
+//        }
         // fix for pointfault tolerance 16022
         QTimer::singleShot(5000, this, [ = ] {
             m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
