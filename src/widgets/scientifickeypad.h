@@ -13,6 +13,7 @@
 #include "memorybutton.h"
 #include <QDebug>
 #include <DWidget>
+#include <DLabel>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -67,6 +68,7 @@ public slots:
     void buttonThemeChanged(int type);
     void turnPage(int key);
     void getdeg(int deg);
+    void bracketsNum(int direction, QString num); //direction 0-左括号 1-右括号
 signals:
     void buttonPressed(int);
     void equalPressed();
@@ -84,6 +86,8 @@ private:
     QGridLayout *m_gridlayout1;
     QGridLayout *m_gridlayout2;
     QSignalMapper *m_mapper;
+    DLabel *leftBracket;
+    DLabel *rightBracket;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription1 *>> m_keys1;
     QPoint m_mousepoint;

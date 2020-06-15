@@ -475,6 +475,14 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         break;
     }
     m_sciexpressionBar->getInputEdit()->setFocus(); //edit 20200417 for bug--21146
+    if (m_sciexpressionBar->getInputEdit()->text().count("(") > m_sciexpressionBar->getInputEdit()->text().count(")")) {
+        m_scikeypadwidget->bracketsNum(0, QString::number(m_sciexpressionBar->getInputEdit()->text().count("(") - m_sciexpressionBar->getInputEdit()->text().count(")")));
+    } else if (m_sciexpressionBar->getInputEdit()->text().count(")") > m_sciexpressionBar->getInputEdit()->text().count("(")) {
+        m_scikeypadwidget->bracketsNum(1, QString::number(m_sciexpressionBar->getInputEdit()->text().count(")") - m_sciexpressionBar->getInputEdit()->text().count("(")));
+    } else {
+        m_scikeypadwidget->bracketsNum(0, "");
+        m_scikeypadwidget->bracketsNum(1, "");
+    }
     // m_sciexpressionBar->setSelection();
 //    if (lineFocus)
 //        m_sciexpressionBar->getInputEdit()->setFocus();
@@ -685,6 +693,14 @@ void scientificModule::handleKeypadButtonPress(int key)
         break;
     }
     m_sciexpressionBar->addUndo();
+    if (m_sciexpressionBar->getInputEdit()->text().count("(") > m_sciexpressionBar->getInputEdit()->text().count(")")) {
+        m_scikeypadwidget->bracketsNum(0, QString::number(m_sciexpressionBar->getInputEdit()->text().count("(") - m_sciexpressionBar->getInputEdit()->text().count(")")));
+    } else if (m_sciexpressionBar->getInputEdit()->text().count(")") > m_sciexpressionBar->getInputEdit()->text().count("(")) {
+        m_scikeypadwidget->bracketsNum(1, QString::number(m_sciexpressionBar->getInputEdit()->text().count(")") - m_sciexpressionBar->getInputEdit()->text().count("(")));
+    } else {
+        m_scikeypadwidget->bracketsNum(0, "");
+        m_scikeypadwidget->bracketsNum(1, "");
+    }
 }
 
 void scientificModule::equalButtonPress()

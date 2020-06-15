@@ -102,8 +102,11 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     , m_gridlayout1(new QGridLayout)
     , m_gridlayout2(new QGridLayout)
     , m_mapper(new QSignalMapper(this))
-
+    , leftBracket(new DLabel)
+    , rightBracket(new DLabel)
 {
+    leftBracket->setFixedSize(24, 13);
+    rightBracket->setFixedSize(24, 13);
     QWidget *page1 = new QWidget(this);
 
     page1->setLayout(m_gridlayout1);
@@ -199,8 +202,18 @@ void ScientificKeyPad::initButtons()
             } else {
                 if (i > 5 && (i % 6 == 0 || i % 6 == 1))
                     button = new TextButton(desc->text, true);
-                else
+                else {
                     button = new TextButton(desc->text);
+                    if (desc->text == "(") {
+                        leftBracket->setParent(button);
+                        leftBracket->move(button->rect().x() + 37, button->rect().y() + 18);
+//                        leftBracket->setText("1");
+                    } else if (desc->text == ")") {
+                        rightBracket->setParent(button);
+                        rightBracket->move(button->rect().x() + 37, button->rect().y() + 18);
+//                        rightBracket->setText("1");
+                    }
+                }
                 QFont font = button->font();
                 font.setFamily("HelveticaNeue");
                 button->setFont(font);
@@ -356,4 +369,12 @@ void ScientificKeyPad::getdeg(int deg)
         btn = static_cast<IconButton *>(button(Key_deg));
         btn->setIconUrl(path + "deg_normal.svg", path + "deg_hover.svg", path + "deg_press.svg", 5);
     }
+}
+
+void ScientificKeyPad::bracketsNum(int direction, QString num)
+{
+    if (direction == 0)
+        leftBracket->setText(num);
+    else if (direction == 1)
+        rightBracket->setText(num);
 }
