@@ -122,6 +122,8 @@ private:
     Evaluator *m_evaluator;
     QString m_percentexp;
     bool m_ispercentanswer = false; //百分号结果是否需要转换为quantity
+    //支持的功能列表
+    QList<QString> funclist;
 };
 
 #endif

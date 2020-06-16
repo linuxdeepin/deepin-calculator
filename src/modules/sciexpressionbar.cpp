@@ -52,8 +52,8 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
     initConnect();
 
     Settings::instance()->angleUnit = 'd';
-    funclist = {"sin", "cos", "tan", "cot", "arcsin", "arccos", "arctan", "arccot"
-                , "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π"
+    funclist = {"arccos", "arctan", "arccot", "sin", "cos", "tan", "cot"
+                , "arcsin", "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π"
                };
 }
 
@@ -314,6 +314,11 @@ void SciExpressionBar::enterBackspaceEvent()
     }
     QString text = m_inputEdit->text();
     int cur = m_inputEdit->cursorPosition();
+    QString sRegNum = "[A-Za-z]";
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    int funpos = -1;
+    int i;
     if (text.size() > 0 && cur > 0 && text[cur - 1] == ",") {
         text.remove(cur - 2, 2);
         m_inputEdit->setText(text);
@@ -321,26 +326,41 @@ void SciExpressionBar::enterBackspaceEvent()
         m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
         m_inputEdit->setCursorPosition(cur - 2);
     } else {
-        int proNumber = text.count(",");
-        m_inputEdit->backspace();
-        // 20200401 symbolFaultTolerance
-        m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
-        int newPro = m_inputEdit->text().count(",");
-        if (cur > 0) {
-            QString sRegNum = "[0-9]+";
-            QRegExp rx;
-            rx.setPattern(sRegNum);
-            //退数字
-            if (rx.exactMatch(text.at(cur - 1)) && proNumber > newPro)
-                m_inputEdit->setCursorPosition(cur - 2);
-            else
-                m_inputEdit->setCursorPosition(cur - 1);
-            //退小数点
-            if (text.at(cur - 1) == ".") {
-                if (text.mid(0, cur).count(",") != m_inputEdit->text().mid(0, cur).count(","))
-                    m_inputEdit->setCursorPosition(cur);
+        //退函数
+        if (m_inputEdit->cursorPosition() > 0 && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1))) {
+            for (i = 0; i < funclist.size(); i++) {
+                funpos = m_inputEdit->text().lastIndexOf(funclist[i], m_inputEdit->cursorPosition() - 1);
+                if (funpos != -1 && funpos + funclist[i].length() == m_inputEdit->cursorPosition())
+                    break;
+                else
+                    funpos = -1;
+            }
+            if (funpos != -1) {
+                m_inputEdit->setText(m_inputEdit->text().remove(m_inputEdit->cursorPosition() - funclist[i].length(), funclist[i].length()));
+                m_inputEdit->setCursorPosition(cur - funclist[i].length());
+            }
+        } else {
+            int proNumber = text.count(",");
+            m_inputEdit->backspace();
+            // 20200401 symbolFaultTolerance
+            m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
+            int newPro = m_inputEdit->text().count(",");
+            if (cur > 0) {
+                QString sRegNum = "[0-9]+";
+                QRegExp rx;
+                rx.setPattern(sRegNum);
+                //退数字
+                if (rx.exactMatch(text.at(cur - 1)) && proNumber > newPro)
+                    m_inputEdit->setCursorPosition(cur - 2);
                 else
                     m_inputEdit->setCursorPosition(cur - 1);
+                //退小数点
+                if (text.at(cur - 1) == ".") {
+                    if (text.mid(0, cur).count(",") != m_inputEdit->text().mid(0, cur).count(","))
+                        m_inputEdit->setCursorPosition(cur);
+                    else
+                        m_inputEdit->setCursorPosition(cur - 1);
+                }
             }
         }
     }
@@ -2518,22 +2538,53 @@ bool SciExpressionBar::isOperator(const QString &text)
 
 void SciExpressionBar::moveLeft()
 {
-    int a = 1;
     QString sRegNum = "[A-Za-z]";
     QRegExp rx;
     rx.setPattern(sRegNum);
-//    qDebug() << "cur" << m_inputEdit->cursorPosition();
-    if (m_inputEdit->cursorPosition() > 0 && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1)) == true) {
-        a = m_inputEdit->text().length() - m_inputEdit->text().indexOf(QRegExp("[sos]"));
+    int funpos = -1;
+    int i;
+    if (m_inputEdit->cursorPosition() > 0 && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1))) {
+        for (i = 0; i < funclist.size(); i++) {
+            funpos = m_inputEdit->text().lastIndexOf(funclist[i], m_inputEdit->cursorPosition() - 1);
+            if (funpos != -1 && funpos + funclist[i].length() == m_inputEdit->cursorPosition())
+                break;
+            else
+                funpos = -1;
+        }
+        if (funpos != -1) {
+            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - funclist[i].length());
+        } else {
+            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
+        }
+    } else {
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
-//    QRegExp("[＋－×÷.,%()e]");
-    m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - a);
     m_inputEdit->setFocus();
 }
 
 void SciExpressionBar::moveRight()
 {
-    m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + 1);
+    QString sRegNum = "[A-Za-z]";
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    int funpos = -1;
+    int i;
+    if (!cursorPosAtEnd() && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition()))) {
+        for (i = 0; i < funclist.size(); i++) {
+            funpos = m_inputEdit->text().indexOf(funclist[i], m_inputEdit->cursorPosition());
+            if (funpos != -1 && funpos == m_inputEdit->cursorPosition())
+                break;
+            else
+                funpos = -1;
+        }
+        if (funpos != -1) {
+            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + funclist[i].length());
+        } else {
+            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + 1);
+        }
+    } else {
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + 1);
+    }
     m_inputEdit->setFocus();
 }
 //20200414 bug20294鼠标点击取消focus
