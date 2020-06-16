@@ -21,6 +21,7 @@
 #define SIMPLELISTMODEL_H
 
 #include <QAbstractListModel>
+#include "../core/evaluator.h"
 
 class SimpleListModel : public QAbstractListModel
 {
@@ -43,8 +44,10 @@ public:
     void appendText(const QString &text, bool sci);
     void clearItems();
     void updataList(const QString &text, const int index, bool sci = false);
+    void updataList(Quantity ans, const QString &text, const int index);
     void deleteItem(const int index);
     void copyToClipboard(const int index);
+    Quantity getAnswer(const int index);
 
 signals:
     void updateCount(int);
@@ -54,6 +57,7 @@ private:
     QList<QString> m_expressionList;
     bool m_selectedStatus;
     int m_mode; //0-标准模式 1-科学模式
+    QList<Quantity> answerlist; //对应历史记录的answer
 };
 
 #endif

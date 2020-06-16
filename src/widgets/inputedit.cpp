@@ -82,6 +82,7 @@ QString InputEdit::expressionPercent(QString &str)
     bool longnumber = false;
 
     QString ans = DMath::format(m_ans, Quantity::Format::Fixed() + Quantity::Format::Precision(DECPRECISION));
+    m_evaluator->setVariable(QLatin1String("precentans"), m_ans, Variable::BuiltIn);
     if (ans.length() > 17) {
         for (int i = 17; i < ans.length(); i++) {
             if (ans.at(i) != "0") {
@@ -90,8 +91,10 @@ QString InputEdit::expressionPercent(QString &str)
             }
         }
     }
-    if (longnumber && m_lastPos == m_ansStartPos + m_ansLength + 1)
-        t = ans + str.back();
+    if (longnumber && m_lastPos == m_ansStartPos + m_ansLength + 1) {
+        t = QLatin1String("precentans") + str.back();
+        m_ispercentanswer = true;
+    }
 //    if (m_ansVaild) {
 //        QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
 //        t.remove(m_ansStartPos, m_ansLength);
@@ -107,6 +110,7 @@ QString InputEdit::expressionText()
     bool longnumber = false;
 
     QString ans = DMath::format(m_ans, Quantity::Format::Fixed() + Quantity::Format::Precision(DECPRECISION));
+    m_evaluator->setVariable(QLatin1String("lastans"), m_ans, Variable::BuiltIn);
     if (ans.length() > 17) {
         for (int i = 17; i < ans.length(); i++) {
             if (ans.at(i) != "0") {
@@ -118,7 +122,7 @@ QString InputEdit::expressionText()
     if (m_ansVaild && longnumber) {
         t.remove(m_ansStartPos, m_ansLength);
         if (m_ansLength != 0) {
-            t.insert(m_ansStartPos, ans);
+            t.insert(m_ansStartPos, QLatin1String("lastans"));
         }
     }
 //    if (m_ansVaild) {
@@ -126,6 +130,7 @@ QString InputEdit::expressionText()
 //        t.remove(m_ansStartPos, m_ansLength);
 //        t.insert(m_ansStartPos, ans);
 //    }
+    qDebug() << t;
     return t;
 }
 
@@ -141,17 +146,20 @@ void InputEdit::setAnswer(const QString &str, const Quantity &ans)
 void InputEdit::setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans,
                                  const int &Pos)
 {
-    m_ans = ans;
-    m_ansStartPos = Pos + ((Pos == 0) ? 0 : 1); //edit 20200416
-    m_ansLength = str2.length();
-    m_oldText = "";
-    setText(str1);
-    int ansEnd = m_ansStartPos + m_ansLength;
-    while (ansEnd > str1.length()) {
-        --ansEnd;
+    if (m_ispercentanswer) {
+        m_ans = ans;
+        m_ansStartPos = Pos + ((Pos == 0) ? 0 : 1); //edit 20200416
+        m_ansLength = str2.length();
+        m_oldText = "";
+        setText(str1);
+        int ansEnd = m_ansStartPos + m_ansLength;
+        while (ansEnd > str1.length()) {
+            --ansEnd;
+        }
+        m_ansVaild = /*m_ansLength > 10 &&*/ m_ansLength > 0 && (m_ansStartPos == 0 || !str1[m_ansStartPos - 1].isDigit()) &&
+                                             (ansEnd == str1.length() || !str1[ansEnd].isDigit());
     }
-    m_ansVaild = /*m_ansLength > 10 &&*/ m_ansLength > 0 && (m_ansStartPos == 0 || !str1[m_ansStartPos - 1].isDigit()) &&
-                                         (ansEnd == str1.length() || !str1[ansEnd].isDigit());
+    m_ispercentanswer = false;
 }
 
 void InputEdit::clear()

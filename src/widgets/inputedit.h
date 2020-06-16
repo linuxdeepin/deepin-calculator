@@ -121,6 +121,7 @@ private:
     Quantity m_memoryans; //用于内存的结果
     Evaluator *m_evaluator;
     QString m_percentexp;
+    bool m_ispercentanswer = false; //百分号结果是否需要转换为quantity
 };
 
 #endif

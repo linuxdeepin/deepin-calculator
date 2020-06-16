@@ -86,6 +86,7 @@ void SimpleListModel::clearItems()
     beginRemoveRows(QModelIndex(), 0, m_expressionList.size());
     m_expressionList.clear();
     endRemoveRows();
+    answerlist.clear();
     if (m_mode == 1) {
         beginInsertRows(QModelIndex(), 0, 0);
         //缺翻译
@@ -138,11 +139,37 @@ void SimpleListModel::updataList(const QString &text, const int index, bool sci)
     }
 }
 
+void SimpleListModel::updataList(Quantity ans, const QString &text, const int index)
+{
+    if (m_expressionList.count() == 500) {
+        deleteItem(499);
+        answerlist.pop_back();
+
+    }
+    QString exp = text;
+    exp = exp.replace('+', QString::fromUtf8("＋"))
+          .replace('-', QString::fromUtf8("－"))
+          .replace('*', QString::fromUtf8("×"))
+          .replace('/', QString::fromUtf8("÷"))
+          //.replace('x', QString::fromUtf8("×"))
+          .replace('X', QString::fromUtf8("×"));
+    if (exp.indexOf("x") != -1) {
+        if (exp.at(exp.indexOf("x") - 1) != "E")
+            exp = exp.replace('x', QString::fromUtf8("×"));
+    }
+    beginInsertRows(QModelIndex(), index, index);
+    m_expressionList.insert(index, exp);
+    endInsertRows();
+    answerlist.insert(0, ans);
+}
+
 void SimpleListModel::deleteItem(const int index)
 {
     beginRemoveRows(QModelIndex(), index, index);
     m_expressionList.removeAt(index);
     endRemoveRows();
+    if (answerlist.count() > 0)
+        answerlist.removeAt(index);
     if (m_expressionList.count() == 0) {
         emit hisbtnhidden();
     }
@@ -153,4 +180,11 @@ void SimpleListModel::copyToClipboard(const int index)
     QClipboard *clipboard = QApplication::clipboard();
     QString copy = m_expressionList.at(index);
     clipboard->setText(copy.replace(" ", ""));
+}
+
+Quantity SimpleListModel::getAnswer(const int index)
+{
+    if (answerlist.count() > index)
+        return answerlist.at(index);
+    return Quantity();
 }

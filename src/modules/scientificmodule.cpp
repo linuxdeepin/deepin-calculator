@@ -52,8 +52,9 @@ scientificModule::scientificModule(QWidget *parent)
     pal.setColor(DPalette::Light, QColor(248, 248, 248));
     this->setPalette(pal);
 
-    connect(m_scihiswidget->m_listDelegate, &SimpleListDelegate::obtainingHistorical, m_sciexpressionBar,
-            &SciExpressionBar::hisRevisionResults);
+    connect(m_scihiswidget->m_listDelegate, &SimpleListDelegate::obtainingHistorical, this, [ = ](const QModelIndex & index) {
+        m_sciexpressionBar->hisRevisionResults(index, m_scihiswidget->m_listModel->getAnswer(index.row()));
+    });
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this,
             &scientificModule::initTheme);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
@@ -237,7 +238,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
 //        m_sciexpressionBar->settingLinkage();
         m_sciexpressionBar->enterEqualEvent();
         if (m_sciexpressionBar->getexpression().first) {
-            m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->getexpression().second, 0, true);
+            m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->getanswer(), m_sciexpressionBar->getexpression().second, 0);
             m_scihiswidget->ishistoryfilled(true);
         }
         m_sciexpressionBar->addUndo();
@@ -546,7 +547,7 @@ void scientificModule::handleKeypadButtonPress(int key)
     case ScientificKeyPad::Key_Equals:
         m_sciexpressionBar->enterEqualEvent();
         if (m_sciexpressionBar->getexpression().first) {
-            m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->getexpression().second, 0, true);
+            m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->getanswer(), m_sciexpressionBar->getexpression().second, 0);
             m_scihiswidget->ishistoryfilled(true);
         }
         break;

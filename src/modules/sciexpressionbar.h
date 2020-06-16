@@ -49,6 +49,7 @@ public:
 
     void setContinue(bool isContinue);
     QPair<bool, QString> getexpression();
+    Quantity getanswer();
 
 signals:
     void keyPress(QKeyEvent *);
@@ -123,7 +124,7 @@ public slots:
     void replaceSelection(QString text);
     InputEdit *getInputEdit();
     void revisionResults(const QModelIndex &index);
-    void hisRevisionResults(const QModelIndex &index);
+    void hisRevisionResults(const QModelIndex &index, Quantity ans);
 
 private slots:
     void handleTextChanged(const QString &text);
@@ -173,5 +174,6 @@ private:
     QList<QString> funclist;
     QString m_expression = QString();
     QPair<bool, QString> pair;
+    Quantity m_listanswer = Quantity(); //历史记录对应的answer
 };
 #endif // SCIEXPRESSIONBAR_H

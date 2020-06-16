@@ -70,6 +70,13 @@ QPair<bool, QString> SciExpressionBar::getexpression()
     return pair;
 }
 
+Quantity SciExpressionBar::getanswer()
+{
+    if (pair.first == true)
+        return m_listanswer;
+    return Quantity();
+}
+
 void SciExpressionBar::enterNumberEvent(const QString &text)
 {
     //    if (m_isLinked)
@@ -512,6 +519,7 @@ void SciExpressionBar::enterEqualEvent()
         m_expression = exp + " ＝ " + formatResult;
         m_listModel->updataList(m_expression,
                                 -1, true);
+        m_listanswer = ans;
     } else {
         pair.first = false;
         if (!m_evaluator->error().isEmpty()) {
@@ -1950,15 +1958,15 @@ void SciExpressionBar::revisionResults(const QModelIndex &index)
     emit clearStateChanged(false);
 }
 
-void SciExpressionBar::hisRevisionResults(const QModelIndex &index)
+void SciExpressionBar::hisRevisionResults(const QModelIndex &index, Quantity ans)
 {
     QString text = index.data(SimpleListModel::ExpressionRole).toString();
     QStringList historic = text.split(QString(" ＝ "), QString::SkipEmptyParts);
     if (historic.size() != 2)
         return;
-    QString expression = historic.at(1);
+    QString expression = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(31));
 //    m_hisRevision = index.row();
-    m_inputEdit->setText(expression);
+    m_inputEdit->setAnswer(expression, ans);
     m_listModel->updataList(text, -1, true);
 //    m_Selected = m_hisRevision;
     m_isResult = false;
