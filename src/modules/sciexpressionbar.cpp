@@ -861,7 +861,10 @@ void SciExpressionBar::enterDegEvent(int mod)
 
 void SciExpressionBar::enterSinEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -895,7 +898,10 @@ void SciExpressionBar::enterFEEvent(bool isdown)
 
 void SciExpressionBar::enterPIEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -918,7 +924,10 @@ void SciExpressionBar::enterPIEvent()
 
 void SciExpressionBar::enterEulerEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -941,7 +950,10 @@ void SciExpressionBar::enterEulerEvent()
 
 void SciExpressionBar::enterModEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1149,7 +1161,10 @@ void SciExpressionBar::enterExpEvent()
 
 void SciExpressionBar::enterCosEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1216,7 +1231,10 @@ void SciExpressionBar::enterx3Event()
 
 void SciExpressionBar::enterTanEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1282,7 +1300,10 @@ void SciExpressionBar::enterxyEvent()
 
 void SciExpressionBar::enterCotEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1305,7 +1326,10 @@ void SciExpressionBar::enterCotEvent()
 
 void SciExpressionBar::enter10xEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1431,7 +1455,10 @@ void SciExpressionBar::enterModulusEvent()
 
 void SciExpressionBar::enterLogEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1456,6 +1483,11 @@ void SciExpressionBar::enterLogEvent()
 
 void SciExpressionBar::enterRandEvent()
 {
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
+    m_isUndo = false;
     QString str;
     for (int i = 0; i < 31; i++) {
         int n = qrand() % 10;
@@ -1468,7 +1500,10 @@ void SciExpressionBar::enterRandEvent()
 
 void SciExpressionBar::enterLnEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1493,7 +1528,10 @@ void SciExpressionBar::enterLnEvent()
 
 void SciExpressionBar::enterArcsinEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1516,7 +1554,10 @@ void SciExpressionBar::enterArcsinEvent()
 
 void SciExpressionBar::enterSqrtEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1539,7 +1580,10 @@ void SciExpressionBar::enterSqrtEvent()
 
 void SciExpressionBar::enterArccosEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1562,7 +1606,10 @@ void SciExpressionBar::enterArccosEvent()
 
 void SciExpressionBar::enterCbrtEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1585,7 +1632,10 @@ void SciExpressionBar::enterCbrtEvent()
 
 void SciExpressionBar::enterArctanEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1608,7 +1658,10 @@ void SciExpressionBar::enterArctanEvent()
 
 void SciExpressionBar::enterYrootEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1633,7 +1686,10 @@ void SciExpressionBar::enterYrootEvent()
 
 void SciExpressionBar::enterArccotEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1656,7 +1712,10 @@ void SciExpressionBar::enterArccotEvent()
 
 void SciExpressionBar::enter2xEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1697,7 +1756,10 @@ void SciExpressionBar::enter2xEvent()
 
 void SciExpressionBar::enterlogyxEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1722,7 +1784,10 @@ void SciExpressionBar::enterlogyxEvent()
 
 void SciExpressionBar::enterexEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1748,6 +1813,8 @@ void SciExpressionBar::enterOppositeEvent()
     if (m_inputEdit->text().isEmpty()) {
         return;
     }
+    m_isResult = false;
+    m_isUndo = false;
     bool hasselect = (m_inputEdit->getSelection().selected != "");
     QString oldText = m_inputEdit->text();
     QString exp = m_inputEdit->text();
