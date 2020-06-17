@@ -134,7 +134,7 @@ QString InputEdit::expressionText()
 //        t.remove(m_ansStartPos, m_ansLength);
 //        t.insert(m_ansStartPos, ans);
 //    }
-    qDebug() << t;
+//    qDebug() << t;
     return t;
 }
 
@@ -458,6 +458,7 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
             continue;
         }
     }
+//    qDebug() << symbolList << " a " << newText;
     if (!symbolList.isEmpty())
         newText.append(symbolList.last());
     //edit 20200526 for bug-28491
