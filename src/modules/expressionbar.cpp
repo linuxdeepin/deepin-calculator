@@ -477,13 +477,13 @@ void ExpressionBar::enterBackspaceEvent()
             QRegExp rx;
             rx.setPattern(sRegNum);
             //退数字
-            if (rx.exactMatch(text.at(cur - 1)) && proNumber > newPro)
+            if (rx.exactMatch(text.at(cur - 1)) && proNumber > newPro) {
                 if (text.mid(cur, text.length() - cur) == m_inputEdit->text().mid(m_inputEdit->text().length() - (text.length() - cur), text.length() - cur)) {
                     m_inputEdit->setCursorPosition(cur - 2);
                 } else
                     m_inputEdit->setCursorPosition(cur - 1);
-            else {
-                if (separator) {
+            } else {
+                if (separator < 0) {
                     m_inputEdit->setCursorPosition(cur - 1 - separator);
                 } else {
                     m_inputEdit->setCursorPosition(cur - 1);

@@ -342,6 +342,7 @@ void SciExpressionBar::enterBackspaceEvent()
         } else {
             int proNumber = text.count(",");
             m_inputEdit->backspace();
+            int separator = proNumber - m_inputEdit->text().count(",");
             // 20200401 symbolFaultTolerance
             m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
             int newPro = m_inputEdit->text().count(",");
@@ -350,10 +351,18 @@ void SciExpressionBar::enterBackspaceEvent()
                 QRegExp rx;
                 rx.setPattern(sRegNum);
                 //退数字
-                if (rx.exactMatch(text.at(cur - 1)) && proNumber > newPro)
-                    m_inputEdit->setCursorPosition(cur - 2);
-                else
-                    m_inputEdit->setCursorPosition(cur - 1);
+                if (rx.exactMatch(text.at(cur - 1)) && proNumber > newPro) {
+                    if (text.mid(cur, text.length() - cur) == m_inputEdit->text().mid(m_inputEdit->text().length() - (text.length() - cur), text.length() - cur)) {
+                        m_inputEdit->setCursorPosition(cur - 2);
+                    } else
+                        m_inputEdit->setCursorPosition(cur - 1);
+                } else {
+                    if (separator < 0) {
+                        m_inputEdit->setCursorPosition(cur - 1 - separator);
+                    } else {
+                        m_inputEdit->setCursorPosition(cur - 1);
+                    }
+                }
                 //退小数点
                 if (text.at(cur - 1) == ".") {
                     if (text.mid(0, cur).count(",") != m_inputEdit->text().mid(0, cur).count(","))
