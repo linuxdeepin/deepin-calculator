@@ -123,7 +123,7 @@ QString InputEdit::expressionText()
             }
         }
     }
-    if (m_ansVaild && longnumber) {
+    if (m_ansVaild && longnumber && m_lastPos == m_ansStartPos + m_ansLength + 1) {
         t.remove(m_ansStartPos, m_ansLength);
         if (m_ansLength != 0) {
             t.insert(m_ansStartPos, QLatin1String("lastans"));
