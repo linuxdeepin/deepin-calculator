@@ -108,7 +108,6 @@ void MemoryWidget::generateData(Quantity answer)
 //        item1->setData(Qt::DisplayRole, formatResult);
         widget->setTextLabel(formatResult);
     }
-    widget->setLineHight(line);
     list.insert(0, answer); //对于新增数据，同步在list中加入对应的Quantity
     connect(widget, &MemoryItemWidget::plusbtnclicked, this, [ = ]() {
         int row = m_listwidget->row(item1);
@@ -407,6 +406,7 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
         m_listwidget->item(row)->setSizeHint(QSize(itemwidth, 40 + 45 * line));
         m_listwidget->itemWidget(m_listwidget->item(row))->setFixedSize(QSize(itemwidth, 40 + 45 * line));
     }
+    static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)))->setLineHight(line);
     return result;
 }
 
