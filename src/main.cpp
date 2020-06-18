@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
     //    });
 
     // 20200330 主题记忆更改为规范代码
-    DApplicationSettings savetheme;
+    DApplicationSettings savetheme(&app);
     // Register debus service.
     dbus.registerObject("/com/deepin/calculator", &window, QDBusConnection::ExportScriptableSlots);
     window.show();

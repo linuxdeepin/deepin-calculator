@@ -64,7 +64,6 @@ void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverF
 
     m_currentUrl = m_normalUrl;
     m_buttonStatus = 0;
-    m_pixmap.load(m_normalUrl);
     //setIcon(QIcon(m_pixmap));
     //setIconSize(QSize(30,30)*devicePixelRatioF());
     m_mode = mode;
@@ -84,12 +83,9 @@ void IconButton::animate(int msec)
             m_mode = 4;
         if (m_mode == 5)
             m_mode = 6;
-        QPixmap pixmap(m_pressUrl);
-        m_pixmap = pixmap;
 
         QTimer::singleShot(msec, this, [ = ] {
             setDown(false);
-            QPixmap pixmap(m_normalUrl);
             m_currentUrl = m_normalUrl;
             m_buttonStatus = 0;
             if (m_mode == 2)
@@ -98,7 +94,6 @@ void IconButton::animate(int msec)
                 m_mode = 3;
             if (m_mode == 5)
                 m_mode = 6;
-            m_pixmap = pixmap;
             m_isPress = false;
             update();
         });
@@ -126,8 +121,6 @@ void IconButton::mousePressEvent(QMouseEvent *e)
         m_mode = 4;
     if (m_mode == 5)
         m_mode = 6;
-    QPixmap pixmap(m_pressUrl);
-    m_pixmap = pixmap;
     m_isPress = true;
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
     //DPushButton::setIcon(QIcon(pixmap));
@@ -147,8 +140,6 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
         m_mode = 3;
     if (m_mode == 6)
         m_mode = 5;
-    QPixmap pixmap(m_normalUrl);
-    m_pixmap = pixmap;
     if (m_isPress == true && this->rect().contains(e->pos())) {
         m_currentUrl = m_hoverUrl;
         m_buttonStatus = 1;
@@ -165,8 +156,6 @@ void IconButton::enterEvent(QEvent *e)
 {
     m_currentUrl = m_hoverUrl;
     m_buttonStatus = 1;
-    QPixmap pixmap(m_hoverUrl);
-    m_pixmap = pixmap;
     m_isHover = true;
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
     //DPushButton::setIcon(QIcon(pixmap));
@@ -178,8 +167,6 @@ void IconButton::leaveEvent(QEvent *e)
 {
     m_currentUrl = m_normalUrl;
     m_buttonStatus = 0;
-    QPixmap pixmap(m_normalUrl);
-    m_pixmap = pixmap;
     m_isHover = false;
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
     //DPushButton::setIcon(QIcon(pixmap));
@@ -189,6 +176,8 @@ void IconButton::leaveEvent(QEvent *e)
 
 void IconButton::paintEvent(QPaintEvent *)
 {
+    QPixmap pixmap(m_currentUrl);
+    m_pixmap = pixmap;
     QPainter painter(this);
     if (m_isEmptyBtn == false) {
         if (!m_isHistorybtn) {
@@ -203,8 +192,6 @@ void IconButton::paintEvent(QPaintEvent *)
         painter.setRenderHint(QPainter::Antialiasing, true);
         painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
         //m_pixmap = m_pixmap.scaled(m_pixmap.size() * devicePixelRatioF());
-        QRectF pixRect = m_pixmap.rect();
-        pixRect.moveCenter(rect.center());
         QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();//活动色
         QColor pressBrush, focus, hoverFrame, base, hoverbrush;
         int type = DGuiApplicationHelper::instance()->paletteType();

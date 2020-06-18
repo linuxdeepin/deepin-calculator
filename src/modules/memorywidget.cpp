@@ -146,7 +146,6 @@ void MemoryWidget::generateData(Quantity answer)
     });
     connect(widget, &MemoryItemWidget::menucopy, this, [ = ]() {
         QClipboard *clipboard = QApplication::clipboard();
-        QString originalText = clipboard->text();
 //        clipboard->setText(item1->data(Qt::EditRole).toString().remove("\n"));
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(item1));
         clipboard->setText(w1->textLabel().remove("\n"));

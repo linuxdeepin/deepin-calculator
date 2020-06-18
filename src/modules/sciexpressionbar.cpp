@@ -27,7 +27,6 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
     m_inputEdit->setFixedHeight(55);
     m_inputEdit->setAlignment(Qt::AlignRight);
     m_inputEdit->setTextMargins(10, 0, 10, 6);
-//    m_inputEdit->setFocus();
 
     DPalette pl1 = this->palette();
     // pl.setColor(DPalette::Text,QColor(48,48,48));
@@ -79,8 +78,6 @@ Quantity SciExpressionBar::getanswer()
 
 void SciExpressionBar::enterNumberEvent(const QString &text)
 {
-    //    if (m_isLinked)
-    //        clearLinkageCache();
     if (m_inputNumber && m_isResult == true) {
         m_inputEdit->clear();
         m_isResult = false;
@@ -88,7 +85,6 @@ void SciExpressionBar::enterNumberEvent(const QString &text)
     if (m_isResult) {
         m_inputEdit->clear();
         m_isResult = false;
-        //        clearLinkageCache();
     }
     if (!m_isContinue) {
         // the cursor position at the end, it will clear edit text.
@@ -116,39 +112,10 @@ void SciExpressionBar::enterNumberEvent(const QString &text)
 void SciExpressionBar::enterSymbolEvent(const QString &text)
 {
     QString oldText = m_inputEdit->text();
-//    if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
-//        m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex());
-//        m_hisLink.last().isLink = true;
-//        m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
-//        m_isLinked = false;
-//        if (m_hisLink.size() > 9) {
-//            m_hisLink.removeFirst();
-//            m_listDelegate->removeLine(0);
-//        }
-//    }
-    //    clearSelectSymbol();   //fix for bug-14117
-//    if (m_isUndo) {
-//        int row = m_listModel->rowCount(QModelIndex());
-//        if (row != 0) {
-//            QString text =
-//                m_listModel->index(row - 1).data(SimpleListModel::ExpressionRole).toString();
-//            QString result = text.split("＝").last();
-//            if (result == m_inputEdit->text()) {
-//                historicalLinkageIndex his;
-//                his.linkageTerm = row - 1;
-//                his.linkageValue = result;
-//                his.linkedItem = row;
-//                m_hisLink.append(his);
-//                m_listDelegate->setHisLink(row - 1);
-//                m_listDelegate->setHisLinked(row);
-//            }
-//        }
-//    }
     QString symbol = text;
     symbol.replace('/', QString::fromUtf8("÷"));
     m_isResult = false;
     m_isUndo = false;
-    // QString oldText = m_inputEdit->text();
     // 20200213统一被选中光标复位代码
     replaceSelection(m_inputEdit->text());
     if (m_inputEdit->text().isEmpty()) {
@@ -236,8 +203,6 @@ void SciExpressionBar::enterPercentEvent()
 
 void SciExpressionBar::enterPointEvent()
 {
-    //    if (m_isLinked)
-    //        clearLinkageCache();
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -274,9 +239,6 @@ void SciExpressionBar::enterPointEvent()
 
 void SciExpressionBar::enterBackspaceEvent()
 {
-    //    if (m_isResult)
-    //        clearLinkageCache();
-    // m_inputEdit->backspace();
     SSelection selection = m_inputEdit->getSelection();
     int selcurPos = m_inputEdit->cursorPosition();
     if (selection.selected != "") {
@@ -399,9 +361,6 @@ void SciExpressionBar::enterClearEvent()
         m_isAllClear = false;
         m_unfinishedExp.clear();
         m_isAutoComputation = false;
-//        m_hisRevision = -1;
-//        m_hisLink.clear();
-//        m_listDelegate->removeAllLink();
 
         emit clearStateChanged(false);
     } else {
@@ -412,7 +371,6 @@ void SciExpressionBar::enterClearEvent()
 
         m_inputEdit->clear();
         m_isAllClear = true;
-        //        clearLinkageCache();
     }
     m_isResult = false;
     m_isUndo = false;
@@ -425,70 +383,12 @@ void SciExpressionBar::enterClearEvent()
 void SciExpressionBar::enterEqualEvent()
 {
     m_evaluator->setVariable(QLatin1String("e"), DMath::e(), Variable::BuiltIn);
-    /*QString resultText;
-    int index;
-    if (m_unfinishedExp == "" && m_hisRevision == -1) {
-        resultText = m_inputEdit->text();
-        index = -1;
-    }
-    //修改历史记录
-    if (m_hisRevision != -1) {
-        resultText = m_inputEdit->text();
-        index = m_hisRevision;
-    } else {
-        if (!m_inputEdit->text().isEmpty() && !m_isResult) {
-            m_unfinishedExp += m_inputEdit->text();
-        }
-        resultText = m_unfinishedExp;
-        index = m_listModel->rowCount(QModelIndex()) - 1;
-        QString tmp =
-    m_listModel->index(index).data(SimpleListModel::ExpressionRole).toString(); if
-    (tmp.indexOf("＝") != -1)
-            ++index;
-    }
-    m_unfinishedExp.clear();
-    resultText = formatExpression(resultText);
-    QString newResultText = completedBracketsCalculation(resultText);
-    m_evaluator->setExpression(newResultText);
-    Quantity ans = m_evaluator->evalUpdateAns();
-
-    if (m_evaluator->error().isEmpty()) {
-        if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
-            return;
-
-        const QString result = DMath::format(ans, Quantity::Format::Fixed());
-        QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace(QString::fromUtf8("＋"),
-    "+").replace(QString::fromUtf8("－"), "-") .replace(QString::fromUtf8("×"),
-    "*").replace(QString::fromUtf8("÷"), "/") .replace(QString::fromUtf8(","), "");
-
-        //if (formatResult != m_inputEdit->text()) {
-            m_listModel->updataList(resultText + "＝" + formatResult, index);
-            m_inputEdit->setAnswer(formatResult, ans);
-            m_isContinue = false;
-        //}
-        historicalLinkage(m_hisRevision,formatResult);
-    } else {
-        m_listModel->updataList(resultText + "＝" + tr("Expression Error"), index);
-    }
-
-    m_hisRevision = -1;
-    m_listView->scrollToBottom();
-    m_isResult = false;*/
     QString exp = m_inputEdit->text();
     if (m_inputEdit->text().isEmpty())
         return;
-//    if (!m_isLinked)
-//        clearLinkageCache(m_inputEdit->text(), true);
-//    if (m_hisRevision == -1) {
-//        const QString expression = formatExpression(m_inputEdit->expressionText());
-//        QString exp = symbolComplement(expression);
-//        m_evaluator->setExpression(exp);
-//    } else {
     const QString expression = formatExpression(m_inputEdit->expressionText());
     QString exp1 = symbolComplement(expression);
     m_evaluator->setExpression(exp1);
-//    }
     Quantity ans = m_evaluator->evalUpdateAns();
     QString newResult;
     // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
@@ -530,7 +430,6 @@ void SciExpressionBar::enterEqualEvent()
             newResult = formatResult;
         }
         m_isContinue = false;
-//    qDebug() << "formatResult";
         m_inputEdit->setText(formatResult);
         formatResult = formatResult.replace(QString::fromUtf8("-"), "－");
         QFont font;
@@ -559,117 +458,13 @@ void SciExpressionBar::enterEqualEvent()
             return;
         }
     }
-//    else {
-//        // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
-//        if (!m_evaluator->error().isEmpty()) {
-//            m_listModel->updataList(m_inputEdit->text() + "＝" + tr("Expression error"),
-//                                    m_hisRevision);
-//            m_meanexp = false; // 20200409 输入错误表达式后，修改历史记录,再次输入表达式后高亮未取消
-//        } else {
-//            m_meanexp = false;
-//            return;
-//        }
-//        if (m_hisRevision == -1)
-//            m_hisRevision = m_listModel->rowCount(QModelIndex()) - 1;
-//        else {
-//            for (int i = 0; i < m_hisLink.size(); ++i) {
-//                if (m_hisLink[i].linkageTerm == m_hisRevision) {
-//                    // m_listDelegate->removeLine(m_hisLink[i].linkageTerm,
-//                    // m_hisLink[i].linkedItem);
-//                    m_listDelegate->removeLine(i);
-//                    m_hisLink.removeAt(i);
-//                    --i;
-//                }
-//            }
-//        }
-//    }
 
-//    QString selectedresult = QString();
-//    if (m_isLinked) {
-//        if (m_hisRevision == -1) {
-//            m_isLinked = false;
-//            return;
-//        }
-//        for (int i = 0; i < m_hisLink.size(); ++i) {
-//            if (m_hisRevision == m_hisLink[i].linkageTerm) {
-//                m_hisRevision = m_hisLink[i].linkedItem;
-//                if (m_hisRevision == -1) {
-//                    m_hisLink.remove(i);
-//                    m_listDelegate->removeHisLink();
-//                    break;
-//                }
-//                QString text = m_listModel->index(m_hisRevision)
-//                               .data(SimpleListModel::ExpressionRole)
-//                               .toString();
-//                QString linkedExp = text.split("＝").first();
-//                int length = m_hisLink[i].linkageValue.length();
-//                if (linkedExp.left(length) != m_hisLink[i].linkageValue ||
-//                        (!isOperator(linkedExp.at(length)) && (linkedExp.at(length) != "("))) {
-//                    m_hisLink.remove(i);
-//                    m_listDelegate->removeHisLink();
-//                    break;
-//                }
-//                if (newResult.isEmpty())
-//                    break;
-//                newResult = newResult.replace("+", QString::fromUtf8("＋"))
-//                            .replace("-", QString::fromUtf8("－"));
-//                m_hisLink[i].linkageValue = newResult;
-//                QString newText = newResult + linkedExp.right(linkedExp.length() - length);
-//                m_inputEdit->setText(newText);
-//                settingLinkage();
-//            }
-//        }
-//    if (m_Selected != -1) {
-//        selectedresult = m_listModel->index(m_Selected)
-//                         .data(SimpleListModel::ExpressionRole)
-//                         .toString()
-//                         .split("＝")
-//                         .last();
-//        m_inputEdit->setText(selectedresult);
-//    }
-// 20200403 表达式错误重新输入新表达式输入框无结果
-//        if (m_evaluator->error().isEmpty())
-//            m_inputEdit->clear();
-
-// 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
-//    if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegExp("[＋－×÷,.%()e]")) != -1))
-//        m_hisRevision = -1;
-//    m_listView->scrollToBottom();
-//    m_isLinked = false;
     m_isResult = true;
     m_isUndo = false;
 }
 
 void SciExpressionBar::enterBracketsEvent()
 {
-//    if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
-//        m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex());
-//        m_hisLink.last().isLink = true;
-//        m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
-//        m_isLinked = false;
-//        if (m_hisLink.size() > 9) {
-//            m_hisLink.removeFirst();
-//            m_listDelegate->removeLine(0);
-//        }
-//    }
-//    //    clearSelectSymbol();   //fix for bug-14117
-//    if (m_isUndo) {
-//        int row = m_listModel->rowCount(QModelIndex());
-//        if (row != 0) {
-//            QString text =
-//                m_listModel->index(row - 1).data(SimpleListModel::ExpressionRole).toString();
-//            QString result = text.split("＝").last();
-//            if (result == m_inputEdit->text()) {
-//                historicalLinkageIndex his;
-//                his.linkageTerm = row - 1;
-//                his.linkageValue = result;
-//                his.linkedItem = row;
-//                m_hisLink.append(his);
-//                m_listDelegate->setHisLink(row - 1);
-//                m_listDelegate->setHisLinked(row);
-//            }
-//        }
-//    }
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString oldText = m_inputEdit->text();
@@ -682,91 +477,10 @@ void SciExpressionBar::enterBracketsEvent()
     else
         m_inputEdit->setCursorPosition(currentPos);
     m_isUndo = false;
-    /*QString sRegNum = "[0-9]+";
-    QRegExp rx;
-    rx.setPattern(sRegNum);
-    int right = oldText.length() - currentPos;
-    int leftLeftParen = oldText.left(currentPos).count("(");
-    int leftRightParen = oldText.left(currentPos).count(")");
-    int rightLeftParen = oldText.right(right).count("(");
-    int rightrightParen = oldText.right(right).count(")");
-    //左右括号总数是否相等
-    if (oldText.count("(") != oldText.count(")")) {
-        //光标左侧左括号大于右括号
-        if (leftLeftParen > leftRightParen) {
-            if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) > 0) {
-                //bracketsText = ")";
-                //if (currentPos != 0 && !rx.exactMatch(oldText.at(currentPos - 1)))
-                //    return;
-                m_inputEdit->insert(")");
-            } else if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) < 0)
-    {
-                //bracketsText = "(";
-                //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-                //    return;
-                m_inputEdit->insert("(");
-                m_inputEdit->setCursorPosition(currentPos + 1);
-            } else {
-                //bracketsText = "(";
-                //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-                //    return;
-                m_inputEdit->insert("(");
-                m_inputEdit->setCursorPosition(currentPos + 1);
-            }
-        //如果左侧左括号小于等于左侧右括号
-        } else {
-            //如果右侧左括号小于右括号
-            if (rightLeftParen < rightrightParen) {
-                //bracketsText = "(";
-                //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-                //    return;
-                m_inputEdit->insert("(");
-            } else {
-                //bracketsText = "(";
-                //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-                //    return;
-                m_inputEdit->insert("(");
-            }
-        }
-    //相等则输入一对括号
-    } else {
-        //bracketsText = "(";
-        //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-        //    return;
-        m_inputEdit->insert("(");
-    }*/
 }
 
 void SciExpressionBar::enterLeftBracketsEvent()
 {
-//    if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
-//        m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex());
-//        m_hisLink.last().isLink = true;
-//        m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
-//        m_isLinked = false;
-//        if (m_hisLink.size() > 9) {
-//            m_hisLink.removeFirst();
-//            m_listDelegate->removeLine(0);
-//        }
-//    }
-//    //    clearSelectSymbol();   //fix for bug-14117
-//    if (m_isUndo) {
-//        int row = m_listModel->rowCount(QModelIndex());
-//        if (row != 0) {
-//            QString text =
-//                m_listModel->index(row - 1).data(SimpleListModel::ExpressionRole).toString();
-//            QString result = text.split("＝").last();
-//            if (result == m_inputEdit->text()) {
-//                historicalLinkageIndex his;
-//                his.linkageTerm = row - 1;
-//                his.linkageValue = result;
-//                his.linkedItem = row;
-//                m_hisLink.append(his);
-//                m_listDelegate->setHisLink(row - 1);
-//                m_listDelegate->setHisLinked(row);
-//            }
-//        }
-//    }
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -790,34 +504,6 @@ void SciExpressionBar::enterLeftBracketsEvent()
 
 void SciExpressionBar::enterRightBracketsEvent()
 {
-//    if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
-//        m_hisLink.last().linkedItem = m_listModel->rowCount(QModelIndex());
-//        m_hisLink.last().isLink = true;
-//        m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
-//        m_isLinked = false;
-//        if (m_hisLink.size() > 9) {
-//            m_hisLink.removeFirst();
-//            m_listDelegate->removeLine(0);
-//        }
-//    }
-//    //    clearSelectSymbol();   //fix for bug-14117
-//    if (m_isUndo) {
-//        int row = m_listModel->rowCount(QModelIndex());
-//        if (row != 0) {
-//            QString text =
-//                m_listModel->index(row - 1).data(SimpleListModel::ExpressionRole).toString();
-//            QString result = text.split("＝").last();
-//            if (result == m_inputEdit->text()) {
-//                historicalLinkageIndex his;
-//                his.linkageTerm = row - 1;
-//                his.linkageValue = result;
-//                his.linkedItem = row;
-//                m_hisLink.append(his);
-//                m_listDelegate->setHisLink(row - 1);
-//                m_listDelegate->setHisLinked(row);
-//            }
-//        }
-//    }
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -843,16 +529,6 @@ void SciExpressionBar::enterDeleteEvent()
 {
     m_inputEdit->clear();
     m_isUndo = false;
-    /*int curPos = m_inputEdit->cursorPosition();
-    if (curPos != m_inputEdit->text().length()) {
-        QString text = m_inputEdit->text();
-        int index = curPos;
-        if (text.at(curPos) == ",")
-            ++index;
-        text.remove(index, 1);
-        m_inputEdit->setText(text);
-        m_inputEdit->setCursorPosition(curPos);
-    }*/
 }
 
 void SciExpressionBar::enterDegEvent(int mod)
@@ -2114,154 +1790,6 @@ QString SciExpressionBar::completedBracketsCalculation(QString &text)
     return newText;
 }
 
-//void SciExpressionBar::historicalLinkage(int index, QString newValue)
-//{
-//    for (int i = 0; i < m_hisLink.size(); i++) {
-//        if (m_hisLink[i].linkageTerm == index && m_hisLink[i].isLink) {
-//            if (m_hisLink[i].linkedItem == -1)
-//                return;
-//            QString text = m_listModel->index(m_hisLink[i].linkedItem)
-//                           .data(SimpleListModel::ExpressionRole)
-//                           .toString();
-//            QString expression = text.split("＝").first();
-//            QString subStr = m_hisLink[i].linkageValue;
-//            expression.replace(expression.indexOf(subStr), subStr.size(), newValue);
-//            QString result;
-//            expression = formatExpression(expression);
-//            m_evaluator->setExpression(formatExpression(expression));
-//            Quantity ans = m_evaluator->evalUpdateAns();
-
-//            if (m_evaluator->error().isEmpty()) {
-//                if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
-//                    return;
-
-//                const QString tResult = DMath::format(ans, Quantity::Format::Fixed());
-//                result = Utils::formatThousandsSeparators(tResult);
-//                result = formatExpression(result);
-//                m_inputEdit->setAnswer(result, ans);
-
-//                if (result != m_inputEdit->text()) {
-//                    m_isContinue = false;
-//                }
-//            } else {
-//                result = tr("Expression error");
-//                m_inputEdit->setText(result);
-//            }
-//            m_hisLink[i].linkageValue = newValue;
-//            m_listModel->updataList(expression + "＝" + result, m_hisLink[i].linkedItem);
-//            historicalLinkage(m_hisLink[i].linkedItem, result);
-//            m_isLinked = false;
-//        }
-//    }
-//}
-
-//void SciExpressionBar::setLinkState(const QModelIndex index)
-//{
-//    int row = index.row();
-//    for (int i = 0; i < m_hisLink.size(); i++) {
-//        if (m_hisLink[i].linkageTerm == row)
-//            m_hisLink[i].isLink = true;
-//    }
-//}
-
-//// edit 20200318 for fix cleanlinkcache
-//void SciExpressionBar::clearLinkageCache(const QString &text, bool isequal)
-//{
-//    if (m_hisLink.isEmpty())
-//        return;
-//    QString linkedExp = text.split("＝").first();
-//    if (m_hisLink.count() > 0 && isequal == true) {
-//        int length = m_hisLink.last().linkageValue.length();
-//        if (linkedExp.left(length) != m_hisLink.last().linkageValue ||
-//                (linkedExp.length() > length && !isOperator(linkedExp.at(length)) &&
-//                 (linkedExp.at(length) != "("))) {
-//            m_hisLink.removeLast();
-//            m_isLinked = false;
-//            m_listDelegate->removeHisLink();
-//            m_listDelegate->removeHisLinked();
-//            //            m_isResult = false;
-//        }
-//    } else {
-//        if (m_hisLink.last().linkedItem == -1) {
-//            m_hisLink.removeLast();
-//            m_isLinked = false;
-//            m_listDelegate->removeHisLink();
-////            m_listDelegate->removeHisLinked();
-//            m_isResult = false;
-//        }
-//    }
-//}
-
-//void SciExpressionBar::settingLinkage()
-//{
-//    const int hisRecision = m_hisRevision;
-//    if (hisRecision != -1) {
-//        // edit 20200403 删除错误表达式
-//        if (m_Selected != m_hisRevision && m_hisRevision < m_hisLink.count() &&
-//                m_hisLink[m_hisRevision].linkageValue.count(tr("Expression error")) > 0) {
-//            m_hisLink.removeAt(m_hisRevision);
-//            m_listModel->deleteItem(m_hisRevision);
-//        }
-//        for (int i = 0; i < m_hisLink.size(); i++) {
-//            if (m_hisLink[i].linkedItem == hisRecision) {
-//                if (cancelLink(i + 1) && i != 0)
-//                    --i;
-//                if (m_hisLink.size() == 0)
-//                    break;
-//            }
-//            if (m_hisLink[i].linkageTerm == hisRecision) {
-//                m_isLinked = true;
-//                enterEqualEvent();
-//                return;
-//            }
-//        }
-//        historicalLinkageIndex hisIndex;
-//        hisIndex.linkageTerm = hisRecision;
-//        // hisIndex.isLink = true;
-//        enterEqualEvent();
-//        QString exp =
-//            m_listModel->index(hisRecision).data(SimpleListModel::ExpressionRole).toString();
-//        hisIndex.linkageValue = exp.split("＝").last();
-//        m_hisLink.push_back(hisIndex);
-//    } else {
-//        // 20200402 需求3.2.1.6当输入的数字中有千位符，点击等号视为前后一致，不计入表达式
-//        //        if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1)
-//        //            return;
-//        // judgeLinkageAgain();
-//        enterEqualEvent();
-//        m_isLinked = true;
-//        historicalLinkageIndex hisIndex;
-//        // hisIndex.isLink = true;
-//        hisIndex.linkageTerm = m_listModel->rowCount(QModelIndex()) - 1;
-//        QString exp = m_listModel->index(hisIndex.linkageTerm)
-//                      .data(SimpleListModel::ExpressionRole)
-//                      .toString();
-//        hisIndex.linkageValue = exp.split("＝").last();
-//        m_hisLink.push_back(hisIndex);
-//    }
-//    if (m_meanexp == false) {
-//        m_hisLink.pop_back();
-//        m_meanexp = true;
-//    } else {
-//        m_listDelegate->setHisLink(m_hisLink.last().linkageTerm);
-//    }
-//}
-
-//void SciExpressionBar::judgeLinkageAgain()
-//{
-//    if (m_hisLink.isEmpty())
-//        return;
-//    QString text = m_inputEdit->text();
-//    text.replace(",", "");
-//    QStringList list = text.split(QRegExp("[＋－×÷()]"));
-//    QString linkValue = m_hisLink.last().linkageValue;
-//    if (list.at(0) != linkValue) {
-//        // m_listDelegate->removeLine(m_hisLink.last().linkageTerm,m_hisLink.last().linkedItem);
-//        m_listDelegate->removeLine(m_hisLink.size() - 1);
-//        m_hisLink.removeLast();
-//    }
-//}
-
 void SciExpressionBar::initConnect()
 {
     connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this,
@@ -2565,42 +2093,6 @@ void SciExpressionBar::replaceSelection(QString text)
     selection = SSelection();
     m_inputEdit->setSelection(selection);
 }
-
-//bool SciExpressionBar::cancelLink(int index)
-//{
-//    bool isRemove = false;
-//    for (int i = 0; i < index; ++i) {
-//        if (m_hisLink[i].linkedItem == m_hisRevision) {
-//            QString exp = m_inputEdit->text();
-//            exp = exp.replace(",", "");
-//            QStringList list = exp.split(QRegExp("[＋－×÷()]"));
-//            if (exp[0] == "－")
-//                list[0] = "－" + list[1];
-//            QString linkvalue = m_hisLink[i].linkageValue;
-//            linkvalue = linkvalue.replace(",", "");
-//            //            if (list.at(0) != m_hisLink[i].linkageValue) {
-//            if (list.at(0) != linkvalue) {
-//                // m_listDelegate->removeLine(m_hisLink[i].linkageTerm,
-//                // m_hisLink[i].linkedItem);
-//                m_listDelegate->removeLine(i);
-//                m_hisLink.remove(i);
-//                isRemove = true;
-//            }
-//        }
-//    }
-//    return isRemove;
-//}
-
-//void SciExpressionBar::settingLinkage(const QModelIndex &index)
-//{
-//    int row = index.row();
-//    for (int i = 0; i < m_hisLink.size(); i++) {
-//        if (m_hisLink[i].linkageTerm == row) {
-//            m_hisLink[i].isLink = true;
-//            m_inputEdit->clear();
-//        }
-//    }
-//}
 
 bool SciExpressionBar::isOperator(const QString &text)
 {
