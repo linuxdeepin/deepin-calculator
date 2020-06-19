@@ -110,6 +110,7 @@ QString InputEdit::expressionPercent(QString &str)
 QString InputEdit::expressionText()
 {
     QString t = text();
+    t.remove(",");
     //edit for bug-19653 20200416  当数字长度超过精度范围时，保留小数点最后的数。
     bool longnumber = false;
 
@@ -123,7 +124,9 @@ QString InputEdit::expressionText()
             }
         }
     }
-    if (m_ansVaild && longnumber && m_lastPos == m_ansStartPos + m_ansLength + 1) {
+
+    //20200619输入框是否包含ans，长数字等于后撤销退格一位按等于计算错误;不撤销退格一位按等于号计算错误
+    if (m_ansVaild && longnumber && text().contains(m_strans)) {
         t.remove(m_ansStartPos, m_ansLength);
         if (m_ansLength != 0) {
             t.insert(m_ansStartPos, QLatin1String("lastans"));
@@ -145,6 +148,7 @@ void InputEdit::setAnswer(const QString &str, const Quantity &ans)
     m_ansLength = str.length();
     m_oldText = "";
     setText(str);
+    m_strans = str;
 }
 
 void InputEdit::setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans,
@@ -348,6 +352,7 @@ void InputEdit::handleTextChanged(const QString &text)
     }
 
     int ansEnd = m_ansStartPos + m_ansLength;
+
     m_oldText = text;
     while (ansEnd > text.length()) {
         --ansEnd;
