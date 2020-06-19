@@ -1968,6 +1968,9 @@ void SciExpressionBar::Undo()
     m_inputEdit->setRedoAction(true);
     m_undo.removeLast();
     m_isUndo = true;
+    //20200619 从结果撤销到上一次表达式按下数字键不清空输入框
+    if (m_isResult)
+        m_isResult = false;
     // 20200319修复选中某一数字按下相同数字无法清除选中内容的问题
     if (!m_undo.isEmpty()) {
         if (m_undo.size() > 1) {

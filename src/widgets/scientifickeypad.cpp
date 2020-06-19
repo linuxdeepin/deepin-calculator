@@ -373,6 +373,9 @@ void ScientificKeyPad::getdeg(int deg)
 
 void ScientificKeyPad::bracketsNum(int direction, QString num)
 {
+    if (num == "0")
+        num = "";
+
     if (direction == 0)
         leftBracket->setText(num);
     else if (direction == 1)

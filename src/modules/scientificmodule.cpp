@@ -476,14 +476,21 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         break;
     }
     m_sciexpressionBar->getInputEdit()->setFocus(); //edit 20200417 for bug--21146
-    if (m_sciexpressionBar->getInputEdit()->text().count("(") > m_sciexpressionBar->getInputEdit()->text().count(")")) {
-        m_scikeypadwidget->bracketsNum(0, QString::number(m_sciexpressionBar->getInputEdit()->text().count("(") - m_sciexpressionBar->getInputEdit()->text().count(")")));
-    } else if (m_sciexpressionBar->getInputEdit()->text().count(")") > m_sciexpressionBar->getInputEdit()->text().count("(")) {
-        m_scikeypadwidget->bracketsNum(1, QString::number(m_sciexpressionBar->getInputEdit()->text().count(")") - m_sciexpressionBar->getInputEdit()->text().count("(")));
-    } else {
-        m_scikeypadwidget->bracketsNum(0, "");
-        m_scikeypadwidget->bracketsNum(1, "");
+    int left = 0;
+    int right = 0;
+    QString text = m_sciexpressionBar->getInputEdit()->text();
+    for (int i = 0; i < text.length(); i++) {
+        if (text[i] == "(")
+            left ++;
+        else if (text[i] == ")") {
+            if (left > 0)
+                left--;
+            else
+                right++;
+        }
     }
+    m_scikeypadwidget->bracketsNum(0, QString::number(left));
+    m_scikeypadwidget->bracketsNum(1, QString::number(right));
     // m_sciexpressionBar->setSelection();
 //    if (lineFocus)
 //        m_sciexpressionBar->getInputEdit()->setFocus();
@@ -694,14 +701,21 @@ void scientificModule::handleKeypadButtonPress(int key)
         break;
     }
     m_sciexpressionBar->addUndo();
-    if (m_sciexpressionBar->getInputEdit()->text().count("(") > m_sciexpressionBar->getInputEdit()->text().count(")")) {
-        m_scikeypadwidget->bracketsNum(0, QString::number(m_sciexpressionBar->getInputEdit()->text().count("(") - m_sciexpressionBar->getInputEdit()->text().count(")")));
-    } else if (m_sciexpressionBar->getInputEdit()->text().count(")") > m_sciexpressionBar->getInputEdit()->text().count("(")) {
-        m_scikeypadwidget->bracketsNum(1, QString::number(m_sciexpressionBar->getInputEdit()->text().count(")") - m_sciexpressionBar->getInputEdit()->text().count("(")));
-    } else {
-        m_scikeypadwidget->bracketsNum(0, "");
-        m_scikeypadwidget->bracketsNum(1, "");
+    int left = 0;
+    int right = 0;
+    QString text = m_sciexpressionBar->getInputEdit()->text();
+    for (int i = 0; i < text.length(); i++) {
+        if (text[i] == "(")
+            left ++;
+        else if (text[i] == ")") {
+            if (left > 0)
+                left--;
+            else
+                right++;
+        }
     }
+    m_scikeypadwidget->bracketsNum(0, QString::number(left));
+    m_scikeypadwidget->bracketsNum(1, QString::number(right));
 }
 
 void scientificModule::equalButtonPress()
