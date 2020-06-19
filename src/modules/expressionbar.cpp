@@ -522,6 +522,7 @@ void ExpressionBar::enterClearEvent()
         m_listModel->clearItems();
         m_listView->reset();
         m_isAllClear = false;
+        m_isLinked = false;    //20200619 清空历史记录时将联动参数置为false
         m_unfinishedExp.clear();
         m_isAutoComputation = false;
         m_hisRevision = -1;
@@ -540,6 +541,7 @@ void ExpressionBar::enterClearEvent()
         //        clearLinkageCache();
     }
     m_isResult = false;
+
     m_isUndo = false;
     m_Selected = -1;
     addUndo();
@@ -1480,6 +1482,9 @@ void ExpressionBar::Undo()
     m_inputEdit->setRedoAction(true);
     m_undo.removeLast();
     m_isUndo = true;
+    //20200619 从结果撤销到上一次表达式按下数字键不清空输入框
+    if (m_isResult)
+        m_isResult = false;
     // 20200319修复选中某一数字按下相同数字无法清除选中内容的问题
     if (!m_undo.isEmpty()) {
         if (m_undo.size() > 1) {
