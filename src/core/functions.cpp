@@ -408,6 +408,18 @@ Quantity function_arctan2(Function *f, const Function::ArgumentList &args)
     return result;
 }
 
+//add 20200619 arccot(x)
+Quantity function_arccot(Function *f, const Function::ArgumentList &args)
+{
+    ENSURE_ARGUMENT_COUNT(1);
+    Quantity result;
+    result = DMath::arctan(args.at(0));
+    result = (DMath::pi() / Quantity(2)) - result;
+    CONVERT_RESULT_ANGLE(result);
+    return result;
+}
+
+
 Quantity function_sinh(Function *f, const Function::ArgumentList &args)
 {
     ENSURE_ARGUMENT_COUNT(1);
@@ -918,6 +930,7 @@ void FunctionRepo::createFunctions()
     FUNCTION_INSERT(arcsin);
     FUNCTION_INSERT(arctan);
     FUNCTION_INSERT(arctan2);
+    FUNCTION_INSERT(arccot);
     FUNCTION_INSERT(cos);
     FUNCTION_INSERT(cosh);
     FUNCTION_INSERT(cot);
@@ -1010,6 +1023,7 @@ void FunctionRepo::setNonTranslatableFunctionUsages()
     FUNCTION_USAGE(arcsin, "x");
     FUNCTION_USAGE(arctan, "x");
     FUNCTION_USAGE(arctan2, "x; y");
+    FUNCTION_USAGE(arccot, "x");
     FUNCTION_USAGE(average, "x<sub>1</sub>; x<sub>2</sub>; ...");
     FUNCTION_USAGE(bin, "n");
     FUNCTION_USAGE(cart, "x");
@@ -1112,6 +1126,7 @@ void FunctionRepo::setFunctionNames()
     FUNCTION_NAME(arcsin, /*tr*/("Arc Sine"));
     FUNCTION_NAME(arctan, /*tr*/("Arc Tangent"));
     FUNCTION_NAME(arctan2, /*tr*/("Arc Tangent with two Arguments"));
+    FUNCTION_NAME(arccot, /*tr*/("Arc Cotangent"));
     FUNCTION_NAME(average, /*tr*/("Average (Arithmetic Mean)"));
     FUNCTION_NAME(bin, /*tr*/("Convert to Binary Representation"));
     FUNCTION_NAME(binomcdf, /*tr*/("Binomial Cumulative Distribution Function"));
