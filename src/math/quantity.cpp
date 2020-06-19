@@ -20,7 +20,7 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-
+#include "src/core/settings.h"
 #include "quantity.h"
 
 #include "rational.h"
@@ -38,14 +38,14 @@
     if ((!(x).sameDimension(y))) \
         return DMath::nan(DimensionMismatch);
 
-Quantity operator-(const Quantity& q)
+Quantity operator-(const Quantity &q)
 {
     Quantity res(q);
     res.m_numericValue = -res.m_numericValue;
     return res;
 }
 
-Quantity operator-(const Quantity& a, const Quantity& b)
+Quantity operator-(const Quantity &a, const Quantity &b)
 {
     Quantity res(a);
     if (!a.sameDimension(b))
@@ -54,35 +54,35 @@ Quantity operator-(const Quantity& a, const Quantity& b)
     return res;
 }
 
-bool operator>(const Quantity& l, const Quantity& r)
+bool operator>(const Quantity &l, const Quantity &r)
 {
     if (l.sameDimension(r))
         return l.m_numericValue > r.m_numericValue;
     return false;
 }
 
-bool operator<(const Quantity& l, const Quantity& r)
+bool operator<(const Quantity &l, const Quantity &r)
 {
     if (l.sameDimension(r))
         return l.m_numericValue < r.m_numericValue;
     return false;
 }
 
-bool operator>=(const Quantity& l, const Quantity& r)
+bool operator>=(const Quantity &l, const Quantity &r)
 {
     if (l.sameDimension(r))
         return l.m_numericValue >= r.m_numericValue;
     return false;
 }
 
-bool operator<=(const Quantity& l, const Quantity& r)
+bool operator<=(const Quantity &l, const Quantity &r)
 {
     if (l.sameDimension(r))
         return l.m_numericValue <= r.m_numericValue;
     return false;
 }
 
-bool operator==(const Quantity& l, const Quantity& r)
+bool operator==(const Quantity &l, const Quantity &r)
 {
     if (l.sameDimension(r))
         return l.m_numericValue == r.m_numericValue;
@@ -90,29 +90,29 @@ bool operator==(const Quantity& l, const Quantity& r)
 }
 
 // Returns TRUE upon dimension mismatch.
-bool operator!=(const Quantity& l, const Quantity& r)
+bool operator!=(const Quantity &l, const Quantity &r)
 {
     if (l.sameDimension(r))
         return l.m_numericValue != r.m_numericValue;
     return true;
 }
 
-Quantity operator*(const HNumber& l, const Quantity& r)
+Quantity operator*(const HNumber &l, const Quantity &r)
 {
     return r * l;
 }
 
-Quantity operator*(const CNumber& l, const Quantity& r)
+Quantity operator*(const CNumber &l, const Quantity &r)
 {
     return r * l;
 }
 
-Quantity operator/(const HNumber& l, const Quantity& r)
+Quantity operator/(const HNumber &l, const Quantity &r)
 {
     return Quantity(l) / r;
 }
 
-Quantity operator/(const CNumber& l, const Quantity& r)
+Quantity operator/(const CNumber &l, const Quantity &r)
 {
     return Quantity(l) / r;
 }
@@ -124,7 +124,7 @@ Quantity::Quantity()
 {
 }
 
-Quantity::Quantity(const Quantity& other)
+Quantity::Quantity(const Quantity &other)
     : m_numericValue(other.m_numericValue)
     , m_dimension(other.m_dimension)
     , m_unit(nullptr)
@@ -141,18 +141,18 @@ Quantity::Quantity(int i)
 {
 }
 
-Quantity::Quantity(const QJsonObject& json)
+Quantity::Quantity(const QJsonObject &json)
     : Quantity()
 {
     *this = deSerialize(json);
 }
 
-Quantity::Quantity(const HNumber& h)
+Quantity::Quantity(const HNumber &h)
     : Quantity(CNumber(h))
 {
 }
 
-Quantity::Quantity(const CNumber& c)
+Quantity::Quantity(const CNumber &c)
     : Quantity()
 {
     this->m_numericValue = c;
@@ -217,7 +217,7 @@ CNumber Quantity::numericValue() const
     return m_numericValue;
 }
 
-Quantity& Quantity::setDisplayUnit(const CNumber unit, const QString& name)
+Quantity &Quantity::setDisplayUnit(const CNumber unit, const QString &name)
 {
     if (unit.isNan())
         *this = DMath::nan(InvalidDimension);
@@ -229,7 +229,7 @@ Quantity& Quantity::setDisplayUnit(const CNumber unit, const QString& name)
     return *this;
 }
 
-Quantity& Quantity::setFormat(Format c)
+Quantity &Quantity::setFormat(Format c)
 {
     m_format = c;
     return *this;
@@ -265,7 +265,7 @@ QMap<QString, Rational> Quantity::getDimension() const
     return temp.m_dimension;
 }
 
-void Quantity::modifyDimension(const QString& key, const Rational& exponent)
+void Quantity::modifyDimension(const QString &key, const Rational &exponent)
 {
     if (exponent.isZero())
         m_dimension.remove(key);
@@ -273,7 +273,7 @@ void Quantity::modifyDimension(const QString& key, const Rational& exponent)
         m_dimension.insert(key, exponent);
 }
 
-void Quantity::copyDimension(const Quantity& other)
+void Quantity::copyDimension(const Quantity &other)
 {
     clearDimension();
     this->m_dimension = other.m_dimension;
@@ -286,7 +286,7 @@ void Quantity::clearDimension()
 
 // Note: Does NOT clean the dimension vector first.
 // The calling function must do so on its own.
-bool Quantity::sameDimension(const Quantity& other) const
+bool Quantity::sameDimension(const Quantity &other) const
 {
     return this->m_dimension == other.m_dimension;
 }
@@ -302,7 +302,7 @@ void Quantity::cleanDimension()
     }
 }
 
-void Quantity::serialize(QJsonObject& json) const
+void Quantity::serialize(QJsonObject &json) const
 {
     QJsonObject nom_json;
     m_numericValue.serialize(nom_json);
@@ -312,8 +312,8 @@ void Quantity::serialize(QJsonObject& json) const
         QJsonObject dim_json;
         auto i = m_dimension.constBegin();
         while (i != m_dimension.constEnd()) {
-            const auto& exp = i.value();
-            const auto& name = i.key();
+            const auto &exp = i.value();
+            const auto &name = i.key();
             dim_json[name] = exp.toString();
             ++i;
         }
@@ -334,7 +334,7 @@ void Quantity::serialize(QJsonObject& json) const
     }
 }
 
-Quantity Quantity::deSerialize(const QJsonObject& json)
+Quantity Quantity::deSerialize(const QJsonObject &json)
 {
     Quantity result;
     if (json.contains("numeric_value")) {
@@ -369,13 +369,13 @@ Error Quantity::error() const
     return m_numericValue.error();
 }
 
-Quantity& Quantity::operator=(const Quantity& other)
+Quantity &Quantity::operator=(const Quantity &other)
 {
     m_numericValue = other.m_numericValue;
     m_dimension = other.m_dimension;
     m_format = other.m_format;
     stripUnits();
-    if(other.hasUnit()) {
+    if (other.hasUnit()) {
         m_unit = new CNumber(*other.m_unit);
         m_unitName = other.m_unitName;
     }
@@ -383,7 +383,7 @@ Quantity& Quantity::operator=(const Quantity& other)
     return *this;
 }
 
-Quantity Quantity::operator+(const Quantity& other) const
+Quantity Quantity::operator+(const Quantity &other) const
 {
     if (!this->sameDimension(other))
         return DMath::nan(DimensionMismatch);
@@ -392,7 +392,7 @@ Quantity Quantity::operator+(const Quantity& other) const
     return result;
 }
 
-Quantity& Quantity::operator+=(const Quantity& other)
+Quantity &Quantity::operator+=(const Quantity &other)
 {
     if (!this->sameDimension(other))
         *this = DMath::nan(DimensionMismatch);
@@ -401,12 +401,12 @@ Quantity& Quantity::operator+=(const Quantity& other)
     return *this;
 }
 
-Quantity& Quantity::operator-=(const Quantity& other)
+Quantity &Quantity::operator-=(const Quantity &other)
 {
     return operator=(*this - other);
 }
 
-Quantity Quantity::operator*(const Quantity& other) const
+Quantity Quantity::operator*(const Quantity &other) const
 {
     Quantity result(*this);
     result.m_numericValue *= other.m_numericValue;
@@ -414,8 +414,8 @@ Quantity Quantity::operator*(const Quantity& other) const
         result.stripUnits();
         auto i = other.m_dimension.constBegin();
         while (i != other.m_dimension.constEnd()) {
-            const auto& exp = i.value();
-            const auto& name = i.key();
+            const auto &exp = i.value();
+            const auto &name = i.key();
             if (!result.m_dimension.contains(name))
                 result.m_dimension[name] = Rational(0);
             result.m_dimension[name] += exp;
@@ -426,24 +426,24 @@ Quantity Quantity::operator*(const Quantity& other) const
     return result;
 }
 
-Quantity Quantity::operator*(const CNumber& other) const
+Quantity Quantity::operator*(const CNumber &other) const
 {
     Quantity result(*this);
     result.m_numericValue *= other;
     return result;
 }
 
-Quantity Quantity::operator*(const HNumber& other) const
+Quantity Quantity::operator*(const HNumber &other) const
 {
     return operator*(CNumber(other));
 }
 
-Quantity &Quantity::operator*=(const Quantity& other)
+Quantity &Quantity::operator*=(const Quantity &other)
 {
     return operator=(*this * other);
 }
 
-Quantity Quantity::operator/(const Quantity& other) const
+Quantity Quantity::operator/(const Quantity &other) const
 {
     Quantity result(*this);
     result.m_numericValue /= other.m_numericValue;
@@ -451,8 +451,8 @@ Quantity Quantity::operator/(const Quantity& other) const
         result.stripUnits();
         auto i = other.m_dimension.constBegin();
         while (i != other.m_dimension.constEnd()) {
-            const auto& exp = i.value();
-            const auto& name = i.key();
+            const auto &exp = i.value();
+            const auto &name = i.key();
             if (!result.m_dimension.contains(name))
                 result.m_dimension[name] = Rational(0);
             result.m_dimension[name] -= exp;
@@ -463,12 +463,12 @@ Quantity Quantity::operator/(const Quantity& other) const
     return result;
 }
 
-Quantity Quantity::operator/(const HNumber& other) const
+Quantity Quantity::operator/(const HNumber &other) const
 {
     return operator/(CNumber(other));
 }
 
-Quantity Quantity::operator/(const CNumber& other) const
+Quantity Quantity::operator/(const CNumber &other) const
 {
     Quantity result(*this);
     result.m_numericValue /= other;
@@ -476,19 +476,19 @@ Quantity Quantity::operator/(const CNumber& other) const
     return result;
 }
 
-Quantity &Quantity::operator/=(const Quantity& other)
+Quantity &Quantity::operator/=(const Quantity &other)
 {
-    return operator=(*this/other);
+    return operator=(*this / other);
 }
 
-Quantity Quantity::operator%(const Quantity& other) const
+Quantity Quantity::operator%(const Quantity &other) const
 {
     Quantity result(*this);
     result.m_numericValue = result.m_numericValue % other.m_numericValue;
     return result;
 }
 
-Quantity Quantity::operator&(const Quantity& other) const
+Quantity Quantity::operator&(const Quantity &other) const
 {
     ENSURE_DIMENSIONLESS(*this);
     ENSURE_DIMENSIONLESS(other);
@@ -497,12 +497,12 @@ Quantity Quantity::operator&(const Quantity& other) const
     return result;
 }
 
-Quantity &Quantity::operator&=(const Quantity& other)
+Quantity &Quantity::operator&=(const Quantity &other)
 {
     return operator=(*this & other);
 }
 
-Quantity Quantity::operator|(const Quantity& other) const
+Quantity Quantity::operator|(const Quantity &other) const
 {
     ENSURE_DIMENSIONLESS(*this);
     ENSURE_DIMENSIONLESS(other);
@@ -511,12 +511,12 @@ Quantity Quantity::operator|(const Quantity& other) const
     return result;
 }
 
-Quantity &Quantity::operator|=(const Quantity& other)
+Quantity &Quantity::operator|=(const Quantity &other)
 {
     return operator=(*this | other);
 }
 
-Quantity Quantity::operator^(const Quantity& other) const
+Quantity Quantity::operator^(const Quantity &other) const
 {
     ENSURE_DIMENSIONLESS(*this);
     ENSURE_DIMENSIONLESS(other);
@@ -525,7 +525,7 @@ Quantity Quantity::operator^(const Quantity& other) const
     return result;
 }
 
-Quantity &Quantity::operator^=(const Quantity& other)
+Quantity &Quantity::operator^=(const Quantity &other)
 {
     return operator=(*this ^ other);
 }
@@ -534,11 +534,11 @@ Quantity Quantity::operator~() const
 {
     ENSURE_DIMENSIONLESS(*this);
     Quantity result(*this);
-    result.m_numericValue= ~result.m_numericValue;
+    result.m_numericValue = ~result.m_numericValue;
     return result;
 }
 
-Quantity Quantity::operator>>(const Quantity& other) const
+Quantity Quantity::operator>>(const Quantity &other) const
 {
     ENSURE_DIMENSIONLESS(*this);
     ENSURE_DIMENSIONLESS(other);
@@ -547,7 +547,7 @@ Quantity Quantity::operator>>(const Quantity& other) const
     return result;
 }
 
-Quantity Quantity::operator<<(const Quantity& other) const
+Quantity Quantity::operator<<(const Quantity &other) const
 {
     ENSURE_DIMENSIONLESS(*this);
     ENSURE_DIMENSIONLESS(other);
@@ -561,22 +561,22 @@ Quantity::Format::Format()
 {
 }
 
-Quantity::Format::Format(const CNumber::Format& other)
+Quantity::Format::Format(const CNumber::Format &other)
     : CNumber::Format(other)
 {
 }
 
-Quantity::Format::Format(const HNumber::Format& other)
+Quantity::Format::Format(const HNumber::Format &other)
     : CNumber::Format(other)
 {
 }
 
-Quantity::Format Quantity::Format::operator+(const Quantity::Format& other) const
+Quantity::Format Quantity::Format::operator+(const Quantity::Format &other) const
 {
-    return Quantity::Format(CNumber::Format::operator+(static_cast<const CNumber::Format&>(other)));
+    return Quantity::Format(CNumber::Format::operator+(static_cast<const CNumber::Format &>(other)));
 }
 
-void Quantity::Format::serialize(QJsonObject& json) const
+void Quantity::Format::serialize(QJsonObject &json) const
 {
     switch (mode) {
     case Mode::General:
@@ -628,7 +628,7 @@ void Quantity::Format::serialize(QJsonObject& json) const
         json["precision"] = precision;
 }
 
-Quantity::Format Quantity::Format::deSerialize(const QJsonObject& json)
+Quantity::Format Quantity::Format::deSerialize(const QJsonObject &json)
 {
     Format result;
     if (json.contains("mode")) {
@@ -685,7 +685,7 @@ bool Quantity::Format::isNull() const
 // DMath
 // =====
 
-bool DMath::complexMode = true;
+bool DMath::complexMode = Settings::instance()->complexNumbers; // 关闭复数处理
 
 #define COMPLEX_WRAP_1(fct, arg) \
     (DMath::complexMode ? CMath::fct(arg) : CNumber(HMath::fct(arg.real)))
@@ -698,7 +698,7 @@ bool DMath::complexMode = true;
 
 #define COMPLEX_WRAP_4(fct, arg1, arg2, arg3, arg4) \
     (DMath::complexMode ? CMath::fct(arg1, arg2, arg3, arg4) \
-    : CNumber(HMath::fct(arg1.real, arg2.real, arg3.real, arg4.real)))
+     : CNumber(HMath::fct(arg1.real, arg2.real, arg3.real, arg4.real)))
 
 //  Wrappers for functions that are only defined for dimensionless arguments
 
@@ -797,20 +797,20 @@ WRAPPER_DMATH_1(erfc)
 WRAPPER_DMATH_2(gcd)
 WRAPPER_DMATH_2(idiv)
 
-Quantity DMath::round(const Quantity& n, int prec)
+Quantity DMath::round(const Quantity &n, int prec)
 {
     ENSURE_DIMENSIONLESS(n);
     return DMath::complexMode ?
-        CMath::round(n.numericValue(), prec) :
-        CNumber(HMath::round(n.numericValue().real, prec));
+           CMath::round(n.numericValue(), prec) :
+           CNumber(HMath::round(n.numericValue().real, prec));
 }
 
-Quantity DMath::trunc(const Quantity& n, int prec)
+Quantity DMath::trunc(const Quantity &n, int prec)
 {
     ENSURE_DIMENSIONLESS(n);
     return DMath::complexMode ?
-        CMath::trunc(n.numericValue(), prec)
-        : CNumber(HMath::trunc(n.numericValue().real, prec));
+           CMath::trunc(n.numericValue(), prec)
+           : CNumber(HMath::trunc(n.numericValue().real, prec));
 }
 
 WRAPPER_DMATH_2(nCr)
@@ -863,86 +863,86 @@ QString DMath::format(Quantity q, Quantity::Format format)
     return result;
 }
 
-Quantity DMath::real(const Quantity& x)
+Quantity DMath::real(const Quantity &x)
 {
     Quantity result(x);
     result.m_numericValue = result.m_numericValue.real;
     return result;
 }
 
-Quantity DMath::imag(const Quantity& x)
+Quantity DMath::imag(const Quantity &x)
 {
     Quantity result(x);
     result.m_numericValue = result.m_numericValue.imag;
     return result;
 }
 
-Quantity DMath::conj(const Quantity& n)
+Quantity DMath::conj(const Quantity &n)
 {
     Quantity result = Quantity(n);
     // If in Real mode, just strip the imaginary part.
     result.m_numericValue = complexMode ?
-        CMath::conj(result.m_numericValue)
-        : CMath::real(result.m_numericValue);
+                            CMath::conj(result.m_numericValue)
+                            : CMath::real(result.m_numericValue);
 
     return result;
 }
 
-Quantity DMath::abs(const Quantity& n)
+Quantity DMath::abs(const Quantity &n)
 {
     Quantity result(n);
     result.m_numericValue = COMPLEX_WRAP_1(abs, n.m_numericValue);
     return result;
 }
 
-Quantity DMath::phase(const Quantity& n)
+Quantity DMath::phase(const Quantity &n)
 {
     return CMath::phase(n.numericValue());
 }
 
-Quantity DMath::sqrt(const Quantity& n)
+Quantity DMath::sqrt(const Quantity &n)
 {
     Quantity result(COMPLEX_WRAP_1(sqrt, n.m_numericValue));
     auto i = n.m_dimension.constBegin();
     while (i != n.m_dimension.constEnd()) {
-        auto& exp = i.value();
-        auto& name = i.key();
-        result.modifyDimension(name, exp * Rational(1,2));
+        auto &exp = i.value();
+        auto &name = i.key();
+        result.modifyDimension(name, exp * Rational(1, 2));
         ++i;
     }
     return result;
 }
 
-Quantity DMath::cbrt(const Quantity& n)
+Quantity DMath::cbrt(const Quantity &n)
 {
     Quantity result(COMPLEX_WRAP_1(cbrt, n.m_numericValue));
     auto i = n.m_dimension.constBegin();
     while (i != n.m_dimension.constEnd()) {
-        auto& exp = i.value();
-        auto& name = i.key();
-        result.modifyDimension(name, exp * Rational(1,3));
+        auto &exp = i.value();
+        auto &name = i.key();
+        result.modifyDimension(name, exp * Rational(1, 3));
         ++i;
     }
     return result;
 }
 
-Quantity DMath::raise(const Quantity& n1, int n)
+Quantity DMath::raise(const Quantity &n1, int n)
 {
     Quantity result;
     result.m_numericValue = complexMode ?
-        CMath::raise(n1.m_numericValue, n)
-        : CNumber(HMath::raise(n1.m_numericValue.real, n));
+                            CMath::raise(n1.m_numericValue, n)
+                            : CNumber(HMath::raise(n1.m_numericValue.real, n));
     auto i = n1.m_dimension.constBegin();
     while (i != n1.m_dimension.constEnd()) {
-        auto& exp = i.value();
-        auto& name = i.key();
+        auto &exp = i.value();
+        auto &name = i.key();
         result.modifyDimension(name, exp * n);
         ++i;
     }
     return result;
 }
 
-Quantity DMath::raise(const Quantity& n1, const Quantity& n2)
+Quantity DMath::raise(const Quantity &n1, const Quantity &n2)
 {
     if (!n2.isDimensionless() || (!n1.isDimensionless() && !n2.isReal() && complexMode))
         return DMath::nan(InvalidDimension);
@@ -960,7 +960,7 @@ Quantity DMath::raise(const Quantity& n1, const Quantity& n2)
     // For negative bases only allow odd denominators.
     Rational exponent(n2.m_numericValue.real);
     if (abs(exponent.toHNumber() - n2.m_numericValue.real) >= RATIONAL_TOL
-       || (n1.isNegative() && exponent.denominator() % 2 == 0))
+            || (n1.isNegative() && exponent.denominator() % 2 == 0))
         return DMath::nan(OutOfDomain);
 
     // Compute new dimension.
@@ -972,12 +972,12 @@ Quantity DMath::raise(const Quantity& n1, const Quantity& n2)
     return result;
 }
 
-Quantity DMath::sgn(const Quantity& x)
+Quantity DMath::sgn(const Quantity &x)
 {
     return Quantity(CMath::sgn(x.m_numericValue));
 }
 
-Quantity DMath::encodeIeee754(const Quantity& val, const Quantity& exp_bits, const Quantity& significand_bits)
+Quantity DMath::encodeIeee754(const Quantity &val, const Quantity &exp_bits, const Quantity &significand_bits)
 {
     ENSURE_DIMENSIONLESS(val);
     ENSURE_DIMENSIONLESS(exp_bits);
@@ -988,8 +988,8 @@ Quantity DMath::encodeIeee754(const Quantity& val, const Quantity& exp_bits, con
     return result;
 }
 
-Quantity DMath::encodeIeee754(const Quantity& val, const Quantity& exp_bits, const Quantity& significand_bits,
-                              const Quantity& exp_bias)
+Quantity DMath::encodeIeee754(const Quantity &val, const Quantity &exp_bits, const Quantity &significand_bits,
+                              const Quantity &exp_bias)
 {
     ENSURE_DIMENSIONLESS(val);
     ENSURE_DIMENSIONLESS(exp_bits);
