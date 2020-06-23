@@ -45,6 +45,7 @@ protected:
     void adjustScrollbarMargins();
 Q_SIGNALS:
     void clickrow(QString str);
+    void obtainingHistorical(const QModelIndex &index);
 
 private slots:
     void selectHistory(const QModelIndex &index);
@@ -52,6 +53,8 @@ private:
     int m_mode = 0;
     int currentrow = -1;
     bool m_itemfill = false;
+    bool ispressed = false;
+    QPoint presspoint = QPoint();
 };
 
 #endif

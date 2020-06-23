@@ -52,7 +52,7 @@ scientificModule::scientificModule(QWidget *parent)
     pal.setColor(DPalette::Light, QColor(248, 248, 248));
     this->setPalette(pal);
 
-    connect(m_scihiswidget->m_listDelegate, &SimpleListDelegate::obtainingHistorical, this, [ = ](const QModelIndex & index) {
+    connect(m_scihiswidget->m_listView, &SimpleListView::obtainingHistorical, this, [ = ](const QModelIndex & index) {
         m_sciexpressionBar->hisRevisionResults(index, m_scihiswidget->m_listModel->getAnswer(index.row()));
     });
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this,

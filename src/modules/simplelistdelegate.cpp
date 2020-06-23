@@ -228,7 +228,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         }
     } else if (m_mode == 1) {
         QRect rect(option.rect);
-        rect.setRight(option.widget->width() - 13);
+        rect.setRight(option.widget->width() - 5);
         const int padding = 15;
         QString errorFontColor;
         QString fontColor;
@@ -304,20 +304,15 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
             painter->drawText(
                 QRectF(rect.x() + padding, rect.y() + expHeight, rect.width() - padding * 2, resultHeight),
                 resultStr, textoption);
-            if (option.state & QStyle::State_MouseOver) {
+            if (option.state & QStyle::State_MouseOver && m_state == 0) {
                 painter->setBrush(normalbackground);
                 painter->setPen(Qt::NoPen);
-                painter->drawRect(rect);
-            }
-            if (m_state == 1 && m_row == index.row()) {
-                painter->setBrush(normalbackground);
-                painter->setPen(Qt::NoPen);
-                painter->drawRect(rect);
+                painter->drawRect(rect.x() + 5, rect.y(), rect.width(), rect.height());
             }
             if (m_state == 2 && m_row == index.row()) {
                 painter->setPen(Qt::NoPen);
                 painter->setBrush(pressbackground);
-                painter->drawRect(rect);
+                painter->drawRect(rect.x() + 5, rect.y(), rect.width(), rect.height());
             }
         }
     }
@@ -327,9 +322,9 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
                                    const QModelIndex &index) const
 {
+    Q_UNUSED(option);
     if (m_mode == 1) {
         const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
-        QRect rect(option.rect);
         const int padding = 23;
         QStringList splitList = expression.split("＝");
         if (splitList.size() == 1)
@@ -365,7 +360,8 @@ bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
     Q_UNUSED(model);
     Q_UNUSED(option);
     m_selected = true;
-    emit obtainingHistorical(index);
+    if (m_mode == 0)
+        emit obtainingHistorical(index);
     return true;
 }
 
@@ -397,4 +393,10 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
     if (linkNum.at(linkNum.size() - 1) == "e")
         linkNum = linkNum + exp.at(exp.indexOf("e") + 1) + list.at(1);
     expStr = text.right(text.length() - linkNum.length());
+}
+
+void SimpleListDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    Q_UNUSED(index);
+    editor->setGeometry(option.rect);
 }
