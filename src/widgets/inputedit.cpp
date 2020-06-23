@@ -149,6 +149,11 @@ void InputEdit::setAnswer(const QString &str, const Quantity &ans)
     m_oldText = "";
     setText(str);
     m_strans = str;
+    m_strans = m_strans.replace('+', QString::fromUtf8("＋"))
+               .replace('-', QString::fromUtf8("－"))
+               .replace('*', QString::fromUtf8("×"))
+               .replace(QString::fromUtf8("（"), "(")
+               .replace(QString::fromUtf8("）"), ")");
 }
 
 void InputEdit::setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans,
