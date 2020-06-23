@@ -376,6 +376,7 @@ void ExpressionBar::enterPercentEvent()
     m_listView->scrollToBottom();
     m_isContinue = true;
     m_isUndo = false;
+    m_isResult = false;
 }
 
 void ExpressionBar::enterPointEvent()
@@ -415,6 +416,7 @@ void ExpressionBar::enterPointEvent()
     if (exp != m_inputEdit->text())
         m_inputEdit->setText(exp);
     m_isUndo = false;
+    m_isResult = false;
 }
 
 void ExpressionBar::enterBackspaceEvent()

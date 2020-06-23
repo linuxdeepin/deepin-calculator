@@ -234,6 +234,7 @@ void SciExpressionBar::enterPointEvent()
     if (exp != m_inputEdit->text())
         m_inputEdit->setText(exp);
     m_isUndo = false;
+    m_isResult = false;
 }
 
 void SciExpressionBar::enterBackspaceEvent()
