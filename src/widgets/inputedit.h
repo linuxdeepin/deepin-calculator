@@ -61,6 +61,7 @@ public slots:
     void setRedoAction(bool state);
     QString symbolFaultTolerance(const QString &text);
     void isExpressionEmpty(); //edit 20200511,判断表达式是否有解，错误表达式无法存入内存  20200519 判断表达式是否为空
+    void hisexpression();
 
 Q_SIGNALS:
     void keyPress(QKeyEvent *);

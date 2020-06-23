@@ -696,6 +696,11 @@ void InputEdit::isExpressionEmpty()
         emit emptyExpression(false);
 }
 
+void InputEdit::hisexpression()
+{
+    m_ansLength = 0;
+}
+
 QString InputEdit::symbolComplement(const QString exp)
 {
     QString text = exp;

@@ -1794,6 +1794,8 @@ void SciExpressionBar::initConnect()
 {
     connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this,
             &SciExpressionBar::revisionResults);
+    connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, m_inputEdit,
+            &InputEdit::hisexpression);
     connect(m_inputEdit, &InputEdit::textChanged, this, &SciExpressionBar::handleTextChanged);
     connect(m_inputEdit, &InputEdit::keyPress, this, &SciExpressionBar::keyPress);
     connect(m_inputEdit, &InputEdit::equal, this, &SciExpressionBar::enterEqualEvent);

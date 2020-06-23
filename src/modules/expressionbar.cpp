@@ -1312,6 +1312,8 @@ void ExpressionBar::initConnect()
 {
     connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this,
             &ExpressionBar::revisionResults);
+    connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, m_inputEdit,
+            &InputEdit::hisexpression);
     connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionBar::handleTextChanged);
     connect(m_inputEdit, &InputEdit::keyPress, this, &ExpressionBar::keyPress);
     connect(m_inputEdit, &InputEdit::equal, this, &ExpressionBar::enterEqualEvent);
