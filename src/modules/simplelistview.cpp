@@ -89,10 +89,16 @@ void SimpleListView::listItemFill(bool itemfill)
 void SimpleListView::mouseMoveEvent(QMouseEvent *e)
 {
     if (m_mode == 1 && m_itemfill) {
-        if (ispressed == true)
+        if (ispressed == true) {
+            if (indexAt(presspoint) != indexAt(e->pos()))
+                presschanged = true;
+            else
+                presschanged = false;
             QListView::mouseMoveEvent(e);
-        else
+        } else {
+            static_cast<SimpleListDelegate *>(itemDelegate(indexAt(e->pos())))->paintback(indexAt(e->pos()), 0);
             QWidget::mouseMoveEvent(e);
+        }
     } else {
         if (e->x() < width() - 12) {
             QWidget::mouseMoveEvent(e);
@@ -143,8 +149,13 @@ void SimpleListView::mouseReleaseEvent(QMouseEvent *event)
         static_cast<SimpleListModel *>(model())->refrushModel();
         if (currentrow == indexAt(event->pos()).row()) {
             emit obtainingHistorical(indexAt(event->pos()));
+            static_cast<SimpleListDelegate *>(itemDelegate(indexAt(presspoint)))->paintback(indexAt(presspoint), 1);
+        } else {
+            if (presschanged == true) {
+                static_cast<SimpleListDelegate *>(itemDelegate(indexAt(event->pos())))->paintback(indexAt(event->pos()), 1);
+            } else
+                static_cast<SimpleListDelegate *>(itemDelegate(indexAt(presspoint)))->paintback(indexAt(presspoint), 0);
         }
-        static_cast<SimpleListDelegate *>(itemDelegate(indexAt(presspoint)))->paintback(indexAt(presspoint), 0);
         ispressed = false;
         presspoint = QPoint();
     }

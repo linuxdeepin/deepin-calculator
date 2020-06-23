@@ -308,6 +308,10 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                 painter->setBrush(normalbackground);
                 painter->setPen(Qt::NoPen);
                 painter->drawRect(rect.x() + 5, rect.y(), rect.width(), rect.height());
+            } else if (m_state == 1 && m_row == index.row()) {
+                painter->setBrush(normalbackground);
+                painter->setPen(Qt::NoPen);
+                painter->drawRect(rect.x() + 5, rect.y(), rect.width(), rect.height());
             }
             if (m_state == 2 && m_row == index.row()) {
                 painter->setPen(Qt::NoPen);

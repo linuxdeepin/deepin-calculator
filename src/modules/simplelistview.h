@@ -55,6 +55,7 @@ private:
     bool m_itemfill = false;
     bool ispressed = false;
     QPoint presspoint = QPoint();
+    bool presschanged = false;
 };
 
 #endif
