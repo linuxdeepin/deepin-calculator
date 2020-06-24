@@ -220,13 +220,14 @@ target_include_directories(${EXE_NAME} PUBLIC ${Qt5Widgets_LIBRARIES}
 
 target_link_libraries (${EXE_NAME} ${LINK_LIBS})
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/deepin-calculator
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+set(CMAKE_INSTALL_PREFIX /usr)
+
+install(TARGETS deepin-calculator DESTINATION bin)
 file(GLOB QM_FILES "translations/*.qm")
-install(FILES ${QM_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/deepin-calculator/translations)
+install(FILES ${QM_FILES} DESTINATION share/deepin-calculator/translations)
 install(FILES deepin-calculator.desktop
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications/)
+        DESTINATION share/applications/)
 install(FILES src/assets/images/deepin-calculator.svg
-            DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps/)
+        DESTINATION share/icons/hicolor/scalable/apps/)
 
 
