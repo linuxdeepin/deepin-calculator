@@ -1332,7 +1332,7 @@ QString ExpressionBar::symbolComplement(const QString exp)
     QString text = exp;
     int index = text.indexOf("(", 0);
     while (index != -1) {
-        if (index >= 1 && text.at(index - 1).isNumber()) {
+        if (index >= 1 && (text.at(index - 1).isNumber() || text.mid(index - 3, 3) == "ans")) {
             text.insert(index, "×");
             ++index;
         }
