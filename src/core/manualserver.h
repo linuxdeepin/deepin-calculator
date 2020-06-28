@@ -16,44 +16,45 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#ifndef CORE_MANUALSERVER_H
-#define CORE_MANUALSERVER_H
+//#ifndef CORE_MANUALSERVER_H
+//#define CORE_MANUALSERVER_H
 
-#include <QObject>
-#include <QMap>
+//#include <QObject>
+//#include <QMap>
 
-class QHelpEngineCore;
+//class QHelpEngineCore;
 
-class QCloseEvent;
-class QUrl;
-class QString;
-class QByteArray;
+//class QCloseEvent;
+//class QUrl;
+//class QString;
+//class QByteArray;
 
-class ManualServer : public QObject {
-    Q_OBJECT
+//class ManualServer : public QObject
+//{
+//    Q_OBJECT
 
-private:
-    QString deployDocs();
-    void setupHelpEngine();
+//private:
+//    QString deployDocs();
+//    void setupHelpEngine();
 
-public:
-    static ManualServer* instance();
-    bool URLforKeyword(const QString id, QUrl &result);
-    QByteArray fileData(const QUrl &url);
-    bool isSupportedLanguage(const QString&);
+//public:
+//    static ManualServer *instance();
+//    bool URLforKeyword(const QString id, QUrl &result);
+//    QByteArray fileData(const QUrl &url);
+//    bool isSupportedLanguage(const QString &);
 
-public slots:
-    void ensureCorrectLanguage();
+//public slots:
+//    void ensureCorrectLanguage();
 
-private:
-    ManualServer();
-    Q_DISABLE_COPY(ManualServer)
+//private:
+//    ManualServer();
+//    Q_DISABLE_COPY(ManualServer)
 
-    void languageChanged();
+//    void languageChanged();
 
-    QHelpEngineCore *m_helpEngine;
-    static ManualServer* s_instance;
-    QString m_deployedLanguage;
-};
+//    QHelpEngineCore *m_helpEngine;
+//    static ManualServer *s_instance;
+//    QString m_deployedLanguage;
+//};
 
-#endif // CORE_MANUALSERVER_H
+//#endif // CORE_MANUALSERVER_H
