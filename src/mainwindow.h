@@ -46,6 +46,7 @@ public slots:
 protected:
     //void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *event);
+    void moveEvent(QMoveEvent *event);
 
 private:
     void initTheme();

@@ -235,6 +235,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     return;
 }
 
+void MainWindow::moveEvent(QMoveEvent *event)
+{
+    m_settings->setOption("windowX", event->pos().x());
+    m_settings->setOption("windowY", event->pos().y());
+}
+
 /*void MainWindow::onViewShortcut()
 {
     QRect rect = window()->geometry();

@@ -20,7 +20,10 @@
 #include "dsettings.h"
 #include "utils.h"
 #include <QDir>
+#include <DApplication>
+#include <QDesktopWidget>
 
+DWIDGET_USE_NAMESPACE
 static DSettings *INSTANCE = nullptr;
 
 DSettings *DSettings::instance(QObject *p)
@@ -56,6 +59,12 @@ void DSettings::initConfig()
 
     if (m_settings->value("history").toString().isEmpty()) {
         setOption("history", 0);
+    }
+    if (m_settings->value("windowX").toString().isEmpty()) {
+        setOption("windowX", 0);
+    }
+    if (m_settings->value("windowY").toString().isEmpty()) {
+        setOption("windowY", 0);
     }
 }
 

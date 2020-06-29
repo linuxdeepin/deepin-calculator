@@ -28,8 +28,10 @@
 #include <QDebug>
 #include <QDir>
 #include <QIcon>
+#include <QSettings>
 #include "mainwindow.h"
 #include "environments.h"
+#include "utils.h"
 
 DWIDGET_USE_NAMESPACE
 static QString g_appPath;  //全局路径
@@ -123,8 +125,16 @@ int main(int argc, char *argv[])
     cmdParser.addVersionOption();
     cmdParser.process(app);
 
+
     MainWindow window;
-    Dtk::Widget::moveToCenter(&window);
+    DSettings *m_dsettings = DSettings::instance(&window);
+    if (app.setSingleInstance(app.applicationName(), DApplication::UserScope)) {
+        Dtk::Widget::moveToCenter(&window);
+        m_dsettings->setOption("windowX", window.pos().x());
+        m_dsettings->setOption("windowY", window.pos().y());
+    } else {
+        window.move(m_dsettings->getOption("windowX").toInt() + 10, m_dsettings->getOption("windowY").toInt() + 10);
+    }
     //    DGuiApplicationHelper::instance()->setPaletteType(getThemeTypeSetting());
     // 应用已保存的主题设置
     //    DGuiApplicationHelper::ColorType t_type = DGuiApplicationHelper::instance()->themeType();
