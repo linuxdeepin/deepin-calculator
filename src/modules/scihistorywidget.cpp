@@ -134,7 +134,7 @@ MemoryWidget *SciHistoryWidget::getMemoryWidget()
     return m_memorywidget;
 }
 
-void SciHistoryWidget::memoryFunctions(int row, Quantity answer, SciHistoryWidget::memOperate operate)
+void SciHistoryWidget::memoryFunctions(SciHistoryWidget::memOperate operate, Quantity answer, int row)
 {
     switch (operate) {
     case generateData:

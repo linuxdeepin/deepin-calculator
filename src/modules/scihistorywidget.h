@@ -37,7 +37,7 @@ public:
 //    void paintEvent(QPaintEvent *event);
     void focusOnButtonbox();
     MemoryWidget *getMemoryWidget();
-    void memoryFunctions(int row = -1, Quantity answer = Quantity(), memOperate operate = generateData);
+    void memoryFunctions(memOperate operate = generateData, Quantity answer = Quantity(), int row = -1);
 
     SimpleListView *m_listView;
     SimpleListDelegate *m_listDelegate;
