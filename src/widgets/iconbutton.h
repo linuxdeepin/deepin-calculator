@@ -38,12 +38,12 @@ class IconButton : public TextButton
     Q_OBJECT
 
 public:
-    IconButton(QWidget *parent = nullptr, int b = 0, bool page = false);
+    IconButton(QWidget *parent = nullptr, int b = 0, bool page = false); //b 1-垃圾桶 2-科学计算器titlebar历史区按钮
     ~IconButton();
 
     void setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode = 0);
     void animate(int msec = 100);
-    void showtooltip(bool b);
+    void showtooltip(bool ismemory); //ismemory-true-内存区垃圾桶 false-历史区垃圾桶
 
 protected:
     void mousePressEvent(QMouseEvent *);

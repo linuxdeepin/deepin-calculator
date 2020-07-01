@@ -1,6 +1,11 @@
 #ifndef SCIHISTORYWIDGET_H
 #define SCIHISTORYWIDGET_H
-
+/*******************************************************************************
+ 1. @类名:    SciHistoryWidget
+ 2. @作者:    京洲
+ 3. @日期:    2020-07-01
+ 4. @说明:    科学计算器历史记录界面
+*******************************************************************************/
 
 #include <DWidget>
 #include <DGuiApplicationHelper>

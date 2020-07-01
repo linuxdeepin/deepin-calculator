@@ -74,7 +74,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
         indexM = false;
         m_stacklayout->setCurrentIndex(0);
         m_buttonstack->setCurrentIndex(0);
-        m_clearbutton->showtooltip(false);
+//        m_clearbutton->showtooltip(false);
         m_clearbutton->setHidden(!(ishideH & indexH));
     });
     connect(m_buttonbox->button(1), &QAbstractButton::clicked, this, [ = ]() {
@@ -82,7 +82,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
         indexM = true;
         m_stacklayout->setCurrentIndex(1);
         m_buttonstack->setCurrentIndex(1);
-        m_clearbuttonM->showtooltip(true);
+//        m_clearbuttonM->showtooltip(true);
         m_clearbuttonM->setHidden(!(ishideM & indexM));
     });
     connect(m_clearbutton, &IconButton::clicked, this, [ = ]() {

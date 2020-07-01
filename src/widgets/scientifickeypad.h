@@ -1,5 +1,10 @@
 #pragma once
-
+/*******************************************************************************
+ 1. @类名:    ScientificKeyPad
+ 2. @作者:    夏菁
+ 3. @日期:    2020-07-01
+ 4. @说明:    科学计算器键盘区域界面
+*******************************************************************************/
 #include <QWidget>
 #include <QGridLayout>
 #include <QVBoxLayout>
@@ -87,8 +92,8 @@ private:
     QGridLayout *m_gridlayout1;
     QGridLayout *m_gridlayout2;
     QSignalMapper *m_mapper;
-    DLabel *leftBracket;
-    DLabel *rightBracket;
+    DLabel *leftBracket; //存放左括号不匹配数
+    DLabel *rightBracket; //存放右括号不匹配数
     QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription1 *>> m_keys1;
     QPoint m_mousepoint;

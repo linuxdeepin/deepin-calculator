@@ -101,9 +101,9 @@ void IconButton::animate(int msec)
     }
 }
 
-void IconButton::showtooltip(bool b)
+void IconButton::showtooltip(bool ismemory)
 {
-    if (b == true) {
+    if (ismemory == true) {
         cleartooltip = tr("Clear all memory");
         this->setToolTip(cleartooltip);
     } else {

@@ -9,7 +9,7 @@
 
 MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *parent)
     : DPushButton(text, parent)
-    , m_isallgray(false)//,
+    , m_isallgray(false)
       // m_effect(new QGraphicsDropShadowEffect(this))
 {
     m_settings = DSettings::instance(this);
@@ -108,13 +108,15 @@ void MemoryButton::showtips()
     this->setToolTip(tooltext);
 }
 
-void MemoryButton::setbuttongray(bool b)
+/**
+ * @brief MemoryButton::setbuttongray
+ * @param memorywidgetshow 历史区域是否显示
+ * 历史区域显示，除mlist外按钮置灰
+ */
+void MemoryButton:: setbuttongray(bool memorywidgetshow)
 {
-    if (text() != "M˅" || text() != "M˄")
-        m_isallgray = true;
-    if (b == false)
-        m_isallgray = false;
-    update();
+    //20200701 精简代码
+    m_isallgray = memorywidgetshow;
 }
 
 void MemoryButton::mousePressEvent(QMouseEvent *e)

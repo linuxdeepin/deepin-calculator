@@ -1,6 +1,11 @@
 #ifndef SCIEXPRESSIONBAR_H
 #define SCIEXPRESSIONBAR_H
-
+/*******************************************************************************
+ 1. @类名:    SciExpressionBar
+ 2. @作者:    夏菁
+ 3. @日期:    2020-07-01
+ 4. @说明:    科学计算器表达式计算函数
+*******************************************************************************/
 #include <QKeyEvent>
 #include <QPair>
 #include <QVBoxLayout>

@@ -35,7 +35,7 @@ class TextButton : public DPushButton
     Q_OBJECT
 
 public:
-    TextButton(const QString &text = QString(), bool page = false, QWidget *parent = nullptr);
+    TextButton(const QString &text = QString(), bool page = false, QWidget *parent = nullptr); //page-是否是科学计算器中两页中的按钮
     ~TextButton();
 
 

@@ -83,6 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
             if (m_settings->getOption("history").toInt() == 0) {
                 resize(800, 580);
                 showHistoryWidget();
+                emit windowChanged(width(), height(), false);
             } else {
                 hideHistoryWidget(true);
                 emit windowChanged(width(), height(), true);
@@ -217,6 +218,7 @@ void MainWindow::showHistoryWidget()
 
 void MainWindow::hideHistoryWidget(bool b)
 {
+    //从科学到简易时b=false，其余为true
     if (b == true)
         m_settings->setOption("history", 0);
     m_scientificModule->showOrHideHistory(true);

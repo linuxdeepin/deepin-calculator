@@ -1,6 +1,11 @@
 #ifndef MEMORYITEMWIDGET_H
 #define MEMORYITEMWIDGET_H
-
+/*******************************************************************************
+ 1. @类名:    MemoryItemWidget
+ 2. @作者:    京洲
+ 3. @日期:    2020-07-01
+ 4. @说明:    内存列表Item界面
+*******************************************************************************/
 #include <QWidget>
 #include <QPushButton>
 #include <QLabel>

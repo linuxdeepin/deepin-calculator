@@ -36,7 +36,7 @@ public:
     explicit SimpleListView(int mode = 0, DWidget *parent = nullptr); //mode:0-标准模式 1-科学模式
     ~SimpleListView();
     void contextMenuEvent(QContextMenuEvent *event);
-    void listItemFill(bool itemfill);
+    void listItemFill(bool itemfill); //itemfill中是否有历史记录
 
 protected:
     void mouseMoveEvent(QMouseEvent *);

@@ -1,6 +1,11 @@
 #ifndef SCIENTIFICMODEL_H
 #define SCIENTIFICMODEL_H
-
+/*******************************************************************************
+ 1. @类名:    scientificModule
+ 2. @作者:    夏菁
+ 3. @日期:    2020-07-01
+ 4. @说明:    科学模式界面
+*******************************************************************************/
 #include <DWidget>
 #include <DGuiApplicationHelper>
 #include <QStackedLayout>

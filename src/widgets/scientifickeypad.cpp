@@ -270,6 +270,7 @@ void ScientificKeyPad::initUI()
     while (i.hasNext()) {
         i.next();
         i.value().first->setFocusPolicy(Qt::NoFocus);
+        //以下信号槽按窗口比例缩放按键等
         connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
             int padding;
             hishide == false ? padding = 370 : padding = 0;
@@ -362,14 +363,17 @@ void ScientificKeyPad::turnPage(int key)
     if (key == Key_page) {
         if (page2->isHidden()) {
             page2->setHidden(false);
-//            buttonThemeChanged(m_themetype);
         } else {
             page2->setHidden(true);
-//            buttonThemeChanged(m_themetype);
         }
     }
 }
 
+/**
+ * @brief ScientificKeyPad::getdeg
+ * @param deg 当前为deg/rad/grad
+ * 切换deg按键图标
+ */
 void ScientificKeyPad::getdeg(int deg)
 {
     m_deg = deg;
@@ -379,6 +383,7 @@ void ScientificKeyPad::getdeg(int deg)
     else
         path = QString(":/assets/images/%1/").arg("light");
     IconButton *btn;
+    //m_deg == 1，点击后为rad
     if (m_deg == 1) {
         btn = static_cast<IconButton *>(button(Key_deg));
         btn->setIconUrl(path + "rad_normal.svg", path + "rad_hover.svg", path + "rad_press.svg", 5);
@@ -391,6 +396,12 @@ void ScientificKeyPad::getdeg(int deg)
     }
 }
 
+/**
+ * @brief ScientificKeyPad::bracketsNum
+ * @param direction 0-左括号， 1-右括号
+ * @param num 不匹配括号数
+ * 显示左右括号不匹配数
+ */
 void ScientificKeyPad::bracketsNum(int direction, QString num)
 {
     if (num == "0")

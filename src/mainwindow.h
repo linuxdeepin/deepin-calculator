@@ -41,7 +41,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 signals:
-    void windowChanged(int width, int height, bool hishide);
+    void windowChanged(int width, int height, bool hishide); //hishide-历史记录栏是否隐藏
 public slots:
     //void onViewShortcut();
 protected:
@@ -57,7 +57,7 @@ private:
     void switchToSimpleMode();
     void switchToScientificMode();
     void showHistoryWidget();
-    void hideHistoryWidget(bool b);
+    void hideHistoryWidget(bool b); //b-DSetting中"history"是否改变
 
 private:
     DSettings *m_settings;
