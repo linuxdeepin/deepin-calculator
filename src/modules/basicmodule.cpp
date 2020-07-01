@@ -38,8 +38,8 @@ BasicModule::BasicModule(QWidget *parent)
     m_memCalbtn = false;
     m_memRCbtn = false;
     m_isallgray = false;
-    memoryPublic = MemoryPublic::instance(this);
-    m_memorylistwidget = memoryPublic->getwidget(MemoryPublic::standardleft);
+    m_memoryPublic = MemoryPublic::instance(this);
+    m_memorylistwidget = m_memoryPublic->getwidget(MemoryPublic::standardleft);
 //    m_keypadLayout->addWidget(m_basicKeypad);
     QVBoxLayout *layout = new QVBoxLayout(this);
     m_expressionBar = new ExpressionBar;
@@ -72,7 +72,7 @@ BasicModule::BasicModule(QWidget *parent)
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_basicKeypad, &BasicKeypad::buttonThemeChanged);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-            memoryPublic, &MemoryPublic::setThemeType);
+            m_memoryPublic, &MemoryPublic::setThemeType);
     connect(m_expressionBar, &ExpressionBar::keyPress, this, &BasicModule::handleEditKeyPress);
     connect(m_expressionBar, &ExpressionBar::clearStateChanged, this,
             &BasicModule::handleClearStateChanged);
@@ -86,13 +86,13 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_memorylistwidget, &MemoryWidget::widgetplus, this, [ = ](int row) {
         m_expressionBar->settingLinkage();
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
-            memoryPublic->widgetplus(row, m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+            m_memoryPublic->widgetplus(row, m_expressionBar->getInputEdit()->getMemoryAnswer().second);
 //            m_memorylistwidget->widgetplusslot(row, m_expressionBar->getInputEdit()->getMemoryAnswer().second);
     });
     connect(m_memorylistwidget, &MemoryWidget::widgetminus, this, [ = ](int row) {
         m_expressionBar->settingLinkage();
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
-            memoryPublic->widgetminus(row, m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+            m_memoryPublic->widgetminus(row, m_expressionBar->getInputEdit()->getMemoryAnswer().second);
 //        m_memorylistwidget->widgetminusslot(row, m_expressionBar->getInputEdit()->getMemoryAnswer().second);
     });
     connect(m_memorylistwidget, &MemoryWidget::insidewidget, this, [ = ]() {
@@ -398,7 +398,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
             m_memoryKeypad->animate(MemoryKeypad::Key_MC);
             QTimer::singleShot(100, this, [ = ] {
 //                m_memorylistwidget->memoryclean();
-                memoryPublic->memoryclean();
+                m_memoryPublic->memoryclean();
             });
         }
         break;
@@ -413,7 +413,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
             m_memoryKeypad->animate(MemoryKeypad::Key_Mplus);
             m_expressionBar->settingLinkage();
             if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
-                memoryPublic->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+                m_memoryPublic->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
 //            m_memorylistwidget->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         }
         break;
@@ -422,7 +422,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
             m_memoryKeypad->animate(MemoryKeypad::Key_Mminus);
             m_expressionBar->settingLinkage();
             if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
-                memoryPublic->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+                m_memoryPublic->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
 //            m_memorylistwidget->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         }
         break;
@@ -431,7 +431,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
             m_memoryKeypad->animate(MemoryKeypad::Key_MS);
             m_expressionBar->settingLinkage();
             if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
-                memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+                m_memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
 //                m_memorylistwidget->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         }
         break;
@@ -521,11 +521,11 @@ void BasicModule::handleKeypadButtonPress(int key)
     case MemoryKeypad::Key_MS:
         m_expressionBar->settingLinkage();
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
-            memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+            m_memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
 //        m_memorylistwidget->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case MemoryKeypad::Key_MC:
-        memoryPublic->memoryclean();
+        m_memoryPublic->memoryclean();
 //        m_memorylistwidget->memoryclean();
         if (m_keypadLayout->currentIndex() == 1) {
             m_keypadLayout->setCurrentIndex(0);
@@ -547,13 +547,13 @@ void BasicModule::handleKeypadButtonPress(int key)
     case MemoryKeypad::Key_Mplus:
         m_expressionBar->settingLinkage();
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
-            memoryPublic->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+            m_memoryPublic->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
 //        m_memorylistwidget->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case MemoryKeypad::Key_Mminus:
         m_expressionBar->settingLinkage();
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
-            memoryPublic->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+            m_memoryPublic->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
 //        m_memorylistwidget->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case MemoryKeypad::Key_MR:

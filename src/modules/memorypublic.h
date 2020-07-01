@@ -34,9 +34,8 @@ public:
     void widgetclean(int row, int mode);
     void setThemeType(int type);
 private:
-    MemoryWidget *standard_l;
-    MemoryWidget *scientific_r;
-    QList<Quantity> list;
+    MemoryWidget *m_standard_l;
+    MemoryWidget *m_scientific_r;
 
 signals:
     void widgetplus(int row);

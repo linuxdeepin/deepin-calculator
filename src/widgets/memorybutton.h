@@ -58,7 +58,7 @@ private:
     bool m_isPress;
     bool m_isgray; //按键不可用置灰
     QFont m_font;
-    bool widgetbtn;
+    bool m_widgetbtn; //内存列表按键
     bool m_isallgray; //内存区显示置灰
     bool m_islight = false;
 };

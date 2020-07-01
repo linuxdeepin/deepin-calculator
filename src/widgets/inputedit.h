@@ -52,7 +52,7 @@ public:
     SSelection getSelection() { return m_selected; }
     void setSelection(SSelection select) { m_selected = select; }
     void setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans,
-                          const int &Pos);
+                          const int &Pos); //str1-完整表达式 str2, ans-百分比计算结果 Pos-光标位置
     QPair<bool, Quantity> getMemoryAnswer(); //edit 20200507,获取上一次计算的全精度结果，用于数字内存。
     QString symbolComplement(const QString exp);
 
@@ -61,7 +61,7 @@ public slots:
     void setRedoAction(bool state);
     QString symbolFaultTolerance(const QString &text);
     void isExpressionEmpty(); //edit 20200511,判断表达式是否有解，错误表达式无法存入内存  20200519 判断表达式是否为空
-    void hisexpression();
+    void hisexpression(); //点击简易历史记录及科学左侧历史记录后清空ans
 
 Q_SIGNALS:
     void keyPress(QKeyEvent *);
@@ -87,7 +87,7 @@ private slots:
     bool isSymbolCategoryChanged(int pos1, int pos2);
     int findWordBeginPosition(int pos);
     int findWordEndPosition(int pos);
-    void autoZoomFontSize();
+    void autoZoomFontSize(); //输入框字号变化
     void handleTextChanged(const QString &text);
     void handleCursorPositionChanged(int oldPos, int newPos);
     void BracketCompletion(QKeyEvent *e);
@@ -124,7 +124,7 @@ private:
     QString m_percentexp;
     bool m_ispercentanswer = false; //百分号结果是否需要转换为quantity
     //支持的功能列表
-    QList<QString> funclist;
+    QList<QString> m_funclist; //科学模式下函数名列表
     QString m_strans;
 };
 

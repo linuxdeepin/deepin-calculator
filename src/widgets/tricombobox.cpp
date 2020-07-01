@@ -79,7 +79,7 @@ ComboBox::ComboBox(DComboBox *parent)
     , m_listwidget(new DListWidget)
     , m_mapper(new QSignalMapper(this))
 {
-    widget = new QWidget;
+    m_widget = new QWidget;
     QWidget *page1 = new QWidget;
     QWidget *page2 = new QWidget;
     QWidget *page3 = new QWidget;
@@ -88,7 +88,7 @@ ComboBox::ComboBox(DComboBox *parent)
     page2->setLayout(m_gridlayout2);
     page3->setLayout(m_gridlayout3);
     page4->setLayout(m_gridlayout4);
-    widget->setStyleSheet("QWidget{background-color:transparent;border:none;}");
+    m_widget->setStyleSheet("QWidget{background-color:transparent;border:none;}");
     m_gridlayout1->setSpacing(0);
     m_gridlayout1->setMargin(0);
     m_gridlayout1->setContentsMargins(0, 0, 0, 0);
@@ -109,7 +109,7 @@ ComboBox::ComboBox(DComboBox *parent)
     m_hlayout->setMargin(0);
     m_hlayout->setSpacing(0);
     m_hlayout->setContentsMargins(0, 0, 0, 0);
-    widget->setLayout(m_hlayout);
+    m_widget->setLayout(m_hlayout);
     this->setModel(m_listwidget->model());
     this->setView(m_listwidget);
     this->setStyleSheet("QComboBox { width: 100px;}"
@@ -166,7 +166,7 @@ void ComboBox::updateData()
 {
     m_listwidget->clear();
     QListWidgetItem *item = new QListWidgetItem(m_listwidget);
-    m_listwidget->setItemWidget(item, widget);
+    m_listwidget->setItemWidget(item, m_widget);
 //    this->setLineEdit();
     item->setSizeHint(QSize(100, 110));
     item->setFlags(Qt::NoItemFlags);

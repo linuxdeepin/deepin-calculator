@@ -18,7 +18,7 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
         setFixedSize(50, 33);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("MemoryButton");
-    widgetbtn = listwidgetbtn;
+    m_widgetbtn = listwidgetbtn;
 
     init();
     m_isHover = m_isPress = false;
@@ -43,7 +43,7 @@ void MemoryButton::init()
 //        }
 //    } else
 //        m_isgray = false;
-    if (!widgetbtn) {
+    if (!m_widgetbtn) {
         m_isgray = true;
         this->setEnabled(false);
     }
@@ -85,19 +85,19 @@ void MemoryButton::showtips()
 {
     QString tooltext;
     if (this->text() == "MC") {
-        if (widgetbtn)
+        if (m_widgetbtn)
             tooltext = tr("Clear memory item");
         else
             tooltext = tr("Clear all memory");
     } else if (this->text() == "MR")
         tooltext = tr("Memory recall");
     else if (this->text() == "M+") {
-        if (widgetbtn)
+        if (m_widgetbtn)
             tooltext = tr("Add to memory item");
         else
             tooltext = tr("Memory add");
     } else if (this->text() == "M-") {
-        if (widgetbtn)
+        if (m_widgetbtn)
             tooltext = tr("Subtract from memory item");
         else
             tooltext = tr("Memory subtract");
@@ -217,7 +217,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
         setFixedSize(50, 33);
-    if (widgetbtn)
+    if (m_widgetbtn)
         setFixedSize(50, 33);
     if (isEnabled() == false) {
         m_font.setPixelSize(16);
@@ -273,7 +273,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         focus = actcolor;
         hoverFrame = actcolor;
         hoverFrame.setAlphaF(0.2);
-        if (widgetbtn == false)
+        if (m_widgetbtn == false)
             base = QColor(48, 48, 48);
         else
             base = QColor(65, 65, 65);
@@ -292,7 +292,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             pressBrush = QColor("#FFFFFF");
             hoverbrush = QColor(48, 48, 48);
             hoverbrush.setAlphaF(0.4);
-            if (widgetbtn) {
+            if (m_widgetbtn) {
                 base = QColor(65, 65, 65);
                 text = QColor(224, 224, 224);
                 text.setAlphaF(0.3);

@@ -65,7 +65,7 @@ private:
     bool m_isHover;
     bool m_isPress;
     QFont m_font;
-    bool m_page;
+    bool m_page; //m_page-是否是科学计算器中两页中的按钮
     bool m_Btnisdown = false;
 };
 

@@ -22,12 +22,12 @@ MemoryListWidget::MemoryListWidget(QWidget *parent)
 void MemoryListWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->buttons() & Qt::LeftButton) {
-        mousepoint = event->pos();
-        if (this->itemAt(mousepoint)) {
-            clickrow = this->row(this->itemAt(mousepoint));
+        m_mousepoint = event->pos();
+        if (this->itemAt(m_mousepoint)) {
+            m_clickrow = this->row(this->itemAt(m_mousepoint));
 //            this->itemAt(mousepoint)->setBackground(QBrush(QColor(0, 0, 0)));
         }
-        emit itempressed(clickrow);
+        emit itempressed(m_clickrow);
     }
 
     QListWidget::mousePressEvent(event);
@@ -35,25 +35,14 @@ void MemoryListWidget::mousePressEvent(QMouseEvent *event)
 
 void MemoryListWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (this->itemAt(event->pos()) && this->row(this->itemAt(event->pos())) == clickrow) {
-        emit itemselected(clickrow);
+    if (this->itemAt(event->pos()) && this->row(this->itemAt(event->pos())) == m_clickrow) {
+        emit itemselected(m_clickrow);
     }
-    clickrow = -1;
+    m_clickrow = -1;
     QListWidget::mouseReleaseEvent(event);
 }
 
 MemoryListWidget::~MemoryListWidget()
-{
-
-}
-
-MemoryListWidgetItem::MemoryListWidgetItem(MemoryListWidget *view)
-    : QListWidgetItem(view)
-{
-    view->takeItem(view->count() - 1);
-}
-
-MemoryListWidgetItem::~MemoryListWidgetItem()
 {
 
 }

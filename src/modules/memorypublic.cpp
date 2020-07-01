@@ -13,8 +13,8 @@ MemoryPublic *MemoryPublic::instance(QObject *p)
 MemoryPublic::MemoryPublic(QObject *parent)
     : QObject(parent)
 {
-    standard_l = new MemoryWidget(0);
-    scientific_r = new MemoryWidget(1);
+    m_standard_l = new MemoryWidget(0);
+    m_scientific_r = new MemoryWidget(1);
     initconnects();
 }
 
@@ -32,70 +32,70 @@ void MemoryPublic::initconnects()
 //    connect(scientific_r, &MemoryWidget::widgetminus, this, [ = ](int row) {
 //        emit widgetminus(row);
 //    });
-    connect(standard_l, &MemoryWidget::widgetclean, this, &MemoryPublic::widgetclean);
-    connect(scientific_r, &MemoryWidget::widgetclean, this, &MemoryPublic::widgetclean);
-    connect(standard_l, &MemoryWidget::memorycleansig, this, &MemoryPublic::memoryclean);
-    connect(standard_l, &MemoryWidget::mListAvailable, this, &MemoryPublic::filledMem);
-    connect(standard_l, &MemoryWidget::mListUnavailable, this, &MemoryPublic::emptyMem);
+    connect(m_standard_l, &MemoryWidget::widgetclean, this, &MemoryPublic::widgetclean);
+    connect(m_scientific_r, &MemoryWidget::widgetclean, this, &MemoryPublic::widgetclean);
+    connect(m_standard_l, &MemoryWidget::memorycleansignal, this, &MemoryPublic::memoryclean);
+    connect(m_standard_l, &MemoryWidget::mListAvailable, this, &MemoryPublic::filledMem);
+    connect(m_standard_l, &MemoryWidget::mListUnavailable, this, &MemoryPublic::emptyMem);
 }
 
 MemoryWidget *MemoryPublic::getwidget(memorymode mode)
 {
     switch (mode) {
     case standardleft:
-        return standard_l;
+        return m_standard_l;
     case scientificright:
-        return scientific_r;
+        return m_scientific_r;
     }
     return nullptr;
 }
 
 void MemoryPublic::generateData(Quantity answer)
 {
-    standard_l->generateData(answer);
-    scientific_r->generateData(answer);
+    m_standard_l->generateData(answer);
+    m_scientific_r->generateData(answer);
 }
 
 void MemoryPublic::memoryplus(Quantity answer)
 {
-    standard_l->memoryplus(answer);
-    scientific_r->memoryplus(answer);
+    m_standard_l->memoryplus(answer);
+    m_scientific_r->memoryplus(answer);
 }
 
 void MemoryPublic::memoryminus(Quantity answer)
 {
-    standard_l->memoryminus(answer);
-    scientific_r->memoryminus(answer);
+    m_standard_l->memoryminus(answer);
+    m_scientific_r->memoryminus(answer);
 }
 
 void MemoryPublic::memoryclean()
 {
-    standard_l->memoryclean();
-    scientific_r->memoryclean();
+    m_standard_l->memoryclean();
+    m_scientific_r->memoryclean();
 }
 
 void MemoryPublic::widgetplus(int row, Quantity answer)
 {
-    standard_l->widgetplusslot(row, answer);
-    scientific_r->widgetplusslot(row, answer);
+    m_standard_l->widgetplusslot(row, answer);
+    m_scientific_r->widgetplusslot(row, answer);
 }
 
 void MemoryPublic::widgetminus(int row, Quantity answer)
 {
-    standard_l->widgetminusslot(row, answer);
-    scientific_r->widgetminusslot(row, answer);
+    m_standard_l->widgetminusslot(row, answer);
+    m_scientific_r->widgetminusslot(row, answer);
 }
 
 void MemoryPublic::widgetclean(int row, int mode)
 {
-    standard_l->widgetcleanslot(row, mode);
-    scientific_r->widgetcleanslot(row, mode);
+    m_standard_l->widgetcleanslot(row, mode);
+    m_scientific_r->widgetcleanslot(row, mode);
 }
 
 void MemoryPublic::setThemeType(int type)
 {
-    standard_l->setThemeType(type);
-    scientific_r->setThemeType(type);
+    m_standard_l->setThemeType(type);
+    m_scientific_r->setThemeType(type);
 }
 
 MemoryPublic::~MemoryPublic()

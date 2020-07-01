@@ -68,7 +68,7 @@ private:
     QHBoxLayout *m_hlayout;
     QGridLayout *m_gridlayout1;
     DListWidget *m_listwidget;
-    QWidget *widget;
+    QWidget *m_widget;
     QSignalMapper *m_mapper;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
 };

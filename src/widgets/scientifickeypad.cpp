@@ -98,23 +98,23 @@ static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool p
 
 ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     : DWidget(parent)
-    , page2(new QWidget)
+    , m_page2(new QWidget)
     , m_vlayout(new QVBoxLayout(this))
     , m_gridlayout1(new QGridLayout)
     , m_gridlayout2(new QGridLayout)
     , m_mapper(new QSignalMapper(this))
-    , leftBracket(new DLabel)
-    , rightBracket(new DLabel)
+    , m_leftBracket(new DLabel)
+    , m_rightBracket(new DLabel)
 {
-    leftBracket->setFixedSize(24, 13);
-    rightBracket->setFixedSize(24, 13);
+    m_leftBracket->setFixedSize(24, 13);
+    m_rightBracket->setFixedSize(24, 13);
     QWidget *page1 = new QWidget(this);
 
     page1->setLayout(m_gridlayout1);
-    page2->setLayout(m_gridlayout2);
-    page2->setParent(this);
-    page2->setAutoFillBackground(true);
-    page2->hide();
+    m_page2->setLayout(m_gridlayout2);
+    m_page2->setParent(this);
+    m_page2->setAutoFillBackground(true);
+    m_page2->hide();
     m_vlayout->addWidget(page1);
     m_vlayout->setMargin(0);
     m_vlayout->setSpacing(0);
@@ -254,7 +254,7 @@ void ScientificKeyPad::initButtons()
         connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
             int padding;
             hishide == false ? padding = 370 : padding = 0;
-            static_cast<TextButton *>(button)->setFixedSize((width - 24 - padding) / 6, (height - 200) / 8);
+            static_cast<TextButton *>(button)->setFixedSize((width - 40 - padding) / 6, (height - 200) / 8);
         });
         m_mapper->setMapping(button, desc1->button);
     }
@@ -274,21 +274,21 @@ void ScientificKeyPad::initUI()
         connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
             int padding;
             hishide == false ? padding = 370 : padding = 0;
-            i.value().first->setFixedSize((width - 24 - padding) / 6, (height - 200) / 8);
+            i.value().first->setFixedSize((width - 40 - padding) / 6, (height - 200) / 8);
             //按比例计算/有小数误差问题,qRound减小误差
-            page2->setFixedSize(qRound(135.0 * (width - 25.0 - padding) / (430.0 - 25.0)), qRound(314.0 * (height - 161.0) / 419.0)); //25-左+右margin
-            page2->move(12, qRound(105.0 * (height - 161.0) / 419.0)); //419-最小窗口时keypad高度
+            m_page2->setFixedSize(qRound(135.0 * (width - 25.0 - padding) / (430.0 - 25.0)), qRound(314.0 * (height - 161.0) / 419.0)); //25-左+右margin
+            m_page2->move(12, qRound(105.0 * (height - 161.0) / 419.0)); //419-最小窗口时keypad高度
         });
         if (i.key() == Key_left) {
             connect(this, &ScientificKeyPad::windowSize, [ = ]() {
-                leftBracket->setParent(i.value().first);
-                leftBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
+                m_leftBracket->setParent(i.value().first);
+                m_leftBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
             });
         }
         if (i.key() == Key_right) {
             connect(this, &ScientificKeyPad::windowSize, [ = ]() {
-                rightBracket->setParent(i.value().first);
-                rightBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
+                m_rightBracket->setParent(i.value().first);
+                m_rightBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
             });
         }
     }
@@ -301,7 +301,7 @@ void ScientificKeyPad::initUI()
         connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
             int padding;
             hishide == false ? padding = 370 : padding = 0;
-            i1.value().first->setFixedSize((width - 24 - padding) / 6, (height - 200) / 8);
+            i1.value().first->setFixedSize((width - 40 - padding) / 6, (height - 200) / 8);
         });
     }
 
@@ -361,10 +361,10 @@ void ScientificKeyPad::buttonThemeChanged(int type)
 void ScientificKeyPad::turnPage(int key)
 {
     if (key == Key_page) {
-        if (page2->isHidden()) {
-            page2->setHidden(false);
+        if (m_page2->isHidden()) {
+            m_page2->setHidden(false);
         } else {
-            page2->setHidden(true);
+            m_page2->setHidden(true);
         }
     }
 }
@@ -408,7 +408,7 @@ void ScientificKeyPad::bracketsNum(int direction, QString num)
         num = "";
 
     if (direction == 0)
-        leftBracket->setText(num);
+        m_leftBracket->setText(num);
     else if (direction == 1)
-        rightBracket->setText(num);
+        m_rightBracket->setText(num);
 }

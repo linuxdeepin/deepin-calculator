@@ -24,19 +24,11 @@ signals:
     void itemselected(int row);
 
 private:
-    QPoint mousepoint;
-    int clickrow = -1;
+    QPoint m_mousepoint;
+    int m_clickrow = -1;
 
 public slots:
 //    void on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-};
-
-class MemoryListWidgetItem : public QListWidgetItem
-{
-    friend class MemoryListWidget;
-public:
-    explicit MemoryListWidgetItem(MemoryListWidget *view = nullptr);
-    ~MemoryListWidgetItem();
 };
 
 #endif // MEMORYLISTWIDGET_H

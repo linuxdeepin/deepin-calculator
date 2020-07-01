@@ -73,9 +73,9 @@ InputEdit::InputEdit(QWidget *parent)
     pl.setColor(DPalette::HighlightedText, Qt::blue);
     this->setPalette(pl);
 
-    funclist = {"arccos", "arctan", "arccot", "sin", "cos", "tan", "cot"
-                , "arcsin", "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π", "e"
-               };
+    m_funclist = {"arccos", "arctan", "arccot", "sin", "cos", "tan", "cot"
+                  , "arcsin", "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π", "e"
+                 };
 }
 
 InputEdit::~InputEdit() {}
@@ -517,15 +517,15 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
     if (cursorPosition() > 0 && cursorPosition() != text().length()
             && rx.exactMatch(text().at(cursorPosition() - 1))
             && rx.exactMatch(text().at(cursorPosition()))) {
-        for (i = 0; i < funclist.size(); i++) {
-            leftfunpos = text().lastIndexOf(funclist[i], cursorPosition() - 1);
-            if (leftfunpos != -1 && leftfunpos + funclist[i].length() == cursorPosition())
+        for (i = 0; i < m_funclist.size(); i++) {
+            leftfunpos = text().lastIndexOf(m_funclist[i], cursorPosition() - 1);
+            if (leftfunpos != -1 && leftfunpos + m_funclist[i].length() == cursorPosition())
                 break;
             else
                 leftfunpos = -1;
         }
-        for (j = 0; j < funclist.size(); j++) {
-            rightfunpos = text().indexOf(funclist[j], cursorPosition());
+        for (j = 0; j < m_funclist.size(); j++) {
+            rightfunpos = text().indexOf(m_funclist[j], cursorPosition());
             if (rightfunpos != -1 && rightfunpos == cursorPosition())
                 break;
             else

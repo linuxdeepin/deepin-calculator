@@ -35,7 +35,7 @@ public:
     void memoryplus(Quantity answer);
     void memoryminus(Quantity answer);
     void memoryclean();//内存列表为空时插入一个item
-    QPair<QString, Quantity> getfirstnumber();
+    QPair<QString, Quantity> getfirstnumber();//MR
 
     void widgetplusslot(int row, Quantity answer);
     void widgetminusslot(int row, Quantity answer);
@@ -49,7 +49,7 @@ signals:
     void itemclick(const QPair<QString, Quantity>);
     void themechange(int type);
     void widgetclean(int row, int mode);
-    void memorycleansig();
+    void memorycleansignal();
 private:
     MemoryListWidget *m_listwidget;
     QPoint m_mousepoint;
@@ -59,13 +59,13 @@ private:
     Evaluator *m_evaluator;
     Quantity m_ans;
     bool m_ansVaild;
-    QList<Quantity> list;
+    QList<Quantity> m_list; //ans的list
     int m_themetype = 0;
-    int calculatormode;//0-标准下拉 1-科学右侧
-    int line = 1; //item数字行数
-    MemoryItemDelegate *memoryDelegate;
-    int itemwidth = 0;
-    int precision = -1;//计算精度
+    int m_calculatormode;//0-标准下拉 1-科学右侧
+    int m_line = 1; //item数字行数
+    MemoryItemDelegate *m_memoryDelegate;
+    int m_itemwidth = 0;
+    int m_precision = -1;//计算精度
 
 private:
     QString formatExpression(const QString &text);

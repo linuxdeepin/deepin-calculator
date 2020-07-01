@@ -86,7 +86,7 @@ void SimpleListModel::clearItems()
     beginRemoveRows(QModelIndex(), 0, m_expressionList.size());
     m_expressionList.clear();
     endRemoveRows();
-    answerlist.clear();
+    m_answerlist.clear();
     if (m_mode == 1) {
         beginInsertRows(QModelIndex(), 0, 0);
         //缺翻译
@@ -143,7 +143,7 @@ void SimpleListModel::updataList(Quantity ans, const QString &text, const int in
 {
     if (m_expressionList.count() == 500) {
         deleteItem(499);
-        answerlist.pop_back();
+        m_answerlist.pop_back();
 
     }
     QString exp = text;
@@ -160,7 +160,7 @@ void SimpleListModel::updataList(Quantity ans, const QString &text, const int in
     beginInsertRows(QModelIndex(), index, index);
     m_expressionList.insert(index, exp);
     endInsertRows();
-    answerlist.insert(0, ans);
+    m_answerlist.insert(0, ans);
 }
 
 void SimpleListModel::deleteItem(const int index)
@@ -168,8 +168,8 @@ void SimpleListModel::deleteItem(const int index)
     beginRemoveRows(QModelIndex(), index, index);
     m_expressionList.removeAt(index);
     endRemoveRows();
-    if (answerlist.count() > 0)
-        answerlist.removeAt(index);
+    if (m_answerlist.count() > 0)
+        m_answerlist.removeAt(index);
     if (m_expressionList.count() == 0) {
         emit hisbtnhidden();
     }
@@ -184,7 +184,7 @@ void SimpleListModel::copyToClipboard(const int index)
 
 Quantity SimpleListModel::getAnswer(const int index)
 {
-    if (answerlist.count() > index)
-        return answerlist.at(index);
+    if (m_answerlist.count() > index)
+        return m_answerlist.at(index);
     return Quantity();
 }

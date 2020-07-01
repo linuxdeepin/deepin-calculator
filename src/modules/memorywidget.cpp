@@ -14,14 +14,16 @@
 #include <DGuiApplicationHelper>
 #include "../utils.h"
 
+#define GLOBALPREC 78
+
 MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     : QWidget(parent)
     , m_listwidget(new MemoryListWidget(this))
     , m_clearbutton(new IconButton(this, 1))
     , m_isempty(true)
-    , memoryDelegate(new MemoryItemDelegate(this))
+    , m_memoryDelegate(new MemoryItemDelegate(this))
 {
-    calculatormode = mode;
+    m_calculatormode = mode;
     m_evaluator = Evaluator::instance();
     this->setContentsMargins(0, 0, 0, 0);
 
@@ -38,8 +40,8 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
 
     m_listwidget->setFrameShape(QFrame::NoFrame);
     mode == 0 ? m_listwidget->setFixedHeight(260) : m_listwidget->setFixedHeight(463);
-    itemwidth = (mode == 0) ? 344 : 370;
-    precision = (mode == 0) ? 15 : 31;
+    m_itemwidth = (mode == 0) ? 344 : 370;
+    m_precision = (mode == 0) ? 15 : 31;
     m_listwidget->setVerticalScrollMode(QListView::ScrollPerPixel);
     m_listwidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     m_listwidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -47,7 +49,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     m_listwidget->setSelectionRectVisible(false);
     m_listwidget->setFocusPolicy(Qt::NoFocus);
     m_listwidget->setUniformItemSizes(false);
-    m_listwidget->setItemDelegate(memoryDelegate);
+    m_listwidget->setItemDelegate(m_memoryDelegate);
     memoryclean();
     lay->addStretch();
     layH->addStretch();
@@ -58,7 +60,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
 //    connect(m_clearbutton, &DPushButton::clicked, this, [ = ]() {
 //        memoryclean();
 //    });
-    connect(m_clearbutton, &DPushButton::clicked, this, &MemoryWidget::memorycleansig);
+    connect(m_clearbutton, &DPushButton::clicked, this, &MemoryWidget::memorycleansignal);
     lay->addLayout(layH);
     this->setLayout(lay);
     connect(m_listwidget, &MemoryListWidget::itemselected, this, [ = ](int row) {
@@ -67,7 +69,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
             MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
             //        p.first = m_listwidget->item(row)->data(Qt::DisplayRole).toString();
             p.first = w1->textLabel();
-            p.second = list.at(row);
+            p.second = m_list.at(row);
             if (m_listwidget->item(row)->flags() != Qt::NoItemFlags)
                 emit itemclick(p);
         }
@@ -77,8 +79,8 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
 void MemoryWidget::generateData(Quantity answer)
 {
     //500 memory number limit
-    if (list.count() == 500) {
-        list.pop_back();
+    if (m_list.count() == 500) {
+        m_list.pop_back();
         m_listwidget->takeItem(499);
     }
     if (m_isempty == true) {
@@ -92,9 +94,9 @@ void MemoryWidget::generateData(Quantity answer)
     QFont font;
     font.setPixelSize(30);
     item1->setFont(font);
-    item1->setSizeHint(QSize(itemwidth, 40 + 45 * line));
+    item1->setSizeHint(QSize(m_itemwidth, 40 + 45 * m_line));
     MemoryItemWidget *widget = new MemoryItemWidget(this);
-    widget->setFixedSize(QSize(itemwidth, 40 + 45 * line));
+    widget->setFixedSize(QSize(m_itemwidth, 40 + 45 * m_line));
 
     m_listwidget->insertItem(0, item1);
     m_listwidget->setItemWidget(item1, widget);
@@ -102,13 +104,13 @@ void MemoryWidget::generateData(Quantity answer)
 //        item1->setData(Qt::DisplayRole, "0");
         widget->setTextLabel("0");
     } else {
-        const QString result = DMath::format(answer, Quantity::Format::General() + Quantity::Format::Precision(precision));
+        const QString result = DMath::format(answer, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = setitemwordwrap(formatResult);
 //        item1->setData(Qt::DisplayRole, formatResult);
         widget->setTextLabel(formatResult);
     }
-    list.insert(0, answer); //对于新增数据，同步在list中加入对应的Quantity
+    m_list.insert(0, answer); //对于新增数据，同步在list中加入对应的Quantity
     connect(widget, &MemoryItemWidget::plusbtnclicked, this, [ = ]() {
         int row = m_listwidget->row(item1);
 //        widget->setFocus();
@@ -121,8 +123,8 @@ void MemoryWidget::generateData(Quantity answer)
     });
     connect(widget, &MemoryItemWidget::cleanbtnclicked, this, [ = ]() {
 //        widget->setFocus();
-        emit widgetclean(m_listwidget->row(item1), calculatormode);
-        list.removeAt(m_listwidget->row(item1));
+        emit widgetclean(m_listwidget->row(item1), m_calculatormode);
+        m_list.removeAt(m_listwidget->row(item1));
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
         if (m_listwidget->count() == 0) {
@@ -136,8 +138,8 @@ void MemoryWidget::generateData(Quantity answer)
         widget->update();
     });
     connect(widget, &MemoryItemWidget::menuclean, this, [ = ]() {
-        emit widgetclean(m_listwidget->row(item1), calculatormode);
-        list.removeAt(m_listwidget->row(item1));
+        emit widgetclean(m_listwidget->row(item1), m_calculatormode);
+        m_list.removeAt(m_listwidget->row(item1));
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
         if (m_listwidget->count() == 0) {
@@ -190,21 +192,21 @@ void MemoryWidget::mousePressEvent(QMouseEvent *event)
 
 void MemoryWidget::memoryplus(Quantity answer)
 {
-    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(78));
+    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC));
     QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
     formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
     if (m_isempty == false) {
 //        QString exp = QString(m_listwidget->item(0)->data(Qt::EditRole).toString() + "+(" + formatResultmem + ")");
-        QString exp = QString(DMath::format(list.value(0), Quantity::Format::Fixed() + Quantity::Format::Precision(78)) + "+(" + formatResultmem + ")");
+        QString exp = QString(DMath::format(m_list.value(0), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "+(" + formatResultmem + ")");
         m_evaluator->setExpression(formatExpression(exp));
         Quantity ans = m_evaluator->evalUpdateAns();
-        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(precision));
+        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = setitemwordwrap(formatResult);
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
 //        m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
         w1->setTextLabel(formatResult);
-        list.replace(0, ans);
+        m_list.replace(0, ans);
     } else {
         m_listwidget->clear();
         generateData(answer);
@@ -213,46 +215,46 @@ void MemoryWidget::memoryplus(Quantity answer)
 
 void MemoryWidget::memoryminus(Quantity answer)
 {
-    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(78));
+    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC));
     QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
     formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
     if (m_isempty == false) {
 //        QString exp = QString(m_listwidget->item(0)->data(Qt::EditRole).toString() + "-(" + formatResultmem + ")");
-        QString exp = QString(DMath::format(list.value(0), Quantity::Format::Fixed() + Quantity::Format::Precision(78)) + "-(" + formatResultmem + ")");
+        QString exp = QString(DMath::format(m_list.value(0), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "-(" + formatResultmem + ")");
         m_evaluator->setExpression(formatExpression(exp));
         Quantity ans = m_evaluator->evalUpdateAns();
-        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(precision));
+        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = setitemwordwrap(formatResult);
 //        m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
         w1->setTextLabel(formatResult);
-        list.replace(0, ans);
+        m_list.replace(0, ans);
     } else {
         m_listwidget->clear();
         generateData(Quantity(0));
         QString exp = QString("0-(" + formatResultmem + ")");
         m_evaluator->setExpression(formatExpression(exp));
         Quantity ans = m_evaluator->evalUpdateAns();
-        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(precision));
+        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = setitemwordwrap(formatResult);
 //        m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
         w1->setTextLabel(formatResult);
-        list.replace(0, ans);
+        m_list.replace(0, ans);
     }
 }
 
 void MemoryWidget::memoryclean()
 {
     m_listwidget->clear();
-    list.clear();
+    m_list.clear();
     m_listwidget->addItem(tr("Nothing saved in memory"));
     QFont m_clearbuttonfont;
     m_clearbuttonfont.setPixelSize(16);
     m_listwidget->item(0)->setFont(m_clearbuttonfont);
-    m_listwidget->item(0)->setSizeHint(QSize(itemwidth, m_listwidget->frameRect().height()));
+    m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, m_listwidget->frameRect().height()));
     m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
     m_listwidget->item(0)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     emptymemoryfontcolor();
@@ -282,7 +284,7 @@ QPair<QString, Quantity> MemoryWidget::getfirstnumber()
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
         QString str = w1->textLabel();
         p1.first = str.remove("\n");
-        p1.second = list.at(0);
+        p1.second = m_list.at(0);
         return p1;
     } else {
         p1.first = QString();
@@ -293,45 +295,45 @@ QPair<QString, Quantity> MemoryWidget::getfirstnumber()
 
 void MemoryWidget::widgetplusslot(int row, Quantity answer)
 {
-    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(78));
+    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC));
     QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
     formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
     if (answer == Quantity(0)) {
 //        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole));
     } else {
 //        QString exp = QString(m_listwidget->item(row)->data(Qt::EditRole).toString() + "+(" + formatResultmem + ")");
-        QString exp = QString(DMath::format(list.value(row), Quantity::Format::Fixed() + Quantity::Format::Precision(78)) + "+(" + formatResultmem + ")");
+        QString exp = QString(DMath::format(m_list.value(row), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "+(" + formatResultmem + ")");
         m_evaluator->setExpression(formatExpression(exp));
         Quantity ans = m_evaluator->evalUpdateAns();
-        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(precision));
+        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = setitemwordwrap(formatResult, row);
 //        m_listwidget->item(row)->setData(Qt::DisplayRole, formatResult);
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
         w1->setTextLabel(formatResult);
-        list.replace(row, ans);
+        m_list.replace(row, ans);
     }
 }
 
 void MemoryWidget::widgetminusslot(int row, Quantity answer)
 {
-    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(78));
+    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC));
     QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
     formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
     if (answer == Quantity(0)) {
         //        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole));
     } else {
 //        QString exp = QString(m_listwidget->item(row)->data(Qt::EditRole).toString() + "-(" + formatResultmem + ")");
-        QString exp = QString(DMath::format(list.value(row), Quantity::Format::Fixed() + Quantity::Format::Precision(78)) + "-(" + formatResultmem + ")");
+        QString exp = QString(DMath::format(m_list.value(row), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "-(" + formatResultmem + ")");
         m_evaluator->setExpression(formatExpression(exp));
         Quantity ans = m_evaluator->evalUpdateAns();
-        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(precision));
+        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = setitemwordwrap(formatResult, row);
 //        m_listwidget->item(row)->setData(Qt::DisplayRole, formatResult);
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
         w1->setTextLabel(formatResult);
-        list.replace(row, ans);
+        m_list.replace(row, ans);
     }
 }
 
@@ -346,8 +348,8 @@ void MemoryWidget::expressionempty(bool b)
 
 void MemoryWidget::widgetcleanslot(int row, int mode)
 {
-    if (calculatormode != mode) {
-        list.removeAt(row);
+    if (m_calculatormode != mode) {
+        m_list.removeAt(row);
         delete m_listwidget->takeItem(row);
         if (m_listwidget->count() == 0) {
             memoryclean();
@@ -365,19 +367,26 @@ QString MemoryWidget::formatExpression(const QString &text)
            .replace(QString::fromUtf8(","), "");
 }
 
+/**
+ * @brief MemoryWidget::setitemwordwrap
+ * @param text
+ * @param row
+ * 分行函数
+ * @return
+ */
 QString MemoryWidget::setitemwordwrap(const QString &text, int row)
 {
     QString result = text;
     result.replace('-', "－").replace('+', "＋");
     int index = result.indexOf("e");
-    line = 1;
-    if (calculatormode == 0) {
+    m_line = 1;
+    if (m_calculatormode == 0) {
         if (index > 0 && result.left(index).length() > 13) {
             result.insert(index, "\n");
-            line = 2;
+            m_line = 2;
         } else if (index <= 0 && result.length() > 21) {
             result.insert(20, "\n");
-            line = 2;
+            m_line = 2;
         }
         if (m_clearbutton->isHidden() == true) {
             m_clearbutton->show();
@@ -386,11 +395,11 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
     } else {
         if (index > 15) {
             result.insert(index, "\n");
-            line = 2;
+            m_line = 2;
             if (index > 20) {
                 result.remove("\n");
                 result.insert(20, "\n");
-                line = 2;
+                m_line = 2;
 //                if (index > 33 && result.right(result.length() - index - 1).length() > 3) {
 //                    result.insert(index + 1, "\n");
 //                    line = 3;
@@ -398,14 +407,14 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
             }
         } else if (index <= 0 && result.length() > 21) {
             result.insert(20, "\n");
-            line = 2;
+            m_line = 2;
         }
     }
     if (m_listwidget->item(row)) {
-        m_listwidget->item(row)->setSizeHint(QSize(itemwidth, 40 + 45 * line));
-        m_listwidget->itemWidget(m_listwidget->item(row))->setFixedSize(QSize(itemwidth, 40 + 45 * line));
+        m_listwidget->item(row)->setSizeHint(QSize(m_itemwidth, 40 + 45 * m_line));
+        m_listwidget->itemWidget(m_listwidget->item(row))->setFixedSize(QSize(m_itemwidth, 40 + 45 * m_line));
     }
-    static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)))->setLineHight(line);
+    static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)))->setLineHight(m_line);
     return result;
 }
 

@@ -50,9 +50,9 @@ FunCombobox::FunCombobox(DComboBox *parent)
       m_listwidget(new DListWidget),
       m_mapper(new QSignalMapper(this))
 {
-    widget = new QWidget;
-    widget->setLayout(m_gridlayout1);
-    widget->setStyleSheet("QWidget{background-color:transparent;border:none;}");
+    m_widget = new QWidget;
+    m_widget->setLayout(m_gridlayout1);
+    m_widget->setStyleSheet("QWidget{background-color:transparent;border:none;}");
     m_gridlayout1->setSpacing(0);
     m_gridlayout1->setMargin(0);
     m_gridlayout1->setContentsMargins(0, 0, 0, 0);
@@ -110,7 +110,7 @@ void FunCombobox::updateData()
 {
     m_listwidget->clear();
     QListWidgetItem *item = new QListWidgetItem(m_listwidget);
-    m_listwidget->setItemWidget(item, widget);
+    m_listwidget->setItemWidget(item, m_widget);
     item->setSizeHint(QSize(95, 95));
     item->setFlags(Qt::NoItemFlags);
 }

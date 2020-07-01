@@ -51,11 +51,11 @@ private slots:
     void selectHistory(const QModelIndex &index);
 private:
     int m_mode = 0;
-    int currentrow = -1;
+    int m_currentrow = -1;
     bool m_itemfill = false;
-    bool ispressed = false;
-    QPoint presspoint = QPoint();
-    bool presschanged = false;
+    bool m_ispressed = false;
+    QPoint m_presspoint = QPoint();
+    bool m_presschanged = false;
 };
 
 #endif

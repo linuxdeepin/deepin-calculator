@@ -74,16 +74,13 @@ private:
     MemoryKeypad *m_memoryKeypad;
     QStackedLayout *m_keypadLayout;
     MemoryWidget *m_memorylistwidget;
-    QColor m_expBarColor;
-    QColor m_expBarSepColor;
-    QColor m_btnSepColor;
     bool m_insidewidget;
     bool m_avail = false;
     bool m_isinsidefun = false;//鼠标点击在函数widget内
     bool m_memCalbtn; //m+,m-,ms
     bool m_memRCbtn;//mr,mc
     bool m_isallgray; //内存按钮全部置灰;
-    MemoryPublic *memoryPublic;
+    MemoryPublic *m_memoryPublic;
 };
 
 #endif

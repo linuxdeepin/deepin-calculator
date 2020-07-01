@@ -163,22 +163,16 @@ private:
     bool m_isAutoComputation;  //自动计算
     bool m_inputNumber;        //输入数字
     bool m_isUndo;
-//    int m_hisRevision;  //历史记录修改
-
-//    bool m_isLinked;     //联动状态
-//    int m_linkageIndex;  //联动索引缓存
-//    int m_Selected;      //选中
     QString m_selection;
-//    QVector<historicalLinkageIndex> m_hisLink;  //历史联动索引
     QVector<QString> m_undo;
     QVector<QString> m_redo;
 
     bool m_meanexp;    //是否表达式为纯数字
     bool m_FEisdown = false; //科学计算开关打开
     //支持的功能列表
-    QList<QString> funclist;
+    QList<QString> m_funclist;
     QString m_expression = QString();
-    QPair<bool, QString> pair;
+    QPair<bool, QString> m_pair; //getexpression()函数的返回值，first为是否是错误表达式，second为表达式
     Quantity m_listanswer = Quantity(); //历史记录对应的answer
 };
 #endif // SCIEXPRESSIONBAR_H

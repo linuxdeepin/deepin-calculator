@@ -10,10 +10,10 @@
 
 MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     : QWidget(parent)
-    , btnplus(new MemoryButton(QString("M+"), true, this))
-    , btnminus(new MemoryButton(QString("M-"), true, this))
-    , btnclean(new MemoryButton(QString("MC"), true, this))
-    , label(new QLabel(this))
+    , m_btnplus(new MemoryButton(QString("M+"), true, this))
+    , m_btnminus(new MemoryButton(QString("M-"), true, this))
+    , m_btnclean(new MemoryButton(QString("MC"), true, this))
+    , m_label(new QLabel(this))
 {
     QVBoxLayout *layV = new QVBoxLayout();
     QHBoxLayout *layH = new QHBoxLayout(this);
@@ -21,24 +21,24 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
 
     lay->addStretch();
     lay->setSpacing(0);
-    lay->addWidget(btnclean);
-    lay->addWidget(btnplus);
-    lay->addWidget(btnminus);
+    lay->addWidget(m_btnclean);
+    lay->addWidget(m_btnplus);
+    lay->addWidget(m_btnminus);
 //    lay->addSpacing(20);
     layV->setMargin(0);
-    layV->addWidget(label);
+    layV->addWidget(m_label);
     layV->addStretch();
 //    lineedit->setAlignment(Qt::AlignTop);
     QFont font;
     font.setPixelSize(30);
-    label->setFont(font);
-    label->setAttribute(Qt::WA_TranslucentBackground);
+    m_label->setFont(font);
+    m_label->setAttribute(Qt::WA_TranslucentBackground);
 
-    label->setAlignment(Qt::AlignRight | Qt::AlignTop);
+    m_label->setAlignment(Qt::AlignRight | Qt::AlignTop);
 //    lineedit->setAlignment(Qt::AlignCenter | Qt::AlignBottom | Qt::AlignHCenter);
 //    lineedit->setTextMargins(0, 0, 10, 6);
 
-    label->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+    m_label->setAttribute(Qt::WA_TransparentForMouseEvents, true);
 //    layV->addLayout(laylabel);
     layV->addLayout(lay);
 //    layV->setContentsMargins(0, 0, 0, 0);
@@ -48,21 +48,21 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     this->setLayout(layH);
 //    this->setContentsMargins(0, 0, 0, 0);
 
-    connect(btnplus, &QPushButton::clicked, this, &MemoryItemWidget::plusbtnclicked);
-    connect(btnminus, &QPushButton::clicked, this, &MemoryItemWidget::minusbtnclicked);
-    connect(btnclean, &QPushButton::clicked, this, &MemoryItemWidget::cleanbtnclicked);
-    btnplus->setHidden(true);
-    btnminus->setHidden(true);
-    btnclean->setHidden(true);
+    connect(m_btnplus, &QPushButton::clicked, this, &MemoryItemWidget::plusbtnclicked);
+    connect(m_btnminus, &QPushButton::clicked, this, &MemoryItemWidget::minusbtnclicked);
+    connect(m_btnclean, &QPushButton::clicked, this, &MemoryItemWidget::cleanbtnclicked);
+    m_btnplus->setHidden(true);
+    m_btnminus->setHidden(true);
+    m_btnclean->setHidden(true);
 //    m_font.setPixelSize(18);
 }
 
 void MemoryItemWidget::enterEvent(QEvent *event)
 {
-    ishover = true;
-    btnplus->setHidden(false);
-    btnminus->setHidden(false);
-    btnclean->setHidden(false);
+    m_ishover = true;
+    m_btnplus->setHidden(false);
+    m_btnminus->setHidden(false);
+    m_btnclean->setHidden(false);
     update();
 //    this->setAttribute(Qt::WA_StyledBackground, true);
 //    this->setStyleSheet("background-color: rgb(245,245,245)");
@@ -72,10 +72,10 @@ void MemoryItemWidget::enterEvent(QEvent *event)
 void MemoryItemWidget::leaveEvent(QEvent *event)
 {
 //    clearFocus();
-    ishover = false;
-    btnplus->setHidden(true);
-    btnminus->setHidden(true);
-    btnclean->setHidden(true);
+    m_ishover = false;
+    m_btnplus->setHidden(true);
+    m_btnminus->setHidden(true);
+    m_btnclean->setHidden(true);
     emit itemchanged(m_themetype);
 //    this->setAttribute(Qt::WA_StyledBackground, true);
 //    this->setStyleSheet("background-color: rgb(255,255,255)");
@@ -87,7 +87,7 @@ void MemoryItemWidget::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::RightButton)
         return;
     setFocus();
-    ispress = true;
+    m_ispress = true;
     DPalette pl1 = this->palette();
     if (m_themetype == 1) {
         pl1.setColor(DPalette::Text, Qt::black);
@@ -101,7 +101,7 @@ void MemoryItemWidget::mousePressEvent(QMouseEvent *event)
 
     // pl.setColor(DPalette::Text,QColor(48,48,48));
 
-    label->setPalette(pl1);
+    m_label->setPalette(pl1);
     update();
     QWidget::mousePressEvent(event);
 }
@@ -111,7 +111,7 @@ void MemoryItemWidget::mouseReleaseEvent(QMouseEvent *event)
     if (event->button() == Qt::RightButton)
         return;
     clearFocus();
-    ispress = false;
+    m_ispress = false;
     DPalette pl1 = this->palette();
     if (m_themetype == 1) {
         pl1.setColor(DPalette::Text, Qt::black);
@@ -125,7 +125,7 @@ void MemoryItemWidget::mouseReleaseEvent(QMouseEvent *event)
 
     // pl.setColor(DPalette::Text,QColor(48,48,48));
 
-    label->setPalette(pl1);
+    m_label->setPalette(pl1);
     QWidget::mouseReleaseEvent(event);
 }
 
@@ -140,7 +140,7 @@ void MemoryItemWidget::contextMenuEvent(QContextMenuEvent *event)
     menu->addAction(clean);
     menu->addAction(plus);
     menu->addAction(minus);
-    if (isExpressionEmpty) {
+    if (m_isExpressionEmpty) {
         plus->setEnabled(false);
         minus->setEnabled(false);
     } else {
@@ -165,12 +165,12 @@ void MemoryItemWidget::contextMenuEvent(QContextMenuEvent *event)
 
 void MemoryItemWidget::setTextLabel(QString s)
 {
-    label->setText(s);
+    m_label->setText(s);
 }
 
 QString MemoryItemWidget::textLabel()
 {
-    return label->text();
+    return m_label->text();
 }
 
 void MemoryItemWidget::paintEvent(QPaintEvent *e)
@@ -195,12 +195,12 @@ void MemoryItemWidget::paintEvent(QPaintEvent *e)
         hover = QColor(255, 255, 255);
         hover.setAlphaF(0.05);
     }
-    if (ishover) {
+    if (m_ishover) {
         painter.setPen(Qt::NoPen);
 //        painter.setFont(m_font);
         painter.setBrush(hover);
         painter.drawRect(rect);
-        if (ispress) {
+        if (m_ispress) {
             painter.setRenderHint(QPainter::Antialiasing, true);
             painter.setPen(Qt::NoPen);
             painter.setBrush(press);
@@ -212,7 +212,7 @@ void MemoryItemWidget::paintEvent(QPaintEvent *e)
 
 void MemoryItemWidget::setLineHight(int line)
 {
-    label->setFixedHeight(45 * line);
+    m_label->setFixedHeight(45 * line);
 }
 
 void MemoryItemWidget::themetypechanged(int type)
@@ -231,18 +231,18 @@ void MemoryItemWidget::themetypechanged(int type)
 
     // pl.setColor(DPalette::Text,QColor(48,48,48));
 
-    label->setPalette(pl1);
+    m_label->setPalette(pl1);
 }
 
 void MemoryItemWidget::isexpressionempty(bool b)
 {
-    isExpressionEmpty = b;
-    if (isExpressionEmpty) {
-        btnplus->setEnabled(false);
-        btnminus->setEnabled(false);
+    m_isExpressionEmpty = b;
+    if (m_isExpressionEmpty) {
+        m_btnplus->setEnabled(false);
+        m_btnminus->setEnabled(false);
     } else {
-        btnplus->setEnabled(true);
-        btnminus->setEnabled(true);
+        m_btnplus->setEnabled(true);
+        m_btnminus->setEnabled(true);
     }
 }
 

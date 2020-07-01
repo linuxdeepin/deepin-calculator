@@ -60,15 +60,15 @@ private:
     QStackedLayout *m_stacklayout;
     MemoryWidget *m_memorywidget;
     DButtonBox *m_buttonbox;
-    IconButton *m_clearbutton;
-    IconButton *m_clearbuttonM;
+    IconButton *m_clearbutton; //历史界面清除按钮
+    IconButton *m_clearbuttonM; //内存界面清除按钮
     MemoryPublic *memoryPublic;
     QStackedWidget *m_buttonstack;
-    //0-hide 1-show,hide-是否为空,index-当前界面
-    bool ishideM = false;
-    bool indexM = false;
-    bool ishideH = false;
-    bool indexH = true;
+    //0-hide 1-show,hide-是否为空,index-当前是历史界面/内存界面
+    bool m_ishideM = false;
+    bool m_indexM = false;
+    bool m_ishideH = false;
+    bool m_indexH = true;
 };
 
 #endif // SCIHISTORYWIDGET_H

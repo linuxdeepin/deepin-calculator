@@ -121,8 +121,8 @@ static DPushButton *createSpecialKeyButton(SciBasicKeyPad::Buttons key)
 
 SciBasicKeyPad::SciBasicKeyPad(QWidget *parent)
     : DWidget(parent)
-    , tri(new DPushButton("tri"))
-    , fun(new DPushButton("fun"))
+    , m_tri(new DPushButton("tri"))
+    , m_fun(new DPushButton("fun"))
     , m_stacklayout(new QStackedLayout)
     , m_tristacklayout(new QStackedLayout)
     , m_hlayout(new QHBoxLayout)
@@ -139,8 +139,8 @@ SciBasicKeyPad::SciBasicKeyPad(QWidget *parent)
     , m_mapper(new QSignalMapper(this))
     , m_triCombobox(new ComboBox)
     , m_funCombobox(new FunCombobox)
-    , hwidget(new QWidget(this))
-    , stackwidget(new QWidget(this))
+    , m_hwidget(new QWidget(this))
+    , m_stackwidget(new QWidget(this))
 {
     QWidget *page1 = new QWidget(this);
     QWidget *page2 = new QWidget(this);
@@ -149,21 +149,21 @@ SciBasicKeyPad::SciBasicKeyPad(QWidget *parent)
     page2->setLayout(m_gridlayout2);
     m_stacklayout->addWidget(page1);
     m_stacklayout->addWidget(page2);
-    stackwidget->setLayout(m_stacklayout);
+    m_stackwidget->setLayout(m_stacklayout);
 //    m_hlayout->addWidget(m_triCombobox);
 //    m_hlayout->addWidget(m_funCombobox);
-    m_hlayout->addWidget(tri);
-    m_hlayout->addWidget(fun);
+    m_hlayout->addWidget(m_tri);
+    m_hlayout->addWidget(m_fun);
     m_hlayout->setMargin(0);
     m_hlayout->setSpacing(0);
     m_hlayout->setContentsMargins(0, 0, 0, 0);
-    hwidget->setLayout(m_hlayout);
+    m_hwidget->setLayout(m_hlayout);
     m_funwidget->setParent(this);
     m_funwidget->setFixedSize(210, 95);
     m_funwidget->setLayout(m_fungridlayout);
 
     m_funwidget->setStyleSheet("QWidget { border: 0px solid #000000; background-color:rgb(180, 180, 180)}");
-    m_funwidget->move(12, hwidget->height() + 5);
+    m_funwidget->move(12, m_hwidget->height() + 5);
     m_funwidget->hide();
 
     QWidget *tripage1 = new QWidget;
@@ -199,12 +199,12 @@ SciBasicKeyPad::SciBasicKeyPad(QWidget *parent)
     m_triwidget->setFixedSize(280, 95);
     m_triwidget->setLayout(m_tristacklayout);
     m_triwidget->setStyleSheet("QWidget { border: 0px solid #000000; background-color:rgb(180, 180, 180)}");
-    m_triwidget->move(12, hwidget->height() + 5);
+    m_triwidget->move(12, m_hwidget->height() + 5);
     m_triwidget->hide();
 
     m_hlayout->addStretch();
-    m_vlayout->addWidget(hwidget);
-    m_vlayout->addWidget(stackwidget);
+    m_vlayout->addWidget(m_hwidget);
+    m_vlayout->addWidget(m_stackwidget);
     m_vlayout->setMargin(0);
     m_vlayout->setSpacing(0);
     m_vlayout->setContentsMargins(0, 0, 0, 0);
@@ -217,16 +217,16 @@ SciBasicKeyPad::SciBasicKeyPad(QWidget *parent)
     connect(m_triCombobox, SIGNAL(buttonPressed(int)), SIGNAL(buttonPressed(int)));
     connect(this, &SciBasicKeyPad::buttonPressed, this,
             &SciBasicKeyPad::turnPage);
-    connect(fun, &DPushButton::clicked, m_funwidget, [ = ]() {
+    connect(m_fun, &DPushButton::clicked, m_funwidget, [ = ]() {
         m_funwidget->show();
-        hwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
-        stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
+        m_hwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
+        m_stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
         emit funshow();
     });
-    connect(tri, &DPushButton::clicked, m_triwidget, [ = ]() {
+    connect(m_tri, &DPushButton::clicked, m_triwidget, [ = ]() {
         m_triwidget->show();
-        hwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
-        stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
+        m_hwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
+        m_stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
         emit funshow();
     });
 
@@ -407,8 +407,8 @@ void SciBasicKeyPad::initButtons()
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &SciBasicKeyPad::moveRight);
         connect(button, &DPushButton::clicked, m_funwidget, [ = ]() {
             m_funwidget->hide();
-            hwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-            stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+            m_hwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+            m_stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
         });
         m_mapper->setMapping(button, desc1->button);
     }
@@ -438,8 +438,8 @@ void SciBasicKeyPad::initButtons()
         connect(button, &DPushButton::clicked, m_triwidget, [ = ]() {
             if (!(button->text() == "page1") && !(button->text() == "hyp")) {
                 m_triwidget->hide();
-                hwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-                stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+                m_hwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+                m_stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
             }
         });
         m_mapper->setMapping(button, desc1->button);
@@ -470,8 +470,8 @@ void SciBasicKeyPad::initButtons()
         connect(button, &DPushButton::clicked, m_funwidget, [ = ]() {
             if (!(button->text() == "page2") && !(button->text() == "hyp")) {
                 m_triwidget->hide();
-                hwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-                stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+                m_hwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+                m_stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
             }
         });
         m_mapper->setMapping(button, desc1->button);
@@ -502,8 +502,8 @@ void SciBasicKeyPad::initButtons()
         connect(button, &DPushButton::clicked, m_funwidget, [ = ]() {
             if (!(button->text() == "page1") && !(button->text() == "hyp")) {
                 m_triwidget->hide();
-                hwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-                stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+                m_hwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+                m_stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
             }
         });
         m_mapper->setMapping(button, desc1->button);
@@ -534,8 +534,8 @@ void SciBasicKeyPad::initButtons()
         connect(button, &DPushButton::clicked, m_funwidget, [ = ]() {
             if (!(button->text() == "page2") && !(button->text() == "hyp")) {
                 m_triwidget->hide();
-                hwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-                stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+                m_hwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+                m_stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
             }
         });
         m_mapper->setMapping(button, desc1->button);
@@ -658,6 +658,6 @@ void SciBasicKeyPad::funhide()
     } else {
         m_funwidget->hide();
     }
-    hwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-    stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    m_hwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    m_stackwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
 }

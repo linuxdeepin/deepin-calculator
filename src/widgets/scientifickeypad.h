@@ -87,13 +87,13 @@ private:
     void initUI();
 
 private:
-    QWidget *page2;
+    QWidget *m_page2; //第二页按键
     QVBoxLayout *m_vlayout;
     QGridLayout *m_gridlayout1;
     QGridLayout *m_gridlayout2;
     QSignalMapper *m_mapper;
-    DLabel *leftBracket; //存放左括号不匹配数
-    DLabel *rightBracket; //存放右括号不匹配数
+    DLabel *m_leftBracket; //存放左括号不匹配数
+    DLabel *m_rightBracket; //存放右括号不匹配数
     QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription1 *>> m_keys1;
     QPoint m_mousepoint;

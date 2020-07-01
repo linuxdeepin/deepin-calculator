@@ -102,7 +102,7 @@ private:
     QGridLayout *m_gridlayout3;
     QGridLayout *m_gridlayout4;
     QListWidget *m_listwidget;
-    QWidget *widget;
+    QWidget *m_widget;
     QSignalMapper *m_mapper;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription1 *>> m_keys1;

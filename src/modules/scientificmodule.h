@@ -62,11 +62,7 @@ protected:
 
 private:
     SciExpressionBar *m_sciexpressionBar;
-//    MemoryKeypad *m_memoryKeypad;
     ScientificKeyPad *m_scikeypadwidget;
-    QColor m_expBarColor;
-    QColor m_expBarSepColor;
-    QColor m_btnSepColor;
     bool m_insidewidget;
     bool m_avail = false;
     int m_deg = 1;//1-deg 2-rad 3-grad

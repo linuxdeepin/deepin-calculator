@@ -33,6 +33,8 @@ TextButton::TextButton(const QString &text, bool page, QWidget *parent)
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
         setFixedSize(80, 58);
+//    else
+//        setMinimumSize(67, 44);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");
 

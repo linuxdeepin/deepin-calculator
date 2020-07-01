@@ -38,7 +38,13 @@ class IconButton : public TextButton
     Q_OBJECT
 
 public:
-    IconButton(QWidget *parent = nullptr, int b = 0, bool page = false); //b 1-垃圾桶 2-科学计算器titlebar历史区按钮
+    /**
+     * @brief IconButton
+     * @param parent
+     * @param b 1-垃圾桶 2-科学计算器titlebar历史区按钮
+     * @param page 科学模式第二页的IconButton
+     */
+    IconButton(QWidget *parent = nullptr, int b = 0, bool page = false);
     ~IconButton();
 
     void setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode = 0);
@@ -74,7 +80,7 @@ private:
     int m_themetype;
     int m_page;
     bool m_isHistorybtn = false;
-    QString cleartooltip = QString();
+    QString m_cleartooltip = QString();
 private:
     void SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval);
     void drawCenterPixMap(QPainter &painter);

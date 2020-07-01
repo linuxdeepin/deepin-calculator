@@ -7,6 +7,8 @@
 #include "../utils.h"
 #include "../core/settings.h"
 
+#define SCIPREC 31
+
 SciExpressionBar::SciExpressionBar(QWidget *parent)
     : DWidget(parent)
 {
@@ -51,9 +53,9 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
     initConnect();
 
     Settings::instance()->angleUnit = 'd';
-    funclist = {"arccos", "arctan", "arccot", "sin", "cos", "tan", "cot"
-                , "arcsin", "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π"
-               };
+    m_funclist = {"arccos", "arctan", "arccot", "sin", "cos", "tan", "cot"
+                  , "arcsin", "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π"
+                 };
 }
 
 SciExpressionBar::~SciExpressionBar() {}
@@ -65,13 +67,13 @@ void SciExpressionBar::setContinue(bool isContinue)
 
 QPair<bool, QString> SciExpressionBar::getexpression()
 {
-    pair.second = m_expression;
-    return pair;
+    m_pair.second = m_expression;
+    return m_pair;
 }
 
 Quantity SciExpressionBar::getanswer()
 {
-    if (pair.first == true)
+    if (m_pair.first == true)
         return m_listanswer;
     return Quantity();
 }
@@ -290,16 +292,16 @@ void SciExpressionBar::enterBackspaceEvent()
     } else {
         //退函数
         if (m_inputEdit->cursorPosition() > 0 && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1))) {
-            for (i = 0; i < funclist.size(); i++) {
-                funpos = m_inputEdit->text().lastIndexOf(funclist[i], m_inputEdit->cursorPosition() - 1);
-                if (funpos != -1 && funpos + funclist[i].length() == m_inputEdit->cursorPosition())
+            for (i = 0; i < m_funclist.size(); i++) {
+                funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], m_inputEdit->cursorPosition() - 1);
+                if (funpos != -1 && funpos + m_funclist[i].length() == m_inputEdit->cursorPosition())
                     break;
                 else
                     funpos = -1;
             }
             if (funpos != -1) {
-                m_inputEdit->setText(m_inputEdit->text().remove(m_inputEdit->cursorPosition() - funclist[i].length(), funclist[i].length()));
-                m_inputEdit->setCursorPosition(cur - funclist[i].length());
+                m_inputEdit->setText(m_inputEdit->text().remove(m_inputEdit->cursorPosition() - m_funclist[i].length(), m_funclist[i].length()));
+                m_inputEdit->setCursorPosition(cur - m_funclist[i].length());
             }
         } else {
             int proNumber = text.count(",");
@@ -400,9 +402,9 @@ void SciExpressionBar::enterEqualEvent()
         //edit 20200413 for bug--19653
         QString result;
         if (m_FEisdown)
-            result = DMath::format(ans, Quantity::Format::Scientific() + Quantity::Format::Precision(31));
+            result = DMath::format(ans, Quantity::Format::Scientific() + Quantity::Format::Precision(SCIPREC));
         else
-            result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(31));
+            result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(SCIPREC));
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                        .replace(QString::fromUtf8("－"), "-")
@@ -419,7 +421,7 @@ void SciExpressionBar::enterEqualEvent()
                     .replace("*", QString::fromUtf8("×"))
                     .replace("/", QString::fromUtf8("÷"));
         if (StrToComp == exp) {
-            pair.first = false;
+            m_pair.first = false;
             return;
         }
         //end edit 20200518 for bug-26628
@@ -443,13 +445,13 @@ void SciExpressionBar::enterEqualEvent()
             if (fontWidth < editWidth)
                 break;
         }
-        pair.first = true;
+        m_pair.first = true;
         m_expression = exp + " ＝ " + formatResult;
         m_listModel->updataList(m_expression,
                                 -1, true);
         m_listanswer = ans;
     } else {
-        pair.first = false;
+        m_pair.first = false;
         if (!m_evaluator->error().isEmpty()) {
             m_expression = exp + "＝" + tr("Expression error");
             m_listModel->updataList(m_expression,
@@ -1174,7 +1176,7 @@ void SciExpressionBar::enterRandEvent()
     }
     m_isUndo = false;
     QString str;
-    for (int i = 0; i < 31; i++) {
+    for (int i = 0; i < SCIPREC; i++) {
         int n = qrand() % 10;
         str.append(QString::number(n));
     }
@@ -1599,7 +1601,7 @@ void SciExpressionBar::copyResultToClipboard()
             return;
 
         //edit 20200413 for bug--19653
-        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(31));
+        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(SCIPREC));
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = formatResult.replace('-', "－").replace('+', "＋");
         // m_inputEdit->setAnswer(formatResult, ans);
@@ -1736,7 +1738,7 @@ void SciExpressionBar::hisRevisionResults(const QModelIndex &index, Quantity ans
     QStringList historic = text.split(QString(" ＝ "), QString::SkipEmptyParts);
     if (historic.size() != 2)
         return;
-    QString expression = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(31));
+    QString expression = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(SCIPREC));
 //    m_hisRevision = index.row();
     m_inputEdit->setAnswer(expression, ans);
     m_listModel->updataList(text, -1, true);
@@ -1856,12 +1858,12 @@ QString SciExpressionBar::pasteFaultTolerance(QString exp)
     QStringList list = exp.split(QRegExp("[0-9＋－×÷/()%^!e.,]"));
     for (int i = 0; i < list.size(); i++) {
         QString item = list[i];
-        for (int j = 0; j < funclist.size(); j++) {
-            if (item.toLower().contains(funclist[j])) {
-                item.replace(item, funclist[j]);
+        for (int j = 0; j < m_funclist.size(); j++) {
+            if (item.toLower().contains(m_funclist[j])) {
+                item.replace(item, m_funclist[j]);
                 break;
             }
-            if (j == funclist.size() - 1)
+            if (j == m_funclist.size() - 1)
                 item.replace(item, QString());
         }
         exp.replace(list[i], item);
@@ -2117,15 +2119,15 @@ void SciExpressionBar::moveLeft()
     int funpos = -1;
     int i;
     if (m_inputEdit->cursorPosition() > 0 && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1))) {
-        for (i = 0; i < funclist.size(); i++) {
-            funpos = m_inputEdit->text().lastIndexOf(funclist[i], m_inputEdit->cursorPosition() - 1);
-            if (funpos != -1 && funpos + funclist[i].length() == m_inputEdit->cursorPosition())
+        for (i = 0; i < m_funclist.size(); i++) {
+            funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], m_inputEdit->cursorPosition() - 1);
+            if (funpos != -1 && funpos + m_funclist[i].length() == m_inputEdit->cursorPosition())
                 break;
             else
                 funpos = -1;
         }
         if (funpos != -1) {
-            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - funclist[i].length());
+            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - m_funclist[i].length());
         } else {
             m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
         }
@@ -2143,15 +2145,15 @@ void SciExpressionBar::moveRight()
     int funpos = -1;
     int i;
     if (!cursorPosAtEnd() && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition()))) {
-        for (i = 0; i < funclist.size(); i++) {
-            funpos = m_inputEdit->text().indexOf(funclist[i], m_inputEdit->cursorPosition());
+        for (i = 0; i < m_funclist.size(); i++) {
+            funpos = m_inputEdit->text().indexOf(m_funclist[i], m_inputEdit->cursorPosition());
             if (funpos != -1 && funpos == m_inputEdit->cursorPosition())
                 break;
             else
                 funpos = -1;
         }
         if (funpos != -1) {
-            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + funclist[i].length());
+            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + m_funclist[i].length());
         } else {
             m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + 1);
         }

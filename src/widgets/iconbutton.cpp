@@ -104,11 +104,11 @@ void IconButton::animate(int msec)
 void IconButton::showtooltip(bool ismemory)
 {
     if (ismemory == true) {
-        cleartooltip = tr("Clear all memory");
-        this->setToolTip(cleartooltip);
+        m_cleartooltip = tr("Clear all memory");
+        this->setToolTip(m_cleartooltip);
     } else {
-        cleartooltip = tr("Clear history");
-        this->setToolTip(cleartooltip);
+        m_cleartooltip = tr("Clear history");
+        this->setToolTip(m_cleartooltip);
     }
 }
 
@@ -314,6 +314,14 @@ void IconButton::paintEvent(QPaintEvent *)
     drawCenterPixMap(painter);
 }
 
+/**
+ * @brief SetAttrRecur
+ * @param elem
+ * @param strtagname XML元素标签名
+ * @param strattr setAttribute(name)
+ * @param strattrval setAttribute(value)
+ * 修改加载的svg图片的颜色
+ */
 void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval)
 {
     if (m_mode != 1 && m_mode != 3 && !m_isHistorybtn && m_mode != 5) {

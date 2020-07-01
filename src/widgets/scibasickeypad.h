@@ -137,8 +137,8 @@ private:
     void initUI();
 
 private:
-    DPushButton *tri;
-    DPushButton *fun;
+    DPushButton *m_tri;
+    DPushButton *m_fun;
     QStackedLayout *m_stacklayout;
     QStackedLayout *m_tristacklayout;
     QHBoxLayout *m_hlayout;
@@ -163,8 +163,8 @@ private:
     ComboBox *m_triCombobox;
     FunCombobox *m_funCombobox;
     QPoint m_mousepoint;
-    QWidget *hwidget;
-    QWidget *stackwidget;
+    QWidget *m_hwidget;
+    QWidget *m_stackwidget;
     //DSuggestButton *m_equal;
     //EqualButton *m_equal;
 };

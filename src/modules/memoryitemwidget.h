@@ -50,15 +50,15 @@ public:
 //    QPainter *getpainter();
 
 private:
-    MemoryButton *btnplus;
-    MemoryButton *btnminus;
-    MemoryButton *btnclean;
-    QLabel *label;
+    MemoryButton *m_btnplus;
+    MemoryButton *m_btnminus;
+    MemoryButton *m_btnclean;
+    QLabel *m_label;
     int m_type = 0;
     int m_themetype = 1;
-    bool isExpressionEmpty = false;
-    bool ispress = false;
-    bool ishover = false;
+    bool m_isExpressionEmpty = false;
+    bool m_ispress = false;
+    bool m_ishover = false;
     QFont m_font;
 };
 

@@ -70,10 +70,6 @@ private:
     bool m_selected;
     int m_type;
     int m_mode = 0;
-    QString sciexpStr;
-    QString sciresultStr;
-    int sciexpHeight;
-    int sciresultHeight;
     int m_row = -1;
     int m_state = 0;
 };
