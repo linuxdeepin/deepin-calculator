@@ -31,7 +31,8 @@ TextButton::TextButton(const QString &text, bool page, QWidget *parent)
 {
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
-    mode == 0 ? setFixedSize(80, 58) : setFixedSize(67, 44);
+    if (mode == 0)
+        setFixedSize(80, 58);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");
 
@@ -180,7 +181,8 @@ void TextButton::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
     int mode = m_settings->getOption("mode").toInt();
-    mode == 0 ? setFixedSize(80, 58) : setFixedSize(67, 44);
+    if (mode == 0)
+        setFixedSize(80, 58);
     QRectF rect = this->rect();
     QRectF normal(rect.left() + 2, rect.top() + 2, rect.width() - 4, rect.height() - 4);
     QRectF hover(rect.left() + 3, rect.top() + 3, rect.width() - 6, rect.height() - 6);

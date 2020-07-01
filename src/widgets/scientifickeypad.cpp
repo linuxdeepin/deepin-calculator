@@ -2,6 +2,7 @@
 
 #include <DPalette>
 #include <DImageButton>
+#include <QFloat16>
 
 #include "dthememanager.h"
 #include "scientifickeypad.h"
@@ -112,16 +113,13 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     page1->setLayout(m_gridlayout1);
     page2->setLayout(m_gridlayout2);
     page2->setParent(this);
-    page2->setFixedSize(137, 314);
     page2->setAutoFillBackground(true);
-    page2->move(11, page1->height() + 75);
     page2->hide();
     m_vlayout->addWidget(page1);
     m_vlayout->setMargin(0);
     m_vlayout->setSpacing(0);
     m_vlayout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(m_vlayout);
-    this->setFixedWidth(430);
 
     initButtons();
     initUI();
@@ -204,15 +202,6 @@ void ScientificKeyPad::initButtons()
                     button = new TextButton(desc->text, true);
                 else {
                     button = new TextButton(desc->text);
-                    if (desc->text == "(") {
-                        leftBracket->setParent(button);
-                        leftBracket->move(button->rect().x() + 37, button->rect().y() + 18);
-//                        leftBracket->setText("1");
-                    } else if (desc->text == ")") {
-                        rightBracket->setParent(button);
-                        rightBracket->move(button->rect().x() + 37, button->rect().y() + 18);
-//                        rightBracket->setText("1");
-                    }
                 }
                 QFont font = button->font();
                 font.setFamily("HelveticaNeue");
@@ -261,6 +250,12 @@ void ScientificKeyPad::initButtons()
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
         connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &ScientificKeyPad::moveLeft);
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &ScientificKeyPad::moveRight);
+        //"|x|","Rand"未写入hash，单独处理
+        connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
+            int padding;
+            hishide == false ? padding = 370 : padding = 0;
+            static_cast<TextButton *>(button)->setFixedSize((width - 24 - padding) / 6, (height - 200) / 8);
+        });
         m_mapper->setMapping(button, desc1->button);
     }
     m_gridlayout2->setMargin(0);
@@ -275,6 +270,26 @@ void ScientificKeyPad::initUI()
     while (i.hasNext()) {
         i.next();
         i.value().first->setFocusPolicy(Qt::NoFocus);
+        connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
+            int padding;
+            hishide == false ? padding = 370 : padding = 0;
+            i.value().first->setFixedSize((width - 24 - padding) / 6, (height - 200) / 8);
+            //按比例计算/有小数误差问题,qRound减小误差
+            page2->setFixedSize(qRound(135.0 * (width - 25.0 - padding) / (430.0 - 25.0)), qRound(314.0 * (height - 161.0) / 419.0)); //25-左+右margin
+            page2->move(12, qRound(105.0 * (height - 161.0) / 419.0)); //419-最小窗口时keypad高度
+        });
+        if (i.key() == Key_left) {
+            connect(this, &ScientificKeyPad::windowSize, [ = ]() {
+                leftBracket->setParent(i.value().first);
+                leftBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
+            });
+        }
+        if (i.key() == Key_right) {
+            connect(this, &ScientificKeyPad::windowSize, [ = ]() {
+                rightBracket->setParent(i.value().first);
+                rightBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
+            });
+        }
     }
 
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription1 *>> i1(m_keys1);
@@ -282,6 +297,11 @@ void ScientificKeyPad::initUI()
     while (i1.hasNext()) {
         i1.next();
         i1.value().first->setFocusPolicy(Qt::NoFocus);
+        connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
+            int padding;
+            hishide == false ? padding = 370 : padding = 0;
+            i1.value().first->setFixedSize((width - 24 - padding) / 6, (height - 200) / 8);
+        });
     }
 
     button(Key_Div)->setObjectName("SymbolButton");

@@ -131,6 +131,7 @@ scientificModule::scientificModule(QWidget *parent)
             m_scihiswidget->getMemoryWidget()->expressionempty(b);
         }
     });
+    connect(this, &scientificModule::getWindowChanged, m_scikeypadwidget, &ScientificKeyPad::windowSize);
     // m_expBarColor = "#F8F8F8";
     // m_expBarSepColor = "#F8F8F8";
 }

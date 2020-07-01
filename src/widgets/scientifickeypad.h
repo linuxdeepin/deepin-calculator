@@ -76,6 +76,7 @@ signals:
     void moveRight();
     void funshow();
     void funinside();
+    void windowSize(int width, int height, bool hishide);
 
 private:
     void initUI();

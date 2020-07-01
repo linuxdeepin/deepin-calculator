@@ -35,6 +35,7 @@ public:
     void checkLineEmpty();
 signals:
     void changedeg(int deg);
+    void getWindowChanged(int width, int height, bool hishide);
 
 public slots:
     //memory func

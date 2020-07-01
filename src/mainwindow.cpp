@@ -80,14 +80,17 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_scAction, &QAction::triggered, this, &MainWindow::switchToScientificMode);
     connect(m_historyBtn, &IconButton::isclicked, this, [ = ]() {
         if (m_mainLayout->currentIndex() == 1) {
-            if (m_settings->getOption("history").toInt() == 0)
+            if (m_settings->getOption("history").toInt() == 0) {
+                resize(800, 580);
                 showHistoryWidget();
-            else
+            } else {
                 hideHistoryWidget(true);
+                emit windowChanged(width(), height(), true);
+            }
         } else
             hideHistoryWidget(false);
     });
-
+    connect(this, &MainWindow::windowChanged, m_scientificModule, &scientificModule::getWindowChanged);
     //QShortcut *viewshortcut = new QShortcut(this);
     //viewshortcut->setKey(QKeySequence(QLatin1String("Ctrl+Shift+/")));
     //connect(viewshortcut, SIGNAL(activated()), this, SLOT(onViewShortcut()));
@@ -196,7 +199,7 @@ void MainWindow::switchToScientificMode()
     m_scientificModule->checkLineEmpty();
     if (m_historyBtn->isHidden() == true)
         m_historyBtn->show();
-
+    setMinimumSize(430, 580);
 //    setFixedSize(800, 610);//565.505  //375+300
     if (m_settings->getOption("history").toInt() == 1)
         showHistoryWidget();
@@ -208,7 +211,8 @@ void MainWindow::showHistoryWidget()
 {
     m_settings->setOption("history", 1);
     m_scientificModule->showOrHideHistory(false);
-    setFixedSize(800, 580);
+//    setFixedSize(800, 580);
+//    resize(800, 580);
 }
 
 void MainWindow::hideHistoryWidget(bool b)
@@ -221,7 +225,8 @@ void MainWindow::hideHistoryWidget(bool b)
         setFixedSize(344, 560);
         break;
     case 1:
-        setFixedSize(430, 580);
+        setMinimumSize(430, 580);
+//        setFixedSize(430, 580);
         break;
     }
 }
@@ -239,6 +244,18 @@ void MainWindow::moveEvent(QMoveEvent *event)
 {
     m_settings->setOption("windowX", event->pos().x());
     m_settings->setOption("windowY", event->pos().y());
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    if (event->size().width() <= 799) {
+        hideHistoryWidget(true);
+        emit windowChanged(event->size().width(), event->size().height(), true);
+    } else {
+        showHistoryWidget();
+        emit windowChanged(event->size().width(), event->size().height(), false);
+    }
+    DMainWindow::resizeEvent(event);
 }
 
 /*void MainWindow::onViewShortcut()

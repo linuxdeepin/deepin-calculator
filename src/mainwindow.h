@@ -40,13 +40,15 @@ class MainWindow : public DMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+signals:
+    void windowChanged(int width, int height, bool hishide);
 public slots:
     //void onViewShortcut();
 protected:
     //void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *event);
     void moveEvent(QMoveEvent *event);
+    void resizeEvent(QResizeEvent *event);
 
 private:
     void initTheme();
