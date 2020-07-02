@@ -19,6 +19,7 @@
 #include <QDebug>
 #include <DWidget>
 #include <DLabel>
+#include <QStackedWidget>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -85,12 +86,11 @@ signals:
 
 private:
     void initUI();
+    void initStackWidget(QStackedWidget *widget, DPushButton *button, DPushButton *pagebutton, const KeyDescription1 *desc);
 
 private:
-    QWidget *m_page2; //第二页按键
     QVBoxLayout *m_vlayout;
     QGridLayout *m_gridlayout1;
-    QGridLayout *m_gridlayout2;
     QSignalMapper *m_mapper;
     DLabel *m_leftBracket; //存放左括号不匹配数
     DLabel *m_rightBracket; //存放右括号不匹配数
@@ -99,6 +99,16 @@ private:
     QPoint m_mousepoint;
     int m_themetype;
     int m_deg = 3; //1-deg  2-rad  3-grad
+    QStackedWidget *m_arcsinwidget;
+    QStackedWidget *m_arccoswidget;
+    QStackedWidget *m_arctanwidget;
+    QStackedWidget *m_arccotwidget;
+    QStackedWidget *m_sqrtwidget;
+    QStackedWidget *m_cbrtwidget;
+    QStackedWidget *m_yrootwidget;
+    QStackedWidget *m_2xwidget;
+    QStackedWidget *m_logyxwidget;
+    QStackedWidget *m_exwidget;
     //DSuggestButton *m_equal;
     //EqualButton *m_equal;
 };

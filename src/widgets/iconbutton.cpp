@@ -38,6 +38,7 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
         m_isHistorybtn = true;
         setFixedSize(50, 50);
     }
+    setFocusPolicy(Qt::NoFocus);
 //    QGridLayout *layout = new QGridLayout(this);
 //    layout->addWidget(m_iconWidget, 0, Qt::AlignCenter);
 //    layout->setContentsMargins(0, 0, 0, 0);

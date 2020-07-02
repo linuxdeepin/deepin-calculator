@@ -35,16 +35,16 @@ const ScientificKeyPad::KeyDescription ScientificKeyPad::keyDescriptions[] = {
 
 const ScientificKeyPad::KeyDescription1 ScientificKeyPad::keyDescriptions1[] = {
 
-    {"", Key_arcsin, 1, 0, 1, 1},       {"", Key_sqrt2, 1, 1, 1, 1},
-    {"", Key_arccos, 2, 0, 1, 1}, {"", Key_sqrt3, 2, 1, 1, 1},
+    {"", Key_arcsin, 3, 0, 1, 1},       {"", Key_sqrt2, 3, 1, 1, 1},
+    {"", Key_arccos, 4, 0, 1, 1}, {"", Key_sqrt3, 4, 1, 1, 1},
 
-    {"", Key_arctan, 3, 0, 1, 1},       {"", Key_ysqrtx, 3, 1, 1, 1},
+    {"", Key_arctan, 5, 0, 1, 1},       {"", Key_ysqrtx, 5, 1, 1, 1},
 
-    {"", Key_arccot, 4, 0, 1, 1}, {"2ˣ", Key_2x, 4, 1, 1, 1},
+    {"", Key_arccot, 6, 0, 1, 1}, {"2ˣ", Key_2x, 6, 1, 1, 1},
 
-    {"|x|", Key_Modulus, 5, 0, 1, 1}, {"logᵧx", Key_logyx, 5, 1, 1, 1},
+    {"logᵧx", Key_logyx, 7, 1, 1, 1},
 
-    {"Rand", Key_Rand, 6, 0, 1, 1}, {"eˣ", Key_ex, 6, 1, 1, 1},
+    {"eˣ", Key_ex, 8, 1, 1, 1},
 };
 
 static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool page)
@@ -98,23 +98,33 @@ static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool p
 
 ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     : DWidget(parent)
-    , m_page2(new QWidget)
+//    , m_page2(new QWidget)
     , m_vlayout(new QVBoxLayout(this))
     , m_gridlayout1(new QGridLayout)
-    , m_gridlayout2(new QGridLayout)
+//    , m_gridlayout2(new QGridLayout)
     , m_mapper(new QSignalMapper(this))
     , m_leftBracket(new DLabel)
     , m_rightBracket(new DLabel)
+    , m_arcsinwidget(new QStackedWidget)
+    , m_arccoswidget(new QStackedWidget)
+    , m_arctanwidget(new QStackedWidget)
+    , m_arccotwidget(new QStackedWidget)
+    , m_sqrtwidget(new QStackedWidget)
+    , m_cbrtwidget(new QStackedWidget)
+    , m_yrootwidget(new QStackedWidget)
+    , m_2xwidget(new QStackedWidget)
+    , m_logyxwidget(new QStackedWidget)
+    , m_exwidget(new QStackedWidget)
 {
     m_leftBracket->setFixedSize(24, 13);
     m_rightBracket->setFixedSize(24, 13);
     QWidget *page1 = new QWidget(this);
 
     page1->setLayout(m_gridlayout1);
-    m_page2->setLayout(m_gridlayout2);
-    m_page2->setParent(this);
-    m_page2->setAutoFillBackground(true);
-    m_page2->hide();
+//    m_page2->setLayout(m_gridlayout2);
+//    m_page2->setParent(this);
+//    m_page2->setAutoFillBackground(true);
+//    m_page2->hide();
     m_vlayout->addWidget(page1);
     m_vlayout->setMargin(0);
     m_vlayout->setSpacing(0);
@@ -183,6 +193,7 @@ void ScientificKeyPad::initButtons()
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
         DPushButton *button;
+        DPushButton *pagebutton;
 
         if (desc->text.isEmpty()) {
             if (i > 5 && (i % 6 == 0 || i % 6 == 1))
@@ -208,9 +219,60 @@ void ScientificKeyPad::initButtons()
                 button->setFont(font);
             }
         }
-
-        m_gridlayout1->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
-                                 Qt::AlignHCenter | Qt::AlignBottom);
+        if (desc->button == Key_sin) {
+            const KeyDescription1 *desc1 = keyDescriptions1;
+            pagebutton = createSpecialKeyButton(Key_arcsin, true);
+            initStackWidget(m_arcsinwidget, button, pagebutton, desc1);
+        } else if (desc->button == Key_x2) {
+            const KeyDescription1 *desc1 = keyDescriptions1 + 1;
+            pagebutton = createSpecialKeyButton(Key_sqrt2, true);
+            initStackWidget(m_arccoswidget, button, pagebutton, desc1);
+        } else if (desc->button == Key_cos) {
+            const KeyDescription1 *desc1 = keyDescriptions1 + 2;
+            pagebutton = createSpecialKeyButton(Key_arccos, true);
+            initStackWidget(m_arctanwidget, button, pagebutton, desc1);
+        } else if (desc->button == Key_x3) {
+            const KeyDescription1 *desc1 = keyDescriptions1 + 3;
+            pagebutton = createSpecialKeyButton(Key_sqrt3, true);
+            initStackWidget(m_arccotwidget, button, pagebutton, desc1);
+        } else if (desc->button == Key_tan) {
+            const KeyDescription1 *desc1 = keyDescriptions1 + 4;
+            pagebutton = createSpecialKeyButton(Key_arctan, true);
+            initStackWidget(m_sqrtwidget, button, pagebutton, desc1);
+        } else if (desc->button == Key_xy) {
+            const KeyDescription1 *desc1 = keyDescriptions1 + 5;
+            pagebutton = createSpecialKeyButton(Key_ysqrtx, true);
+            initStackWidget(m_cbrtwidget, button, pagebutton, desc1);
+        } else if (desc->button == Key_cot) {
+            const KeyDescription1 *desc1 = keyDescriptions1 + 6;
+            pagebutton = createSpecialKeyButton(Key_arccot, true);
+            initStackWidget(m_yrootwidget, button, pagebutton, desc1);
+        } else if (desc->button == Key_10x) {
+            const KeyDescription1 *desc1 = keyDescriptions1 + 7;
+            pagebutton = new TextButton("2ˣ", true);
+            QFont font = button->font();
+            font.setFamily("HelveticaNeue");
+            button->setFont(font);
+            initStackWidget(m_2xwidget, button, pagebutton, desc1);
+        } else if (desc->button == Key_log) {
+            const KeyDescription1 *desc1 = keyDescriptions1 + 8;
+            pagebutton = new TextButton("logᵧx", true);
+            QFont font = button->font();
+            font.setFamily("HelveticaNeue");
+            button->setFont(font);
+            initStackWidget(m_logyxwidget, button, pagebutton, desc1);
+        } else if (desc->button == Key_ln) {
+            const KeyDescription1 *desc1 = keyDescriptions1 + 9;
+            pagebutton = new TextButton("eˣ", true);
+            QFont font = button->font();
+            font.setFamily("HelveticaNeue");
+            button->setFont(font);
+            initStackWidget(m_exwidget, button, pagebutton, desc1);
+        } else {
+            pagebutton = new DPushButton;
+            m_gridlayout1->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
+                                     Qt::AlignHCenter | Qt::AlignBottom);
+        }
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue);
 
@@ -219,48 +281,11 @@ void ScientificKeyPad::initButtons()
         connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &ScientificKeyPad::moveLeft);
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &ScientificKeyPad::moveRight);
         m_mapper->setMapping(button, desc->button);
+
     }
     m_gridlayout1->setMargin(0);
     m_gridlayout1->setSpacing(0);
     m_gridlayout1->setContentsMargins(0, 0, 0, 0);
-
-    const int count1 = sizeof(keyDescriptions1) / sizeof(keyDescriptions1[0]);
-    for (int i = 0; i < count1; ++i) {
-        const KeyDescription1 *desc1 = keyDescriptions1 + i;
-        DPushButton *button;
-
-        if (desc1->text.isEmpty()) {
-            button = createSpecialKeyButton(desc1->button, true);
-        } else {
-            button = new TextButton(desc1->text, true);
-
-            QFont font = button->font();
-            font.setFamily("HelveticaNeue");
-            button->setFont(font);
-
-        }
-
-        m_gridlayout2->addWidget(button, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,
-                                 Qt::AlignHCenter | Qt::AlignBottom);
-        const QPair<DPushButton *, const KeyDescription1 *> hashValue(button, desc1);
-        if (!(desc1->text == "|x|" || desc1->text == "Rand"))
-            m_keys1.insert(desc1->button, hashValue);
-
-        connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();});
-        connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-        connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &ScientificKeyPad::moveLeft);
-        connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &ScientificKeyPad::moveRight);
-        //"|x|","Rand"未写入hash，单独处理
-        connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
-            int padding;
-            hishide == false ? padding = 370 : padding = 0;
-            static_cast<TextButton *>(button)->setFixedSize((width - 40 - padding) / 6, (height - 200) / 8);
-        });
-        m_mapper->setMapping(button, desc1->button);
-    }
-    m_gridlayout2->setMargin(0);
-    m_gridlayout2->setSpacing(0);
-    m_gridlayout2->setContentsMargins(0, 0, 0, 0);
 }
 
 void ScientificKeyPad::initUI()
@@ -269,15 +294,11 @@ void ScientificKeyPad::initUI()
 
     while (i.hasNext()) {
         i.next();
-        i.value().first->setFocusPolicy(Qt::NoFocus);
         //以下信号槽按窗口比例缩放按键等
         connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
             int padding;
             hishide == false ? padding = 370 : padding = 0;
-            i.value().first->setFixedSize((width - 40 - padding) / 6, (height - 200) / 8);
-            //按比例计算/有小数误差问题,qRound减小误差
-            m_page2->setFixedSize(qRound(135.0 * (width - 25.0 - padding) / (430.0 - 25.0)), qRound(314.0 * (height - 161.0) / 419.0)); //25-左+右margin
-            m_page2->move(12, qRound(105.0 * (height - 161.0) / 419.0)); //419-最小窗口时keypad高度
+            i.value().first->setFixedSize((width - 25 - padding) / 6, (height - 200) / 8);
         });
         if (i.key() == Key_left) {
             connect(this, &ScientificKeyPad::windowSize, [ = ]() {
@@ -293,24 +314,42 @@ void ScientificKeyPad::initUI()
         }
     }
 
-    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription1 *>> i1(m_keys1);
-
-    while (i1.hasNext()) {
-        i1.next();
-        i1.value().first->setFocusPolicy(Qt::NoFocus);
-        connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
-            int padding;
-            hishide == false ? padding = 370 : padding = 0;
-            i1.value().first->setFixedSize((width - 40 - padding) / 6, (height - 200) / 8);
-        });
-    }
-
     button(Key_Div)->setObjectName("SymbolButton");
     button(Key_Mult)->setObjectName("SymbolButton");
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
 
     this->setContentsMargins(12, 0, 13, 0);
+}
+
+/**
+ * @brief ScientificKeyPad::initStackWidget
+ * @param widget
+ * @param button index(0)的按键
+ * @param pagebutton index(1)的按键
+ * @param desc1 index(1)按键信息
+ * page2按键初始化设置
+ */
+void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *button, DPushButton *pagebutton, const KeyDescription1 *desc1)
+{
+    widget->addWidget(button);
+    widget->addWidget(pagebutton);
+    widget->setCurrentIndex(0);
+    m_gridlayout1->addWidget(widget, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,
+                             Qt::AlignHCenter | Qt::AlignBottom);
+
+    const QPair<DPushButton *, const KeyDescription1 *> hashValue1(pagebutton, desc1);
+    m_keys1.insert(desc1->button, hashValue1);
+    connect(static_cast<TextButton *>(pagebutton), &TextButton::updateInterface, [ = ] {update();});
+    connect(pagebutton, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(static_cast<TextButton *>(pagebutton), &TextButton::moveLeft, this, &ScientificKeyPad::moveLeft);
+    connect(static_cast<TextButton *>(pagebutton), &TextButton::moveRight, this, &ScientificKeyPad::moveRight);
+    m_mapper->setMapping(pagebutton, desc1->button);
+    connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
+        int padding;
+        hishide == false ? padding = 370 : padding = 0;
+        widget->setFixedSize((width - 25 - padding) / 6, (height - 200) / 8);
+    });
 }
 
 void ScientificKeyPad::buttonThemeChanged(int type)
@@ -360,11 +399,36 @@ void ScientificKeyPad::buttonThemeChanged(int type)
 
 void ScientificKeyPad::turnPage(int key)
 {
+//    if (key == Key_page) {
+//        if (m_page2->isHidden()) {
+//            m_page2->setHidden(false);
+//        } else {
+//            m_page2->setHidden(true);
+//        }
+//    }
     if (key == Key_page) {
-        if (m_page2->isHidden()) {
-            m_page2->setHidden(false);
+        if (m_arcsinwidget->currentIndex() == 0) {
+            m_arcsinwidget->setCurrentIndex(1);
+            m_arccoswidget->setCurrentIndex(1);
+            m_arctanwidget->setCurrentIndex(1);
+            m_arccotwidget->setCurrentIndex(1);
+            m_sqrtwidget->setCurrentIndex(1);
+            m_cbrtwidget->setCurrentIndex(1);
+            m_yrootwidget->setCurrentIndex(1);
+            m_2xwidget->setCurrentIndex(1);
+            m_logyxwidget->setCurrentIndex(1);
+            m_exwidget->setCurrentIndex(1);
         } else {
-            m_page2->setHidden(true);
+            m_arcsinwidget->setCurrentIndex(0);
+            m_arccoswidget->setCurrentIndex(0);
+            m_arctanwidget->setCurrentIndex(0);
+            m_arccotwidget->setCurrentIndex(0);
+            m_sqrtwidget->setCurrentIndex(0);
+            m_cbrtwidget->setCurrentIndex(0);
+            m_yrootwidget->setCurrentIndex(0);
+            m_2xwidget->setCurrentIndex(0);
+            m_logyxwidget->setCurrentIndex(0);
+            m_exwidget->setCurrentIndex(0);
         }
     }
 }
