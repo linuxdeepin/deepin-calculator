@@ -110,7 +110,7 @@ QString InputEdit::expressionPercent(QString &str)
 QString InputEdit::expressionText()
 {
     QString t = text();
-    t.remove(",");
+//    t.remove(",");
     //edit for bug-19653 20200416  当数字长度超过精度范围时，保留小数点最后的数。
     bool longnumber = false;
 
