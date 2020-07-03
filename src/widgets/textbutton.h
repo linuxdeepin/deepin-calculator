@@ -68,6 +68,7 @@ private:
     bool m_page; //m_page-是否是科学计算器中两页中的按钮
     bool m_Btnisdown = false;
     QString m_themeactcolor; //活动色
+    bool m_isacting = false; //规避鼠标在button内release时出现foucus状态的框
 };
 
 #endif

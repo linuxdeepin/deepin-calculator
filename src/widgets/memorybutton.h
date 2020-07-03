@@ -64,6 +64,7 @@ private:
     bool m_isallgray; //内存区显示置灰
     bool m_islight = false;
     QString m_themeactcolor; //活动色
+    bool m_isacting = false; //规避鼠标在button内release时出现foucus状态的框
 };
 
 #endif  // MEMORYBUTTON_H

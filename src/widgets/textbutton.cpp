@@ -161,6 +161,10 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
         return;
     this->setPalette(m_palette);
     m_isPress = false;
+    if (m_isHover)
+        m_isacting = true;
+    else
+        m_isacting = false;
     DPushButton::mouseReleaseEvent(e);
 }
 
@@ -177,6 +181,7 @@ void TextButton::leaveEvent(QEvent *e)
     m_font.setPixelSize(18);
     m_font.setStyleName("Light");
     m_isHover = false;
+    m_isacting = false;
     DPushButton::leaveEvent(e);
 }
 
@@ -280,9 +285,13 @@ void TextButton::paintEvent(QPaintEvent *e)
             painter.setBrush(QBrush(base));
             painter.drawRoundRect(normal, 25, 30);
             QPen pen;
-            pen.setColor(focus);
-            pen.setWidth(2);
-            painter.setPen(pen);
+            if (m_isacting) {
+                painter.setPen(Qt::NoPen);
+            } else {
+                pen.setColor(focus);
+                pen.setWidth(2);
+                painter.setPen(pen);
+            }
             painter.setBrush(Qt::NoBrush);
             painter.drawRoundRect(normal, 25, 30);
 

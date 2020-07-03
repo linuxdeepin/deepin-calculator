@@ -192,6 +192,10 @@ void MemoryButton::mouseReleaseEvent(QMouseEvent *e)
         return;
     this->setPalette(m_palette);
     m_isPress = false;
+    if (m_isHover)
+        m_isacting = true;
+    else
+        m_isacting = false;
     DPushButton::mouseReleaseEvent(e);
 }
 
@@ -213,6 +217,7 @@ void MemoryButton::leaveEvent(QEvent *e)
     m_font.setPixelSize(16);
     m_font.setStyleName("Light");
     m_isHover = false;
+    m_isacting = false;
     DPushButton::leaveEvent(e);
 }
 
@@ -318,27 +323,17 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             painter.setFont(m_font);
             painter.drawText(textRect, this->text());
         } else {
-//            QPen pen;
-//            pen.setColor(focus);
-//            pen.setWidth(2);
-//            painter.setPen(pen);
-//            painter.setBrush(Qt::NoBrush);
-////            if (widgetbtn == false) {
-//            QPainterPath path;
-//            path.addRoundedRect(rect, 8, 8);
-//            painter.fillPath(path, QBrush(focus));
-//            painter.drawPath(path);
-////            }
-//            painter.setPen(Qt::NoPen);
-//            painter.setBrush(QBrush(base));
-//            painter.drawRoundRect(normal, 25, 30);
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
             painter.drawRoundRect(normal, 25, 30);
             QPen pen;
-            pen.setColor(focus);
-            pen.setWidth(2);
-            painter.setPen(pen);
+            if (m_isacting) {
+                painter.setPen(Qt::NoPen);
+            } else {
+                pen.setColor(focus);
+                pen.setWidth(2);
+                painter.setPen(pen);
+            }
             painter.setBrush(Qt::NoBrush);
             painter.drawRoundRect(normal, 25, 30);
 

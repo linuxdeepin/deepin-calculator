@@ -164,6 +164,10 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
         m_buttonStatus = 0;
     }
     m_isPress = false;
+    if (m_isHover)
+        m_isacting = true;
+    else
+        m_isacting = false;
 
     TextButton::mouseReleaseEvent(e);
 }
@@ -184,6 +188,7 @@ void IconButton::leaveEvent(QEvent *e)
     m_currentUrl = m_normalUrl;
     m_buttonStatus = 0;
     m_isHover = false;
+    m_isacting = false;
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
     //DPushButton::setIcon(QIcon(pixmap));
 
@@ -300,9 +305,13 @@ void IconButton::paintEvent(QPaintEvent *)
                     painter.setBrush(QBrush(base));
                     painter.drawRoundRect(rect, 25, 30);
                     QPen pen;
-                    pen.setColor(focus);
-                    pen.setWidth(2);
-                    painter.setPen(pen);
+                    if (m_isacting) {
+                        painter.setPen(Qt::NoPen);
+                    } else {
+                        pen.setColor(focus);
+                        pen.setWidth(2);
+                        painter.setPen(pen);
+                    }
                     painter.setBrush(Qt::NoBrush);
                     painter.drawRoundRect(rect, 25, 30);
                 }
