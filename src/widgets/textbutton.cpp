@@ -24,6 +24,8 @@
 #include "dthememanager.h"
 
 #include <DGuiApplicationHelper>
+#include <com_deepin_daemon_appearance.h>
+using ActionColor = com::deepin::daemon::Appearance;
 
 TextButton::TextButton(const QString &text, bool page, QWidget *parent)
     : DPushButton(text, parent)
@@ -45,11 +47,24 @@ TextButton::TextButton(const QString &text, bool page, QWidget *parent)
 
     m_effect->setOffset(0, 4);
     m_effect->setBlurRadius(12);
+
+    m_themeactcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
+    ActionColor *m_pActionColor;
+    //dbus接口获取系统活动色
+    m_pActionColor = new ActionColor("com.deepin.daemon.Appearance",
+                                     "/com/deepin/daemon/Appearance",
+                                     QDBusConnection::sessionBus(), this);
+    connect(m_pActionColor, &ActionColor::QtActiveColorChanged, this, &TextButton::themeColorChanged);
 }
 
 TextButton::~TextButton()
 {
     // delete m_effect;
+}
+
+void TextButton::themeColorChanged(const QString &strColor)
+{
+    m_themeactcolor = strColor;
 }
 
 void TextButton::init()
@@ -200,7 +215,7 @@ void TextButton::paintEvent(QPaintEvent *e)
     //    textRect.moveCenter(rect.center());
     // QRectF
     // textRect(QPointF((rect.width()/2)-(textR.width()/2),(rect.height()/2)-(textR.height()/2)),textR.width(),textR.height());
-    QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();//活动色
+    QColor actcolor = m_themeactcolor;//活动色
     QColor pressBrush, focus, hoverFrame, base, text, hoverbrush;
     QColor hoverShadow, focusShadow, normalShadow;
     QColor pressText = actcolor;

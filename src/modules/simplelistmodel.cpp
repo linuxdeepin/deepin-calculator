@@ -54,9 +54,9 @@ QVariant SimpleListModel::data(const QModelIndex &index, int role) const
         return m_expressionList.value(r - 1);
     case ExpressionNext:
         return m_expressionList.value(r + 1);
+    default:
+        return QVariant();
     }
-
-    return QVariant();
 }
 
 void SimpleListModel::appendText(const QString &text, bool sci)

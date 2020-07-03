@@ -144,9 +144,6 @@ void BasicKeypad::initButtons()
                 button = new EqualButton(desc->text);
             else {
                 button = new TextButton(desc->text);
-                QFont font = button->font();
-                font.setFamily("Noto Sans CJK SC");
-                button->setFont(font);
             }
         }
 
@@ -165,13 +162,6 @@ void BasicKeypad::initButtons()
 
 void BasicKeypad::initUI()
 {
-    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
-
-    while (i.hasNext()) {
-        i.next();
-        i.value().first->setFocusPolicy(Qt::NoFocus);
-    }
-
     button(Key_Div)->setObjectName("SymbolButton");
     button(Key_Mult)->setObjectName("SymbolButton");
     button(Key_Min)->setObjectName("SymbolButton");

@@ -1,11 +1,20 @@
+/*
+ * 1. @类名:    ScientificKeyPad
+ * 2. @作者:    夏菁 ut000489
+ * 3. @日期:    2020-07-01
+ * 4. @说明:    科学计算器键盘区域界面
+ */
 #include <QTimer>
 
 #include <DPalette>
 #include <DImageButton>
 #include <QFloat16>
+#include <DGuiApplicationHelper>
 
 #include "dthememanager.h"
 #include "scientifickeypad.h"
+#include <com_deepin_daemon_appearance.h>
+using ActionColor = com::deepin::daemon::Appearance;
 
 const ScientificKeyPad::KeyDescription ScientificKeyPad::keyDescriptions[] = {
     {"F-E", Key_FE, 1, 0, 1, 1},   {"MC", Key_MC, 1, 1, 1, 1},   {"MR", Key_MR, 1, 2, 1, 1},
@@ -116,15 +125,13 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     , m_logyxwidget(new QStackedWidget)
     , m_exwidget(new QStackedWidget)
 {
-    m_leftBracket->setFixedSize(24, 13);
-    m_rightBracket->setFixedSize(24, 13);
+    m_leftBracket->setFixedSize(24, 14);
+    m_rightBracket->setFixedSize(24, 14);
     QWidget *page1 = new QWidget(this);
-
+    DPalette pl = m_leftBracket->palette();
+    pl.setColor(DPalette::Text, QColor(Qt::red));
+    m_leftBracket->setPalette(pl);
     page1->setLayout(m_gridlayout1);
-//    m_page2->setLayout(m_gridlayout2);
-//    m_page2->setParent(this);
-//    m_page2->setAutoFillBackground(true);
-//    m_page2->hide();
     m_vlayout->addWidget(page1);
     m_vlayout->setMargin(0);
     m_vlayout->setSpacing(0);
@@ -138,6 +145,9 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     connect(this, &ScientificKeyPad::buttonPressed, this,
             &ScientificKeyPad::turnPage);
 
+    m_bracketcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
+    m_leftBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
+    m_rightBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
 //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &ScientificKeyPad::handleThemeChanged);
 }
 
@@ -155,11 +165,6 @@ DPushButton *ScientificKeyPad::button(Buttons key)
         return m_keys.value(key).first;
     }
 }
-
-//DSuggestButton *ScientificKeyPad::button()
-//{
-//    //return m_equal;
-//}
 
 void ScientificKeyPad::animate(Buttons key)
 {
@@ -190,6 +195,7 @@ void ScientificKeyPad::animate()
 void ScientificKeyPad::initButtons()
 {
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
+
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
         DPushButton *button;
@@ -205,18 +211,12 @@ void ScientificKeyPad::initButtons()
                 button = new EqualButton(desc->text);
             else if (desc->text == "MC" || desc->text == "MR" || desc->text == "M+" || desc->text == "M-" || desc->text == "MS") {
                 button = new MemoryButton(desc->text);
-                QFont font = button->font();
-                font.setFamily("HelveticaNeue");
-                button->setFont(font);
             } else {
                 if (i > 5 && (i % 6 == 0 || i % 6 == 1))
                     button = new TextButton(desc->text, true);
                 else {
                     button = new TextButton(desc->text);
                 }
-                QFont font = button->font();
-                font.setFamily("HelveticaNeue");
-                button->setFont(font);
             }
         }
         if (desc->button == Key_sin) {
@@ -250,23 +250,14 @@ void ScientificKeyPad::initButtons()
         } else if (desc->button == Key_10x) {
             const KeyDescription1 *desc1 = keyDescriptions1 + 7;
             pagebutton = new TextButton("2ˣ", true);
-            QFont font = button->font();
-            font.setFamily("HelveticaNeue");
-            button->setFont(font);
             initStackWidget(m_2xwidget, button, pagebutton, desc1);
         } else if (desc->button == Key_log) {
             const KeyDescription1 *desc1 = keyDescriptions1 + 8;
             pagebutton = new TextButton("logᵧx", true);
-            QFont font = button->font();
-            font.setFamily("HelveticaNeue");
-            button->setFont(font);
             initStackWidget(m_logyxwidget, button, pagebutton, desc1);
         } else if (desc->button == Key_ln) {
             const KeyDescription1 *desc1 = keyDescriptions1 + 9;
             pagebutton = new TextButton("eˣ", true);
-            QFont font = button->font();
-            font.setFamily("HelveticaNeue");
-            button->setFont(font);
             initStackWidget(m_exwidget, button, pagebutton, desc1);
         } else {
             pagebutton = new DPushButton;
@@ -290,6 +281,16 @@ void ScientificKeyPad::initButtons()
 
 void ScientificKeyPad::initUI()
 {
+    ActionColor *m_pActionColor;
+    //dbus接口获取系统活动色
+    m_pActionColor = new ActionColor("com.deepin.daemon.Appearance",
+                                     "/com/deepin/daemon/Appearance",
+                                     QDBusConnection::sessionBus(), this);
+
+    if (m_pActionColor->isValid()) {
+        connect(m_pActionColor, &ActionColor::QtActiveColorChanged, this, &ScientificKeyPad::themeColorChanged);
+    }
+
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
 
     while (i.hasNext()) {
@@ -303,13 +304,28 @@ void ScientificKeyPad::initUI()
         if (i.key() == Key_left) {
             connect(this, &ScientificKeyPad::windowSize, [ = ]() {
                 m_leftBracket->setParent(i.value().first);
+
                 m_leftBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
+            });
+            connect(i.value().first, &DPushButton::pressed, [ = ]() {
+                m_leftBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:%1;font-size:14px;")
+                                             .arg(m_bracketcolor));
+            });
+            connect(i.value().first, &DPushButton::released, [ = ]() {
+                m_leftBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
             });
         }
         if (i.key() == Key_right) {
             connect(this, &ScientificKeyPad::windowSize, [ = ]() {
                 m_rightBracket->setParent(i.value().first);
                 m_rightBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
+            });
+            connect(i.value().first, &DPushButton::pressed, [ = ]() {
+                m_rightBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:%1;font-size:14px;")
+                                              .arg(m_bracketcolor));
+            });
+            connect(i.value().first, &DPushButton::released, [ = ]() {
+                m_rightBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
             });
         }
     }
@@ -399,13 +415,6 @@ void ScientificKeyPad::buttonThemeChanged(int type)
 
 void ScientificKeyPad::turnPage(int key)
 {
-//    if (key == Key_page) {
-//        if (m_page2->isHidden()) {
-//            m_page2->setHidden(false);
-//        } else {
-//            m_page2->setHidden(true);
-//        }
-//    }
     if (key == Key_page) {
         if (m_arcsinwidget->currentIndex() == 0) {
             m_arcsinwidget->setCurrentIndex(1);
@@ -475,4 +484,9 @@ void ScientificKeyPad::bracketsNum(int direction, QString num)
         m_leftBracket->setText(num);
     else if (direction == 1)
         m_rightBracket->setText(num);
+}
+
+void ScientificKeyPad::themeColorChanged(const QString &strColor)
+{
+    m_bracketcolor = strColor;
 }

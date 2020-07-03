@@ -5,6 +5,8 @@
 #include <QMouseEvent>
 
 #include <DGuiApplicationHelper>
+#include <com_deepin_daemon_appearance.h>
+using ActionColor = com::deepin::daemon::Appearance;
 
 EqualButton::EqualButton(const QString &text, QWidget *parent)
     : DSuggestButton(text, parent),
@@ -21,6 +23,13 @@ EqualButton::EqualButton(const QString &text, QWidget *parent)
     m_isHover = m_isPress = false;
     m_effect->setOffset(0, 4);
     m_effect->setBlurRadius(4);
+    m_themeactcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
+    ActionColor *m_pActionColor;
+    //dbus接口获取系统活动色
+    m_pActionColor = new ActionColor("com.deepin.daemon.Appearance",
+                                     "/com/deepin/daemon/Appearance",
+                                     QDBusConnection::sessionBus(), this);
+    connect(m_pActionColor, &ActionColor::QtActiveColorChanged, this, &EqualButton::themeColorChanged);
 }
 
 EqualButton::~EqualButton()
@@ -44,6 +53,11 @@ void EqualButton::animate(int msec)
 
         QTimer::singleShot(msec, this, [ = ] { setDown(false); m_isPress = false;});
     }
+}
+
+void EqualButton::themeColorChanged(const QString &strColor)
+{
+    m_themeactcolor = strColor;
 }
 
 void EqualButton::keyPressEvent(QKeyEvent *e)
@@ -111,7 +125,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
     painter.setFont(m_font);
     QRectF textRect = painter.fontMetrics().boundingRect("=");
     textRect.moveCenter(rect.center());
-    QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();//活动色
+    QColor actcolor = m_themeactcolor;//活动色
     QColor base, text, pressText, hover0, hover1, press0, press1, frame;
     QColor shadow;
 

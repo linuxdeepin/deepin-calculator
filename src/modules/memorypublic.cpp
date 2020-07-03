@@ -1,3 +1,9 @@
+/*
+ * 1. @类名:    MemoryPublic
+ * 2. @作者:    京洲 ut000490
+ * 3. @日期:    2020-07-01
+ * 4. @说明:    同步处理数字内存
+ */
 #include "memorypublic.h"
 
 static MemoryPublic *INSTANCE = nullptr;
@@ -44,10 +50,9 @@ MemoryWidget *MemoryPublic::getwidget(memorymode mode)
     switch (mode) {
     case standardleft:
         return m_standard_l;
-    case scientificright:
+    default:
         return m_scientific_r;
     }
-    return nullptr;
 }
 
 void MemoryPublic::generateData(Quantity answer)

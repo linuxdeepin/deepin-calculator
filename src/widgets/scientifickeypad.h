@@ -1,10 +1,11 @@
+/*
+ * 1. @类名:    ScientificKeyPad
+ * 2. @作者:    夏菁 ut000489
+ * 3. @日期:    2020-07-01
+ * 4. @说明:    科学计算器键盘区域界面
+ */
 #pragma once
-/*******************************************************************************
- 1. @类名:    ScientificKeyPad
- 2. @作者:    夏菁
- 3. @日期:    2020-07-01
- 4. @说明:    科学计算器键盘区域界面
-*******************************************************************************/
+
 #include <QWidget>
 #include <QGridLayout>
 #include <QVBoxLayout>
@@ -75,6 +76,7 @@ public slots:
     void turnPage(int key);
     void getdeg(int deg);
     void bracketsNum(int direction, QString num); //direction 0-左括号 1-右括号
+    void themeColorChanged(const QString &strColor);
 signals:
     void buttonPressed(int);
     void equalPressed();
@@ -109,6 +111,5 @@ private:
     QStackedWidget *m_2xwidget;
     QStackedWidget *m_logyxwidget;
     QStackedWidget *m_exwidget;
-    //DSuggestButton *m_equal;
-    //EqualButton *m_equal;
+    QString m_bracketcolor;
 };
