@@ -330,6 +330,18 @@ void ScientificKeyPad::initUI()
         }
     }
 
+    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription1 *>> i1(m_keys1);
+
+    while (i1.hasNext()) {
+        i1.next();
+        //以下信号槽按窗口比例缩放按键等
+        connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
+            int padding;
+            hishide == false ? padding = 370 : padding = 0;
+            i1.value().first->setFixedSize((width - 25 - padding) / 6, (height - 200) / 8);
+        });
+    }
+
     button(Key_Div)->setObjectName("SymbolButton");
     button(Key_Mult)->setObjectName("SymbolButton");
     button(Key_Min)->setObjectName("SymbolButton");
