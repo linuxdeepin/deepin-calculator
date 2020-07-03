@@ -560,6 +560,8 @@ void BasicModule::handleKeypadButtonPress(int key)
         p = m_memorylistwidget->getfirstnumber();
         m_expressionBar->getInputEdit()->setAnswer(p.first, p.second);
         break;
+    default:
+        break;
     }
     m_expressionBar->addUndo();
 }

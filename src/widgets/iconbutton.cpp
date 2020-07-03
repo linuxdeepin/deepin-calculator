@@ -22,6 +22,8 @@
 #include <QDebug>
 #include <QTimer>
 #include <QToolTip>
+#include <com_deepin_daemon_appearance.h>
+using ActionColor = com::deepin::daemon::Appearance;
 
 IconButton::IconButton(QWidget *parent, int b, bool page)
     : TextButton("", parent),
@@ -38,7 +40,6 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
         m_isHistorybtn = true;
         setFixedSize(50, 50);
     }
-    setFocusPolicy(Qt::NoFocus);
 //    QGridLayout *layout = new QGridLayout(this);
 //    layout->addWidget(m_iconWidget, 0, Qt::AlignCenter);
 //    layout->setContentsMargins(0, 0, 0, 0);
@@ -47,6 +48,14 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
     m_isPress = false;
     m_isEmptyBtn = (b == 1);
     m_page = page;
+
+    m_themeactcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
+    ActionColor *m_pActionColor;
+    //dbus接口获取系统活动色
+    m_pActionColor = new ActionColor("com.deepin.daemon.Appearance",
+                                     "/com/deepin/daemon/Appearance",
+                                     QDBusConnection::sessionBus(), this);
+    connect(m_pActionColor, &ActionColor::QtActiveColorChanged, this, &IconButton::themeColorChanged);
 }
 
 IconButton::~IconButton()
@@ -111,6 +120,11 @@ void IconButton::showtooltip(bool ismemory)
         m_cleartooltip = tr("Clear history");
         this->setToolTip(m_cleartooltip);
     }
+}
+
+void IconButton::themeColorChanged(const QString &strColor)
+{
+    m_themeactcolor = strColor;
 }
 
 void IconButton::mousePressEvent(QMouseEvent *e)
@@ -195,7 +209,7 @@ void IconButton::paintEvent(QPaintEvent *)
         painter.setRenderHint(QPainter::Antialiasing, true);
         painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
         //m_pixmap = m_pixmap.scaled(m_pixmap.size() * devicePixelRatioF());
-        QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();//活动色
+        QColor actcolor = m_themeactcolor;//活动色
         QColor pressBrush, focus, hoverFrame, base, hoverbrush;
         int type = DGuiApplicationHelper::instance()->paletteType();
         if (type == 0)

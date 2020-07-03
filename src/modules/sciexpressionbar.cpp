@@ -1,11 +1,18 @@
+/*
+ * 1. @类名:    SciExpressionBar
+ * 2. @作者:    夏菁 ut000489
+ * 3. @日期:    2020-07-01
+ * 4. @说明:    科学计算器表达式计算函数
+ */
 #include "sciexpressionbar.h"
+#include "../utils.h"
+#include "../core/settings.h"
+
 #include <QApplication>
 #include <QClipboard>
 #include <QDebug>
 #include <QTimer>
 #include <DGuiApplicationHelper>
-#include "../utils.h"
-#include "../core/settings.h"
 
 #define SCIPREC 31
 

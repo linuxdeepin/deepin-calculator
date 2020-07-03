@@ -1,3 +1,9 @@
+/*
+ * 1. @类名:    MemoryButton
+ * 2. @作者:    夏菁 ut000489
+ * 3. @日期:    2020-07-01
+ * 4. @说明:    简易计算器内存按键
+ */
 #include "memorybutton.h"
 
 #include <QMouseEvent>
@@ -6,9 +12,11 @@
 #include "dthememanager.h"
 
 #include <DGuiApplicationHelper>
+#include <com_deepin_daemon_appearance.h>
+using ActionColor = com::deepin::daemon::Appearance;
 
 MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *parent)
-    : DPushButton(text, parent)
+    : TextButton(text, parent)
     , m_isallgray(false)
       // m_effect(new QGraphicsDropShadowEffect(this))
 {
@@ -16,13 +24,20 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
         setFixedSize(50, 33);
-    setFocusPolicy(Qt::NoFocus);
     setObjectName("MemoryButton");
     m_widgetbtn = listwidgetbtn;
 
     init();
     m_isHover = m_isPress = false;
     showtips();
+
+    m_themeactcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
+    ActionColor *m_pActionColor;
+    //dbus接口获取系统活动色
+    m_pActionColor = new ActionColor("com.deepin.daemon.Appearance",
+                                     "/com/deepin/daemon/Appearance",
+                                     QDBusConnection::sessionBus(), this);
+    connect(m_pActionColor, &ActionColor::QtActiveColorChanged, this, &MemoryButton::themeColorChanged);
 }
 
 MemoryButton::~MemoryButton()
@@ -106,6 +121,11 @@ void MemoryButton::showtips()
     else if (this->text() == "M˄" || this->text() == "M˅")
         tooltext = tr("Memory");
     this->setToolTip(tooltext);
+}
+
+void MemoryButton::themeColorChanged(const QString &strColor)
+{
+    m_themeactcolor = strColor;
 }
 
 /**
@@ -196,21 +216,6 @@ void MemoryButton::leaveEvent(QEvent *e)
     DPushButton::leaveEvent(e);
 }
 
-void MemoryButton::keyPressEvent(QKeyEvent *e)
-{
-    clearFocus();
-    if (e->key() == Qt::Key_Left) {
-        emit moveLeft();
-        return;
-    } else if (e->key() == Qt::Key_Right) {
-        emit moveRight();
-        return;
-    } else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down)
-        return;
-    else
-        DPushButton::keyPressEvent(e);
-}
-
 void MemoryButton::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
@@ -241,7 +246,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
                                                          Qt::AlignCenter, this->text());
     // QRectF
     // textRect(QPointF((rect.width()/2)-(textR.width()/2),(rect.height()/2)-(textR.height()/2)),textR.width(),textR.height());
-    QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();//活动色
+    QColor actcolor = m_themeactcolor;//活动色
     QColor pressBrush, focus, hoverFrame, base, text, hoverbrush;
     QColor pressText = actcolor;
     int type = DGuiApplicationHelper::instance()->paletteType();

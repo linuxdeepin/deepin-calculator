@@ -1,3 +1,9 @@
+/*
+ * 1. @类名:    scientificModule
+ * 2. @作者:    夏菁 ut000489
+ * 3. @日期:    2020-07-01
+ * 4. @说明:    科学模式界面
+ */
 #include "scientificmodule.h"
 
 #include <QDebug>
@@ -699,6 +705,8 @@ void scientificModule::handleKeypadButtonPress(int key)
         break;
     case ScientificKeyPad::Key_opposite:
         m_sciexpressionBar->enterOppositeEvent();
+        break;
+    default:
         break;
     }
     m_sciexpressionBar->addUndo();

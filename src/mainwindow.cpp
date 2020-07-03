@@ -165,6 +165,10 @@ void MainWindow::initModule()
         else
             hideHistoryWidget(true);
         break;
+    default:
+        switchToSimpleMode();
+        hideHistoryWidget(false);
+        break;
     }
 }
 
@@ -216,6 +220,9 @@ void MainWindow::hideHistoryWidget(bool b)
     case 1:
         setMinimumSize(430, 580);
 //        setFixedSize(430, 580);
+        break;
+    default:
+        setFixedSize(344, 560);
         break;
     }
 }

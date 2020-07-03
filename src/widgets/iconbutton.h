@@ -50,6 +50,7 @@ public:
     void setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode = 0);
     void animate(int msec = 100);
     void showtooltip(bool ismemory); //ismemory-true-内存区垃圾桶 false-历史区垃圾桶
+    void themeColorChanged(const QString &strColor);
 
 protected:
     void mousePressEvent(QMouseEvent *);
@@ -81,6 +82,7 @@ private:
     int m_page;
     bool m_isHistorybtn = false;
     QString m_cleartooltip = QString();
+    QString m_themeactcolor; //活动色
 private:
     void SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval);
     void drawCenterPixMap(QPainter &painter);

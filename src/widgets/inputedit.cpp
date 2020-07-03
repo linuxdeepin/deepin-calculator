@@ -53,6 +53,7 @@ InputEdit::InputEdit(QWidget *parent)
     this->setFrame(false);
     this->setClearButtonEnabled(false);
     this->setContextMenuPolicy(Qt::CustomContextMenu);
+    setMaxLength(5);
 
     connect(this, &QLineEdit::textChanged, this, &InputEdit::handleTextChanged);
     connect(this, &QLineEdit::cursorPositionChanged, this, &InputEdit::handleCursorPositionChanged);

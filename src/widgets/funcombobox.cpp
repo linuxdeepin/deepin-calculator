@@ -1,3 +1,9 @@
+/*
+ * 1. @类名:    FunCombobox
+ * 2. @作者:    夏菁 ut000489
+ * 3. @日期:    2020-07-01
+ * 4. @说明:    科学计算器其他函数组合框（未使用）
+ */
 #include <QTimer>
 
 #include <DPalette>

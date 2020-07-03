@@ -1,3 +1,9 @@
+/*
+ * 1. @类名:    SciHistoryWidget
+ * 2. @作者:    京洲 ut000490
+ * 3. @日期:    2020-07-01
+ * 4. @说明:    科学计算器历史记录界面
+ */
 #include "scihistorywidget.h"
 
 #include <QDebug>
@@ -137,9 +143,6 @@ MemoryWidget *SciHistoryWidget::getMemoryWidget()
 void SciHistoryWidget::memoryFunctions(SciHistoryWidget::memOperate operate, Quantity answer, int row)
 {
     switch (operate) {
-    case generateData:
-        memoryPublic->generateData(answer);
-        break;
     case memoryplus:
         memoryPublic->memoryplus(answer);
         break;
@@ -154,6 +157,9 @@ void SciHistoryWidget::memoryFunctions(SciHistoryWidget::memOperate operate, Qua
         break;
     case widgetminus:
         memoryPublic->widgetminus(row, answer);
+        break;
+    default:
+        memoryPublic->generateData(answer);
         break;
     }
 }

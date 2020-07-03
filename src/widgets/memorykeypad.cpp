@@ -54,7 +54,7 @@ MemoryKeypad::MemoryKeypad(QWidget *parent)
     m_layout->setContentsMargins(0, 0, 0, 0);
 
     initButtons();
-    initUI();
+    this->setContentsMargins(12, 0, 13, 0);
 
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
     //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &BasicKeypad::handleThemeChanged);
@@ -108,18 +108,6 @@ void MemoryKeypad::initButtons()
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &MemoryKeypad::moveRight);
         m_mapper->setMapping(button, desc->button);
     }
-}
-
-void MemoryKeypad::initUI()
-{
-    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
-
-    while (i.hasNext()) {
-        i.next();
-        i.value().first->setFocusPolicy(Qt::NoFocus);
-    }
-
-    this->setContentsMargins(12, 0, 13, 0);
 }
 
 void MemoryKeypad::buttonThemeChanged(int type)

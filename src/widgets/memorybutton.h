@@ -1,11 +1,12 @@
+/*
+ * 1. @类名:    MemoryButton
+ * 2. @作者:    夏菁 ut000489
+ * 3. @日期:    2020-07-01
+ * 4. @说明:    简易计算器内存按键
+ */
 #ifndef MEMORYBUTTON_H
 #define MEMORYBUTTON_H
-/*******************************************************************************
- 1. @类名:    MemoryButton
- 2. @作者:    夏菁
- 3. @日期:    2020-07-01
- 4. @说明:    简易计算器内存按键
-*******************************************************************************/
+
 #include <DPalette>
 #include <DPushButton>
 #include <QDebug>
@@ -13,12 +14,13 @@
 #include <QHelpEvent>
 #include <QToolTip>
 
+#include "textbutton.h"
 #include "../dsettings.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
 
-class MemoryButton : public DPushButton
+class MemoryButton : public TextButton
 {
     Q_OBJECT
 
@@ -32,6 +34,7 @@ public:
     void animate(int msec = 100);
     void setbtnlight(bool light);
     void showtips();
+    void themeColorChanged(const QString &strColor);
 public slots:
     void setbuttongray(bool memorywidgetshow);
 
@@ -45,7 +48,6 @@ public:
     void mouseReleaseEvent(QMouseEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
-    void keyPressEvent(QKeyEvent *);
     void paintEvent(QPaintEvent *e);
     void focusOutEvent(QFocusEvent *);
 
@@ -61,6 +63,7 @@ private:
     bool m_widgetbtn; //内存列表按键
     bool m_isallgray; //内存区显示置灰
     bool m_islight = false;
+    QString m_themeactcolor; //活动色
 };
 
 #endif  // MEMORYBUTTON_H

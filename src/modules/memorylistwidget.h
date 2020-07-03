@@ -1,11 +1,12 @@
+/*
+ * 1. @类名:    MemoryListWidget
+ * 2. @作者:    京洲 ut000490
+ * 3. @日期:    2020-07-01
+ * 4. @说明:    内存ListWidget
+ */
 #ifndef MEMORYLISTWIDGET_H
 #define MEMORYLISTWIDGET_H
-/*******************************************************************************
- 1. @类名:    MemoryListWidget
- 2. @作者:    京洲
- 3. @日期:    2020-07-01
- 4. @说明:    内存ListWidget
-*******************************************************************************/
+
 #include <QListWidget>
 
 class MemoryListWidget : public QListWidget

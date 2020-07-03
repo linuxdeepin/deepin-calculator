@@ -1,3 +1,9 @@
+/*
+ * 1. @类名:    MemoryWidget
+ * 2. @作者:    京洲 ut000490
+ * 3. @日期:    2020-07-01
+ * 4. @说明:    简易模式内存界面
+ */
 #include "memorywidget.h"
 
 #include <QDebug>

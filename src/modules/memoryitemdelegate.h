@@ -1,11 +1,12 @@
+/*
+ * 1. @类名:    MemoryItemDelegate
+ * 2. @作者:    京洲 ut000490
+ * 3. @日期:    2020-07-01
+ * 4. @说明:    内存ListWidget委托
+ */
 #ifndef TESTITEMDELEGATE_H
 #define TESTITEMDELEGATE_H
-/*******************************************************************************
- 1. @类名:    MemoryItemDelegate
- 2. @作者:    京洲
- 3. @日期:    2020-07-01
- 4. @说明:    内存ListWidget委托
-*******************************************************************************/
+
 #include <QStyledItemDelegate>
 #include <QPainter>
 
