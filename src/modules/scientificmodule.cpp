@@ -73,13 +73,11 @@ scientificModule::scientificModule(QWidget *parent)
     connect(m_sciexpressionBar, &SciExpressionBar::turnDeg, this, &scientificModule::handleDegChanged);
     connect(m_sciexpressionBar, &SciExpressionBar::fEStateChanged, this, &scientificModule::handleFEStateChanged);
     connect(this, &scientificModule::changedeg, m_scikeypadwidget, &ScientificKeyPad::getdeg);
-//    connect(m_basicKeypad, &BasicKeypad::buttonPressed, this,
-//            &scientificModule::handleKeypadButtonPress);
-//    connect(m_basicKeypad, &BasicKeypad::equalPressed, this, &scientificModule::equalButtonPress);
-//    connect(m_basicKeypad, &BasicKeypad::moveLeft, [ = ] { m_sciexpressionBar->moveLeft(); });
-//    connect(m_basicKeypad, &BasicKeypad::moveRight, [ = ] { m_sciexpressionBar->moveRight(); });
     connect(m_scikeypadwidget, &ScientificKeyPad::buttonPressed, this,
             &scientificModule::handleKeypadButtonPress);
+    connect(m_scikeypadwidget, &ScientificKeyPad::equalPressed, this, &scientificModule::equalButtonPress);
+    connect(m_scikeypadwidget, &ScientificKeyPad::moveLeft, [ = ] { m_sciexpressionBar->moveLeft(); });
+    connect(m_scikeypadwidget, &ScientificKeyPad::moveRight, [ = ] { m_sciexpressionBar->moveRight(); });
     connect(m_scihiswidget->getMemoryWidget(), &MemoryWidget::widgetplus, this, [ = ](int row) {
         m_sciexpressionBar->enterEqualEvent();
         if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)

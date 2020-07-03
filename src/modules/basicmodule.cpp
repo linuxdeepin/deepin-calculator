@@ -81,6 +81,8 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_basicKeypad, &BasicKeypad::equalPressed, this, &BasicModule::equalButtonPress);
     connect(m_basicKeypad, &BasicKeypad::moveLeft, [ = ] { m_expressionBar->moveLeft(); });
     connect(m_basicKeypad, &BasicKeypad::moveRight, [ = ] { m_expressionBar->moveRight(); });
+    connect(m_memoryKeypad, &MemoryKeypad::moveLeft, [ = ] { m_expressionBar->moveLeft(); });
+    connect(m_memoryKeypad, &MemoryKeypad::moveRight, [ = ] { m_expressionBar->moveRight(); });
     connect(m_memoryKeypad, &MemoryKeypad::buttonPressed, this,
             &BasicModule::handleKeypadButtonPress);
     connect(m_memorylistwidget, &MemoryWidget::widgetplus, this, [ = ](int row) {
