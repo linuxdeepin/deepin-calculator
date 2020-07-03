@@ -83,6 +83,7 @@ private:
     bool m_isHistorybtn = false;
     QString m_cleartooltip = QString();
     QString m_themeactcolor; //活动色
+    bool m_isacting = false; //规避鼠标在button内release时出现foucus状态的框
 private:
     void SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval);
     void drawCenterPixMap(QPainter &painter);
