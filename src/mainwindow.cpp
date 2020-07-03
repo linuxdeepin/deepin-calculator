@@ -168,19 +168,6 @@ void MainWindow::initModule()
     }
 }
 
-/*void MainWindow::switchTheme()
-{
-    const QString theme = DThemeManager::instance()->theme();
-
-    if (theme == "light") {
-        m_settings->setOption("theme", "dark");
-    } else {
-        m_settings->setOption("theme", "light");
-    }
-
-    initTheme();
-}*/
-
 void MainWindow::switchToSimpleMode()
 {
     m_settings->setOption("mode", 0);

@@ -35,7 +35,7 @@
 
 DWIDGET_USE_NAMESPACE
 static QString g_appPath;  //全局路径
-static bool oldversion = true; //旧版本升级新版本
+static bool oldversion = false; //旧版本升级新版本
 
 //20200702 edit for bug-36389,旧版本有设置过的第一次读取后不再读取themetype.cfg
 //获取配置文件主题类型，并重新设置
@@ -44,10 +44,15 @@ DGuiApplicationHelper::ColorType getThemeTypeSetting()
     //需要找到自己程序的配置文件路径，并读取配置，这里只是用home路径下themeType.cfg文件举例,具体配置文件根据自身项目情况
     QString t_appDir = g_appPath + QDir::separator() + "themetype.cfg";
     QFile t_configFile(t_appDir);
+    int t_readType = 0;
+    if (t_configFile.exists()) {
+        t_configFile.open(QIODevice::ReadOnly | QIODevice::Text);
+        QByteArray t_readBuf = t_configFile.readAll();
+        t_readType = QString(t_readBuf).toInt();
 
-    t_configFile.open(QIODevice::ReadOnly | QIODevice::Text);
-    QByteArray t_readBuf = t_configFile.readAll();
-    int t_readType = QString(t_readBuf).toInt();
+        t_configFile.remove();
+        oldversion = true;
+    }
 
     //获取读到的主题类型，并返回设置
     switch (t_readType) {
@@ -62,25 +67,23 @@ DGuiApplicationHelper::ColorType getThemeTypeSetting()
         // 深色主题
         return DGuiApplicationHelper::DarkType;
     default:
-        // 当前已用新的保存主题方法，旧方法废弃。
-        oldversion = false;
         return DGuiApplicationHelper::UnknownType;
     }
 }
 
 //保存当前主题类型配置文件
-void saveThemeTypeSetting(int type)
-{
-    //需要找到自己程序的配置文件路径，并写入配置，这里只是用home路径下themeType.cfg文件举例,具体配置文件根据自身项目情况
-    QString t_appDir = g_appPath + QDir::separator() + "themetype.cfg";
-    QFile t_configFile(t_appDir);
+//void saveThemeTypeSetting(int type)
+//{
+//    //需要找到自己程序的配置文件路径，并写入配置，这里只是用home路径下themeType.cfg文件举例,具体配置文件根据自身项目情况
+//    QString t_appDir = g_appPath + QDir::separator() + "themetype.cfg";
+//    QFile t_configFile(t_appDir);
 
-    t_configFile.open(QIODevice::WriteOnly | QIODevice::Text);
-    //直接将主题类型保存到配置文件，具体配置key-value组合根据自身项目情况
-    QString t_typeStr = QString::number(type);
-    t_configFile.write(t_typeStr.toUtf8());
-    t_configFile.close();
-}
+//    t_configFile.open(QIODevice::WriteOnly | QIODevice::Text);
+//    //直接将主题类型保存到配置文件，具体配置key-value组合根据自身项目情况
+//    QString t_typeStr = QString::number(type);
+//    t_configFile.write(t_typeStr.toUtf8());
+//    t_configFile.close();
+//}
 
 int main(int argc, char *argv[])
 {
@@ -139,12 +142,13 @@ int main(int argc, char *argv[])
         window.move(m_dsettings->getOption("windowX").toInt() + 10, m_dsettings->getOption("windowY").toInt() + 10);
     }
 
-
-    if (oldversion == true) {
-        DGuiApplicationHelper::instance()->setPaletteType(getThemeTypeSetting());
-        saveThemeTypeSetting(3);
-    }
+    DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
     DApplicationSettings savetheme(&app);
+    if (oldversion == true) {
+        DGuiApplicationHelper::instance()->setPaletteType(oldpalette);
+    }
+
+
     // 应用已保存的主题设置
 //    DGuiApplicationHelper::ColorType t_type = DGuiApplicationHelper::instance()->themeType();
 //    saveThemeTypeSetting(t_type);

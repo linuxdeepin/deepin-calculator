@@ -52,7 +52,6 @@ protected:
 
 private:
     void initTheme();
-    //void switchTheme();
     void initModule();
     void switchToSimpleMode();
     void switchToScientificMode();
