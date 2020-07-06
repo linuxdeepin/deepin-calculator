@@ -43,7 +43,6 @@ public:
     //void showShadow();
     //void hideShadow();
     void animate(int msec = 100);
-    void themeColorChanged(const QString &strColor);
 signals:
     void moveLeft();
     void moveRight();
@@ -63,7 +62,7 @@ private:
     bool m_isHover;
     bool m_isPress;
     QFont m_font;
-    QString m_themeactcolor; //活动色
+    bool m_isacting = false; //规避鼠标在button内release时出现foucus状态的框
 };
 
 #endif // EQUALBUTTON_H

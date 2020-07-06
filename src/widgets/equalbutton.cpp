@@ -5,8 +5,6 @@
 #include <QMouseEvent>
 
 #include <DGuiApplicationHelper>
-#include <com_deepin_daemon_appearance.h>
-using ActionColor = com::deepin::daemon::Appearance;
 
 EqualButton::EqualButton(const QString &text, QWidget *parent)
     : DSuggestButton(text, parent),
@@ -23,13 +21,6 @@ EqualButton::EqualButton(const QString &text, QWidget *parent)
     m_isHover = m_isPress = false;
     m_effect->setOffset(0, 4);
     m_effect->setBlurRadius(4);
-    m_themeactcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
-    ActionColor *m_pActionColor;
-    //dbus接口获取系统活动色
-    m_pActionColor = new ActionColor("com.deepin.daemon.Appearance",
-                                     "/com/deepin/daemon/Appearance",
-                                     QDBusConnection::sessionBus(), this);
-    connect(m_pActionColor, &ActionColor::QtActiveColorChanged, this, &EqualButton::themeColorChanged);
 }
 
 EqualButton::~EqualButton()
@@ -53,11 +44,6 @@ void EqualButton::animate(int msec)
 
         QTimer::singleShot(msec, this, [ = ] { setDown(false); m_isPress = false;});
     }
-}
-
-void EqualButton::themeColorChanged(const QString &strColor)
-{
-    m_themeactcolor = strColor;
 }
 
 void EqualButton::keyPressEvent(QKeyEvent *e)
@@ -89,6 +75,11 @@ void EqualButton::mouseReleaseEvent(QMouseEvent *e)
         return;
     this->setPalette(m_palette);
     m_isPress = false;
+    if (this->rect().contains(e->pos())) {
+        m_isacting = true;
+        m_isHover = true;
+    } else
+        m_isacting = false;
     DPushButton::mouseReleaseEvent(e);
 }
 
@@ -105,6 +96,7 @@ void EqualButton::leaveEvent(QEvent *e)
     //m_font.setPixelSize(18);
     //m_font.setStyleName("Light");
     m_isHover = false;
+    m_isacting = false;
     DPushButton::leaveEvent(e);
 }
 
@@ -125,7 +117,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
     painter.setFont(m_font);
     QRectF textRect = painter.fontMetrics().boundingRect("=");
     textRect.moveCenter(rect.center());
-    QColor actcolor = m_themeactcolor;//活动色
+    QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();//活动色
     QColor base, text, pressText, hover0, hover1, press0, press1, frame;
     QColor shadow;
 
@@ -169,18 +161,24 @@ void EqualButton::paintEvent(QPaintEvent *e)
             this->setGraphicsEffect(m_effect);
         } else {
             QPen pen;
-            pen.setColor(base);
-            pen.setWidth(2);
-            painter.setPen(pen);
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(QBrush(base));
-            painter.drawRoundRect(rect, 25, 30);
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(QBrush(frame));
-            painter.drawRoundRect(normal, 25, 30);
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(QBrush(base));
-            painter.drawRoundRect(focusBase, 25, 30);
+            if (m_isacting) {
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(QBrush(base));
+                painter.drawRoundRect(normal, 25, 30);
+            } else {
+                pen.setColor(base);
+                pen.setWidth(2);
+                painter.setPen(pen);
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(QBrush(base));
+                painter.drawRoundRect(rect, 25, 30);
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(QBrush(frame));
+                painter.drawRoundRect(normal, 25, 30);
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(QBrush(base));
+                painter.drawRoundRect(focusBase, 25, 30);
+            }
 
             //painter.drawRoundRect(rect,10,10);
             pen.setColor(text);

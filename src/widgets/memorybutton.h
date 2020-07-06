@@ -34,7 +34,6 @@ public:
     void animate(int msec = 100);
     void setbtnlight(bool light);
     void showtips();
-    void themeColorChanged(const QString &strColor);
 public slots:
     void setbuttongray(bool memorywidgetshow);
 
@@ -63,7 +62,6 @@ private:
     bool m_widgetbtn; //内存列表按键
     bool m_isallgray; //内存区显示置灰
     bool m_islight = false;
-    QString m_themeactcolor; //活动色
     bool m_isacting = false; //规避鼠标在button内release时出现foucus状态的框
 };
 

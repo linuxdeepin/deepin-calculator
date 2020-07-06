@@ -37,7 +37,6 @@ class TextButton : public DPushButton
 public:
     TextButton(const QString &text = QString(), bool page = false, QWidget *parent = nullptr); //page-是否是科学计算器中两页中的按钮
     ~TextButton();
-    void themeColorChanged(const QString &strColor);
 
     void init();
     //void showShadow();
@@ -67,7 +66,6 @@ private:
     QFont m_font;
     bool m_page; //m_page-是否是科学计算器中两页中的按钮
     bool m_Btnisdown = false;
-    QString m_themeactcolor; //活动色
     bool m_isacting = false; //规避鼠标在button内release时出现foucus状态的框
 };
 
