@@ -161,9 +161,10 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
         return;
     this->setPalette(m_palette);
     m_isPress = false;
-    if (m_isHover)
+    if (this->rect().contains(e->pos())) {
         m_isacting = true;
-    else
+        m_isHover = true;
+    } else
         m_isacting = false;
     DPushButton::mouseReleaseEvent(e);
 }

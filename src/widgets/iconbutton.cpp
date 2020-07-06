@@ -164,9 +164,10 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
         m_buttonStatus = 0;
     }
     m_isPress = false;
-    if (m_isHover)
+    if (this->rect().contains(e->pos())) {
         m_isacting = true;
-    else
+        m_isHover = true;
+    } else
         m_isacting = false;
 
     TextButton::mouseReleaseEvent(e);
