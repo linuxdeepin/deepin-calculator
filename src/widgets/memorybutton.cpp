@@ -12,8 +12,6 @@
 #include "dthememanager.h"
 
 #include <DGuiApplicationHelper>
-#include <com_deepin_daemon_appearance.h>
-using ActionColor = com::deepin::daemon::Appearance;
 
 MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *parent)
     : TextButton(text, parent)
@@ -30,14 +28,6 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
     init();
     m_isHover = m_isPress = false;
     showtips();
-
-    m_themeactcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
-    ActionColor *m_pActionColor;
-    //dbus接口获取系统活动色
-    m_pActionColor = new ActionColor("com.deepin.daemon.Appearance",
-                                     "/com/deepin/daemon/Appearance",
-                                     QDBusConnection::sessionBus(), this);
-    connect(m_pActionColor, &ActionColor::QtActiveColorChanged, this, &MemoryButton::themeColorChanged);
 }
 
 MemoryButton::~MemoryButton()
@@ -121,11 +111,6 @@ void MemoryButton::showtips()
     else if (this->text() == "M˄" || this->text() == "M˅")
         tooltext = tr("Memory");
     this->setToolTip(tooltext);
-}
-
-void MemoryButton::themeColorChanged(const QString &strColor)
-{
-    m_themeactcolor = strColor;
 }
 
 /**
@@ -252,7 +237,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
                                                          Qt::AlignCenter, this->text());
     // QRectF
     // textRect(QPointF((rect.width()/2)-(textR.width()/2),(rect.height()/2)-(textR.height()/2)),textR.width(),textR.height());
-    QColor actcolor = m_themeactcolor;//活动色
+    QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();//活动色
     QColor pressBrush, focus, hoverFrame, base, text, hoverbrush;
     QColor pressText = actcolor;
     int type = DGuiApplicationHelper::instance()->paletteType();

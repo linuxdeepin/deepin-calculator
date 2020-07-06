@@ -13,8 +13,6 @@
 
 #include "dthememanager.h"
 #include "scientifickeypad.h"
-#include <com_deepin_daemon_appearance.h>
-using ActionColor = com::deepin::daemon::Appearance;
 
 const ScientificKeyPad::KeyDescription ScientificKeyPad::keyDescriptions[] = {
     {"F-E", Key_FE, 1, 0, 1, 1},   {"MC", Key_MC, 1, 1, 1, 1},   {"MR", Key_MR, 1, 2, 1, 1},
@@ -312,7 +310,10 @@ void ScientificKeyPad::initUI()
                                              .arg(m_bracketcolor));
             });
             connect(i.value().first, &DPushButton::released, [ = ]() {
-                m_leftBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
+                if (m_themetype == 1)
+                    m_leftBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
+                else
+                    m_leftBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:white;font-size:14px;"));
             });
         }
         if (i.key() == Key_right) {
@@ -325,7 +326,10 @@ void ScientificKeyPad::initUI()
                                               .arg(m_bracketcolor));
             });
             connect(i.value().first, &DPushButton::released, [ = ]() {
-                m_rightBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
+                if (m_themetype == 1)
+                    m_rightBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
+                else
+                    m_rightBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:white;font-size:14px;"));
             });
         }
     }

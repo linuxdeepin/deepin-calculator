@@ -21,6 +21,8 @@
 #include <DWidget>
 #include <DLabel>
 #include <QStackedWidget>
+#include <com_deepin_daemon_appearance.h>
+using ActionColor = com::deepin::daemon::Appearance;
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
