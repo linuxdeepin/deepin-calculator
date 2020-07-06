@@ -31,8 +31,14 @@
 #include <QDebug>
 #include <QShortcut>
 #include <QProcess>
+#include <QDesktopWidget>
+#include <QApplication>
 
 DGUI_USE_NAMESPACE
+
+const int HISTORY_SHOW_LEAST_WIDTH = 800; //最小显示历史记录的宽度
+const QSize STANDARD_SIZE = QSize(344, 560); //标准模式的固定大小
+const QSize SCIENTIFIC_MIN_SIZE = QSize(430, 580); //科学模式的最小size
 
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent)
@@ -68,49 +74,35 @@ MainWindow::MainWindow(QWidget *parent)
 
     titlebar()->addWidget(m_historyBtn, Qt::AlignRight);
     m_historyBtn->setToolTip(tr("History"));
-    if (m_settings->getOption("mode").toInt() == 0)
-        m_historyBtn->hide();
 
     setWindowTitle(tr("Calculator"));
 
     m_basicModule->setFocus();
-    //connect(m_themeAction, &QAction::triggered, this, &MainWindow::switchTheme);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &MainWindow::initTheme);
     connect(m_simpleAction, &QAction::triggered, this, &MainWindow::switchToSimpleMode);
     connect(m_scAction, &QAction::triggered, this, &MainWindow::switchToScientificMode);
     connect(m_historyBtn, &IconButton::isclicked, this, [ = ]() {
         if (m_mainLayout->currentIndex() == 1) {
             if (m_settings->getOption("history").toInt() == 0) {
-                resize(800, 580);
+                if (width() < HISTORY_SHOW_LEAST_WIDTH)
+                    resize(HISTORY_SHOW_LEAST_WIDTH, this->height());
                 showHistoryWidget();
                 emit windowChanged(width(), height(), false);
             } else {
                 hideHistoryWidget(true);
+                if (width() == HISTORY_SHOW_LEAST_WIDTH)
+                    resize(width() - 1, this->height());
                 emit windowChanged(width(), height(), true);
             }
         } else
             hideHistoryWidget(false);
     });
     connect(this, &MainWindow::windowChanged, m_scientificModule, &scientificModule::getWindowChanged);
-    //QShortcut *viewshortcut = new QShortcut(this);
-    //viewshortcut->setKey(QKeySequence(QLatin1String("Ctrl+Shift+/")));
-    //connect(viewshortcut, SIGNAL(activated()), this, SLOT(onViewShortcut()));
 }
 
 MainWindow::~MainWindow()
 {
 }
-
-/*void MainWindow::paintEvent(QPaintEvent *e)
-{
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(m_titlebarColor);
-    painter.drawRect(QRect(0, 0, rect().width(), titlebar()->height()));
-
-    DMainWindow::paintEvent(e);
-}*/
 
 void MainWindow::initTheme()
 {
@@ -140,7 +132,6 @@ void MainWindow::initTheme()
 void MainWindow::initModule()
 {
     int mode = m_settings->getOption("mode").toInt();
-    int hismode = m_settings->getOption("history").toInt();
     QWidget *centralWidget = new QWidget;
 
     centralWidget->setLayout(m_mainLayout);
@@ -156,32 +147,24 @@ void MainWindow::initModule()
     switch (mode) {
     case 0:
         switchToSimpleMode();
-        hideHistoryWidget(false);
         break;
     case 1:
         switchToScientificMode();
-        if (hismode == 1)
-            showHistoryWidget();
-        else
-            hideHistoryWidget(true);
+        resize(m_settings->getOption("windowWidth").toInt(), m_settings->getOption("windowHeight").toInt());
         break;
     default:
         switchToSimpleMode();
-        hideHistoryWidget(false);
         break;
     }
 }
 
 void MainWindow::switchToSimpleMode()
 {
+    m_lastscisize = this->size();
     m_settings->setOption("mode", 0);
     m_mainLayout->setCurrentIndex(0);
     m_basicModule->checkLineEmpty();
-    if (m_historyBtn->isHidden() == false)
-        m_historyBtn->hide();
     hideHistoryWidget(false);
-
-//    setFixedSize(344, 560);//344.510
 }
 
 void MainWindow::switchToScientificMode()
@@ -189,22 +172,15 @@ void MainWindow::switchToScientificMode()
     m_settings->setOption("mode", 1);
     m_mainLayout->setCurrentIndex(1);
     m_scientificModule->checkLineEmpty();
-    if (m_historyBtn->isHidden() == true)
-        m_historyBtn->show();
-    setMinimumSize(430, 580);
-//    setFixedSize(800, 610);//565.505  //375+300
-    if (m_settings->getOption("history").toInt() == 1)
-        showHistoryWidget();
-    else
-        hideHistoryWidget(true);
+    setMinimumSize(SCIENTIFIC_MIN_SIZE);
+    setMaximumSize(QApplication::desktop()->screenGeometry().size());
+    resize(m_lastscisize);
 }
 
 void MainWindow::showHistoryWidget()
 {
     m_settings->setOption("history", 1);
     m_scientificModule->showOrHideHistory(false);
-//    setFixedSize(800, 580);
-//    resize(800, 580);
 }
 
 void MainWindow::hideHistoryWidget(bool b)
@@ -215,14 +191,14 @@ void MainWindow::hideHistoryWidget(bool b)
     m_scientificModule->showOrHideHistory(true);
     switch (m_settings->getOption("mode").toInt()) {
     case 0:
-        setFixedSize(344, 560);
+        setFixedSize(STANDARD_SIZE);
         break;
     case 1:
-        setMinimumSize(430, 580);
-//        setFixedSize(430, 580);
+        setMinimumSize(SCIENTIFIC_MIN_SIZE);
+        setMaximumSize(QApplication::desktop()->screenGeometry().size());
         break;
     default:
-        setFixedSize(344, 560);
+        setFixedSize(STANDARD_SIZE);
         break;
     }
 }
@@ -244,30 +220,19 @@ void MainWindow::moveEvent(QMoveEvent *event)
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    if (event->size().width() <= 799) {
+    if (event->size().width() < HISTORY_SHOW_LEAST_WIDTH) {
         hideHistoryWidget(true);
         emit windowChanged(event->size().width(), event->size().height(), true);
     } else {
         showHistoryWidget();
         emit windowChanged(event->size().width(), event->size().height(), false);
     }
+    m_settings->setOption("windowWidth", event->size().width());
+    m_settings->setOption("windowHeight", event->size().height());
+    if (event->size().width() <= 800 && m_settings->getOption("mode").toInt() != 0)
+        m_historyBtn->show();
+    else
+        m_historyBtn->hide();
     DMainWindow::resizeEvent(event);
 }
-
-/*void MainWindow::onViewShortcut()
-{
-    QRect rect = window()->geometry();
-    QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
-    Shortcut sc;
-    QStringList shortcutString;
-    QString param1 = "-j=" + sc.toStr();
-    QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
-    shortcutString << "-b" << param1 << param2;
-
-    QProcess *shortcutViewProc = new QProcess(this);
-    shortcutViewProc->startDetached("killall deepin-shortcut-viewer");
-    shortcutViewProc->startDetached("deepin-shortcut-viewer", shortcutString);
-
-    connect(shortcutViewProc, SIGNAL(finished(int)), shortcutViewProc, SLOT(deleteLater()));
-}*/
 

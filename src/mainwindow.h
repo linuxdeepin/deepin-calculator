@@ -29,7 +29,7 @@
 #include "widgets/iconbutton.h"
 #include "dsettings.h"
 
-//#define ENABLE_SCIENTIFIC 1
+#define ENABLE_SCIENTIFIC 1
 
 DWIDGET_USE_NAMESPACE
 
@@ -65,11 +65,11 @@ private:
     QAction *m_themeAction;
     QAction *m_simpleAction;
     QAction *m_scAction;
-    QColor m_titlebarColor;
 
     BasicModule *m_basicModule;
     scientificModule *m_scientificModule;
     IconButton *m_historyBtn;
+    QSize m_lastscisize = QSize(); //切换回标准时模式时科学模式的size
 };
 
 #endif

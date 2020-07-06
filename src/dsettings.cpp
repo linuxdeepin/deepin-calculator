@@ -66,6 +66,12 @@ void DSettings::initConfig()
     if (m_settings->value("windowY").toString().isEmpty()) {
         setOption("windowY", 0);
     }
+    if (m_settings->value("windowWidth").toString().isEmpty()) {
+        setOption("windowWidth", 0);
+    }
+    if (m_settings->value("windowHeight").toString().isEmpty()) {
+        setOption("windowHeight", 0);
+    }
 }
 
 QVariant DSettings::getOption(const QString &key)
