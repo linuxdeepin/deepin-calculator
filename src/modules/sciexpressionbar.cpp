@@ -33,7 +33,7 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
     m_listView->setModel(m_listModel);
     m_listView->setItemDelegate(m_listDelegate);
     // init inputEdit attributes.
-    m_inputEdit->setFixedHeight(55);
+    m_listView->setFixedHeight(45);
     m_inputEdit->setAlignment(Qt::AlignRight);
     m_inputEdit->setTextMargins(10, 0, 10, 6);
 
@@ -56,7 +56,7 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
     layout->setMargin(0);
     layout->setSpacing(0);
 
-    setFixedHeight(100);
+//    setFixedHeight(100);
     initConnect();
 
     Settings::instance()->angleUnit = 'd';

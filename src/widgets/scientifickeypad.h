@@ -93,7 +93,6 @@ private:
     void initStackWidget(QStackedWidget *widget, DPushButton *button, DPushButton *pagebutton, const KeyDescription1 *desc);
 
 private:
-    QVBoxLayout *m_vlayout;
     QGridLayout *m_gridlayout1;
     QSignalMapper *m_mapper;
     DLabel *m_leftBracket; //存放左括号不匹配数
