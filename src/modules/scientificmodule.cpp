@@ -29,12 +29,11 @@ scientificModule::scientificModule(QWidget *parent)
     QHBoxLayout *layout = new QHBoxLayout(this);
     QVBoxLayout *leftlay = new QVBoxLayout();
     m_sciexpressionBar = new SciExpressionBar;
-    leftlay->addWidget(m_sciexpressionBar);
+    leftlay->addWidget(m_sciexpressionBar, 1);
 //    leftlay->addWidget(m_scikeypadwidget);
 //    m_triCombobox->setFixedSize(60, 40);
 //    layout->addWidget(m_triCombobox);
-    leftlay->addWidget(m_scikeypadwidget);
-
+    leftlay->addWidget(m_scikeypadwidget, 3);
     leftlay->setSpacing(0);
 //    leftlay->setMargin(0);
 //    leftlay->setContentsMargins(0, 0, 0, 11);
@@ -135,7 +134,9 @@ scientificModule::scientificModule(QWidget *parent)
             m_scihiswidget->getMemoryWidget()->expressionempty(b);
         }
     });
-    connect(this, &scientificModule::getWindowChanged, m_scikeypadwidget, &ScientificKeyPad::windowSize);
+    connect(this, &scientificModule::getWindowChanged, [ = ](int width, int height, bool hishide) {
+        emit m_scikeypadwidget->windowSize(width, height - m_sciexpressionBar->height(), hishide);
+    });
     // m_expBarColor = "#F8F8F8";
     // m_expBarSepColor = "#F8F8F8";
 }

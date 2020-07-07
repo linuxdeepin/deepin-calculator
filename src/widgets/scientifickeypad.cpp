@@ -105,10 +105,7 @@ static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool p
 
 ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     : DWidget(parent)
-//    , m_page2(new QWidget)
-    , m_vlayout(new QVBoxLayout(this))
     , m_gridlayout1(new QGridLayout)
-//    , m_gridlayout2(new QGridLayout)
     , m_mapper(new QSignalMapper(this))
     , m_leftBracket(new DLabel)
     , m_rightBracket(new DLabel)
@@ -125,19 +122,16 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
 {
     m_leftBracket->setFixedSize(24, 14);
     m_rightBracket->setFixedSize(24, 14);
-    QWidget *page1 = new QWidget(this);
     DPalette pl = m_leftBracket->palette();
     pl.setColor(DPalette::Text, QColor(Qt::red));
     m_leftBracket->setPalette(pl);
-    page1->setLayout(m_gridlayout1);
-    m_vlayout->addWidget(page1);
-    m_vlayout->setMargin(0);
-    m_vlayout->setSpacing(0);
-    m_vlayout->setContentsMargins(0, 0, 0, 0);
-    this->setLayout(m_vlayout);
 
     initButtons();
     initUI();
+    m_gridlayout1->setMargin(0);
+    m_gridlayout1->setSpacing(0);
+    m_gridlayout1->setContentsMargins(0, 0, 0, 0);
+    this->setLayout(m_gridlayout1);
 
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
     connect(this, &ScientificKeyPad::buttonPressed, this,
@@ -272,9 +266,7 @@ void ScientificKeyPad::initButtons()
         m_mapper->setMapping(button, desc->button);
 
     }
-    m_gridlayout1->setMargin(0);
-    m_gridlayout1->setSpacing(0);
-    m_gridlayout1->setContentsMargins(0, 0, 0, 0);
+
 }
 
 void ScientificKeyPad::initUI()
@@ -295,9 +287,10 @@ void ScientificKeyPad::initUI()
         i.next();
         //以下信号槽按窗口比例缩放按键等
         connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
-            int padding;
-            hishide == false ? padding = 370 : padding = 0;
-            i.value().first->setFixedSize((width - 25 - padding) / 6, (height - 200) / 8);
+            int hiswidth;
+            hishide == false ? hiswidth = 370 : hiswidth = 0;
+            int padding = 100;
+            i.value().first->setFixedSize((width - 25 - hiswidth) / 6, (height - padding) / 8);
         });
         if (i.key() == Key_left) {
             connect(this, &ScientificKeyPad::windowSize, [ = ]() {
@@ -340,9 +333,10 @@ void ScientificKeyPad::initUI()
         i1.next();
         //以下信号槽按窗口比例缩放按键等
         connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
-            int padding;
-            hishide == false ? padding = 370 : padding = 0;
-            i1.value().first->setFixedSize((width - 25 - padding) / 6, (height - 200) / 8);
+            int hiswidth;
+            hishide == false ? hiswidth = 370 : hiswidth = 0;
+            int padding = 100;
+            i1.value().first->setFixedSize((width - 25 - hiswidth) / 6, (height - padding) / 8);
         });
     }
 
@@ -369,7 +363,6 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
     widget->setCurrentIndex(0);
     m_gridlayout1->addWidget(widget, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,
                              Qt::AlignHCenter | Qt::AlignBottom);
-
     const QPair<DPushButton *, const KeyDescription1 *> hashValue1(pagebutton, desc1);
     m_keys1.insert(desc1->button, hashValue1);
     connect(static_cast<TextButton *>(pagebutton), &TextButton::updateInterface, [ = ] {update();});
@@ -378,9 +371,10 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
     connect(static_cast<TextButton *>(pagebutton), &TextButton::moveRight, this, &ScientificKeyPad::moveRight);
     m_mapper->setMapping(pagebutton, desc1->button);
     connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
-        int padding;
-        hishide == false ? padding = 370 : padding = 0;
-        widget->setFixedSize((width - 25 - padding) / 6, (height - 200) / 8);
+        int hiswidth;
+        hishide == false ? hiswidth = 370 : hiswidth = 0;
+        int padding = 100;
+        widget->setFixedSize((width - 25 - hiswidth) / 6, (height - padding) / 8);
     });
 }
 

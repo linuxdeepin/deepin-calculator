@@ -98,7 +98,7 @@ MainWindow::MainWindow(QWidget *parent)
         } else
             hideHistoryWidget(false, false);
     });
-    connect(this, &MainWindow::windowChanged, m_scientificModule, &scientificModule::getWindowChanged);
+
 }
 
 MainWindow::~MainWindow()
@@ -169,7 +169,7 @@ void MainWindow::initModule()
 void MainWindow::switchToSimpleMode()
 {
     if (m_settings->getOption("mode") != 0 || m_isinit) {
-        m_lastscisize = this->size();
+        m_lastscisize = m_isinit ? STANDARD_SIZE : this->size();
         m_settings->setOption("mode", 0);
         m_mainLayout->setCurrentIndex(0);
         m_basicModule->checkLineEmpty();
@@ -179,6 +179,7 @@ void MainWindow::switchToSimpleMode()
 
 void MainWindow::switchToScientificMode()
 {
+    connect(this, &MainWindow::windowChanged, m_scientificModule, &scientificModule::getWindowChanged);
     if (m_settings->getOption("mode") != 1 || m_isinit) {
         m_settings->setOption("mode", 1);
         m_mainLayout->setCurrentIndex(1);
