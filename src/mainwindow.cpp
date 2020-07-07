@@ -33,6 +33,7 @@
 #include <QProcess>
 #include <QDesktopWidget>
 #include <QApplication>
+#include <QPropertyAnimation>
 
 DGUI_USE_NAMESPACE
 
@@ -89,19 +90,24 @@ MainWindow::MainWindow(QWidget *parent)
                 showHistoryWidget();
                 emit windowChanged(width(), height(), false);
             } else {
-                hideHistoryWidget(true);
+                hideHistoryWidget(true, false);
                 if (width() == HISTORY_SHOW_LEAST_WIDTH)
                     resize(width() - 1, this->height());
                 emit windowChanged(width(), height(), true);
             }
         } else
-            hideHistoryWidget(false);
+            hideHistoryWidget(false, false);
     });
     connect(this, &MainWindow::windowChanged, m_scientificModule, &scientificModule::getWindowChanged);
 }
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::isOrderToShow()
+{
+    m_rightToShow = true;
 }
 
 void MainWindow::initTheme()
@@ -144,6 +150,7 @@ void MainWindow::initModule()
     m_mainLayout->addWidget(m_basicModule);
     m_mainLayout->addWidget(m_scientificModule);
 
+    m_isinit = true;
     switch (mode) {
     case 0:
         switchToSimpleMode();
@@ -156,25 +163,31 @@ void MainWindow::initModule()
         switchToSimpleMode();
         break;
     }
+    m_isinit = false;
 }
 
 void MainWindow::switchToSimpleMode()
 {
-    m_lastscisize = this->size();
-    m_settings->setOption("mode", 0);
-    m_mainLayout->setCurrentIndex(0);
-    m_basicModule->checkLineEmpty();
-    hideHistoryWidget(false);
+    if (m_settings->getOption("mode") != 0 || m_isinit) {
+        m_lastscisize = this->size();
+        m_settings->setOption("mode", 0);
+        m_mainLayout->setCurrentIndex(0);
+        m_basicModule->checkLineEmpty();
+        hideHistoryWidget(false, true);
+    }
 }
 
 void MainWindow::switchToScientificMode()
 {
-    m_settings->setOption("mode", 1);
-    m_mainLayout->setCurrentIndex(1);
-    m_scientificModule->checkLineEmpty();
-    setMinimumSize(SCIENTIFIC_MIN_SIZE);
-    setMaximumSize(QApplication::desktop()->screenGeometry().size());
-    resize(m_lastscisize);
+    if (m_settings->getOption("mode") != 1 || m_isinit) {
+        m_settings->setOption("mode", 1);
+        m_mainLayout->setCurrentIndex(1);
+        m_scientificModule->checkLineEmpty();
+        setMinimumSize(SCIENTIFIC_MIN_SIZE);
+        setMaximumSize(QApplication::desktop()->screenGeometry().size());
+        hideHistoryWidget(false, true);
+        resize(m_lastscisize);
+    }
 }
 
 void MainWindow::showHistoryWidget()
@@ -183,22 +196,40 @@ void MainWindow::showHistoryWidget()
     m_scientificModule->showOrHideHistory(false);
 }
 
-void MainWindow::hideHistoryWidget(bool b)
+void MainWindow::hideHistoryWidget(bool hissetting, bool modechange)
 {
     //从科学到简易时b=false，其余为true
-    if (b == true)
+    if (hissetting == true)
         m_settings->setOption("history", 0);
     m_scientificModule->showOrHideHistory(true);
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "windowOpacity");
+    animation->setDuration(250);
+    animation->setStartValue(0);
+    animation->setEndValue(1);
     switch (m_settings->getOption("mode").toInt()) {
     case 0:
         setFixedSize(STANDARD_SIZE);
+        if (m_rightToShow) {
+            this->setWindowFlags(windowFlags() & ~ Qt::WindowMaximizeButtonHint);
+            this->show();
+            if (modechange)
+                animation->start();
+        }
         break;
     case 1:
         setMinimumSize(SCIENTIFIC_MIN_SIZE);
         setMaximumSize(QApplication::desktop()->screenGeometry().size());
+        if (m_rightToShow) {
+            this->setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
+            this->show();
+            if (modechange)
+                animation->start();
+        }
         break;
     default:
         setFixedSize(STANDARD_SIZE);
+        this->setWindowFlags(windowFlags() & ~ Qt::WindowMaximizeButtonHint);
+        this->show();
         break;
     }
 }
@@ -221,7 +252,7 @@ void MainWindow::moveEvent(QMoveEvent *event)
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     if (event->size().width() < HISTORY_SHOW_LEAST_WIDTH) {
-        hideHistoryWidget(true);
+        hideHistoryWidget(true, false);
         emit windowChanged(event->size().width(), event->size().height(), true);
     } else {
         showHistoryWidget();
@@ -229,7 +260,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     }
     m_settings->setOption("windowWidth", event->size().width());
     m_settings->setOption("windowHeight", event->size().height());
-    if (event->size().width() <= 800 && m_settings->getOption("mode").toInt() != 0)
+    if (event->size().width() <= HISTORY_SHOW_LEAST_WIDTH && m_settings->getOption("mode").toInt() != 0)
         m_historyBtn->show();
     else
         m_historyBtn->hide();
