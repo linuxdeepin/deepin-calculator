@@ -15,8 +15,8 @@
 
 MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *parent)
     : TextButton(text, parent)
+    , m_effect(new QGraphicsDropShadowEffect(this))
     , m_isallgray(false)
-      // m_effect(new QGraphicsDropShadowEffect(this))
 {
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
@@ -28,6 +28,8 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
     init();
     m_isHover = m_isPress = false;
     showtips();
+    m_effect->setOffset(0, 4);
+    m_effect->setBlurRadius(12);
 }
 
 MemoryButton::~MemoryButton()
@@ -240,6 +242,11 @@ void MemoryButton::paintEvent(QPaintEvent *e)
     QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();//活动色
     QColor pressBrush, focus, hoverFrame, base, text, hoverbrush;
     QColor pressText = actcolor;
+    QColor hoverShadow, focusShadow;
+    hoverShadow = actcolor;
+    hoverShadow.setAlphaF(0.1);
+    focusShadow = QColor(0, 0, 0);
+    focusShadow.setAlphaF(0.05);
     int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
@@ -328,6 +335,8 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setFont(m_font);
             painter.drawText(textRect, this->text());
+            m_effect->setColor(focusShadow);
+            this->setGraphicsEffect(m_effect);
         }
     } else {
         painter.setPen(Qt::NoPen);
@@ -345,6 +354,8 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setFont(m_font);
             painter.drawText(textRect, this->text());
+            m_effect->setColor(hoverShadow);
+            this->setGraphicsEffect(m_effect);
         } else if (m_isPress) {
             painter.setBrush(QBrush(pressBrush));
             painter.drawRoundRect(normal, 25, 30);
@@ -361,6 +372,8 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setFont(m_font);
             painter.drawText(textRect, this->text());
+            m_effect->setColor(QColor(0, 0, 0, 0));
+            this->setGraphicsEffect(m_effect);
         }
 
     }

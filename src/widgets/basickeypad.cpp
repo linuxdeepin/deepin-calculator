@@ -167,7 +167,7 @@ void BasicKeypad::initUI()
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
 
-    this->setContentsMargins(12, 0, 13, 0);
+    this->setContentsMargins(12, 0, 13, 11);
 }
 
 void BasicKeypad::buttonThemeChanged(int type)
