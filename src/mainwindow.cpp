@@ -48,34 +48,35 @@ MainWindow::MainWindow(QWidget *parent)
     m_settings = DSettings::instance(this);
     m_mainLayout = new QStackedLayout;
     m_tbMenu = new DMenu(this);
-    m_historyBtn = new IconButton(this, 2);
-    //titlebar()->setBackgroundTransparent(true);
+    m_modeshowmenu = new DMenu(tr("show"));
     QIcon t_icon = QIcon::fromTheme("deepin-calculator");
-//    QPixmap pixmap = t_icon.pixmap(24,24);
-//    QIcon newIcon(pixmap);
     titlebar()->setIcon(t_icon);
     titlebar()->setMenu(m_tbMenu);
     titlebar()->setTitle("");
 
-    // init titlebar menu.
-    //m_themeAction = new QAction(tr("Dark theme"), this);
-    //m_themeAction->setCheckable(true);
+    //缺翻译
     m_simpleAction = new QAction(tr("Standard"), this);
     m_scAction = new QAction(tr("Scientific"), this);
-    //m_tbMenu->addAction(m_themeAction);
+    m_hisAction = new QAction(tr("view historical record"), this);
+
+    m_pActionGroup = new QActionGroup(nullptr); //实现互斥checked
+    m_pActionGroup->addAction(m_simpleAction);
+    m_pActionGroup->addAction(m_scAction);
+    m_simpleAction->setCheckable(true);
+    m_scAction->setCheckable(true);
 
 #ifdef ENABLE_SCIENTIFIC
-    m_tbMenu->addAction(m_simpleAction);
-    m_tbMenu->addAction(m_scAction);
+    m_tbMenu->addAction(m_hisAction);
+    m_modeshowmenu->addAction(m_simpleAction);
+    m_modeshowmenu->addAction(m_scAction);
 #endif
 
-    //m_tbMenu->addSeparator();
-
+    m_tbMenu->addMenu(m_modeshowmenu);
     initModule();
     initTheme();
 
-    titlebar()->addWidget(m_historyBtn, Qt::AlignRight);
-    m_historyBtn->setToolTip(tr("History"));
+//    titlebar()->addWidget(m_historyBtn, Qt::AlignRight);
+//    m_historyBtn->setToolTip(tr("History"));
 
     setWindowTitle(tr("Calculator"));
 
@@ -83,7 +84,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &MainWindow::initTheme);
     connect(m_simpleAction, &QAction::triggered, this, &MainWindow::switchToSimpleMode);
     connect(m_scAction, &QAction::triggered, this, &MainWindow::switchToScientificMode);
-    connect(m_historyBtn, &IconButton::isclicked, this, [ = ]() {
+    connect(m_hisAction, &QAction::triggered, this, [ = ]() {
         if (m_mainLayout->currentIndex() == 1) {
             if (m_settings->getOption("history").toInt() == 0) {
                 if (width() < HISTORY_SHOW_LEAST_WIDTH)
@@ -119,7 +120,6 @@ void MainWindow::initTheme()
         titlePa.setColor(DPalette::Base, QColor(240, 240, 240));
         titlebar()->setPalette(titlePa);
         path = QString(":/assets/images/%1/").arg("light");
-        m_historyBtn->setIconUrl(path + "memory_normal.svg", path + "memory_hover.svg", path + "memory_press.svg");
     } else {
         DPalette titlePa = titlebar()->palette();
         titlePa.setColor(DPalette::Light, QColor(37, 37, 37));
@@ -127,7 +127,6 @@ void MainWindow::initTheme()
         titlePa.setColor(DPalette::Base, QColor(37, 37, 37));
         titlebar()->setPalette(titlePa);
         path = QString(":/assets/images/%1/").arg("dark");
-        m_historyBtn->setIconUrl(path + "memory_normal.svg", path + "memory_hover.svg", path + "memory_press.svg");
     }
 }
 
@@ -149,9 +148,11 @@ void MainWindow::initModule()
     m_isinit = true;
     switch (mode) {
     case 0:
+        m_simpleAction->setChecked(true);
         switchToSimpleMode();
         break;
     case 1:
+        m_scAction->setChecked(true);
         switchToScientificMode();
         resize(m_settings->getOption("windowWidth").toInt(), m_settings->getOption("windowHeight").toInt());
         break;
@@ -164,6 +165,7 @@ void MainWindow::initModule()
 
 void MainWindow::switchToSimpleMode()
 {
+    m_hisAction->setVisible(false);
     if (m_settings->getOption("mode") != 0 || m_isinit) {
         m_lastscisize = m_isinit ? STANDARD_SIZE : this->size();
         m_settings->setOption("mode", 0);
@@ -175,6 +177,7 @@ void MainWindow::switchToSimpleMode()
 
 void MainWindow::switchToScientificMode()
 {
+    m_hisAction->setVisible(true);
     connect(this, &MainWindow::windowChanged, m_scientificModule, &scientificModule::getWindowChanged);
     if (m_settings->getOption("mode") != 1 || m_isinit) {
         m_settings->setOption("mode", 1);
@@ -200,10 +203,6 @@ void MainWindow::hideHistoryWidget(bool hissetting, bool modechange)
     if (hissetting == true)
         m_settings->setOption("history", 0);
     m_scientificModule->showOrHideHistory(true);
-//    QPropertyAnimation *animation = new QPropertyAnimation(this, "windowOpacity");
-//    animation->setDuration(250);
-//    animation->setStartValue(0);
-//    animation->setEndValue(1);
     switch (m_settings->getOption("mode").toInt()) {
     case 0:
         setFixedSize(STANDARD_SIZE);
@@ -246,10 +245,6 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     }
     m_settings->setOption("windowWidth", event->size().width());
     m_settings->setOption("windowHeight", event->size().height());
-    if (event->size().width() <= HISTORY_SHOW_LEAST_WIDTH && m_settings->getOption("mode").toInt() != 0)
-        m_historyBtn->show();
-    else
-        m_historyBtn->hide();
     DMainWindow::resizeEvent(event);
 }
 
