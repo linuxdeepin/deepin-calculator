@@ -40,7 +40,6 @@ class MainWindow : public DMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void isOrderToShow(); //用于处理模式切换的显示
 signals:
     void windowChanged(int width, int height, bool hishide); //hishide-历史记录栏是否隐藏
 public slots:
@@ -71,7 +70,6 @@ private:
     scientificModule *m_scientificModule;
     IconButton *m_historyBtn;
     QSize m_lastscisize = QSize(); //切换回标准时模式时科学模式的size
-    bool m_rightToShow = false; //用于处理模式切换的显示
     bool m_isinit = true;//初始化
 };
 
