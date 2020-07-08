@@ -24,9 +24,9 @@
 #include <QToolTip>
 
 IconButton::IconButton(QWidget *parent, int b, bool page)
-    : TextButton("", parent),
-//      m_iconWidget(new DLabel),
-      m_iconRenderer(new DSvgRenderer(this))
+    : TextButton("", parent)
+    , m_effect(new QGraphicsDropShadowEffect(this))
+    , m_iconRenderer(new DSvgRenderer(this))
 {
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
@@ -46,6 +46,8 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
     m_isPress = false;
     m_isEmptyBtn = (b == 1);
     m_page = page;
+    m_effect->setOffset(0, 4);
+    m_effect->setBlurRadius(12);
 }
 
 IconButton::~IconButton()
@@ -202,6 +204,11 @@ void IconButton::paintEvent(QPaintEvent *)
         //m_pixmap = m_pixmap.scaled(m_pixmap.size() * devicePixelRatioF());
         QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();//活动色
         QColor pressBrush, focus, hoverFrame, base, hoverbrush;
+        QColor hoverShadow, focusShadow;
+        hoverShadow = actcolor;
+        hoverShadow.setAlphaF(0.1);
+        focusShadow = QColor(0, 0, 0);
+        focusShadow.setAlphaF(0.05);
         int type = DGuiApplicationHelper::instance()->paletteType();
         if (type == 0)
             type = DGuiApplicationHelper::instance()->themeType();
@@ -300,6 +307,8 @@ void IconButton::paintEvent(QPaintEvent *)
                     }
                     painter.setBrush(Qt::NoBrush);
                     painter.drawRoundRect(rect, 25, 30);
+                    m_effect->setColor(focusShadow);
+                    this->setGraphicsEffect(m_effect);
                 }
             } else {
                 if (m_isHover) {
@@ -309,6 +318,8 @@ void IconButton::paintEvent(QPaintEvent *)
                     painter.setPen(pen);
                     painter.setBrush(QBrush(hoverbrush));
                     painter.drawRoundRect(rect, 25, 30);
+                    m_effect->setColor(hoverShadow);
+                    this->setGraphicsEffect(m_effect);
                 } else if (m_isPress) {
                     painter.setPen(Qt::NoPen);
                     painter.setBrush(QBrush(pressBrush));
@@ -317,6 +328,8 @@ void IconButton::paintEvent(QPaintEvent *)
                     painter.setPen(Qt::NoPen);
                     painter.setBrush(QBrush(base));
                     painter.drawRoundRect(rect, 25, 30);
+                    m_effect->setColor(QColor(0, 0, 0, 0));
+                    this->setGraphicsEffect(m_effect);
                 }
             }
         }

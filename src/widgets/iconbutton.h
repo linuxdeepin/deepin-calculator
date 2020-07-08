@@ -62,6 +62,8 @@ private:
     //void setIconSize(const int &size);
 
 //    DLabel *m_iconWidget;
+    QGraphicsDropShadowEffect *m_effect;
+
     DSvgRenderer *m_iconRenderer;
     DSettings *m_settings;
 

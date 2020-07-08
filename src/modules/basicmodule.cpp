@@ -53,7 +53,7 @@ BasicModule::BasicModule(QWidget *parent)
 
     layout->setSpacing(0);
     layout->setMargin(0);
-    layout->setContentsMargins(0, 0, 0, 11);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     setMouseTracking(true);
     setFocus();

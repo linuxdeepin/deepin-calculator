@@ -208,8 +208,13 @@ void TextButton::paintEvent(QPaintEvent *e)
     // textRect(QPointF((rect.width()/2)-(textR.width()/2),(rect.height()/2)-(textR.height()/2)),textR.width(),textR.height());
     QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();//活动色
     QColor pressBrush, focus, hoverFrame, base, text, hoverbrush;
-    QColor hoverShadow, focusShadow, normalShadow;
+    QColor hoverShadow, focusShadow;
     QColor pressText = actcolor;
+    // hoverShadow = QColor(12, 155, 246);
+    hoverShadow = actcolor;
+    hoverShadow.setAlphaF(0.1);
+    focusShadow = QColor(0, 0, 0);
+    focusShadow.setAlphaF(0.05);
     int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
@@ -227,12 +232,6 @@ void TextButton::paintEvent(QPaintEvent *e)
             hoverbrush = QColor("#FFFFFF");
         }
         text = QColor("#000000");
-        normalShadow = QColor(44, 167, 248);
-        normalShadow.setAlphaF(0.4);
-        hoverShadow = QColor(12, 155, 246);
-        hoverShadow.setAlphaF(0.1);
-        focusShadow = QColor(0, 0, 0);
-        focusShadow.setAlphaF(0.05);
     } else {
         pressBrush = QColor(0, 0, 0);
         pressBrush.setAlphaF(0.5);
@@ -242,12 +241,7 @@ void TextButton::paintEvent(QPaintEvent *e)
         base = QColor("#303030");
         hoverbrush = QColor(255, 255, 255);
         hoverbrush.setAlphaF(0.1);
-        normalShadow = QColor(44, 167, 248);
-        normalShadow.setAlphaF(0.4);
-        hoverShadow = QColor(12, 155, 246);
-        hoverShadow.setAlphaF(0.1);
-        focusShadow = QColor(0, 0, 0);
-        focusShadow.setAlphaF(0.05);
+//        hoverShadow = QColor(12, 155, 246);
         if (m_isHover)
             text = Qt::white;
         else
@@ -285,6 +279,8 @@ void TextButton::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setFont(m_font);
             painter.drawText(textRect, this->text());
+            m_effect->setColor(focusShadow);
+            this->setGraphicsEffect(m_effect);
         }
     } else {
         painter.setPen(Qt::NoPen);
@@ -312,8 +308,6 @@ void TextButton::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setFont(m_font);
             painter.drawText(textRect, this->text());
-            m_effect->setColor(focusShadow);
-            this->setGraphicsEffect(m_effect);
         } else {
             painter.drawRoundRect(normal, 25, 30);
             QPen pen;

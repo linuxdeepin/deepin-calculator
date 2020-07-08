@@ -51,7 +51,7 @@ public:
     void focusOutEvent(QFocusEvent *);
 
 private:
-    // QGraphicsDropShadowEffect *m_effect;
+    QGraphicsDropShadowEffect *m_effect;
 
     DPalette m_palette;
     DSettings *m_settings;
