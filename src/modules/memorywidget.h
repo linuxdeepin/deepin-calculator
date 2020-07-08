@@ -8,16 +8,17 @@
 #define MEMORYWIDGET_H
 
 #include <QWidget>
-#include <DPushButton>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QListWidget>
 #include <QList>
 #include <QObject>
+#include <DPushButton>
+
+#include "src/core/evaluator.h"
+#include "src/widgets/iconbutton.h"
 #include "memoryitemwidget.h"
 #include "memorylistwidget.h"
-#include "../core/evaluator.h"
-#include "../widgets/iconbutton.h"
 #include "memoryitemdelegate.h"
 
 class MemoryWidget : public QWidget

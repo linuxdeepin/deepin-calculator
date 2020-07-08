@@ -4,14 +4,15 @@
  * 3. @日期:    2020-07-01
  * 4. @说明:    科学计算器三角函数组合框（未使用）
  */
-#include <QTimer>
 
+#include "tricombobox.h"
+
+#include <QTimer>
+#include <QDebug>
 #include <DPalette>
 #include <DImageButton>
-#include <QDebug>
 
 #include "dthememanager.h"
-#include "tricombobox.h"
 
 const ComboBox::KeyDescription ComboBox::keyDescriptions[] = {
     {"page1", Key_Combo1page, 1, 0, 1, 1}, {"sin", Key_sin, 1, 1, 1, 1},

@@ -18,13 +18,6 @@
  */
 
 #include "mainwindow.h"
-#include "dtitlebar.h"
-#include "dthememanager.h"
-#include "dhidpihelper.h"
-#include "utils.h"
-
-#include <DWidgetUtil>
-#include <DPalette>
 
 #include <QPainter>
 #include <QLabel>
@@ -34,6 +27,13 @@
 #include <QDesktopWidget>
 #include <QApplication>
 #include <QPropertyAnimation>
+#include <DWidgetUtil>
+#include <DPalette>
+
+#include "dtitlebar.h"
+#include "dthememanager.h"
+#include "dhidpihelper.h"
+#include "utils.h"
 
 DGUI_USE_NAMESPACE
 

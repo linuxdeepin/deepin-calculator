@@ -18,8 +18,6 @@
  */
 
 #include "inputedit.h"
-#include "../math/floatconfig.h"
-#include "../utils.h"
 
 #include <QApplication>
 #include <QClipboard>
@@ -27,8 +25,10 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QStringList>
-
 #include <DMenu>
+
+#include "src/math/floatconfig.h"
+#include "src/utils.h"
 
 InputEdit::InputEdit(QWidget *parent)
     : QLineEdit(parent)

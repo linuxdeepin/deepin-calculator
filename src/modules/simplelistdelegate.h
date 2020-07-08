@@ -22,10 +22,9 @@
 
 #include <QStyledItemDelegate>
 #include <QObject>
-
-#include "../dsettings.h"
-
 #include <DGuiApplicationHelper>
+
+#include "src/dsettings.h"
 
 DGUI_USE_NAMESPACE
 class SimpleListDelegate : public QStyledItemDelegate

@@ -21,7 +21,8 @@
 #define SIMPLELISTMODEL_H
 
 #include <QAbstractListModel>
-#include "../core/evaluator.h"
+
+#include "src/core/evaluator.h"
 
 class SimpleListModel : public QAbstractListModel
 {

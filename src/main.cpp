@@ -17,18 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <DApplication>
-#include <DApplicationSettings>
-#include <DGuiApplicationHelper>
-#include <DLog>
-#include <DWidgetUtil>
-#include <DWindowManagerHelper>
 #include <QDBusInterface>
 #include <QDate>
 #include <QDebug>
 #include <QDir>
 #include <QIcon>
 #include <QSettings>
+#include <DApplication>
+#include <DApplicationSettings>
+#include <DGuiApplicationHelper>
+#include <DLog>
+#include <DWidgetUtil>
+#include <DWindowManagerHelper>
+
 #include "mainwindow.h"
 #include "environments.h"
 #include "utils.h"

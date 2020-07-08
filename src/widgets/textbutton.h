@@ -20,12 +20,12 @@
 #ifndef TEXTBUTTON_H
 #define TEXTBUTTON_H
 
-#include <DPushButton>
-#include <DPalette>
 #include <QGraphicsDropShadowEffect>
 #include <QDebug>
+#include <DPushButton>
+#include <DPalette>
 
-#include "../dsettings.h"
+#include "src/dsettings.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE

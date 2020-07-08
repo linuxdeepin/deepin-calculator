@@ -12,9 +12,10 @@
 #include <QPainter>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+
 #include "dthememanager.h"
-#include "../utils.h"
-#include "../math/quantity.h"
+#include "src/utils.h"
+#include "src/math/quantity.h"
 
 scientificModule::scientificModule(QWidget *parent)
     : DWidget(parent)
@@ -43,7 +44,7 @@ scientificModule::scientificModule(QWidget *parent)
     layout->addLayout(leftlay);
     layout->addLayout(rightlay);
     this->setLayout(layout);
-    layout->setContentsMargins(0, 0, 0, 11);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     setMouseTracking(true);
     setFocus();

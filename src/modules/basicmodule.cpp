@@ -18,14 +18,16 @@
  */
 
 #include "basicmodule.h"
+
 #include <QDebug>
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QVBoxLayout>
+
 #include "dthememanager.h"
-#include "../utils.h"
-#include "../math/quantity.h"
+#include "src/utils.h"
+#include "src/math/quantity.h"
 
 BasicModule::BasicModule(QWidget *parent)
     : DWidget(parent)

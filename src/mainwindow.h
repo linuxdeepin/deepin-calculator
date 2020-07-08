@@ -20,9 +20,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <DMainWindow>
 #include <QStackedLayout>
 #include <QMenu>
+#include <DMainWindow>
 
 #include "modules/basicmodule.h"
 #include "modules/scientificmodule.h"

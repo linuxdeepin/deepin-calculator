@@ -5,6 +5,7 @@
  * 4. @说明:    内存ListWidget
  */
 #include "memorylistwidget.h"
+
 #include <QMouseEvent>
 #include <QColor>
 #include <QPainter>

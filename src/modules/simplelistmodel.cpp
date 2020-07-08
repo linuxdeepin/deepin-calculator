@@ -18,6 +18,7 @@
  */
 
 #include "simplelistmodel.h"
+
 #include <QDebug>
 #include <QClipboard>
 #include <QApplication>

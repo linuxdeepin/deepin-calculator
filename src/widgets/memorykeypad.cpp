@@ -1,4 +1,12 @@
+/*
+ * 1. @类名:    MemoryKeypad
+ * 2. @作者:    夏菁 ut000489
+ * 3. @日期:    2020-07-01
+ * 4. @说明:    简易计算器内存按键栏
+ */
+
 #include "memorykeypad.h"
+
 #include <QTimer>
 #include <DPalette>
 #include <DImageButton>

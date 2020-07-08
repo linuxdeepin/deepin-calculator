@@ -18,7 +18,8 @@
 #include <QMenu>
 #include <QClipboard>
 #include <DGuiApplicationHelper>
-#include "../utils.h"
+
+#include "src/utils.h"
 
 #define GLOBALPREC 78
 

@@ -7,15 +7,15 @@
 #ifndef MEMORYBUTTON_H
 #define MEMORYBUTTON_H
 
-#include <DPalette>
-#include <DPushButton>
 #include <QDebug>
 #include <QGraphicsDropShadowEffect>
 #include <QHelpEvent>
 #include <QToolTip>
+#include <DPalette>
+#include <DPushButton>
 
+#include "src/dsettings.h"
 #include "textbutton.h"
-#include "../dsettings.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE

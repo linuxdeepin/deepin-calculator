@@ -13,9 +13,10 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QList>
+
 #include "dthememanager.h"
-#include "../utils.h"
-#include "../math/quantity.h"
+#include "src/utils.h"
+#include "src/math/quantity.h"
 
 SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     : DWidget(parent)

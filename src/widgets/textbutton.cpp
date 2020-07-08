@@ -18,13 +18,14 @@
  */
 
 #include "textbutton.h"
+
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
 #include <QTimer>
-#include "dthememanager.h"
-
 #include <DGuiApplicationHelper>
+
+#include "dthememanager.h"
 
 TextButton::TextButton(const QString &text, bool page, QWidget *parent)
     : DPushButton(text, parent)

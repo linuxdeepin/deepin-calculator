@@ -16,7 +16,7 @@
 #include <QPainter>
 #include <QPen>
 
-#include "../widgets/memorybutton.h"
+#include "src/widgets/memorybutton.h"
 
 class MemoryItemWidget : public QWidget
 {

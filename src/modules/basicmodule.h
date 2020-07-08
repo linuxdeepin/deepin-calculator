@@ -20,22 +20,22 @@
 #ifndef BASICMODULE_H
 #define BASICMODULE_H
 
-#include <DWidget>
-#include <DGuiApplicationHelper>
 #include <QStackedLayout>
 #include <QGridLayout>
 #include <QTimer>
+#include <DWidget>
+#include <DGuiApplicationHelper>
 
-#include "../widgets/textbutton.h"
-#include "../widgets/iconbutton.h"
-#include "../widgets/basickeypad.h"
-#include "../widgets/memorykeypad.h"
-#include "../widgets/tricombobox.h"
+#include "src/widgets/textbutton.h"
+#include "src/widgets/iconbutton.h"
+#include "src/widgets/basickeypad.h"
+#include "src/widgets/memorykeypad.h"
+#include "src/widgets/tricombobox.h"
+#include "src/widgets/scibasickeypad.h"
+#include "src/widgets/inputedit.h"
 #include "expressionbar.h"
 #include "memorywidget.h"
 #include "memorypublic.h"
-#include "../widgets/scibasickeypad.h"
-#include "../widgets/inputedit.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE

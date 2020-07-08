@@ -25,6 +25,7 @@
 #include <QSignalMapper>
 #include <DGuiApplicationHelper>
 #include <DSuggestButton>
+
 #include "textbutton.h"
 #include "iconbutton.h"
 #include "memorybutton.h"

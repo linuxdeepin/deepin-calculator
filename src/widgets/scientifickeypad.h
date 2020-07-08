@@ -11,17 +11,18 @@
 #include <QVBoxLayout>
 #include <QStackedLayout>
 #include <QSignalMapper>
+#include <QStackedWidget>
+#include <QDebug>
+#include <DWidget>
+#include <DLabel>
 #include <DGuiApplicationHelper>
 #include <DSuggestButton>
+#include <com_deepin_daemon_appearance.h>
+
 #include "textbutton.h"
 #include "iconbutton.h"
 #include "equalbutton.h"
 #include "memorybutton.h"
-#include <QDebug>
-#include <DWidget>
-#include <DLabel>
-#include <QStackedWidget>
-#include <com_deepin_daemon_appearance.h>
 using ActionColor = com::deepin::daemon::Appearance;
 
 DWIDGET_USE_NAMESPACE

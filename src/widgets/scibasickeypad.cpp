@@ -4,13 +4,14 @@
  * 3. @日期:    2020-07-01
  * 4. @说明:    科学计算器键盘区域界面（有组合框，未使用）
  */
-#include <QTimer>
 
+#include "scibasickeypad.h"
+
+#include <QTimer>
 #include <DPalette>
 #include <DImageButton>
 
 #include "dthememanager.h"
-#include "scibasickeypad.h"
 
 const SciBasicKeyPad::KeyDescription SciBasicKeyPad::keyDescriptions[] = {
     {"page1", Key_2page, 1, 0, 1, 1}, {"π", Key_PI, 1, 1, 1, 1}, {"e", Key_e, 1, 2, 1, 1},

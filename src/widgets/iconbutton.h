@@ -21,14 +21,13 @@
 #define ICONBUTTON_H
 
 #include "textbutton.h"
-#include "../dsettings.h"
+#include "src/dsettings.h"
 
 #include <QPaintEvent>
-
+#include <QDomElement>
 #include <DLabel>
 #include <DSvgRenderer>
 #include <DGuiApplicationHelper>
-#include <QDomElement>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE

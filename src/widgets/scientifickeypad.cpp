@@ -4,15 +4,18 @@
  * 3. @日期:    2020-07-01
  * 4. @说明:    科学计算器键盘区域界面
  */
-#include <QTimer>
 
+#include "scientifickeypad.h"
+
+#include <QTimer>
 #include <DPalette>
 #include <DImageButton>
-#include <QFloat16>
 #include <DGuiApplicationHelper>
 
 #include "dthememanager.h"
-#include "scientifickeypad.h"
+
+#define VPADDING 100 //预留垂直空隙
+#define HPADDING 25 //预留水平空隙
 
 const ScientificKeyPad::KeyDescription ScientificKeyPad::keyDescriptions[] = {
     {"F-E", Key_FE, 1, 0, 1, 1},   {"MC", Key_MC, 1, 1, 1, 1},   {"MR", Key_MR, 1, 2, 1, 1},
@@ -287,10 +290,9 @@ void ScientificKeyPad::initUI()
         i.next();
         //以下信号槽按窗口比例缩放按键等
         connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
-            int hiswidth;
+            int hiswidth; //历史记录宽度
             hishide == false ? hiswidth = 370 : hiswidth = 0;
-            int padding = 100;
-            i.value().first->setFixedSize((width - 25 - hiswidth) / 6, (height - padding) / 8);
+            i.value().first->setFixedSize((width - HPADDING - hiswidth) / 6, (height - VPADDING) / 8);
         });
         if (i.key() == Key_left) {
             connect(this, &ScientificKeyPad::windowSize, [ = ]() {
@@ -333,10 +335,9 @@ void ScientificKeyPad::initUI()
         i1.next();
         //以下信号槽按窗口比例缩放按键等
         connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
-            int hiswidth;
-            hishide == false ? hiswidth = 370 : hiswidth = 0;
-            int padding = 100;
-            i1.value().first->setFixedSize((width - 25 - hiswidth) / 6, (height - padding) / 8);
+            int hiswidth; //历史记录宽度
+            hishide == false ? hiswidth = 370 : hiswidth = 0;;
+            i1.value().first->setFixedSize((width - HPADDING - hiswidth) / 6, (height - VPADDING) / 8);
         });
     }
 
@@ -345,7 +346,7 @@ void ScientificKeyPad::initUI()
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
 
-    this->setContentsMargins(12, 0, 13, 0);
+    this->setContentsMargins(12, 0, 13, 11);
 }
 
 /**
@@ -371,10 +372,9 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
     connect(static_cast<TextButton *>(pagebutton), &TextButton::moveRight, this, &ScientificKeyPad::moveRight);
     m_mapper->setMapping(pagebutton, desc1->button);
     connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
-        int hiswidth;
+        int hiswidth; //历史记录宽度
         hishide == false ? hiswidth = 370 : hiswidth = 0;
-        int padding = 100;
-        widget->setFixedSize((width - 25 - hiswidth) / 6, (height - padding) / 8);
+        widget->setFixedSize((width - HPADDING - hiswidth) / 6, (height - VPADDING) / 8);
     });
 }
 

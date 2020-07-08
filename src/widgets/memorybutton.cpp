@@ -9,9 +9,9 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QTimer>
-#include "dthememanager.h"
-
 #include <DGuiApplicationHelper>
+
+#include "dthememanager.h"
 
 MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *parent)
     : TextButton(text, parent)
