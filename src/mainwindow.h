@@ -62,13 +62,14 @@ private:
     DSettings *m_settings;
     QStackedLayout *m_mainLayout;
     DMenu *m_tbMenu;
-    QAction *m_themeAction;
+    DMenu *m_modeshowmenu;
     QAction *m_simpleAction;
     QAction *m_scAction;
+    QAction *m_hisAction;
+    QActionGroup *m_pActionGroup;
 
     BasicModule *m_basicModule;
     scientificModule *m_scientificModule;
-    IconButton *m_historyBtn;
     QSize m_lastscisize = QSize(); //切换回标准时模式时科学模式的size
     bool m_isinit = true;//初始化
 };
