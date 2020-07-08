@@ -1,4 +1,5 @@
 #include "memoryitemwidget.h"
+
 #include <QPainter>
 #include <QDebug>
 #include <QMenu>

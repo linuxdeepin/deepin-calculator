@@ -9,8 +9,9 @@
 
 #include <QObject>
 #include <QList>
+
 #include "memorywidget.h"
-#include "../core/evaluator.h"
+#include "src/core/evaluator.h"
 
 class MemoryPublic : public QObject
 {

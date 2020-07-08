@@ -18,14 +18,16 @@
  */
 
 #include "simplelistdelegate.h"
+
 #include <QDebug>
 #include <QEvent>
 #include <QMouseEvent>
 #include <QPainter>
 #include <DGuiApplicationHelper>
+
 #include "dthememanager.h"
 #include "simplelistmodel.h"
-#include "../utils.h"
+#include "src/utils.h"
 
 DWIDGET_USE_NAMESPACE
 

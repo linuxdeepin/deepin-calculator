@@ -8,9 +8,6 @@
 #define FUNCOMBOBOX_H
 
 #include <QWidget>
-#include <DComboBox>
-#include <DPushButton>
-#include <DListWidget>
 #include <QListWidgetItem>
 #include <QGridLayout>
 #include <QVBoxLayout>
@@ -19,6 +16,10 @@
 #include <QSignalMapper>
 #include <DGuiApplicationHelper>
 #include <DSuggestButton>
+#include <DComboBox>
+#include <DPushButton>
+#include <DListWidget>
+
 #include "textbutton.h"
 
 DWIDGET_USE_NAMESPACE

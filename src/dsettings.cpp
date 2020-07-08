@@ -18,10 +18,12 @@
  */
 
 #include "dsettings.h"
-#include "utils.h"
+
 #include <QDir>
-#include <DApplication>
 #include <QDesktopWidget>
+#include <DApplication>
+
+#include "utils.h"
 
 DWIDGET_USE_NAMESPACE
 static DSettings *INSTANCE = nullptr;

@@ -17,13 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
+#include "utils.h"
+
 #include <QRegularExpression>
 #include <QStandardPaths>
 #include <QApplication>
 #include <QFile>
 #include <QDir>
-
-#include "utils.h"
 
 Utils::Utils()
 {

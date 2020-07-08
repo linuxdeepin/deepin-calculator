@@ -18,16 +18,18 @@
  */
 
 #include "simplelistview.h"
-#include "simplelistmodel.h"
+
 #include <QApplication>
 #include <QMouseEvent>
 #include <QScrollBar>
 #include <QModelIndex>
 #include <QDebug>
-#include <DGuiApplicationHelper>
 #include <QMenu>
 #include <QAction>
 #include <QClipboard>
+#include <DGuiApplicationHelper>
+
+#include "simplelistmodel.h"
 
 SimpleListView::SimpleListView(int mode, QWidget *parent)
     : DListView(parent)

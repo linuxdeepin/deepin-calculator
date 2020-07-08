@@ -25,11 +25,10 @@
 #include <QVBoxLayout>
 #include <QVector>
 #include <QWidget>
-
 #include <DWidget>
 
-#include "../core/evaluator.h"
-#include "../widgets/inputedit.h"
+#include "src/core/evaluator.h"
+#include "src/widgets/inputedit.h"
 #include "simplelistdelegate.h"
 #include "simplelistmodel.h"
 #include "simplelistview.h"

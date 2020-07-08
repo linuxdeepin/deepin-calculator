@@ -7,22 +7,22 @@
 #ifndef SCIENTIFICMODEL_H
 #define SCIENTIFICMODEL_H
 
-#include <DWidget>
-#include <DGuiApplicationHelper>
 #include <QStackedLayout>
 #include <QGridLayout>
 #include <QTimer>
+#include <DWidget>
+#include <DGuiApplicationHelper>
 
-#include "../widgets/textbutton.h"
-#include "../widgets/iconbutton.h"
-#include "../widgets/basickeypad.h"
-#include "../widgets/memorykeypad.h"
-#include "../widgets/tricombobox.h"
+#include "src/widgets/textbutton.h"
+#include "src/widgets/iconbutton.h"
+#include "src/widgets/basickeypad.h"
+#include "src/widgets/memorykeypad.h"
+#include "src/widgets/tricombobox.h"
+#include "src/widgets/scientifickeypad.h"
+#include "src/widgets/inputedit.h"
+#include "scihistorywidget.h"
 #include "sciexpressionbar.h"
 #include "memorywidget.h"
-#include "../widgets/scientifickeypad.h"
-#include "../widgets/inputedit.h"
-#include "scihistorywidget.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE

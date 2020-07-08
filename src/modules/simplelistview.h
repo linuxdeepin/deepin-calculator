@@ -20,9 +20,10 @@
 #ifndef SIMPLELISTVIEW_H
 #define SIMPLELISTVIEW_H
 
+#include <QScrollBar>
 #include <DWidget>
 #include <DListView>
-#include <QScrollBar>
+
 #include "simplelistdelegate.h"
 #include "simplelistmodel.h"
 

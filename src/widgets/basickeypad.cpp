@@ -16,12 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <QTimer>
 
+#include "basickeypad.h"
+
+#include <QTimer>
 #include <DPalette>
 #include <DImageButton>
 
-#include "basickeypad.h"
 #include "dthememanager.h"
 
 const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {

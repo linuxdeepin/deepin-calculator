@@ -20,14 +20,13 @@
 #ifndef EQUALBUTTON_H
 #define EQUALBUTTON_H
 
+#include <QDebug>
+#include <QGraphicsDropShadowEffect>
 #include <DPushButton>
 #include <DSuggestButton>
 #include <DPalette>
-#include <QDebug>
 
-#include <QGraphicsDropShadowEffect>
-
-#include "../dsettings.h"
+#include "src/dsettings.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE

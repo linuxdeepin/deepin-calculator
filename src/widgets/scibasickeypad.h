@@ -13,15 +13,16 @@
 #include <QHBoxLayout>
 #include <QStackedLayout>
 #include <QSignalMapper>
+#include <QDebug>
 #include <DPushButton>
 #include <DGuiApplicationHelper>
 #include <DSuggestButton>
+
 #include "textbutton.h"
 #include "iconbutton.h"
 #include "equalbutton.h"
 #include "tricombobox.h"
 #include "funcombobox.h"
-#include <QDebug>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE

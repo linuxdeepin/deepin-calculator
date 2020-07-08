@@ -18,12 +18,14 @@
  */
 
 #include "expressionbar.h"
+
 #include <QApplication>
 #include <QClipboard>
 #include <QDebug>
 #include <QTimer>
 #include <DGuiApplicationHelper>
-#include "../utils.h"
+
+#include "src/utils.h"
 
 #define STANDPREC 15
 

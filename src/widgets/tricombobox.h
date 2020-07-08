@@ -8,7 +8,6 @@
 #define COMBOBOX_H
 
 #include <QWidget>
-#include <DComboBox>
 #include <QPushButton>
 #include <QListWidget>
 #include <QListWidgetItem>
@@ -19,6 +18,8 @@
 #include <QSignalMapper>
 #include <DGuiApplicationHelper>
 #include <DSuggestButton>
+#include <DComboBox>
+
 #include "textbutton.h"
 
 DWIDGET_USE_NAMESPACE

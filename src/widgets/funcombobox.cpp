@@ -4,14 +4,15 @@
  * 3. @日期:    2020-07-01
  * 4. @说明:    科学计算器其他函数组合框（未使用）
  */
-#include <QTimer>
 
+#include "funcombobox.h"
+
+#include <QTimer>
+#include <QDebug>
 #include <DPalette>
 #include <DImageButton>
-#include <QDebug>
 
 #include "dthememanager.h"
-#include "funcombobox.h"
 
 const FunCombobox::KeyDescription FunCombobox::keyDescriptions[] = {
     {"a", Key_abs, 1, 0, 1, 1}, {"b", Key_down, 1, 1, 1, 1}, {"c", Key_up, 1, 2, 1, 1},
