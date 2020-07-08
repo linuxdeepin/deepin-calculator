@@ -141,7 +141,6 @@ int main(int argc, char *argv[])
     } else {
         window.move(m_dsettings->getOption("windowX").toInt() + 10, m_dsettings->getOption("windowY").toInt() + 10);
     }
-    window.isOrderToShow();
 
     DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
     DApplicationSettings savetheme(&app);

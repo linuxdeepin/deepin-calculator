@@ -40,6 +40,7 @@ DGUI_USE_NAMESPACE
 const int HISTORY_SHOW_LEAST_WIDTH = 800; //最小显示历史记录的宽度
 const QSize STANDARD_SIZE = QSize(344, 560); //标准模式的固定大小
 const QSize SCIENTIFIC_MIN_SIZE = QSize(430, 580); //科学模式的最小size
+const QSize SCIENTIFIC_MAX_SIZE = QSize(800, 580); //科学模式的最大size
 
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent)
@@ -103,11 +104,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-}
-
-void MainWindow::isOrderToShow()
-{
-    m_rightToShow = true;
 }
 
 void MainWindow::initTheme()
@@ -185,7 +181,8 @@ void MainWindow::switchToScientificMode()
         m_mainLayout->setCurrentIndex(1);
         m_scientificModule->checkLineEmpty();
         setMinimumSize(SCIENTIFIC_MIN_SIZE);
-        setMaximumSize(QApplication::desktop()->screenGeometry().size());
+//        setMaximumSize(QApplication::desktop()->screenGeometry().size());
+        setMaximumSize(SCIENTIFIC_MAX_SIZE);
         hideHistoryWidget(false, true);
         resize(m_lastscisize);
     }
@@ -203,34 +200,22 @@ void MainWindow::hideHistoryWidget(bool hissetting, bool modechange)
     if (hissetting == true)
         m_settings->setOption("history", 0);
     m_scientificModule->showOrHideHistory(true);
-    QPropertyAnimation *animation = new QPropertyAnimation(this, "windowOpacity");
-    animation->setDuration(250);
-    animation->setStartValue(0);
-    animation->setEndValue(1);
+//    QPropertyAnimation *animation = new QPropertyAnimation(this, "windowOpacity");
+//    animation->setDuration(250);
+//    animation->setStartValue(0);
+//    animation->setEndValue(1);
     switch (m_settings->getOption("mode").toInt()) {
     case 0:
         setFixedSize(STANDARD_SIZE);
-        if (m_rightToShow) {
-            this->setWindowFlags(windowFlags() & ~ Qt::WindowMaximizeButtonHint);
-            this->show();
-            if (modechange)
-                animation->start();
-        }
         break;
     case 1:
         setMinimumSize(SCIENTIFIC_MIN_SIZE);
-        setMaximumSize(QApplication::desktop()->screenGeometry().size());
-        if (m_rightToShow) {
-            this->setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
-            this->show();
-            if (modechange)
-                animation->start();
-        }
+        setMaximumSize(SCIENTIFIC_MAX_SIZE);
+        if (m_isinit)
+            this->setWindowFlags(windowFlags() & ~ Qt::WindowMaximizeButtonHint);
         break;
     default:
         setFixedSize(STANDARD_SIZE);
-        this->setWindowFlags(windowFlags() & ~ Qt::WindowMaximizeButtonHint);
-        this->show();
         break;
     }
 }
