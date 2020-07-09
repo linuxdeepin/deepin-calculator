@@ -367,7 +367,7 @@ void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString stra
             if (m_buttonStatus == 2)
                 elem.setAttribute("fill-opacity", 1);
         }
-        if (m_isEmptyBtn == true || (m_mode == 4 && m_themetype == 1)) {
+        if (m_isEmptyBtn == true || (m_mode == 4)) {
             strtagname = "path";
             if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
                 if (m_buttonStatus == 2) {
@@ -375,14 +375,7 @@ void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString stra
                 }
             }
         }
-        if (m_mode == 4 && m_themetype == 2) {
-            strtagname = "text";
-            if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
-                elem.setAttribute(strattr, strattrval);
-            }
-        }
         if (m_mode == 6) {
-            strtagname = "text";
             if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
                 elem.setAttribute(strattr, strattrval);
             }

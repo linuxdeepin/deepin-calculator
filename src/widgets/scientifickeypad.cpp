@@ -141,8 +141,6 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
             &ScientificKeyPad::turnPage);
 
     m_bracketcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
-    m_leftBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
-    m_rightBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
 //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &ScientificKeyPad::handleThemeChanged);
 }
 
@@ -382,10 +380,15 @@ void ScientificKeyPad::buttonThemeChanged(int type)
 {
     m_themetype = type;
     QString path;
-    if (type == 2)
+    if (type == 2) {
         path = QString(":/assets/images/%1/").arg("dark");
-    else
+        m_leftBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:white;font-size:14px;"));
+        m_rightBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:white;font-size:14px;"));
+    } else {
         path = QString(":/assets/images/%1/").arg("light");
+        m_leftBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
+        m_rightBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
+    }
 
     IconButton *btn = static_cast<IconButton *>(button(Key_Div));
     btn->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");
