@@ -48,7 +48,6 @@ MainWindow::MainWindow(QWidget *parent)
     m_settings = DSettings::instance(this);
     m_mainLayout = new QStackedLayout;
     m_tbMenu = new DMenu(this);
-    m_modeshowmenu = new DMenu(tr("show"));
     QIcon t_icon = QIcon::fromTheme("deepin-calculator");
     titlebar()->setIcon(t_icon);
     titlebar()->setMenu(m_tbMenu);
@@ -66,12 +65,13 @@ MainWindow::MainWindow(QWidget *parent)
     m_scAction->setCheckable(true);
 
 #ifdef ENABLE_SCIENTIFIC
+    m_modeshowmenu = new DMenu(tr("show"));
     m_tbMenu->addAction(m_hisAction);
     m_modeshowmenu->addAction(m_simpleAction);
     m_modeshowmenu->addAction(m_scAction);
+    m_tbMenu->addMenu(m_modeshowmenu);
 #endif
 
-    m_tbMenu->addMenu(m_modeshowmenu);
     initModule();
     initTheme();
 
