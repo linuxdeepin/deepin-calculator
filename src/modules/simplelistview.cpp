@@ -142,7 +142,7 @@ void SimpleListView::mousePressEvent(QMouseEvent *event)
             m_ispressed = true;
         }
     }
-    DListView::mousePressEvent(event);
+//    DListView::mousePressEvent(event);
 }
 
 void SimpleListView::mouseReleaseEvent(QMouseEvent *event)
