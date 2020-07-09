@@ -132,7 +132,7 @@ void FunCombobox::initButtons()
 
         button = new TextButton(desc->text);
         QFont font = button->font();
-        font.setFamily("HelveticaNeue");
+        font.setFamily("Noto Sans");
         button->setFont(font);
 
         m_gridlayout1->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,

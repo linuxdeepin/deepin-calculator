@@ -189,7 +189,7 @@ void ComboBox::initButtons()
 
         button = new TextButton(desc->text);
         QFont font = button->font();
-        font.setFamily("HelveticaNeue");
+        font.setFamily("Noto Sans");
         button->setFont(font);
 
         m_gridlayout1->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
@@ -211,7 +211,7 @@ void ComboBox::initButtons()
 
         button = new TextButton(desc1->text);
         QFont font = button->font();
-        font.setFamily("HelveticaNeue");
+        font.setFamily("Noto Sans");
         button->setFont(font);
 
         m_gridlayout2->addWidget(button, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,
@@ -233,7 +233,7 @@ void ComboBox::initButtons()
 
         button = new TextButton(desc2->text);
         QFont font = button->font();
-        font.setFamily("HelveticaNeue");
+        font.setFamily("Noto Sans");
         button->setFont(font);
 
         m_gridlayout3->addWidget(button, desc2->row, desc2->column, desc2->rowcount, desc2->columncount,
@@ -255,7 +255,7 @@ void ComboBox::initButtons()
 
         button = new TextButton(desc3->text);
         QFont font = button->font();
-        font.setFamily("HelveticaNeue");
+        font.setFamily("Noto Sans");
         button->setFont(font);
 
         m_gridlayout4->addWidget(button, desc3->row, desc3->column, desc3->rowcount, desc3->columncount,

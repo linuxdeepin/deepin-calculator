@@ -31,7 +31,7 @@ EqualButton::~EqualButton()
 void EqualButton::init()
 {
     m_font.setPixelSize(30);
-    m_font.setFamily("Noto Sans CJK SC");
+    m_font.setFamily("Noto Sans");
     m_font.setStyleName("Light");
 }
 

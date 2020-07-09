@@ -101,7 +101,7 @@ void MemoryKeypad::initButtons()
         } else {
             button = new MemoryButton(desc->text);
             QFont font = button->font();
-            font.setFamily("Noto Sans CJK SC");
+            font.setFamily("Noto Sans");
             button->setFont(font);
         }
 

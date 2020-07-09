@@ -340,7 +340,7 @@ void SciBasicKeyPad::initButtons()
             else {
                 button = new TextButton(desc->text);
                 QFont font = button->font();
-                font.setFamily("HelveticaNeue");
+                font.setFamily("Noto Sans");
                 button->setFont(font);
             }
         }
@@ -373,7 +373,7 @@ void SciBasicKeyPad::initButtons()
             else {
                 button = new TextButton(desc1->text);
                 QFont font = button->font();
-                font.setFamily("HelveticaNeue");
+                font.setFamily("Noto Sans");
                 button->setFont(font);
             }
         }
@@ -400,7 +400,7 @@ void SciBasicKeyPad::initButtons()
 
         button = new TextButton(desc1->text);
         QFont font = button->font();
-        font.setFamily("HelveticaNeue");
+        font.setFamily("Noto Sans");
         button->setFont(font);
 
         m_fungridlayout->addWidget(button, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,
@@ -430,7 +430,7 @@ void SciBasicKeyPad::initButtons()
 
         button = new TextButton(desc1->text);
         QFont font = button->font();
-        font.setFamily("HelveticaNeue");
+        font.setFamily("Noto Sans");
         button->setFont(font);
 
         m_trigridlayout1->addWidget(button, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,
@@ -462,7 +462,7 @@ void SciBasicKeyPad::initButtons()
 
         button = new TextButton(desc1->text);
         QFont font = button->font();
-        font.setFamily("HelveticaNeue");
+        font.setFamily("Noto Sans");
         button->setFont(font);
 
         m_trigridlayout2->addWidget(button, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,
@@ -494,7 +494,7 @@ void SciBasicKeyPad::initButtons()
 
         button = new TextButton(desc1->text);
         QFont font = button->font();
-        font.setFamily("HelveticaNeue");
+        font.setFamily("Noto Sans");
         button->setFont(font);
 
         m_trigridlayout3->addWidget(button, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,
@@ -526,7 +526,7 @@ void SciBasicKeyPad::initButtons()
 
         button = new TextButton(desc1->text);
         QFont font = button->font();
-        font.setFamily("HelveticaNeue");
+        font.setFamily("Noto Sans");
         button->setFont(font);
 
         m_trigridlayout4->addWidget(button, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,

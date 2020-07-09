@@ -40,7 +40,7 @@ MemoryButton::~MemoryButton()
 void MemoryButton::init()
 {
     m_font.setPixelSize(16);
-    m_font.setFamily("Noto Sans CJK SC");
+    m_font.setFamily("Noto Sans");
     m_font.setStyleName("Light");
 
 //    if (text() == "MC" || text() == "MR" || text() == "M^" || text() == "M+" || text() == "M-" || text() == "MS") {
