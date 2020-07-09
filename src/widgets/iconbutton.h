@@ -79,7 +79,7 @@ private:
     int m_buttonStatus = 0; //0-normal 1-hover 2-press
     bool m_isEmptyBtn; //内存中的清空按钮
     int m_themetype;
-    int m_page;
+    bool m_page;
     bool m_isHistorybtn = false;
     QString m_cleartooltip = QString();
     bool m_isacting = false; //规避鼠标在button内release时出现foucus状态的框

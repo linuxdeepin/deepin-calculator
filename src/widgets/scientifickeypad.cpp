@@ -255,7 +255,7 @@ void ScientificKeyPad::initButtons()
         } else {
             pagebutton = new DPushButton;
             m_gridlayout1->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
-                                     Qt::AlignHCenter | Qt::AlignBottom);
+                                     Qt::AlignCenter/* | Qt::AlignTop*/);
         }
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue);
@@ -344,7 +344,7 @@ void ScientificKeyPad::initUI()
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
 
-    this->setContentsMargins(12, 0, 13, 11);
+    this->setContentsMargins(12, 0, 13, 9);
 }
 
 /**
@@ -361,7 +361,7 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
     widget->addWidget(pagebutton);
     widget->setCurrentIndex(0);
     m_gridlayout1->addWidget(widget, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,
-                             Qt::AlignHCenter | Qt::AlignBottom);
+                             Qt::AlignCenter/* | Qt::AlignTop*/);
     const QPair<DPushButton *, const KeyDescription1 *> hashValue1(pagebutton, desc1);
     m_keys1.insert(desc1->button, hashValue1);
     connect(static_cast<TextButton *>(pagebutton), &TextButton::updateInterface, [ = ] {update();});
@@ -372,7 +372,7 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
     connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
         int hiswidth; //历史记录宽度
         hishide == false ? hiswidth = 370 : hiswidth = 0;
-        widget->setFixedSize((width - HPADDING - hiswidth) / 6, (height - VPADDING) / 8);
+        widget->setFixedSize((width - HPADDING - hiswidth) / 6, (height - VPADDING) / 8 + 2);
     });
 }
 

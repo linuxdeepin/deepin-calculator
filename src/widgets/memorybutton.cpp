@@ -284,8 +284,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             text = Qt::white;
         else
             text = QColor(224, 224, 224);
-        hoverbrush = QColor(255, 255, 255);
-        hoverbrush.setAlphaF(0.1);
+        hoverbrush = QColor(60, 60, 60);
         if (m_isgray == true || m_isallgray == true) {
             base = QColor(48, 48, 48);
             base.setAlphaF(0.4);

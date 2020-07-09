@@ -56,13 +56,13 @@ MemoryKeypad::MemoryKeypad(QWidget *parent)
       m_layout(new QGridLayout(this)),
       m_mapper(new QSignalMapper(this))
 {
-    this->setFixedHeight(33);
+    this->setFixedHeight(34);
     m_layout->setMargin(0);
     m_layout->setSpacing(1);
     m_layout->setContentsMargins(0, 0, 0, 0);
 
     initButtons();
-    this->setContentsMargins(12, 0, 13, 0);
+    this->setContentsMargins(12, 0, 13, 1);
 
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
     //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &BasicKeypad::handleThemeChanged);

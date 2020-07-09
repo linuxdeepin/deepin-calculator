@@ -122,25 +122,32 @@ void EqualButton::paintEvent(QPaintEvent *e)
     QColor shadow;
 
     base = actcolor;
+    base.setAlphaF(1);
     text = Qt::white;
     pressText = QColor(255, 255, 255);
     pressText.setAlphaF(0.6);
-    hover0 = actcolor;
-    hover0.setAlphaF(0.8);
-    hover1 = actcolor;
-    hover1.setAlphaF(1);
     press0 = actcolor;
-    press0.setAlphaF(0.7);
     press1 = actcolor;
-    press1.setAlphaF(0.9);
+    hover0 = actcolor;
+    hover1 = actcolor;
     int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
-    if (type == 1)
+    if (type == 1) {
         frame = Qt::white;
-    else {
+
+        press0.setAlphaF(0.8);
+        press1.setAlphaF(1);
+        hover0.setAlphaF(0.6);
+        hover1.setAlphaF(0.8);
+    } else {
         frame = QColor(0, 0, 0);
         frame.setAlphaF(0.6);
+
+        press0.setAlphaF(0.7);
+        press1.setAlphaF(0.5);
+        hover0.setAlphaF(1);
+        hover1.setAlphaF(0.8);
     }
     shadow = actcolor;
     shadow.setAlphaF(0.2);
@@ -215,6 +222,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
             m_effect->setColor(shadow);
             this->setGraphicsEffect(m_effect);
         } else {
+            base.setAlphaF(0.8);
             painter.setBrush(QBrush(base));
             painter.drawRoundRect(normal, 25, 30);
             QPen pen;
