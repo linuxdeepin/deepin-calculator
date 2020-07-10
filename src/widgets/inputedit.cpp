@@ -73,8 +73,8 @@ InputEdit::InputEdit(QWidget *parent)
     pl.setColor(DPalette::HighlightedText, Qt::blue);
     this->setPalette(pl);
 
-    m_funclist = {"arccos", "arctan", "arccot", "sin", "cos", "tan", "cot"
-                  , "arcsin", "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π", "e"
+    m_funclist = {"arcsin", "arccos", "arctan", "arccot", "sin", "cos", "tan", "cot"
+                  , "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π"
                  };
 }
 

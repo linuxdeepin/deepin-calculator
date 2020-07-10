@@ -61,8 +61,8 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
     initConnect();
 
     Settings::instance()->angleUnit = 'd';
-    m_funclist = {"arccos", "arctan", "arccot", "sin", "cos", "tan", "cot"
-                  , "arcsin", "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π"
+    m_funclist = {"arcsin", "arccos", "arctan", "arccot", "sin", "cos", "tan", "cot"
+                  , "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π", "e"
                  };
 }
 
