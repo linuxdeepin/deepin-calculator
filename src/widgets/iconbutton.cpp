@@ -290,11 +290,11 @@ void IconButton::paintEvent(QPaintEvent *)
                     QPen pen;
                     pen.setColor(pressBrush);
                     painter.setPen(pen);
-                    painter.drawRoundRect(rect, 25, 30);
+                    painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
                 } else {
                     painter.setPen(Qt::NoPen);
                     painter.setBrush(QBrush(base));
-                    painter.drawRoundRect(rect, 25, 30);
+                    painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
                     QPen pen;
                     if (m_isacting) {
                         painter.setPen(Qt::NoPen);
@@ -304,7 +304,7 @@ void IconButton::paintEvent(QPaintEvent *)
                         painter.setPen(pen);
                     }
                     painter.setBrush(Qt::NoBrush);
-                    painter.drawRoundRect(rect, 25, 30);
+                    painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
                     m_effect->setColor(focusShadow);
                     this->setGraphicsEffect(m_effect);
                 }
@@ -315,17 +315,17 @@ void IconButton::paintEvent(QPaintEvent *)
                     pen.setWidth(1);
                     painter.setPen(pen);
                     painter.setBrush(QBrush(hoverbrush));
-                    painter.drawRoundRect(rect, 25, 30);
+                    painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
                     m_effect->setColor(hoverShadow);
                     this->setGraphicsEffect(m_effect);
                 } else if (m_isPress) {
                     painter.setPen(Qt::NoPen);
                     painter.setBrush(QBrush(pressBrush));
-                    painter.drawRoundRect(rect, 25, 30);
+                    painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
                 } else {
                     painter.setPen(Qt::NoPen);
                     painter.setBrush(QBrush(base));
-                    painter.drawRoundRect(rect, 25, 30);
+                    painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
                     m_effect->setColor(QColor(0, 0, 0, 0));
                     this->setGraphicsEffect(m_effect);
                 }

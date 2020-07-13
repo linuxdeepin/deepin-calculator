@@ -253,7 +253,7 @@ void TextButton::paintEvent(QPaintEvent *e)
         painter.setPen(Qt::NoPen);
         if (m_isPress) {
             painter.setBrush(QBrush(pressBrush));
-            painter.drawRoundRect(normal, 25, 30);
+            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
             QPen pen;
             pen.setColor(pressText);
             painter.setPen(pen);
@@ -262,7 +262,7 @@ void TextButton::paintEvent(QPaintEvent *e)
         } else {
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
-            painter.drawRoundRect(normal, 25, 30);
+            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
             QPen pen;
             if (m_isacting) {
                 painter.setPen(Qt::NoPen);
@@ -272,9 +272,8 @@ void TextButton::paintEvent(QPaintEvent *e)
                 painter.setPen(pen);
             }
             painter.setBrush(Qt::NoBrush);
-            painter.drawRoundRect(normal, 25, 30);
+            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
 
-            // painter.drawRoundRect(rect,10,10);
             pen.setColor(text);
             painter.setPen(pen);
             painter.setFont(m_font);
@@ -288,11 +287,8 @@ void TextButton::paintEvent(QPaintEvent *e)
         if (m_isHover) {
             painter.setPen(QPen(hoverFrame));
             painter.setBrush(QBrush(hoverbrush));
-            painter.drawRoundRect(normal, 25, 30);
+            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
 
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(QBrush(hoverbrush));
-//            painter.drawRoundRect(hover, 25, 30);
             QPen pen;
             pen.setColor(text);
             painter.setPen(pen);
@@ -302,14 +298,14 @@ void TextButton::paintEvent(QPaintEvent *e)
             this->setGraphicsEffect(m_effect);
         } else if (m_isPress) {
             painter.setBrush(QBrush(pressBrush));
-            painter.drawRoundRect(normal, 25, 30);
+            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
             QPen pen;
             pen.setColor(pressText);
             painter.setPen(pen);
             painter.setFont(m_font);
             painter.drawText(textRect, this->text());
         } else {
-            painter.drawRoundRect(normal, 25, 30);
+            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
             QPen pen;
             pen.setColor(text);
             painter.setPen(pen);

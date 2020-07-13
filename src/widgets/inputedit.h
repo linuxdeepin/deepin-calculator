@@ -63,6 +63,7 @@ public slots:
     QString symbolFaultTolerance(const QString &text);
     void isExpressionEmpty(); //edit 20200511,判断表达式是否有解，错误表达式无法存入内存  20200519 判断表达式是否为空
     void hisexpression(); //点击简易历史记录及科学左侧历史记录后清空ans
+    void autoZoomFontSize(); //输入框字号变化
 
 Q_SIGNALS:
     void keyPress(QKeyEvent *);
@@ -88,7 +89,6 @@ private slots:
     bool isSymbolCategoryChanged(int pos1, int pos2);
     int findWordBeginPosition(int pos);
     int findWordEndPosition(int pos);
-    void autoZoomFontSize(); //输入框字号变化
     void handleTextChanged(const QString &text);
     void handleCursorPositionChanged(int oldPos, int newPos);
     void BracketCompletion(QKeyEvent *e);

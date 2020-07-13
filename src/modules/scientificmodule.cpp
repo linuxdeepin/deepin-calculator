@@ -138,6 +138,9 @@ scientificModule::scientificModule(QWidget *parent)
     connect(this, &scientificModule::getWindowChanged, [ = ](int width, int height, bool hishide) {
         emit m_scikeypadwidget->windowSize(width, height - m_sciexpressionBar->height(), hishide);
     });
+    connect(this, &scientificModule::getWindowChanged, [ = ] {
+        m_sciexpressionBar->getInputEdit()->autoZoomFontSize();
+    });
     // m_expBarColor = "#F8F8F8";
     // m_expBarSepColor = "#F8F8F8";
 }
