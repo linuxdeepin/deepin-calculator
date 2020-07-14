@@ -474,17 +474,23 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
     //edit 20200526 for bug-28491
     int expPos = newText.indexOf("e");
     if (expPos > 0) {
+        //e后非＋／－
         if (newText.length() > expPos + 1 && newText.at(expPos + 1) != QString::fromUtf8("－") && newText.at(expPos + 1) != QString::fromUtf8("＋")
-                && newText.at(expPos + 1) != "-" && newText.at(expPos + 1) != "+")
+                && newText.at(expPos + 1) != "-" && newText.at(expPos + 1) != "+") {
+            while (newText.at(expPos + 1) == "(" || newText.at(expPos + 1) == ")") {
+                newText.remove(expPos + 1, 1); //避免e后可输入()情况
+            }
             return newText;
+        }
+        //e+/e-后有数字
         if (newText.length() > expPos + 2) {
             while (newText.length() > expPos + 2 && newText.at(expPos + 2).isNumber() == false) {
-                newText.remove(expPos + 2, 1);
+                newText.remove(expPos + 2, 1); //e+/e-和数字间不可以插入非数字
             }
-            int nextsymbolpos = newText.right(newText.length() - expPos - 2).indexOf(QRegExp("[＋－×÷/()]"));
+            int nextsymbolpos = newText.indexOf(QRegExp("[＋－×÷/()]"), expPos + 2); //e+/e-右侧第一个符号
             for (int i = expPos; i < (nextsymbolpos == -1 ? newText.length() : nextsymbolpos); i++) {
                 if (newText.at(i) == "." || newText.at(i) == QString::fromUtf8("。"))
-                    newText.remove(i, 1);
+                    newText.remove(i, 1); //去除从e到下一个运算符中的小数点
             }
         }
     }
