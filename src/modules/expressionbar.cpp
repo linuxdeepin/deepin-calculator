@@ -1135,6 +1135,13 @@ void ExpressionBar::copyResultToClipboard()
         return;
     // QApplication::clipboard()->setText(m_inputEdit->selectedText());
 
+    //edit for bug-37850 非全选不复制计算结果
+    SSelection selection = m_inputEdit->getSelection();
+    if (selection.selected != "" && selection.selected != m_inputEdit->text()) {
+        QApplication::clipboard()->setText(selection.selected);
+        return;
+    }
+
     const QString expression = formatExpression(m_inputEdit->text());
     m_evaluator->setExpression(expression);
     Quantity ans = m_evaluator->evalUpdateAns();
