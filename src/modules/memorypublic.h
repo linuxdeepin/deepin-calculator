@@ -1,9 +1,24 @@
 /*
- * 1. @类名:    MemoryPublic
- * 2. @作者:    京洲 ut000490
- * 3. @日期:    2020-07-01
- * 4. @说明:    同步处理数字内存
- */
+* Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
+*
+* Author:     jingzhou <jingzhou@uniontech.com>
+*
+* Maintainer: xiajing <xiajing@uniontech.com>
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #ifndef MEMORYPUBLIC_H
 #define MEMORYPUBLIC_H
 
@@ -13,6 +28,9 @@
 #include "memorywidget.h"
 #include "src/core/evaluator.h"
 
+/**
+ * @brief 同步处理数字内存
+ */
 class MemoryPublic : public QObject
 {
     Q_OBJECT
@@ -20,8 +38,12 @@ private:
     explicit MemoryPublic(QObject *parent = nullptr);
     void initconnects();
 public:
+    /**
+     * @brief 当前内存界面所在计算器模式
+     */
     enum memorymode {
-        standardleft, scientificright
+        standardleft,  //标准模式
+        scientificright //科学模式
     };
     static MemoryPublic *instance(QObject *p);
     ~MemoryPublic();

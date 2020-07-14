@@ -1,9 +1,24 @@
 /*
- * 1. @类名:    ScientificKeyPad
- * 2. @作者:    夏菁 ut000489
- * 3. @日期:    2020-07-01
- * 4. @说明:    科学计算器键盘区域界面
- */
+* Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
+*
+* Author:     xiajing <xiajing@uniontech.com>
+*
+* Maintainer: jingzhou <jingzhou@uniontech.com>
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #pragma once
 
 #include <QWidget>
@@ -28,22 +43,28 @@ using ActionColor = com::deepin::daemon::Appearance;
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
 
+/**
+ * @brief 科学模式键盘区域界面
+ */
 class ScientificKeyPad : public DWidget
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief 科学模式键盘
+     */
     enum Buttons {
-        Key_FE = 26, Key_MC, Key_MR, Key_Mplus, Key_Mmin, Key_MS,
-        Key_deg, Key_page, Key_PI, Key_e, Key_Mod, Key_Backspace,
-        Key_sin, Key_x2, Key_Derivative, Key_Factorials, Key_exp, Key_Clear,
-        Key_cos, Key_x3, Key_left, Key_right, Key_Percent, Key_Div,
-        Key_tan, Key_xy, Key_7, Key_8, Key_9, Key_Mult,
-        Key_cot, Key_10x, Key_4, Key_5, Key_6, Key_Min,
-        Key_Modulus, Key_log, Key_1, Key_2, Key_3, Key_Plus,
-        Key_Rand, Key_ln, Key_opposite, Key_0, Key_Point, Key_Equals,
-        Key_arcsin, Key_arccos, Key_arctan, Key_arccot,
-        Key_sqrt2, Key_sqrt3, Key_ysqrtx, Key_2x, Key_logyx, Key_ex
+        Key_FE = 26, Key_MC, Key_MR, Key_Mplus, Key_Mmin, Key_MS, //FE, MC, MR, M+, M-, MS
+        Key_deg, Key_page, Key_PI, Key_e, Key_Mod, Key_Backspace, //deg, 2ⁿᵈ, π, e, mod, 退格符
+        Key_sin, Key_x2, Key_Derivative, Key_Factorials, Key_exp, Key_Clear, //sin, x², 1/x, x!, exp, C
+        Key_cos, Key_x3, Key_left, Key_right, Key_Percent, Key_Div, //cos, x³, (, ), %, 除号
+        Key_tan, Key_xy, Key_7, Key_8, Key_9, Key_Mult, //tan, xʸ, 7, 8, 9, 乘号
+        Key_cot, Key_10x, Key_4, Key_5, Key_6, Key_Min, //cot, 10ˣ, 4, 5, 6, 减号
+        Key_Modulus, Key_log, Key_1, Key_2, Key_3, Key_Plus, //|x|, log, 1, 2, 3, 加号
+        Key_Rand, Key_ln, Key_opposite, Key_0, Key_Point, Key_Equals, //随机数, ln, +/-, 0, ., =
+        Key_arcsin, Key_arccos, Key_arctan, Key_arccot, //arcsin, arccos, arctan, arccot
+        Key_sqrt2, Key_sqrt3, Key_ysqrtx, Key_2x, Key_logyx, Key_ex //√x, ³√x, ʸ√x, 2ˣ, logᵧx, eˣ
     };
 
     ScientificKeyPad(QWidget *parent = nullptr);

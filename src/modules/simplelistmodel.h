@@ -33,11 +33,12 @@ public:
     ~SimpleListModel();
     void refrushModel();
 
+    //model的data数据类型
     enum Role {
-        ExpressionRole = Qt::ToolTipRole,
-        ExpressionCount,
-        ExpressionPrevious,
-        ExpressionNext
+        ExpressionRole = Qt::ToolTipRole, //有提示文本
+        ExpressionCount, //数据数量
+        ExpressionPrevious, //前一个数据
+        ExpressionNext //下一个数据
     };
 
     int rowCount(const QModelIndex &parent) const;

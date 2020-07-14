@@ -1,9 +1,24 @@
 /*
- * 1. @类名:    MemoryKeypad
- * 2. @作者:    夏菁 ut000489
- * 3. @日期:    2020-07-01
- * 4. @说明:    简易计算器内存按键栏
- */
+* Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
+*
+* Author:     xiajing <xiajing@uniontech.com>
+*
+* Maintainer: jingzhou <jingzhou@uniontech.com>
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #ifndef MEMORYKEYPAD_H
 #define MEMORYKEYPAD_H
 
@@ -21,12 +36,18 @@
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
 
+/**
+ * @brief 简易计算器内存按键栏
+ */
 class MemoryKeypad : public DWidget
 {
     Q_OBJECT
 
 public:
-    enum Buttons {Key_MC = 20, Key_MR, Key_Mplus, Key_Mminus, Key_MS, Key_Mlist};
+    /**
+     * @brief 内存按键栏
+     */
+    enum Buttons {Key_MC = 20, Key_MR, Key_Mplus, Key_Mminus, Key_MS, Key_Mlist}; //MC, MR, M+, M-, MS, M^
 
     MemoryKeypad(QWidget *parent = nullptr);
     ~MemoryKeypad();

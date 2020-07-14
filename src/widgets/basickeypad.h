@@ -39,12 +39,15 @@ class BasicKeypad : public DWidget
     Q_OBJECT
 
 public:
+    /**
+     * @brief 标准模式键盘
+     */
     enum Buttons {
-        Key_Clear, Key_Percent, Key_Backspace, Key_Div,
-        Key_7, Key_8, Key_9, Key_Mult,
-        Key_4, Key_5, Key_6, Key_Min,
-        Key_1, Key_2, Key_3, Key_Plus,
-        Key_0, Key_Point, Key_Brackets, Key_Equals
+        Key_Clear, Key_Percent, Key_Backspace, Key_Div, //C, %, 退格符, 除号
+        Key_7, Key_8, Key_9, Key_Mult, //7, 8, 9, 乘号
+        Key_4, Key_5, Key_6, Key_Min, //4, 5, 6, 减号
+        Key_1, Key_2, Key_3, Key_Plus, //1, 2, 3, 加号
+        Key_0, Key_Point, Key_Brackets, Key_Equals //0, ., (), =
     };
 
     BasicKeypad(QWidget *parent = nullptr);
