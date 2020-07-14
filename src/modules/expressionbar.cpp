@@ -1135,31 +1135,33 @@ void ExpressionBar::copyResultToClipboard()
         return;
     // QApplication::clipboard()->setText(m_inputEdit->selectedText());
 
-    //edit for bug-37850 非全选不复制计算结果
+    //edit for bug-37850 非全选不复制计算结果->输入栏复制的内容不是表达式的结果，而是选中的表达式
     SSelection selection = m_inputEdit->getSelection();
-    if (selection.selected != "" && selection.selected != m_inputEdit->text()) {
-        QApplication::clipboard()->setText(selection.selected);
-        return;
-    }
+    QApplication::clipboard()->setText(selection.selected);
+//    SSelection selection = m_inputEdit->getSelection();
+//    if (selection.selected != "" && selection.selected != m_inputEdit->text()) {
+//        QApplication::clipboard()->setText(selection.selected);
+//        return;
+//    }
 
-    const QString expression = formatExpression(m_inputEdit->text());
-    m_evaluator->setExpression(expression);
-    Quantity ans = m_evaluator->evalUpdateAns();
+//    const QString expression = formatExpression(m_inputEdit->text());
+//    m_evaluator->setExpression(expression);
+//    Quantity ans = m_evaluator->evalUpdateAns();
 
-    if (m_evaluator->error().isEmpty()) {
-        if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
-            return;
+//    if (m_evaluator->error().isEmpty()) {
+//        if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
+//            return;
 
-        //edit 20200413 for bug--19653
-        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(STANDPREC));
-        QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace('-', "－").replace('+', "＋");
-        // m_inputEdit->setAnswer(formatResult, ans);
+//        //edit 20200413 for bug--19653
+//        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(STANDPREC));
+//        QString formatResult = Utils::formatThousandsSeparators(result);
+//        formatResult = formatResult.replace('-', "－").replace('+', "＋");
+//        // m_inputEdit->setAnswer(formatResult, ans);
 
-        QApplication::clipboard()->setText(formatResult);
-    } else {
-        QApplication::clipboard()->setText(m_inputEdit->text());
-    }
+//        QApplication::clipboard()->setText(formatResult);
+//    } else {
+//        QApplication::clipboard()->setText(m_inputEdit->text());
+//    }
 }
 
 void ExpressionBar::copyClipboard2Result()

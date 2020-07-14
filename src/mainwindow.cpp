@@ -92,13 +92,13 @@ MainWindow::MainWindow(QWidget *parent)
                 showHistoryWidget();
                 emit windowChanged(width(), height(), false);
             } else {
-                hideHistoryWidget(true, false);
+                hideHistoryWidget(true);
                 if (width() == HISTORY_SHOW_LEAST_WIDTH)
                     resize(width() - 1, this->height());
                 emit windowChanged(width(), height(), true);
             }
         } else
-            hideHistoryWidget(false, false);
+            hideHistoryWidget(false);
     });
 
 }
@@ -171,7 +171,7 @@ void MainWindow::switchToSimpleMode()
         m_settings->setOption("mode", 0);
         m_mainLayout->setCurrentIndex(0);
         m_basicModule->checkLineEmpty();
-        hideHistoryWidget(false, true);
+        hideHistoryWidget(false);
     }
 }
 
@@ -186,7 +186,7 @@ void MainWindow::switchToScientificMode()
         setMinimumSize(SCIENTIFIC_MIN_SIZE);
 //        setMaximumSize(QApplication::desktop()->screenGeometry().size());
         setMaximumSize(SCIENTIFIC_MAX_SIZE);
-        hideHistoryWidget(false, true);
+        hideHistoryWidget(false);
         resize(m_lastscisize);
     }
 }
@@ -197,7 +197,7 @@ void MainWindow::showHistoryWidget()
     m_scientificModule->showOrHideHistory(false);
 }
 
-void MainWindow::hideHistoryWidget(bool hissetting, bool modechange)
+void MainWindow::hideHistoryWidget(bool hissetting)
 {
     //从科学到简易时b=false，其余为true
     if (hissetting == true)
@@ -237,7 +237,7 @@ void MainWindow::moveEvent(QMoveEvent *event)
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     if (event->size().width() < HISTORY_SHOW_LEAST_WIDTH) {
-        hideHistoryWidget(true, false);
+        hideHistoryWidget(true);
         emit windowChanged(event->size().width(), event->size().height(), true);
     } else {
         showHistoryWidget();

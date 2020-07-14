@@ -56,7 +56,7 @@ private:
     void switchToSimpleMode();
     void switchToScientificMode();
     void showHistoryWidget();
-    void hideHistoryWidget(bool hissetting, bool modechange); //b-DSetting中"history"是否改变
+    void hideHistoryWidget(bool hissetting);
 
 private:
     DSettings *m_settings;
