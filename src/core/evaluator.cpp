@@ -31,6 +31,7 @@
 #include <QCoreApplication>
 #include <QRegularExpression>
 #include <QStack>
+#include <QDebug>
 
 #define ALLOW_IMPLICIT_MULT
 
@@ -1310,10 +1311,12 @@ void Evaluator::compile(const Tokens &tokens)
                         m_codes.append(Opcode(Opcode::Fact));
                         break;
                     case Token::Percent:
-                        syntaxStack.pop();
-                        m_constants.append(HNumber("0.01"));
-                        m_codes.append(Opcode(Opcode::Load, m_constants.count() - 1));
-                        m_codes.append(Opcode(Opcode::Mul));
+                        m_singleNumPercent = false;
+                        if (syntaxStack.top(2).type() == Token::stxOpenPar)
+                            m_singleNumPercent = true;
+                        ruleFound = true;
+                        syntaxStack.reduce(2);
+                        m_codes.append(Opcode(Opcode::Pct));
                         break;
                     default:;
                     }
@@ -1903,6 +1906,28 @@ Quantity Evaluator::exec(const QVector<Opcode> &opcodes,
             stack.push(val2);
             break;
 
+        case Opcode::Pct:
+            if (stack.count() < 1) {
+                m_error = tr("invalid expression");
+                return CMath::nan();
+            }
+            val1 = stack.pop();
+
+            switch (((pc + 1) < opcodes.count() && !m_singleNumPercent) ?
+                    opcodes.at(pc + 1).type : Opcode::Nop) {
+            case Opcode::Add:
+            case Opcode::Sub:
+                val2 = stack.pop();
+                stack.push(val2);
+                break;
+            default:
+                val2 = Quantity(1);
+            }
+            val1 = checkOperatorResult(val2 * (val1 * HNumber("0.01")));
+            m_standardPercent = val1;
+            stack.push(val1);
+            break;
+
         case Opcode::Conv:
             if (stack.count() < 2) {
                 m_error = /*tr*/("invalid expression");
@@ -2313,6 +2338,11 @@ bool Evaluator::hasUserFunction(const QString &fname) const
     return (invalid) ? false : m_session->hasUserFunction(fname);
 }
 
+Quantity Evaluator::getStandardPercentAns()
+{
+    return m_standardPercent;
+}
+
 const UserFunction *Evaluator::getUserFunction(const QString &fname) const
 {
     if (hasUserFunction(fname))
@@ -2446,6 +2476,9 @@ QString Evaluator::dump()
             break;
         case Opcode::BOr:
             code = "BOr";
+            break;
+        case Opcode::Pct:
+            code = "Pct";
             break;
         default:
             code = "Unknown";

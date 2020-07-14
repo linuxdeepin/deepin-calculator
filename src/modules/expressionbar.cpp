@@ -383,6 +383,158 @@ void ExpressionBar::enterPercentEvent()
     m_isResult = false;
 }
 
+void ExpressionBar::enterPercentEventCommon()
+{
+    if (m_inputEdit->text().isEmpty()) {
+        m_inputEdit->setText("0");
+        return;
+    }
+    bool hasselect = (m_inputEdit->getSelection().selected != "");
+    QString oldText = m_inputEdit->text();
+    // 20200316百分号选中部分格式替代
+    replaceSelection(m_inputEdit->text());
+    int curPos = m_inputEdit->cursorPosition();
+    if (m_inputEdit->text() == QString()) {
+        m_inputEdit->setText("0");
+        return;
+    }
+    int epos = m_inputEdit->text().indexOf("e");
+    QString sRegNum = "[0-9,.e]";
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    if (curPos == 0 && hasselect == false) {
+        m_inputEdit->setText(oldText);
+        m_inputEdit->setCursorPosition(curPos);
+        return;
+    }
+    if ((curPos == 0 && hasselect == true) ||
+            (m_inputEdit->text().length() > curPos && rx.exactMatch(m_inputEdit->text().at(curPos)))) {
+        m_inputEdit->setText(oldText);
+        m_inputEdit->setCursorPosition(curPos);
+        return;
+    }
+    if (epos > -1 && epos == curPos - 1) {
+        m_inputEdit->setText(oldText);
+        m_inputEdit->setCursorPosition(curPos);
+        return;
+    }
+    // start edit for task-13519
+    //        QString sRegNum1 = "[^0-9,.×÷)]";
+    QString sRegNum1 = "[^0-9,.)]";
+    QRegExp rx1;
+    rx1.setPattern(sRegNum1);
+    if (rx1.exactMatch(oldText.at(curPos - 1)))
+        m_inputEdit->setText(oldText);
+    else {
+        m_inputEdit->insert("%");
+        //固定变量
+        QString newText = m_inputEdit->text();
+        QString expText = m_inputEdit->expressionText();
+        int expPercentPos = expText.indexOf('%');
+        QString textToEval = expText.left(expPercentPos + 1);
+        int percentRight = oldText.length() - curPos; //百分号右侧的长度，不会受计算的影响
+
+        //循环用变量
+        QString expression; // 运算表达式
+        Quantity ans, percentans; //ans--answer percentans--%answer
+        int evalStartPos = 0;//表达式开始的位置
+        int lastOperatorPos;//用于分割的运算符的位置
+
+        /* 百分号逻辑：当百分号修饰的数前面的运算符为+-时，按运算的优先级将前面的数
+         * 的计算结果，乘以当前百分比后显示：2+32% = 2+0.64,2+(32%) = 2.32,
+         * 1+2*2+(32)% = 5+5*0.32
+        */
+
+        /* 从表达式整体开始进行循环判断，截到%为止，当前面的表达式能算出正常结果时
+         * 前面的表达式就都为%的上一优先级，需先算出前面的值，再用百分比乘出结果
+        */
+        do {
+            textToEval = textToEval.mid(evalStartPos, expPercentPos - evalStartPos + 1);
+            expression = formatExpression(symbolComplement(textToEval));
+            m_evaluator->setExpression(expression);
+            ans = m_evaluator->evalUpdateAns();
+            qDebug() << "eval" << textToEval;
+            if (m_evaluator->error().isEmpty())
+                break;
+            lastOperatorPos = textToEval.right(textToEval.length() - (textToEval.front() == "-" ? 1 : 0))
+                              .indexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")));
+            evalStartPos = lastOperatorPos + 1;
+        } while (evalStartPos < expPercentPos);
+        if (evalStartPos < expPercentPos) {
+            if (ans.isNan() && !m_evaluator->isUserFunctionAssign()) {
+                m_inputEdit->setText(oldText);
+                m_inputEdit->setCursorPosition(curPos);
+                return;
+            }
+            percentans = m_evaluator->getStandardPercentAns();
+            lastOperatorPos = evalStartPos - (evalStartPos == 0 ? 0 : 1);
+        } else {
+            m_inputEdit->setText(oldText);
+            m_inputEdit->setCursorPosition(curPos);
+            return;
+        }
+        QString percentResult = DMath::format(percentans, Quantity::Format::General() + Quantity::Format::Precision(STANDPREC));
+        percentResult = Utils::formatThousandsSeparators(percentResult);
+        qDebug() << "percentResult" << percentResult;
+        //用整理后的百分号结果替换原表达式中百分号修饰的数字,截取需要替换的部分
+        int percentpos = newText.indexOf('%');
+        int operatorpos =
+            newText.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
+        bool nooperator = false;
+        if (operatorpos > 0 && newText.at(operatorpos - 1) == "e")
+            operatorpos =
+                newText.mid(0, operatorpos - 1)
+                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
+        if (operatorpos < 0) {
+            operatorpos++;
+            nooperator = true;
+        }
+        QString expToRemove;  //%表达式
+        bool needToRemoveBracket = false; //是否需要删除括号
+        if (newText.at(percentpos - 1) == ')') {
+            if (operatorpos > 0 && newText.at(operatorpos - 1) == '(') {
+                m_inputEdit->setText(oldText);
+                m_inputEdit->setCursorPosition(percentpos);
+                return;
+            }
+            do {
+                operatorpos = newText.lastIndexOf('(', operatorpos - 1);
+                if (operatorpos <= 0) {
+                    break;
+                }
+            } while (newText.mid(operatorpos, newText.size() - operatorpos).count('(') !=
+                     newText.mid(operatorpos, percentpos - operatorpos).count(')'));
+            expToRemove = newText.mid(operatorpos,
+                                      percentpos - operatorpos + 1);  //截取%表达式
+            needToRemoveBracket = true;
+        } else {
+            expToRemove = newText.mid(operatorpos + (nooperator == true ? 0 : 1),
+                                      percentpos - operatorpos + (nooperator == true ? 1 : 0));
+            //截取%表达式
+        }
+        qDebug() << expToRemove;
+        qDebug() << operatorpos;
+        newText.remove(operatorpos + (needToRemoveBracket || nooperator ? 0 : 1), expToRemove.length());
+        newText.insert(operatorpos + (needToRemoveBracket || nooperator ? 0 : 1), percentResult);
+        //结果为负数补括号，前面为数字补乘号
+        if (needToRemoveBracket) {
+            if (expToRemove.at(1) == "－") {
+                newText.insert(operatorpos, "(");
+                newText.insert(operatorpos + percentResult.length() + 1, ")");
+            } else if (operatorpos > 0 && newText.at(operatorpos - 1).isNumber())
+                newText.insert(operatorpos, "*");
+        }
+        m_inputEdit->setText(newText);
+        m_inputEdit->setPercentAnswer(newText, percentResult, ans,
+                                      evalStartPos);
+        m_inputEdit->setCursorPosition(m_inputEdit->text().length() - percentRight);
+    }
+    m_listView->scrollToBottom();
+    m_isContinue = true;
+    m_isUndo = false;
+    m_isResult = false;
+}
+
 void ExpressionBar::enterPointEvent()
 {
     //    if (m_isLinked)

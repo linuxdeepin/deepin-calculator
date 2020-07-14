@@ -170,6 +170,7 @@ public:
     void unsetUserFunction(const QString &);
     void unsetAllUserFunctions();
     bool hasUserFunction(const QString &) const;
+    Quantity getStandardPercentAns(); //获取标准模式下的百分号处理
 
 protected:
     void compile(const Tokens &);
@@ -190,6 +191,8 @@ private:
     QStringList m_identifiers;
     Session *m_session;
     QSet<QString> m_functionsInUse;
+    Quantity m_standardPercent = Quantity(); //标准模式下的百分号结果
+    bool m_singleNumPercent = false;//true:100-(50%) = 100 - 0.5;
 
     const Quantity &checkOperatorResult(const Quantity &);
     static QString stringFromFunctionError(Function *);
