@@ -624,7 +624,6 @@ bool InputEdit::eventFilter(QObject *watched, QEvent *event)
 
 void InputEdit::multipleArithmetic(QString &text)
 {
-    qDebug() << text;
     int index = text.indexOf("\n");
     if (index != -1) {
         int count = text.count("\n");
