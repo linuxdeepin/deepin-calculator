@@ -30,11 +30,11 @@ DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
 
 struct SSelection {
-    QString oldText;
-    QString selected;
+    QString oldText; //选中时的当前text
+    QString selected; //被选中部分
     QString clearText;
     bool isChanged;
-    int curpos = 0;  // fix for bug-14249
+    int curpos = 0;  // fix for bug-14249选中的左侧光标所在位置
     SSelection() { isChanged = false; }
 };
 
@@ -106,8 +106,8 @@ private:
     int m_ansStartPos;
     int m_ansLength;
     bool m_ansVaild;
-    bool m_currentInAns;
-    bool m_currentOnAnsLeft;
+    bool m_currentInAns;  //光标在ans中间
+    bool m_currentOnAnsLeft; //光标在ans左侧(包括左侧)
     QString m_oldText;
     SSelection m_selected;
     int m_lastPos; //最后进入计算时的光标位置

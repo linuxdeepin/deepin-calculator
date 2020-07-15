@@ -312,6 +312,9 @@ int InputEdit::findWordEndPosition(int pos)
     return str.length() - 1;
 }
 
+/**
+ * @brief InputEdit::输入框字号变化
+ */
 void InputEdit::autoZoomFontSize()
 {
     QFont font;
@@ -334,27 +337,29 @@ void InputEdit::autoZoomFontSize()
 void InputEdit::handleTextChanged(const QString &text)
 {
     //20200612修复下方m_ansValid赋值判断text[m_ansStartPos - 1]越界问题
-    if (m_currentInAns || (m_selected.selected.length() > 0 && m_selected.selected.length() == m_oldText.length())) {
-        m_ansLength = 0;
+    if (m_currentInAns) {
+        m_ansLength = 0; //光标在ans中间且text改变，清空ans
     } else if (m_currentOnAnsLeft && m_oldText.length() != 0) {
         int textLength = text.length();
         int oldTextLength = m_oldText.length();
-        int minValue = std::min(textLength, oldTextLength);
+//        int minValue = std::min(textLength, oldTextLength);
 
-        int i = 1;
-        for (; i < minValue && text[textLength - i] == m_oldText[oldTextLength - i]; ++i)
-            ;
+//        int i = 1;
+//        for (; i < minValue && text[textLength - i] == m_oldText[oldTextLength - i]; ++i)
+//            ; //i=diff?不知为何又用到下侧int计算　i无用
 
-        int diff = (textLength - i) - (oldTextLength - i);
+//        int diff = (textLength - i) - (oldTextLength - i);
+        int diff = textLength - oldTextLength;
         m_ansStartPos += diff;
     }
     if (text.indexOf("=") != -1) {
         QString exp = text;
         exp.remove(text.indexOf("="), 1);
         setText(exp);
-        Q_EMIT equal();
+        Q_EMIT equal(); //当前外界键盘及计算器键盘中=均不走此；猜测为了复制粘贴等于式；当前粘贴会去除=，也不会走此；暂不删除
         return;
     }
+
 
     int ansEnd = m_ansStartPos + m_ansLength;
 
@@ -362,10 +367,10 @@ void InputEdit::handleTextChanged(const QString &text)
     while (ansEnd > text.length()) {
         --ansEnd;
     }
+
+    //ans是否有效；判断条件：ans未被改变,ans左侧右侧均不是小数点
     m_ansVaild = /*m_ansLength > 10 &&*/ m_ansLength > 0 && (m_ansStartPos == 0 || !text[m_ansStartPos - 1].isDigit()) &&
                                          (ansEnd == text.length() || !text[ansEnd].isDigit());
-    m_oldText = text;
-
     int oldPosition = this->cursorPosition();
     QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
     reformatStr = reformatStr.replace('+', QString::fromUtf8("＋"))
@@ -398,6 +403,10 @@ void InputEdit::handleTextChanged(const QString &text)
     if (pos > newLength)
         pos = newLength;
     this->setCursorPosition(pos);
+
+    m_selected.oldText = this->text(); //选中输入情况下清空被选部分
+    m_selected.selected = selectedText();
+    m_selected.curpos = selectionStart() < selectionEnd() ? selectionStart() : selectionEnd();
 }
 
 QString InputEdit::pointFaultTolerance(const QString &text)
@@ -542,19 +551,18 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
     }
 
     int ansEnd = m_ansStartPos + m_ansLength;
-    int selectStart = this->selectionStart();
-    int selectEnd = selectStart + this->selectedText().length();
+    int selectStart = m_selected.curpos; //选中输入后选中部分被清空　不可用selectStart()
+    int selectEnd = selectStart + m_selected.selected.length();
 
     if (newPos > m_ansStartPos && newPos < ansEnd) {
-        m_currentInAns = true;
-    } else if (this->hasSelectedText() && (
-                   ((selectStart >= m_ansStartPos && selectStart < ansEnd)) ||
-                   (selectEnd > m_ansStartPos && selectEnd <= ansEnd) ||
-                   (selectStart < m_ansStartPos && selectEnd > ansEnd))) {
-        m_currentInAns = true;
+        m_currentInAns = true; //当前光标在ans开始后结束前
+    } else if (((selectStart >= m_ansStartPos && selectStart < ansEnd)) ||
+               (selectEnd > m_ansStartPos && selectEnd <= ansEnd) ||
+               (selectStart < m_ansStartPos && selectEnd > ansEnd)) { //选中->输入->selection为空->cursprchanged导致此处不会进入;删除hasSelectedText();
+        m_currentInAns = true; //选中区与ans有交集
     } else if (newPos <= m_ansStartPos) {
         m_currentInAns = false;
-        m_currentOnAnsLeft = true;
+        m_currentOnAnsLeft = true; //光标在ans左侧，保存以去计算ans开始位置
     } else {
         m_currentInAns = false;
         m_currentOnAnsLeft = false;
@@ -616,6 +624,7 @@ bool InputEdit::eventFilter(QObject *watched, QEvent *event)
 
 void InputEdit::multipleArithmetic(QString &text)
 {
+    qDebug() << text;
     int index = text.indexOf("\n");
     if (index != -1) {
         int count = text.count("\n");
@@ -665,11 +674,10 @@ void InputEdit::pressSlot()
 void InputEdit::selectionChangedSlot()
 {
     if (!hasFocus())
-        return;
+        return; //只有选中被改变情况下给m_selected赋值,选中输入不会改变;选中输入后优先级高于cursorchanged，去掉return无意义
     m_selected.oldText = text();
     m_selected.selected = selectedText();
-    m_selected.curpos = selectionStart();
-    //    qDebug() << m_selected.selected;
+    m_selected.curpos = selectionStart() < selectionEnd() ? selectionStart() : selectionEnd();
 }
 
 QPair<bool, Quantity> InputEdit::getMemoryAnswer()
