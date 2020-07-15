@@ -30,7 +30,7 @@
 #include "src/utils.h"
 #include "src/core/settings.h"
 
-#define SCIPREC 31
+#define SCIPREC 31 //科学计算器精度
 
 SciExpressionBar::SciExpressionBar(QWidget *parent)
     : DWidget(parent)
@@ -620,6 +620,9 @@ void SciExpressionBar::enterPIEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::无理数e
+ */
 void SciExpressionBar::enterEulerEvent()
 {
     if (m_isResult) {
@@ -716,6 +719,9 @@ void SciExpressionBar::enterx2Event()
     }
 }
 
+/**
+ * @brief SciExpressionBar::导数
+ */
 void SciExpressionBar::enterDerivativeEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
@@ -805,6 +811,9 @@ void SciExpressionBar::enterDerivativeEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::阶乘
+ */
 void SciExpressionBar::enterFactorialsEvent()
 {
     if (m_inputEdit->text().isEmpty())
@@ -1066,6 +1075,9 @@ void SciExpressionBar::enter10xEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar:://模(绝对值)
+ */
 void SciExpressionBar::enterModulusEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
@@ -1506,6 +1518,9 @@ void SciExpressionBar::enterexEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::相反数
+ */
 void SciExpressionBar::enterOppositeEvent()
 {
     if (m_inputEdit->text().isEmpty()) {

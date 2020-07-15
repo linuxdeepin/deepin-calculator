@@ -355,7 +355,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         }
         break;
     case Qt::Key_L:
-        if (isPressCtrl && m_memRCbtn) {
+        if (isPressCtrl && m_memRCbtn) { //CTRL+L,MC
 //            m_scikeypadwidget->animate(MemoryKeypad::Key_MC);
             QTimer::singleShot(100, this, [ = ] {
 //                m_memorylistwidget->memoryclean();
@@ -372,7 +372,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         }
         break;
     case Qt::Key_R:
-        if (isPressCtrl && m_memRCbtn) {
+        if (isPressCtrl && m_memRCbtn) { //CTRL+R,MR
 //            m_memoryKeypad->animate(MemoryKeypad::Key_MR);
             m_sciexpressionBar->getInputEdit()->setAnswer(m_scihiswidget->getMemoryWidget()->getfirstnumber().first
                                                           , m_scihiswidget->getMemoryWidget()->getfirstnumber().second);
@@ -387,7 +387,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         }
         break;
     case Qt::Key_P:
-        if (isPressCtrl && m_memCalbtn) {
+        if (isPressCtrl && m_memCalbtn) { //CTRL+P,M+
 //            m_memoryKeypad->animate(MemoryKeypad::Key_Mplus);
             m_sciexpressionBar->enterEqualEvent();
             if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
@@ -399,7 +399,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         }
         break;
     case Qt::Key_Q:
-        if (isPressCtrl && m_memCalbtn) {
+        if (isPressCtrl && m_memCalbtn) { //CTRL+Q,M-
 //            m_memoryKeypad->animate(MemoryKeypad::Key_Mminus);
             m_sciexpressionBar->enterEqualEvent();
             if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
@@ -411,19 +411,22 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         }
         break;
     case Qt::Key_M:
-        if (isPressCtrl && m_memCalbtn) {
+        if (isPressCtrl && m_memCalbtn) { //ctrl+m,MS
 //            m_memoryKeypad->animate(MemoryKeypad::Key_MS);
             m_sciexpressionBar->enterEqualEvent();
             if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
                 m_scihiswidget->memoryFunctions(SciHistoryWidget::generateData, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
 //                memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+        } else {
+            m_sciexpressionBar->enterModEvent();
+            m_sciexpressionBar->addUndo();
         }
         break;
     /*case Qt::Key_E:
         m_sciexpressionBar->entereEvent();
         m_sciexpressionBar->addUndo();
         breal;*/
-    case Qt::Key_NumberSign:
+    case Qt::Key_NumberSign: //#
         m_sciexpressionBar->enterx3Event();
         m_sciexpressionBar->addUndo();
         break;
@@ -436,7 +439,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_sciexpressionBar->addUndo();
         }
         break;
-    case Qt::Key_At:
+    case Qt::Key_At: //@
         m_sciexpressionBar->enterSqrtEvent();
         m_sciexpressionBar->addUndo();
         break;
@@ -444,7 +447,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         m_sciexpressionBar->enterCbrtEvent();
         m_sciexpressionBar->addUndo();
         break;
-    case Qt::Key_Bar:
+    case Qt::Key_Bar: //|,shift+'\'
         m_sciexpressionBar->enterModulusEvent();
         m_sciexpressionBar->addUndo();
         break;
@@ -493,7 +496,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_sciexpressionBar->addUndo();
         }
         break;
-    case Qt::Key_Exclam:
+    case Qt::Key_Exclam: //'!'
         m_sciexpressionBar->enterFactorialsEvent();
         m_sciexpressionBar->addUndo();
         break;

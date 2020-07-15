@@ -77,11 +77,11 @@ public slots:
     void enterSinEvent();
     void enterFEEvent(bool isdown);
     void enterPIEvent();
-    void enterEulerEvent();
+    void enterEulerEvent(); //无理数e
     void enterModEvent();
     void enterx2Event();
-    void enterDerivativeEvent();
-    void enterFactorialsEvent();
+    void enterDerivativeEvent(); //导数
+    void enterFactorialsEvent(); //阶乘
     void enterExpEvent();
     void enterCosEvent();
     void enterx3Event();
@@ -89,7 +89,7 @@ public slots:
     void enterxyEvent();
     void enterCotEvent();
     void enter10xEvent();
-    void enterModulusEvent();
+    void enterModulusEvent(); //模(绝对值)
     void enterLogEvent();
     void enterRandEvent();
     void enterLnEvent();
@@ -103,7 +103,7 @@ public slots:
     void enter2xEvent();
     void enterlogyxEvent();
     void enterexEvent();
-    void enterOppositeEvent();
+    void enterOppositeEvent(); //相反数
     void moveLeft();
     void moveRight();
     void copyResultToClipboard();
