@@ -37,38 +37,28 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     , m_btnclean(new MemoryButton(QString("MC"), true, this))
     , m_label(new QLabel(this))
 {
-    QVBoxLayout *layV = new QVBoxLayout();
-    QHBoxLayout *layH = new QHBoxLayout(this);
-    QHBoxLayout *lay = new QHBoxLayout();
+    QVBoxLayout *layV = new QVBoxLayout(this); //存放四个控件
+    QHBoxLayout *lay = new QHBoxLayout(); //存放三个按钮
 
     lay->addStretch();
     lay->setSpacing(0);
     lay->addWidget(m_btnclean);
     lay->addWidget(m_btnplus);
     lay->addWidget(m_btnminus);
-//    lay->addSpacing(20);
     layV->setMargin(0);
     layV->addWidget(m_label);
     layV->addStretch();
-//    lineedit->setAlignment(Qt::AlignTop);
     QFont font;
     font.setPixelSize(30);
     m_label->setFont(font);
-    m_label->setAttribute(Qt::WA_TranslucentBackground);
+    m_label->setAttribute(Qt::WA_TranslucentBackground); //label窗体透明
 
-    m_label->setAlignment(Qt::AlignRight | Qt::AlignTop);
-//    lineedit->setAlignment(Qt::AlignCenter | Qt::AlignBottom | Qt::AlignHCenter);
-//    lineedit->setTextMargins(0, 0, 10, 6);
+    m_label->setAlignment(Qt::AlignRight | Qt::AlignTop); //label字体居右，居上
 
-    m_label->setAttribute(Qt::WA_TransparentForMouseEvents, true);
-//    layV->addLayout(laylabel);
+    m_label->setAttribute(Qt::WA_TransparentForMouseEvents, true); //label鼠标穿透
     layV->addLayout(lay);
-//    layV->setContentsMargins(0, 0, 0, 0);
-    layH->addLayout(layV);
-    layH->addSpacing(20);
-    layH->setContentsMargins(0, 0, 0, 6);
-    this->setLayout(layH);
-//    this->setContentsMargins(0, 0, 0, 0);
+    layV->setContentsMargins(0, 0, 20, 6); //右边距20,下边距6
+    this->setLayout(layV);
 
     connect(m_btnplus, &QPushButton::clicked, this, &MemoryItemWidget::plusbtnclicked);
     connect(m_btnminus, &QPushButton::clicked, this, &MemoryItemWidget::minusbtnclicked);
@@ -82,7 +72,7 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
 void MemoryItemWidget::enterEvent(QEvent *event)
 {
     m_ishover = true;
-    m_btnplus->setHidden(false);
+    m_btnplus->setHidden(false); //进入时显示按钮
     m_btnminus->setHidden(false);
     m_btnclean->setHidden(false);
     update();
@@ -95,10 +85,10 @@ void MemoryItemWidget::leaveEvent(QEvent *event)
 {
 //    clearFocus();
     m_ishover = false;
-    m_btnplus->setHidden(true);
+    m_btnplus->setHidden(true); //离开时隐藏按钮
     m_btnminus->setHidden(true);
     m_btnclean->setHidden(true);
-    emit itemchanged(m_themetype);
+    emit itemchanged(m_themetype); //发送item改变信号，改变一次update一次
 //    this->setAttribute(Qt::WA_StyledBackground, true);
 //    this->setStyleSheet("background-color: rgb(255,255,255)");
     QWidget::leaveEvent(event);
@@ -110,7 +100,7 @@ void MemoryItemWidget::mousePressEvent(QMouseEvent *event)
         return;
     setFocus();
     m_ispress = true;
-    DPalette pl1 = this->palette();
+    DPalette pl1 = this->palette(); //按下时给label字体设置颜色
     if (m_themetype == 1) {
         pl1.setColor(DPalette::Text, Qt::black);
         pl1.setColor(DPalette::HighlightedText, Qt::black);
@@ -118,10 +108,6 @@ void MemoryItemWidget::mousePressEvent(QMouseEvent *event)
         pl1.setColor(DPalette::Text, QColor("#FFFFFF"));
         pl1.setColor(DPalette::HighlightedText, QColor("#FFFFFF"));
     }
-    pl1.setColor(DPalette::Button, Qt::transparent);
-    pl1.setColor(DPalette::Highlight, Qt::transparent);
-
-    // pl.setColor(DPalette::Text,QColor(48,48,48));
 
     m_label->setPalette(pl1);
     update();
@@ -134,7 +120,7 @@ void MemoryItemWidget::mouseReleaseEvent(QMouseEvent *event)
         return;
     clearFocus();
     m_ispress = false;
-    DPalette pl1 = this->palette();
+    DPalette pl1 = this->palette(); //松开鼠标时给label字体重新设置颜色
     if (m_themetype == 1) {
         pl1.setColor(DPalette::Text, Qt::black);
         pl1.setColor(DPalette::HighlightedText, Qt::black);
@@ -142,10 +128,6 @@ void MemoryItemWidget::mouseReleaseEvent(QMouseEvent *event)
         pl1.setColor(DPalette::Text, QColor("#B4B4B4"));
         pl1.setColor(DPalette::HighlightedText, QColor("#B4B4B4"));
     }
-    pl1.setColor(DPalette::Button, Qt::transparent);
-    pl1.setColor(DPalette::Highlight, Qt::transparent);
-
-    // pl.setColor(DPalette::Text,QColor(48,48,48));
 
     m_label->setPalette(pl1);
     QWidget::mouseReleaseEvent(event);
@@ -153,11 +135,11 @@ void MemoryItemWidget::mouseReleaseEvent(QMouseEvent *event)
 
 void MemoryItemWidget::contextMenuEvent(QContextMenuEvent *event)
 {
-    QMenu *menu = new QMenu(this);
-    QAction *copy = new QAction(tr("Copy"), menu);
-    QAction *clean = new QAction(tr("Clear memory item"), menu);
-    QAction *plus = new QAction(tr("Add to memory item"), menu);
-    QAction *minus = new QAction(tr("Subtract from memory item"), menu);
+    QMenu *menu = new QMenu(this); //添加各item的菜单项
+    QAction *copy = new QAction(tr("Copy"), menu); //复制
+    QAction *clean = new QAction(tr("Clear memory item"), menu); //MC
+    QAction *plus = new QAction(tr("Add to memory item"), menu); //M+
+    QAction *minus = new QAction(tr("Subtract from memory item"), menu); //M-
     menu->addAction(copy);
     menu->addAction(clean);
     menu->addAction(plus);
@@ -181,15 +163,22 @@ void MemoryItemWidget::contextMenuEvent(QContextMenuEvent *event)
     connect(minus, &QAction::triggered, this, [ = ]() {
         emit menuminus();
     });
-    menu->exec(event->globalPos());
+    menu->exec(event->globalPos()); //当前鼠标位置显示菜单
     delete menu;
 }
 
+/**
+ * @brief 当做出内存操作时对label->settext
+ * @param s-text
+ */
 void MemoryItemWidget::setTextLabel(QString s)
 {
     m_label->setText(s);
 }
 
+/**
+ * @brief 获取当前label的text
+ */
 QString MemoryItemWidget::textLabel()
 {
     return m_label->text();
@@ -200,12 +189,12 @@ void MemoryItemWidget::paintEvent(QPaintEvent *e)
     Q_UNUSED(e);
     QRectF rect = this->rect();
     QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHint(QPainter::Antialiasing, true); //防走样
     painter.setPen(Qt::NoPen);
     QColor press, hover;
     int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
+        type = DGuiApplicationHelper::instance()->themeType(); //获取当前主题类型
     if (type == 1) {
         press = QColor(0, 0, 0);
         press.setAlphaF(0.2);
@@ -221,12 +210,11 @@ void MemoryItemWidget::paintEvent(QPaintEvent *e)
         painter.setPen(Qt::NoPen);
 //        painter.setFont(m_font);
         painter.setBrush(hover);
-        painter.drawRect(rect);
+        painter.drawRect(rect); //hover状态下对item进行颜色填充
         if (m_ispress) {
-            painter.setRenderHint(QPainter::Antialiasing, true);
             painter.setPen(Qt::NoPen);
             painter.setBrush(press);
-            painter.drawRect(rect);
+            painter.drawRect(rect); //press状态下对item进行颜色填充
 
         }
     }
