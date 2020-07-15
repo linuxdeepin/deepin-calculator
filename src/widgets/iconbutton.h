@@ -25,6 +25,7 @@
 
 #include <QPaintEvent>
 #include <QDomElement>
+#include <QSvgRenderer>
 #include <DLabel>
 #include <DSvgRenderer>
 #include <DGuiApplicationHelper>
@@ -63,7 +64,8 @@ private:
 //    DLabel *m_iconWidget;
     QGraphicsDropShadowEffect *m_effect;
 
-    DSvgRenderer *m_iconRenderer;
+//    DSvgRenderer *m_iconRenderer;
+    QSvgRenderer *m_iconRenderer; //改用QSvgRenderer
     DSettings *m_settings;
 
     int m_normalSize;

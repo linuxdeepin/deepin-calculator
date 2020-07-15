@@ -27,7 +27,7 @@
 IconButton::IconButton(QWidget *parent, int b, bool page)
     : TextButton("", parent)
     , m_effect(new QGraphicsDropShadowEffect(this))
-    , m_iconRenderer(new DSvgRenderer(this))
+    , m_iconRenderer(new QSvgRenderer(this))
 {
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
