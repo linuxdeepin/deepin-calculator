@@ -44,19 +44,19 @@ InputEdit::InputEdit(QWidget *parent)
     , m_percentexp(QString())
 {
     m_evaluator = Evaluator::instance();
-    setAttribute(Qt::WA_InputMethodEnabled, false);
-    setAttribute(Qt::WA_TranslucentBackground);
-    setFocusPolicy(Qt::StrongFocus);
+    setAttribute(Qt::WA_InputMethodEnabled, false); //禁止中文输入法
+    setAttribute(Qt::WA_TranslucentBackground); //设置窗口透明
+    setFocusPolicy(Qt::StrongFocus); //接受Tab键和鼠标单击做焦点
     autoZoomFontSize();
     initAction();
 
     this->setFrame(false);
-    this->setClearButtonEnabled(false);
-    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    this->setClearButtonEnabled(false); //不显示清除按钮
+    this->setContextMenuPolicy(Qt::CustomContextMenu); //信号(customContextMenuRequested)槽完成右击菜单事件
 
     connect(this, &QLineEdit::textChanged, this, &InputEdit::handleTextChanged);
     connect(this, &QLineEdit::cursorPositionChanged, this, &InputEdit::handleCursorPositionChanged);
-    connect(this, &QLineEdit::customContextMenuRequested, this, &InputEdit::showTextEditMenu);
+    connect(this, &QLineEdit::customContextMenuRequested, this, &InputEdit::showTextEditMenu); //右键菜单信号槽
     connect(this, &InputEdit::returnPressed, this, &InputEdit::pressSlot);
     connect(this, &QLineEdit::selectionChanged, this, &InputEdit::selectionChangedSlot);
     connect(this, &QLineEdit::selectionChanged, [ = ] {
@@ -181,11 +181,17 @@ void InputEdit::clear()
     setText("");
 }
 
+/**
+ * @brief 由undo列表设置右键菜单中撤销状态
+ */
 void InputEdit::setUndoAction(bool state)
 {
     m_undo->setEnabled(state);
 }
 
+/**
+ * @brief 由redo列表设置右键菜单中撤销状态
+ */
 void InputEdit::setRedoAction(bool state)
 {
     m_redo->setEnabled(state);
@@ -257,7 +263,7 @@ void InputEdit::updateAction()
     } else {
         m_select->setEnabled(true);
         m_delete->setEnabled(true);
-        m_copy->setEnabled(true);
+        m_copy->setEnabled(false);
         m_cut->setEnabled(true);
     }
 }
@@ -390,7 +396,7 @@ void InputEdit::handleTextChanged(const QString &text)
     //    reformatStr = symbolFaultTolerance(reformatStr);
     setText(reformatStr);
     autoZoomFontSize();
-    updateAction();
+    updateAction(); //textchanged时更新右键菜单状态
 
     // reformat text.
     int oldLength = text.length();
@@ -672,6 +678,11 @@ void InputEdit::pressSlot()
 
 void InputEdit::selectionChangedSlot()
 {
+    if (this->selectedText().isEmpty()) { //无选中项时关闭右键复制
+        m_copy->setEnabled(false);
+    } else {
+        m_copy->setEnabled(true);
+    }
     if (!hasFocus())
         return; //只有选中被改变情况下给m_selected赋值,选中输入不会改变;选中输入后优先级高于cursorchanged，去掉return无意义
     m_selected.oldText = text();

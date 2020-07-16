@@ -1195,8 +1195,8 @@ void ExpressionBar::copyClipboard2Result()
         }
     }
     m_isResult = false;
-    QString oldText = m_inputEdit->text();
-    int curpos = m_inputEdit->cursorPosition();
+    QString oldText = m_inputEdit->text(); //未粘贴操作的text
+    int curpos = m_inputEdit->cursorPosition(); //未粘贴操作的光标位
     replaceSelection(oldText);
     QString exp = m_inputEdit->text();
     QString text = QApplication::clipboard()->text();
@@ -1209,12 +1209,16 @@ void ExpressionBar::copyClipboard2Result()
     //    clearLinkageCache();
     //edit for bug--23649 20200429
     text.remove(QRegExp("[^0-9＋－×÷,.%()e]"));
+
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(text));
     m_isUndo = false;
     if (m_inputEdit->text() == exp) {
         m_inputEdit->setText(oldText);
         m_inputEdit->setCursorPosition(curpos);
         qDebug() << "Invalid content";
+    } else {
+        int increaselen = m_inputEdit->text().length() - oldText.length(); //粘贴增长的长度
+        m_inputEdit->setCursorPosition(curpos + increaselen);
     }
     if (!m_inputEdit->text().isEmpty())
         emit clearStateChanged(false);
@@ -1516,6 +1520,11 @@ QString ExpressionBar::symbolComplement(const QString exp)
     return text;
 }
 
+/**
+ * @brief 粘贴容错
+ * @param exp 复制的内容
+ * @return 粘贴后的text
+ */
 QString ExpressionBar::pasteFaultTolerance(QString exp)
 {
     exp = m_inputEdit->text().insert(m_inputEdit->cursorPosition(), exp);
@@ -1529,13 +1538,13 @@ QString ExpressionBar::pasteFaultTolerance(QString exp)
                     && (i == 0 || (exp[i - 1] != "," && exp[i - 1] != "." && !exp[i - 1].isNumber()))
                     && (i == 0 || !exp[i - 1].isNumber())
                     && (exp.size() == 1 || exp[i + 1].isNumber())) {
-                exp.remove(i, 1);
+                exp.remove(i, 1); //0的容错处理，例:将0123的0去除
                 --i;
             }
             ++i;
         }
         if (exp[i] == "." && (i == 0 || !exp[i - 1].isNumber())) {
-            exp.insert(i, "0");
+            exp.insert(i, "0"); //补0操作，例:1+.2->1+0.2
             ++i;
         }
     }
