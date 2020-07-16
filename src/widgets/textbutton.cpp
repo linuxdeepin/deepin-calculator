@@ -152,6 +152,7 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
         m_isHover = true;
     } else
         m_isacting = false;
+    emit mouseRelease();
     DPushButton::mouseReleaseEvent(e);
 }
 

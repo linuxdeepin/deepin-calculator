@@ -47,6 +47,7 @@ signals:
     void moveLeft();
     void moveRight();
     void updateInterface();
+    void mouseRelease();
 
 public:
     void mousePressEvent(QMouseEvent *);

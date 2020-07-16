@@ -38,7 +38,6 @@
 #include "iconbutton.h"
 #include "equalbutton.h"
 #include "memorybutton.h"
-using ActionColor = com::deepin::daemon::Appearance;
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -100,7 +99,6 @@ public slots:
     void turnPage(int key);
     void getdeg(int deg);
     void bracketsNum(int direction, QString num); //direction 0-左括号 1-右括号
-    void themeColorChanged(const QString &strColor);
 signals:
     void buttonPressed(int);
     void equalPressed();
@@ -134,5 +132,4 @@ private:
     QStackedWidget *m_2xwidget;
     QStackedWidget *m_logyxwidget;
     QStackedWidget *m_exwidget;
-    QString m_bracketcolor;
 };

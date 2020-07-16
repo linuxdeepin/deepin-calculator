@@ -139,9 +139,6 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
 {
     m_leftBracket->setFixedSize(24, 14);
     m_rightBracket->setFixedSize(24, 14);
-    DPalette pl = m_leftBracket->palette();
-    pl.setColor(DPalette::Text, QColor(Qt::red));
-    m_leftBracket->setPalette(pl);
 
     initButtons();
     initUI();
@@ -154,7 +151,6 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     connect(this, &ScientificKeyPad::buttonPressed, this,
             &ScientificKeyPad::turnPage);
 
-    m_bracketcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();
 //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &ScientificKeyPad::handleThemeChanged);
 }
 
@@ -226,6 +222,7 @@ void ScientificKeyPad::initButtons()
                 }
             }
         }
+        //翻页按键初始化
         if (desc->button == Key_sin) {
             const KeyDescription1 *desc1 = keyDescriptions1;
             pagebutton = createSpecialKeyButton(Key_arcsin, true);
@@ -271,6 +268,7 @@ void ScientificKeyPad::initButtons()
             m_gridlayout1->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
                                      Qt::AlignCenter/* | Qt::AlignTop*/);
         }
+
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue);
 
@@ -286,16 +284,6 @@ void ScientificKeyPad::initButtons()
 
 void ScientificKeyPad::initUI()
 {
-    ActionColor *m_pActionColor;
-    //dbus接口获取系统活动色
-    m_pActionColor = new ActionColor("com.deepin.daemon.Appearance",
-                                     "/com/deepin/daemon/Appearance",
-                                     QDBusConnection::sessionBus(), this);
-
-    if (m_pActionColor->isValid()) {
-        connect(m_pActionColor, &ActionColor::QtActiveColorChanged, this, &ScientificKeyPad::themeColorChanged);
-    }
-
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
 
     while (i.hasNext()) {
@@ -307,36 +295,38 @@ void ScientificKeyPad::initUI()
             i.value().first->setFixedSize((width - HPADDING - hiswidth) / 6, (height - VPADDING) / 8);
         });
         if (i.key() == Key_left) {
+            m_leftBracket->setParent(i.value().first);
             connect(this, &ScientificKeyPad::windowSize, [ = ]() {
-                m_leftBracket->setParent(i.value().first);
-
+                //label跟随button大小变化移动至(右下角
                 m_leftBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
             });
             connect(i.value().first, &DPushButton::pressed, [ = ]() {
-                m_leftBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:%1;font-size:14px;")
-                                             .arg(m_bracketcolor));
+                m_leftBracket->setStyleSheet(tr("font-family:Noto Sans;color:%1;font-size:14px;")
+                                             .arg(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name()));
             });
-            connect(i.value().first, &DPushButton::released, [ = ]() {
+            connect(static_cast<TextButton *>(i.value().first), &TextButton::mouseRelease, [ = ]() {
+                //考虑focus状态，在鼠标松开时再更改label字体颜色
                 if (m_themetype == 1)
-                    m_leftBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
+                    m_leftBracket->setStyleSheet(tr("font-family:Noto Sans;color:black;font-size:14px;"));
                 else
-                    m_leftBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:white;font-size:14px;"));
+                    m_leftBracket->setStyleSheet(tr("font-family:Noto Sans;color:white;font-size:14px;"));
             });
         }
         if (i.key() == Key_right) {
+            m_rightBracket->setParent(i.value().first);
             connect(this, &ScientificKeyPad::windowSize, [ = ]() {
-                m_rightBracket->setParent(i.value().first);
+                //label跟随button大小变化移动至)右下角
                 m_rightBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
             });
             connect(i.value().first, &DPushButton::pressed, [ = ]() {
-                m_rightBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:%1;font-size:14px;")
-                                              .arg(m_bracketcolor));
+                m_rightBracket->setStyleSheet(tr("font-family:Noto Sans;color:%1;font-size:14px;")
+                                              .arg(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name()));
             });
-            connect(i.value().first, &DPushButton::released, [ = ]() {
+            connect(static_cast<TextButton *>(i.value().first), &TextButton::mouseRelease, [ = ]() {
                 if (m_themetype == 1)
-                    m_rightBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
+                    m_rightBracket->setStyleSheet(tr("font-family:Noto Sans;color:black;font-size:14px;"));
                 else
-                    m_rightBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:white;font-size:14px;"));
+                    m_rightBracket->setStyleSheet(tr("font-family:Noto Sans;color:white;font-size:14px;"));
             });
         }
     }
@@ -396,12 +386,12 @@ void ScientificKeyPad::buttonThemeChanged(int type)
     QString path;
     if (type == 2) {
         path = QString(":/assets/images/%1/").arg("dark");
-        m_leftBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:white;font-size:14px;"));
-        m_rightBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:white;font-size:14px;"));
+        m_leftBracket->setStyleSheet(tr("font-family:Noto Sans;color:white;font-size:14px;"));
+        m_rightBracket->setStyleSheet(tr("font-family:Noto Sans;color:white;font-size:14px;"));
     } else {
         path = QString(":/assets/images/%1/").arg("light");
-        m_leftBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
-        m_rightBracket->setStyleSheet(tr("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
+        m_leftBracket->setStyleSheet(tr("font-family:Noto Sans;color:black;font-size:14px;"));
+        m_rightBracket->setStyleSheet(tr("font-family:Noto Sans;color:black;font-size:14px;"));
     }
 
     IconButton *btn = static_cast<IconButton *>(button(Key_Div));
@@ -511,9 +501,4 @@ void ScientificKeyPad::bracketsNum(int direction, QString num)
         m_leftBracket->setText(num);
     else if (direction == 1)
         m_rightBracket->setText(num);
-}
-
-void ScientificKeyPad::themeColorChanged(const QString &strColor)
-{
-    m_bracketcolor = strColor;
 }

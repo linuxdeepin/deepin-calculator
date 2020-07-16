@@ -1528,7 +1528,7 @@ QString ExpressionBar::symbolComplement(const QString exp)
 QString ExpressionBar::pasteFaultTolerance(QString exp)
 {
     exp = m_inputEdit->text().insert(m_inputEdit->cursorPosition(), exp);
-    exp = pointFaultTolerance(exp);
+    exp = pointFaultTolerance(exp); //避免粘贴后的text有两个.
     if (exp[0] == ",")
         exp.remove(0, 1);
     for (int i = 0; i < exp.size(); ++i) {
