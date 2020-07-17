@@ -45,6 +45,7 @@ scientificModule::scientificModule(QWidget *parent)
     QHBoxLayout *layout = new QHBoxLayout(this);
     QVBoxLayout *leftlay = new QVBoxLayout();
     m_sciexpressionBar = new SciExpressionBar;
+    m_memoryPublic = MemoryPublic::instance(this);
     leftlay->addWidget(m_sciexpressionBar, 1);
 //    leftlay->addWidget(m_scikeypadwidget);
 //    m_triCombobox->setFixedSize(60, 40);
@@ -156,6 +157,11 @@ scientificModule::scientificModule(QWidget *parent)
     connect(this, &scientificModule::getWindowChanged, [ = ] {
         m_sciexpressionBar->getInputEdit()->autoZoomFontSize();
     });
+
+    if (!m_memoryPublic->isWidgetEmpty(1))
+        mAvailableEvent();
+    else
+        mUnAvailableEvent();
     // m_expBarColor = "#F8F8F8";
     // m_expBarSepColor = "#F8F8F8";
 }

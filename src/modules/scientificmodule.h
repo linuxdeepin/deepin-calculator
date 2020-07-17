@@ -38,6 +38,7 @@
 #include "scihistorywidget.h"
 #include "sciexpressionbar.h"
 #include "memorywidget.h"
+#include "memorypublic.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
@@ -91,6 +92,7 @@ private:
     bool m_memCalbtn; //m+,m-,ms
     bool m_memRCbtn;//mr,mc
     SciHistoryWidget *m_scihiswidget;
+    MemoryPublic *m_memoryPublic;
 };
 
 #endif // SCIENTIFICMODEL_H

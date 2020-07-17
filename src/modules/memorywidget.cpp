@@ -359,6 +359,11 @@ void MemoryWidget::widgetminusslot(int row, Quantity answer)
     }
 }
 
+bool MemoryWidget::isWidgetEmpty()
+{
+    return m_isempty;
+}
+
 void MemoryWidget::expressionempty(bool b)
 {
     if (!m_isempty) {

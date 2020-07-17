@@ -57,6 +57,7 @@ public:
     void widgetminus(int row, Quantity answer);
     void widgetclean(int row, int mode);
     void setThemeType(int type);
+    bool isWidgetEmpty(int mode); //0-标准 1-科学
 private:
     MemoryWidget *m_standard_l;
     MemoryWidget *m_scientific_r;
@@ -66,6 +67,7 @@ signals:
     void widgetminus(int row);
     void filledMem();
     void emptyMem();
+    void publicwidgetclean(int mode);
 
 public slots:
 };

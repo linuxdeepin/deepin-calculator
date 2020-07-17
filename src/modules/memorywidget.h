@@ -59,6 +59,7 @@ public:
 
     void widgetplusslot(int row, Quantity answer);
     void widgetminusslot(int row, Quantity answer);
+    bool isWidgetEmpty(); //内存列表是否为空
 
 signals:
     void widgetplus(int row);

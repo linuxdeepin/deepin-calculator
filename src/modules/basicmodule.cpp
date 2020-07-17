@@ -154,6 +154,10 @@ BasicModule::BasicModule(QWidget *parent)
             m_memorylistwidget->expressionempty(b);
         }
     });
+    if (!m_memoryPublic->isWidgetEmpty(0))
+        mAvailableEvent();
+    else
+        mUnAvailableEvent();
     // m_expBarColor = "#F8F8F8";
     // m_expBarSepColor = "#F8F8F8";
 }

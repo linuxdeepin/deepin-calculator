@@ -80,12 +80,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWindowTitle(tr("Calculator"));
 
-    m_basicModule->setFocus();
+    if (m_firstInitMode == 0)
+        m_basicModule->setFocus();
+    else
+        m_scientificModule->setFocus();
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &MainWindow::initTheme);
     connect(m_simpleAction, &QAction::triggered, this, &MainWindow::switchToSimpleMode);
     connect(m_scAction, &QAction::triggered, this, &MainWindow::switchToScientificMode);
     connect(m_hisAction, &QAction::triggered, this, [ = ]() {
-        if (m_mainLayout->currentIndex() == 1) {
+        if (m_mainLayout->currentIndex() == (m_firstInitMode == 0 ? 1 : 0)) {
             if (m_settings->getOption("history").toInt() == 0) {
                 if (width() < HISTORY_SHOW_LEAST_WIDTH)
                     resize(HISTORY_SHOW_LEAST_WIDTH, this->height());
@@ -138,25 +141,38 @@ void MainWindow::initModule()
     centralWidget->setLayout(m_mainLayout);
     setCentralWidget(centralWidget);
 
-    m_basicModule = new BasicModule;
-    m_scientificModule = new scientificModule;
+//    m_basicModule = new BasicModule;
+//    m_scientificModule = new scientificModule;
 
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
-    m_mainLayout->addWidget(m_basicModule);
-    m_mainLayout->addWidget(m_scientificModule);
+//    m_mainLayout->addWidget(m_basicModule);
+//    m_mainLayout->addWidget(m_scientificModule);
 
     m_isinit = true;
     switch (mode) {
     case 0:
+        m_basicModule = new BasicModule;
+        m_mainLayout->addWidget(m_basicModule);
+        m_firstInitMode = 0;
+        m_isStandInit = true;
         m_simpleAction->setChecked(true);
         switchToSimpleMode();
         break;
     case 1:
+        m_scientificModule = new scientificModule;
+        m_mainLayout->addWidget(m_scientificModule);
+        m_firstInitMode = 1;
+        m_isSciInit = true;
         m_scAction->setChecked(true);
         switchToScientificMode();
         resize(m_settings->getOption("windowWidth").toInt(), m_settings->getOption("windowHeight").toInt());
         break;
     default:
+        m_basicModule = new BasicModule;
+        m_mainLayout->addWidget(m_basicModule);
+        m_firstInitMode = 0;
+        m_isStandInit = true;
+        m_simpleAction->setChecked(true);
         switchToSimpleMode();
         break;
     }
@@ -166,10 +182,16 @@ void MainWindow::initModule()
 void MainWindow::switchToSimpleMode()
 {
     m_hisAction->setVisible(false);
+    if (!m_isStandInit) {
+        m_basicModule = new BasicModule;
+        m_mainLayout->addWidget(m_basicModule);
+        m_isStandInit = true;
+        emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
+    }
     if (m_settings->getOption("mode") != 0 || m_isinit) {
         m_lastscisize = m_isinit ? STANDARD_SIZE : this->size();
         m_settings->setOption("mode", 0);
-        m_mainLayout->setCurrentIndex(0);
+        m_mainLayout->setCurrentIndex((m_firstInitMode == 0 ? 0 : 1));
         m_basicModule->checkLineEmpty();
         hideHistoryWidget(false);
     }
@@ -178,10 +200,16 @@ void MainWindow::switchToSimpleMode()
 void MainWindow::switchToScientificMode()
 {
     m_hisAction->setVisible(true);
+    if (!m_isSciInit) {
+        m_scientificModule = new scientificModule;
+        m_mainLayout->addWidget(m_scientificModule);
+        m_isSciInit = true;
+        emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
+    }
     connect(this, &MainWindow::windowChanged, m_scientificModule, &scientificModule::getWindowChanged);
     if (m_settings->getOption("mode") != 1 || m_isinit) {
         m_settings->setOption("mode", 1);
-        m_mainLayout->setCurrentIndex(1);
+        m_mainLayout->setCurrentIndex((m_firstInitMode == 0 ? 1 : 0));
         m_scientificModule->checkLineEmpty();
         setMinimumSize(SCIENTIFIC_MIN_SIZE);
 //        setMaximumSize(QApplication::desktop()->screenGeometry().size());
@@ -202,7 +230,8 @@ void MainWindow::hideHistoryWidget(bool hissetting)
     //从科学到简易时b=false，其余为true
     if (hissetting == true)
         m_settings->setOption("history", 0);
-    m_scientificModule->showOrHideHistory(true);
+    if (m_isSciInit)
+        m_scientificModule->showOrHideHistory(true);
     switch (m_settings->getOption("mode").toInt()) {
     case 0:
         setFixedSize(STANDARD_SIZE);
@@ -221,7 +250,7 @@ void MainWindow::hideHistoryWidget(bool hissetting)
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if (m_mainLayout->currentIndex() == 0)
+    if (m_mainLayout->currentIndex() == (m_firstInitMode == 0 ? 0 : 1))
         m_basicModule->setKeyPress(event);
     else
         m_scientificModule->setKeyPress(event);

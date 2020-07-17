@@ -63,6 +63,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_clearbutton->showtooltip(false);
     m_clearbuttonM->showtooltip(true);
     m_clearbutton->setHidden(!(m_ishideH & m_indexH));
+    m_ishideM = !memoryPublic->isWidgetEmpty(1);
     m_clearbuttonM->setHidden(!(m_ishideM & m_indexM));
 
     m_Hlayout->addSpacing(20);
@@ -132,6 +133,11 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     connect(memoryPublic, &MemoryPublic::emptyMem, this, [ = ]() {
         m_ishideM = false;
         m_clearbuttonM->setHidden(!(m_ishideM & m_indexM));
+    });
+    //防止foucus到输入栏或者buttonbox
+    connect(memoryPublic, &MemoryPublic::publicwidgetclean, this, [ = ](int mode) {
+        if (mode == 1)
+            this->setFocus();
     });
 }
 

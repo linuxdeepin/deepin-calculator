@@ -110,12 +110,18 @@ void MemoryPublic::widgetclean(int row, int mode)
 {
     m_standard_l->widgetcleanslot(row, mode);
     m_scientific_r->widgetcleanslot(row, mode);
+    emit publicwidgetclean(mode);
 }
 
 void MemoryPublic::setThemeType(int type)
 {
     m_standard_l->setThemeType(type);
     m_scientific_r->setThemeType(type);
+}
+
+bool MemoryPublic::isWidgetEmpty(int mode)
+{
+    return (mode == 0 ? m_scientific_r->isWidgetEmpty() : m_standard_l->isWidgetEmpty());
 }
 
 MemoryPublic::~MemoryPublic()
