@@ -547,25 +547,26 @@ void ExpressionBar::enterPointEvent()
     } else {
         if (exp.at(curpos - 1) == ".")
             return;
-        if (exp.at(curpos - 1) != ")" && exp.at(curpos - 1) != "%") {
-            QString sRegNum = "[0-9,]+";
-            QRegExp rx;
-            rx.setPattern(sRegNum);
-            if (rx.exactMatch(exp.at(curpos - 1))) {
-                int index = exp.indexOf(QRegExp("[^0-9,]"), curpos);
-                QString cut = exp.mid(curpos, index - curpos);
-                int aftercurpos = cut.count(",");
-                int before = exp.count(",");
-                m_inputEdit->insert(".");
-                int after = m_inputEdit->text().count(",");
-                if (before - aftercurpos == after) {
-                    m_inputEdit->setCursorPosition(curpos + 1);
-                } else {
-                    m_inputEdit->setCursorPosition(curpos);
-                }
-            } else
-                m_inputEdit->insert("0.");
-        }
+        //20200716修改在)及%后小数点不可输入问题
+//        if (exp.at(curpos - 1) != ")" && exp.at(curpos - 1) != "%") {
+        QString sRegNum = "[0-9,]+";
+        QRegExp rx;
+        rx.setPattern(sRegNum);
+        if (rx.exactMatch(exp.at(curpos - 1))) {
+            int index = exp.indexOf(QRegExp("[^0-9,]"), curpos);
+            QString cut = exp.mid(curpos, index - curpos);
+            int aftercurpos = cut.count(",");
+            int before = exp.count(",");
+            m_inputEdit->insert(".");
+            int after = m_inputEdit->text().count(",");
+            if (before - aftercurpos == after) {
+                m_inputEdit->setCursorPosition(curpos + 1);
+            } else {
+                m_inputEdit->setCursorPosition(curpos);
+            }
+        } else
+            m_inputEdit->insert("0.");
+//        }
     }
     exp = pointFaultTolerance(m_inputEdit->text());
     exp = m_inputEdit->symbolFaultTolerance(exp);
@@ -1137,7 +1138,7 @@ void ExpressionBar::copyResultToClipboard()
 
     //edit for bug-37850 非全选不复制计算结果->输入栏复制的内容不是表达式的结果，而是选中的表达式
     SSelection selection = m_inputEdit->getSelection();
-    QApplication::clipboard()->setText(selection.selected);
+    QApplication::clipboard()->setText(selection.selected); //将选中项放入粘贴板
 //    SSelection selection = m_inputEdit->getSelection();
 //    if (selection.selected != "" && selection.selected != m_inputEdit->text()) {
 //        QApplication::clipboard()->setText(selection.selected);
@@ -1194,34 +1195,39 @@ void ExpressionBar::copyClipboard2Result()
             }
         }
     }
-    m_isResult = false;
+
     QString oldText = m_inputEdit->text(); //未粘贴操作的text
     int curpos = m_inputEdit->cursorPosition(); //未粘贴操作的光标位
     replaceSelection(oldText);
     QString exp = m_inputEdit->text();
     QString text = QApplication::clipboard()->text();
-    if (text.count("。") != 0 && text.count(".") != 0)
-        text.replace(QString::fromUtf8("。"), ".");
-    text.remove("e");
-    text = pasteFaultTolerance(text);
-    // m_inputEdit->insert(text);
-//    m_inputEdit->setText(text);
-    //    clearLinkageCache();
-    //edit for bug--23649 20200429
-    text.remove(QRegExp("[^0-9＋－×÷,.%()e]"));
+    text = text.replace('+', QString::fromUtf8("＋"))
+           .replace('-', QString::fromUtf8("－"))
+           .replace("_", QString::fromUtf8("－"))
+           .replace('*', QString::fromUtf8("×"))
+           .replace('x', QString::fromUtf8("×"))
+           .replace('X', QString::fromUtf8("×"))
+           .replace(QString::fromUtf8("（"), "(")
+           .replace(QString::fromUtf8("）"), ")")
+           .replace(QString::fromUtf8("。"), ".")
+           .replace(QString::fromUtf8("——"), QString::fromUtf8("－"))
+           .replace(QString::fromUtf8("％"), "%"); //对粘贴板中的内容进行英替中
+    text.remove(QRegExp("[^0-9＋－×÷,.%()]"));
+    m_inputEdit->insert(text);
 
-    m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(text));
-    m_isUndo = false;
+    QString faulttolerance = pointFaultTolerance(m_inputEdit->text());
+    faulttolerance = m_inputEdit->symbolFaultTolerance(faulttolerance);
+    if (faulttolerance != m_inputEdit->text())
+        m_inputEdit->setText(faulttolerance); //如果经过容错处理的表达式有改变，重新设置表达式，不设置光标
     if (m_inputEdit->text() == exp) {
         m_inputEdit->setText(oldText);
         m_inputEdit->setCursorPosition(curpos);
-        qDebug() << "Invalid content";
-    } else {
-        int increaselen = m_inputEdit->text().length() - oldText.length(); //粘贴增长的长度
-        m_inputEdit->setCursorPosition(curpos + increaselen);
+        qDebug() << "Invalid content"; //提示是否复制了无效内容,复制的内容全是字母等
     }
     if (!m_inputEdit->text().isEmpty())
         emit clearStateChanged(false);
+    m_isResult = false;
+    m_isUndo = false;
 }
 
 void ExpressionBar::allElection()
@@ -1521,7 +1527,7 @@ QString ExpressionBar::symbolComplement(const QString exp)
 }
 
 /**
- * @brief 粘贴容错
+ * @brief 粘贴容错（20200716，粘贴时不再使用此函数）
  * @param exp 复制的内容
  * @return 粘贴后的text
  */
@@ -1538,13 +1544,13 @@ QString ExpressionBar::pasteFaultTolerance(QString exp)
                     && (i == 0 || (exp[i - 1] != "," && exp[i - 1] != "." && !exp[i - 1].isNumber()))
                     && (i == 0 || !exp[i - 1].isNumber())
                     && (exp.size() == 1 || exp[i + 1].isNumber())) {
-                exp.remove(i, 1); //0的容错处理，例:将0123的0去除
+                exp.remove(i, 1); //0的容错处理，例:将0123的0去除 //在输入光标时会进行此操作
                 --i;
             }
             ++i;
         }
         if (exp[i] == "." && (i == 0 || !exp[i - 1].isNumber())) {
-            exp.insert(i, "0"); //补0操作，例:1+.2->1+0.2
+            exp.insert(i, "0"); //补0操作，例:1+.2->1+0.2 //小数点容错处理会进行此操作
             ++i;
         }
     }
@@ -1566,26 +1572,27 @@ QString ExpressionBar::pointFaultTolerance(const QString &text)
                           .replace(QString::fromUtf8("）"), ")")
                           .replace(QString::fromUtf8("。"), ".")
                           .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
-    QStringList list = reformatStr.split(QRegExp("[＋－×÷()]"));
+    QStringList list = reformatStr.split(QRegExp("[＋－×÷(]")); //20200717去掉),否则下方)小数点容错无法进入
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];
         int firstPoint = item.indexOf(".");
         if (firstPoint == -1)
             continue;
         if (firstPoint == 0) {
-            item.insert(firstPoint, "0");
+            item.insert(firstPoint, "0"); //小数点在数字前，进行补0;例:.123->0.123
             ++firstPoint;
             // oldText.replace(list[i], item);
         } else {
             if (item.at(firstPoint - 1) == ")" || item.at(firstPoint - 1) == "%") {
                 item.remove(firstPoint, 1);
+                item.insert(firstPoint, "0."); //20200717)及%后小数点补0;与小数点输入处理一致
                 reformatStr.replace(list[i], item);
             }
         }
         if (item.count(".") > 1) {
             item.remove(".");
             item.insert(firstPoint, ".");
-            reformatStr.replace(list[i], item);
+            reformatStr.replace(list[i], item); //去除多余.
         }
     }
     return reformatStr;
@@ -1774,6 +1781,7 @@ void ExpressionBar::replaceSelection(QString text)
     SSelection selection = m_inputEdit->getSelection();
     int selcurPos = m_inputEdit->cursorPosition();
     if (selection.selected != "") {
+        //删除选中部分
         text.remove(selection.curpos, selection.selected.size());
         m_inputEdit->setText(text);
         if (selcurPos > selection.curpos &&

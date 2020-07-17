@@ -58,7 +58,7 @@ signals:
 private:
     QList<QString> m_expressionList;
     bool m_selectedStatus;
-    int m_mode; //0-标准模式 1-科学模式
+    int m_mode = 0; //0-标准模式 1-科学模式
     QList<Quantity> m_answerlist; //对应历史记录的answer
 };
 
