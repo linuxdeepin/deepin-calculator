@@ -383,12 +383,15 @@ void InputEdit::handleTextChanged(const QString &text)
                   .replace('-', QString::fromUtf8("－"))
                   .replace("_", QString::fromUtf8("－"))
                   .replace('*', QString::fromUtf8("×"))
+                  .replace(QString::fromUtf8("＊"), QString::fromUtf8("×"))
+                  .replace('/', QString::fromUtf8("÷"))
                   .replace('x', QString::fromUtf8("×"))
                   .replace('X', QString::fromUtf8("×"))
                   .replace(QString::fromUtf8("（"), "(")
                   .replace(QString::fromUtf8("）"), ")")
                   .replace(QString::fromUtf8("。"), ".")
-                  .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
+                  .replace(QString::fromUtf8("——"), QString::fromUtf8("－"))
+                  .replace(QString::fromUtf8("％"), "%");
 
     multipleArithmetic(reformatStr);
 //    reformatStr.remove(QRegExp("[^0-9＋－×÷,.%()e]"));
@@ -472,9 +475,9 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
         if (!isSymbol(exp.at(i))) {
             if (!symbolList.isEmpty()) {
                 if (!newText.isEmpty())
-                    newText.append(symbolList.last());
+                    newText.append(symbolList.last()); //保证数字中间的符号只有一个，去除多余符号
                 if (newText.isEmpty() && symbolList.last() == "－")
-                    newText.append(symbolList.last());
+                    newText.append(symbolList.last()); //保存负数的-号
             }
             newText.append(exp.at(i));
             symbolList.clear();
@@ -484,7 +487,7 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
         }
     }
 //    qDebug() << symbolList << " a " << newText;
-    if (!symbolList.isEmpty())
+    if (!symbolList.isEmpty() && !newText.isEmpty()) //防止输入栏中只有符号可输入*/+;暂未屏蔽%
         newText.append(symbolList.last());
     //edit 20200526 for bug-28491
     int expPos = newText.indexOf("e");
@@ -521,6 +524,8 @@ bool InputEdit::isSymbol(const QString &text)
     else if (text == QString::fromUtf8("×"))
         return true;
     else if (text == QString::fromUtf8("÷"))
+        return true;
+    else if (text == QString::fromUtf8("%"))
         return true;
     else
         return false;

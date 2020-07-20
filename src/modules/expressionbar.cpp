@@ -1207,12 +1207,15 @@ void ExpressionBar::copyClipboard2Result()
            .replace('*', QString::fromUtf8("×"))
            .replace('x', QString::fromUtf8("×"))
            .replace('X', QString::fromUtf8("×"))
+           .replace(QString::fromUtf8("＊"), QString::fromUtf8("×"))
            .replace(QString::fromUtf8("（"), "(")
            .replace(QString::fromUtf8("）"), ")")
            .replace(QString::fromUtf8("。"), ".")
            .replace(QString::fromUtf8("——"), QString::fromUtf8("－"))
-           .replace(QString::fromUtf8("％"), "%"); //对粘贴板中的内容进行英替中
+           .replace(QString::fromUtf8("％"), "%")
+           .replace('/', QString::fromUtf8("÷")); //对粘贴板中的内容进行英替中
     text.remove(QRegExp("[^0-9＋－×÷,.%()]"));
+//    text = pasteFaultTolerance(text);
     m_inputEdit->insert(text);
 
     QString faulttolerance = pointFaultTolerance(m_inputEdit->text());
@@ -1544,7 +1547,7 @@ QString ExpressionBar::pasteFaultTolerance(QString exp)
                     && (i == 0 || (exp[i - 1] != "," && exp[i - 1] != "." && !exp[i - 1].isNumber()))
                     && (i == 0 || !exp[i - 1].isNumber())
                     && (exp.size() == 1 || exp[i + 1].isNumber())) {
-                exp.remove(i, 1); //0的容错处理，例:将0123的0去除 //在输入光标时会进行此操作
+                exp.remove(i, 1); //0的容错处理，例:将0123的0去除 //在输入符号时也会进行此操作
                 --i;
             }
             ++i;
@@ -1565,21 +1568,23 @@ QString ExpressionBar::pointFaultTolerance(const QString &text)
                           .replace('-', QString::fromUtf8("－"))
                           .replace("_", QString::fromUtf8("－"))
                           .replace('*', QString::fromUtf8("×"))
+                          .replace(QString::fromUtf8("＊"), QString::fromUtf8("×"))
                           .replace('/', QString::fromUtf8("÷"))
                           .replace('x', QString::fromUtf8("×"))
                           .replace('X', QString::fromUtf8("×"))
                           .replace(QString::fromUtf8("（"), "(")
                           .replace(QString::fromUtf8("）"), ")")
                           .replace(QString::fromUtf8("。"), ".")
-                          .replace(QString::fromUtf8("——"), QString::fromUtf8("－"));
-    QStringList list = reformatStr.split(QRegExp("[＋－×÷(]")); //20200717去掉),否则下方)小数点容错无法进入
+                          .replace(QString::fromUtf8("——"), QString::fromUtf8("－"))
+                          .replace(QString::fromUtf8("％"), "%");
+    QStringList list = reformatStr.split(QRegExp("[＋－×÷(]")); //20200717去掉),否则下方)小数点容错无法进入; //此处可不考虑多符号问题
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];
         int firstPoint = item.indexOf(".");
         if (firstPoint == -1)
             continue;
         if (firstPoint == 0) {
-            item.insert(firstPoint, "0"); //小数点在数字前，进行补0;例:.123->0.123
+            item.insert(firstPoint, "0"); //小数点在数字前，进行补0;例:.123->0.123;此处未对reformatStr进行操作，导致只有两个.时才会进行补0
             ++firstPoint;
             // oldText.replace(list[i], item);
         } else {
@@ -1595,6 +1600,13 @@ QString ExpressionBar::pointFaultTolerance(const QString &text)
             reformatStr.replace(list[i], item); //去除多余.
         }
     }
+    for (int i = 0; i < reformatStr.size(); ++i) {
+        if (reformatStr[i] == "." && (i == 0 || !reformatStr[i - 1].isNumber())) {
+            reformatStr.insert(i, "0"); //补0操作，例:1+.2->1+0.2
+            ++i;
+        }
+    }
+
     return reformatStr;
 }
 
