@@ -288,6 +288,14 @@ static Token::Operator matchOperator(const QString &text)
             result = Token::ArithmeticRightShift;
         else if (text == "->" || text == "in")
             result = Token::UnitConversion;
+    } else if (text.length() == 3) {               //edit 20200720 增加mod、yroot、log
+        if (text == "mod")
+            result = Token::Modulo;
+        if (text == "log")
+            result = Token::Log;
+    } else if (text.length() == 5) {
+        if (text == "yroot")
+            result = Token::Yroot;
     }
 
     return result;
@@ -314,6 +322,9 @@ static int opPrecedence(Token::Operator op)
         break;
     case Token::Modulo:
     case Token::IntegerDivision:
+    //add 20200720
+    case Token::Yroot:
+    case Token::Log:
         prec = 600;
         break;
     case Token::Percent:
@@ -957,7 +968,8 @@ Tokens Evaluator::scan(const QString &expr) const
         // Manage both identifier and alphanumeric operators.
         case InIdentifier:
             // Consume as long as alpha, dollar sign, underscore, or digit.
-            if (isIdentifier(ch) || ch.isDigit())
+            //edit 20200720 mod直接作为%取余使用，yroot,log处理方式同上
+            if (isIdentifier(ch) || (ch.isDigit() && tokenText != "mod" && tokenText != "yroot" && tokenText != "log"))
                 tokenText.append(ex.at(i++));
             else { // We're done with identifier.
                 int tokenSize = i - tokenStart;
@@ -1480,6 +1492,13 @@ void Evaluator::compile(const Tokens &tokens)
                     case Token::Modulo:
                         m_codes.append(Opcode::Modulo);
                         break;
+                    //add 20200720 增加yroot、log
+                    case Token::Yroot:
+                        m_codes.append(Opcode::Yroot);
+                        break;
+                    case Token::Log:
+                        m_codes.append(Opcode::Log);
+                        break;
                     case Token::IntegerDivision:
                         m_codes.append(Opcode::IntDiv);
                         break;
@@ -1827,6 +1846,29 @@ Quantity Evaluator::exec(const QVector<Opcode> &opcodes,
             val1 = stack.pop();
             val2 = stack.pop();
             val2 = checkOperatorResult(DMath::raise(val2, val1));
+            stack.push(val2);
+            break;
+
+        //add 20200720
+        case Opcode::Yroot:
+            if (stack.count() < 2) {
+                m_error = /*tr*/("invalid expression");
+                return CMath::nan();
+            }
+            val1 = stack.pop();
+            val2 = stack.pop();
+            val2 = checkOperatorResult(DMath::raise(val2, Quantity(1) / val1));
+            stack.push(val2);
+            break;
+
+        case Opcode::Log:
+            if (stack.count() < 2) {
+                m_error = /*tr*/("invalid expression");
+                return CMath::nan();
+            }
+            val1 = stack.pop();
+            val2 = stack.pop();
+            val2 = checkOperatorResult(DMath::log(val1, val2));
             stack.push(val2);
             break;
 

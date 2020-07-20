@@ -418,7 +418,7 @@ void SciExpressionBar::enterEqualEvent()
     // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
     // 20200407 超过16位小数未科学计数
     qDebug() << "m_evaluator->error()" << m_evaluator->error();
-    if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegExp("[＋－×÷/.,%()πeℯ^!]")) != -1)) {
+    if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegExp("[a-z＋－×÷/.,%()πℯ^!]")) != -1)) {
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
             return;
         //edit 20200413 for bug--19653

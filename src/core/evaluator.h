@@ -52,7 +52,8 @@ public:
         ArithmeticLeftShift, ArithmeticRightShift,
         BitwiseLogicalAND, BitwiseLogicalOR,
         UnitConversion,
-        Function // For managing shift/reduce conflicts.
+        Function, // For managing shift/reduce conflicts.
+        Yroot, Log //add 20200720
     };
     enum Type {
         stxUnknown, stxNumber, stxIdentifier, stxAbstract, // isOperand
