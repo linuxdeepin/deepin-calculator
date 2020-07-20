@@ -209,10 +209,13 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
     expressionCheck();
 }
 
-void ExpressionBar::enterPercentEvent()
+/**
+ * @brief ExpressionBar::标准模式百分号旧版本（暂不使用）
+ */
+void ExpressionBar::enterPercentEventBak()
 {
     if (m_inputEdit->text().isEmpty()) {
-        m_inputEdit->setText("0");
+        m_inputEdit->setText("0%");
         return;
     }
     bool hasselect = (m_inputEdit->getSelection().selected != "");
@@ -383,6 +386,9 @@ void ExpressionBar::enterPercentEvent()
     m_isResult = false;
 }
 
+/**
+ * @brief ExpressionBar::点击百分号后直接出结果，计算方法为当前所使用的（暂不使用）
+ */
 void ExpressionBar::enterPercentEventCommon()
 {
     if (m_inputEdit->text().isEmpty()) {
@@ -882,6 +888,35 @@ void ExpressionBar::enterEqualEvent()
     // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
     if (m_evaluator->error().isEmpty() && (oldtext.indexOf(QRegExp("[＋－×÷,.%()e]")) != -1))
         m_hisRevision = -1;
+    m_listView->scrollToBottom();
+    m_isLinked = false;
+    m_isResult = true;
+    m_isUndo = false;
+}
+
+void ExpressionBar::enterPercentEvent()
+{
+    if (m_inputEdit->text().isEmpty()) {
+        m_inputEdit->setText("0%");
+        return;
+    }
+    replaceSelection(m_inputEdit->text());
+    QString exp = m_inputEdit->text();
+    int curpos = m_inputEdit->cursorPosition();
+    int proNumber = m_inputEdit->text().count(",");
+    m_inputEdit->insert("%");
+    // 20200401 symbolFaultTolerance
+    bool isAtEnd = cursorPosAtEnd();
+    m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
+    int newPro = m_inputEdit->text().count(",");
+
+    if (!isAtEnd) {
+        if (newPro < proNumber && exp.at(curpos) != ",") {
+            m_inputEdit->setCursorPosition(curpos);
+        } else {
+            m_inputEdit->setCursorPosition(curpos + 1);
+        }
+    }
     m_listView->scrollToBottom();
     m_isLinked = false;
     m_isResult = true;

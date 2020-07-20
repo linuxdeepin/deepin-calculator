@@ -80,6 +80,7 @@ public slots:
     void enterClearEvent();
     void enterEqualEvent();
     void enterPercentEvent();
+    void enterPercentEventBak();
     void enterPercentEventCommon();
     void enterBracketsEvent();
     void enterLeftBracketsEvent();

@@ -202,6 +202,7 @@ void SciExpressionBar::enterSymbolEvent(const QString &text)
 void SciExpressionBar::enterPercentEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
+        m_inputEdit->setText("0%");
         return;
     }
     m_isResult = false;
@@ -659,7 +660,7 @@ void SciExpressionBar::enterModEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("mod(;)");
+    m_inputEdit->insert("mod");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -668,12 +669,12 @@ void SciExpressionBar::enterModEvent()
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            m_inputEdit->setCursorPosition(curpos + 3);
+            m_inputEdit->setCursorPosition(curpos + 2);
         } else {
-            m_inputEdit->setCursorPosition(curpos + 4);
+            m_inputEdit->setCursorPosition(curpos + 3);
         }
     } else {
-        m_inputEdit->setCursorPosition(curpos + 4);
+        m_inputEdit->setCursorPosition(curpos + 3);
     }
 }
 
@@ -976,9 +977,9 @@ void SciExpressionBar::enterxyEvent()
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curpos > 0 && rx.exactMatch(m_inputEdit->text().at(curpos - 1))) {
-        m_inputEdit->insert("0^(");
+        m_inputEdit->insert("0^");
     } else
-        m_inputEdit->insert("^(");
+        m_inputEdit->insert("^");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -988,20 +989,20 @@ void SciExpressionBar::enterxyEvent()
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
             if (rx.exactMatch(m_inputEdit->text().at(curpos - 1)))
+                m_inputEdit->setCursorPosition(curpos + 1);
+            else
+                m_inputEdit->setCursorPosition(curpos);
+        } else {
+            if (rx.exactMatch(m_inputEdit->text().at(curpos - 1)))
                 m_inputEdit->setCursorPosition(curpos + 2);
             else
                 m_inputEdit->setCursorPosition(curpos + 1);
-        } else {
-            if (rx.exactMatch(m_inputEdit->text().at(curpos - 1)))
-                m_inputEdit->setCursorPosition(curpos + 3);
-            else
-                m_inputEdit->setCursorPosition(curpos + 2);
         }
     } else {
         if (rx.exactMatch(m_inputEdit->text().at(curpos - 1)))
-            m_inputEdit->setCursorPosition(curpos + 3);
-        else
             m_inputEdit->setCursorPosition(curpos + 2);
+        else
+            m_inputEdit->setCursorPosition(curpos + 1);
     }
 }
 
@@ -1376,7 +1377,7 @@ void SciExpressionBar::enterYrootEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("yroot(;)");
+    m_inputEdit->insert("yroot");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1385,12 +1386,12 @@ void SciExpressionBar::enterYrootEvent()
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            m_inputEdit->setCursorPosition(curpos + 5);
+            m_inputEdit->setCursorPosition(curpos + 4);
         } else {
-            m_inputEdit->setCursorPosition(curpos + 6);
+            m_inputEdit->setCursorPosition(curpos + 5);
         }
     } else {
-        m_inputEdit->setCursorPosition(curpos + 6);
+        m_inputEdit->setCursorPosition(curpos + 5);
     }
 }
 
@@ -1474,7 +1475,7 @@ void SciExpressionBar::enterlogyxEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("log(;)");
+    m_inputEdit->insert("log");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1483,12 +1484,12 @@ void SciExpressionBar::enterlogyxEvent()
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            m_inputEdit->setCursorPosition(curpos + 3);
+            m_inputEdit->setCursorPosition(curpos + 2);
         } else {
-            m_inputEdit->setCursorPosition(curpos + 4);
+            m_inputEdit->setCursorPosition(curpos + 3);
         }
     } else {
-        m_inputEdit->setCursorPosition(curpos + 4);
+        m_inputEdit->setCursorPosition(curpos + 3);
     }
 }
 
