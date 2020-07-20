@@ -210,7 +210,19 @@ void SciExpressionBar::enterPercentEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("%");
+    /*
+     * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
+     * 前一位运算符时，则补（0
+     */
+    int diff = 0; //补数字后光标位移的距离
+    QString sRegNum = "[＋－×÷/(^!%]";
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    if (curpos == 0 || rx.exactMatch(exp.at(curpos - 1))) {
+        m_inputEdit->insert("0%");
+        diff = 1;
+    } else
+        m_inputEdit->insert("%");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -219,10 +231,12 @@ void SciExpressionBar::enterPercentEvent()
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            m_inputEdit->setCursorPosition(curpos);
+            m_inputEdit->setCursorPosition(curpos + diff);
         } else {
-            m_inputEdit->setCursorPosition(curpos + 1);
+            m_inputEdit->setCursorPosition(curpos + 1 + diff);
         }
+    } else {
+        m_inputEdit->setCursorPosition(curpos + 1 + diff);
     }
 }
 
@@ -298,6 +312,7 @@ void SciExpressionBar::enterBackspaceEvent()
             m_inputEdit->setCursorPosition(curpos);
         });
         // end fix
+        m_isResult = false;
         return;
     }
     QString text = m_inputEdit->text();
@@ -560,10 +575,7 @@ void SciExpressionBar::enterDegEvent(int mod)
 
 void SciExpressionBar::enterSinEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -597,10 +609,7 @@ void SciExpressionBar::enterFEEvent(bool isdown)
 
 void SciExpressionBar::enterPIEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -626,10 +635,7 @@ void SciExpressionBar::enterPIEvent()
  */
 void SciExpressionBar::enterEulerEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -652,15 +658,37 @@ void SciExpressionBar::enterEulerEvent()
 
 void SciExpressionBar::enterModEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
+    if (m_inputEdit->text().isEmpty()) {
+        m_inputEdit->setText("0mod");
+        return;
     }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("mod");
+    /*
+     * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
+     * 前一位运算符时，则补（0
+     */
+    int diff = 0; //补数字后光标位移的距离
+    QString sRegNum = "[＋－×÷/(^]";
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    if (curpos == 0) {
+        m_inputEdit->insert("0mod");
+        diff = 1;
+    } else if (rx.exactMatch(exp.at(curpos - 1))) {
+        if (exp.at(curpos - 1) == "^") {
+            m_inputEdit->insert("(0mod");
+            diff = 2;
+        } else {
+            m_inputEdit->insert("0mod");
+            diff = 1;
+        }
+    } else
+        m_inputEdit->insert("mod");
+
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -669,30 +697,45 @@ void SciExpressionBar::enterModEvent()
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            m_inputEdit->setCursorPosition(curpos + 2);
+            m_inputEdit->setCursorPosition(curpos + 2 + diff);
         } else {
-            m_inputEdit->setCursorPosition(curpos + 3);
+            m_inputEdit->setCursorPosition(curpos + 3 + diff);
         }
     } else {
-        m_inputEdit->setCursorPosition(curpos + 3);
+        m_inputEdit->setCursorPosition(curpos + 3 + diff);
     }
 }
 
 void SciExpressionBar::enterx2Event()
 {
-    if (m_inputEdit->text().isEmpty())
-        m_inputEdit->insert("0");
-
+    if (m_inputEdit->text().isEmpty()) {
+        m_inputEdit->setText("0^2");
+        return;
+    }
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    QString sRegNum = "[＋－×÷/(]";
+    /*
+     * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
+     * 前一位运算符时，则补（0
+     */
+    int diff = 0; //补数字后光标位移的距离
+    QString sRegNum = "[＋－×÷/(^]";
     QRegExp rx;
     rx.setPattern(sRegNum);
-    if (curpos > 0 && rx.exactMatch(m_inputEdit->text().at(curpos - 1))) {
+    if (curpos == 0) {
         m_inputEdit->insert("0^2");
+        diff = 1;
+    } else if (rx.exactMatch(exp.at(curpos - 1))) {
+        if (exp.at(curpos - 1) == "^") {
+            m_inputEdit->insert("(0^2");
+            diff = 2;
+        } else {
+            m_inputEdit->insert("0^2");
+            diff = 1;
+        }
     } else
         m_inputEdit->insert("^2");
     // 20200401 symbolFaultTolerance
@@ -702,26 +745,23 @@ void SciExpressionBar::enterx2Event()
     m_isUndo = false;
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            if (rx.exactMatch(m_inputEdit->text().at(curpos - 1)))
-                m_inputEdit->setCursorPosition(curpos + 2);
-            else
-                m_inputEdit->setCursorPosition(curpos + 1);
+            m_inputEdit->setCursorPosition(curpos + 1 + diff);
         } else {
-            if (rx.exactMatch(m_inputEdit->text().at(curpos - 1)))
-                m_inputEdit->setCursorPosition(curpos + 3);
-            else
-                m_inputEdit->setCursorPosition(curpos + 2);
+            m_inputEdit->setCursorPosition(curpos + 2 + diff);
         }
     } else {
-        if (rx.exactMatch(m_inputEdit->text().at(curpos - 1)))
-            m_inputEdit->setCursorPosition(curpos + 3);
-        else
-            m_inputEdit->setCursorPosition(curpos + 2);
+        m_inputEdit->setCursorPosition(curpos + 2 + diff);
+    }
+    if (!cursorPosAtEnd()) {
+        if (m_inputEdit->text().at(m_inputEdit->cursorPosition()).isNumber()) {
+            m_inputEdit->insert("×");
+            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
+        }
     }
 }
 
 /**
- * @brief SciExpressionBar::导数
+ * @brief SciExpressionBar::倒数
  */
 void SciExpressionBar::enterDerivativeEvent()
 {
@@ -817,15 +857,28 @@ void SciExpressionBar::enterDerivativeEvent()
  */
 void SciExpressionBar::enterFactorialsEvent()
 {
-    if (m_inputEdit->text().isEmpty())
-        m_inputEdit->insert("0");
-
+    if (m_inputEdit->text().isEmpty()) {
+        m_inputEdit->setText("0!");
+        return;
+    }
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("!");
+    /*
+     * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
+     * 前一位运算符时，则补（0
+     */
+    int diff = 0; //补数字后光标位移的距离
+    QString sRegNum = "[＋－×÷/(^!%]";
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    if (curpos == 0 || rx.exactMatch(exp.at(curpos - 1))) {
+        m_inputEdit->insert("0!");
+        diff = 1;
+    } else
+        m_inputEdit->insert("!");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -834,24 +887,48 @@ void SciExpressionBar::enterFactorialsEvent()
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            m_inputEdit->setCursorPosition(curpos + 1);
+            m_inputEdit->setCursorPosition(curpos + diff);
         } else {
-            m_inputEdit->setCursorPosition(curpos + 2);
+            m_inputEdit->setCursorPosition(curpos + 1 + diff);
         }
+    } else {
+        m_inputEdit->setCursorPosition(curpos + 1 + diff);
     }
 }
 
 void SciExpressionBar::enterExpEvent()
 {
-    if (m_inputEdit->text().isEmpty())
-        m_inputEdit->insert("0");
+    if (m_inputEdit->text().isEmpty()) {
+        m_inputEdit->setText("0.e＋");
+        return;
+    }
 
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert(".e＋");
+    /*
+     * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
+     * 前一位运算符时，则补（0
+     */
+    int diff = 0; //补数字后光标位移的距离
+    QString sRegNum = "[＋－×÷/(^]";
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    if (curpos == 0) {
+        m_inputEdit->insert("0.e＋");
+        diff = 1;
+    } else if (rx.exactMatch(exp.at(curpos - 1))) {
+        if (exp.at(curpos - 1) == "^") {
+            m_inputEdit->insert("(0.e＋");
+            diff = 2;
+        } else {
+            m_inputEdit->insert("0.e＋");
+            diff = 1;
+        }
+    } else
+        m_inputEdit->insert(".e＋");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -860,19 +937,18 @@ void SciExpressionBar::enterExpEvent()
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            m_inputEdit->setCursorPosition(curpos + 3);
+            m_inputEdit->setCursorPosition(curpos + 2 + diff);
         } else {
-            m_inputEdit->setCursorPosition(curpos + 4);
+            m_inputEdit->setCursorPosition(curpos + 3 + diff);
         }
+    } else {
+        m_inputEdit->setCursorPosition(curpos + 3 + diff);
     }
 }
 
 void SciExpressionBar::enterCosEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -895,20 +971,35 @@ void SciExpressionBar::enterCosEvent()
 
 void SciExpressionBar::enterx3Event()
 {
-    if (m_inputEdit->text().isEmpty())
-        m_inputEdit->insert("0");
+    if (m_inputEdit->text().isEmpty()) {
+        m_inputEdit->setText("0^3");
+        return;
+    }
 
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    QString sRegNum = "[＋－×÷/(]";
+    /*
+     * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
+     * 前一位运算符时，则补（0
+     */
+    int diff = 0; //补数字后光标位移的距离
+    QString sRegNum = "[＋－×÷/(^]";
     QRegExp rx;
     rx.setPattern(sRegNum);
-    if (curpos > 0 && rx.exactMatch(m_inputEdit->text().at(curpos - 1))) {
+    if (curpos == 0) {
         m_inputEdit->insert("0^3");
-        curpos = curpos + 1;
+        diff = 1;
+    } else if (rx.exactMatch(exp.at(curpos - 1))) {
+        if (exp.at(curpos - 1) == "^") {
+            m_inputEdit->insert("(0^3");
+            diff = 2;
+        } else {
+            m_inputEdit->insert("0^3");
+            diff = 1;
+        }
     } else
         m_inputEdit->insert("^3");
     // 20200401 symbolFaultTolerance
@@ -916,33 +1007,26 @@ void SciExpressionBar::enterx3Event()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
-
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            if (rx.exactMatch(m_inputEdit->text().at(curpos - 1)))
-                m_inputEdit->setCursorPosition(curpos + 2);
-            else
-                m_inputEdit->setCursorPosition(curpos + 1);
+            m_inputEdit->setCursorPosition(curpos + 1 + diff);
         } else {
-            if (rx.exactMatch(m_inputEdit->text().at(curpos - 1)))
-                m_inputEdit->setCursorPosition(curpos + 3);
-            else
-                m_inputEdit->setCursorPosition(curpos + 2);
+            m_inputEdit->setCursorPosition(curpos + 2 + diff);
         }
     } else {
-        if (rx.exactMatch(m_inputEdit->text().at(curpos - 1)))
-            m_inputEdit->setCursorPosition(curpos + 3);
-        else
-            m_inputEdit->setCursorPosition(curpos + 2);
+        m_inputEdit->setCursorPosition(curpos + 2 + diff);
+    }
+    if (!cursorPosAtEnd()) {
+        if (m_inputEdit->text().at(m_inputEdit->cursorPosition()).isNumber()) {
+            m_inputEdit->insert("×");
+            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
+        }
     }
 }
 
 void SciExpressionBar::enterTanEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -965,21 +1049,38 @@ void SciExpressionBar::enterTanEvent()
 
 void SciExpressionBar::enterxyEvent()
 {
-    if (m_inputEdit->text().isEmpty())
-        m_inputEdit->insert("0");
+    if (m_inputEdit->text().isEmpty()) {
+        m_inputEdit->insert("0^");
+        return;
+    }
 
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    QString sRegNum = "[＋－×÷/(]";
+    /*
+     * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
+     * 前一位运算符时，则补（0
+     */
+    int diff = 0; //补数字后光标位移的距离
+    QString sRegNum = "[＋－×÷/(^]";
     QRegExp rx;
     rx.setPattern(sRegNum);
-    if (curpos > 0 && rx.exactMatch(m_inputEdit->text().at(curpos - 1))) {
+    if (curpos == 0) {
         m_inputEdit->insert("0^");
+        diff = 1;
+    } else if (rx.exactMatch(exp.at(curpos - 1))) {
+        if (exp.at(curpos - 1) == "^") {
+            m_inputEdit->insert("(0^");
+            diff = 2;
+        } else {
+            m_inputEdit->insert("0^");
+            diff = 1;
+        }
     } else
         m_inputEdit->insert("^");
+
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -988,30 +1089,18 @@ void SciExpressionBar::enterxyEvent()
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            if (rx.exactMatch(m_inputEdit->text().at(curpos - 1)))
-                m_inputEdit->setCursorPosition(curpos + 1);
-            else
-                m_inputEdit->setCursorPosition(curpos);
+            m_inputEdit->setCursorPosition(curpos + diff);
         } else {
-            if (rx.exactMatch(m_inputEdit->text().at(curpos - 1)))
-                m_inputEdit->setCursorPosition(curpos + 2);
-            else
-                m_inputEdit->setCursorPosition(curpos + 1);
+            m_inputEdit->setCursorPosition(curpos + 1 + diff);
         }
     } else {
-        if (rx.exactMatch(m_inputEdit->text().at(curpos - 1)))
-            m_inputEdit->setCursorPosition(curpos + 2);
-        else
-            m_inputEdit->setCursorPosition(curpos + 1);
+        m_inputEdit->setCursorPosition(curpos + 1 + diff);
     }
 }
 
 void SciExpressionBar::enterCotEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1034,10 +1123,7 @@ void SciExpressionBar::enterCotEvent()
 
 void SciExpressionBar::enter10xEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1082,6 +1168,7 @@ void SciExpressionBar::enter10xEvent()
 void SciExpressionBar::enterModulusEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
+        m_inputEdit->setText("abs(0)");
         return;
     }
     bool hasselect = (m_inputEdit->getSelection().selected != "");
@@ -1166,15 +1253,12 @@ void SciExpressionBar::enterModulusEvent()
 
 void SciExpressionBar::enterLogEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("lg()");
+    m_inputEdit->insert("lg(");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1194,10 +1278,8 @@ void SciExpressionBar::enterLogEvent()
 
 void SciExpressionBar::enterRandEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_inputEdit->clear();
+    m_isResult = false;
     m_isUndo = false;
     QString str;
     for (int i = 0; i < SCIPREC; i++) {
@@ -1211,10 +1293,7 @@ void SciExpressionBar::enterRandEvent()
 
 void SciExpressionBar::enterLnEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1239,10 +1318,7 @@ void SciExpressionBar::enterLnEvent()
 
 void SciExpressionBar::enterArcsinEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1265,10 +1341,7 @@ void SciExpressionBar::enterArcsinEvent()
 
 void SciExpressionBar::enterSqrtEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1291,10 +1364,7 @@ void SciExpressionBar::enterSqrtEvent()
 
 void SciExpressionBar::enterArccosEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1317,10 +1387,7 @@ void SciExpressionBar::enterArccosEvent()
 
 void SciExpressionBar::enterCbrtEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1343,10 +1410,7 @@ void SciExpressionBar::enterCbrtEvent()
 
 void SciExpressionBar::enterArctanEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1369,15 +1433,37 @@ void SciExpressionBar::enterArctanEvent()
 
 void SciExpressionBar::enterYrootEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
+    if (m_inputEdit->text().isEmpty()) {
+        m_inputEdit->setText("0yroot");
+        return;
     }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("yroot");
+    /*
+     * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
+     * 前一位运算符时，则补（0
+     */
+    int diff = 0; //补数字后光标位移的距离
+    QString sRegNum = "[＋－×÷/(^]";
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    if (curpos == 0) {
+        m_inputEdit->insert("0yroot");
+        diff = 1;
+    } else if (rx.exactMatch(exp.at(curpos - 1))) {
+        if (exp.at(curpos - 1) == "^") {
+            m_inputEdit->insert("(0yroot");
+            diff = 2;
+        } else {
+            m_inputEdit->insert("0yroot");
+            diff = 1;
+        }
+    } else
+        m_inputEdit->insert("yroot");
+
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1386,21 +1472,18 @@ void SciExpressionBar::enterYrootEvent()
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            m_inputEdit->setCursorPosition(curpos + 4);
+            m_inputEdit->setCursorPosition(curpos + 4 + diff);
         } else {
-            m_inputEdit->setCursorPosition(curpos + 5);
+            m_inputEdit->setCursorPosition(curpos + 5 + diff);
         }
     } else {
-        m_inputEdit->setCursorPosition(curpos + 5);
+        m_inputEdit->setCursorPosition(curpos + 5 + diff);
     }
 }
 
 void SciExpressionBar::enterArccotEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1423,10 +1506,7 @@ void SciExpressionBar::enterArccotEvent()
 
 void SciExpressionBar::enter2xEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1467,15 +1547,37 @@ void SciExpressionBar::enter2xEvent()
 
 void SciExpressionBar::enterlogyxEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
+    if (m_inputEdit->text().isEmpty()) {
+        m_inputEdit->setText("0log");
+        return;
     }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("log");
+    /*
+     * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
+     * 前一位运算符时，则补（0
+     */
+    int diff = 0; //补数字后光标位移的距离
+    QString sRegNum = "[＋－×÷/(^]";
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    if (curpos == 0) {
+        m_inputEdit->insert("0log");
+        diff = 1;
+    } else if (rx.exactMatch(exp.at(curpos - 1))) {
+        if (exp.at(curpos - 1) == "^") {
+            m_inputEdit->insert("(0log");
+            diff = 2;
+        } else {
+            m_inputEdit->insert("0log");
+            diff = 1;
+        }
+    } else
+        m_inputEdit->insert("log");
+
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1484,21 +1586,18 @@ void SciExpressionBar::enterlogyxEvent()
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            m_inputEdit->setCursorPosition(curpos + 2);
+            m_inputEdit->setCursorPosition(curpos + 2 + diff);
         } else {
-            m_inputEdit->setCursorPosition(curpos + 3);
+            m_inputEdit->setCursorPosition(curpos + 3 + diff);
         }
     } else {
-        m_inputEdit->setCursorPosition(curpos + 3);
+        m_inputEdit->setCursorPosition(curpos + 3 + diff);
     }
 }
 
 void SciExpressionBar::enterexEvent()
 {
-    if (m_isResult) {
-        m_inputEdit->clear();
-        m_isResult = false;
-    }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -1705,7 +1804,7 @@ void SciExpressionBar::copyClipboard2Result()
         }
         text.replace(list[i], item);
     }
-    text = pasteFaultTolerance(text);
+//    text = pasteFaultTolerance(text);
     m_inputEdit->insert(text);
 
     QString faulttolerance = pointFaultTolerance(m_inputEdit->text());
@@ -1948,7 +2047,7 @@ QString SciExpressionBar::pointFaultTolerance(const QString &text)
                           .replace(QString::fromUtf8("。"), ".")
                           .replace(QString::fromUtf8("——"), QString::fromUtf8("－"))
                           .replace(QString::fromUtf8("％"), "%")
-                          .replace('/', QString::fromUtf8("÷")); //对内容进行英替中
+                          /*.replace('/', QString::fromUtf8("÷"))*/; //对内容进行英替中
     QStringList list = reformatStr.split(QRegExp("[＋－×÷/(]")); //20200717去掉),否则下方)小数点容错无法进入
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];

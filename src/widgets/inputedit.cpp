@@ -384,7 +384,7 @@ void InputEdit::handleTextChanged(const QString &text)
                   .replace("_", QString::fromUtf8("－"))
                   .replace('*', QString::fromUtf8("×"))
                   .replace(QString::fromUtf8("＊"), QString::fromUtf8("×"))
-                  .replace('/', QString::fromUtf8("÷"))
+//                  .replace('/', QString::fromUtf8("÷"))
                   .replace('x', QString::fromUtf8("×"))
                   .replace('X', QString::fromUtf8("×"))
                   .replace(QString::fromUtf8("（"), "(")
@@ -487,8 +487,13 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
         }
     }
 //    qDebug() << symbolList << " a " << newText;
-    if (!symbolList.isEmpty() && !newText.isEmpty()) //防止输入栏中只有符号可输入*/+;暂未屏蔽%
-        newText.append(symbolList.last());
+    if (!symbolList.isEmpty() /*&& !newText.isEmpty()*/) { //防止输入栏中只有符号可输入*/+;暂未屏蔽%
+        if ((newText.isEmpty() && symbolList.contains("－"))) {
+            newText.append("－");
+        } else if (!newText.isEmpty()) {
+            newText.append(symbolList.last());
+        }
+    }
     //edit 20200526 for bug-28491
     int expPos = newText.indexOf("e");
     if (expPos > 0) {
@@ -524,8 +529,6 @@ bool InputEdit::isSymbol(const QString &text)
     else if (text == QString::fromUtf8("×"))
         return true;
     else if (text == QString::fromUtf8("÷"))
-        return true;
-    else if (text == QString::fromUtf8("%"))
         return true;
     else
         return false;

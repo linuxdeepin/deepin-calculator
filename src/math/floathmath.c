@@ -458,7 +458,10 @@ float_raise(
     switch(float_getsign(exponent))
     {
     case 0:
-      return _seterror(power, OutOfDomain);
+      //edit 20200720 0^0 = 1
+      float_copy(power, &c1, digits+1);
+      return 1;
+//      return _seterror(power, OutOfDomain);
     case -1:
       return _seterror(power, ZeroDivide);
     }

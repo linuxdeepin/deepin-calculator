@@ -620,6 +620,7 @@ void ExpressionBar::enterBackspaceEvent()
             m_inputEdit->setCursorPosition(curpos);
         });
         // end fix
+        m_isResult = false;
         return;
     }
     QString text = m_inputEdit->text();
@@ -900,27 +901,39 @@ void ExpressionBar::enterPercentEvent()
         m_inputEdit->setText("0%");
         return;
     }
+    m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("%");
+    /*
+     * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
+     * 前一位运算符时，则补（0
+     */
+    int diff = 0; //补数字后光标位移的距离
+    QString sRegNum = "[＋－×÷/(%]";
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    if (curpos == 0 || rx.exactMatch(exp.at(curpos - 1))) {
+        m_inputEdit->insert("0%");
+        diff = 1;
+    } else
+        m_inputEdit->insert("%");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
+    m_isUndo = false;
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            m_inputEdit->setCursorPosition(curpos);
+            m_inputEdit->setCursorPosition(curpos + diff);
         } else {
-            m_inputEdit->setCursorPosition(curpos + 1);
+            m_inputEdit->setCursorPosition(curpos + 1 + diff);
         }
+    } else {
+        m_inputEdit->setCursorPosition(curpos + 1 + diff);
     }
-    m_listView->scrollToBottom();
-    m_isLinked = false;
-    m_isResult = true;
-    m_isUndo = false;
 }
 
 void ExpressionBar::enterBracketsEvent()
