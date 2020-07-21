@@ -149,7 +149,7 @@ void SimpleListView::mouseReleaseEvent(QMouseEvent *event)
 {
     if (m_mode == 1) {
         static_cast<SimpleListModel *>(model())->refrushModel();
-        if (m_currentrow == indexAt(event->pos()).row()) {
+        if (m_currentrow == indexAt(event->pos()).row() && m_currentrow >= 0) {
             emit obtainingHistorical(indexAt(event->pos()));
             static_cast<SimpleListDelegate *>(itemDelegate(indexAt(m_presspoint)))->paintback(indexAt(m_presspoint), 1);
         } else {
