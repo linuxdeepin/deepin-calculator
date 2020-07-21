@@ -36,7 +36,14 @@
 
 #include "src/utils.h"
 
-#define GLOBALPREC 78
+const int GLOBALPREC = 78;
+const int STANDARD_WIDGET_HEIGHT = 260;
+const int SCIENTIFIC_WIDGET_HEIGHT = 463;
+const int STANDARD_ITEM_WIDTH = 344;
+const int SCIENTIFIC_ITEM_WIDTH = 370;
+const int STANDARD_FORMAT_PREC = 15;
+const int SCIENTIFIC_FORMAT_PREC = 31;
+const int MAXSIZE = 500;
 
 MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     : QWidget(parent)
@@ -61,9 +68,9 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
 //    m_listwidget->setPalette(pal);
 
     m_listwidget->setFrameShape(QFrame::NoFrame);
-    mode == 0 ? m_listwidget->setFixedHeight(260) : m_listwidget->setFixedHeight(463);
-    m_itemwidth = (mode == 0) ? 344 : 370;
-    m_precision = (mode == 0) ? 15 : 31;
+    mode == 0 ? m_listwidget->setFixedHeight(STANDARD_WIDGET_HEIGHT) : m_listwidget->setFixedHeight(SCIENTIFIC_WIDGET_HEIGHT);
+    m_itemwidth = (mode == 0) ? STANDARD_ITEM_WIDTH : SCIENTIFIC_ITEM_WIDTH;
+    m_precision = (mode == 0) ? STANDARD_FORMAT_PREC : SCIENTIFIC_FORMAT_PREC;
     m_listwidget->setVerticalScrollMode(QListView::ScrollPerPixel);
     m_listwidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     m_listwidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -98,12 +105,18 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     });
 }
 
+/**
+ * @brief MemoryWidget::generateData
+ * 向数字内存中增加一个数字，同时向保存Quantity的list中添加数据，一一对应
+ * @param answer
+ * 将输入的数字转换为quantity类型
+ */
 void MemoryWidget::generateData(Quantity answer)
 {
     //500 memory number limit
-    if (m_list.count() == 500) {
+    if (m_list.count() == MAXSIZE) {
         m_list.pop_back();
-        m_listwidget->takeItem(499);
+        m_listwidget->takeItem(MAXSIZE - 1);
     }
     if (m_isempty == true) {
         m_listwidget->clear();
@@ -212,6 +225,11 @@ void MemoryWidget::mousePressEvent(QMouseEvent *event)
     QWidget::mousePressEvent(event);
 }
 
+/**
+ * @brief MemoryWidget::memoryplus
+ * 用于从数字键盘或快捷键的方式，对内存列表中的第一个进行加法运算，memoryminus为减法
+ * @param answer
+ */
 void MemoryWidget::memoryplus(Quantity answer)
 {
     const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC));
@@ -268,6 +286,10 @@ void MemoryWidget::memoryminus(Quantity answer)
     }
 }
 
+/**
+ * @brief MemoryWidget::memoryclean
+ * 清空内存列表，同步清空quantity list
+ */
 void MemoryWidget::memoryclean()
 {
     m_listwidget->clear();
@@ -315,6 +337,14 @@ QPair<QString, Quantity> MemoryWidget::getfirstnumber()
     }
 }
 
+/**
+ * @brief MemoryWidget::widgetplusslot
+ * 用于从列表中item里的按钮，对指定行号的内存数据进行增加，widgetminusslot为减法
+ * @param row
+ * 指定的行号
+ * @param answer
+ * 输入栏中的数的quantity类型
+ */
 void MemoryWidget::widgetplusslot(int row, Quantity answer)
 {
     const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC));
@@ -364,6 +394,12 @@ bool MemoryWidget::isWidgetEmpty()
     return m_isempty;
 }
 
+/**
+ * @brief MemoryWidget::expressionempty
+ * 当输入栏为空时，内存列表中的加减按钮置灰
+ * @param b
+ * true = 空，false = 输入栏有内容
+ */
 void MemoryWidget::expressionempty(bool b)
 {
     if (!m_isempty) {
@@ -373,6 +409,14 @@ void MemoryWidget::expressionempty(bool b)
     }
 }
 
+/**
+ * @brief MemoryWidget::widgetcleanslot
+ * 内存列表item里的清除按钮，指定行数清除
+ * @param row
+ * 指定的行数
+ * @param mode
+ * 用于区分是标准还是科学型的删除，防止同步删除时重复删除
+ */
 void MemoryWidget::widgetcleanslot(int row, int mode)
 {
     if (m_calculatormode != mode) {

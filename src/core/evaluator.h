@@ -53,7 +53,7 @@ public:
         BitwiseLogicalAND, BitwiseLogicalOR,
         UnitConversion,
         Function, // For managing shift/reduce conflicts.
-        Yroot, Log //add 20200720
+        Yroot, Log //add jingzhou 20200720
     };
     enum Type {
         stxUnknown, stxNumber, stxIdentifier, stxAbstract, // isOperand

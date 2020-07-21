@@ -458,7 +458,7 @@ float_raise(
     switch(float_getsign(exponent))
     {
     case 0:
-      //edit 20200720 0^0 = 1
+      //edit jingzhou 20200720 0^0 = 1
       float_copy(power, &c1, digits+1);
       return 1;
 //      return _seterror(power, OutOfDomain);

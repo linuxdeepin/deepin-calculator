@@ -288,7 +288,7 @@ static Token::Operator matchOperator(const QString &text)
             result = Token::ArithmeticRightShift;
         else if (text == "->" || text == "in")
             result = Token::UnitConversion;
-    } else if (text.length() == 3) {               //edit 20200720 增加mod、yroot、log
+    } else if (text.length() == 3) {               //edit jingzhou 20200720 增加mod、yroot、log
         if (text == "mod")
             result = Token::Modulo;
         if (text == "log")
@@ -322,7 +322,7 @@ static int opPrecedence(Token::Operator op)
         break;
     case Token::Modulo:
     case Token::IntegerDivision:
-    //add 20200720
+    //add jingzhou 20200720
     case Token::Yroot:
     case Token::Log:
         prec = 600;
@@ -968,7 +968,7 @@ Tokens Evaluator::scan(const QString &expr) const
         // Manage both identifier and alphanumeric operators.
         case InIdentifier:
             // Consume as long as alpha, dollar sign, underscore, or digit.
-            //edit 20200720 mod直接作为%取余使用，yroot,log处理方式同上
+            //edit jingzhou 20200720 mod直接作为%取余使用，yroot,log处理方式同上
             if (isIdentifier(ch) || (ch.isDigit() && tokenText != "mod" && tokenText != "yroot" && tokenText != "log"))
                 tokenText.append(ex.at(i++));
             else { // We're done with identifier.
@@ -1492,7 +1492,7 @@ void Evaluator::compile(const Tokens &tokens)
                     case Token::Modulo:
                         m_codes.append(Opcode::Modulo);
                         break;
-                    //add 20200720 增加yroot、log
+                    //add jingzhou 20200720 增加yroot、log
                     case Token::Yroot:
                         m_codes.append(Opcode::Yroot);
                         break;
@@ -1849,7 +1849,7 @@ Quantity Evaluator::exec(const QVector<Opcode> &opcodes,
             stack.push(val2);
             break;
 
-        //add 20200720
+        //add jingzhou 20200720
         case Opcode::Yroot:
             if (stack.count() < 2) {
                 m_error = /*tr*/("invalid expression");
