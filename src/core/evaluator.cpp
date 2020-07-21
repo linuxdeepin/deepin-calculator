@@ -726,7 +726,7 @@ Evaluator::Evaluator()
 
 void Evaluator::initializeBuiltInVariables()
 {
-    setVariable(QLatin1String("e"), DMath::e(), Variable::BuiltIn);
+    setVariable(QLatin1String("E"), DMath::e(), Variable::BuiltIn); //edit jingzhou 20200721,用E代替e，区分于科学计数法
     setVariable(QString::fromUtf8("ℯ"), DMath::e(), Variable::BuiltIn);
 
     setVariable(QLatin1String("pi"), DMath::pi(), Variable::BuiltIn);

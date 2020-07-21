@@ -467,7 +467,7 @@ void SciExpressionBar::enterClearEvent()
 
 void SciExpressionBar::enterEqualEvent()
 {
-    m_evaluator->setVariable(QLatin1String("e"), DMath::e(), Variable::BuiltIn);
+//    m_evaluator->setVariable(QLatin1String("e"), DMath::e(), Variable::BuiltIn);
     QString exp = m_inputEdit->text();
     if (m_inputEdit->text().isEmpty())
         return;
@@ -1909,7 +1909,7 @@ QString SciExpressionBar::formatExpression(const QString &text)
            .replace(QString::fromUtf8("÷"), "/")
            .replace(QString::fromUtf8(","), "")
            .replace(QString::fromUtf8("π"), QLatin1String("pi"))
-           .replace(QString::fromUtf8("ℯ"), QLatin1String("e"));
+           .replace(QString::fromUtf8("ℯ"), QLatin1String("E")); //edit jingzhou 20200721,用E代替e，区分于科学计数法
 }
 
 void SciExpressionBar::revisionResults(const QModelIndex &index)
