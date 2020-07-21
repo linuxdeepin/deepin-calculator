@@ -376,7 +376,7 @@ void SciExpressionBar::enterBackspaceEvent()
             }
         }
     }
-    if (m_inputEdit->text().isEmpty() && !m_expression.isEmpty()) {
+    if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
         emit clearStateChanged(true);
         m_isAllClear = true;
     } else {
@@ -775,7 +775,7 @@ void SciExpressionBar::enterDerivativeEvent()
     replaceSelection(m_inputEdit->text());
     int curPos = m_inputEdit->cursorPosition();
     if (m_inputEdit->text() == QString()) {
-        m_inputEdit->setText("0");
+        m_inputEdit->setText("1/(");
         return;
     }
     int epos = m_inputEdit->text().indexOf("e");
@@ -1178,7 +1178,7 @@ void SciExpressionBar::enterModulusEvent()
     replaceSelection(m_inputEdit->text());
     int curPos = m_inputEdit->cursorPosition();
     if (m_inputEdit->text() == QString()) {
-        m_inputEdit->setText("0");
+        m_inputEdit->setText("abs(");
         return;
     }
     int epos = m_inputEdit->text().indexOf("e");
@@ -1635,7 +1635,7 @@ void SciExpressionBar::enterOppositeEvent()
     replaceSelection(m_inputEdit->text());
     int curPos = m_inputEdit->cursorPosition();
     if (m_inputEdit->text() == QString()) {
-        m_inputEdit->setText("0");
+        m_inputEdit->setText("(-");
         return;
     }
     int epos = m_inputEdit->text().indexOf("e");
@@ -2159,7 +2159,7 @@ void SciExpressionBar::Undo()
         m_inputEdit->clear();
         m_inputEdit->setUndoAction(false);
     }
-    if (m_inputEdit->text().isEmpty() && !m_expression.isEmpty()) {
+    if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
         emit clearStateChanged(true);
         m_isAllClear = true;
     } else {
@@ -2190,7 +2190,7 @@ void SciExpressionBar::Redo()
     m_redo.removeLast();
     if (m_redo.isEmpty())
         m_inputEdit->setRedoAction(false);
-    if (m_inputEdit->text().isEmpty() && !m_expression.isEmpty()) {
+    if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
         emit clearStateChanged(true);
         m_isAllClear = true;
     } else {
