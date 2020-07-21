@@ -128,6 +128,7 @@ public slots:
     InputEdit *getInputEdit();
     void revisionResults(const QModelIndex &index);
     void hisRevisionResults(const QModelIndex &index, Quantity ans);
+    bool judgeinput();
 
 private slots:
     void handleTextChanged(const QString &text);
