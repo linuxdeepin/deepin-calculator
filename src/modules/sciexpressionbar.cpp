@@ -1712,11 +1712,15 @@ void SciExpressionBar::enterOppositeEvent()
     // start edit for task-13519
     //        QString sRegNum1 = "[^0-9,.×÷)]";
     QString sRegNum1 = "[^0-9,.)πℯ]";
-    QRegExp rx1;
+    QString sRegNum2 = "[0-9,.]";
+    QRegExp rx1, rx2;
     rx1.setPattern(sRegNum1);
+    rx2.setPattern(sRegNum2);
     if (rx1.exactMatch(exp.at(curPos - 1)))
         m_inputEdit->setText(oldText);
-    else {
+    else if (exp.at(curPos - 1) == "0" && (curPos <= 1 || !rx2.exactMatch(exp.at(curPos - 2)))) {
+        m_inputEdit->setText(oldText);
+    } else {
         QString newtext = m_inputEdit->text();
         int percentpos = m_inputEdit->cursorPosition();
         int operatorpos =
