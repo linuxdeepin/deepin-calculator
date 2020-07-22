@@ -653,7 +653,10 @@ void SciExpressionBar::enterFEEvent(bool isdown)
 
 void SciExpressionBar::enterPIEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
@@ -679,7 +682,10 @@ void SciExpressionBar::enterPIEvent()
  */
 void SciExpressionBar::enterEulerEvent()
 {
-    m_isResult = false;
+    if (m_isResult) {
+        m_inputEdit->clear();
+        m_isResult = false;
+    }
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
