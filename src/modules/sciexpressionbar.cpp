@@ -336,6 +336,9 @@ void SciExpressionBar::enterBackspaceEvent()
                     removepos = funpos;
                     text.remove(funpos, rightfunpos + m_funclist[j].length() - funpos); //函数中或左右均有
                 }
+            } else {
+                removepos = selection.curpos;
+                text.remove(selection.curpos, selection.selected.size());
             }
         } else {
             removepos = selection.curpos;
