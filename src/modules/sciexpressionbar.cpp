@@ -1710,7 +1710,7 @@ void SciExpressionBar::enterOppositeEvent()
     }
     // start edit for task-13519
     //        QString sRegNum1 = "[^0-9,.×÷)]";
-    QString sRegNum1 = "[^0-9,.)]";
+    QString sRegNum1 = "[^0-9,.)πℯ]";
     QRegExp rx1;
     rx1.setPattern(sRegNum1);
     if (rx1.exactMatch(exp.at(curPos - 1)))
@@ -1719,13 +1719,13 @@ void SciExpressionBar::enterOppositeEvent()
         QString newtext = m_inputEdit->text();
         int percentpos = m_inputEdit->cursorPosition();
         int operatorpos =
-            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
+            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπℯ]")), percentpos - 1);
 
         bool nooperator = false;
         if (operatorpos > 0 && newtext.at(operatorpos - 1) == "e")
             operatorpos =
                 newtext.mid(0, operatorpos - 1)
-                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
+                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπℯ]")), percentpos - 1);
         if (operatorpos < 0) {
             operatorpos++;
             nooperator = true;
