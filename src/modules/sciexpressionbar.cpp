@@ -639,7 +639,7 @@ void SciExpressionBar::enterSinEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("sin(");
+    m_inputEdit->insert("sin()");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -652,6 +652,8 @@ void SciExpressionBar::enterSinEvent()
         } else {
             m_inputEdit->setCursorPosition(curpos + 4);
         }
+    } else {
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
 }
 
@@ -1040,7 +1042,7 @@ void SciExpressionBar::enterCosEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("cos(");
+    m_inputEdit->insert("cos()");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1053,6 +1055,8 @@ void SciExpressionBar::enterCosEvent()
         } else {
             m_inputEdit->setCursorPosition(curpos + 4);
         }
+    } else {
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
 }
 
@@ -1118,7 +1122,7 @@ void SciExpressionBar::enterTanEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("tan(");
+    m_inputEdit->insert("tan()");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1131,6 +1135,8 @@ void SciExpressionBar::enterTanEvent()
         } else {
             m_inputEdit->setCursorPosition(curpos + 4);
         }
+    } else {
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
 }
 
@@ -1192,7 +1198,7 @@ void SciExpressionBar::enterCotEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("cot(");
+    m_inputEdit->insert("cot()");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1205,6 +1211,8 @@ void SciExpressionBar::enterCotEvent()
         } else {
             m_inputEdit->setCursorPosition(curpos + 4);
         }
+    } else {
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
 }
 
@@ -1345,7 +1353,7 @@ void SciExpressionBar::enterLogEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("lg(");
+    m_inputEdit->insert("lg()");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1359,7 +1367,7 @@ void SciExpressionBar::enterLogEvent()
             m_inputEdit->setCursorPosition(curpos + 3);
         }
     } else {
-        m_inputEdit->setCursorPosition(curpos + 3);
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
 }
 
@@ -1385,7 +1393,7 @@ void SciExpressionBar::enterLnEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("ln(");
+    m_inputEdit->insert("ln()");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1399,7 +1407,7 @@ void SciExpressionBar::enterLnEvent()
             m_inputEdit->setCursorPosition(curpos + 3);
         }
     } else {
-        m_inputEdit->setCursorPosition(curpos + 3);
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
 }
 
@@ -1410,7 +1418,7 @@ void SciExpressionBar::enterArcsinEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("arcsin(");
+    m_inputEdit->insert("arcsin()");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1423,6 +1431,8 @@ void SciExpressionBar::enterArcsinEvent()
         } else {
             m_inputEdit->setCursorPosition(curpos + 7);
         }
+    } else {
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
 }
 
@@ -1433,7 +1443,7 @@ void SciExpressionBar::enterSqrtEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("sqrt(");
+    m_inputEdit->insert("sqrt()");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1446,6 +1456,8 @@ void SciExpressionBar::enterSqrtEvent()
         } else {
             m_inputEdit->setCursorPosition(curpos + 5);
         }
+    } else {
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
 }
 
@@ -1456,7 +1468,7 @@ void SciExpressionBar::enterArccosEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("arccos(");
+    m_inputEdit->insert("arccos()");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1469,6 +1481,8 @@ void SciExpressionBar::enterArccosEvent()
         } else {
             m_inputEdit->setCursorPosition(curpos + 7);
         }
+    } else {
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
 }
 
@@ -1479,7 +1493,7 @@ void SciExpressionBar::enterCbrtEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("cbrt(");
+    m_inputEdit->insert("cbrt()");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1492,6 +1506,8 @@ void SciExpressionBar::enterCbrtEvent()
         } else {
             m_inputEdit->setCursorPosition(curpos + 5);
         }
+    } else {
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
 }
 
@@ -1502,7 +1518,7 @@ void SciExpressionBar::enterArctanEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("arctan(");
+    m_inputEdit->insert("arctan()");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1515,6 +1531,8 @@ void SciExpressionBar::enterArctanEvent()
         } else {
             m_inputEdit->setCursorPosition(curpos + 7);
         }
+    } else {
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
 }
 
@@ -1575,7 +1593,7 @@ void SciExpressionBar::enterArccotEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("arccot(");
+    m_inputEdit->insert("arccot()");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1588,6 +1606,8 @@ void SciExpressionBar::enterArccotEvent()
         } else {
             m_inputEdit->setCursorPosition(curpos + 7);
         }
+    } else {
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
 }
 
