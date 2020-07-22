@@ -241,8 +241,13 @@ void TextButton::paintEvent(QPaintEvent *e)
         focus = actcolor;
         hoverFrame = actcolor;
         hoverFrame.setAlphaF(0.2);
-        base = QColor("#303030");
-        hoverbrush = QColor(60, 60, 60);
+        if (m_page) {
+            base = QColor(60, 60, 60);
+            hoverbrush = QColor(60, 60, 60);
+        } else {
+            base = QColor("#303030");
+            hoverbrush = QColor(60, 60, 60);
+        }
         if (m_isHover)
             text = Qt::white;
         else

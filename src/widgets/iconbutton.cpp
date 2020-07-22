@@ -232,8 +232,13 @@ void IconButton::paintEvent(QPaintEvent *)
             focus = actcolor;
             hoverFrame = actcolor;
             hoverFrame.setAlphaF(0.2);
-            base = QColor(48, 48, 48);
-            hoverbrush = QColor(60, 60, 60);
+            if (m_page) {
+                base = QColor(60, 60, 60);
+                hoverbrush = QColor(60, 60, 60);
+            } else {
+                base = QColor("#303030");
+                hoverbrush = QColor(60, 60, 60);
+            }
         }
         if (m_isHistorybtn) {
             if (type == 1) {
