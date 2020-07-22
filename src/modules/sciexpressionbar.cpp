@@ -304,12 +304,11 @@ void SciExpressionBar::enterBackspaceEvent()
         //光标不在开头且光标左侧是字母或者光标右侧是字母
         if ((selection.curpos > 0 &&
                 rx.exactMatch(m_inputEdit->text().at(selection.curpos - 1)))
-                || rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size()))) {
+                || rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size() - 1))) {
             int funpos = -1;
             int rightfunpos = -1;
-            int i;
             int j;
-            for (i = 0; i < m_funclist.size(); i++) {
+            for (int i = 0; i < m_funclist.size(); i++) {
                 //记录光标左侧离光标最近的函数位
                 funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], selection.curpos - 1);
                 if (funpos != -1 && (funpos <= selection.curpos) && (selection.curpos < funpos + m_funclist[i].length())) {
@@ -362,7 +361,7 @@ void SciExpressionBar::enterBackspaceEvent()
 //            m_inputEdit->setCursorPosition(curpos);
 //        }
         // fix for pointfault tolerance 16022
-        if (pointFaultTolerance(m_inputEdit->text()) == m_inputEdit->text()) {
+        if (pointFaultTolerance(m_inputEdit->text()) != m_inputEdit->text()) {
             QTimer::singleShot(5000, this, [ = ] {
                 m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
                 m_inputEdit->setCursorPosition(curpos);
@@ -1687,7 +1686,18 @@ void SciExpressionBar::enterexEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert("e^(");
+    /* add 20200722
+     * 当e和pi前面是数字类型的字符时，在前面补乘号防止直接出现表达式错误
+     */
+    int multi = 0;//是否需要补乘号
+    QString sRegNum1 = "[0-9,.πℯ]";
+    QRegExp rx1;
+    rx1.setPattern(sRegNum1);
+    if (curpos > 0 && rx1.exactMatch(exp.at(curpos - 1))) {
+        m_inputEdit->insert("×ℯ^");
+        multi += 1;
+    } else
+        m_inputEdit->insert("ℯ^");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1696,9 +1706,9 @@ void SciExpressionBar::enterexEvent()
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            m_inputEdit->setCursorPosition(curpos + 2);
+            m_inputEdit->setCursorPosition(curpos + 1 + multi);
         } else {
-            m_inputEdit->setCursorPosition(curpos + 3);
+            m_inputEdit->setCursorPosition(curpos + 2 + multi);
         }
     }
 }
