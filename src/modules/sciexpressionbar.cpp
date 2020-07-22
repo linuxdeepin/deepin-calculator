@@ -517,7 +517,7 @@ void SciExpressionBar::enterEqualEvent()
         formatResult = formatResult.replace(QString::fromUtf8("-"), "－");
 
         m_pair.first = true;
-        m_expression = exp + " ＝ " + formatResult;
+        m_expression = exp + "＝" + formatResult;
         m_listModel->updataList(m_expression,
                                 -1, true);
         m_listanswer = ans;
