@@ -127,7 +127,19 @@ void SciExpressionBar::enterNumberEvent(const QString &text)
 
     // 20200401 修改symbolFaultTolerance执行位置
     replaceSelection(m_inputEdit->text());
-    m_inputEdit->insert(text);
+    /* add 20200722
+     * 当输入数字的前面是e和pi时，在前面补乘号防止直接出现表达式错误
+     */
+    QString exp = m_inputEdit->text();
+    int curpos = m_inputEdit->cursorPosition();
+    QString sRegNum1 = "[πℯ]";
+    QRegExp rx1;
+    rx1.setPattern(sRegNum1);
+    if (curpos > 0 && rx1.exactMatch(exp.at(curpos - 1))) {
+        m_inputEdit->insert("×" + text);
+    } else
+        m_inputEdit->insert(text);
+//    m_inputEdit->insert(text);
     int nowcur = m_inputEdit->cursorPosition();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
@@ -662,7 +674,18 @@ void SciExpressionBar::enterPIEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert(QString::fromUtf8("π"));
+    /* add 20200722
+     * 当e和pi前面是数字类型的字符时，在前面补乘号防止直接出现表达式错误
+     */
+    int multi = 0;//是否需要补乘号
+    QString sRegNum1 = "[0-9,.πℯ]";
+    QRegExp rx1;
+    rx1.setPattern(sRegNum1);
+    if (curpos > 0 && rx1.exactMatch(exp.at(curpos - 1))) {
+        m_inputEdit->insert(QString::fromUtf8("×π"));
+        multi += 1;
+    } else
+        m_inputEdit->insert(QString::fromUtf8("π"));
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -671,9 +694,9 @@ void SciExpressionBar::enterPIEvent()
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            m_inputEdit->setCursorPosition(curpos);
+            m_inputEdit->setCursorPosition(curpos + multi);
         } else {
-            m_inputEdit->setCursorPosition(curpos + 1);
+            m_inputEdit->setCursorPosition(curpos + 1 + multi);
         }
     }
 }
@@ -691,7 +714,18 @@ void SciExpressionBar::enterEulerEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    m_inputEdit->insert(QString::fromUtf8("ℯ"));
+    /* add 20200722
+     * 当e和pi前面是数字类型的字符时，在前面补乘号防止直接出现表达式错误
+     */
+    int multi = 0;//是否需要补乘号
+    QString sRegNum1 = "[0-9,.πℯ]";
+    QRegExp rx1;
+    rx1.setPattern(sRegNum1);
+    if (curpos > 0 && rx1.exactMatch(exp.at(curpos - 1))) {
+        m_inputEdit->insert(QString::fromUtf8("×ℯ"));
+        multi += 1;
+    } else
+        m_inputEdit->insert(QString::fromUtf8("ℯ"));
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -700,9 +734,9 @@ void SciExpressionBar::enterEulerEvent()
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
-            m_inputEdit->setCursorPosition(curpos);
+            m_inputEdit->setCursorPosition(curpos + multi);
         } else {
-            m_inputEdit->setCursorPosition(curpos + 1);
+            m_inputEdit->setCursorPosition(curpos + 1 + multi);
         }
     }
 }
