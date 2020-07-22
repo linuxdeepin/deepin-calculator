@@ -69,7 +69,7 @@ signals:
     void mListAvailable();
     void itemclick(const QPair<QString, Quantity>);
     void themechange(int type);
-    void widgetclean(int row, int mode);
+    void widgetclean(int row, int mode, bool ismenu); //是否通过menu点击发出，用于区分是否下一个item直接进入hover状态
     void memorycleansignal();
 private:
     MemoryListWidget *m_listwidget;
@@ -97,7 +97,7 @@ public slots:
 //    void on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void setThemeType(int type);
     void expressionempty(bool b);
-    void widgetcleanslot(int row, int mode);
+    void widgetcleanslot(int row, int mode, bool ismenu);
 };
 
 

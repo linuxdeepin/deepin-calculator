@@ -55,7 +55,7 @@ public:
     void memoryclean();
     void widgetplus(int row, Quantity answer);
     void widgetminus(int row, Quantity answer);
-    void widgetclean(int row, int mode);
+    void widgetclean(int row, int mode, bool ismenu);
     void setThemeType(int type);
     bool isWidgetEmpty(int mode); //0-标准 1-科学
 private:

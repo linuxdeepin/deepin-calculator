@@ -158,7 +158,7 @@ void MemoryWidget::generateData(Quantity answer)
     });
     connect(widget, &MemoryItemWidget::cleanbtnclicked, this, [ = ]() {
         widget->setFocus(); //memorybutton取消focus状态
-        emit widgetclean(m_listwidget->row(item1), m_calculatormode);
+        emit widgetclean(m_listwidget->row(item1), m_calculatormode, false);
         m_list.removeAt(m_listwidget->row(item1));
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
@@ -173,7 +173,7 @@ void MemoryWidget::generateData(Quantity answer)
         widget->update();
     });
     connect(widget, &MemoryItemWidget::menuclean, this, [ = ]() {
-        emit widgetclean(m_listwidget->row(item1), m_calculatormode);
+        emit widgetclean(m_listwidget->row(item1), m_calculatormode, true);
         m_list.removeAt(m_listwidget->row(item1));
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
@@ -417,7 +417,7 @@ void MemoryWidget::expressionempty(bool b)
  * @param mode
  * 用于区分是标准还是科学型的删除，防止同步删除时重复删除
  */
-void MemoryWidget::widgetcleanslot(int row, int mode)
+void MemoryWidget::widgetcleanslot(int row, int mode, bool ismenu)
 {
     if (m_calculatormode != mode) {
         m_list.removeAt(row);
@@ -425,6 +425,9 @@ void MemoryWidget::widgetcleanslot(int row, int mode)
         if (m_listwidget->count() == 0) {
             memoryclean();
         }
+    } else {
+        if (row + 1 < m_listwidget->count() && !ismenu)
+            static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row + 1)))->setNextItemHover();
     }
 }
 

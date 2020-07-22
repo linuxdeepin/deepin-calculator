@@ -256,6 +256,18 @@ void MemoryItemWidget::isexpressionempty(bool b)
     }
 }
 
+/**
+ * @brief MemoryItemWidget::setNextItemHover
+ * 上一个item清除后，鼠标自动到下一个item上，此时为hover状态
+ */
+void MemoryItemWidget::setNextItemHover()
+{
+    m_ishover = true;
+    m_btnplus->setHidden(false); //进入时显示按钮
+    m_btnminus->setHidden(false);
+    m_btnclean->setHidden(false);
+}
+
 MemoryItemWidget::~MemoryItemWidget()
 {
 

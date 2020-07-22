@@ -63,6 +63,7 @@ signals:
 public slots:
     void themetypechanged(int type);
     void isexpressionempty(bool b);
+    void setNextItemHover();
 
 public:
 

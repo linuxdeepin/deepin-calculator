@@ -106,10 +106,10 @@ void MemoryPublic::widgetminus(int row, Quantity answer)
     m_scientific_r->widgetminusslot(row, answer);
 }
 
-void MemoryPublic::widgetclean(int row, int mode)
+void MemoryPublic::widgetclean(int row, int mode, bool ismenu)
 {
-    m_standard_l->widgetcleanslot(row, mode);
-    m_scientific_r->widgetcleanslot(row, mode);
+    m_standard_l->widgetcleanslot(row, mode, ismenu);
+    m_scientific_r->widgetcleanslot(row, mode, ismenu);
     emit publicwidgetclean(mode);
 }
 
