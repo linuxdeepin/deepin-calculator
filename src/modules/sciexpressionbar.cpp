@@ -1994,7 +1994,7 @@ void SciExpressionBar::revisionResults(const QModelIndex &index)
 {
 //    clearLinkageCache(m_inputEdit->text(), false);
     QString text = index.data(SimpleListModel::ExpressionRole).toString();
-    QStringList historic = text.split(QString(" ＝ "), QString::SkipEmptyParts);
+    QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
     if (historic.size() != 2)
         return;
     QString expression = historic.at(0);
@@ -2012,7 +2012,7 @@ void SciExpressionBar::revisionResults(const QModelIndex &index)
 void SciExpressionBar::hisRevisionResults(const QModelIndex &index, Quantity ans)
 {
     QString text = index.data(SimpleListModel::ExpressionRole).toString();
-    QStringList historic = text.split(QString(" ＝ "), QString::SkipEmptyParts);
+    QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
     if (historic.size() != 2)
         return;
     QString expression = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(SCIPREC));

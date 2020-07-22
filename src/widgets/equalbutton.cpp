@@ -66,6 +66,7 @@ void EqualButton::mousePressEvent(QMouseEvent *e)
         return;
     setFocus();
     m_isPress = true;
+    m_isHover = false; //20200722删除foucus状态
     DPushButton::mousePressEvent(e);
 }
 
@@ -153,87 +154,87 @@ void EqualButton::paintEvent(QPaintEvent *e)
     shadow = actcolor;
     shadow.setAlphaF(0.2);
 
-    if (hasFocus()) {
-        painter.setPen(Qt::NoPen);
-        if (m_isPress) {
-            linearGradient.setColorAt(0, press0);
-            linearGradient.setColorAt(1, press1);
-            painter.setBrush(QBrush(linearGradient));
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
-            QPen pen;
-            pen.setColor(pressText);
-            painter.setPen(pen);
-            painter.setFont(m_font);
-            painter.drawText(textRect, "=");
-            m_effect->setColor(shadow);
-            this->setGraphicsEffect(m_effect);
-        } else {
-            QPen pen;
-            if (m_isacting) {
-                painter.setPen(Qt::NoPen);
-                painter.setBrush(QBrush(base));
-                painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
-            } else {
-                pen.setColor(base);
-                pen.setWidth(2);
-                painter.setPen(pen);
-                painter.setPen(Qt::NoPen);
-                painter.setBrush(QBrush(base));
-                painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
-                painter.setPen(Qt::NoPen);
-                painter.setBrush(QBrush(frame));
-                painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
-                painter.setPen(Qt::NoPen);
-                painter.setBrush(QBrush(base));
-                painter.drawRoundedRect(focusBase, 8, 8); //圆角半径单位为像素
-            }
+//    if (hasFocus()) {
+//        painter.setPen(Qt::NoPen);
+//        if (m_isPress) {
+//            linearGradient.setColorAt(0, press0);
+//            linearGradient.setColorAt(1, press1);
+//            painter.setBrush(QBrush(linearGradient));
+//            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+//            QPen pen;
+//            pen.setColor(pressText);
+//            painter.setPen(pen);
+//            painter.setFont(m_font);
+//            painter.drawText(textRect, "=");
+//            m_effect->setColor(shadow);
+//            this->setGraphicsEffect(m_effect);
+//        } else {
+//            QPen pen;
+//            if (m_isacting) {
+//                painter.setPen(Qt::NoPen);
+//                painter.setBrush(QBrush(base));
+//                painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+//            } else {
+//                pen.setColor(base);
+//                pen.setWidth(2);
+//                painter.setPen(pen);
+//                painter.setPen(Qt::NoPen);
+//                painter.setBrush(QBrush(base));
+//                painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
+//                painter.setPen(Qt::NoPen);
+//                painter.setBrush(QBrush(frame));
+//                painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+//                painter.setPen(Qt::NoPen);
+//                painter.setBrush(QBrush(base));
+//                painter.drawRoundedRect(focusBase, 8, 8); //圆角半径单位为像素
+//            }
 
-            //painter.drawRoundRect(rect,10,10);
-            pen.setColor(text);
-            painter.setPen(pen);
-            painter.setFont(m_font);
-            painter.drawText(textRect, "=");
-            m_effect->setColor(shadow);
-            this->setGraphicsEffect(m_effect);
-        }
+//            //painter.drawRoundRect(rect,10,10);
+//            pen.setColor(text);
+//            painter.setPen(pen);
+//            painter.setFont(m_font);
+//            painter.drawText(textRect, "=");
+//            m_effect->setColor(shadow);
+//            this->setGraphicsEffect(m_effect);
+//        }
+//    } else {
+    painter.setPen(Qt::NoPen);
+    if (m_isHover) {
+        linearGradient.setColorAt(0, hover0);
+        linearGradient.setColorAt(1, hover1);
+        painter.setBrush(linearGradient);
+        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+        QPen pen;
+        pen.setColor(text);
+        painter.setPen(pen);
+        painter.setFont(m_font);
+        painter.drawText(textRect, "=");
+        m_effect->setColor(shadow);
+        this->setGraphicsEffect(m_effect);
+    } else if (m_isPress) {
+        linearGradient.setColorAt(0, press0);
+        linearGradient.setColorAt(1, press1);
+        painter.setBrush(QBrush(linearGradient));
+        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+        QPen pen;
+        pen.setColor(pressText);
+        painter.setPen(pen);
+        painter.setFont(m_font);
+        painter.drawText(textRect, "=");
+        m_effect->setColor(shadow);
+        this->setGraphicsEffect(m_effect);
     } else {
-        painter.setPen(Qt::NoPen);
-        if (m_isHover) {
-            linearGradient.setColorAt(0, hover0);
-            linearGradient.setColorAt(1, hover1);
-            painter.setBrush(linearGradient);
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
-            QPen pen;
-            pen.setColor(text);
-            painter.setPen(pen);
-            painter.setFont(m_font);
-            painter.drawText(textRect, "=");
-            m_effect->setColor(shadow);
-            this->setGraphicsEffect(m_effect);
-        } else if (m_isPress) {
-            linearGradient.setColorAt(0, press0);
-            linearGradient.setColorAt(1, press1);
-            painter.setBrush(QBrush(linearGradient));
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
-            QPen pen;
-            pen.setColor(pressText);
-            painter.setPen(pen);
-            painter.setFont(m_font);
-            painter.drawText(textRect, "=");
-            m_effect->setColor(shadow);
-            this->setGraphicsEffect(m_effect);
-        } else {
-            base.setAlphaF(0.8);
-            painter.setBrush(QBrush(base));
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
-            QPen pen;
-            pen.setColor(text);
-            painter.setPen(pen);
-            painter.setFont(m_font);
-            painter.drawText(textRect, "=");
-            m_effect->setColor(shadow);
-            this->setGraphicsEffect(m_effect);
-        }
+        base.setAlphaF(0.8);
+        painter.setBrush(QBrush(base));
+        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+        QPen pen;
+        pen.setColor(text);
+        painter.setPen(pen);
+        painter.setFont(m_font);
+        painter.drawText(textRect, "=");
+        m_effect->setColor(shadow);
+        this->setGraphicsEffect(m_effect);
     }
+//    }
 }
 

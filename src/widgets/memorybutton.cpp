@@ -184,6 +184,7 @@ void MemoryButton::mousePressEvent(QMouseEvent *e)
         this->setPalette(pa);
     }
     m_isPress = true;
+    m_isHover = false; //20200722删除foucus状态
     emit updateInterface();
     DPushButton::mousePressEvent(e);
 }
@@ -319,73 +320,73 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             text = actcolor;
         }
     }
-    if (hasFocus()) {
-        painter.setPen(Qt::NoPen);
-        if (m_isPress) {
-            painter.setBrush(QBrush(pressBrush));
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
-            QPen pen;
-            pen.setColor(pressText);
-            painter.setPen(pen);
-            painter.setFont(m_font);
-            painter.drawText(textRect, this->text());
-        } else {
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(QBrush(base));
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
-            QPen pen;
-            if (m_isacting) {
-                painter.setPen(Qt::NoPen);
-            } else {
-                pen.setColor(focus);
-                pen.setWidth(2);
-                painter.setPen(pen);
-            }
-            painter.setBrush(Qt::NoBrush);
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+//    if (hasFocus()) {
+//        painter.setPen(Qt::NoPen);
+//        if (m_isPress) {
+//            painter.setBrush(QBrush(pressBrush));
+//            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+//            QPen pen;
+//            pen.setColor(pressText);
+//            painter.setPen(pen);
+//            painter.setFont(m_font);
+//            painter.drawText(textRect, this->text());
+//        } else {
+//            painter.setPen(Qt::NoPen);
+//            painter.setBrush(QBrush(base));
+//            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+//            QPen pen;
+//            if (m_isacting) {
+//                painter.setPen(Qt::NoPen);
+//            } else {
+//                pen.setColor(focus);
+//                pen.setWidth(2);
+//                painter.setPen(pen);
+//            }
+//            painter.setBrush(Qt::NoBrush);
+//            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
 
-            pen.setColor(text);
-            painter.setPen(pen);
-            painter.setFont(m_font);
-            painter.drawText(textRect, this->text());
-            m_effect->setColor(focusShadow);
-            this->setGraphicsEffect(m_effect);
-        }
+//            pen.setColor(text);
+//            painter.setPen(pen);
+//            painter.setFont(m_font);
+//            painter.drawText(textRect, this->text());
+//            m_effect->setColor(focusShadow);
+//            this->setGraphicsEffect(m_effect);
+//        }
+//    } else {
+    painter.setPen(Qt::NoPen);
+    if (m_isHover) {
+        painter.setPen(QPen(hoverFrame));
+        painter.setBrush(QBrush(hoverbrush));
+        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+
+        QPen pen;
+        pen.setColor(text);
+        painter.setPen(pen);
+        painter.setFont(m_font);
+        painter.drawText(textRect, this->text());
+        m_effect->setColor(hoverShadow);
+        this->setGraphicsEffect(m_effect);
+    } else if (m_isPress) {
+        painter.setBrush(QBrush(pressBrush));
+        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+        QPen pen;
+        pen.setColor(pressText);
+        painter.setPen(pen);
+        painter.setFont(m_font);
+        painter.drawText(textRect, this->text());
     } else {
-        painter.setPen(Qt::NoPen);
-        if (m_isHover) {
-            painter.setPen(QPen(hoverFrame));
-            painter.setBrush(QBrush(hoverbrush));
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
-
-            QPen pen;
-            pen.setColor(text);
-            painter.setPen(pen);
-            painter.setFont(m_font);
-            painter.drawText(textRect, this->text());
-            m_effect->setColor(hoverShadow);
-            this->setGraphicsEffect(m_effect);
-        } else if (m_isPress) {
-            painter.setBrush(QBrush(pressBrush));
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
-            QPen pen;
-            pen.setColor(pressText);
-            painter.setPen(pen);
-            painter.setFont(m_font);
-            painter.drawText(textRect, this->text());
-        } else {
-            painter.setBrush(QBrush(base));
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
-            QPen pen;
-            pen.setColor(text);
-            painter.setPen(pen);
-            painter.setFont(m_font);
-            painter.drawText(textRect, this->text());
-            m_effect->setColor(QColor(0, 0, 0, 0));
-            this->setGraphicsEffect(m_effect);
-        }
-
+        painter.setBrush(QBrush(base));
+        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+        QPen pen;
+        pen.setColor(text);
+        painter.setPen(pen);
+        painter.setFont(m_font);
+        painter.drawText(textRect, this->text());
+        m_effect->setColor(QColor(0, 0, 0, 0));
+        this->setGraphicsEffect(m_effect);
     }
+
+//    }
 }
 
 void MemoryButton::focusOutEvent(QFocusEvent *e)
