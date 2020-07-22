@@ -334,7 +334,7 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
         const int padding = 23;
         QStringList splitList = expression.split("＝");
         if (splitList.size() == 1)
-            return QSize(-1, 463);
+            return QSize(-1, 423);
         QString resultStr = splitList.last();
         QString exp = splitList.first() + "＝";
         QFont font;

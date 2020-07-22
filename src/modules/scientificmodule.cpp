@@ -46,11 +46,12 @@ scientificModule::scientificModule(QWidget *parent)
     QVBoxLayout *leftlay = new QVBoxLayout();
     m_sciexpressionBar = new SciExpressionBar;
     m_memoryPublic = MemoryPublic::instance(this);
-    leftlay->addWidget(m_sciexpressionBar, 1);
+    m_sciexpressionBar->setFixedHeight(90);
+    leftlay->addWidget(m_sciexpressionBar);
 //    leftlay->addWidget(m_scikeypadwidget);
 //    m_triCombobox->setFixedSize(60, 40);
 //    layout->addWidget(m_triCombobox);
-    leftlay->addWidget(m_scikeypadwidget, 3);
+    leftlay->addWidget(m_scikeypadwidget);
     leftlay->setSpacing(0);
 //    leftlay->setMargin(0);
 //    leftlay->setContentsMargins(0, 0, 0, 11);

@@ -30,13 +30,14 @@
 
 #define VPADDING 100 //预留垂直空隙
 #define HPADDING 25 //预留水平空隙
+#define BUTTONHEIGHT 48 //科学计算器按钮高度
 
 const ScientificKeyPad::KeyDescription ScientificKeyPad::keyDescriptions[] = {
     {"F-E", Key_FE, 1, 0, 1, 1},   {"MC", Key_MC, 1, 1, 1, 1},   {"MR", Key_MR, 1, 2, 1, 1},
     {"M+", Key_Mplus, 1, 3, 1, 1}, {"M-", Key_Mmin, 1, 4, 1, 1}, {"MS", Key_MS, 1, 5, 1, 1},
 
     {"", Key_deg, 2, 0, 1, 1}, {"2ⁿᵈ", Key_page, 2, 1, 1, 1}, {"π", Key_PI, 2, 2, 1, 1},
-    {"e", Key_e, 2, 3, 1, 1},     {"mod", Key_Mod, 2, 4, 1, 1},   {"", Key_Backspace, 2, 5, 1, 1},
+    {"e", Key_e, 2, 3, 1, 1},     {"Mod", Key_Mod, 2, 4, 1, 1},   {"", Key_Backspace, 2, 5, 1, 1},
 
     {"sin", Key_sin, 3, 0, 1, 1},       {"x²", Key_x2, 3, 1, 1, 1},   {"1/x", Key_Derivative, 3, 2, 1, 1},
     {"x!", Key_Factorials, 3, 3, 1, 1}, {"exp", Key_exp, 3, 4, 1, 1}, {"C", Key_Clear, 3, 5, 1, 1},
@@ -290,9 +291,10 @@ void ScientificKeyPad::initUI()
         i.next();
         //以下信号槽按窗口比例缩放按键等
         connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
+            Q_UNUSED(height);
             int hiswidth; //历史记录宽度
             hishide == false ? hiswidth = 370 : hiswidth = 0;
-            i.value().first->setFixedSize((width - HPADDING - hiswidth) / 6, (height - VPADDING) / 8);
+            i.value().first->setFixedSize((width - HPADDING - hiswidth) / 6, BUTTONHEIGHT);
         });
         if (i.key() == Key_left) {
             m_leftBracket->setParent(i.value().first);
@@ -337,9 +339,10 @@ void ScientificKeyPad::initUI()
         i1.next();
         //以下信号槽按窗口比例缩放按键等
         connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
+            Q_UNUSED(height);
             int hiswidth; //历史记录宽度
             hishide == false ? hiswidth = 370 : hiswidth = 0;;
-            i1.value().first->setFixedSize((width - HPADDING - hiswidth) / 6, (height - VPADDING) / 8);
+            i1.value().first->setFixedSize((width - HPADDING - hiswidth) / 6, BUTTONHEIGHT);
         });
     }
 
@@ -374,9 +377,10 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
     connect(static_cast<TextButton *>(pagebutton), &TextButton::moveRight, this, &ScientificKeyPad::moveRight);
     m_mapper->setMapping(pagebutton, desc1->button);
     connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
+        Q_UNUSED(height);
         int hiswidth; //历史记录宽度
         hishide == false ? hiswidth = 370 : hiswidth = 0;
-        widget->setFixedSize((width - HPADDING - hiswidth) / 6, (height - VPADDING) / 8 + 2);
+        widget->setFixedSize((width - HPADDING - hiswidth) / 6, BUTTONHEIGHT + 2);
     });
 }
 
