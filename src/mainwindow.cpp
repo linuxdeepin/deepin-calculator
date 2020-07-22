@@ -165,7 +165,8 @@ void MainWindow::initModule()
         m_isSciInit = true;
         m_scAction->setChecked(true);
         switchToScientificMode();
-        resize(m_settings->getOption("windowWidth").toInt(), m_settings->getOption("windowHeight").toInt());
+//        resize(m_settings->getOption("windowWidth").toInt(), m_settings->getOption("windowHeight").toInt());
+        resize(SCIENTIFIC_MIN_SIZE);
         break;
     default:
         m_basicModule = new BasicModule;
