@@ -226,9 +226,10 @@ void SciExpressionBar::enterPercentEvent()
     /*
      * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
      * 前一位运算符时，则补（0
+     * %做特殊处理--0%无效，故不显示
      */
     int diff = 0; //补数字后光标位移的距离
-    QString sRegNum = "[＋－×÷/(^!%]";
+    QString sRegNum = "[＋－×÷/(^!%e]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curpos == 0 || rx.exactMatch(exp.at(curpos - 1))) {
@@ -889,7 +890,7 @@ void SciExpressionBar::enterDerivativeEvent()
     }
     // start edit for task-13519
     //        QString sRegNum1 = "[^0-9,.×÷)]";
-    QString sRegNum1 = "[^0-9,.)]";
+    QString sRegNum1 = "[^0-9,.)πℯ]";
     QRegExp rx1;
     rx1.setPattern(sRegNum1);
     if (rx1.exactMatch(exp.at(curPos - 1)))
@@ -898,13 +899,13 @@ void SciExpressionBar::enterDerivativeEvent()
         QString newtext = m_inputEdit->text();
         int percentpos = m_inputEdit->cursorPosition();
         int operatorpos =
-            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
+            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπℯ]")), percentpos - 1);
 
         bool nooperator = false;
         if (operatorpos > 0 && newtext.at(operatorpos - 1) == "e")
             operatorpos =
                 newtext.mid(0, operatorpos - 1)
-                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
+                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπℯ]")), percentpos - 1);
         if (operatorpos < 0) {
             operatorpos++;
             nooperator = true;
@@ -1292,23 +1293,22 @@ void SciExpressionBar::enterModulusEvent()
     }
     // start edit for task-13519
     //        QString sRegNum1 = "[^0-9,.×÷)]";
-    QString sRegNum1 = "[^0-9,.)!]";
-    rx.setPattern(sRegNum1);
-    if (rx.exactMatch(exp.at(curPos - 1)))
+    QString sRegNum1 = "[^0-9,.)πℯ]";
+    QRegExp rx1;
+    rx1.setPattern(sRegNum1);
+    if (rx1.exactMatch(exp.at(curPos - 1)))
         m_inputEdit->setText(oldText);
     else {
         QString newtext = m_inputEdit->text();
         int percentpos = m_inputEdit->cursorPosition();
-        if (m_inputEdit->text().at(curPos - 1) == "!")
-            percentpos = percentpos - 1;
         int operatorpos =
-            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
+            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπℯ]")), percentpos - 1);
 
         bool nooperator = false;
         if (operatorpos > 0 && newtext.at(operatorpos - 1) == "e")
             operatorpos =
                 newtext.mid(0, operatorpos - 1)
-                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
+                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπℯ]")), percentpos - 1);
         if (operatorpos < 0) {
             operatorpos++;
             nooperator = true;

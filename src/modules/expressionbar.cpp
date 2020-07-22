@@ -898,7 +898,7 @@ void ExpressionBar::enterEqualEvent()
 void ExpressionBar::enterPercentEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
-        m_inputEdit->setText("0%");
+//        m_inputEdit->setText("0%");
         return;
     }
     m_isResult = false;
@@ -909,14 +909,15 @@ void ExpressionBar::enterPercentEvent()
     /*
      * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
      * 前一位运算符时，则补（0
+     * %做特殊处理--0%无效，故不显示
      */
     int diff = 0; //补数字后光标位移的距离
-    QString sRegNum = "[＋－×÷/(%]";
+    QString sRegNum = "[＋－×÷/(^!%e]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curpos == 0 || rx.exactMatch(exp.at(curpos - 1))) {
-        m_inputEdit->insert("0%");
-        diff = 1;
+        m_inputEdit->insert("");
+        diff = -1;
     } else
         m_inputEdit->insert("%");
     // 20200401 symbolFaultTolerance
