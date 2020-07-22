@@ -215,7 +215,7 @@ void SciExpressionBar::enterSymbolEvent(const QString &text)
 void SciExpressionBar::enterPercentEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
-        m_inputEdit->setText("0%");
+//        m_inputEdit->setText("0%");
         return;
     }
     m_isResult = false;
@@ -232,8 +232,8 @@ void SciExpressionBar::enterPercentEvent()
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curpos == 0 || rx.exactMatch(exp.at(curpos - 1))) {
-        m_inputEdit->insert("0%");
-        diff = 1;
+        m_inputEdit->insert("");
+        diff = -1;
     } else
         m_inputEdit->insert("%");
     // 20200401 symbolFaultTolerance
