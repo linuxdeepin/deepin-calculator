@@ -67,6 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
 #ifdef ENABLE_SCIENTIFIC
     m_modeshowmenu = new DMenu(tr("show"));
     m_tbMenu->addAction(m_hisAction);
+    m_tbMenu->addSeparator(); //添加分隔符
     m_modeshowmenu->addAction(m_simpleAction);
     m_modeshowmenu->addAction(m_scAction);
     m_tbMenu->addMenu(m_modeshowmenu);

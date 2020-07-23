@@ -48,16 +48,27 @@ SimpleListDelegate::~SimpleListDelegate()
 //    m_simpleListDelegate = NULL;
 }
 
+/**
+ * @brief 设置联动项
+ */
 void SimpleListDelegate::setHisLink(const int link)
 {
     m_linkItem.push_back(link);
 }
 
+/**
+ * @brief 设置被联动项
+ */
 void SimpleListDelegate::setHisLinked(const int linked)
 {
     m_linkedIten.push_back(linked);
 }
 
+/**
+ * @brief SimpleListDelegate::删除联动（暂未使用）
+ * @param link 联动项
+ * @param linked 被联动项
+ */
 void SimpleListDelegate::removeLine(const int link, const int linked)
 {
     for (int i = 0; i < m_linkItem.size(); ++i) {
@@ -70,6 +81,9 @@ void SimpleListDelegate::removeLine(const int link, const int linked)
     }
 }
 
+/**
+ * @brief 删除单项联动
+ */
 void SimpleListDelegate::removeLine(int index)
 {
     if (index < m_linkItem.size())
@@ -78,18 +92,27 @@ void SimpleListDelegate::removeLine(int index)
         m_linkedIten.remove(index);
 }
 
+/**
+ * @brief 删除最后一项联动
+ */
 void SimpleListDelegate::removeHisLink()
 {
     if (!m_linkItem.isEmpty())
         m_linkItem.removeLast();
 }
 
+/**
+ * @brief 删除所有联动
+ */
 void SimpleListDelegate::removeAllLink()
 {
     m_linkedIten.clear();
     m_linkItem.clear();
 }
 
+/**
+ * @brief 删除最后一项被联动项
+ */
 void SimpleListDelegate::removeHisLinked()
 {
     if (!m_linkedIten.isEmpty())
@@ -101,6 +124,11 @@ void SimpleListDelegate::setThemeType(int type)
     m_type = type;
 }
 
+/**
+ * @brief 为paint提供参数
+ * @param index 行
+ * @param state 当前状态0-normal 1-hover 2-press
+ */
 void SimpleListDelegate::paintback(const QModelIndex &index, int state)
 {
     m_row = index.row();
@@ -401,6 +429,9 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
     expStr = text.right(text.length() - linkNum.length());
 }
 
+/**
+ * @brief 更新编辑器组件的大小
+ */
 void SimpleListDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     Q_UNUSED(index);
