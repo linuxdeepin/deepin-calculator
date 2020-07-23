@@ -32,7 +32,7 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(80, 58);
+        setFixedSize(80, 60);
     if (b == 1)
         setFixedSize(40, 40);
     if (b == 2) {
@@ -194,7 +194,7 @@ void IconButton::paintEvent(QPaintEvent *)
         if (!m_isHistorybtn) {
             int mode = m_settings->getOption("mode").toInt();
             if (mode == 0)
-                setFixedSize(80, 58);
+                setFixedSize(80, 60);
         }
         QRectF frameRect = this->rect();
         QRectF rect(frameRect.left() + 2, frameRect.top() + 2, frameRect.width() - 4, frameRect.height() - 4);

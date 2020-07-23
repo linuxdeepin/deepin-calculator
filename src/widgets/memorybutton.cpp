@@ -36,7 +36,7 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(50, 33);
+        setFixedSize(53, 33);
     setObjectName("MemoryButton");
     m_widgetbtn = listwidgetbtn;
 
@@ -230,9 +230,9 @@ void MemoryButton::paintEvent(QPaintEvent *e)
     Q_UNUSED(e);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(50, 33);
+        setFixedSize(53, 33);
     if (m_widgetbtn)
-        setFixedSize(50, 33);
+        setFixedSize(53, 33);
     if (isEnabled() == false) {
         m_font.setPixelSize(16);
         m_font.setStyleName("Light");

@@ -13,7 +13,7 @@ EqualButton::EqualButton(const QString &text, QWidget *parent)
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(80, 58);
+        setFixedSize(80, 60);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");
 
@@ -106,7 +106,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
     Q_UNUSED(e);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(80, 58);
+        setFixedSize(80, 60);
     QRectF rect = this->rect();
     QRectF normal(rect.left() + 2, rect.top() + 2, rect.width() - 4, rect.height() - 4);
     QRectF focusBase(rect.left() + 3, rect.top() + 3, rect.width() - 6, rect.height() - 6);
