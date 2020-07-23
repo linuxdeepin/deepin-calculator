@@ -31,6 +31,8 @@
 
 DWIDGET_USE_NAMESPACE
 
+const int PADDING = 15; //历史记录区边距
+
 SimpleListDelegate::SimpleListDelegate(int mode, QObject *parent)
     : QStyledItemDelegate(parent)
 {
@@ -112,7 +114,6 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     if (m_mode == 0) {
         QRect rect(option.rect);
         rect.setRight(option.widget->width() - 13);
-        const int padding = 15;
         QString errorFontColor;
         QString fontColor;
         QString linkColor;
@@ -138,7 +139,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
         if (resultWidth > rect.width() / 1.4) {
             resultStr = painter->fontMetrics().elidedText(resultStr, Qt::ElideRight,
-                                                          int(rect.width() / 1.4) + padding);
+                                                          int(rect.width() / 1.4) + PADDING);
             resultWidth = painter->fontMetrics().width(resultStr);
         }
 
@@ -165,12 +166,12 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
         int equalStrWidth = painter->fontMetrics().width(" ＝ ");
         QString expStr = painter->fontMetrics().elidedText(
-                             splitList.first(), Qt::ElideLeft, rect.width() - resultWidth - padding * 2 - equalStrWidth);
+                             splitList.first(), Qt::ElideLeft, rect.width() - resultWidth - PADDING * 2 - equalStrWidth);
         // QString expStr = splitList.first();
 
         if (m_selected) {
             //edit for bug--21508
-            QRect resultRect(rect.topRight().x() - resultWidth - padding - 2, rect.y() + 3, resultWidth + 7,
+            QRect resultRect(rect.topRight().x() - resultWidth - PADDING - 2, rect.y() + 3, resultWidth + 7,
                              rect.height() - 6);
             QPainterPath path;
             path.addRoundedRect(resultRect, 4, 4);
@@ -199,12 +200,12 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
             // draw expression text;
             painter->setPen(QColor(fontColor));
             painter->drawText(
-                QRect(rect.x() + padding, rect.y(), rect.width() - padding * 2, rect.height()),
+                QRect(rect.x() + PADDING, rect.y(), rect.width() - PADDING * 2, rect.height()),
                 Qt::AlignVCenter | Qt::AlignRight, expStr);
         } else {
             // draw result text.
             painter->drawText(
-                QRect(rect.x() + padding, rect.y(), rect.width() - padding * 2, rect.height()),
+                QRect(rect.x() + PADDING, rect.y(), rect.width() - PADDING * 2, rect.height()),
                 Qt::AlignVCenter | Qt::AlignRight, resultStr);
 
             QString linkNum, exp;
@@ -213,8 +214,8 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
             // draw expression text;
             painter->setPen(QColor(fontColor));
-            painter->drawText(QRect(rect.x() + padding, rect.y(),
-                                    rect.width() - resultWidth - padding * 2, rect.height()),
+            painter->drawText(QRect(rect.x() + PADDING, rect.y(),
+                                    rect.width() - resultWidth - PADDING * 2, rect.height()),
                               Qt::AlignVCenter | Qt::AlignRight, exp);
 
             painter->setPen(QColor(fontColor));
@@ -224,14 +225,13 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
             }
 
             int expWidth = painter->fontMetrics().width(exp);
-            painter->drawText(QRect(rect.x() + padding, rect.y(),
-                                    rect.width() - resultWidth - expWidth - padding * 2, rect.height()),
+            painter->drawText(QRect(rect.x() + PADDING, rect.y(),
+                                    rect.width() - resultWidth - expWidth - PADDING * 2, rect.height()),
                               Qt::AlignVCenter | Qt::AlignRight, linkNum);
         }
     } else if (m_mode == 1) {
         QRect rect(option.rect);
-        rect.setRight(option.widget->width() - 5);
-        const int padding = 15;
+        rect.setRight(option.widget->width() - 5); //设置矩形右边缘,会导致rect宽度改变
         QString errorFontColor;
         QString fontColor;
         QString resultColor;
@@ -239,7 +239,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing |
                                 QPainter::SmoothPixmapTransform);
         QTextOption textoption(Qt::AlignRight | Qt::AlignVCenter);
-        textoption.setWrapMode(QTextOption::WrapAnywhere);
+        textoption.setWrapMode(QTextOption::WrapAnywhere); //单词可在任意地方分行
         QFontMetrics fm1 = painter->fontMetrics();
         QFont font;
         font.setPixelSize(16);
@@ -252,9 +252,9 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         QString exp = splitList.first() + " ＝ ";
 
         int expHeight;
-        int expline = (painter->fontMetrics().width(exp) % (370 - 23 * 2)) ?
-                      (painter->fontMetrics().width(exp) / (370 - 23 * 2) + 1) :
-                      (painter->fontMetrics().width(exp) / (370 - 23 * 2));
+        int expline = (painter->fontMetrics().width(exp) % (rect.width() - PADDING * 2)) ?
+                      (painter->fontMetrics().width(exp) / (rect.width() - PADDING * 2) + 1) :
+                      (painter->fontMetrics().width(exp) / (rect.width() - PADDING * 2));
         expHeight = painter->fontMetrics().height() * expline;
 
         if (m_type == 1) {
@@ -281,22 +281,22 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
         // check result text is error.
         painter->setPen(QColor(fontColor));
-
         if (splitList.size() == 1) {
             painter->setPen(QColor(nohistory));
             painter->drawText(
-                QRectF(rect.x() + padding, rect.y(), rect.width() - padding * 2, rect.height()),
+                QRectF(rect.x() + PADDING, rect.y(), rect.width() - PADDING * 2, rect.height()),
                 expression, Qt::AlignHCenter | Qt::AlignVCenter);
         } else {
             // draw result text.
             painter->drawText(
-                QRectF(rect.x() + padding, rect.y(), rect.width() - padding * 2, expHeight),
+                QRectF(rect.x() + PADDING, rect.y(), rect.width() - PADDING * 2, expHeight),
                 exp, textoption);
             painter->setFont(fontresult);
             int resultHeight;
-            int resultline = (painter->fontMetrics().width(resultStr) % (370 - 23 * 2)) ?
-                             (painter->fontMetrics().width(resultStr) / (370 - 23 * 2) + 1) :
-                             (painter->fontMetrics().width(resultStr) / (370 - 23 * 2));
+            qDebug() << painter->fontMetrics().width(resultStr) << rect.width() - PADDING * 2;
+            int resultline = (painter->fontMetrics().width(resultStr) % (rect.width() - PADDING * 2 - 1)) ?
+                             (painter->fontMetrics().width(resultStr) / (rect.width() - PADDING * 2 - 1) + 1) :
+                             (painter->fontMetrics().width(resultStr) / (rect.width() - PADDING * 2 - 1)); //由于结果字体较大，暂以此避免
             resultHeight = painter->fontMetrics().height() * resultline;
             if (resultStr == tr("Expression error")) {
                 painter->setPen(QColor(errorFontColor));
@@ -304,7 +304,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                 painter->setPen(QColor(resultColor));
             }
             painter->drawText(
-                QRectF(rect.x() + padding, rect.y() + expHeight, rect.width() - padding * 2, resultHeight),
+                QRectF(rect.x() + PADDING, rect.y() + expHeight, rect.width() - PADDING * 2, resultHeight),
                 resultStr, textoption);
             if (option.state & QStyle::State_MouseOver && m_state == 0) {
                 painter->setBrush(normalbackground);
@@ -331,7 +331,7 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
     Q_UNUSED(option);
     if (m_mode == 1) {
         const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
-        const int padding = 23;
+        const int rectwidth = 366; //paintevent设置右边缘后的宽度
         QStringList splitList = expression.split("＝");
         if (splitList.size() == 1)
             return QSize(-1, 423);
@@ -344,14 +344,14 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
         fontresult.setPixelSize(30);
         QFontMetrics fmresult(fontresult);
         int expHeight;
-        int expline = (fmexp.width(exp) % (370 - padding * 2)) ?
-                      (fmexp.width(exp) / (370 - padding * 2) + 1) :
-                      (fmexp.width(exp) / (370 - padding * 2));
+        int expline = (fmexp.width(exp) % (rectwidth - PADDING * 2)) ?
+                      (fmexp.width(exp) / (rectwidth - PADDING * 2) + 1) :
+                      (fmexp.width(exp) / (rectwidth - PADDING * 2));
         expHeight = fmexp.height() * expline;
         int resultHeight;
-        int resultline = (fmresult.width(resultStr) % (370 - padding * 2)) ?
-                         (fmresult.width(resultStr) / (370 - padding * 2) + 1) :
-                         (fmresult.width(resultStr) / (370 - padding * 2));
+        int resultline = (fmresult.width(resultStr) % (rectwidth - PADDING * 2 - 1)) ?
+                         (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 1) + 1) :
+                         (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 1)); //由于结果字体较大，暂以此避免
         resultHeight = fmresult.height() * resultline;
         return QSize(370, expHeight + resultHeight + 20);
     } else

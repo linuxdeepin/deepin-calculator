@@ -2039,7 +2039,7 @@ bool SciExpressionBar::judgeinput()
         //光标不在开头且光标左侧是字母或者光标右侧是字母
         if ((selection.curpos > 0 &&
                 rx.exactMatch(m_inputEdit->text().at(selection.curpos - 1)))
-                || rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size()))) {
+                || rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size() - 1))) {
             int funpos = -1;
             int rightfunpos = -1;
             for (int i = 0; i < m_funclist.size(); i++) {
