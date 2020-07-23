@@ -24,6 +24,8 @@
 #include <QTimer>
 #include <QToolTip>
 
+const QSize HISTORY_WIDGET_CLEARBUTTONSIZE = QSize(36, 36);
+
 IconButton::IconButton(QWidget *parent, int b, bool page)
     : TextButton("", parent)
     , m_effect(new QGraphicsDropShadowEffect(this))
@@ -34,7 +36,7 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
     if (mode == 0)
         setFixedSize(80, 57);
     if (b == 1)
-        setFixedSize(40, 40);
+        setFixedSize(HISTORY_WIDGET_CLEARBUTTONSIZE);
     if (b == 2) {
         m_isHistorybtn = true;
         setFixedSize(50, 50);

@@ -30,7 +30,7 @@
 
 #define VPADDING 100 //预留垂直空隙
 #define HPADDING 24 //预留水平空隙
-#define BUTTONHEIGHT 48 //科学计算器按钮高度
+#define BUTTONHEIGHT 47 //科学计算器按钮高度
 
 const ScientificKeyPad::KeyDescription ScientificKeyPad::keyDescriptions[] = {
     {"F-E", Key_FE, 1, 0, 1, 1},   {"MC", Key_MC, 1, 1, 1, 1},   {"MR", Key_MR, 1, 2, 1, 1},

@@ -33,6 +33,14 @@
 #include "src/utils.h"
 #include "src/math/quantity.h"
 
+const int WIDGET_WIDTH = 360;
+const int BUTTONBOX_WIDTH = 200;
+const int BUTTONBOX_HEIGHT = 36;
+const int LEFT_SPACE = 80;
+const int MID_SPACE = 37;
+const int RIGHT_SPACE = 7;
+const QSize CLEARBUTTON_SIZE = QSize(36, 36);
+
 SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     : DWidget(parent)
 //    , m_memorywidget(new MemoryWidget(1, this))
@@ -49,14 +57,14 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_stacklayout = new QStackedLayout();
     QVBoxLayout *m_Vlayout = new QVBoxLayout(this);
     QHBoxLayout *m_Hlayout = new QHBoxLayout();
-    m_Hlayout->addSpacing(70);
+    m_Hlayout->addSpacing(LEFT_SPACE);
     m_Hlayout->addWidget(m_buttonbox, 0, Qt::AlignCenter);
-    m_buttonbox->setFixedWidth(160);
-    m_Hlayout->addSpacing(30);
+    m_buttonbox->setFixedWidth(BUTTONBOX_WIDTH);
+    m_Hlayout->addSpacing(MID_SPACE);
 
     //button stack
     m_Hlayout->addWidget(m_buttonstack);
-    m_buttonstack->setFixedSize(40, 40);
+    m_buttonstack->setFixedSize(CLEARBUTTON_SIZE);
     m_buttonstack->addWidget(m_clearbutton);
     m_buttonstack->addWidget(m_clearbuttonM);
     m_buttonstack->setCurrentIndex(0);
@@ -66,7 +74,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_ishideM = !memoryPublic->isWidgetEmpty(1);
     m_clearbuttonM->setHidden(!(m_ishideM & m_indexM));
 
-    m_Hlayout->addSpacing(20);
+    m_Hlayout->addSpacing(RIGHT_SPACE);
     m_Vlayout->addLayout(m_Hlayout);
 
     //mem & his stack
@@ -81,13 +89,13 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_Vlayout->setMargin(0);
     m_Vlayout->setContentsMargins(0, 0, 0, 11);
     this->setLayout(m_Vlayout);
-    this->setFixedWidth(360);
+    this->setFixedWidth(WIDGET_WIDTH);
 
     QList<DButtonBoxButton *> listBtnBox;
     DButtonBoxButton *historybtn = new DButtonBoxButton(tr("History"));
-    historybtn->setFixedWidth(80);
+    historybtn->setFixedSize(BUTTONBOX_WIDTH / 2, BUTTONBOX_HEIGHT);
     DButtonBoxButton *memorybtn = new DButtonBoxButton(tr("Memory"));
-    memorybtn->setFixedWidth(80);
+    memorybtn->setFixedSize(BUTTONBOX_WIDTH / 2, BUTTONBOX_HEIGHT);
     listBtnBox << historybtn << memorybtn;
     m_buttonbox->setButtonList(listBtnBox, true);
     m_buttonbox->setId(historybtn, 0);
