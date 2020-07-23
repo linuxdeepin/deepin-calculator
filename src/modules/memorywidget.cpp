@@ -84,6 +84,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     layH->addStretch();
 
     layH->addWidget(m_clearbutton);
+    layH->addSpacing(10);
     if (mode == 1)
         m_clearbutton->hide();
 //    connect(m_clearbutton, &DPushButton::clicked, this, [ = ]() {
@@ -91,6 +92,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
 //    });
     connect(m_clearbutton, &DPushButton::clicked, this, &MemoryWidget::memorycleansignal);
     lay->addLayout(layH);
+    lay->addSpacing(6);
     this->setLayout(lay);
     connect(m_listwidget, &MemoryListWidget::itemselected, this, [ = ](int row) {
         if (!m_isempty) {
