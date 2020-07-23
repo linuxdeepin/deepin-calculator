@@ -81,7 +81,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_Vlayout->setMargin(0);
     m_Vlayout->setContentsMargins(0, 0, 0, 11);
     this->setLayout(m_Vlayout);
-    this->setFixedWidth(370);
+    this->setFixedWidth(360);
 
     QList<DButtonBoxButton *> listBtnBox;
     DButtonBoxButton *historybtn = new DButtonBoxButton(tr("History"));

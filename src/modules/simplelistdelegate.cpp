@@ -321,7 +321,6 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                 exp, textoption);
             painter->setFont(fontresult);
             int resultHeight;
-            qDebug() << painter->fontMetrics().width(resultStr) << rect.width() - PADDING * 2;
             int resultline = (painter->fontMetrics().width(resultStr) % (rect.width() - PADDING * 2 - 1)) ?
                              (painter->fontMetrics().width(resultStr) / (rect.width() - PADDING * 2 - 1) + 1) :
                              (painter->fontMetrics().width(resultStr) / (rect.width() - PADDING * 2 - 1)); //由于结果字体较大，暂以此避免
@@ -337,16 +336,16 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
             if (option.state & QStyle::State_MouseOver && m_state == 0) {
                 painter->setBrush(normalbackground);
                 painter->setPen(Qt::NoPen);
-                painter->drawRect(rect.x() + 5, rect.y(), rect.width(), rect.height());
+                painter->drawRect(rect.x(), rect.y(), rect.width() + 5, rect.height());
             } else if (m_state == 1 && m_row == index.row()) {
                 painter->setBrush(normalbackground);
                 painter->setPen(Qt::NoPen);
-                painter->drawRect(rect.x() + 5, rect.y(), rect.width(), rect.height());
+                painter->drawRect(rect.x(), rect.y(), rect.width() + 5, rect.height());
             }
             if (m_state == 2 && m_row == index.row()) {
                 painter->setPen(Qt::NoPen);
                 painter->setBrush(pressbackground);
-                painter->drawRect(rect.x() + 5, rect.y(), rect.width(), rect.height());
+                painter->drawRect(rect.x(), rect.y(), rect.width() + 5, rect.height());
             }
         }
     }
@@ -359,7 +358,7 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
     Q_UNUSED(option);
     if (m_mode == 1) {
         const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
-        const int rectwidth = 366; //paintevent设置右边缘后的宽度
+        const int rectwidth = 356; //paintevent设置右边缘后的宽度
         QStringList splitList = expression.split("＝");
         if (splitList.size() == 1)
             return QSize(-1, 423);
@@ -381,7 +380,7 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
                          (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 1) + 1) :
                          (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 1)); //由于结果字体较大，暂以此避免
         resultHeight = fmresult.height() * resultline;
-        return QSize(370, expHeight + resultHeight + 20);
+        return QSize(360, expHeight + resultHeight + 20);
     } else
         return QSize(-1, 33);
 //    QStyledItemDelegate::sizeHint(option, index);

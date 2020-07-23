@@ -29,7 +29,7 @@
 #include "dthememanager.h"
 
 #define VPADDING 100 //预留垂直空隙
-#define HPADDING 25 //预留水平空隙
+#define HPADDING 24 //预留水平空隙
 #define BUTTONHEIGHT 48 //科学计算器按钮高度
 
 const ScientificKeyPad::KeyDescription ScientificKeyPad::keyDescriptions[] = {
@@ -293,7 +293,7 @@ void ScientificKeyPad::initUI()
         connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
             Q_UNUSED(height);
             int hiswidth; //历史记录宽度
-            hishide == false ? hiswidth = 370 : hiswidth = 0;
+            hishide == false ? hiswidth = 360 : hiswidth = 0;
             i.value().first->setFixedSize((width - HPADDING - hiswidth) / 6, BUTTONHEIGHT);
         });
         if (i.key() == Key_left) {
@@ -341,7 +341,7 @@ void ScientificKeyPad::initUI()
         connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
             Q_UNUSED(height);
             int hiswidth; //历史记录宽度
-            hishide == false ? hiswidth = 370 : hiswidth = 0;;
+            hishide == false ? hiswidth = 360 : hiswidth = 0;;
             i1.value().first->setFixedSize((width - HPADDING - hiswidth) / 6, BUTTONHEIGHT);
         });
     }
@@ -351,7 +351,7 @@ void ScientificKeyPad::initUI()
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
 
-    this->setContentsMargins(12, 0, 13, 9);
+    this->setContentsMargins(12, 0, 12, 9);
 }
 
 /**
@@ -379,7 +379,7 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
     connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
         Q_UNUSED(height);
         int hiswidth; //历史记录宽度
-        hishide == false ? hiswidth = 370 : hiswidth = 0;
+        hishide == false ? hiswidth = 360 : hiswidth = 0;
         widget->setFixedSize((width - HPADDING - hiswidth) / 6, BUTTONHEIGHT + 2);
     });
 }

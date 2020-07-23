@@ -60,6 +60,7 @@ scientificModule::scientificModule(QWidget *parent)
     rightlay->addWidget(m_scihiswidget);
     layout->addLayout(leftlay);
     layout->addLayout(rightlay);
+    layout->setSpacing(0);
     this->setLayout(layout);
     layout->setContentsMargins(0, 0, 0, 0);
 
