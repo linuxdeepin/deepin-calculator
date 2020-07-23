@@ -98,7 +98,8 @@ MainWindow::MainWindow(QWidget *parent)
             } else {
                 hideHistoryWidget(true);
                 if (width() == HISTORY_SHOW_LEAST_WIDTH)
-                    resize(width() - 1, this->height());
+                    resize(SCIENTIFIC_MIN_SIZE);
+//                    resize(width() - 1, this->height());
                 emit windowChanged(width(), height(), true);
             }
         } else
