@@ -383,7 +383,7 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
         resultHeight = fmresult.height() * resultline;
         return QSize(370, expHeight + resultHeight + 20);
     } else
-        return QSize(-1, 35);
+        return QSize(-1, 33);
 //    QStyledItemDelegate::sizeHint(option, index);
 }
 

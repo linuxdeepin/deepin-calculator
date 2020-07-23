@@ -38,9 +38,9 @@
 DGUI_USE_NAMESPACE
 
 const int HISTORY_SHOW_LEAST_WIDTH = 800; //最小显示历史记录的宽度
-const QSize STANDARD_SIZE = QSize(344, 560); //标准模式的固定大小
-const QSize SCIENTIFIC_MIN_SIZE = QSize(430, 540); //科学模式的最小size
-const QSize SCIENTIFIC_MAX_SIZE = QSize(800, 540); //科学模式的最大size
+const QSize STANDARD_SIZE = QSize(344, 545); //标准模式的固定大小
+const QSize SCIENTIFIC_MIN_SIZE = QSize(430, 545); //科学模式的最小size
+const QSize SCIENTIFIC_MAX_SIZE = QSize(800, 545); //科学模式的最大size
 
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent)

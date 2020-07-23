@@ -49,7 +49,7 @@ SimpleListView::SimpleListView(int mode, QWidget *parent)
     setSelectionBehavior(QAbstractItemView::SelectRows);
     setSelectionMode(QAbstractItemView::SingleSelection);
     if (m_mode == 0)
-        setFixedHeight(105);
+        setFixedHeight(99);
 
     if (m_mode == 1)
         setMouseTracking(true);

@@ -67,7 +67,7 @@ ExpressionBar::ExpressionBar(QWidget *parent)
     layout->setMargin(0);
     layout->setSpacing(0);
 
-    setFixedHeight(160);
+    setFixedHeight(147);
     initConnect();
 }
 
