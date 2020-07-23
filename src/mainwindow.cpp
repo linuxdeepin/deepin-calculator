@@ -126,9 +126,14 @@ void MainWindow::initTheme()
         path = QString(":/assets/images/%1/").arg("light");
     } else {
         DPalette titlePa = titlebar()->palette();
-        titlePa.setColor(DPalette::Light, QColor(37, 37, 37));
-        titlePa.setColor(DPalette::Dark, QColor(37, 37, 37));
-        titlePa.setColor(DPalette::Base, QColor(37, 37, 37));
+        QColor normalbackground = QColor(0, 0, 0);
+        normalbackground.setAlphaF(0.1);
+        titlePa.setColor(DPalette::Light, normalbackground);
+        titlePa.setColor(DPalette::Dark, normalbackground);
+        titlePa.setColor(DPalette::Base, normalbackground);
+//        titlePa.setColor(DPalette::Light, QColor(37, 37, 37));
+//        titlePa.setColor(DPalette::Dark, QColor(37, 37, 37));
+//        titlePa.setColor(DPalette::Base, QColor(37, 37, 37));
         titlebar()->setPalette(titlePa);
         path = QString(":/assets/images/%1/").arg("dark");
     }
