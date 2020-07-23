@@ -40,6 +40,7 @@ const int LEFT_SPACE = 80;
 const int MID_SPACE = 37;
 const int RIGHT_SPACE = 7;
 const QSize CLEARBUTTON_SIZE = QSize(36, 36);
+const int SPACE_BETWEEN_BUTTONANDVIEW = 20;
 
 SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     : DWidget(parent)
@@ -76,6 +77,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 
     m_Hlayout->addSpacing(RIGHT_SPACE);
     m_Vlayout->addLayout(m_Hlayout);
+    m_Vlayout->addSpacing(SPACE_BETWEEN_BUTTONANDVIEW);
 
     //mem & his stack
     m_Vlayout->addLayout(m_stacklayout);
