@@ -68,6 +68,7 @@ private:
     bool m_page; //m_page-是否是科学计算器中两页中的按钮
     bool m_Btnisdown = false;
     bool m_isacting = false; //规避鼠标在button内release时出现foucus状态的框
+    int m_btn = 0; //1-2ⁿᵈ, 2-xʸ, 3-10ˣ, 4-2ˣ, 5-eˣ, 6-arcsin, 7-arccos, 8-arctan, 9-arccot
 };
 
 #endif

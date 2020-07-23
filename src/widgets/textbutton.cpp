@@ -34,7 +34,7 @@ TextButton::TextButton(const QString &text, bool page, QWidget *parent)
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(80, 60);
+        setFixedSize(80, 57);
 //    else
 //        setMinimumSize(67, 44);
     setFocusPolicy(Qt::NoFocus);
@@ -56,7 +56,49 @@ TextButton::~TextButton()
 
 void TextButton::init()
 {
-    m_font.setPixelSize(18);
+    if (text() == "2ⁿᵈ") {
+        m_btn = 1;
+    } else if (text() == "xʸ") {
+        m_btn = 2;
+    } else if (text() == "10ˣ") {
+        m_btn = 3;
+    } else if (text() == "2ˣ") {
+        m_btn = 4;
+    } else if (text() == "eˣ") {
+        m_btn = 5;
+    } else if (text() == "arcsin") {
+        m_btn = 6;
+    } else if (text() == "arccos") {
+        m_btn = 7;
+    } else if (text() == "arctan") {
+        m_btn = 8;
+    } else if (text() == "arccot") {
+        m_btn = 9;
+    }
+    if (text() == "Rand")
+        m_font.setPixelSize(15);
+    else if (text() == "logᵧx") {
+        m_font.setPixelSize(14);
+    } else if (text() == "log") {
+        m_font.setPixelSize(16);
+    } else if (text() == "|x|") {
+        m_font.setPixelSize(14);
+    } else if (text() == "Mod") {
+        m_font.setPixelSize(14);
+    } else if (text() == "exp") {
+        m_font.setPixelSize(16);
+    } else if (text() == "sin") {
+        m_font.setPixelSize(16);
+    } else if (text() == "cos") {
+        m_font.setPixelSize(16);
+    } else if (text() == "tan") {
+        m_font.setPixelSize(16);
+    } else if (text() == "cot") {
+        m_font.setPixelSize(16);
+    } else if (text() == "+/-") {
+        m_font.setPixelSize(20);
+    } else
+        m_font.setPixelSize(18);
     m_font.setFamily("Noto Sans");
     m_font.setStyleName("Light");
     m_font.setWeight(2);
@@ -159,7 +201,30 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
 
 void TextButton::enterEvent(QEvent *e)
 {
-    m_font.setPixelSize(20);
+    if (text() == "Rand")
+        m_font.setPixelSize(17);
+    else if (text() == "logᵧx") {
+        m_font.setPixelSize(16);
+    } else if (text() == "log") {
+        m_font.setPixelSize(18);
+    } else if (text() == "|x|") {
+        m_font.setPixelSize(16);
+    } else if (text() == "Mod") {
+        m_font.setPixelSize(16);
+    } else if (text() == "exp") {
+        m_font.setPixelSize(18);
+    } else if (text() == "sin") {
+        m_font.setPixelSize(18);
+    } else if (text() == "cos") {
+        m_font.setPixelSize(18);
+    } else if (text() == "tan") {
+        m_font.setPixelSize(18);
+    } else if (text() == "cot") {
+        m_font.setPixelSize(18);
+    } else if (text() == "+/-") {
+        m_font.setPixelSize(22);
+    } else
+        m_font.setPixelSize(20);
     m_font.setStyleName("");
     m_isHover = true;
     DPushButton::enterEvent(e);
@@ -167,7 +232,30 @@ void TextButton::enterEvent(QEvent *e)
 
 void TextButton::leaveEvent(QEvent *e)
 {
-    m_font.setPixelSize(18);
+    if (text() == "Rand")
+        m_font.setPixelSize(15);
+    else if (text() == "logᵧx") {
+        m_font.setPixelSize(14);
+    } else if (text() == "log") {
+        m_font.setPixelSize(16);
+    } else if (text() == "|x|") {
+        m_font.setPixelSize(14);
+    } else if (text() == "Mod") {
+        m_font.setPixelSize(14);
+    } else if (text() == "exp") {
+        m_font.setPixelSize(16);
+    } else if (text() == "sin") {
+        m_font.setPixelSize(16);
+    } else if (text() == "cos") {
+        m_font.setPixelSize(16);
+    } else if (text() == "tan") {
+        m_font.setPixelSize(16);
+    } else if (text() == "cot") {
+        m_font.setPixelSize(16);
+    } else if (text() == "+/-") {
+        m_font.setPixelSize(20);
+    } else
+        m_font.setPixelSize(18);
     m_font.setStyleName("Light");
     m_isHover = false;
     m_isacting = false;
@@ -194,7 +282,7 @@ void TextButton::paintEvent(QPaintEvent *e)
     Q_UNUSED(e);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(80, 60);
+        setFixedSize(80, 57);
     QRectF rect = this->rect();
     QRectF normal(rect.left() + 2, rect.top() + 2, rect.width() - 4, rect.height() - 4);
     QRectF hover(rect.left() + 3, rect.top() + 3, rect.width() - 6, rect.height() - 6);
@@ -299,8 +387,131 @@ void TextButton::paintEvent(QPaintEvent *e)
         QPen pen;
         pen.setColor(text);
         painter.setPen(pen);
-        painter.setFont(m_font);
-        painter.drawText(textRect, this->text());
+        if (m_btn == 1) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "2ⁿ");
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "2");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2, int(rect.height() / 4 - 2),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "nd");
+            QFont a;
+            a.setPixelSize(11);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "nd");
+        } else if (m_btn == 2) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "xʸ");
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "x");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 2, int(rect.height() / 4),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "y");
+            QFont a;
+            a.setPixelSize(12);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "y");
+        } else if (m_btn == 3) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "10ˣ");
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "10");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 8, int(rect.height() / 4 - 1),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "x");
+            QFont a;
+            a.setPixelSize(12);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "x");
+        } else if (m_btn == 4) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "2ˣ");
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "2");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 2, int(rect.height() / 4),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "x");
+            QFont a;
+            a.setPixelSize(12);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "x");
+        } else if (m_btn == 5) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "eˣ");
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "e");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 2, int(rect.height() / 4),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "x");
+            QFont a;
+            a.setPixelSize(12);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "x");
+        } else if (m_btn == 6) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "sinˣ");
+            m_font.setPixelSize(18);
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "sin");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - 4),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "-1");
+            QFont a;
+            a.setPixelSize(12);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "-1");
+        } else if (m_btn == 7) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "cosˣ");
+            m_font.setPixelSize(18);
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "cos");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - 4),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "-1");
+            QFont a;
+            a.setPixelSize(12);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "-1");
+        } else if (m_btn == 8) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "tanˣ");
+            m_font.setPixelSize(18);
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "tan");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - 4),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "-1");
+            QFont a;
+            a.setPixelSize(12);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "-1");
+        } else if (m_btn == 9) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "cotˣ");
+            m_font.setPixelSize(18);
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "cot");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - 4),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "-1");
+            QFont a;
+            a.setPixelSize(12);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "-1");
+        } else {
+            painter.setFont(m_font);
+            painter.drawText(textRect, this->text());
+        }
         m_effect->setColor(hoverShadow);
         this->setGraphicsEffect(m_effect);
     } else if (m_isPress) {
@@ -309,19 +520,264 @@ void TextButton::paintEvent(QPaintEvent *e)
         QPen pen;
         pen.setColor(pressText);
         painter.setPen(pen);
-        painter.setFont(m_font);
-        painter.drawText(textRect, this->text());
+        if (m_btn == 1) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "2ⁿ");
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "2");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2, int(rect.height() / 4 - 2),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "nd");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "nd");
+        } else if (m_btn == 2) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "xʸ");
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "x");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 2, int(rect.height() / 4),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "y");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "y");
+        } else if (m_btn == 3) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "10ˣ");
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "10");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 8, int(rect.height() / 4),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "x");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "x");
+        } else if (m_btn == 4) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "2ˣ");
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "2");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 2, int(rect.height() / 4),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "x");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "x");
+        } else if (m_btn == 5) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "eˣ");
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "e");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 2, int(rect.height() / 4),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "x");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "x");
+        } else if (m_btn == 6) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "sinˣ");
+            m_font.setPixelSize(16);
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "sin");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - 3),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "-1");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "-1");
+        } else if (m_btn == 7) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "cosˣ");
+            m_font.setPixelSize(16);
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "cos");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - 3),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "-1");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "-1");
+        } else if (m_btn == 8) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "tanˣ");
+            m_font.setPixelSize(16);
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "tan");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - 3),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "-1");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "-1");
+        } else if (m_btn == 9) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "cotˣ");
+            m_font.setPixelSize(16);
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "cot");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - 3),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "-1");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "-1");
+        } else {
+            painter.setFont(m_font);
+            painter.drawText(textRect, this->text());
+        }
     } else {
         painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
         QPen pen;
         pen.setColor(text);
         painter.setPen(pen);
-        painter.setFont(m_font);
-        painter.drawText(textRect, this->text());
+        if (m_btn == 1) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "2ⁿ");
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "2");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2, int(rect.height() / 4 - 2),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "nd");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "nd");
+        } else if (m_btn == 2) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "xʸ");
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "x");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 2, int(rect.height() / 4),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "y");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "y");
+        } else if (m_btn == 3) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "10ˣ");
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "10");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 8, int(rect.height() / 4),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "x");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "x");
+        } else if (m_btn == 4) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "2ˣ");
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "2");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 2, int(rect.height() / 4),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "x");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "x");
+        } else if (m_btn == 5) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "eˣ");
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "e");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 2, int(rect.height() / 4),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "x");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "x");
+        } else if (m_btn == 6) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "sinˣ");
+            m_font.setPixelSize(16);
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "sin");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - 3),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "-1");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "-1");
+        } else if (m_btn == 7) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "cosˣ");
+            m_font.setPixelSize(16);
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "cos");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - 3),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "-1");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "-1");
+        } else if (m_btn == 8) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "tanˣ");
+            m_font.setPixelSize(16);
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "tan");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - 3),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "-1");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "-1");
+        } else if (m_btn == 9) {
+            QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                                  Qt::AlignCenter, "cotˣ");
+            m_font.setPixelSize(16);
+            painter.setFont(m_font);
+            painter.drawText(textRect1, "cot");
+            QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - 3),
+                                                                  int(rect.width()) / 2, int(rect.height() / 2),
+                                                                  Qt::AlignLeft, "-1");
+            QFont a;
+            a.setPixelSize(10);
+            a.setFamily("Noto Sans");
+            painter.setFont(a);
+            painter.drawText(textRect2, "-1");
+        } else {
+            painter.setFont(m_font);
+            painter.drawText(textRect, this->text());
+        }
         m_effect->setColor(QColor(0, 0, 0, 0));
         this->setGraphicsEffect(m_effect);
     }
-//    }
 }
 
 void TextButton::focusOutEvent(QFocusEvent *e)

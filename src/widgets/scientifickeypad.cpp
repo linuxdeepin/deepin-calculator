@@ -106,7 +106,7 @@ static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool p
         button->setIconUrl(path + "cuberoot_normal.svg", path + "cuberoot_hover.svg", path + "cuberoot_press.svg", 3);
     } else if (key == ScientificKeyPad::Key_ysqrtx) {
         button->setIconUrl(path + "yroot_normal.svg", path + "yroot_hover.svg", path + "yroot_press.svg", 3);
-    } else if (key == ScientificKeyPad::Key_arcsin) {
+    }/* else if (key == ScientificKeyPad::Key_arcsin) {
         button->setIconUrl(path + "sin-1_normal.svg", path + "sin-1_hover.svg", path + "sin-1_press.svg", 3);
     } else if (key == ScientificKeyPad::Key_arccos) {
         button->setIconUrl(path + "cos-1_normal.svg", path + "cos-1_hover.svg", path + "cos-1_press.svg", 3);
@@ -114,7 +114,7 @@ static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool p
         button->setIconUrl(path + "tan-1_normal.svg", path + "tan-1_hover.svg", path + "tan-1_press.svg", 3);
     } else if (key == ScientificKeyPad::Key_arccot) {
         button->setIconUrl(path + "cot-1_normal.svg", path + "cot-1_hover.svg", path + "cot-1_press.svg", 3);
-    } else if (key == ScientificKeyPad::Key_deg) {
+    }*/ else if (key == ScientificKeyPad::Key_deg) {
         button->setIconUrl(path + "deg_normal.svg", path + "deg_hover.svg", path + "deg_press.svg", 5);
     }
     //connect(button, &IconButton::updateInterface, this, &ScientificKeyPad::updateInterface);
@@ -226,7 +226,7 @@ void ScientificKeyPad::initButtons()
         //翻页按键初始化
         if (desc->button == Key_sin) {
             const KeyDescription1 *desc1 = keyDescriptions1;
-            pagebutton = createSpecialKeyButton(Key_arcsin, true);
+            pagebutton = new TextButton("arcsin", true);
             initStackWidget(m_arcsinwidget, button, pagebutton, desc1);
         } else if (desc->button == Key_x2) {
             const KeyDescription1 *desc1 = keyDescriptions1 + 1;
@@ -234,7 +234,7 @@ void ScientificKeyPad::initButtons()
             initStackWidget(m_arccoswidget, button, pagebutton, desc1);
         } else if (desc->button == Key_cos) {
             const KeyDescription1 *desc1 = keyDescriptions1 + 2;
-            pagebutton = createSpecialKeyButton(Key_arccos, true);
+            pagebutton = new TextButton("arccos", true);
             initStackWidget(m_arctanwidget, button, pagebutton, desc1);
         } else if (desc->button == Key_x3) {
             const KeyDescription1 *desc1 = keyDescriptions1 + 3;
@@ -242,7 +242,7 @@ void ScientificKeyPad::initButtons()
             initStackWidget(m_arccotwidget, button, pagebutton, desc1);
         } else if (desc->button == Key_tan) {
             const KeyDescription1 *desc1 = keyDescriptions1 + 4;
-            pagebutton = createSpecialKeyButton(Key_arctan, true);
+            pagebutton = new TextButton("arctan", true);
             initStackWidget(m_sqrtwidget, button, pagebutton, desc1);
         } else if (desc->button == Key_xy) {
             const KeyDescription1 *desc1 = keyDescriptions1 + 5;
@@ -250,7 +250,7 @@ void ScientificKeyPad::initButtons()
             initStackWidget(m_cbrtwidget, button, pagebutton, desc1);
         } else if (desc->button == Key_cot) {
             const KeyDescription1 *desc1 = keyDescriptions1 + 6;
-            pagebutton = createSpecialKeyButton(Key_arccot, true);
+            pagebutton = new TextButton("arccot", true);
             initStackWidget(m_yrootwidget, button, pagebutton, desc1);
         } else if (desc->button == Key_10x) {
             const KeyDescription1 *desc1 = keyDescriptions1 + 7;
@@ -414,14 +414,14 @@ void ScientificKeyPad::buttonThemeChanged(int type)
     btn->setIconUrl(path + "cuberoot_normal.svg", path + "cuberoot_hover.svg", path + "cuberoot_press.svg", 3);
     btn = static_cast<IconButton *>(button(Key_ysqrtx));
     btn->setIconUrl(path + "yroot_normal.svg", path + "yroot_hover.svg", path + "yroot_press.svg", 3);
-    btn = static_cast<IconButton *>(button(Key_arcsin));
-    btn->setIconUrl(path + "sin-1_normal.svg", path + "sin-1_hover.svg", path + "sin-1_press.svg", 3);
-    btn = static_cast<IconButton *>(button(Key_arccos));
-    btn->setIconUrl(path + "cos-1_normal.svg", path + "cos-1_hover.svg", path + "cos-1_press.svg", 3);
-    btn = static_cast<IconButton *>(button(Key_arctan));
-    btn->setIconUrl(path + "tan-1_normal.svg", path + "tan-1_hover.svg", path + "tan-1_press.svg", 3);
-    btn = static_cast<IconButton *>(button(Key_arccot));
-    btn->setIconUrl(path + "cot-1_normal.svg", path + "cot-1_hover.svg", path + "cot-1_press.svg", 3);
+//    btn = static_cast<IconButton *>(button(Key_arcsin));
+//    btn->setIconUrl(path + "sin-1_normal.svg", path + "sin-1_hover.svg", path + "sin-1_press.svg", 3);
+//    btn = static_cast<IconButton *>(button(Key_arccos));
+//    btn->setIconUrl(path + "cos-1_normal.svg", path + "cos-1_hover.svg", path + "cos-1_press.svg", 3);
+//    btn = static_cast<IconButton *>(button(Key_arctan));
+//    btn->setIconUrl(path + "tan-1_normal.svg", path + "tan-1_hover.svg", path + "tan-1_press.svg", 3);
+//    btn = static_cast<IconButton *>(button(Key_arccot));
+//    btn->setIconUrl(path + "cot-1_normal.svg", path + "cot-1_hover.svg", path + "cot-1_press.svg", 3);
     if (m_deg == 1) {
         btn = static_cast<IconButton *>(button(Key_deg));
         btn->setIconUrl(path + "rad_normal.svg", path + "rad_hover.svg", path + "rad_press.svg", 5);
