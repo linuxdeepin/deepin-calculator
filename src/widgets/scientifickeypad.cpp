@@ -144,7 +144,7 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     initButtons();
     initUI();
     m_gridlayout1->setMargin(0);
-    m_gridlayout1->setSpacing(0);
+    m_gridlayout1->setSpacing(5);
     m_gridlayout1->setContentsMargins(0, 0, 0, 0);
     this->setLayout(m_gridlayout1);
 
@@ -351,7 +351,7 @@ void ScientificKeyPad::initUI()
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
 
-    this->setContentsMargins(12, 0, 12, 9);
+    this->setContentsMargins(12, 0, 12, 10);
 }
 
 /**

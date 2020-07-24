@@ -46,7 +46,7 @@ scientificModule::scientificModule(QWidget *parent)
     QVBoxLayout *leftlay = new QVBoxLayout();
     m_sciexpressionBar = new SciExpressionBar;
     m_memoryPublic = MemoryPublic::instance(this);
-    m_sciexpressionBar->setFixedHeight(90);
+    m_sciexpressionBar->setFixedHeight(95);
     leftlay->addWidget(m_sciexpressionBar);
 //    leftlay->addWidget(m_scikeypadwidget);
 //    m_triCombobox->setFixedSize(60, 40);
