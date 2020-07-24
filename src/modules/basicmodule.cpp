@@ -67,10 +67,6 @@ BasicModule::BasicModule(QWidget *parent)
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_expressionBar, &ExpressionBar::initTheme);
 
-    DPalette pal = this->palette();
-    pal.setColor(DPalette::Light, QColor(248, 248, 248));
-    this->setPalette(pal);
-
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this,
             &BasicModule::initTheme);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
