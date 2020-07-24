@@ -57,6 +57,10 @@ public:
     void keyPressEvent(QKeyEvent *);
     void paintEvent(QPaintEvent *e);
     void focusOutEvent(QFocusEvent *);
+
+private:
+    void paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect);
+
 private:
     QGraphicsDropShadowEffect *m_effect;
 
