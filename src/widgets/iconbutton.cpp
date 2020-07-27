@@ -34,7 +34,7 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(80, 57);
+        setFixedSize(76, 56);
     if (b == 1)
         setFixedSize(HISTORY_WIDGET_CLEARBUTTONSIZE);
     if (b == 2) {
@@ -196,11 +196,11 @@ void IconButton::paintEvent(QPaintEvent *)
         if (!m_isHistorybtn) {
             int mode = m_settings->getOption("mode").toInt();
             if (mode == 0)
-                setFixedSize(80, 57);
+                setFixedSize(76, 56);
         }
         QRectF frameRect = this->rect();
-        QRectF rect(frameRect.left() + 2, frameRect.top() + 2, frameRect.width() - 4, frameRect.height() - 4);
-        QRectF hover(frameRect.left() + 3, frameRect.top() + 3, frameRect.width() - 6, frameRect.height() - 6);
+        QRectF rect(frameRect.left(), frameRect.top(), frameRect.width(), frameRect.height());
+        QRectF hover(frameRect.left(), frameRect.top(), frameRect.width(), frameRect.height());
         if (m_isHistorybtn)
             rect = hover = frameRect;
         painter.setRenderHint(QPainter::Antialiasing, true);
@@ -409,7 +409,7 @@ void IconButton::drawCenterPixMap(QPainter &painter)
 
     SetAttrRecur(doc.documentElement(), "g", "fill", Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name());
     QRectF frameRect = this->rect();
-    QRectF rect(frameRect.left() + 2, frameRect.top() + 2, frameRect.width() - 4, frameRect.height() - 4);
+    QRectF rect(frameRect.left(), frameRect.top(), frameRect.width(), frameRect.height());
     QRectF pixRect = m_pixmap.rect();
     pixRect.moveCenter(rect.center());
 //    m_iconRenderer = new DSvgRenderer(doc.toByteArray(), this);

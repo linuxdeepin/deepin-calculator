@@ -36,7 +36,7 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(53, 33);
+        setFixedSize(50, 30);
     setObjectName("MemoryButton");
     m_widgetbtn = listwidgetbtn;
 
@@ -230,9 +230,9 @@ void MemoryButton::paintEvent(QPaintEvent *e)
     Q_UNUSED(e);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(53, 33);
+        setFixedSize(50, 30);
     if (m_widgetbtn)
-        setFixedSize(53, 33);
+        setFixedSize(50, 30);
     if (isEnabled() == false) {
         m_font.setPixelSize(16);
         m_font.setStyleName("Light");
@@ -242,8 +242,8 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         m_isgray = false;
     }
     QRectF rect = this->rect();
-    QRectF normal(rect.left() + 2, rect.top() + 2, rect.width() - 4, rect.height() - 4);
-    QRectF hover(rect.left() + 3, rect.top() + 3, rect.width() - 6, rect.height() - 6);
+    QRectF normal(rect.left(), rect.top(), rect.width(), rect.height());
+    QRectF hover(rect.left(), rect.top(), rect.width(), rect.height());
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true);

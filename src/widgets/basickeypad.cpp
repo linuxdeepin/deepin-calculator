@@ -25,6 +25,12 @@
 
 #include "dthememanager.h"
 
+const int KEYPAD_HEIGHT = 316;
+const int KEYPAD_SPACING = 5;
+const int LEFT_MARGIN = 12;
+const int RIGHT_MARGIN = 13;
+const int BOTTOM_MARGIN = 11;
+
 const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
 //    {"MC", Key_MC, 1, 0, 1, 2},       {"MR", Key_MR, 1, 2, 1, 2},
 //    {"M+", Key_Mplus, 1, 4, 1, 2},    {"M-", Key_Mminus, 1, 6, 1, 2},
@@ -82,8 +88,9 @@ BasicKeypad::BasicKeypad(QWidget *parent)
       m_layout(new QGridLayout(this)),
       m_mapper(new QSignalMapper(this))
 {
+    this->setFixedHeight(KEYPAD_HEIGHT);
     m_layout->setMargin(0);
-    m_layout->setSpacing(1);
+    m_layout->setSpacing(KEYPAD_SPACING);
     m_layout->setContentsMargins(0, 0, 0, 0);
 
     initButtons();
@@ -149,7 +156,7 @@ void BasicKeypad::initButtons()
         }
 
         m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
-                            Qt::AlignHCenter | Qt::AlignBottom);
+                            Qt::AlignHCenter | Qt::AlignVCenter);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue);
 
@@ -168,7 +175,7 @@ void BasicKeypad::initUI()
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
 
-    this->setContentsMargins(12, 0, 13, 11);
+    this->setContentsMargins(LEFT_MARGIN, KEYPAD_SPACING, RIGHT_MARGIN, BOTTOM_MARGIN);
 }
 
 void BasicKeypad::buttonThemeChanged(int type)
