@@ -200,7 +200,6 @@ void MainWindow::switchToSimpleMode()
         m_lastscisize = m_isinit ? STANDARD_SIZE : this->size();
         m_settings->setOption("mode", 0);
         m_mainLayout->setCurrentIndex((m_firstInitMode == 0 ? 0 : 1));
-        m_basicModule->checkLineEmpty();
         hideHistoryWidget(false);
     }
 }
@@ -256,6 +255,9 @@ void MainWindow::hideHistoryWidget(bool hissetting)
     }
 }
 
+/**
+ * @brief 焦点不在basicmodul时也触发keypress
+ */
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (m_mainLayout->currentIndex() == (m_firstInitMode == 0 ? 0 : 1))

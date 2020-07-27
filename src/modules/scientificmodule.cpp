@@ -184,116 +184,117 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
 
     switch (e->key()) {
     case Qt::Key_0:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_0);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterNumberEvent("0");
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_1:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_1);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterNumberEvent("1");
-        // m_basicKeypad->button(BasicKeypad::Key_1)->animateClick();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_2:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_2);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterNumberEvent("2");
-        // m_basicKeypad->button(BasicKeypad::Key_2)->animateClick();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_3:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_3);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterNumberEvent("3");
-        // m_basicKeypad->button(BasicKeypad::Key_3)->animateClick();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_4:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_4);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterNumberEvent("4");
-        // m_basicKeypad->button(BasicKeypad::Key_4)->animateClick();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_5:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_5);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterNumberEvent("5");
-        // m_basicKeypad->button(BasicKeypad::Key_5)->animateClick();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_6:
-        if (!m_sciexpressionBar->judgeinput())
-            return;
         if (isPressShift) {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_xy);
+            if (!m_sciexpressionBar->judgeinput())
+                return;
             m_sciexpressionBar->enterxyEvent();
             m_sciexpressionBar->addUndo();
         } else {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_6);
+            if (!m_sciexpressionBar->judgeinput())
+                return;
             m_sciexpressionBar->enterNumberEvent("6");
-            // m_basicKeypad->button(BasicKeypad::Key_6)->animateClick();
             m_sciexpressionBar->addUndo();
         }
         break;
     case Qt::Key_7:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_7);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterNumberEvent("7");
-        // m_basicKeypad->button(BasicKeypad::Key_7)->animateClick();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_8:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_8);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterNumberEvent("8");
-        // m_basicKeypad->button(BasicKeypad::Key_8)->animateClick();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_9:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_9);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterNumberEvent("9");
-        // m_basicKeypad->button(BasicKeypad::Key_9)->animateClick();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_Plus:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_Plus);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterSymbolEvent("+");
-        // m_basicKeypad->button(BasicKeypad::Key_Plus)->animateClick();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_Minus:
     case Qt::Key_Underscore:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_Min);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterSymbolEvent("-");
-        // m_basicKeypad->button(BasicKeypad::Key_Min)->animateClick();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_Asterisk:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_Mult);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterSymbolEvent("*");
-        // m_basicKeypad->button(BasicKeypad::Key_Mult)->animateClick();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_Slash:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_Div);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterSymbolEvent("/");
-        // m_basicKeypad->button(BasicKeypad::Key_Div)->animateClick();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_Enter:
     case Qt::Key_Return:
     case Qt::Key_Equal:
-        //(dynamic_cast<DPushButton
-        //*>(m_basicKeypad->button(BasicKeypad::Key_Equals)))->animateClick();
-        // m_basicKeypad->button()->animateClick();
-//        m_sciexpressionBar->settingLinkage();
         m_sciexpressionBar->enterEqualEvent();
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_Equals);
         if (m_sciexpressionBar->getexpression().first) {
             m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->getanswer(), m_sciexpressionBar->getexpression().second, 0);
             m_scihiswidget->ishistoryfilled(true);
@@ -303,43 +304,39 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         break;
     case Qt::Key_Backspace:
         m_sciexpressionBar->enterBackspaceEvent();
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_Backspace);
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_Period:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_Point);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterPointEvent();
-        //(static_cast<DPushButton
-        //*>(m_basicKeypad->button(BasicKeypad::Key_Point)))->animateClick();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_Escape:
-        //            (static_cast<DPushButton
-        //            *>(m_basicKeypad->button(BasicKeypad::Key_Clear)))
-        //                ->animateClick();
         m_sciexpressionBar->enterClearEvent();
-        //            m_sciexpressionBar->addUndo();
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_Clear);
         break;
     case Qt::Key_ParenLeft:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_left);
         if (!m_sciexpressionBar->judgeinput())
             return;
-        // m_sciexpressionBar->setContinue(true);
-        // m_sciexpressionBar->enterBracketsEvent();
-        // m_basicKeypad->button(BasicKeypad::Key_Brackets)->animateClick();
         m_sciexpressionBar->enterLeftBracketsEvent();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_ParenRight:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_right);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterRightBracketsEvent();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_Percent:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_Percent);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterPercentEvent();
-        // m_basicKeypad->button(BasicKeypad::Key_Percent)->animateClick();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_C:
@@ -354,6 +351,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_sciexpressionBar->addUndo();
         } else {
             m_sciexpressionBar->enterFEEvent(m_FEisdown);
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_FE);
             m_sciexpressionBar->addUndo();
         }
         break;
@@ -366,6 +364,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         if (isPressCtrl) {
             m_sciexpressionBar->shear();
         } else {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_Mult);
             if (!m_sciexpressionBar->judgeinput())
                 return;
             m_sciexpressionBar->enterSymbolEvent("*");
@@ -392,6 +391,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         if (isPressCtrl)
             m_sciexpressionBar->Redo();
         else {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_xy);
             if (!m_sciexpressionBar->judgeinput())
                 return;
             m_sciexpressionBar->enterxyEvent();
@@ -400,18 +400,22 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         break;
     case Qt::Key_L:
         if (isPressCtrl && m_memRCbtn) { //CTRL+L,MC
-//            m_scikeypadwidget->animate(MemoryKeypad::Key_MC);
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_MC);
             QTimer::singleShot(100, this, [ = ] {
 //                m_memorylistwidget->memoryclean();
-                m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryclean);
+                m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryclean); //延迟，让动画效果显示
             });
         } else {
-            if (!m_sciexpressionBar->judgeinput())
-                return;
             if (isPressShift) {
+                m_scikeypadwidget->animate(ScientificKeyPad::Key_logyx);
+                if (!m_sciexpressionBar->judgeinput())
+                    return;
                 m_sciexpressionBar->enterlogyxEvent();
                 m_sciexpressionBar->addUndo();
             } else {
+                m_scikeypadwidget->animate(ScientificKeyPad::Key_log);
+                if (!m_sciexpressionBar->judgeinput())
+                    return;
                 m_sciexpressionBar->enterLogEvent();
                 m_sciexpressionBar->addUndo();
             }
@@ -419,16 +423,20 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         break;
     case Qt::Key_R:
         if (isPressCtrl && m_memRCbtn) { //CTRL+R,MR
-//            m_memoryKeypad->animate(MemoryKeypad::Key_MR);
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_MR);
             m_sciexpressionBar->getInputEdit()->setAnswer(m_scihiswidget->getMemoryWidget()->getfirstnumber().first
                                                           , m_scihiswidget->getMemoryWidget()->getfirstnumber().second);
         } else {
-            if (!m_sciexpressionBar->judgeinput())
-                return;
             if (isPressShift) {
+                m_scikeypadwidget->animate(ScientificKeyPad::Key_Rand);
+                if (!m_sciexpressionBar->judgeinput())
+                    return;
                 m_sciexpressionBar->enterRandEvent();
                 m_sciexpressionBar->addUndo();
             } else {
+                m_scikeypadwidget->animate(ScientificKeyPad::Key_Derivative);
+                if (!m_sciexpressionBar->judgeinput())
+                    return;
                 m_sciexpressionBar->enterDerivativeEvent();
                 m_sciexpressionBar->addUndo();
             }
@@ -436,12 +444,13 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         break;
     case Qt::Key_P:
         if (isPressCtrl && m_memCalbtn) { //CTRL+P,M+
-//            m_memoryKeypad->animate(MemoryKeypad::Key_Mplus);
             m_sciexpressionBar->enterEqualEvent();
-            if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_Mplus);
+            if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first) //如果输入栏中可计算出结果
                 m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryplus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
 //                memoryPublic->memoryplus(m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
         } else {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_PI);
             if (!m_sciexpressionBar->judgeinput())
                 return;
             m_sciexpressionBar->enterPIEvent();
@@ -452,10 +461,12 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         if (isPressCtrl && m_memCalbtn) { //CTRL+Q,M-
 //            m_memoryKeypad->animate(MemoryKeypad::Key_Mminus);
             m_sciexpressionBar->enterEqualEvent();
-            if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_Mmin);
+            if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first) //如果输入栏中可计算出结果
                 m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryminus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
 //                memoryPublic->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         } else {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_x2);
             if (!m_sciexpressionBar->judgeinput())
                 return;
             m_sciexpressionBar->enterx2Event();
@@ -464,12 +475,13 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         break;
     case Qt::Key_M:
         if (isPressCtrl && m_memCalbtn) { //ctrl+m,MS
-//            m_memoryKeypad->animate(MemoryKeypad::Key_MS);
             m_sciexpressionBar->enterEqualEvent();
-            if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_MS);
+            if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first) //如果输入栏中可计算出结果
                 m_scihiswidget->memoryFunctions(SciHistoryWidget::generateData, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
 //                memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         } else {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_Mod);
             if (!m_sciexpressionBar->judgeinput())
                 return;
             m_sciexpressionBar->enterModEvent();
@@ -481,96 +493,125 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         m_sciexpressionBar->addUndo();
         breal;*/
     case Qt::Key_NumberSign: //#
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_x3);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterx3Event();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_N:
-        if (!m_sciexpressionBar->judgeinput())
-            return;
         if (isPressCtrl) {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_ex);
+            if (!m_sciexpressionBar->judgeinput())
+                return;
             m_sciexpressionBar->enterexEvent();
             m_sciexpressionBar->addUndo();
         } else {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_ln);
+            if (!m_sciexpressionBar->judgeinput())
+                return;
             m_sciexpressionBar->enterLnEvent();
             m_sciexpressionBar->addUndo();
         }
         break;
     case Qt::Key_At: //@
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_sqrt2);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterSqrtEvent();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_B:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_sqrt3);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterCbrtEvent();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_Bar: //|,shift+'\'
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_Modulus);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterModulusEvent();
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_E:
-        if (!m_sciexpressionBar->judgeinput())
-            return;
         if (isPressShift) {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_e);
+            if (!m_sciexpressionBar->judgeinput())
+                return;
             m_sciexpressionBar->enterEulerEvent();
             m_sciexpressionBar->addUndo();
         } else {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_exp);
+            if (!m_sciexpressionBar->judgeinput())
+                return;
             m_sciexpressionBar->enterExpEvent();
             m_sciexpressionBar->addUndo();
         }
         break;
     case Qt::Key_S:
-        if (!m_sciexpressionBar->judgeinput())
-            return;
         if (isPressShift) {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_arcsin);
+            if (!m_sciexpressionBar->judgeinput())
+                return;
             m_sciexpressionBar->enterArcsinEvent();
             m_sciexpressionBar->addUndo();
         } else {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_sin);
+            if (!m_sciexpressionBar->judgeinput())
+                return;
             m_sciexpressionBar->enterSinEvent();
             m_sciexpressionBar->addUndo();
         }
         break;
     case Qt::Key_O:
-        if (!m_sciexpressionBar->judgeinput())
-            return;
         if (isPressShift) {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_arccos);
+            if (!m_sciexpressionBar->judgeinput())
+                return;
             m_sciexpressionBar->enterArccosEvent();
             m_sciexpressionBar->addUndo();
         } else {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_cos);
+            if (!m_sciexpressionBar->judgeinput())
+                return;
             m_sciexpressionBar->enterCosEvent();
             m_sciexpressionBar->addUndo();
         }
         break;
     case Qt::Key_T:
-        if (!m_sciexpressionBar->judgeinput())
-            return;
         if (isPressShift) {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_arctan);
+            if (!m_sciexpressionBar->judgeinput())
+                return;
             m_sciexpressionBar->enterArctanEvent();
             m_sciexpressionBar->addUndo();
         } else {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_tan);
+            if (!m_sciexpressionBar->judgeinput())
+                return;
             m_sciexpressionBar->enterTanEvent();
             m_sciexpressionBar->addUndo();
         }
         break;
     case Qt::Key_J:
-        if (!m_sciexpressionBar->judgeinput())
-            return;
         if (isPressShift) {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_arccot);
+            if (!m_sciexpressionBar->judgeinput())
+                return;
             m_sciexpressionBar->enterArccotEvent();
             m_sciexpressionBar->addUndo();
         } else {
+            m_scikeypadwidget->animate(ScientificKeyPad::Key_cot);
+            if (!m_sciexpressionBar->judgeinput())
+                return;
             m_sciexpressionBar->enterCotEvent();
             m_sciexpressionBar->addUndo();
         }
         break;
     case Qt::Key_Exclam: //'!'
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_Factorials);
         if (!m_sciexpressionBar->judgeinput())
             return;
         m_sciexpressionBar->enterFactorialsEvent();

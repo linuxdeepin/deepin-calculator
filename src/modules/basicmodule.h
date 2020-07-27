@@ -49,7 +49,6 @@ public:
     ~BasicModule();
 
     void setKeyPress(QKeyEvent *e);
-    void checkLineEmpty();
 
     void mousePressEvent(QMouseEvent *event);
 public slots:
@@ -75,10 +74,10 @@ private:
     QStackedLayout *m_keypadLayout;
     MemoryWidget *m_memorylistwidget;
     bool m_insidewidget;
-    bool m_avail = false;
+    bool m_avail = false; //内存中有数据
     bool m_isinsidefun = false;//鼠标点击在函数widget内
-    bool m_memCalbtn; //m+,m-,ms
-    bool m_memRCbtn;//mr,mc
+    bool m_memCalbtn; //m+,m-,ms可用
+    bool m_memRCbtn;//mr,mc可用
     bool m_isallgray; //内存按钮全部置灰;
     MemoryPublic *m_memoryPublic;
 };

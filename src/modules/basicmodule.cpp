@@ -37,20 +37,16 @@ BasicModule::BasicModule(QWidget *parent)
     m_keypadLayout = new QStackedLayout;
     m_basicKeypad = new BasicKeypad;
     m_memoryKeypad = new MemoryKeypad;
-//    m_memorylistwidget = new MemoryWidget();
     m_insidewidget = false;
     m_memCalbtn = false;
     m_memRCbtn = false;
     m_isallgray = false;
     m_memoryPublic = MemoryPublic::instance(this);
     m_memorylistwidget = m_memoryPublic->getwidget(MemoryPublic::standardleft);
-//    m_keypadLayout->addWidget(m_basicKeypad);
     QVBoxLayout *layout = new QVBoxLayout(this);
     m_expressionBar = new ExpressionBar;
     layout->addWidget(m_expressionBar);
     layout->addWidget(m_memoryKeypad);
-//    m_triCombobox->setFixedSize(60, 40);
-//    layout->addWidget(m_triCombobox);
     layout->addLayout(m_keypadLayout);
     m_keypadLayout->addWidget(m_basicKeypad);
     m_keypadLayout->addWidget(m_memorylistwidget);
@@ -62,8 +58,8 @@ BasicModule::BasicModule(QWidget *parent)
     setMouseTracking(true);
     setFocus();
 
-    // initTheme();
     m_expressionBar->initTheme(DGuiApplicationHelper::instance()->themeType());
+    //信号槽连接
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_expressionBar, &ExpressionBar::initTheme);
 
@@ -89,13 +85,11 @@ BasicModule::BasicModule(QWidget *parent)
         m_expressionBar->settingLinkage();
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
             m_memoryPublic->widgetplus(row, m_expressionBar->getInputEdit()->getMemoryAnswer().second);
-//            m_memorylistwidget->widgetplusslot(row, m_expressionBar->getInputEdit()->getMemoryAnswer().second);
     });
     connect(m_memorylistwidget, &MemoryWidget::widgetminus, this, [ = ](int row) {
         m_expressionBar->settingLinkage();
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
             m_memoryPublic->widgetminus(row, m_expressionBar->getInputEdit()->getMemoryAnswer().second);
-//        m_memorylistwidget->widgetminusslot(row, m_expressionBar->getInputEdit()->getMemoryAnswer().second);
     });
     connect(m_memorylistwidget, &MemoryWidget::insidewidget, this, [ = ]() {
         m_insidewidget = true;
@@ -150,72 +144,30 @@ BasicModule::BasicModule(QWidget *parent)
             m_memorylistwidget->expressionempty(b);
         }
     });
+    //获取科学模式内存是否为空，处理分开初始化科学模式下增加内存切到标准模式Mlist不能点击情况
     if (!m_memoryPublic->isWidgetEmpty(0))
         mAvailableEvent();
     else
         mUnAvailableEvent();
-    // m_expBarColor = "#F8F8F8";
-    // m_expBarSepColor = "#F8F8F8";
 }
 
 BasicModule::~BasicModule() {}
 
 void BasicModule::initTheme(int type)
 {
-    /*DPalette pal;
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
-    if (type == 1) {
-        m_expBarColor = "#F8F8F8";
-        m_expBarSepColor = "#F8F8F8";
-        pal = this->palette();
-        pal.setColor(DPalette::Light,QColor("#F8F8F8"));
-        this->setPalette(pal);
-        m_basicKeypad->buttonThemeChanged(type);
-    }
-    else {
-        m_expBarColor = "#252525";
-        m_expBarSepColor = "#252525";
-        pal = this->palette();
-        pal.setColor(DPalette::Dark,QColor(17,17,17));
-        this->setPalette(pal);
-        m_basicKeypad->buttonThemeChanged(type);
-    }*/
     m_expressionBar->initTheme(type);
-    /*switch (type) {
-    case 0: case 1:
-        m_expBarColor = "#F8F8F8";
-        m_expBarSepColor = "#F8F8F8";
-        m_btnSepColor = QColor("#F8F8F8");
-        pal = this->palette();
-        pal.setColor(DPalette::Light,QColor("#F8F8F8"));
-        this->setPalette(pal);
-        m_basicKeypad->buttonThemeChanged(type);
-        break;
-    case 2:
-        m_expBarColor = "#111111";
-        m_expBarSepColor = "#303030";
-        m_btnSepColor = QColor("#2D2D2D");
-        pal = this->palette();
-        pal.setColor(DPalette::Dark,QColor(17,17,17));
-        this->setPalette(pal);
-        m_basicKeypad->buttonThemeChanged(type);
-    default:
-        break;
-    }*/
     update();
 }
 
+/**
+ * @brief 物理键盘press事件
+ */
 void BasicModule::handleEditKeyPress(QKeyEvent *e)
 {
     if (m_keypadLayout->currentIndex() == 1)
         return;
     const bool isPressCtrl = e->modifiers() == Qt::ControlModifier;
     const QString keyText = e->text();
-//    bool lineFocus = m_expressionBar->getInputEdit()->hasFocus();
-    //20200414 bug20294鼠标点击取消focus
-//    m_expressionBar->getInputEdit()->setFocus();
-    // m_expressionBar->clearSelection();
 
     switch (e->key()) {
     case Qt::Key_0:
@@ -226,88 +178,72 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_1:
         m_expressionBar->enterNumberEvent("1");
         m_basicKeypad->animate(BasicKeypad::Key_1);
-        // m_basicKeypad->button(BasicKeypad::Key_1)->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_2:
         m_expressionBar->enterNumberEvent("2");
         m_basicKeypad->animate(BasicKeypad::Key_2);
-        // m_basicKeypad->button(BasicKeypad::Key_2)->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_3:
         m_expressionBar->enterNumberEvent("3");
         m_basicKeypad->animate(BasicKeypad::Key_3);
-        // m_basicKeypad->button(BasicKeypad::Key_3)->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_4:
         m_expressionBar->enterNumberEvent("4");
         m_basicKeypad->animate(BasicKeypad::Key_4);
-        // m_basicKeypad->button(BasicKeypad::Key_4)->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_5:
         m_expressionBar->enterNumberEvent("5");
         m_basicKeypad->animate(BasicKeypad::Key_5);
-        // m_basicKeypad->button(BasicKeypad::Key_5)->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_6:
         m_expressionBar->enterNumberEvent("6");
         m_basicKeypad->animate(BasicKeypad::Key_6);
-        // m_basicKeypad->button(BasicKeypad::Key_6)->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_7:
         m_expressionBar->enterNumberEvent("7");
         m_basicKeypad->animate(BasicKeypad::Key_7);
-        // m_basicKeypad->button(BasicKeypad::Key_7)->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_8:
         m_expressionBar->enterNumberEvent("8");
         m_basicKeypad->animate(BasicKeypad::Key_8);
-        // m_basicKeypad->button(BasicKeypad::Key_8)->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_9:
         m_expressionBar->enterNumberEvent("9");
         m_basicKeypad->animate(BasicKeypad::Key_9);
-        // m_basicKeypad->button(BasicKeypad::Key_9)->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_Plus:
         m_expressionBar->enterSymbolEvent("+");
         m_basicKeypad->animate(BasicKeypad::Key_Plus);
-        // m_basicKeypad->button(BasicKeypad::Key_Plus)->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_Minus:
     case Qt::Key_Underscore:
         m_expressionBar->enterSymbolEvent("-");
         m_basicKeypad->animate(BasicKeypad::Key_Min);
-        // m_basicKeypad->button(BasicKeypad::Key_Min)->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_Asterisk:
         m_expressionBar->enterSymbolEvent("*");
         m_basicKeypad->animate(BasicKeypad::Key_Mult);
-        // m_basicKeypad->button(BasicKeypad::Key_Mult)->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_Slash:
         m_expressionBar->enterSymbolEvent("/");
         m_basicKeypad->animate(BasicKeypad::Key_Div);
-        // m_basicKeypad->button(BasicKeypad::Key_Div)->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_Enter:
     case Qt::Key_Return:
     case Qt::Key_Equal:
-        //(dynamic_cast<DPushButton
-        //*>(m_basicKeypad->button(BasicKeypad::Key_Equals)))->animateClick();
-        // m_basicKeypad->button()->animateClick();
         m_basicKeypad->animate(BasicKeypad::Key_Equals);
         m_expressionBar->settingLinkage();
         m_expressionBar->addUndo();
@@ -321,23 +257,14 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_Period:
         m_basicKeypad->animate(BasicKeypad::Key_Point);
         m_expressionBar->enterPointEvent();
-        //(static_cast<DPushButton
-        //*>(m_basicKeypad->button(BasicKeypad::Key_Point)))->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_Escape:
-        //            (static_cast<DPushButton
-        //            *>(m_basicKeypad->button(BasicKeypad::Key_Clear)))
-        //                ->animateClick();
         m_expressionBar->enterClearEvent();
         m_basicKeypad->animate(BasicKeypad::Key_Clear);
-        //            m_expressionBar->addUndo();
         break;
     case Qt::Key_ParenLeft:
-        // m_expressionBar->setContinue(true);
         m_basicKeypad->animate(BasicKeypad::Key_Brackets);
-        // m_expressionBar->enterBracketsEvent();
-        // m_basicKeypad->button(BasicKeypad::Key_Brackets)->animateClick();
         m_expressionBar->enterLeftBracketsEvent();
         m_expressionBar->addUndo();
         break;
@@ -352,7 +279,6 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         else
             m_expressionBar->enterPercentEventCommon();
         m_basicKeypad->animate(BasicKeypad::Key_Percent);
-        // m_basicKeypad->button(BasicKeypad::Key_Percent)->animateClick();
         m_expressionBar->addUndo();
         break;
     case Qt::Key_C:
@@ -385,8 +311,6 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_Delete:
         m_expressionBar->enterClearEvent();
         m_basicKeypad->animate(BasicKeypad::Key_Clear);
-        //            m_expressionBar->addUndo();
-        // m_expressionBar->enterDeleteEvent();
         break;
     case Qt::Key_Left:
         m_expressionBar->moveLeft();
@@ -406,8 +330,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         if (isPressCtrl && m_memRCbtn && !m_isallgray) {
             m_memoryKeypad->animate(MemoryKeypad::Key_MC);
             QTimer::singleShot(100, this, [ = ] {
-//                m_memorylistwidget->memoryclean();
-                m_memoryPublic->memoryclean();
+                m_memoryPublic->memoryclean(); //延迟，让动画效果显示
             });
         }
         break;
@@ -421,9 +344,8 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         if (isPressCtrl && m_memCalbtn && !m_isallgray) {
             m_memoryKeypad->animate(MemoryKeypad::Key_Mplus);
             m_expressionBar->settingLinkage();
-            if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
+            if (m_expressionBar->getInputEdit()->getMemoryAnswer().first) //如果输入栏中可计算出结果
                 m_memoryPublic->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
-//            m_memorylistwidget->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         }
         break;
     case Qt::Key_Q:
@@ -432,7 +354,6 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
             m_expressionBar->settingLinkage();
             if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
                 m_memoryPublic->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
-//            m_memorylistwidget->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         }
         break;
     case Qt::Key_M:
@@ -441,24 +362,17 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
             m_expressionBar->settingLinkage();
             if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
                 m_memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
-//                m_memorylistwidget->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         }
         break;
-    /*case Qt::Key_E:
-        m_expressionBar->entereEvent();
-        m_expressionBar->addUndo();
-        breal;*/
     default:
         break;
     }
     m_expressionBar->getInputEdit()->setFocus(); //edit 20200417 for bug--21146
-    // m_expressionBar->setSelection();
-//    if (lineFocus)
-//        m_expressionBar->getInputEdit()->setFocus();
-//    else
-//        setFocus();
 }
 
+/**
+ * @brief 计算器键盘点击事件
+ */
 void BasicModule::handleKeypadButtonPress(int key)
 {
     m_basicKeypad->update();
@@ -532,13 +446,11 @@ void BasicModule::handleKeypadButtonPress(int key)
         break;
     case MemoryKeypad::Key_MS:
         m_expressionBar->settingLinkage();
-        if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
+        if (m_expressionBar->getInputEdit()->getMemoryAnswer().first) //如果输入栏中可计算出结果
             m_memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
-//        m_memorylistwidget->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case MemoryKeypad::Key_MC:
         m_memoryPublic->memoryclean();
-//        m_memorylistwidget->memoryclean();
         if (m_keypadLayout->currentIndex() == 1) {
             m_keypadLayout->setCurrentIndex(0);
             MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mlist));
@@ -548,8 +460,8 @@ void BasicModule::handleKeypadButtonPress(int key)
     case MemoryKeypad::Key_Mlist:
         showListWidget();
         if (m_keypadLayout->currentIndex() == 1) {
-            m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents);
-            m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents);
+            m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents); //鼠标穿透
+            m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents); //鼠标穿透
         } else {
             m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
             m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
@@ -560,13 +472,11 @@ void BasicModule::handleKeypadButtonPress(int key)
         m_expressionBar->settingLinkage();
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
             m_memoryPublic->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
-//        m_memorylistwidget->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case MemoryKeypad::Key_Mminus:
         m_expressionBar->settingLinkage();
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
             m_memoryPublic->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
-//        m_memorylistwidget->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case MemoryKeypad::Key_MR:
         p = m_memorylistwidget->getfirstnumber();
@@ -584,6 +494,9 @@ void BasicModule::equalButtonPress()
     m_expressionBar->addUndo();
 }
 
+/**
+ * @brief 设置清楚按键状态
+ */
 void BasicModule::handleClearStateChanged(bool isAllClear)
 {
     TextButton *btn = static_cast<TextButton *>(m_basicKeypad->button(BasicKeypad::Key_Clear));
@@ -595,38 +508,17 @@ void BasicModule::handleClearStateChanged(bool isAllClear)
     }
 }
 
-/*void BasicModule::paintEvent(QPaintEvent *)
-{
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setPen(Qt::NoPen);
-
-    // draw expression bar background;
-    painter.setBrush(m_expBarColor);
-    painter.drawRect(QRect(0, 0, rect().width(), m_expressionBar->height() - 1));
-
-    // draw expression bar bottom separator.
-    painter.setBrush(m_expBarSepColor);
-    painter.drawRect(QRect(0, m_expressionBar->height(), rect().width(), 1));
-
-    // draw buttons separator.
-    painter.setBrush(m_btnSepColor);
-    painter.drawRect(QRect(rect().x(),
-                           m_expressionBar->height() + 1,
-                           rect().width(),
-                           rect().height()));
-}*/
-
+/**
+ * @brief mainwindow焦点不在basicmodul时也触发keypress
+ */
 void BasicModule::setKeyPress(QKeyEvent *e)
 {
     handleEditKeyPress(e);
 }
 
-void BasicModule::checkLineEmpty()
-{
-    m_expressionBar->getInputEdit()->isExpressionEmpty();
-}
-
+/**
+ * @brief 向内存中存入数据时触发
+ */
 void BasicModule::mAvailableEvent()
 {
     m_avail = true;
@@ -639,6 +531,9 @@ void BasicModule::mAvailableEvent()
     m_memRCbtn = true;
 }
 
+/**
+ * @brief 清空内存列表触发
+ */
 void BasicModule::mUnAvailableEvent()
 {
     m_avail = false;
@@ -653,6 +548,9 @@ void BasicModule::mUnAvailableEvent()
     }
 }
 
+/**
+ * @brief 显示内存列表
+ */
 void BasicModule::showListWidget()
 {
     if (m_keypadLayout->currentIndex() == 0) {
@@ -677,6 +575,7 @@ void BasicModule::showListWidget()
 
 void BasicModule::mousePressEvent(QMouseEvent *event)
 {
+    //内存界面显示时，点击内存界面以外部分切换内存界面为键盘界面
     if (m_keypadLayout->currentIndex() == 1 && m_insidewidget == false) {
         m_keypadLayout->setCurrentIndex(0);
         MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
@@ -713,6 +612,6 @@ void BasicModule::mousePressEvent(QMouseEvent *event)
         m_memRCbtn = false;
     }
     m_insidewidget = false;
-    m_expressionBar->getInputEdit()->isExpressionEmpty();
+    m_expressionBar->getInputEdit()->isExpressionEmpty(); //确认输入栏是否有内容，发送信号M+,M-,MS是否置灰
     QWidget::mousePressEvent(event);
 }

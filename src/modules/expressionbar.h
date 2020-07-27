@@ -35,9 +35,10 @@
 
 DWIDGET_USE_NAMESPACE
 
-struct historicalLinkageIndex
-
-{
+/**
+ * @brief 存放联动信息
+ */
+struct historicalLinkageIndex {
     int linkageTerm;
     int linkedItem;
     QString linkageValue;
@@ -50,6 +51,9 @@ struct historicalLinkageIndex
     }
 };
 
+/**
+ * @brief 暂未使用
+ */
 struct strck {
     QString text;
     bool isResult;
@@ -137,17 +141,17 @@ private:
     InputEdit *m_inputEdit;
 
     QString m_unfinishedExp;  //未完成表达式
-    bool m_isContinue;
-    bool m_isAllClear;
+    bool m_isContinue;        //点击结果左侧可继续输入，在结果最右侧清除结果
+    bool m_isAllClear;         //C,AC切换标志
     bool m_isResult;           //计算结果
     bool m_isAutoComputation;  //自动计算
     bool m_inputNumber;        //输入数字
     bool m_isUndo;
-    int m_hisRevision;  //历史记录修改
+    int m_hisRevision;  //历史记录修改项
 
     bool m_isLinked;     //联动状态
     int m_linkageIndex;  //联动索引缓存
-    int m_Selected;      //选中
+    int m_Selected;      //历史记录选中项
     QString m_selection;
     QVector<historicalLinkageIndex> m_hisLink;  //历史联动索引
     QVector<QString> m_undo;
