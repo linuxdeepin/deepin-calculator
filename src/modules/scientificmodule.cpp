@@ -756,7 +756,8 @@ void scientificModule::handleKeypadButtonPress(int key)
         break;
     case ScientificKeyPad::Key_MS:
         m_sciexpressionBar->enterEqualEvent();
-        m_scihiswidget->memoryFunctions(SciHistoryWidget::generateData, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
+        if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_scihiswidget->memoryFunctions(SciHistoryWidget::generateData, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case ScientificKeyPad::Key_MC:
         m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryclean);
@@ -774,11 +775,13 @@ void scientificModule::handleKeypadButtonPress(int key)
 //        break;
     case ScientificKeyPad::Key_Mplus:
         m_sciexpressionBar->enterEqualEvent();
-        m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryplus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
+        if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryplus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case ScientificKeyPad::Key_Mmin:
         m_sciexpressionBar->enterEqualEvent();
-        m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryminus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
+        if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryminus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case ScientificKeyPad::Key_MR:
         m_sciexpressionBar->getInputEdit()->setAnswer(m_scihiswidget->getMemoryWidget()->getfirstnumber().first
