@@ -30,7 +30,8 @@
 
 #define VPADDING 100 //预留垂直空隙
 #define HPADDING 24 //预留水平空隙
-#define BUTTONHEIGHT 47 //科学计算器按钮高度
+#define BUTTONHEIGHT 44 //科学计算器按钮高度
+#define KEYPADHEIGHT 398//整体键盘的高度
 
 const ScientificKeyPad::KeyDescription ScientificKeyPad::keyDescriptions[] = {
     {"F-E", Key_FE, 1, 0, 1, 1},   {"MC", Key_MC, 1, 1, 1, 1},   {"MR", Key_MR, 1, 2, 1, 1},
@@ -138,6 +139,7 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     , m_logyxwidget(new QStackedWidget)
     , m_exwidget(new QStackedWidget)
 {
+    this->setFixedHeight(KEYPADHEIGHT);
     m_leftBracket->setFixedSize(24, 14);
     m_rightBracket->setFixedSize(24, 14);
 
@@ -294,7 +296,7 @@ void ScientificKeyPad::initUI()
             Q_UNUSED(height);
             int hiswidth; //历史记录宽度
             hishide == false ? hiswidth = 360 : hiswidth = 0;
-            i.value().first->setFixedSize((width - HPADDING - hiswidth) / 6, BUTTONHEIGHT);
+            i.value().first->setFixedSize((width - HPADDING - hiswidth - 25) / 6, BUTTONHEIGHT);
         });
         if (i.key() == Key_left) {
             m_leftBracket->setParent(i.value().first);
@@ -342,7 +344,7 @@ void ScientificKeyPad::initUI()
             Q_UNUSED(height);
             int hiswidth; //历史记录宽度
             hishide == false ? hiswidth = 360 : hiswidth = 0;;
-            i1.value().first->setFixedSize((width - HPADDING - hiswidth) / 6, BUTTONHEIGHT);
+            i1.value().first->setFixedSize((width - HPADDING - hiswidth - 25) / 6, BUTTONHEIGHT);
         });
     }
 
@@ -351,7 +353,7 @@ void ScientificKeyPad::initUI()
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
 
-    this->setContentsMargins(12, 0, 12, 10);
+    this->setContentsMargins(12, 0, 12, 12);
 }
 
 /**
@@ -380,7 +382,7 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
         Q_UNUSED(height);
         int hiswidth; //历史记录宽度
         hishide == false ? hiswidth = 360 : hiswidth = 0;
-        widget->setFixedSize((width - HPADDING - hiswidth) / 6, BUTTONHEIGHT + 2);
+        widget->setFixedSize((width - HPADDING - hiswidth - 25) / 6, BUTTONHEIGHT + 4);
     });
 }
 
