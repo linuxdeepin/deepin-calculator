@@ -41,6 +41,9 @@ MemoryListWidget::MemoryListWidget(QWidget *parent)
 //    this->setPalette(pal);
 }
 
+/**
+ * @brief 获取当前点击row;
+ */
 void MemoryListWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->buttons() & Qt::LeftButton) {
@@ -49,12 +52,14 @@ void MemoryListWidget::mousePressEvent(QMouseEvent *event)
             m_clickrow = this->row(this->itemAt(m_mousepoint));
 //            this->itemAt(mousepoint)->setBackground(QBrush(QColor(0, 0, 0)));
         }
-        emit itempressed(m_clickrow);
     }
 
     QListWidget::mousePressEvent(event);
 }
 
+/**
+ * @brief 发送内存被选行信号
+ */
 void MemoryListWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (this->itemAt(event->pos()) && this->row(this->itemAt(event->pos())) == m_clickrow) {

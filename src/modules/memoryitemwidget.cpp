@@ -41,7 +41,7 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     QHBoxLayout *lay = new QHBoxLayout(); //存放三个按钮
 
     lay->addStretch();
-    lay->setSpacing(0);
+    lay->setSpacing(5);
     lay->addWidget(m_btnclean);
     lay->addWidget(m_btnplus);
     lay->addWidget(m_btnminus);
@@ -229,21 +229,19 @@ void MemoryItemWidget::themetypechanged(int type)
 {
     m_themetype = type;
     DPalette pl1 = this->palette();
+    //itemwidget字体颜色设置
     if (m_themetype == 1) {
         pl1.setColor(DPalette::Text, Qt::black);
-        pl1.setColor(DPalette::HighlightedText, Qt::black);
     } else {
         pl1.setColor(DPalette::Text, QColor("#B4B4B4"));
-        pl1.setColor(DPalette::HighlightedText, QColor("#B4B4B4"));
     }
-    pl1.setColor(DPalette::Button, Qt::transparent);
-    pl1.setColor(DPalette::Highlight, Qt::transparent);
-
-    // pl.setColor(DPalette::Text,QColor(48,48,48));
 
     m_label->setPalette(pl1);
 }
 
+/**
+ * @brief 当输入栏为空时，内存列表中的加减按钮置灰
+ */
 void MemoryItemWidget::isexpressionempty(bool b)
 {
     m_isExpressionEmpty = b;

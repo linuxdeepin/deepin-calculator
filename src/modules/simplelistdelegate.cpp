@@ -361,7 +361,7 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
         const int rectwidth = 356; //paintevent设置右边缘后的宽度
         QStringList splitList = expression.split("＝");
         if (splitList.size() == 1)
-            return QSize(-1, 423);
+            return QSize(-1, 420); //历史记录无内容时大小
         QString resultStr = splitList.last();
         QString exp = splitList.first() + "＝";
         QFont font;

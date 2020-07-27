@@ -29,10 +29,13 @@ MemoryItemDelegate::MemoryItemDelegate(QObject *parent)
 {
 }
 
+/**
+ * @brief 绘制memorylistwidget背景色
+ */
 void MemoryItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    MemoryListWidget *dragWidget = qobject_cast<MemoryListWidget *>(option.styleObject);
-    QRectF rect = dragWidget->rect();
+    MemoryListWidget *dragWidget = qobject_cast<MemoryListWidget *>(option.styleObject); //将该object强转为memorylistwidget
+    QRectF rect = dragWidget->rect(); //获取memorylistwidget.rect绘制背景色
 
     painter->setRenderHint(QPainter::Antialiasing, true);
     int type = DGuiApplicationHelper::instance()->paletteType();
@@ -50,6 +53,9 @@ void MemoryItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     QStyledItemDelegate::paint(painter, option, index);
 }
 
+/**
+ * @brief 可以通过editor->setGeometry()更新编辑组件大小,保证editor显示的位置及大小,保证控件塞满计算器
+ */
 void MemoryItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     Q_UNUSED(index);

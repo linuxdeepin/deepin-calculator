@@ -39,7 +39,6 @@ public:
     void mouseReleaseEvent(QMouseEvent *event);
 
 signals:
-    void itempressed(int row);
     void itemselected(int row);
 
 private:

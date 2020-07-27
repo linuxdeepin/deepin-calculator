@@ -38,7 +38,7 @@
 
 const int GLOBALPREC = 78;
 const int STANDARD_WIDGET_HEIGHT = 260;
-const int SCIENTIFIC_WIDGET_HEIGHT = 423;
+const int SCIENTIFIC_MWIDGET_HEIGHT = 420; //科学模式memorywidget高度
 const int STANDARD_ITEM_WIDTH = 344;
 const int SCIENTIFIC_ITEM_WIDTH = 360;
 const int STANDARD_FORMAT_PREC = 15;
@@ -68,7 +68,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
 //    m_listwidget->setPalette(pal);
 
     m_listwidget->setFrameShape(QFrame::NoFrame);
-    mode == 0 ? m_listwidget->setFixedHeight(STANDARD_WIDGET_HEIGHT) : m_listwidget->setFixedHeight(SCIENTIFIC_WIDGET_HEIGHT);
+    mode == 0 ? m_listwidget->setFixedHeight(STANDARD_WIDGET_HEIGHT) : m_listwidget->setFixedHeight(SCIENTIFIC_MWIDGET_HEIGHT);
     m_itemwidth = (mode == 0) ? STANDARD_ITEM_WIDTH : SCIENTIFIC_ITEM_WIDTH;
     m_precision = (mode == 0) ? STANDARD_FORMAT_PREC : SCIENTIFIC_FORMAT_PREC;
     m_listwidget->setVerticalScrollMode(QListView::ScrollPerPixel);
