@@ -69,17 +69,25 @@ QVariant SimpleListModel::data(const QModelIndex &index, int role) const
 /**
  * @brief  科学模式上方历史记录区
  */
-void SimpleListModel::appendText(const QString &text)
+void SimpleListModel::appendText(const QString &text, bool sci)
 {
     auto expression = text.simplified();
 
-    beginRemoveRows(QModelIndex(), 0, 0);
-    m_expressionList.removeAt(0);
-    endRemoveRows();
+    const int size = m_expressionList.size();
 
-    beginInsertRows(QModelIndex(), 0, 0);
-    m_expressionList << expression;
-    endInsertRows();
+    if (sci) {
+        beginRemoveRows(QModelIndex(), 0, 0);
+        m_expressionList.removeAt(0);
+        endRemoveRows();
+
+        beginInsertRows(QModelIndex(), 0, 0);
+        m_expressionList << expression;
+        endInsertRows();
+    } else {
+        beginInsertRows(QModelIndex(), size, size);
+        m_expressionList << expression;
+        endInsertRows();
+    }
 }
 
 /**
@@ -109,7 +117,7 @@ void SimpleListModel::refrushModel()
 }
 
 /**
- * @brief 暂未使用
+ * @brief 科学模式上方历史记录区与标准模式添加历史记录
  */
 void SimpleListModel::updataList(const QString &text, const int index, bool sci)
 {
@@ -132,7 +140,7 @@ void SimpleListModel::updataList(const QString &text, const int index, bool sci)
     }
 
     if (index == -1) {
-        appendText(exp); //科学模式上方历史记录区
+        appendText(exp, sci); //科学模式上方历史记录区
     } else {
         if (sci) {
             beginInsertRows(QModelIndex(), index, index);

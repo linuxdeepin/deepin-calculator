@@ -36,33 +36,30 @@ SimpleListView::SimpleListView(int mode, QWidget *parent)
 {
     m_mode = mode;
 
-    setVerticalScrollMode(ScrollPerPixel);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    setVerticalScrollMode(ScrollPerPixel); //鼠标滚轮滚动一次一个像素
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn); //设置垂直滚条
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    if (mode == 0)
-//        setEditTriggers(QAbstractItemView::SelectedClicked | QAbstractItemView::DoubleClicked);
-//    else
-//        setEditTriggers(QAbstractItemView::CurrentChanged);
-    setEditTriggers(QAbstractItemView::SelectedClicked | QAbstractItemView::DoubleClicked);
+    setEditTriggers(QAbstractItemView::SelectedClicked | QAbstractItemView::DoubleClicked); //单击已选中的内容双击单元格时编辑
     setFocusPolicy(Qt::NoFocus);
     setAutoScroll(false);
-    setSelectionBehavior(QAbstractItemView::SelectRows);
-    setSelectionMode(QAbstractItemView::SingleSelection);
+    setSelectionBehavior(QAbstractItemView::SelectRows); //选中一行
+    setSelectionMode(QAbstractItemView::SingleSelection); //选中单个目标
     if (m_mode == 0)
         setFixedHeight(99);
 
     if (m_mode == 1)
         setMouseTracking(true);
 
-    connect(this, &QListView::clicked, this, &SimpleListView::selectHistory);
     connect(verticalScrollBar(), &QScrollBar::rangeChanged, this, &SimpleListView::adjustScrollbarMargins);
-    //connect(model(), &QAbstractListModel::updateCount, this, &QListView::updateCount);
 }
 
 SimpleListView::~SimpleListView()
 {
 }
 
+/**
+ * @brief 添加右键菜单
+ */
 void SimpleListView::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu *menu = new QMenu(this);
@@ -83,11 +80,17 @@ void SimpleListView::contextMenuEvent(QContextMenuEvent *event)
     delete menu;
 }
 
+/**
+ * @brief 给私有变量赋值，历史记录有数据
+ */
 void SimpleListView::listItemFill(bool itemfill)
 {
     m_itemfill = itemfill;
 }
 
+/**
+ * @brief 更改delegate参数，实现delegate的hover状态
+ */
 void SimpleListView::mouseMoveEvent(QMouseEvent *e)
 {
     if (m_mode == 1 && m_itemfill) {
@@ -110,12 +113,6 @@ void SimpleListView::mouseMoveEvent(QMouseEvent *e)
     }
 }
 
-void SimpleListView::selectHistory(const QModelIndex &index)
-{
-    int row = index.row();
-    Q_UNUSED(row);
-}
-
 void SimpleListView::adjustScrollbarMargins()
 {
     if (!isVisible()) {
@@ -131,6 +128,9 @@ void SimpleListView::adjustScrollbarMargins()
     }
 }
 
+/**
+ * @brief 更改delegate参数，实现delegate的press状态
+ */
 void SimpleListView::mousePressEvent(QMouseEvent *event)
 {
     static_cast<SimpleListModel *>(model())->refrushModel();
@@ -145,6 +145,9 @@ void SimpleListView::mousePressEvent(QMouseEvent *event)
 //    DListView::mousePressEvent(event);
 }
 
+/**
+ * @brief 更改delegate参数，实现delegate的release状态
+ */
 void SimpleListView::mouseReleaseEvent(QMouseEvent *event)
 {
     if (m_mode == 1) {

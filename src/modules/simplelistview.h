@@ -48,8 +48,6 @@ Q_SIGNALS:
     void clickrow(QString str);
     void obtainingHistorical(const QModelIndex &index);
 
-private slots:
-    void selectHistory(const QModelIndex &index);
 private:
     int m_mode = 0;
     int m_currentrow = -1;

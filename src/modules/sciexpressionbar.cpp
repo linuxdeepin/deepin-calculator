@@ -531,13 +531,13 @@ void SciExpressionBar::enterEqualEvent()
 
         m_pair.first = true;
         m_expression = exp + "＝" + formatResult;
-        m_listModel->appendText(m_expression);
+        m_listModel->updataList(m_expression, -1, true);
         m_listanswer = ans;
     } else {
         m_pair.first = false;
         if (!m_evaluator->error().isEmpty()) {
             m_expression = exp + "＝" + tr("Expression error");
-            m_listModel->appendText(m_expression);
+            m_listModel->updataList(m_expression, -1, true);
         } else {
             return;
         }
@@ -2085,7 +2085,7 @@ void SciExpressionBar::hisRevisionResults(const QModelIndex &index, Quantity ans
     QString expression = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(SCIPREC));
 //    m_hisRevision = index.row();
     m_inputEdit->setAnswer(expression, ans);
-    m_listModel->appendText(text);
+    m_listModel->updataList(text, -1, true);
 //    m_Selected = m_hisRevision;
     m_isResult = false;
     // fix addundo for history revision
