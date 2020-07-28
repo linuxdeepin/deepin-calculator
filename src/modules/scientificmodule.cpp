@@ -35,26 +35,18 @@
 scientificModule::scientificModule(QWidget *parent)
     : DWidget(parent)
 {
-//    m_scikeypadwidget = new ScientificKeyPad;
     m_scikeypadwidget = new ScientificKeyPad;
-    m_insidewidget = false;
     m_scihiswidget = new SciHistoryWidget(this);
     m_memCalbtn = false;
     m_memRCbtn = false;
-//    m_keypadLayout->addWidget(m_basicKeypad);
     QHBoxLayout *layout = new QHBoxLayout(this);
     QVBoxLayout *leftlay = new QVBoxLayout();
     m_sciexpressionBar = new SciExpressionBar;
     m_memoryPublic = MemoryPublic::instance(this);
     m_sciexpressionBar->setFixedHeight(95);
     leftlay->addWidget(m_sciexpressionBar);
-//    leftlay->addWidget(m_scikeypadwidget);
-//    m_triCombobox->setFixedSize(60, 40);
-//    layout->addWidget(m_triCombobox);
     leftlay->addWidget(m_scikeypadwidget);
     leftlay->setSpacing(0);
-//    leftlay->setMargin(0);
-//    leftlay->setContentsMargins(0, 0, 0, 11);
 
     QVBoxLayout *rightlay = new QVBoxLayout();
     rightlay->addWidget(m_scihiswidget);
@@ -64,17 +56,16 @@ scientificModule::scientificModule(QWidget *parent)
     this->setLayout(layout);
     layout->setContentsMargins(0, 0, 0, 0);
 
-    setMouseTracking(true);
+    setMouseTracking(true); //默认false，默认下至少一个鼠标按键被按下才跟踪鼠标
     setFocus();
 
-    // initTheme();
     m_sciexpressionBar->initTheme(DGuiApplicationHelper::instance()->themeType());
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_sciexpressionBar, &SciExpressionBar::initTheme);
 
     connect(m_scihiswidget->m_listView, &SimpleListView::obtainingHistorical, this, [ = ](const QModelIndex & index) {
         m_sciexpressionBar->hisRevisionResults(index, m_scihiswidget->m_listModel->getAnswer(index.row()));
-    });
+    }); //点击右侧历史记录
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this,
             &scientificModule::initTheme);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
@@ -83,16 +74,17 @@ scientificModule::scientificModule(QWidget *parent)
             m_scihiswidget, &SciHistoryWidget::themeChanged);
     connect(m_sciexpressionBar, &SciExpressionBar::keyPress, this, &scientificModule::handleEditKeyPress);
     connect(m_sciexpressionBar, &SciExpressionBar::clearStateChanged, this,
-            &scientificModule::handleClearStateChanged);
-    connect(m_sciexpressionBar, &SciExpressionBar::turnDeg, this, &scientificModule::handleDegChanged);
+            &scientificModule::handleClearStateChanged); //判断C/AC
+    connect(m_sciexpressionBar, &SciExpressionBar::turnDeg, this, &scientificModule::handleDegChanged); //点击deg按键
     connect(m_sciexpressionBar, &SciExpressionBar::fEStateChanged, this, &scientificModule::handleFEStateChanged);
-    connect(this, &scientificModule::changedeg, m_scikeypadwidget, &ScientificKeyPad::getdeg);
+    connect(this, &scientificModule::changedeg, m_scikeypadwidget, &ScientificKeyPad::getdeg); //切换deg切图
     connect(m_scikeypadwidget, &ScientificKeyPad::buttonPressed, this,
             &scientificModule::handleKeypadButtonPress);
     connect(m_scikeypadwidget, &ScientificKeyPad::equalPressed, this, &scientificModule::equalButtonPress);
     connect(m_scikeypadwidget, &ScientificKeyPad::moveLeft, [ = ] { m_sciexpressionBar->moveLeft(); });
     connect(m_scikeypadwidget, &ScientificKeyPad::moveRight, [ = ] { m_sciexpressionBar->moveRight(); });
     connect(m_scihiswidget->getMemoryWidget(), &MemoryWidget::widgetplus, this, [ = ](int row) {
+        //点击键盘按键上的m+,m-是先进行计算，若有计算结果放入内存中
         m_sciexpressionBar->enterEqualEvent();
         if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
             m_scihiswidget->memoryFunctions(SciHistoryWidget::widgetplus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second, row);
@@ -104,8 +96,8 @@ scientificModule::scientificModule(QWidget *parent)
     });
     connect(m_scihiswidget->getMemoryWidget(), &MemoryWidget::mListUnavailable, this, &scientificModule::mUnAvailableEvent);
     connect(m_scihiswidget->getMemoryWidget(), &MemoryWidget::mListAvailable, this, &scientificModule::mAvailableEvent);
-
     connect(m_scihiswidget->getMemoryWidget(), &MemoryWidget::itemclick, this, [ = ](const QPair<QString, Quantity> p) {
+        //内存界面点击item
         QString str = p.first;
         m_sciexpressionBar->getInputEdit()->setAnswer(str.remove("\n"), p.second);
         m_sciexpressionBar->getInputEdit()->setFocus();
@@ -122,13 +114,8 @@ scientificModule::scientificModule(QWidget *parent)
         m_memRCbtn = true;
         m_memCalbtn = true;
     });
-    connect(m_scikeypadwidget, &ScientificKeyPad::funshow, this, [ = ]() {
-        m_sciexpressionBar->setAttribute(Qt::WA_TransparentForMouseEvents);
-    });
-    connect(m_scikeypadwidget, &ScientificKeyPad::funinside, this, [ = ]() {
-        m_isinsidefun = true;
-    });
     connect(m_sciexpressionBar->getInputEdit(), &InputEdit::emptyExpression, this, [ = ](bool b) {
+        //输入栏为空m+,m-,ms置灰；否则可用
         if (b == false) {
             MemoryButton *btn2 = static_cast<MemoryButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_Mplus));
             btn2->setEnabled(true);
@@ -153,15 +140,13 @@ scientificModule::scientificModule(QWidget *parent)
         emit m_scikeypadwidget->windowSize(width, height - m_sciexpressionBar->height(), hishide);
     });
     connect(this, &scientificModule::getWindowChanged, [ = ] {
-        m_sciexpressionBar->getInputEdit()->autoZoomFontSize();
+        m_sciexpressionBar->getInputEdit()->autoZoomFontSize(); //界面缩放时字体也进行缩放
     });
 
     if (!m_memoryPublic->isWidgetEmpty(1))
         mAvailableEvent();
     else
         mUnAvailableEvent();
-    // m_expBarColor = "#F8F8F8";
-    // m_expBarSepColor = "#F8F8F8";
 }
 
 scientificModule::~scientificModule() {}
@@ -172,23 +157,21 @@ void scientificModule::initTheme(int type)
     update();
 }
 
+/**
+ * @brief 物理键盘事件
+ */
 void scientificModule::handleEditKeyPress(QKeyEvent *e)
 {
-    const bool isPressCtrl = e->modifiers() == Qt::ControlModifier;
-    const bool isPressShift = e->modifiers() == Qt::ShiftModifier;
-    const QString keyText = e->text();
-//    bool lineFocus = m_sciexpressionBar->getInputEdit()->hasFocus();
-    //20200414 bug20294鼠标点击取消focus
-//    m_sciexpressionBar->getInputEdit()->setFocus();
-    // m_sciexpressionBar->clearSelection();
+    const bool isPressCtrl = e->modifiers() == Qt::ControlModifier; //ctrl是否按下
+    const bool isPressShift = e->modifiers() == Qt::ShiftModifier; //shift是否按下
 
     switch (e->key()) {
     case Qt::Key_0:
-        m_scikeypadwidget->animate(ScientificKeyPad::Key_0);
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_0); //键盘按下动画效果
         if (!m_sciexpressionBar->judgeinput())
-            return;
+            return; //光标在函数中间直接return
         m_sciexpressionBar->enterNumberEvent("0");
-        m_sciexpressionBar->addUndo();
+        m_sciexpressionBar->addUndo(); //添加进撤销
         break;
     case Qt::Key_1:
         m_scikeypadwidget->animate(ScientificKeyPad::Key_1);
@@ -374,8 +357,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         break;
     case Qt::Key_Delete:
         m_sciexpressionBar->enterClearEvent();
-        //            m_sciexpressionBar->addUndo();
-        // m_sciexpressionBar->enterDeleteEvent();
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_Clear);
         break;
     case Qt::Key_Left:
         m_sciexpressionBar->moveLeft();
@@ -448,7 +430,6 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_scikeypadwidget->animate(ScientificKeyPad::Key_Mplus);
             if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first) //如果输入栏中可计算出结果
                 m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryplus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
-//                memoryPublic->memoryplus(m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
         } else {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_PI);
             if (!m_sciexpressionBar->judgeinput())
@@ -459,12 +440,10 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         break;
     case Qt::Key_Q:
         if (isPressCtrl && m_memCalbtn) { //CTRL+Q,M-
-//            m_memoryKeypad->animate(MemoryKeypad::Key_Mminus);
             m_sciexpressionBar->enterEqualEvent();
             m_scikeypadwidget->animate(ScientificKeyPad::Key_Mmin);
             if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first) //如果输入栏中可计算出结果
                 m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryminus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
-//                memoryPublic->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         } else {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_x2);
             if (!m_sciexpressionBar->judgeinput())
@@ -479,7 +458,6 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_scikeypadwidget->animate(ScientificKeyPad::Key_MS);
             if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first) //如果输入栏中可计算出结果
                 m_scihiswidget->memoryFunctions(SciHistoryWidget::generateData, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
-//                memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         } else {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_Mod);
             if (!m_sciexpressionBar->judgeinput())
@@ -488,10 +466,6 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_sciexpressionBar->addUndo();
         }
         break;
-    /*case Qt::Key_E:
-        m_sciexpressionBar->entereEvent();
-        m_sciexpressionBar->addUndo();
-        breal;*/
     case Qt::Key_NumberSign: //#
         m_scikeypadwidget->animate(ScientificKeyPad::Key_x3);
         if (!m_sciexpressionBar->judgeinput())
@@ -634,26 +608,23 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
                 right++;
         }
     }
-    m_scikeypadwidget->bracketsNum(0, QString::number(left));
+    m_scikeypadwidget->bracketsNum(0, QString::number(left)); //写入左右括号不匹配数
     m_scikeypadwidget->bracketsNum(1, QString::number(right));
-    // m_sciexpressionBar->setSelection();
-//    if (lineFocus)
-//        m_sciexpressionBar->getInputEdit()->setFocus();
-//    else
-//        setFocus();
 }
 
+/**
+ * @brief 按钮时间
+ */
 void scientificModule::handleKeypadButtonPress(int key)
 {
     m_sciexpressionBar->getInputEdit()->setFocus();
-//    m_basicKeypad->update();
     m_scikeypadwidget->update();
     m_sciexpressionBar->clearSelection();
     //20200414 bug20294鼠标点击取消focus
     switch (key) {
     case ScientificKeyPad::Key_0:
         if (!m_sciexpressionBar->judgeinput())
-            return;
+            return; //光标在函数中直接return
         m_sciexpressionBar->enterNumberEvent("0");
         break;
     case ScientificKeyPad::Key_1:
@@ -762,17 +733,6 @@ void scientificModule::handleKeypadButtonPress(int key)
     case ScientificKeyPad::Key_MC:
         m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryclean);
         break;
-//    case ScientificKeyPad::Key_Mlist:
-//        showListWidget();
-//        if (m_keypadLayout->currentIndex() == 1) {
-//            m_sciexpressionBar->setAttribute(Qt::WA_TransparentForMouseEvents);
-//            m_scikeypadwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
-//        } else {
-//            m_sciexpressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-//            m_scikeypadwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-//        }
-//        m_memorylistwidget->setFocus();
-//        break;
     case ScientificKeyPad::Key_Mplus:
         m_sciexpressionBar->enterEqualEvent();
         if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
@@ -956,17 +916,19 @@ void scientificModule::handleKeypadButtonPress(int key)
                 right++;
         }
     }
-    m_scikeypadwidget->bracketsNum(0, QString::number(left));
+    m_scikeypadwidget->bracketsNum(0, QString::number(left)); //写入左右括号不匹配数
     m_scikeypadwidget->bracketsNum(1, QString::number(right));
 }
 
 void scientificModule::equalButtonPress()
 {
-//    m_sciexpressionBar->settingLinkage();
     m_sciexpressionBar->enterEqualEvent();
     m_sciexpressionBar->addUndo();
 }
 
+/**
+ * @brief 判断C/AC
+ */
 void scientificModule::handleClearStateChanged(bool isAllClear)
 {
     TextButton *btn = static_cast<TextButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_Clear));
@@ -978,6 +940,9 @@ void scientificModule::handleClearStateChanged(bool isAllClear)
     }
 }
 
+/**
+ * @brief 切换deg状态并发送deg切图信号
+ */
 void scientificModule::handleDegChanged()
 {
     emit changedeg(m_deg);
@@ -990,6 +955,9 @@ void scientificModule::handleDegChanged()
     }
 }
 
+/**
+ * @brief FE是否被按下
+ */
 void scientificModule::handleFEStateChanged(bool isdown)
 {
     TextButton *btn = static_cast<TextButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_FE));
@@ -1001,6 +969,9 @@ void scientificModule::handleFEStateChanged(bool isdown)
     btn->setButtonDown(m_FEisdown);
 }
 
+/**
+ * @brief 切换2nd状态
+ */
 void scientificModule::handlePageStateChanged()
 {
     TextButton *btn = static_cast<TextButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_page));
@@ -1012,33 +983,17 @@ void scientificModule::handlePageStateChanged()
     btn->setButtonDown(m_Pageisdown);
 }
 
-/*void scientificModule::paintEvent(QPaintEvent *)
-{
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setPen(Qt::NoPen);
-
-    // draw expression bar background;
-    painter.setBrush(m_expBarColor);
-    painter.drawRect(QRect(0, 0, rect().width(), m_sciexpressionBar->height() - 1));
-
-    // draw expression bar bottom separator.
-    painter.setBrush(m_expBarSepColor);
-    painter.drawRect(QRect(0, m_sciexpressionBar->height(), rect().width(), 1));
-
-    // draw buttons separator.
-    painter.setBrush(m_btnSepColor);
-    painter.drawRect(QRect(rect().x(),
-                           m_sciexpressionBar->height() + 1,
-                           rect().width(),
-                           rect().height()));
-}*/
-
+/**
+ * @brief 焦点不在scientificmodul时也触发keypress
+ */
 void scientificModule::setKeyPress(QKeyEvent *e)
 {
     handleEditKeyPress(e);
 }
 
+/**
+ * @brief memoryitem增加时mc,mr可用
+ */
 void scientificModule::mAvailableEvent()
 {
     MemoryButton *btn = static_cast<MemoryButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_MC));
@@ -1049,6 +1004,9 @@ void scientificModule::mAvailableEvent()
     m_avail = true;
 }
 
+/**
+ * @brief mc后mc,mr不可用
+ */
 void scientificModule::mUnAvailableEvent()
 {
     MemoryButton *btn = static_cast<MemoryButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_MC));
@@ -1059,20 +1017,12 @@ void scientificModule::mUnAvailableEvent()
     m_avail = false;
 }
 
-void scientificModule::mousePressEvent(QMouseEvent *event)
+/**
+ * @brief 科学界面缩放情况和切换模式情况的历史记录是否显示
+ */
+void scientificModule::showOrHideHistory(bool hide)
 {
-    if (m_isinsidefun == false) {
-        m_sciexpressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-        m_scikeypadwidget->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-    }
-    m_insidewidget = false;
-    m_sciexpressionBar->getInputEdit()->isExpressionEmpty();
-    QWidget::mousePressEvent(event);
-}
-
-void scientificModule::showOrHideHistory(bool b)
-{
-    if (b == true)
+    if (hide == true)
         m_scihiswidget->hide();
     else {
         m_scihiswidget->show();
@@ -1080,6 +1030,9 @@ void scientificModule::showOrHideHistory(bool b)
     }
 }
 
+/**
+ * @brief 切到标准模式时在初始化进行判断m+,m-,ms是否可用
+ */
 void scientificModule::checkLineEmpty()
 {
     m_sciexpressionBar->getInputEdit()->isExpressionEmpty();

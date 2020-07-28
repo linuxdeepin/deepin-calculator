@@ -55,8 +55,7 @@ public:
     ~scientificModule();
     void setKeyPress(QKeyEvent *e);
 
-    void mousePressEvent(QMouseEvent *event);
-    void showOrHideHistory(bool b);
+    void showOrHideHistory(bool hide);
     void checkLineEmpty();
 signals:
     void changedeg(int deg);
@@ -77,17 +76,13 @@ private:
     void handleFEStateChanged(bool isdown);
     void handlePageStateChanged();
 
-protected:
-    //void paintEvent(QPaintEvent *);
-
 private:
     SciExpressionBar *m_sciexpressionBar;
     ScientificKeyPad *m_scikeypadwidget;
-    bool m_insidewidget;
     bool m_avail = false;
     int m_deg = 1;//1-deg 2-rad 3-grad
-    bool m_FEisdown = false;
-    bool m_Pageisdown = false;
+    bool m_FEisdown = false; //FE按键是否被按下
+    bool m_Pageisdown = false; //2nd按键是否被按下
     bool m_isinsidefun = false;//鼠标点击在函数widget内
     bool m_memCalbtn; //m+,m-,ms
     bool m_memRCbtn;//mr,mc

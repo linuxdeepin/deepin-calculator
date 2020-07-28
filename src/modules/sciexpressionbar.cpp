@@ -869,7 +869,7 @@ void SciExpressionBar::enterDerivativeEvent()
         return;
     }
     int epos = m_inputEdit->text().indexOf("e");
-    QString sRegNum = "[0-9,.e]";
+    QString sRegNum = "[0-9,.πℯ]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curPos == 0 && hasselect == false) {
@@ -910,7 +910,7 @@ void SciExpressionBar::enterDerivativeEvent()
             operatorpos++;
             nooperator = true;
         }
-        QString exptext;  //%表达式
+        QString exptext;  //表达式
         if (newtext.at(percentpos - 1) == ')') {
             if (operatorpos > 0 && newtext.at(operatorpos - 1) == '(') {
                 m_inputEdit->setText(oldText);
@@ -924,17 +924,42 @@ void SciExpressionBar::enterDerivativeEvent()
                 }
             } while (newtext.mid(operatorpos, newtext.size() - operatorpos).count('(') !=
                      newtext.mid(operatorpos, percentpos - operatorpos).count(')'));
+
+            //匹配到的(不在开头且(左侧是字母
+            QString sRegNum2 = "[A-Za-z]";
+            QRegExp latterrx;
+            latterrx.setPattern(sRegNum2);
+            int funpos = -1; //记录函数位
+            if (operatorpos > 0 && latterrx.exactMatch(m_inputEdit->text().at(operatorpos - 1))) {
+                int i;
+                for (i = 0; i < m_funclist.size(); i++) {
+                    //记录(左侧离(最近的函数位
+                    funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], operatorpos - 1);
+                    if (funpos != -1 && (funpos + m_funclist[i].length() == operatorpos))
+                        break; //(在函数结尾
+                    else
+                        funpos = -1;
+                }
+                if (funpos != -1)
+                    operatorpos = operatorpos - m_funclist[i].length(); //截取函数
+            } else if (operatorpos > 1 && m_inputEdit->text().mid(operatorpos - 2, 2) == "1/") {
+                operatorpos = operatorpos - 2; //截取倒数
+            }
+
             exptext = newtext.mid(operatorpos,
-                                  percentpos - operatorpos);  //截取%表达式
+                                  percentpos - operatorpos);  //截取表达式
         } else {
             exptext = newtext.mid(operatorpos + (nooperator == true ? 0 : 1),
                                   percentpos - operatorpos + (nooperator == true ? 1 : 0) - 1);
-            //截取%表达式
+            //截取表达式
         }
 //        QString express = symbolComplement(exptext);
         if (exptext.count("(") == exptext.count(")")) {
             m_inputEdit->setCursorPosition(curPos - exptext.length());
-            m_inputEdit->insert("1/(");
+            if (curPos - exptext.length() > 0 && rx.exactMatch(m_inputEdit->text().at(curPos - exptext.length() - 1)))
+                m_inputEdit->insert("×1/(");
+            else
+                m_inputEdit->insert("1/(");
             int afterinsertpos = m_inputEdit->cursorPosition();
             m_inputEdit->setCursorPosition(afterinsertpos + exptext.length());
             m_inputEdit->insert(")");
@@ -1313,7 +1338,7 @@ void SciExpressionBar::enterModulusEvent()
             operatorpos++;
             nooperator = true;
         }
-        QString exptext;  //%表达式
+        QString exptext;  //表达式
         if (newtext.at(percentpos - 1) == ')') {
             if (operatorpos > 0 && newtext.at(operatorpos - 1) == '(') {
                 m_inputEdit->setText(oldText);
@@ -1327,12 +1352,34 @@ void SciExpressionBar::enterModulusEvent()
                 }
             } while (newtext.mid(operatorpos, newtext.size() - operatorpos).count('(') !=
                      newtext.mid(operatorpos, percentpos - operatorpos).count(')'));
+
+            //匹配到的(不在开头且(左侧是字母
+            QString sRegNum2 = "[A-Za-z]";
+            QRegExp latterrx;
+            latterrx.setPattern(sRegNum2);
+            int funpos = -1; //记录函数位
+            if (operatorpos > 0 && latterrx.exactMatch(m_inputEdit->text().at(operatorpos - 1))) {
+                int i;
+                for (i = 0; i < m_funclist.size(); i++) {
+                    //记录(左侧离(最近的函数位
+                    funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], operatorpos - 1);
+                    if (funpos != -1 && (funpos + m_funclist[i].length() == operatorpos))
+                        break; //(在函数结尾
+                    else
+                        funpos = -1;
+                }
+                if (funpos != -1)
+                    operatorpos = operatorpos - m_funclist[i].length(); //截取函数
+            } else if (operatorpos > 1 && m_inputEdit->text().mid(operatorpos - 2, 2) == "1/") {
+                operatorpos = operatorpos - 2; //截取倒数
+            }
+
             exptext = newtext.mid(operatorpos,
-                                  percentpos - operatorpos);  //截取%表达式
+                                  percentpos - operatorpos);  //截取表达式
         } else {
             exptext = newtext.mid(operatorpos + (nooperator == true ? 0 : 1),
                                   percentpos - operatorpos + (nooperator == true ? 1 : 0) - 1);
-            //截取%表达式
+            //截取表达式
         }
 //        QString express = symbolComplement(exptext);
         if (exptext.count("(") == exptext.count(")")) {
@@ -1802,7 +1849,7 @@ void SciExpressionBar::enterOppositeEvent()
             operatorpos++;
             nooperator = true;
         }
-        QString exptext;  //%表达式
+        QString exptext;  //表达式
         if (newtext.at(percentpos - 1) == ')') {
             if (operatorpos > 0 && newtext.at(operatorpos - 1) == '(') {
                 m_inputEdit->setText(oldText);
@@ -1816,12 +1863,34 @@ void SciExpressionBar::enterOppositeEvent()
                 }
             } while (newtext.mid(operatorpos, newtext.size() - operatorpos).count('(') !=
                      newtext.mid(operatorpos, percentpos - operatorpos).count(')'));
+
+            //匹配到的(不在开头且(左侧是字母
+            QString sRegNum2 = "[A-Za-z]";
+            QRegExp latterrx;
+            latterrx.setPattern(sRegNum2);
+            int funpos = -1; //记录函数位
+            if (operatorpos > 0 && latterrx.exactMatch(m_inputEdit->text().at(operatorpos - 1))) {
+                int i;
+                for (i = 0; i < m_funclist.size(); i++) {
+                    //记录(左侧离(最近的函数位
+                    funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], operatorpos - 1);
+                    if (funpos != -1 && (funpos + m_funclist[i].length() == operatorpos))
+                        break; //(在函数结尾
+                    else
+                        funpos = -1;
+                }
+                if (funpos != -1)
+                    operatorpos = operatorpos - m_funclist[i].length(); //截取函数
+            } else if (operatorpos > 1 && m_inputEdit->text().mid(operatorpos - 2, 2) == "1/") {
+                operatorpos = operatorpos - 2; //截取倒数
+            }
+
             exptext = newtext.mid(operatorpos,
-                                  percentpos - operatorpos);  //截取%表达式
+                                  percentpos - operatorpos);  //截取表达式
         } else {
             exptext = newtext.mid(operatorpos + (nooperator == true ? 0 : 1),
                                   percentpos - operatorpos + (nooperator == true ? 1 : 0) - 1);
-            //截取%表达式
+            //截取表达式
         }
 //        QString express = symbolComplement(exptext);
         if (exptext.count("(") == exptext.count(")")) {
@@ -2009,6 +2078,9 @@ void SciExpressionBar::revisionResults(const QModelIndex &index)
     emit clearStateChanged(false);
 }
 
+/**
+ * @brief 点击右侧历史记录
+ */
 void SciExpressionBar::hisRevisionResults(const QModelIndex &index, Quantity ans)
 {
     QString text = index.data(SimpleListModel::ExpressionRole).toString();
@@ -2025,7 +2097,7 @@ void SciExpressionBar::hisRevisionResults(const QModelIndex &index, Quantity ans
     m_isUndo = false;
     addUndo();
 
-    emit clearStateChanged(false);
+    emit clearStateChanged(false); //清除按键为C
 }
 
 bool SciExpressionBar::judgeinput()
