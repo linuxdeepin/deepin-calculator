@@ -84,11 +84,6 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
 
 SciExpressionBar::~SciExpressionBar() {}
 
-void SciExpressionBar::setContinue(bool isContinue)
-{
-    m_isContinue = isContinue;
-}
-
 QPair<bool, QString> SciExpressionBar::getexpression()
 {
     m_pair.second = m_expression;

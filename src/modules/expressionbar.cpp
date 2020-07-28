@@ -27,7 +27,10 @@
 
 #include "src/utils.h"
 
-#define STANDPREC 15
+const int STANDPREC = 15;
+const int WIDGET_FIXHEIGHT = 147;
+const int INPUTEDIT_HEIGHT = 55;
+const int HISTORYLINKAGE_MAXSIZE = 10;
 
 ExpressionBar::ExpressionBar(QWidget *parent)
     : DWidget(parent)
@@ -48,7 +51,7 @@ ExpressionBar::ExpressionBar(QWidget *parent)
     m_Selected = -1;
     m_meanexp = true;
     // init inputEdit attributes.
-    m_inputEdit->setFixedHeight(55);
+    m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT);
     m_inputEdit->setAlignment(Qt::AlignRight);
     m_inputEdit->setTextMargins(10, 0, 10, 6);
 //    m_inputEdit->setFocus();
@@ -67,17 +70,18 @@ ExpressionBar::ExpressionBar(QWidget *parent)
     layout->setMargin(0);
     layout->setSpacing(0);
 
-    setFixedHeight(147);
+    setFixedHeight(WIDGET_FIXHEIGHT);
     initConnect();
 }
 
 ExpressionBar::~ExpressionBar() {}
 
-void ExpressionBar::setContinue(bool isContinue)
-{
-    m_isContinue = isContinue;
-}
-
+/**
+ * @brief ExpressionBar::enterNumberEvent
+ * 输入0-9的数字
+ * @param text
+ * 对应的数字
+ */
 void ExpressionBar::enterNumberEvent(const QString &text)
 {
     //    if (m_isLinked)
@@ -86,6 +90,7 @@ void ExpressionBar::enterNumberEvent(const QString &text)
         m_inputEdit->clear();
         m_isResult = false;
     }
+    /*当直接在点击等于号后出的结果后面进行输入，则替换结果*/
     //20200615 按等于号后退格结果再输入十位数十位消失问题
     if (m_isResult) {
         m_inputEdit->clear();
@@ -115,6 +120,12 @@ void ExpressionBar::enterNumberEvent(const QString &text)
     emit clearStateChanged(false);
 }
 
+/**
+ * @brief ExpressionBar::enterSymbolEvent
+ * 输入四则运算符
+ * @param text
+ * 对应的运算符
+ */
 void ExpressionBar::enterSymbolEvent(const QString &text)
 {
     QString symbol = text;
@@ -125,7 +136,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
         m_hisLink.last().isLink = true;
         m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
         m_isLinked = false;
-        if (m_hisLink.size() > 9) {
+        if (m_hisLink.size() > HISTORYLINKAGE_MAXSIZE - 1) {
             m_hisLink.removeFirst();
             m_listDelegate->removeLine(0);
         }
@@ -541,6 +552,10 @@ void ExpressionBar::enterPercentEventCommon()
     m_isResult = false;
 }
 
+/**
+ * @brief ExpressionBar::enterPointEvent
+ * 输入小数点
+ */
 void ExpressionBar::enterPointEvent()
 {
     //    if (m_isLinked)
@@ -582,6 +597,10 @@ void ExpressionBar::enterPointEvent()
     m_isResult = false;
 }
 
+/**
+ * @brief ExpressionBar::enterBackspaceEvent
+ * 输入退格键
+ */
 void ExpressionBar::enterBackspaceEvent()
 {
     //    if (m_isResult)
@@ -682,6 +701,10 @@ void ExpressionBar::enterBackspaceEvent()
     m_isUndo = false;
 }
 
+/**
+ * @brief ExpressionBar::enterClearEvent
+ * C/AC的清空事件
+ */
 void ExpressionBar::enterClearEvent()
 {
     if (m_isAllClear) {
@@ -713,58 +736,12 @@ void ExpressionBar::enterClearEvent()
     addUndo();
 }
 
+/**
+ * @brief ExpressionBar::enterEqualEvent
+ * 输入栏中表达式的求值，以及求值后的格式化
+ */
 void ExpressionBar::enterEqualEvent()
 {
-    /*QString resultText;
-    int index;
-    if (m_unfinishedExp == "" && m_hisRevision == -1) {
-        resultText = m_inputEdit->text();
-        index = -1;
-    }
-    //修改历史记录
-    if (m_hisRevision != -1) {
-        resultText = m_inputEdit->text();
-        index = m_hisRevision;
-    } else {
-        if (!m_inputEdit->text().isEmpty() && !m_isResult) {
-            m_unfinishedExp += m_inputEdit->text();
-        }
-        resultText = m_unfinishedExp;
-        index = m_listModel->rowCount(QModelIndex()) - 1;
-        QString tmp =
-    m_listModel->index(index).data(SimpleListModel::ExpressionRole).toString(); if
-    (tmp.indexOf("＝") != -1)
-            ++index;
-    }
-    m_unfinishedExp.clear();
-    resultText = formatExpression(resultText);
-    QString newResultText = completedBracketsCalculation(resultText);
-    m_evaluator->setExpression(newResultText);
-    Quantity ans = m_evaluator->evalUpdateAns();
-
-    if (m_evaluator->error().isEmpty()) {
-        if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
-            return;
-
-        const QString result = DMath::format(ans, Quantity::Format::Fixed());
-        QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace(QString::fromUtf8("＋"),
-    "+").replace(QString::fromUtf8("－"), "-") .replace(QString::fromUtf8("×"),
-    "*").replace(QString::fromUtf8("÷"), "/") .replace(QString::fromUtf8(","), "");
-
-        //if (formatResult != m_inputEdit->text()) {
-            m_listModel->updataList(resultText + "＝" + formatResult, index);
-            m_inputEdit->setAnswer(formatResult, ans);
-            m_isContinue = false;
-        //}
-        historicalLinkage(m_hisRevision,formatResult);
-    } else {
-        m_listModel->updataList(resultText + "＝" + tr("Expression Error"), index);
-    }
-
-    m_hisRevision = -1;
-    m_listView->scrollToBottom();
-    m_isResult = false;*/
     QString oldtext = m_inputEdit->text();
     if (m_inputEdit->text().isEmpty())
         return;
@@ -895,6 +872,10 @@ void ExpressionBar::enterEqualEvent()
     m_isUndo = false;
 }
 
+/**
+ * @brief ExpressionBar::enterPercentEvent
+ * 当前使用的输入百分号的事件
+ */
 void ExpressionBar::enterPercentEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
@@ -937,6 +918,10 @@ void ExpressionBar::enterPercentEvent()
     }
 }
 
+/**
+ * @brief ExpressionBar::enterBracketsEvent
+ * 数字键盘中点击左右括号的事件，直接显示左右括号，光标位于中间
+ */
 void ExpressionBar::enterBracketsEvent()
 {
     if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
@@ -944,7 +929,7 @@ void ExpressionBar::enterBracketsEvent()
         m_hisLink.last().isLink = true;
         m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
         m_isLinked = false;
-        if (m_hisLink.size() > 9) {
+        if (m_hisLink.size() > HISTORYLINKAGE_MAXSIZE - 1) {
             m_hisLink.removeFirst();
             m_listDelegate->removeLine(0);
         }
@@ -981,61 +966,12 @@ void ExpressionBar::enterBracketsEvent()
     if (formatexp == oldText)
         m_inputEdit->setText(formatexp);
     m_isUndo = false;
-    /*QString sRegNum = "[0-9]+";
-    QRegExp rx;
-    rx.setPattern(sRegNum);
-    int right = oldText.length() - currentPos;
-    int leftLeftParen = oldText.left(currentPos).count("(");
-    int leftRightParen = oldText.left(currentPos).count(")");
-    int rightLeftParen = oldText.right(right).count("(");
-    int rightrightParen = oldText.right(right).count(")");
-    //左右括号总数是否相等
-    if (oldText.count("(") != oldText.count(")")) {
-        //光标左侧左括号大于右括号
-        if (leftLeftParen > leftRightParen) {
-            if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) > 0) {
-                //bracketsText = ")";
-                //if (currentPos != 0 && !rx.exactMatch(oldText.at(currentPos - 1)))
-                //    return;
-                m_inputEdit->insert(")");
-            } else if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) < 0)
-    {
-                //bracketsText = "(";
-                //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-                //    return;
-                m_inputEdit->insert("(");
-                m_inputEdit->setCursorPosition(currentPos + 1);
-            } else {
-                //bracketsText = "(";
-                //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-                //    return;
-                m_inputEdit->insert("(");
-                m_inputEdit->setCursorPosition(currentPos + 1);
-            }
-        //如果左侧左括号小于等于左侧右括号
-        } else {
-            //如果右侧左括号小于右括号
-            if (rightLeftParen < rightrightParen) {
-                //bracketsText = "(";
-                //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-                //    return;
-                m_inputEdit->insert("(");
-            } else {
-                //bracketsText = "(";
-                //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-                //    return;
-                m_inputEdit->insert("(");
-            }
-        }
-    //相等则输入一对括号
-    } else {
-        //bracketsText = "(";
-        //if (currentPos != 0 && rx.exactMatch(oldText.at(currentPos - 1)))
-        //    return;
-        m_inputEdit->insert("(");
-    }*/
 }
 
+/**
+ * @brief ExpressionBar::enterLeftBracketsEvent
+ * 键盘左括号输入的事件，rightbrackets为右括号(数字键盘无法输入单个的左右括号)
+ */
 void ExpressionBar::enterLeftBracketsEvent()
 {
     if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
@@ -1043,7 +979,7 @@ void ExpressionBar::enterLeftBracketsEvent()
         m_hisLink.last().isLink = true;
         m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
         m_isLinked = false;
-        if (m_hisLink.size() > 9) {
+        if (m_hisLink.size() > HISTORYLINKAGE_MAXSIZE - 1) {
             m_hisLink.removeFirst();
             m_listDelegate->removeLine(0);
         }
@@ -1096,7 +1032,7 @@ void ExpressionBar::enterRightBracketsEvent()
         m_hisLink.last().isLink = true;
         m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
         m_isLinked = false;
-        if (m_hisLink.size() > 9) {
+        if (m_hisLink.size() > HISTORYLINKAGE_MAXSIZE - 1) {
             m_hisLink.removeFirst();
             m_listDelegate->removeLine(0);
         }
@@ -1142,42 +1078,10 @@ void ExpressionBar::enterRightBracketsEvent()
         m_inputEdit->setText(formatexp);
 }
 
-void ExpressionBar::enterDeleteEvent()
-{
-    m_inputEdit->clear();
-    m_isUndo = false;
-    /*int curPos = m_inputEdit->cursorPosition();
-    if (curPos != m_inputEdit->text().length()) {
-        QString text = m_inputEdit->text();
-        int index = curPos;
-        if (text.at(curPos) == ",")
-            ++index;
-        text.remove(index, 1);
-        m_inputEdit->setText(text);
-        m_inputEdit->setCursorPosition(curPos);
-    }*/
-}
-
-void ExpressionBar::entereEvent()
-{
-    /*QString exp = m_inputEdit->text();
-    if(exp.isEmpty() || m_inputEdit->cursorPosition() == 0)
-        return;
-    QString sRegNum = "[0-9]+";
-    QRegExp rx;
-    rx.setPattern(sRegNum);
-    if (rx.exactMatch(exp.at(m_inputEdit->cursorPosition() - 1)))
-        m_inputEdit->insert("e");*/
-    m_inputEdit->insert("e");
-    m_isUndo = false;
-}
-
-void ExpressionBar::enterExpEvent(int mod)
-{
-    Q_UNUSED(mod);
-    emit turnDeg();
-}
-
+/**
+ * @brief ExpressionBar::copyResultToClipboard
+ * 将输入栏中的内容复制到剪贴板
+ */
 void ExpressionBar::copyResultToClipboard()
 {
 //    m_evaluator->unsetVariable(QLatin1String("e"), true);
@@ -1214,6 +1118,10 @@ void ExpressionBar::copyResultToClipboard()
 //    }
 }
 
+/**
+ * @brief ExpressionBar::copyClipboard2Result
+ * 将剪贴板的内容复制到输入栏
+ */
 void ExpressionBar::copyClipboard2Result()
 {
     if (!m_hisLink.isEmpty() && m_hisLink.last().linkedItem == -1) {
@@ -1221,7 +1129,7 @@ void ExpressionBar::copyClipboard2Result()
         m_hisLink.last().isLink = true;
         m_listDelegate->setHisLinked(m_hisLink.last().linkedItem);
         m_isLinked = false;
-        if (m_hisLink.size() > 9) {
+        if (m_hisLink.size() > HISTORYLINKAGE_MAXSIZE - 1) {
             m_hisLink.removeFirst();
             m_listDelegate->removeLine(0);
         }
@@ -1282,6 +1190,10 @@ void ExpressionBar::copyClipboard2Result()
     m_isUndo = false;
 }
 
+/**
+ * @brief ExpressionBar::allElection
+ * 全选事件
+ */
 void ExpressionBar::allElection()
 {
     m_inputEdit->selectAll();
@@ -1290,6 +1202,10 @@ void ExpressionBar::allElection()
     m_inputEdit->setSelection(selection);
 }
 
+/**
+ * @brief ExpressionBar::shear
+ * 剪切事件
+ */
 void ExpressionBar::shear()
 {
     QString text = m_inputEdit->text();
@@ -1304,6 +1220,11 @@ void ExpressionBar::shear()
     m_isUndo = false;
 }
 
+/**
+ * @brief ExpressionBar::handleTextChanged
+ * 输入栏中为上一次计算的结果时，如果被修改，则输入数字时不进行整体的替换
+ * @param text
+ */
 void ExpressionBar::handleTextChanged(const QString &text)
 {
     Q_UNUSED(text);
@@ -1316,6 +1237,14 @@ bool ExpressionBar::cursorPosAtEnd()
     return m_inputEdit->cursorPosition() == m_inputEdit->text().length();
 }
 
+/**
+ * @brief ExpressionBar::formatExpression
+ * 在进行计算前替换中文符号
+ * @param text
+ * 需要计算的内容
+ * @return
+ * 替换后的表达式
+ */
 QString ExpressionBar::formatExpression(const QString &text)
 {
     return QString(text)
@@ -1326,6 +1255,12 @@ QString ExpressionBar::formatExpression(const QString &text)
            .replace(QString::fromUtf8(","), "");
 }
 
+/**
+ * @brief ExpressionBar::revisionResults
+ * 点击历史记录后将表达式显示在输入栏
+ * @param index
+ * 点击的行号/索引
+ */
 void ExpressionBar::revisionResults(const QModelIndex &index)
 {
     clearLinkageCache(m_inputEdit->text(), false);
@@ -1345,34 +1280,12 @@ void ExpressionBar::revisionResults(const QModelIndex &index)
     emit clearStateChanged(false);
 }
 
-void ExpressionBar::computationalResults(const QString &expression, QString &result)
-{
-    if (m_inputEdit->text().isEmpty())
-        return;
-
-    QString exp = expression.left(expression.size() - 1);
-    exp = formatExpression(exp);
-    m_evaluator->setExpression(formatExpression(exp));
-    Quantity ans = m_evaluator->evalUpdateAns();
-
-    if (m_evaluator->error().isEmpty()) {
-        if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
-            return;
-
-        const QString tResult = DMath::format(ans, Quantity::Format::Fixed() + Quantity::Format::Precision(STANDPREC));
-        result = Utils::formatThousandsSeparators(tResult);
-        result = formatExpression(result);
-        m_inputEdit->setAnswer(result, ans);
-
-        if (result != m_inputEdit->text()) {
-            m_isContinue = false;
-        }
-    } else {
-        result = tr("Expression error");
-        m_inputEdit->setText(result);
-    }
-}
-
+/**
+ * @brief ExpressionBar::completedBracketsCalculation
+ * 自动补全右括号，暂未用到
+ * @param text
+ * @return
+ */
 QString ExpressionBar::completedBracketsCalculation(QString &text)
 {
     int leftBrack = text.count("(");
@@ -1386,57 +1299,15 @@ QString ExpressionBar::completedBracketsCalculation(QString &text)
     return newText;
 }
 
-void ExpressionBar::historicalLinkage(int index, QString newValue)
-{
-    for (int i = 0; i < m_hisLink.size(); i++) {
-        if (m_hisLink[i].linkageTerm == index && m_hisLink[i].isLink) {
-            if (m_hisLink[i].linkedItem == -1)
-                return;
-            QString text = m_listModel->index(m_hisLink[i].linkedItem)
-                           .data(SimpleListModel::ExpressionRole)
-                           .toString();
-            QString expression = text.split("＝").first();
-            QString subStr = m_hisLink[i].linkageValue;
-            expression.replace(expression.indexOf(subStr), subStr.size(), newValue);
-            QString result;
-            expression = formatExpression(expression);
-            m_evaluator->setExpression(formatExpression(expression));
-            Quantity ans = m_evaluator->evalUpdateAns();
-
-            if (m_evaluator->error().isEmpty()) {
-                if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
-                    return;
-
-                const QString tResult = DMath::format(ans, Quantity::Format::Fixed() + Quantity::Format::Precision(STANDPREC));
-                result = Utils::formatThousandsSeparators(tResult);
-                result = formatExpression(result);
-                m_inputEdit->setAnswer(result, ans);
-
-                if (result != m_inputEdit->text()) {
-                    m_isContinue = false;
-                }
-            } else {
-                result = tr("Expression error");
-                m_inputEdit->setText(result);
-            }
-            m_hisLink[i].linkageValue = newValue;
-            m_listModel->updataList(expression + "＝" + result, m_hisLink[i].linkedItem);
-            historicalLinkage(m_hisLink[i].linkedItem, result);
-            m_isLinked = false;
-        }
-    }
-}
-
-void ExpressionBar::setLinkState(const QModelIndex index)
-{
-    int row = index.row();
-    for (int i = 0; i < m_hisLink.size(); i++) {
-        if (m_hisLink[i].linkageTerm == row)
-            m_hisLink[i].isLink = true;
-    }
-}
-
 // edit 20200318 for fix cleanlinkcache
+/**
+ * @brief ExpressionBar::clearLinkageCache
+ * 判断是否要清除最后一个联动项，如果联动项大于0,则判断表达式的第一位数字是否
+ * 和上一列历史记录的结果相等，不等则清除联动
+ * @param text
+ * @param isequal
+ * 区分是点击历史记录还是对表达式进行计算的事件
+ */
 void ExpressionBar::clearLinkageCache(const QString &text, bool isequal)
 {
     if (m_hisLink.isEmpty())
@@ -1464,6 +1335,10 @@ void ExpressionBar::clearLinkageCache(const QString &text, bool isequal)
     }
 }
 
+/**
+ * @brief ExpressionBar::settingLinkage
+ * 点击等于号后的事件，进行历史记录联动的判断
+ */
 void ExpressionBar::settingLinkage()
 {
 //    m_evaluator->unsetVariable(QLatin1String("e"), true);
@@ -1520,21 +1395,6 @@ void ExpressionBar::settingLinkage()
     }
 }
 
-void ExpressionBar::judgeLinkageAgain()
-{
-    if (m_hisLink.isEmpty())
-        return;
-    QString text = m_inputEdit->text();
-    text.replace(",", "");
-    QStringList list = text.split(QRegExp("[＋－×÷()]"));
-    QString linkValue = m_hisLink.last().linkageValue;
-    if (list.at(0) != linkValue) {
-        // m_listDelegate->removeLine(m_hisLink.last().linkageTerm,m_hisLink.last().linkedItem);
-        m_listDelegate->removeLine(m_hisLink.size() - 1);
-        m_hisLink.removeLast();
-    }
-}
-
 void ExpressionBar::initConnect()
 {
     connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this,
@@ -1554,6 +1414,12 @@ void ExpressionBar::initConnect()
     connect(m_inputEdit, &InputEdit::setResult, this, &ExpressionBar::setResultFalse);
 }
 
+/**
+ * @brief ExpressionBar::symbolComplement
+ * 当计算((()))这种超过3个括号嵌套的表达式时有问题，手动补乘号进行规避
+ * @param exp
+ * @return
+ */
 QString ExpressionBar::symbolComplement(const QString exp)
 {
     QString text = exp;
@@ -1609,6 +1475,12 @@ QString ExpressionBar::pasteFaultTolerance(QString exp)
     return exp;
 }
 
+/**
+ * @brief ExpressionBar::pointFaultTolerance
+ * 符号的容错处理
+ * @param text
+ * @return
+ */
 QString ExpressionBar::pointFaultTolerance(const QString &text)
 {
     QString oldText = text;
@@ -1657,19 +1529,6 @@ QString ExpressionBar::pointFaultTolerance(const QString &text)
     }
 
     return reformatStr;
-}
-
-void ExpressionBar::clearSelectSymbol()
-{
-    SSelection select = m_inputEdit->getSelection();
-    if (select.selected.size() == 1 && (select.selected == "＋" || select.selected == "－" ||
-                                        select.selected == "×" || select.selected == "÷")) {
-        select.selected = "";
-        QString exp = m_inputEdit->text();
-        exp.remove(select.curpos, 1);
-        m_inputEdit->setText(exp);
-        m_inputEdit->setCursorPosition(select.curpos);
-    }
 }
 
 void ExpressionBar::expressionCheck()
@@ -1724,6 +1583,10 @@ void ExpressionBar::expressionCheck()
     m_inputEdit->setCursorPosition(m_inputEdit->text().length() - (length - sum)); //20200525数字前有0时容错删除0光标错位
 }
 
+/**
+ * @brief ExpressionBar::Undo
+ * 撤销
+ */
 void ExpressionBar::Undo()
 {
     if (m_undo.isEmpty())
@@ -1758,6 +1621,10 @@ void ExpressionBar::Undo()
     }
 }
 
+/**
+ * @brief ExpressionBar::addUndo
+ * 将当前的内容存入撤销的容器中
+ */
 void ExpressionBar::addUndo()
 {
     // 20200319修复选中某一数字按下相同数字无法清除选中内容的问题
@@ -1789,6 +1656,12 @@ void ExpressionBar::Redo()
     }
 }
 
+/**
+ * @brief ExpressionBar::initTheme
+ * 向历史记录的listview中传递当前应用主题
+ * @param type
+ * 主题类型
+ */
 void ExpressionBar::initTheme(int type)
 {
     //edit for bug-21476
@@ -1799,6 +1672,10 @@ void ExpressionBar::initTheme(int type)
     m_listDelegate->setThemeType(typeIn);
 }
 
+/**
+ * @brief ExpressionBar::clearSelection
+ * 清除选中的高亮
+ */
 void ExpressionBar::clearSelection()
 {
     SSelection select = m_inputEdit->getSelection();
@@ -1836,6 +1713,11 @@ void ExpressionBar::setResultFalse()
     m_isResult = false;
 }
 
+/**
+ * @brief ExpressionBar::replaceSelection
+ * 清除选中的内容并设置光标位置
+ * @param text
+ */
 void ExpressionBar::replaceSelection(QString text)
 {
     QString seloldtext = text;

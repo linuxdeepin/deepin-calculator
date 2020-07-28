@@ -50,7 +50,6 @@ public:
     SciExpressionBar(QWidget *parent = nullptr);
     ~SciExpressionBar();
 
-    void setContinue(bool isContinue);
     QPair<bool, QString> getexpression();
     Quantity getanswer();
 

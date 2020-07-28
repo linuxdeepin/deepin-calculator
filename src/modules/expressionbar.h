@@ -68,8 +68,6 @@ public:
     ExpressionBar(QWidget *parent = nullptr);
     ~ExpressionBar();
 
-    void setContinue(bool isContinue);
-
 signals:
     void keyPress(QKeyEvent *);
     void clearStateChanged(bool);
@@ -77,6 +75,7 @@ signals:
     void turnDeg();
 
 public slots:
+    //输入事件
     void enterNumberEvent(const QString &text);
     void enterSymbolEvent(const QString &text);
     void enterPointEvent();
@@ -89,19 +88,14 @@ public slots:
     void enterBracketsEvent();
     void enterLeftBracketsEvent();
     void enterRightBracketsEvent();
-    void enterDeleteEvent();
-    void entereEvent();
-    void enterExpEvent(int mod);
+
     void moveLeft();
     void moveRight();
     void copyResultToClipboard();
     void copyClipboard2Result();
     void allElection();
     void shear();
-    void computationalResults(const QString &expression, QString &result);
-    void historicalLinkage(int index, QString newValue);
     void clearLinkageCache(const QString &text, bool isequal);
-    void setLinkState(const QModelIndex index);
     void settingLinkage(const QModelIndex &index);
     void settingLinkage();
     void Undo();
@@ -125,12 +119,10 @@ private:
     QString completedBracketsCalculation(QString &text);
     bool isOperator(const QString &text);
     bool cancelLink(int index);
-    void judgeLinkageAgain();
     void initConnect();
     QString symbolComplement(const QString exp);
     QString pasteFaultTolerance(QString exp);
     QString pointFaultTolerance(const QString &text);
-    void clearSelectSymbol();
     void expressionCheck();
 
 private:
