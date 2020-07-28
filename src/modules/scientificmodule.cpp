@@ -280,7 +280,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         m_scikeypadwidget->animate(ScientificKeyPad::Key_Equals);
         if (m_sciexpressionBar->getexpression().first) {
             m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->getanswer(), m_sciexpressionBar->getexpression().second, 0);
-            m_scihiswidget->ishistoryfilled(true);
+            m_scihiswidget->historyfilled();
         }
         m_sciexpressionBar->addUndo();
         setFocus();
@@ -701,7 +701,7 @@ void scientificModule::handleKeypadButtonPress(int key)
         m_sciexpressionBar->enterEqualEvent();
         if (m_sciexpressionBar->getexpression().first) {
             m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->getanswer(), m_sciexpressionBar->getexpression().second, 0);
-            m_scihiswidget->ishistoryfilled(true);
+            m_scihiswidget->historyfilled();
         }
         break;
     case ScientificKeyPad::Key_Clear:

@@ -33,18 +33,17 @@
 #include "src/utils.h"
 #include "src/math/quantity.h"
 
-const int WIDGET_WIDTH = 360;
-const int BUTTONBOX_WIDTH = 200;
-const int BUTTONBOX_HEIGHT = 36;
-const int LEFT_SPACE = 80;
-const int MID_SPACE = 37;
-const int RIGHT_SPACE = 7;
-const QSize CLEARBUTTON_SIZE = QSize(36, 36);
-const int SPACE_BETWEEN_BUTTONANDVIEW = 15;
+const int WIDGET_WIDTH = 360; //历史记录侧宽度
+const int BUTTONBOX_WIDTH = 200; //buttonbox宽度
+const int BUTTONBOX_HEIGHT = 36; //buttonbox高度
+const int LEFT_SPACE = 80; //buttonbox左侧宽度
+const int MID_SPACE = 37; //buttonbox与垃圾桶间宽度
+const int RIGHT_SPACE = 7; //垃圾桶右侧宽度
+const QSize CLEARBUTTON_SIZE = QSize(36, 36); //垃圾桶大小
+const int SPACE_BETWEEN_BUTTONANDVIEW = 15; //button与下侧widget之间空隙
 
 SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     : DWidget(parent)
-//    , m_memorywidget(new MemoryWidget(1, this))
     , m_listView(new SimpleListView(1))
     , m_listDelegate(new SimpleListDelegate(1, this))
     , m_listModel(new SimpleListModel(1, this))
@@ -69,11 +68,11 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_buttonstack->addWidget(m_clearbutton);
     m_buttonstack->addWidget(m_clearbuttonM);
     m_buttonstack->setCurrentIndex(0);
-    m_clearbutton->showtooltip(false);
-    m_clearbuttonM->showtooltip(true);
-    m_clearbutton->setHidden(!(m_ishideH & m_indexH));
-    m_ishideM = !memoryPublic->isWidgetEmpty(1);
-    m_clearbuttonM->setHidden(!(m_ishideM & m_indexM));
+    m_clearbutton->showtooltip(false); //设置历史垃圾桶tooltip
+    m_clearbuttonM->showtooltip(true); //设置内存垃圾桶tooltip
+    m_clearbutton->setHidden(!(m_isshowH & m_indexH));
+    m_isshowM = !memoryPublic->isWidgetEmpty(1);
+    m_clearbuttonM->setHidden(!(m_isshowM & m_indexM));
 
     m_Hlayout->addSpacing(RIGHT_SPACE);
     m_Vlayout->addSpacing(5);
@@ -108,29 +107,27 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
         m_indexM = false;
         m_stacklayout->setCurrentIndex(0);
         m_buttonstack->setCurrentIndex(0);
-//        m_clearbutton->showtooltip(false);
-        m_clearbutton->setHidden(!(m_ishideH & m_indexH));
+        m_clearbutton->setHidden(!(m_isshowH & m_indexH));
     });
     connect(m_buttonbox->button(1), &QAbstractButton::clicked, this, [ = ]() {
         m_indexH = false;
         m_indexM = true;
         m_stacklayout->setCurrentIndex(1);
         m_buttonstack->setCurrentIndex(1);
-//        m_clearbuttonM->showtooltip(true);
-        m_clearbuttonM->setHidden(!(m_ishideM & m_indexM));
+        m_clearbuttonM->setHidden(!(m_isshowM & m_indexM));
     });
     connect(m_clearbutton, &IconButton::clicked, this, [ = ]() {
         m_listModel->clearItems();
         m_listView->listItemFill(false);
-        m_ishideH = false;
-        m_clearbutton->setHidden(!(m_ishideH & m_indexH));
+        m_isshowH = false;
+        m_clearbutton->setHidden(!(m_isshowH & m_indexH));
         setFocus();
     });
     connect(m_listModel, &SimpleListModel::hisbtnhidden, this, [ = ]() {
-        m_listModel->clearItems();
+        m_listModel->clearItems(); //历史记录无数据信号接收
         m_listView->listItemFill(false);
-        m_ishideH = false;
-        m_clearbutton->setHidden(!(m_ishideH & m_indexH));
+        m_isshowH = false;
+        m_clearbutton->setHidden(!(m_isshowH & m_indexH));
         setFocus();
     });
     connect(m_clearbuttonM, &IconButton::clicked, this, [ = ]() {
@@ -138,12 +135,12 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
         setFocus();
     });
     connect(memoryPublic, &MemoryPublic::filledMem, this, [ = ]() {
-        m_ishideM = true;
-        m_clearbuttonM->setHidden(!(m_ishideM & m_indexM));
+        m_isshowM = true; //公共内存中有数据信号接收
+        m_clearbuttonM->setHidden(!(m_isshowM & m_indexM));
     });
     connect(memoryPublic, &MemoryPublic::emptyMem, this, [ = ]() {
-        m_ishideM = false;
-        m_clearbuttonM->setHidden(!(m_ishideM & m_indexM));
+        m_isshowM = false; //公共内存中无数据信号接收
+        m_clearbuttonM->setHidden(!(m_isshowM & m_indexM));
     });
     //防止foucus到输入栏或者buttonbox
     connect(memoryPublic, &MemoryPublic::publicwidgetclean, this, [ = ](int mode) {
@@ -154,11 +151,9 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 
 SciHistoryWidget::~SciHistoryWidget() {}
 
-//void SciHistoryWidget::paintEvent(QPaintEvent *event)
-//{
-//    //    QWidget::paintEvent(event);
-//}
-
+/**
+ * @brief 现实历史记录侧时调用，设置buttonbox状态
+ */
 void SciHistoryWidget::focusOnButtonbox()
 {
     if (m_stacklayout->currentIndex() == 0) {
@@ -168,11 +163,17 @@ void SciHistoryWidget::focusOnButtonbox()
     }
 }
 
+/**
+ * @brief 返回memorywidget
+ */
 MemoryWidget *SciHistoryWidget::getMemoryWidget()
 {
     return m_memorywidget;
 }
 
+/**
+ * @brief 对公共内存进行操作
+ */
 void SciHistoryWidget::memoryFunctions(SciHistoryWidget::memOperate operate, Quantity answer, int row)
 {
     switch (operate) {
@@ -197,6 +198,9 @@ void SciHistoryWidget::memoryFunctions(SciHistoryWidget::memOperate operate, Qua
     }
 }
 
+/**
+ * @brief 根据主题变换更换垃圾桶切图
+ */
 void SciHistoryWidget::themeChanged(int type)
 {
     QString path;
@@ -214,11 +218,14 @@ void SciHistoryWidget::themeChanged(int type)
     m_listDelegate->setThemeType(typeIn);
 }
 
-void SciHistoryWidget::ishistoryfilled(bool b)
+/**
+ * @brief 历史记录中有内容
+ */
+void SciHistoryWidget::historyfilled()
 {
-    if (m_ishideH == false)
+    if (m_isshowH == false)
         m_listModel->deleteItem(1);
-    m_listView->listItemFill(b);
-    m_ishideH = b;
-    m_clearbutton->setHidden(!(m_ishideH & m_indexH));
+    m_listView->listItemFill(true);
+    m_isshowH = true;
+    m_clearbutton->setHidden(!(m_isshowH & m_indexH));
 }

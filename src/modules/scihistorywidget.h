@@ -71,12 +71,7 @@ public:
     SimpleListModel *m_listModel;
 public slots:
     void themeChanged(int type);
-    void ishistoryfilled(bool b);
-
-private:
-
-protected:
-    //void paintEvent(QPaintEvent *);
+    void historyfilled();
 
 private:
     QStackedLayout *m_stacklayout;
@@ -86,10 +81,10 @@ private:
     IconButton *m_clearbuttonM; //内存界面清除按钮
     MemoryPublic *memoryPublic;
     QStackedWidget *m_buttonstack;
-    //0-hide 1-show,hide-是否为空,index-当前是历史界面/内存界面
-    bool m_ishideM = false;
+    //false-hide true-show,index-当前是历史界面/内存界面
+    bool m_isshowM = false; //内存中无内容为false
     bool m_indexM = false;
-    bool m_ishideH = false;
+    bool m_isshowH = false;
     bool m_indexH = true;
 };
 

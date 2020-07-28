@@ -35,6 +35,9 @@ SimpleListModel::SimpleListModel(int mode, QObject *parent)
 
 SimpleListModel::~SimpleListModel() {}
 
+/**
+ * @brief 返回历史记录条数
+ */
 int SimpleListModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
@@ -42,6 +45,9 @@ int SimpleListModel::rowCount(const QModelIndex &parent) const
     return m_expressionList.size();
 }
 
+/**
+ * @brief delegate中获取表达式；ExpressionRole：显示提示文本
+ */
 QVariant SimpleListModel::data(const QModelIndex &index, int role) const
 {
     const int r = index.row();
@@ -60,28 +66,25 @@ QVariant SimpleListModel::data(const QModelIndex &index, int role) const
     }
 }
 
-void SimpleListModel::appendText(const QString &text, bool sci)
+/**
+ * @brief  科学模式上方历史记录区
+ */
+void SimpleListModel::appendText(const QString &text)
 {
     auto expression = text.simplified();
 
-    /*if (m_expressionList.contains(expression)) {
-        m_expressionList.removeOne(expression);
-    }*/
+    beginRemoveRows(QModelIndex(), 0, 0);
+    m_expressionList.removeAt(0);
+    endRemoveRows();
 
-    const int size = m_expressionList.size();
-
-    if (sci) {
-        beginRemoveRows(QModelIndex(), 0, 0);
-        m_expressionList.removeAt(0);
-        m_expressionList.insert(0, expression);
-        endRemoveRows();
-    } else {
-        beginInsertRows(QModelIndex(), size, size);
-        m_expressionList << expression;
-        endInsertRows();
-    }
+    beginInsertRows(QModelIndex(), 0, 0);
+    m_expressionList << expression;
+    endInsertRows();
 }
 
+/**
+ * @brief 清空历史记录
+ */
 void SimpleListModel::clearItems()
 {
     beginRemoveRows(QModelIndex(), 0, m_expressionList.size());
@@ -96,14 +99,18 @@ void SimpleListModel::clearItems()
     }
 }
 
+/**
+ * @brief ResetModel
+ */
 void SimpleListModel::refrushModel()
 {
     beginResetModel();
     endResetModel();
-
-    emit updateCount(this->rowCount(QModelIndex()));
 }
 
+/**
+ * @brief 暂未使用
+ */
 void SimpleListModel::updataList(const QString &text, const int index, bool sci)
 {
     if (m_expressionList.count() == 500) {
@@ -125,7 +132,7 @@ void SimpleListModel::updataList(const QString &text, const int index, bool sci)
     }
 
     if (index == -1) {
-        appendText(exp, sci);
+        appendText(exp); //科学模式上方历史记录区
     } else {
         if (sci) {
             beginInsertRows(QModelIndex(), index, index);
@@ -140,10 +147,13 @@ void SimpleListModel::updataList(const QString &text, const int index, bool sci)
     }
 }
 
+/**
+ * @brief 添加历史记录
+ */
 void SimpleListModel::updataList(Quantity ans, const QString &text, const int index)
 {
     if (m_expressionList.count() == 500) {
-        deleteItem(499);
+        deleteItem(499); //历史记录不超过500条
         m_answerlist.pop_back();
 
     }
@@ -164,6 +174,9 @@ void SimpleListModel::updataList(Quantity ans, const QString &text, const int in
     m_answerlist.insert(0, ans);
 }
 
+/**
+ * @brief 删除单条历史记录
+ */
 void SimpleListModel::deleteItem(const int index)
 {
     beginRemoveRows(QModelIndex(), index, index);
@@ -172,10 +185,13 @@ void SimpleListModel::deleteItem(const int index)
     if (m_answerlist.count() > 0)
         m_answerlist.removeAt(index);
     if (m_expressionList.count() == 0) {
-        emit hisbtnhidden();
+        emit hisbtnhidden(); //发送历史记录无数据信号
     }
 }
 
+/**
+ * @brief 复制到粘贴板
+ */
 void SimpleListModel::copyToClipboard(const int index)
 {
     QClipboard *clipboard = QApplication::clipboard();
@@ -183,6 +199,9 @@ void SimpleListModel::copyToClipboard(const int index)
     clipboard->setText(copy.replace(" ", ""));
 }
 
+/**
+ * @brief 返回所点击历史记录的answer.Quantity
+ */
 Quantity SimpleListModel::getAnswer(const int index)
 {
     if (m_answerlist.count() > index)
