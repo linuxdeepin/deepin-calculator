@@ -171,9 +171,9 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
 
     switch (e->key()) {
     case Qt::Key_0:
-        m_expressionBar->enterNumberEvent("0");
-        m_basicKeypad->animate(BasicKeypad::Key_0);
-        m_expressionBar->addUndo();
+        m_expressionBar->enterNumberEvent("0"); //进入按键0事件
+        m_basicKeypad->animate(BasicKeypad::Key_0); //按键0动画效果
+        m_expressionBar->addUndo(); //动作添加进撤销
         break;
     case Qt::Key_1:
         m_expressionBar->enterNumberEvent("1");
@@ -382,7 +382,7 @@ void BasicModule::handleKeypadButtonPress(int key)
     QPair<QString, Quantity> p;
     switch (key) {
     case BasicKeypad::Key_0:
-        m_expressionBar->enterNumberEvent("0");
+        m_expressionBar->enterNumberEvent("0"); //按键0事件
         break;
     case BasicKeypad::Key_1:
         m_expressionBar->enterNumberEvent("1");

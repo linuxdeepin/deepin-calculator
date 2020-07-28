@@ -23,6 +23,9 @@
 
 static MemoryPublic *INSTANCE = nullptr;
 
+/**
+ * @brief 实例
+ */
 MemoryPublic *MemoryPublic::instance(QObject *p)
 {
     if (!INSTANCE) {
@@ -39,6 +42,9 @@ MemoryPublic::MemoryPublic(QObject *parent)
     initconnects();
 }
 
+/**
+ * @brief 相关信号槽
+ */
 void MemoryPublic::initconnects()
 {
 //    connect(standard_l, &MemoryWidget::widgetplus, this, [ = ](int row) {
@@ -60,6 +66,9 @@ void MemoryPublic::initconnects()
     connect(m_standard_l, &MemoryWidget::mListUnavailable, this, &MemoryPublic::emptyMem);
 }
 
+/**
+ * @brief 根据模式获取不同memorywidget
+ */
 MemoryWidget *MemoryPublic::getwidget(memorymode mode)
 {
     switch (mode) {
@@ -70,42 +79,63 @@ MemoryWidget *MemoryPublic::getwidget(memorymode mode)
     }
 }
 
+/**
+ * @brief 向数字内存中同时增加一个数字
+ */
 void MemoryPublic::generateData(Quantity answer)
 {
     m_standard_l->generateData(answer);
     m_scientific_r->generateData(answer);
 }
 
+/**
+ * @brief 同时进行M+操作
+ */
 void MemoryPublic::memoryplus(Quantity answer)
 {
     m_standard_l->memoryplus(answer);
     m_scientific_r->memoryplus(answer);
 }
 
+/**
+ * @brief 同时进行M-操作
+ */
 void MemoryPublic::memoryminus(Quantity answer)
 {
     m_standard_l->memoryminus(answer);
     m_scientific_r->memoryminus(answer);
 }
 
+/**
+ * @brief 同时进行清除内存操作
+ */
 void MemoryPublic::memoryclean()
 {
     m_standard_l->memoryclean();
     m_scientific_r->memoryclean();
 }
 
+/**
+ * @brief 用于从列表中item里的按钮，对指定行号的内存数据进行M+
+ */
 void MemoryPublic::widgetplus(int row, Quantity answer)
 {
     m_standard_l->widgetplusslot(row, answer);
     m_scientific_r->widgetplusslot(row, answer);
 }
 
+/**
+ * @brief 用于从列表中item里的按钮，对指定行号的内存数据进行M-
+ */
 void MemoryPublic::widgetminus(int row, Quantity answer)
 {
     m_standard_l->widgetminusslot(row, answer);
     m_scientific_r->widgetminusslot(row, answer);
 }
 
+/**
+ * @brief 用于从列表中item里的按钮，对指定行号的内存数据进行MC
+ */
 void MemoryPublic::widgetclean(int row, int mode, bool ismenu)
 {
     m_standard_l->widgetcleanslot(row, mode, ismenu);
@@ -113,12 +143,18 @@ void MemoryPublic::widgetclean(int row, int mode, bool ismenu)
     emit publicwidgetclean(mode);
 }
 
+/**
+ * @brief 根据主题变换垃圾桶及内存中没有数据字体颜色
+ */
 void MemoryPublic::setThemeType(int type)
 {
     m_standard_l->setThemeType(type);
     m_scientific_r->setThemeType(type);
 }
 
+/**
+ * @brief 返回内存中是否有数据
+ */
 bool MemoryPublic::isWidgetEmpty(int mode)
 {
     return (mode == 0 ? m_scientific_r->isWidgetEmpty() : m_standard_l->isWidgetEmpty());

@@ -511,9 +511,12 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
 //    emit mListUnavailable();
 //}
 
+/**
+ * @brief 根据主题变换垃圾桶及内存中没有数据字体颜色
+ */
 void MemoryWidget::setThemeType(int type)
 {
-    m_listwidget->update();
+    m_listwidget->update(); //刷新widget
     int typeIn = type;
     if (typeIn == 0) {
         typeIn = DGuiApplicationHelper::instance()->themeType();
@@ -525,13 +528,13 @@ void MemoryWidget::setThemeType(int type)
         path = QString(":/assets/images/%1/").arg("light");
         m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
         if (m_isempty) {
-            emptymemoryfontcolor();
+            emptymemoryfontcolor(); //更改内存中没有数据字体颜色
         }
     } else {
         path = QString(":/assets/images/%1/").arg("dark");
         m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
         if (m_isempty) {
-            emptymemoryfontcolor();
+            emptymemoryfontcolor(); //更改内存中没有数据字体颜色
         }
     }
 }
