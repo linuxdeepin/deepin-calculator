@@ -36,14 +36,14 @@
 
 #include "src/utils.h"
 
-const int GLOBALPREC = 78;
-const int STANDARD_WIDGET_HEIGHT = 260;
+const int GLOBALPREC = 78; //全局精度
+const int STANDARD_MWIDGET_HEIGHT = 260; //标准模式memorywidget高度
 const int SCIENTIFIC_MWIDGET_HEIGHT = 420; //科学模式memorywidget高度
-const int STANDARD_ITEM_WIDTH = 344;
-const int SCIENTIFIC_ITEM_WIDTH = 360;
-const int STANDARD_FORMAT_PREC = 15;
-const int SCIENTIFIC_FORMAT_PREC = 31;
-const int MAXSIZE = 500;
+const int STANDARD_ITEM_WIDTH = 344; //科学模式宽度
+const int SCIENTIFIC_ITEM_WIDTH = 360; //标准模式最小宽度
+const int STANDARD_FORMAT_PREC = 15; //标准模式科学计数位数
+const int SCIENTIFIC_FORMAT_PREC = 31; //科学模式科学计数位数
+const int MAXSIZE = 500; //内存保存最大数
 
 MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     : QWidget(parent)
@@ -63,21 +63,15 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     lay->setMargin(0);
     lay->addWidget(m_listwidget);
 
-//    DPalette pal = m_listwidget->palette();
-//    pal.setColor(DPalette::Light, QColor(248, 248, 248));
-//    m_listwidget->setPalette(pal);
-
-    m_listwidget->setFrameShape(QFrame::NoFrame);
-    mode == 0 ? m_listwidget->setFixedHeight(STANDARD_WIDGET_HEIGHT) : m_listwidget->setFixedHeight(SCIENTIFIC_MWIDGET_HEIGHT);
+    m_listwidget->setFrameShape(QFrame::NoFrame); //设置边框类型，无边框
+    mode == 0 ? m_listwidget->setFixedHeight(STANDARD_MWIDGET_HEIGHT) : m_listwidget->setFixedHeight(SCIENTIFIC_MWIDGET_HEIGHT);
     m_itemwidth = (mode == 0) ? STANDARD_ITEM_WIDTH : SCIENTIFIC_ITEM_WIDTH;
     m_precision = (mode == 0) ? STANDARD_FORMAT_PREC : SCIENTIFIC_FORMAT_PREC;
-    m_listwidget->setVerticalScrollMode(QListView::ScrollPerPixel);
-    m_listwidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    m_listwidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_listwidget->setAutoScroll(false);
-    m_listwidget->setSelectionRectVisible(false);
+    m_listwidget->setVerticalScrollMode(QListView::ScrollPerPixel); //鼠标滚轮滚动一次一个像素
+    m_listwidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn); //设置垂直滚条
+    m_listwidget->setAutoScroll(false); //鼠标在视口边缘时是否自动滚动内容
+    m_listwidget->setSelectionRectVisible(false); //选择矩形框是否可见
     m_listwidget->setFocusPolicy(Qt::NoFocus);
-    m_listwidget->setUniformItemSizes(false);
     m_listwidget->setItemDelegate(m_memoryDelegate);
     memoryclean();
     lay->addStretch();
@@ -138,13 +132,11 @@ void MemoryWidget::generateData(Quantity answer)
     m_listwidget->insertItem(0, item1);
     m_listwidget->setItemWidget(item1, widget);
     if (answer == Quantity(0)) {
-//        item1->setData(Qt::DisplayRole, "0");
         widget->setTextLabel("0");
     } else {
         const QString result = DMath::format(answer, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = setitemwordwrap(formatResult);
-//        item1->setData(Qt::DisplayRole, formatResult);
         widget->setTextLabel(formatResult);
     }
     m_list.insert(0, answer); //对于新增数据，同步在list中加入对应的Quantity
@@ -170,11 +162,10 @@ void MemoryWidget::generateData(Quantity answer)
     });
     widget->themetypechanged(m_themetype);
     connect(this, &MemoryWidget::themechange, widget, &MemoryItemWidget::themetypechanged);
-    connect(widget, &MemoryItemWidget::itemchanged, this, [ = ](int type) {
-        Q_UNUSED(type);
+    connect(widget, &MemoryItemWidget::itemchanged, this, [ = ]() {
         widget->update();
     });
-    connect(widget, &MemoryItemWidget::menuclean, this, [ = ]() {
+    connect(widget, &MemoryItemWidget::menuclean, this, [ = ]() { //item菜单MC
         emit widgetclean(m_listwidget->row(item1), m_calculatormode, true);
         m_list.removeAt(m_listwidget->row(item1));
         m_listwidget->takeItem(m_listwidget->row(item1));
@@ -183,17 +174,16 @@ void MemoryWidget::generateData(Quantity answer)
             memoryclean();
         }
     });
-    connect(widget, &MemoryItemWidget::menucopy, this, [ = ]() {
+    connect(widget, &MemoryItemWidget::menucopy, this, [ = ]() { //item菜单复制
         QClipboard *clipboard = QApplication::clipboard();
-//        clipboard->setText(item1->data(Qt::EditRole).toString().remove("\n"));
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(item1));
         clipboard->setText(w1->textLabel().remove("\n"));
     });
-    connect(widget, &MemoryItemWidget::menuplus, this, [ = ]() {
+    connect(widget, &MemoryItemWidget::menuplus, this, [ = ]() { //item菜单M+
         int row = m_listwidget->row(item1);
         emit MemoryWidget::widgetplus(row);
     });
-    connect(widget, &MemoryItemWidget::menuminus, this, [ = ]() {
+    connect(widget, &MemoryItemWidget::menuminus, this, [ = ]() { //item菜单M-
         int row = m_listwidget->row(item1);
         emit MemoryWidget::widgetminus(row);
     });
@@ -238,7 +228,7 @@ void MemoryWidget::memoryplus(Quantity answer)
     QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
     formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
     if (m_isempty == false) {
-//        QString exp = QString(m_listwidget->item(0)->data(Qt::EditRole).toString() + "+(" + formatResultmem + ")");
+        //内存中不为空时在第一条内存中加输入框数字；否则内存为空，添加一条内存数据
         QString exp = QString(DMath::format(m_list.value(0), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "+(" + formatResultmem + ")");
         m_evaluator->setExpression(formatExpression(exp));
         Quantity ans = m_evaluator->evalUpdateAns();
@@ -246,7 +236,6 @@ void MemoryWidget::memoryplus(Quantity answer)
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = setitemwordwrap(formatResult);
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
-//        m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
         w1->setTextLabel(formatResult);
         m_list.replace(0, ans);
     } else {
@@ -255,6 +244,9 @@ void MemoryWidget::memoryplus(Quantity answer)
     }
 }
 
+/**
+ * @brief 用于从数字键盘或快捷键的方式，对内存列表中的第一个进行M-
+ */
 void MemoryWidget::memoryminus(Quantity answer)
 {
     const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC));
@@ -322,6 +314,9 @@ void MemoryWidget::emptymemoryfontcolor()
     }
 }
 
+/**
+ * @brief MR
+ */
 QPair<QString, Quantity> MemoryWidget::getfirstnumber()
 {
     QPair<QString, Quantity> p1;
@@ -369,6 +364,9 @@ void MemoryWidget::widgetplusslot(int row, Quantity answer)
     }
 }
 
+/**
+ * @brief 用于从列表中item里的按钮，对指定行号的内存数据进行M-
+ */
 void MemoryWidget::widgetminusslot(int row, Quantity answer)
 {
     const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC));
@@ -433,6 +431,9 @@ void MemoryWidget::widgetcleanslot(int row, int mode, bool ismenu)
     }
 }
 
+/**
+ * @brief 替换text中的中文字符为英文字符
+ */
 QString MemoryWidget::formatExpression(const QString &text)
 {
     return QString(text)
@@ -476,10 +477,6 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
                 result.remove("\n");
                 result.insert(20, "\n");
                 m_line = 2;
-//                if (index > 33 && result.right(result.length() - index - 1).length() > 3) {
-//                    result.insert(index + 1, "\n");
-//                    line = 3;
-//                }
             }
         } else if (index <= 0 && result.length() > 21) {
             result.insert(20, "\n");
@@ -487,10 +484,11 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
         }
     }
     if (m_listwidget->item(row)) {
+        //设置item高度
         m_listwidget->item(row)->setSizeHint(QSize(m_itemwidth, 40 + 45 * m_line));
         m_listwidget->itemWidget(m_listwidget->item(row))->setFixedSize(QSize(m_itemwidth, 40 + 45 * m_line));
     }
-    static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)))->setLineHight(m_line);
+    static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)))->setLineHight(m_line); //设置item中label高度
     return result;
 }
 
