@@ -968,8 +968,9 @@ cattokens(
     if (expbase < 2)
       expbase = ioparams->expbase;
     expbasetag = _decodebase(expbase);
-    printexpsign = tokens->exp > 0 || tokens->exp < 0
-                   || (flags & IO_FLAG_SUPPRESS_EXPPLUS) == 0;   // edit for bug-18136,add exp > 0
+//    printexpsign = tokens->exp > 0 || tokens->exp < 0
+//                   || (flags & IO_FLAG_SUPPRESS_EXPPLUS) == 0;   // edit for bug-18136,add exp > 0
+    printexpsign = 1; //edit for bug-39849,0需要显示为+0
     printexpbase = expbasetag != NULL
                    && (flags & IO_FLAG_SUPPRESS_EXPBASE) == 0
                    && (_isempty(basetag)
