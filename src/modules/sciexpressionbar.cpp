@@ -30,7 +30,9 @@
 #include "src/utils.h"
 #include "src/core/settings.h"
 
-#define SCIPREC 31 //科学计算器精度
+const int SCIPREC = 31; //科学计算器精度
+const int LIST_HEIGHT = 35; //输入栏上方表达式的高度
+const int INPUTEDIT_HEIGHT = 55;
 
 SciExpressionBar::SciExpressionBar(QWidget *parent)
     : DWidget(parent)
@@ -49,8 +51,8 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
     m_listView->setModel(m_listModel);
     m_listView->setItemDelegate(m_listDelegate);
     // init inputEdit attributes.
-    m_listView->setFixedHeight(35);
-    m_inputEdit->setFixedHeight(55);
+    m_listView->setFixedHeight(LIST_HEIGHT);
+    m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT);
     m_inputEdit->setAlignment(Qt::AlignRight);
     m_inputEdit->setTextMargins(10, 0, 10, 6);
 

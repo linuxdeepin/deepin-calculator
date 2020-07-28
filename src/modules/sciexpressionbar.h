@@ -61,6 +61,7 @@ signals:
     void fEStateChanged(bool);
 
 public slots:
+    //输入事件
     void enterNumberEvent(const QString &text);
     void enterSymbolEvent(const QString &text);
     void enterPointEvent();
