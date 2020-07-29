@@ -6,6 +6,12 @@
 
 #include <DGuiApplicationHelper>
 
+const QSize STANDARD_EQUALBTN_SIZE = QSize(76, 56);
+const qreal BLURRADIUS = 4;
+const int FONT_PIXELSIZE = 30;
+const qreal ROUND_XRADIUS = 8;
+const qreal ROUND_YRADIUS = 8;
+
 EqualButton::EqualButton(const QString &text, QWidget *parent)
     : DSuggestButton(text, parent),
       m_effect(new QGraphicsDropShadowEffect(this))
@@ -13,14 +19,14 @@ EqualButton::EqualButton(const QString &text, QWidget *parent)
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(76, 56);
+        setFixedSize(STANDARD_EQUALBTN_SIZE);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");
 
     init();
     m_isHover = m_isPress = false;
     m_effect->setOffset(0, 4);
-    m_effect->setBlurRadius(4);
+    m_effect->setBlurRadius(BLURRADIUS);
 }
 
 EqualButton::~EqualButton()
@@ -30,7 +36,7 @@ EqualButton::~EqualButton()
 
 void EqualButton::init()
 {
-    m_font.setPixelSize(30);
+    m_font.setPixelSize(FONT_PIXELSIZE);
     m_font.setFamily("Noto Sans");
     m_font.setStyleName("Light");
 }
@@ -106,7 +112,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
     Q_UNUSED(e);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(76, 56);
+        setFixedSize(STANDARD_EQUALBTN_SIZE);
     QRectF rect = this->rect();
     QRectF normal(rect.left(), rect.top(), rect.width(), rect.height());
     QRectF focusBase(rect.left(), rect.top(), rect.width(), rect.height());
@@ -203,7 +209,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
         linearGradient.setColorAt(0, hover0);
         linearGradient.setColorAt(1, hover1);
         painter.setBrush(linearGradient);
-        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+        painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
         QPen pen;
         pen.setColor(text);
         painter.setPen(pen);
@@ -215,7 +221,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
         linearGradient.setColorAt(0, press0);
         linearGradient.setColorAt(1, press1);
         painter.setBrush(QBrush(linearGradient));
-        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+        painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
         QPen pen;
         pen.setColor(pressText);
         painter.setPen(pen);
@@ -226,7 +232,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
     } else {
         base.setAlphaF(0.8);
         painter.setBrush(QBrush(base));
-        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+        painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
         QPen pen;
         pen.setColor(text);
         painter.setPen(pen);

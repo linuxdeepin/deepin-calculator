@@ -32,6 +32,8 @@
 #include "src/utils.h"
 #include "src/math/quantity.h"
 
+const int EXPRESSIONBAR_HEIGHT = 95;
+
 scientificModule::scientificModule(QWidget *parent)
     : DWidget(parent)
 {
@@ -43,7 +45,7 @@ scientificModule::scientificModule(QWidget *parent)
     QVBoxLayout *leftlay = new QVBoxLayout();
     m_sciexpressionBar = new SciExpressionBar;
     m_memoryPublic = MemoryPublic::instance(this);
-    m_sciexpressionBar->setFixedHeight(95);
+    m_sciexpressionBar->setFixedHeight(EXPRESSIONBAR_HEIGHT);
     leftlay->addWidget(m_sciexpressionBar);
     leftlay->addWidget(m_scikeypadwidget);
     leftlay->setSpacing(0);

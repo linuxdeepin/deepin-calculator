@@ -27,6 +27,11 @@
 
 #include "dthememanager.h"
 
+const QSize STANDARD_TEXTBTNSIZE = QSize(76, 56);
+const qreal BLURRADIUS = 12;
+const qreal ROUND_XRADIUS = 8;
+const qreal ROUND_YRADIUS = 8;
+
 TextButton::TextButton(const QString &text, bool page, QWidget *parent)
     : DPushButton(text, parent)
     , m_effect(new QGraphicsDropShadowEffect(this))
@@ -34,7 +39,7 @@ TextButton::TextButton(const QString &text, bool page, QWidget *parent)
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(76, 56);
+        setFixedSize(STANDARD_TEXTBTNSIZE);
 //    else
 //        setMinimumSize(67, 44);
     setFocusPolicy(Qt::NoFocus);
@@ -46,7 +51,7 @@ TextButton::TextButton(const QString &text, bool page, QWidget *parent)
     m_page = page;
 
     m_effect->setOffset(0, 4);
-    m_effect->setBlurRadius(12);
+    m_effect->setBlurRadius(BLURRADIUS);
 }
 
 TextButton::~TextButton()
@@ -282,7 +287,7 @@ void TextButton::paintEvent(QPaintEvent *e)
     Q_UNUSED(e);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(76, 56);
+        setFixedSize(STANDARD_TEXTBTNSIZE);
     QRectF rect = this->rect();
     QRectF normal(rect.left(), rect.top(), rect.width(), rect.height());
     QRectF hover(rect.left(), rect.top(), rect.width(), rect.height());
@@ -382,7 +387,7 @@ void TextButton::paintEvent(QPaintEvent *e)
     if (m_isHover) {
         painter.setPen(QPen(hoverFrame));
         painter.setBrush(QBrush(hoverbrush));
-        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+        painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
 
         QPen pen;
         pen.setColor(text);
@@ -392,13 +397,13 @@ void TextButton::paintEvent(QPaintEvent *e)
         this->setGraphicsEffect(m_effect);
     } else if (m_isPress) {
         painter.setBrush(QBrush(pressBrush));
-        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+        painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
         QPen pen;
         pen.setColor(pressText);
         painter.setPen(pen);
         paintspecialbtn(painter, rect, textRect);
     } else {
-        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+        painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
         QPen pen;
         pen.setColor(text);
         painter.setPen(pen);

@@ -25,6 +25,10 @@
 #include <QToolTip>
 
 const QSize HISTORY_WIDGET_CLEARBUTTONSIZE = QSize(36, 36);
+const QSize STANDARD_ICONBTNSIZE = QSize(76, 56);
+const qreal BLURRADIUS = 12;
+const qreal ROUND_XRADIUS = 8;
+const qreal ROUND_YRADIUS = 8;
 
 IconButton::IconButton(QWidget *parent, int b, bool page)
     : TextButton("", parent)
@@ -34,13 +38,13 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(76, 56);
+        setFixedSize(STANDARD_ICONBTNSIZE);
     if (b == 1)
         setFixedSize(HISTORY_WIDGET_CLEARBUTTONSIZE);
-    if (b == 2) {
-        m_isHistorybtn = true;
-        setFixedSize(50, 50);
-    }
+//    if (b == 2) {
+//        m_isHistorybtn = true;
+//        setFixedSize(50, 50);
+//    }
 //    QGridLayout *layout = new QGridLayout(this);
 //    layout->addWidget(m_iconWidget, 0, Qt::AlignCenter);
 //    layout->setContentsMargins(0, 0, 0, 0);
@@ -50,7 +54,7 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
     m_isEmptyBtn = (b == 1);
     m_page = page;
     m_effect->setOffset(0, 4);
-    m_effect->setBlurRadius(12);
+    m_effect->setBlurRadius(BLURRADIUS);
 }
 
 IconButton::~IconButton()
@@ -196,7 +200,7 @@ void IconButton::paintEvent(QPaintEvent *)
         if (!m_isHistorybtn) {
             int mode = m_settings->getOption("mode").toInt();
             if (mode == 0)
-                setFixedSize(76, 56);
+                setFixedSize(STANDARD_ICONBTNSIZE);
         }
         QRectF frameRect = this->rect();
         QRectF rect(frameRect.left(), frameRect.top(), frameRect.width(), frameRect.height());
@@ -323,17 +327,17 @@ void IconButton::paintEvent(QPaintEvent *)
                 pen.setWidth(1);
                 painter.setPen(pen);
                 painter.setBrush(QBrush(hoverbrush));
-                painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
+                painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
                 m_effect->setColor(hoverShadow);
                 this->setGraphicsEffect(m_effect);
             } else if (m_isPress) {
                 painter.setPen(Qt::NoPen);
                 painter.setBrush(QBrush(pressBrush));
-                painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
+                painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
             } else {
                 painter.setPen(Qt::NoPen);
                 painter.setBrush(QBrush(base));
-                painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
+                painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
                 m_effect->setColor(QColor(0, 0, 0, 0));
                 this->setGraphicsEffect(m_effect);
             }
