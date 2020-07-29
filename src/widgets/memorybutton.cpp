@@ -38,13 +38,13 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
     if (mode == 0)
         setFixedSize(50, 30);
     setObjectName("MemoryButton");
-    m_widgetbtn = listwidgetbtn;
+    m_widgetbtn = listwidgetbtn; //是否是内存列表按键
 
     init();
     m_isHover = m_isPress = false;
     showtips();
-    m_effect->setOffset(0, 4);
-    m_effect->setBlurRadius(12);
+    m_effect->setOffset(0, 4); //阴影偏移
+    m_effect->setBlurRadius(12); //阴影模糊半径
 }
 
 MemoryButton::~MemoryButton()
@@ -57,31 +57,16 @@ void MemoryButton::init()
     m_font.setPixelSize(16);
     m_font.setFamily("Noto Sans");
     m_font.setStyleName("Light");
-
-//    if (text() == "MC" || text() == "MR" || text() == "M^" || text() == "M+" || text() == "M-" || text() == "MS") {
-//        if (!widgetbtn) {
-//            m_isgray = true;
-//            this->setEnabled(false);
-//        }
-//    } else
-//        m_isgray = false;
     if (!m_widgetbtn) {
-        m_isgray = true;
+        m_isgray = true; //初始化时按键均不可用
         this->setEnabled(false);
     }
 }
 
-/*void MemoryButton::showShadow()
-{
-    m_effect->setEnabled(true);
-    raise();
-}
-
-void MemoryButton::hideShadow()
-{
-    m_effect->setEnabled(false);
-}*/
-
+/**
+ * @brief 物理键盘按下动画效果
+ * @param msec 100ms
+ */
 void MemoryButton::animate(int msec)
 {
     setDown(true);
@@ -94,15 +79,20 @@ void MemoryButton::animate(int msec)
     });
 }
 
+/**
+ * @brief 切换M˅，
+ */
 void MemoryButton::setbtnlight(bool light)
 {
-    m_islight = light;
     if (light == true)
         setText("M˄");
     else
         setText("M˅");
 }
 
+/**
+ * @brief 设置tooltip
+ */
 void MemoryButton::showtips()
 {
     QString tooltext;
@@ -141,54 +131,24 @@ void MemoryButton:: setbuttongray(bool memorywidgetshow)
     m_isallgray = memorywidgetshow;
 }
 
+/**
+ * @brief 鼠标按下
+ */
 void MemoryButton::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::RightButton)
         return;
     setFocus();
     m_palette = this->palette();
-    int type = DGuiApplicationHelper::instance()->paletteType();
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
-    if (type == 1) {
-        DPalette pa = this->palette();
-        QColor light, dark, buttontext;
-        light = QColor(0, 0, 0);
-        light.setAlphaF(0.1);
-        dark = QColor(0, 0, 0);
-        dark.setAlphaF(0.1);
-        buttontext = QColor(0, 129, 255);
-        buttontext.setAlphaF(1);
-        pa.setColor(DPalette::Light, light);
-        pa.setColor(DPalette::Dark, dark);
-        pa.setColor(DPalette::ButtonText, buttontext);
-//        pa.setColor(DPalette::Light, QColor(0, 0, 0, 0.1 * 255));
-//        pa.setColor(DPalette::Dark, QColor(0, 0, 0, 0.1 * 255));
-//        pa.setColor(DPalette::ButtonText, QColor(0, 129, 255, 255));
-        this->setPalette(pa);
-    } else {
-        DPalette pa = this->palette();
-        QColor light, dark, buttontext;
-        light = QColor(0, 0, 0);
-        light.setAlphaF(0.5);
-        dark = QColor(0, 0, 0);
-        dark.setAlphaF(0.5);
-        buttontext = QColor(0, 129, 255);
-        buttontext.setAlphaF(1);
-        pa.setColor(DPalette::Light, light);
-        pa.setColor(DPalette::Dark, dark);
-        pa.setColor(DPalette::ButtonText, buttontext);
-//        pa.setColor(DPalette::Light, QColor(0, 0, 0, 0.5 * 255));
-//        pa.setColor(DPalette::Dark, QColor(0, 0, 0, 0.5 * 255));
-//        pa.setColor(DPalette::ButtonText, QColor(0, 129, 255, 255));
-        this->setPalette(pa);
-    }
     m_isPress = true;
     m_isHover = false; //20200722删除foucus状态
     emit updateInterface();
     DPushButton::mousePressEvent(e);
 }
 
+/**
+ * @brief 鼠标松开
+ */
 void MemoryButton::mouseReleaseEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::RightButton)
@@ -208,11 +168,6 @@ void MemoryButton::enterEvent(QEvent *e)
     m_font.setPixelSize(17);
     m_font.setStyleName("");
     m_isHover = true;
-
-    //    if (e->type() == QEvent::ToolTip) {
-    //        QHelpEvent *helpEvent = static_cast<QHelpEvent *>(e);
-    //        QToolTip::showText(helpEvent->globalPos(), this->text());
-    //    }
     DPushButton::enterEvent(e);
 }
 
@@ -245,16 +200,12 @@ void MemoryButton::paintEvent(QPaintEvent *e)
     QRectF normal(rect.left(), rect.top(), rect.width(), rect.height());
     QRectF hover(rect.left(), rect.top(), rect.width(), rect.height());
     QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+    painter.setRenderHint(QPainter::Antialiasing, true); //反锯齿
+    painter.setRenderHint(QPainter::SmoothPixmapTransform, true); //光滑的象素映射变换算法
     painter.setRenderHint(QPainter::HighQualityAntialiasing);
     painter.setFont(m_font);
-//    QRectF textRect = painter.fontMetrics().boundingRect(this->text());
-//    textRect.moveCenter(rect.center());
     QRectF textRect = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                          Qt::AlignCenter, this->text());
-    // QRectF
-    // textRect(QPointF((rect.width()/2)-(textR.width()/2),(rect.height()/2)-(textR.height()/2)),textR.width(),textR.height());
     QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();//活动色
     QColor pressBrush, focus, hoverFrame, base, text, hoverbrush;
     QColor pressText = actcolor;
@@ -309,7 +260,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             pressBrush = QColor("#FFFFFF");
             hoverbrush = QColor(48, 48, 48);
             hoverbrush.setAlphaF(0.4);
-            if (m_widgetbtn) {
+            if (m_widgetbtn) { //内存界面中的memorybutton在深色模式下底色不同
                 base = QColor(65, 65, 65);
                 text = QColor(224, 224, 224);
                 text.setAlphaF(0.3);
@@ -353,7 +304,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
 //        }
 //    } else {
     painter.setPen(Qt::NoPen);
-    if (m_isHover) {
+    if (m_isHover) { //hover状态
         painter.setPen(QPen(hoverFrame));
         painter.setBrush(QBrush(hoverbrush));
         painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
@@ -365,7 +316,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         painter.drawText(textRect, this->text());
         m_effect->setColor(hoverShadow);
         this->setGraphicsEffect(m_effect);
-    } else if (m_isPress) {
+    } else if (m_isPress) { //press状态
         painter.setBrush(QBrush(pressBrush));
         painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
         QPen pen;
@@ -373,7 +324,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         painter.setPen(pen);
         painter.setFont(m_font);
         painter.drawText(textRect, this->text());
-    } else {
+    } else { //normal状态
         painter.setBrush(QBrush(base));
         painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
         QPen pen;

@@ -82,7 +82,7 @@ private:
     bool m_isEmptyBtn; //内存中的清空按钮
     int m_themetype;
     bool m_page;
-    bool m_isHistorybtn = false;
+    bool m_isHistorybtn = false; //打开历史记录的按钮，暂时保存
     QString m_cleartooltip = QString();
     bool m_isacting = false; //规避鼠标在button内release时出现foucus状态的框
 private:

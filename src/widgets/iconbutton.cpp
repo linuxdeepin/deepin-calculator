@@ -24,11 +24,11 @@
 #include <QTimer>
 #include <QToolTip>
 
-const QSize HISTORY_WIDGET_CLEARBUTTONSIZE = QSize(36, 36);
-const QSize STANDARD_ICONBTNSIZE = QSize(76, 56);
-const qreal BLURRADIUS = 12;
-const qreal ROUND_XRADIUS = 8;
-const qreal ROUND_YRADIUS = 8;
+const QSize HISTORY_WIDGET_CLEARBUTTONSIZE = QSize(36, 36); //历史记录区垃圾桶大小
+const QSize STANDARD_ICONBTNSIZE = QSize(76, 56); //标准模式等于按钮大小
+const qreal BLURRADIUS = 12; //阴影模糊半径
+const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
+const qreal ROUND_YRADIUS = 8; //按钮圆角y轴半径
 
 IconButton::IconButton(QWidget *parent, int b, bool page)
     : TextButton("", parent)
@@ -41,26 +41,25 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
         setFixedSize(STANDARD_ICONBTNSIZE);
     if (b == 1)
         setFixedSize(HISTORY_WIDGET_CLEARBUTTONSIZE);
-//    if (b == 2) {
-//        m_isHistorybtn = true;
-//        setFixedSize(50, 50);
-//    }
-//    QGridLayout *layout = new QGridLayout(this);
-//    layout->addWidget(m_iconWidget, 0, Qt::AlignCenter);
-//    layout->setContentsMargins(0, 0, 0, 0);
-//    setLayout(layout);
     m_isHover = false;
     m_isPress = false;
     m_isEmptyBtn = (b == 1);
     m_page = page;
-    m_effect->setOffset(0, 4);
-    m_effect->setBlurRadius(BLURRADIUS);
+    m_effect->setOffset(0, 4); //阴影偏移
+    m_effect->setBlurRadius(BLURRADIUS); //阴影模糊半径
 }
 
 IconButton::~IconButton()
 {
 }
 
+/**
+ * @brief 设置图片路径
+ * @param normalFileName normal图片路径
+ * @param hoverFileName hover图片路径
+ * @param pressFileName press图片路径
+ * @param mode 区分不同XML元素标签名
+ */
 void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode)
 {
     int type = DGuiApplicationHelper::instance()->paletteType();
@@ -73,12 +72,16 @@ void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverF
     m_currentUrl = normalFileName;
 
     m_currentUrl = m_normalUrl;
-    m_buttonStatus = 0;
+    m_buttonStatus = 0; //0-normal 1-hover 2-press
     //setIcon(QIcon(m_pixmap));
     //setIconSize(QSize(30,30)*devicePixelRatioF());
     m_mode = mode;
 }
 
+/**
+ * @brief iconbutton物理键盘点击动画效果
+ * @param msec 100ms
+ */
 void IconButton::animate(int msec)
 {
     if (m_isPress == false) { //edit for bug-20492 20200416
@@ -110,6 +113,10 @@ void IconButton::animate(int msec)
     }
 }
 
+/**
+ * @brief 设置垃圾桶tooltip
+ * @param ismemory true-内存垃圾桶　false-历史记录垃圾桶
+ */
 void IconButton::showtooltip(bool ismemory)
 {
     if (ismemory == true) {
@@ -121,6 +128,9 @@ void IconButton::showtooltip(bool ismemory)
     }
 }
 
+/**
+ * @brief 点击时改变标置位
+ */
 void IconButton::mousePressEvent(QMouseEvent *e)
 {
     m_currentUrl = m_pressUrl;
@@ -139,10 +149,13 @@ void IconButton::mousePressEvent(QMouseEvent *e)
     TextButton::mousePressEvent(e);
 }
 
+/**
+ * @brief 鼠标松开时改变标志位
+ */
 void IconButton::mouseReleaseEvent(QMouseEvent *e)
 {
-    if (m_isHistorybtn)
-        clearFocus();
+//    if (m_isHistorybtn)
+//        clearFocus();
     m_currentUrl = m_normalUrl;
 //    m_buttonStatus = 0;
     if (m_mode == 2)
@@ -194,19 +207,19 @@ void IconButton::leaveEvent(QEvent *e)
 void IconButton::paintEvent(QPaintEvent *)
 {
     QPixmap pixmap(m_currentUrl);
-    m_pixmap = pixmap;
+    m_pixmap = pixmap; //保存以取图片rect,move到该按钮中间
     QPainter painter(this);
     if (m_isEmptyBtn == false) {
-        if (!m_isHistorybtn) {
-            int mode = m_settings->getOption("mode").toInt();
-            if (mode == 0)
-                setFixedSize(STANDARD_ICONBTNSIZE);
-        }
+//        if (!m_isHistorybtn) {
+        int mode = m_settings->getOption("mode").toInt();
+        if (mode == 0)
+            setFixedSize(STANDARD_ICONBTNSIZE);
+//        }
         QRectF frameRect = this->rect();
         QRectF rect(frameRect.left(), frameRect.top(), frameRect.width(), frameRect.height());
         QRectF hover(frameRect.left(), frameRect.top(), frameRect.width(), frameRect.height());
-        if (m_isHistorybtn)
-            rect = hover = frameRect;
+//        if (m_isHistorybtn)
+//            rect = hover = frameRect;
         painter.setRenderHint(QPainter::Antialiasing, true);
         painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
         //m_pixmap = m_pixmap.scaled(m_pixmap.size() * devicePixelRatioF());
@@ -220,7 +233,7 @@ void IconButton::paintEvent(QPaintEvent *)
         int type = DGuiApplicationHelper::instance()->paletteType();
         if (type == 0)
             type = DGuiApplicationHelper::instance()->themeType();
-        if (type == 1) {
+        if (type == 1) { //浅色主题设置
             pressBrush = QColor(0, 0, 0);
             pressBrush.setAlphaF(0.1);
             focus = actcolor;
@@ -233,7 +246,7 @@ void IconButton::paintEvent(QPaintEvent *)
                 base = Qt::white;
                 hoverbrush = Qt::white;
             }
-        } else {
+        } else { //深色主题设置
             pressBrush = QColor(0, 0, 0);
             pressBrush.setAlphaF(0.5);
             focus = actcolor;
@@ -247,55 +260,55 @@ void IconButton::paintEvent(QPaintEvent *)
                 hoverbrush = QColor(60, 60, 60);
             }
         }
-        if (m_isHistorybtn) {
-            if (type == 1) {
-                pressBrush = QColor(0, 0, 0);
-                pressBrush.setAlphaF(0.1);
-                focus = actcolor;
-                base = Qt::transparent;
-                hoverbrush = QColor(255, 255, 255);
-                hoverbrush.setAlphaF(0.6);
-            } else {
-                pressBrush = QColor(0, 0, 0);
-                pressBrush.setAlphaF(0.5);
-                focus = actcolor;
-                base = QColor("#252525");
-                hoverbrush = QColor(255, 255, 255);
-                hoverbrush.setAlphaF(0.1);
-            }
-            if (hasFocus()) {
-                if (m_isPress) {
-                    painter.setBrush(QBrush(pressBrush));
-                    QPen pen;
-                    pen.setColor(pressBrush);
-                    painter.setPen(pen);
-                    painter.drawRect(rect);
-                } else {
-                    painter.setPen(Qt::NoPen);
-                    painter.setBrush(QBrush(base));
-                    painter.drawRect(rect);
-                    QPen pen;
-                    painter.setPen(Qt::NoPen);
-                    painter.setBrush(Qt::NoBrush);
-                    painter.drawRect(rect);
-                }
-            } else {
-                if (m_isHover) {
-                    QPen pen;
-                    painter.setPen(Qt::NoPen);
-                    painter.setBrush(QBrush(hoverbrush));
-                    painter.drawRect(rect);
-                } else if (m_isPress) {
-                    painter.setPen(Qt::NoPen);
-                    painter.setBrush(QBrush(pressBrush));
-                    painter.drawRect(rect);
-                } else {
-                    painter.setPen(Qt::NoPen);
-                    painter.setBrush(QBrush(base));
-                    painter.drawRect(rect);
-                }
-            }
-        } else {
+//        if (m_isHistorybtn) { //打开历史记录按钮，当前取消此按钮
+//            if (type == 1) {
+//                pressBrush = QColor(0, 0, 0);
+//                pressBrush.setAlphaF(0.1);
+//                focus = actcolor;
+//                base = Qt::transparent;
+//                hoverbrush = QColor(255, 255, 255);
+//                hoverbrush.setAlphaF(0.6);
+//            } else {
+//                pressBrush = QColor(0, 0, 0);
+//                pressBrush.setAlphaF(0.5);
+//                focus = actcolor;
+//                base = QColor("#252525");
+//                hoverbrush = QColor(255, 255, 255);
+//                hoverbrush.setAlphaF(0.1);
+//            }
+//            if (hasFocus()) {
+//                if (m_isPress) {
+//                    painter.setBrush(QBrush(pressBrush));
+//                    QPen pen;
+//                    pen.setColor(pressBrush);
+//                    painter.setPen(pen);
+//                    painter.drawRect(rect);
+//                } else {
+//                    painter.setPen(Qt::NoPen);
+//                    painter.setBrush(QBrush(base));
+//                    painter.drawRect(rect);
+//                    QPen pen;
+//                    painter.setPen(Qt::NoPen);
+//                    painter.setBrush(Qt::NoBrush);
+//                    painter.drawRect(rect);
+//                }
+//            } else {
+//                if (m_isHover) {
+//                    QPen pen;
+//                    painter.setPen(Qt::NoPen);
+//                    painter.setBrush(QBrush(hoverbrush));
+//                    painter.drawRect(rect);
+//                } else if (m_isPress) {
+//                    painter.setPen(Qt::NoPen);
+//                    painter.setBrush(QBrush(pressBrush));
+//                    painter.drawRect(rect);
+//                } else {
+//                    painter.setPen(Qt::NoPen);
+//                    painter.setBrush(QBrush(base));
+//                    painter.drawRect(rect);
+//                }
+//            }
+//        } else {
 //            if (hasFocus()) {
 //                if (m_isPress) {
 //                    painter.setBrush(QBrush(pressBrush));
@@ -321,28 +334,28 @@ void IconButton::paintEvent(QPaintEvent *)
 //                    this->setGraphicsEffect(m_effect);
 //                }
 //            } else {
-            if (m_isHover) {
-                QPen pen;
-                pen.setColor(hoverFrame);
-                pen.setWidth(1);
-                painter.setPen(pen);
-                painter.setBrush(QBrush(hoverbrush));
-                painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
-                m_effect->setColor(hoverShadow);
-                this->setGraphicsEffect(m_effect);
-            } else if (m_isPress) {
-                painter.setPen(Qt::NoPen);
-                painter.setBrush(QBrush(pressBrush));
-                painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
-            } else {
-                painter.setPen(Qt::NoPen);
-                painter.setBrush(QBrush(base));
-                painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
-                m_effect->setColor(QColor(0, 0, 0, 0));
-                this->setGraphicsEffect(m_effect);
-            }
-//            }
+        if (m_isHover) { //hover状态设置
+            QPen pen;
+            pen.setColor(hoverFrame);
+            pen.setWidth(1);
+            painter.setPen(pen);
+            painter.setBrush(QBrush(hoverbrush));
+            painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
+            m_effect->setColor(hoverShadow);
+            this->setGraphicsEffect(m_effect);
+        } else if (m_isPress) { //press状态设置
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(pressBrush));
+            painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
+        } else { //normal状态设置
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(base));
+            painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
+            m_effect->setColor(QColor(0, 0, 0, 0));
+            this->setGraphicsEffect(m_effect);
         }
+//            }
+//        }
     }
     drawCenterPixMap(painter);
 }
@@ -357,11 +370,11 @@ void IconButton::paintEvent(QPaintEvent *)
  */
 void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval)
 {
-    if (m_mode != 1 && m_mode != 3 && !m_isHistorybtn && m_mode != 5) {
+    if (m_mode != 1 && m_mode != 3/* && !m_isHistorybtn*/ && m_mode != 5) {
         if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
             elem.setAttribute(strattr, strattrval);
             if (m_buttonStatus == 0)
-                elem.setAttribute("fill-opacity", 0.75);
+                elem.setAttribute("fill-opacity", 0.75); //在svg文件中添加透明度
             if (m_buttonStatus == 1)
                 elem.setAttribute("fill-opacity", 0.65);
             if (m_buttonStatus == 2)
@@ -398,6 +411,9 @@ void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString stra
     }
 }
 
+/**
+ * @brief 更改iconbutton图片为活动色，且将图片移至iconbutton中间
+ */
 void IconButton::drawCenterPixMap(QPainter &painter)
 {
     painter.save();
@@ -411,11 +427,12 @@ void IconButton::drawCenterPixMap(QPainter &painter)
 
     file.close();
 
+    //将svg文件中的fill颜色设置改为当前活动色
     SetAttrRecur(doc.documentElement(), "g", "fill", Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name());
     QRectF frameRect = this->rect();
     QRectF rect(frameRect.left(), frameRect.top(), frameRect.width(), frameRect.height());
     QRectF pixRect = m_pixmap.rect();
-    pixRect.moveCenter(rect.center());
+    pixRect.moveCenter(rect.center()); //将图片移至button中间
 //    m_iconRenderer = new DSvgRenderer(doc.toByteArray(), this);
     m_iconRenderer->load(doc.toByteArray());
     m_iconRenderer->render(&painter, pixRect);

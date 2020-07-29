@@ -146,42 +146,6 @@ void TextButton::mousePressEvent(QMouseEvent *e)
         return;
     setFocus();
     m_palette = this->palette();
-    int type = DGuiApplicationHelper::instance()->paletteType();
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
-    if (type == 1) {
-        DPalette pa = this->palette();
-        QColor light, dark, buttontext;
-        light = QColor(0, 0, 0);
-        light.setAlphaF(0.1);
-        dark = QColor(0, 0, 0);
-        dark.setAlphaF(0.1);
-        buttontext = QColor(0, 129, 255);
-        buttontext.setAlphaF(1);
-        pa.setColor(DPalette::Light, light);
-        pa.setColor(DPalette::Dark, dark);
-        pa.setColor(DPalette::ButtonText, buttontext);
-//        pa.setColor(DPalette::Light, QColor(0, 0, 0, 0.1 * 255));
-//        pa.setColor(DPalette::Dark, QColor(0, 0, 0, 0.1 * 255));
-//        pa.setColor(DPalette::ButtonText, QColor(0, 129, 255, 255));
-        this->setPalette(pa);
-    } else {
-        DPalette pa = this->palette();
-        QColor light, dark, buttontext;
-        light = QColor(0, 0, 0);
-        light.setAlphaF(0.5);
-        dark = QColor(0, 0, 0);
-        dark.setAlphaF(0.5);
-        buttontext = QColor(0, 129, 255);
-        buttontext.setAlphaF(1);
-        pa.setColor(DPalette::Light, light);
-        pa.setColor(DPalette::Dark, dark);
-        pa.setColor(DPalette::ButtonText, buttontext);
-//        pa.setColor(DPalette::Light, QColor(0, 0, 0, 0.5 * 255));
-//        pa.setColor(DPalette::Dark, QColor(0, 0, 0, 0.5 * 255));
-//        pa.setColor(DPalette::ButtonText, QColor(0, 129, 255, 255));
-        this->setPalette(pa);
-    }
     m_isPress = true;
     m_isHover = false; //20200722删除foucus状态
     emit updateInterface();

@@ -173,7 +173,7 @@ void BasicKeypad::initUI()
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
 
-    this->setContentsMargins(LEFT_MARGIN, KEYPAD_SPACING, RIGHT_MARGIN, BOTTOM_MARGIN);
+    this->setContentsMargins(LEFT_MARGIN, 0, RIGHT_MARGIN, BOTTOM_MARGIN);
 }
 
 /**

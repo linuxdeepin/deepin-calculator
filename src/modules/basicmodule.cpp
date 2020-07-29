@@ -47,6 +47,7 @@ BasicModule::BasicModule(QWidget *parent)
     m_expressionBar = new ExpressionBar;
     layout->addWidget(m_expressionBar);
     layout->addWidget(m_memoryKeypad);
+    layout->addSpacing(5);
     layout->addLayout(m_keypadLayout);
     m_keypadLayout->addWidget(m_basicKeypad);
     m_keypadLayout->addWidget(m_memorylistwidget);

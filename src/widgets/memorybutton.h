@@ -79,7 +79,6 @@ private:
     QFont m_font;
     bool m_widgetbtn; //内存列表按键
     bool m_isallgray; //内存区显示置灰
-    bool m_islight = false;
     bool m_isacting = false; //规避鼠标在button内release时出现foucus状态的框
 };
 
