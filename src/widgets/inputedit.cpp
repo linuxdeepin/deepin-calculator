@@ -68,9 +68,9 @@ InputEdit::InputEdit(QWidget *parent)
 
     DPalette pl = this->palette();
     // pl.setColor(DPalette::Text,QColor(48,48,48));
-    pl.setColor(DPalette::Button, Qt::transparent);
-    pl.setColor(DPalette::Highlight, Qt::transparent);
-    pl.setColor(DPalette::HighlightedText, Qt::blue);
+    pl.setColor(DPalette::Button, Qt::transparent); //inputedit背景色
+    pl.setColor(DPalette::Highlight, Qt::transparent); //边框高亮色
+    pl.setColor(DPalette::HighlightedText, Qt::blue); //全选字体高亮色
     this->setPalette(pl);
 
     m_funclist = {"arcsin", "arccos", "arctan", "arccot", "sin", "cos", "tan", "cot"
@@ -80,13 +80,21 @@ InputEdit::InputEdit(QWidget *parent)
 
 InputEdit::~InputEdit() {}
 
+/**
+ * @brief 当对超过17位的数进行百分号处理时，保留超过精度的部分
+ * @return precentans
+ * 由于百分号逻辑改变，此函数暂未使用
+ */
 QString InputEdit::expressionPercent(QString &str)
 {
     QString t = str;
     bool longnumber = false;
 
     QString ans = DMath::format(m_ans, Quantity::Format::Fixed() + Quantity::Format::Precision(DECPRECISION));
-    m_evaluator->setVariable(QLatin1String("precentans"), m_ans, Variable::BuiltIn);
+    m_evaluator->setVariable(QLatin1String("precentans"), m_ans, Variable::BuiltIn); //把ans当作precentans保存
+    /*
+     * 判断ans是否是长数字
+     */
     if (ans.length() > 17) {
         for (int i = 17; i < ans.length(); i++) {
             if (ans.at(i) != "0") {
@@ -95,27 +103,37 @@ QString InputEdit::expressionPercent(QString &str)
             }
         }
     }
+    /*
+     * 是长数字时返回ans
+     */
     if (longnumber && m_lastPos == m_ansStartPos + m_ansLength + 1) {
         t = QLatin1String("precentans") + str.back();
         m_ispercentanswer = true;
     }
-//    if (m_ansVaild) {
-//        QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
-//        t.remove(m_ansStartPos, m_ansLength);
-//        t.insert(m_ansStartPos, ans);
-//    }
+    //    if (m_ansVaild) {
+    //        QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
+    //        t.remove(m_ansStartPos, m_ansLength);
+    //        t.insert(m_ansStartPos, ans);
+    //    }
     return t;
 }
 
+/**
+ * @brief 在点击等于号时使用此函数判断输入框中是否存在上一次结果的长数字
+ * return 将有上次结果长数字的部分替换为lastans返回
+ */
 QString InputEdit::expressionText()
 {
     QString t = text();
-//    t.remove(",");
+    //    t.remove(",");
     //edit for bug-19653 20200416  当数字长度超过精度范围时，保留小数点最后的数。
     bool longnumber = false;
 
     QString ans = DMath::format(m_ans, Quantity::Format::Fixed() + Quantity::Format::Precision(DECPRECISION));
     m_evaluator->setVariable(QLatin1String("lastans"), m_ans, Variable::BuiltIn);
+    /*
+     * 判断ans是否是长数字
+     */
     if (ans.length() > 17) {
         for (int i = 17; i < ans.length(); i++) {
             if (ans.at(i) != "0") {
@@ -124,7 +142,9 @@ QString InputEdit::expressionText()
             }
         }
     }
-
+    /*
+     * 是长数字并且输入框中包含ans时输入框中的可见ans替换为lastans按长数字计算
+     */
     //20200619输入框是否包含ans，长数字等于后撤销退格一位按等于计算错误;不撤销退格一位按等于号计算错误
     if (m_ansVaild && longnumber && text().contains(m_strans)) {
         t.remove(m_ansStartPos, m_ansLength);
@@ -132,15 +152,18 @@ QString InputEdit::expressionText()
             t.insert(m_ansStartPos, QLatin1String("lastans"));
         }
     }
-//    if (m_ansVaild) {
-//        QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
-//        t.remove(m_ansStartPos, m_ansLength);
-//        t.insert(m_ansStartPos, ans);
-//    }
-//    qDebug() << t;
+    //    if (m_ansVaild) {
+    //        QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
+    //        t.remove(m_ansStartPos, m_ansLength);
+    //        t.insert(m_ansStartPos, ans);
+    //    }
+    //    qDebug() << t;
     return t;
 }
 
+/**
+ * @brief 点击等于号可以出正确结果时settext,且更新私有参数有关ans的值
+ */
 void InputEdit::setAnswer(const QString &str, const Quantity &ans)
 {
     m_ans = ans;
@@ -156,6 +179,14 @@ void InputEdit::setAnswer(const QString &str, const Quantity &ans)
                .replace(QString::fromUtf8("）"), ")");
 }
 
+/**
+ * @brief InputEdit::setPercentAnswer
+ * @param str1-完整表达式
+ * @param str2-百分比计算结果
+ * @param ans-百分比计算结果
+ * @param Pos-光标位置
+ * （由于百分号逻辑改变，暂未使用）
+ */
 void InputEdit::setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans,
                                  const int &Pos)
 {
@@ -175,6 +206,9 @@ void InputEdit::setPercentAnswer(const QString &str1, const QString &str2, const
     m_ispercentanswer = false;
 }
 
+/**
+ * @brief 清空输入框且更新ans参数
+ */
 void InputEdit::clear()
 {
     m_ansLength = 0;
@@ -197,12 +231,18 @@ void InputEdit::setRedoAction(bool state)
     m_redo->setEnabled(state);
 }
 
+/**
+ * @brief 跳过QLineEdit的物理键盘事件，由modul中handleEditKeyPress触发
+ */
 void InputEdit::keyPressEvent(QKeyEvent *e)
 {
     Q_EMIT keyPress(e);
     return;
 }
 
+/**
+ * @brief 鼠标双击事件
+ */
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
     Q_UNUSED(e);
@@ -221,12 +261,15 @@ void InputEdit::mousePressEvent(QMouseEvent *e)
     if (e->button() == Qt::LeftButton) {
         setFocus();
         m_selected.selected = "";
-        emit setResult();
+        emit setResult(); //expression中m_isResult置为false
         //        qDebug() << m_selected.selected;
     }
     QLineEdit::mousePressEvent(e);
 }
 
+/**
+ * @brief 右键菜单action初始化
+ */
 void InputEdit::initAction()
 {
     m_undo = new QAction(tr("&Undo"), this);
@@ -253,6 +296,9 @@ void InputEdit::initAction()
     m_select->setEnabled(false);
 }
 
+/**
+ * @brief 更新右键菜单状态
+ */
 void InputEdit::updateAction()
 {
     if (this->text().isEmpty()) {
@@ -268,6 +314,9 @@ void InputEdit::updateAction()
     }
 }
 
+/**
+ * 暂未使用
+ */
 bool InputEdit::isSymbolCategoryChanged(int pos1, int pos2)
 {
     QString str = text();
@@ -283,6 +332,9 @@ bool InputEdit::isSymbolCategoryChanged(int pos1, int pos2)
     return true;
 }
 
+/**
+ * 暂未使用
+ */
 int InputEdit::findWordBeginPosition(int pos)
 {
     QString str = text();
@@ -300,6 +352,9 @@ int InputEdit::findWordBeginPosition(int pos)
     return 0;
 }
 
+/**
+ * 暂未使用
+ */
 int InputEdit::findWordEndPosition(int pos)
 {
     QString str = text();
@@ -340,9 +395,11 @@ void InputEdit::autoZoomFontSize()
     setFont(font);
 }
 
+/**
+ * @brief 输入框textchange时触发
+ */
 void InputEdit::handleTextChanged(const QString &text)
 {
-    //20200612修复下方m_ansValid赋值判断text[m_ansStartPos - 1]越界问题
     if (m_currentInAns) {
         m_ansLength = 0; //光标在ans中间且text改变，清空ans
     } else if (m_currentOnAnsLeft && m_oldText.length() != 0) {
@@ -418,6 +475,9 @@ void InputEdit::handleTextChanged(const QString &text)
     m_selected.curpos = selectionStart() < selectionEnd() ? selectionStart() : selectionEnd();
 }
 
+/**
+ * @brief 小数点容错处理，防止多小数点
+ */
 QString InputEdit::pointFaultTolerance(const QString &text)
 {
     QString exp = text;
@@ -429,16 +489,16 @@ QString InputEdit::pointFaultTolerance(const QString &text)
         if (firstPoint == -1)
             continue;
         if (firstPoint == 0) {
-            item.insert(firstPoint, "0");
+            item.insert(firstPoint, "0"); //小数点在第一位补0操作，此处存在若无多小数点情况不会补零，虚在其余地方进行操作
             ++firstPoint;
             // oldText.replace(list[i], item);
         } else {
             if (item.at(firstPoint - 1) == ")" || item.at(firstPoint - 1) == "%") {
-                item.remove(firstPoint, 1);
+                item.remove(firstPoint, 1); //原定义)及%右侧不能添加.，现在小数点输入事件中进行过补0操作,不会进入此判断
                 oldText.replace(list[i], item);
             }
         }
-        if (item.count(".") > 1) {
+        if (item.count(".") > 1) { //多小数点只保留第一位小数点
             int cur = cursorPosition();
             item.remove(".");
             item.insert(firstPoint, ".");
@@ -449,6 +509,12 @@ QString InputEdit::pointFaultTolerance(const QString &text)
     return oldText;
 }
 
+/**
+ * @brief 保证数字中间的符号只有一个
+ * 防止输入栏中只有符号可输入*+
+ * e+/e-和数字间不可以插入非数字
+ * 去除从e到下一个运算符中的小数点
+ */
 QString InputEdit::symbolFaultTolerance(const QString &text)
 {
     if (text.isEmpty())
@@ -520,6 +586,9 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
     return newText;
 }
 
+/**
+ * @brief 判断是否是加减乘除
+ */
 bool InputEdit::isSymbol(const QString &text)
 {
     if (text == QString::fromUtf8("＋"))
@@ -534,38 +603,12 @@ bool InputEdit::isSymbol(const QString &text)
         return false;
 }
 
+/**
+ * @brief 判断光标在ans哪里
+ */
 void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
 {
     Q_UNUSED(oldPos);
-//    QString sRegNum = "[A-Za-z]";
-//    QRegExp rx;
-//    rx.setPattern(sRegNum);
-//    int leftfunpos = -1;
-//    int rightfunpos = -1;
-//    int i, j;
-//    //光标在中间且光标左右均是字母
-//    if (cursorPosition() > 0 && cursorPosition() != text().length()
-//            && rx.exactMatch(text().at(cursorPosition() - 1))
-//            && rx.exactMatch(text().at(cursorPosition()))) {
-//        for (i = 0; i < m_funclist.size(); i++) {
-//            //记录离光标最近的左侧函数位
-//            leftfunpos = text().lastIndexOf(m_funclist[i], cursorPosition() - 1);
-//            if (leftfunpos != -1 && leftfunpos + m_funclist[i].length() == cursorPosition())
-//                break;
-//            else
-//                leftfunpos = -1;
-//        }
-//        for (j = 0; j < m_funclist.size(); j++) {
-//            //记录离光标最近的右侧函数位
-//            rightfunpos = text().indexOf(m_funclist[j], cursorPosition());
-//            if (rightfunpos != -1 && rightfunpos == cursorPosition())
-//                break;
-//            else
-//                rightfunpos = -1;
-//        }
-//        if (leftfunpos == -1 || rightfunpos == -1)
-//            setCursorPosition(text().indexOf(QRegExp("[^A-Za-z]"), cursorPosition()));
-//    }
 
     int ansEnd = m_ansStartPos + m_ansLength;
     int selectStart = m_selected.curpos; //选中输入后选中部分被清空　不可用selectStart()
@@ -587,6 +630,9 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
     m_lastPos = newPos;
 }
 
+/**
+ * @brief 括号补全，暂未使用
+ */
 void InputEdit::BracketCompletion(QKeyEvent *e)
 {
     Q_UNUSED(e);
@@ -625,6 +671,9 @@ void InputEdit::BracketCompletion(QKeyEvent *e)
     setText(oldText);
 }
 
+/**
+ * @brief 未安装事件过滤器
+ */
 bool InputEdit::eventFilter(QObject *watched, QEvent *event)
 {
     if (event->type() == QEvent::KeyPress) {
@@ -639,6 +688,9 @@ bool InputEdit::eventFilter(QObject *watched, QEvent *event)
     return QLineEdit::eventFilter(watched, event);
 }
 
+/**
+ * @brief 猜测防止异常情况\n出现在)及%后补*,当前text中不会出现\n,故此函数无效
+ */
 void InputEdit::multipleArithmetic(QString &text)
 {
     int index = text.indexOf("\n");
@@ -687,6 +739,9 @@ void InputEdit::pressSlot()
     return;
 }
 
+/**
+ * @brief 选中改变的槽
+ */
 void InputEdit::selectionChangedSlot()
 {
     if (this->selectedText().isEmpty()) { //无选中项时关闭右键复制
@@ -701,6 +756,11 @@ void InputEdit::selectionChangedSlot()
     m_selected.curpos = selectionStart() < selectionEnd() ? selectionStart() : selectionEnd();
 }
 
+/**
+ * @brief InputEdit::getMemoryAnswer
+ * 点击m+,m-,ms时进行获取的计算结果
+ * @return pair.first-是否可计算　pair.second-计算结果
+ */
 QPair<bool, Quantity> InputEdit::getMemoryAnswer()
 {
     QPair<bool, Quantity> pair;
@@ -728,6 +788,9 @@ QPair<bool, Quantity> InputEdit::getMemoryAnswer()
     }
 }
 
+/**
+ * @brief 输入栏是否为空，方便判断m-,m+,ms是否可用
+ */
 void InputEdit::isExpressionEmpty()
 {
     if (text().isEmpty())
@@ -736,11 +799,20 @@ void InputEdit::isExpressionEmpty()
         emit emptyExpression(false);
 }
 
+/**
+ * @brief 当前输入框为历史记录点击时，清空ans
+ */
 void InputEdit::hisexpression()
 {
     m_ansLength = 0;
 }
 
+/**
+ * @brief ExpressionBar::symbolComplement
+ * 当计算((()))这种超过3个括号嵌套的表达式时有问题，手动补乘号进行规避
+ * @param exp
+ * @return
+ */
 QString InputEdit::symbolComplement(const QString exp)
 {
     QString text = exp;
