@@ -1218,6 +1218,13 @@ void ExpressionBar::shear()
     m_inputEdit->setText(text);
     addUndo();
     m_isUndo = false;
+    if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
+        emit clearStateChanged(true);
+        m_isAllClear = true;
+    } else {
+        emit clearStateChanged(false);
+        m_isAllClear = false;
+    }
 }
 
 /**

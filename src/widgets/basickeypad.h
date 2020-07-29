@@ -54,9 +54,7 @@ public:
     ~BasicKeypad();
 
     DPushButton *button(Buttons key);
-//    DSuggestButton *button();
     void animate(Buttons key);
-    void animate();
 
     static const struct KeyDescription {
         QString text;

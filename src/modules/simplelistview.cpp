@@ -113,8 +113,12 @@ void SimpleListView::mouseMoveEvent(QMouseEvent *e)
     }
 }
 
+/**
+ * @brief 设置滚动区域边距
+ */
 void SimpleListView::adjustScrollbarMargins()
 {
+    qDebug() << -verticalScrollBar()->sizeHint().width();
     if (!isVisible()) {
         return;
     }

@@ -25,11 +25,11 @@
 
 #include "dthememanager.h"
 
-const int KEYPAD_HEIGHT = 316;
-const int KEYPAD_SPACING = 5;
-const int LEFT_MARGIN = 12;
-const int RIGHT_MARGIN = 13;
-const int BOTTOM_MARGIN = 11;
+const int KEYPAD_HEIGHT = 316; //键盘界面高度
+const int KEYPAD_SPACING = 5; //键盘按键间距
+const int LEFT_MARGIN = 12; //键盘左边距
+const int RIGHT_MARGIN = 13; //键盘右边距
+const int BOTTOM_MARGIN = 11; //键盘下边距
 
 const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
 //    {"MC", Key_MC, 1, 0, 1, 2},       {"MR", Key_MR, 1, 2, 1, 2},
@@ -52,6 +52,9 @@ const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
     {"()", Key_Brackets, 5, 6, 1, 3}, {"=", Key_Equals, 5, 9, 1, 3}
 };
 
+/**
+ * @brief 初始化并设置iconbutton
+ */
 static DPushButton *createSpecialKeyButton(BasicKeypad::Buttons key)
 {
     IconButton *button = new IconButton;
@@ -79,7 +82,6 @@ static DPushButton *createSpecialKeyButton(BasicKeypad::Buttons key)
     } else if (key == BasicKeypad::Key_Brackets) {
         button->setIconUrl(path + "( )_normal.svg", path + "( )_hover.svg", path + "( )_press.svg");
     }
-    //connect(button, &IconButton::updateInterface, this, &BasicKeypad::updateInterface);
     return button;
 }
 
@@ -96,24 +98,25 @@ BasicKeypad::BasicKeypad(QWidget *parent)
     initButtons();
     initUI();
 
-    connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
-    //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &BasicKeypad::handleThemeChanged);
+    connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int))); //为了区分被按下的button，同时处理点击事件
 }
 
 BasicKeypad::~BasicKeypad()
 {
 }
 
+/**
+ * @brief 根据枚举值返回相应button
+ * @param key 按钮名
+ */
 DPushButton *BasicKeypad::button(Buttons key)
 {
     return m_keys.value(key).first;
 }
 
-//DSuggestButton *BasicKeypad::button()
-//{
-//    //return m_equal;
-//}
-
+/**
+ * @brief 按钮点击动画效果
+ */
 void BasicKeypad::animate(Buttons key)
 {
     if (button(key)->text().isEmpty()) {
@@ -128,16 +131,11 @@ void BasicKeypad::animate(Buttons key)
             btn->animate();
         }
     }
-
 }
 
-void BasicKeypad::animate()
-{
-    //m_equal->setChecked(true);
-
-    //QTimer::singleShot(100, this, [=] { m_equal->setChecked(false); });
-}
-
+/**
+ * @brief 初始化button
+ */
 void BasicKeypad::initButtons()
 {
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
@@ -158,13 +156,13 @@ void BasicKeypad::initButtons()
         m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
                             Qt::AlignHCenter | Qt::AlignVCenter);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
-        m_keys.insert(desc->button, hashValue);
+        m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
-        connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();});
+        connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
         connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &BasicKeypad::moveLeft);
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &BasicKeypad::moveRight);
-        m_mapper->setMapping(button, desc->button);
+        m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
     }
 }
 
@@ -178,6 +176,9 @@ void BasicKeypad::initUI()
     this->setContentsMargins(LEFT_MARGIN, KEYPAD_SPACING, RIGHT_MARGIN, BOTTOM_MARGIN);
 }
 
+/**
+ * @brief 切换相应主题切图
+ */
 void BasicKeypad::buttonThemeChanged(int type)
 {
     QString path;
