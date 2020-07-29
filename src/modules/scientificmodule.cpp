@@ -211,19 +211,11 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_6:
-        if (isPressShift) {
-            m_scikeypadwidget->animate(ScientificKeyPad::Key_xy);
-            if (!m_sciexpressionBar->judgeinput())
-                return;
-            m_sciexpressionBar->enterxyEvent();
-            m_sciexpressionBar->addUndo();
-        } else {
-            m_scikeypadwidget->animate(ScientificKeyPad::Key_6);
-            if (!m_sciexpressionBar->judgeinput())
-                return;
-            m_sciexpressionBar->enterNumberEvent("6");
-            m_sciexpressionBar->addUndo();
-        }
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_6);
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterNumberEvent("6");
+        m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_7:
         m_scikeypadwidget->animate(ScientificKeyPad::Key_7);
@@ -324,6 +316,13 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         m_sciexpressionBar->enterPercentEvent();
         m_sciexpressionBar->addUndo();
         break;
+    case Qt::Key_AsciiCircum:
+        m_scikeypadwidget->animate(ScientificKeyPad::Key_xy);
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterxyEvent();
+        m_sciexpressionBar->addUndo();
+        break;
     case Qt::Key_C:
         if (isPressCtrl) {
             m_sciexpressionBar->copyResultToClipboard();
@@ -389,7 +388,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
 //                m_memorylistwidget->memoryclean();
                 m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryclean); //延迟，让动画效果显示
             });
-        } else {
+        } else if (!isPressCtrl) {
             if (isPressShift) {
                 m_scikeypadwidget->animate(ScientificKeyPad::Key_logyx);
                 if (!m_sciexpressionBar->judgeinput())
@@ -410,7 +409,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_scikeypadwidget->animate(ScientificKeyPad::Key_MR);
             m_sciexpressionBar->getInputEdit()->setAnswer(m_scihiswidget->getMemoryWidget()->getfirstnumber().first
                                                           , m_scihiswidget->getMemoryWidget()->getfirstnumber().second);
-        } else {
+        } else if (!isPressCtrl) {
             if (isPressShift) {
                 m_scikeypadwidget->animate(ScientificKeyPad::Key_Rand);
                 if (!m_sciexpressionBar->judgeinput())
@@ -432,7 +431,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_scikeypadwidget->animate(ScientificKeyPad::Key_Mplus);
             if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first) //如果输入栏中可计算出结果
                 m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryplus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
-        } else {
+        } else if (!isPressCtrl) {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_PI);
             if (!m_sciexpressionBar->judgeinput())
                 return;
@@ -446,7 +445,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_scikeypadwidget->animate(ScientificKeyPad::Key_Mmin);
             if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first) //如果输入栏中可计算出结果
                 m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryminus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
-        } else {
+        } else if (!isPressCtrl) {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_x2);
             if (!m_sciexpressionBar->judgeinput())
                 return;
@@ -460,7 +459,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_scikeypadwidget->animate(ScientificKeyPad::Key_MS);
             if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first) //如果输入栏中可计算出结果
                 m_scihiswidget->memoryFunctions(SciHistoryWidget::generateData, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
-        } else {
+        } else if (!isPressCtrl) {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_Mod);
             if (!m_sciexpressionBar->judgeinput())
                 return;
