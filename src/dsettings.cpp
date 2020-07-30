@@ -28,6 +28,9 @@
 DWIDGET_USE_NAMESPACE
 static DSettings *INSTANCE = nullptr;
 
+/**
+ * @brief 初始化
+ */
 DSettings *DSettings::instance(QObject *p)
 {
     if (!INSTANCE) {
@@ -37,6 +40,9 @@ DSettings *DSettings::instance(QObject *p)
     return INSTANCE;
 }
 
+/**
+ * @brief 相关信息保存在config.config文件中
+ */
 DSettings::DSettings(QObject *parent)
     : QObject(parent),
       m_settings(new QSettings(QDir(Utils::getConfigDir()).filePath("config.config"), QSettings::IniFormat, this))
@@ -52,35 +58,43 @@ DSettings::~DSettings()
 void DSettings::initConfig()
 {
     if (m_settings->value("theme").toString().isEmpty()) {
-        setOption("theme", "light");
+        setOption("theme", "light"); //主题初始化为浅色
     }
 
     if (m_settings->value("mode").toString().isEmpty()) {
-        setOption("mode", 0);
+        setOption("mode", 0); //模式初始化为标准模式
     }
 
     if (m_settings->value("history").toString().isEmpty()) {
-        setOption("history", 0);
+        setOption("history", 0); //历史记录初始化关闭
     }
     if (m_settings->value("windowX").toString().isEmpty()) {
-        setOption("windowX", 0);
+        setOption("windowX", 0);  //保存当前打开位置x
     }
     if (m_settings->value("windowY").toString().isEmpty()) {
-        setOption("windowY", 0);
+        setOption("windowY", 0); //保存当前打开位置y
     }
     if (m_settings->value("windowWidth").toString().isEmpty()) {
-        setOption("windowWidth", 0);
+        setOption("windowWidth", 0); //保存窗口width
     }
     if (m_settings->value("windowHeight").toString().isEmpty()) {
-        setOption("windowHeight", 0);
+        setOption("windowHeight", 0); //保存窗口height
     }
 }
 
+/**
+ * @brief 获取相关参数
+ */
 QVariant DSettings::getOption(const QString &key)
 {
     return m_settings->value(key);
 }
 
+/**
+ * @brief 以相关键值保存参数
+ * @param key 键
+ * @param value 值
+ */
 void DSettings::setOption(const QString &key, const QVariant &value)
 {
     m_settings->setValue(key, value);

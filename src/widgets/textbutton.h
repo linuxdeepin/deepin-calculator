@@ -39,8 +39,6 @@ public:
     ~TextButton();
 
     void init();
-    //void showShadow();
-    //void hideShadow();
     void animate(int msec = 100);
     void setButtonDown(bool down);
 signals:

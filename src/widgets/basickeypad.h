@@ -57,12 +57,12 @@ public:
     void animate(Buttons key);
 
     static const struct KeyDescription {
-        QString text;
-        Buttons button;
-        int row;
-        int column;
-        int rowcount;
-        int columncount;
+        QString text; //按钮text
+        Buttons button; //按钮枚举值名
+        int row; //行
+        int column; //列
+        int rowcount; //所占行数
+        int columncount; //所占列数
     } keyDescriptions[];
 public slots:
     void initButtons();

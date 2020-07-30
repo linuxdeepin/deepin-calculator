@@ -73,6 +73,9 @@ const ScientificKeyPad::KeyDescription1 ScientificKeyPad::keyDescriptions1[] = {
     {"eˣ", Key_ex, 8, 1, 1, 1},
 };
 
+/**
+ * @brief 初始化并设置iconbutton
+ */
 static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool page)
 {
     IconButton *button;
@@ -107,15 +110,7 @@ static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool p
         button->setIconUrl(path + "cuberoot_normal.svg", path + "cuberoot_hover.svg", path + "cuberoot_press.svg", 3);
     } else if (key == ScientificKeyPad::Key_ysqrtx) {
         button->setIconUrl(path + "yroot_normal.svg", path + "yroot_hover.svg", path + "yroot_press.svg", 3);
-    }/* else if (key == ScientificKeyPad::Key_arcsin) {
-        button->setIconUrl(path + "sin-1_normal.svg", path + "sin-1_hover.svg", path + "sin-1_press.svg", 3);
-    } else if (key == ScientificKeyPad::Key_arccos) {
-        button->setIconUrl(path + "cos-1_normal.svg", path + "cos-1_hover.svg", path + "cos-1_press.svg", 3);
-    } else if (key == ScientificKeyPad::Key_arctan) {
-        button->setIconUrl(path + "tan-1_normal.svg", path + "tan-1_hover.svg", path + "tan-1_press.svg", 3);
-    } else if (key == ScientificKeyPad::Key_arccot) {
-        button->setIconUrl(path + "cot-1_normal.svg", path + "cot-1_hover.svg", path + "cot-1_press.svg", 3);
-    }*/ else if (key == ScientificKeyPad::Key_deg) {
+    } else if (key == ScientificKeyPad::Key_deg) {
         button->setIconUrl(path + "deg_normal.svg", path + "deg_hover.svg", path + "deg_press.svg", 5);
     }
     //connect(button, &IconButton::updateInterface, this, &ScientificKeyPad::updateInterface);
@@ -152,15 +147,17 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
 
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
     connect(this, &ScientificKeyPad::buttonPressed, this,
-            &ScientificKeyPad::turnPage);
-
-//connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &ScientificKeyPad::handleThemeChanged);
+            &ScientificKeyPad::turnPage); //按下2nd事件
 }
 
 ScientificKeyPad::~ScientificKeyPad()
 {
 }
 
+/**
+ * @brief 根据枚举值返回相应button
+ * @param key 按钮名
+ */
 DPushButton *ScientificKeyPad::button(Buttons key)
 {
     if (key == Key_arcsin || key == Key_arccos || key == Key_arccot ||
@@ -172,6 +169,9 @@ DPushButton *ScientificKeyPad::button(Buttons key)
     }
 }
 
+/**
+ * @brief 按钮点击动画效果
+ */
 void ScientificKeyPad::animate(Buttons key)
 {
     if (button(key)->text().isEmpty()) {
@@ -191,13 +191,9 @@ void ScientificKeyPad::animate(Buttons key)
     }
 }
 
-void ScientificKeyPad::animate()
-{
-    //m_equal->setChecked(true);
-
-    //QTimer::singleShot(100, this, [=] { m_equal->setChecked(false); });
-}
-
+/**
+ * @brief 初始化button
+ */
 void ScientificKeyPad::initButtons()
 {
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
@@ -273,18 +269,21 @@ void ScientificKeyPad::initButtons()
         }
 
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
-        m_keys.insert(desc->button, hashValue);
+        m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
-        connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();});
+        connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
         connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &ScientificKeyPad::moveLeft);
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &ScientificKeyPad::moveRight);
-        m_mapper->setMapping(button, desc->button);
+        m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
 
     }
 
 }
 
+/**
+ * @brief 连接窗口缩放与按钮大小变化的信号槽，设置左右括号不匹配数label的状态颜色
+ */
 void ScientificKeyPad::initUI()
 {
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
@@ -372,12 +371,12 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
     m_gridlayout1->addWidget(widget, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,
                              Qt::AlignCenter/* | Qt::AlignTop*/);
     const QPair<DPushButton *, const KeyDescription1 *> hashValue1(pagebutton, desc1);
-    m_keys1.insert(desc1->button, hashValue1);
+    m_keys1.insert(desc1->button, hashValue1); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription1 *
     connect(static_cast<TextButton *>(pagebutton), &TextButton::updateInterface, [ = ] {update();});
     connect(pagebutton, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
     connect(static_cast<TextButton *>(pagebutton), &TextButton::moveLeft, this, &ScientificKeyPad::moveLeft);
     connect(static_cast<TextButton *>(pagebutton), &TextButton::moveRight, this, &ScientificKeyPad::moveRight);
-    m_mapper->setMapping(pagebutton, desc1->button);
+    m_mapper->setMapping(pagebutton, desc1->button); //多个按钮绑定到一个mapper上
     connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
         Q_UNUSED(height);
         int hiswidth; //历史记录宽度
@@ -386,6 +385,9 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
     });
 }
 
+/**
+ * @brief 切换相应主题切图
+ */
 void ScientificKeyPad::buttonThemeChanged(int type)
 {
     m_themetype = type;
@@ -416,14 +418,6 @@ void ScientificKeyPad::buttonThemeChanged(int type)
     btn->setIconUrl(path + "cuberoot_normal.svg", path + "cuberoot_hover.svg", path + "cuberoot_press.svg", 3);
     btn = static_cast<IconButton *>(button(Key_ysqrtx));
     btn->setIconUrl(path + "yroot_normal.svg", path + "yroot_hover.svg", path + "yroot_press.svg", 3);
-//    btn = static_cast<IconButton *>(button(Key_arcsin));
-//    btn->setIconUrl(path + "sin-1_normal.svg", path + "sin-1_hover.svg", path + "sin-1_press.svg", 3);
-//    btn = static_cast<IconButton *>(button(Key_arccos));
-//    btn->setIconUrl(path + "cos-1_normal.svg", path + "cos-1_hover.svg", path + "cos-1_press.svg", 3);
-//    btn = static_cast<IconButton *>(button(Key_arctan));
-//    btn->setIconUrl(path + "tan-1_normal.svg", path + "tan-1_hover.svg", path + "tan-1_press.svg", 3);
-//    btn = static_cast<IconButton *>(button(Key_arccot));
-//    btn->setIconUrl(path + "cot-1_normal.svg", path + "cot-1_hover.svg", path + "cot-1_press.svg", 3);
     if (m_deg == 1) {
         btn = static_cast<IconButton *>(button(Key_deg));
         btn->setIconUrl(path + "rad_normal.svg", path + "rad_hover.svg", path + "rad_press.svg", 5);
@@ -436,6 +430,9 @@ void ScientificKeyPad::buttonThemeChanged(int type)
     }
 }
 
+/**
+ * @brief 点击2nd时切换stackwidget
+ */
 void ScientificKeyPad::turnPage(int key)
 {
     if (key == Key_page) {

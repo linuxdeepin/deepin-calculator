@@ -54,19 +54,17 @@ public:
 
     DPushButton *button(Buttons key);
     void animate(Buttons key);
-    void animate();
 
     static const struct KeyDescription {
-        QString text;
-        Buttons button;
-        int row;
-        int column;
-        int rowcount;
-        int columncount;
+        QString text; //按钮text
+        Buttons button; //按钮枚举值名
+        int row; //行
+        int column; //列
+        int rowcount; //所占行数
+        int columncount; //所占列数
     } keyDescriptions[];
 public slots:
     void initButtons();
-    void buttonThemeChanged(int type);
 signals:
     void buttonPressed(int);
     void equalPressed();
@@ -77,8 +75,6 @@ private:
     QGridLayout *m_layout;
     QSignalMapper *m_mapper;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
-    //DSuggestButton *m_equal;
-    //EqualButton *m_equal;
 };
 
 #endif // MEMORYKEYPAD_H

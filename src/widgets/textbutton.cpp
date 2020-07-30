@@ -27,10 +27,10 @@
 
 #include "dthememanager.h"
 
-const QSize STANDARD_TEXTBTNSIZE = QSize(76, 56);
-const qreal BLURRADIUS = 12;
-const qreal ROUND_XRADIUS = 8;
-const qreal ROUND_YRADIUS = 8;
+const QSize STANDARD_TEXTBTNSIZE = QSize(76, 56); //标准模式按钮大小
+const qreal BLURRADIUS = 12; //阴影模糊半径
+const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
+const qreal ROUND_YRADIUS = 8; //按钮圆角y轴半径
 
 TextButton::TextButton(const QString &text, bool page, QWidget *parent)
     : DPushButton(text, parent)
@@ -40,18 +40,15 @@ TextButton::TextButton(const QString &text, bool page, QWidget *parent)
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
         setFixedSize(STANDARD_TEXTBTNSIZE);
-//    else
-//        setMinimumSize(67, 44);
     setFocusPolicy(Qt::NoFocus);
     setObjectName("TextButton");
 
     init();
-    // connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &TextButton::init);
     m_isHover = m_isPress = false;
     m_page = page;
 
-    m_effect->setOffset(0, 4);
-    m_effect->setBlurRadius(BLURRADIUS);
+    m_effect->setOffset(0, 4); //阴影偏移
+    m_effect->setBlurRadius(BLURRADIUS); //阴影模糊半径
 }
 
 TextButton::~TextButton()
@@ -61,6 +58,7 @@ TextButton::~TextButton()
 
 void TextButton::init()
 {
+    //按钮初始化时确认当前是否是上标按钮
     if (text() == "2ⁿᵈ") {
         m_btn = 1;
     } else if (text() == "xʸ") {
@@ -109,17 +107,10 @@ void TextButton::init()
     m_font.setWeight(2);
 }
 
-/*void TextButton::showShadow()
-{
-    m_effect->setEnabled(true);
-    raise();
-}
-
-void TextButton::hideShadow()
-{
-    m_effect->setEnabled(false);
-}*/
-
+/**
+ * @brief iconbutton物理键盘点击动画效果
+ * @param msec 100ms
+ */
 void TextButton::animate(int msec)
 {
     if (m_isPress == false) { //edit for bug-20492 20200416
@@ -135,11 +126,17 @@ void TextButton::animate(int msec)
     }
 }
 
+/**
+ * @brief 判断FE与2nd按键是否被按下
+ */
 void TextButton::setButtonDown(bool down)
 {
     m_Btnisdown = down;
 }
 
+/**
+ * @brief 鼠标按下
+ */
 void TextButton::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::RightButton)
@@ -152,6 +149,9 @@ void TextButton::mousePressEvent(QMouseEvent *e)
     DPushButton::mousePressEvent(e);
 }
 
+/**
+ * @brief 鼠标松开
+ */
 void TextButton::mouseReleaseEvent(QMouseEvent *e)
 {
 //    clearFocus();
@@ -256,22 +256,16 @@ void TextButton::paintEvent(QPaintEvent *e)
     QRectF normal(rect.left(), rect.top(), rect.width(), rect.height());
     QRectF hover(rect.left(), rect.top(), rect.width(), rect.height());
     QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+    painter.setRenderHint(QPainter::Antialiasing, true); //反锯齿
+    painter.setRenderHint(QPainter::SmoothPixmapTransform, true); //光滑的象素映射变换算法
     painter.setRenderHint(QPainter::HighQualityAntialiasing);
     painter.setFont(m_font);
-    //    QRectF textRect = painter.fontMetrics().boundingRect(this->text());
-    //    textRect.moveCenter(rect.center());
     QRectF textRect = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                          Qt::AlignCenter, this->text());
-    //    textRect.moveCenter(rect.center());
-    // QRectF
-    // textRect(QPointF((rect.width()/2)-(textR.width()/2),(rect.height()/2)-(textR.height()/2)),textR.width(),textR.height());
     QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();//活动色
     QColor pressBrush, focus, hoverFrame, base, text, hoverbrush;
     QColor hoverShadow, focusShadow;
     QColor pressText = actcolor;
-    // hoverShadow = QColor(12, 155, 246);
     hoverShadow = actcolor;
     hoverShadow.setAlphaF(0.1);
     focusShadow = QColor(0, 0, 0);
@@ -279,7 +273,7 @@ void TextButton::paintEvent(QPaintEvent *e)
     int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
-    if (type == 1) {
+    if (type == 1) { //浅色主题设置
         pressBrush = QColor(0, 0, 0);
         pressBrush.setAlphaF(0.1);
         focus = actcolor;
@@ -293,7 +287,7 @@ void TextButton::paintEvent(QPaintEvent *e)
             hoverbrush = QColor("#FFFFFF");
         }
         text = QColor("#303030");
-    } else {
+    } else { //深色主题设置
         pressBrush = QColor(0, 0, 0);
         pressBrush.setAlphaF(0.5);
         focus = actcolor;
@@ -312,7 +306,7 @@ void TextButton::paintEvent(QPaintEvent *e)
             text = QColor(224, 224, 224);
     }
     if (m_Btnisdown)
-        text = actcolor;
+        text = actcolor; //FE,2nd设置
 //    if (hasFocus()) {
 //        painter.setPen(Qt::NoPen);
 //        if (m_isPress) {
@@ -348,7 +342,7 @@ void TextButton::paintEvent(QPaintEvent *e)
 //    } else {
     painter.setPen(Qt::NoPen);
     painter.setBrush(QBrush(base));
-    if (m_isHover) {
+    if (m_isHover) { //hover状态
         painter.setPen(QPen(hoverFrame));
         painter.setBrush(QBrush(hoverbrush));
         painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
@@ -359,14 +353,14 @@ void TextButton::paintEvent(QPaintEvent *e)
         paintspecialbtn(painter, rect, textRect);
         m_effect->setColor(hoverShadow);
         this->setGraphicsEffect(m_effect);
-    } else if (m_isPress) {
+    } else if (m_isPress) { //press状态
         painter.setBrush(QBrush(pressBrush));
         painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
         QPen pen;
         pen.setColor(pressText);
         painter.setPen(pen);
         paintspecialbtn(painter, rect, textRect);
-    } else {
+    } else { //normal状态
         painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
         QPen pen;
         pen.setColor(text);

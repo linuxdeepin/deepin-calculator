@@ -156,14 +156,14 @@ void EqualButton::paintEvent(QPaintEvent *e)
     int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
-    if (type == 1) {
+    if (type == 1) { //浅色主题设置
         frame = Qt::white;
 
         press0.setAlphaF(0.8);
         press1.setAlphaF(1);
         hover0.setAlphaF(0.6);
         hover1.setAlphaF(0.8);
-    } else {
+    } else { //深色主题设置
         frame = QColor(0, 0, 0);
         frame.setAlphaF(0.6);
 

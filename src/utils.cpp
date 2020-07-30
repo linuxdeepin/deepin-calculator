@@ -35,6 +35,9 @@ Utils::~Utils()
 {
 }
 
+/**
+ * @brief 返回程序文件路径
+ */
 QString Utils::getConfigDir()
 {
     QDir dir(QDir(QStandardPaths::standardLocations(QStandardPaths::ConfigLocation).first())
@@ -43,6 +46,9 @@ QString Utils::getConfigDir()
     return dir.filePath(qApp->applicationName());
 }
 
+/**
+ * @brief 获取文件内容（暂未使用）
+ */
 QString Utils::getQssContent(const QString &filePath)
 {
     QFile file(filePath);
@@ -55,6 +61,9 @@ QString Utils::getQssContent(const QString &filePath)
     return qss;
 }
 
+/**
+ * @brief 补充千位符(针对结果)
+ */
 QString Utils::formatThousandsSeparators(const QString &str)
 {
     QString result = str;
@@ -76,12 +85,15 @@ QString Utils::formatThousandsSeparators(const QString &str)
     return result;
 }
 
+/**
+ * @brief 该string是否是数字
+ */
 bool Utils::stringIsDigit(const QString &str)
 {
     bool isDigit = true;
 
     for (auto &ch : str) {
-        if (!ch.isDigit() && ch != '.' && ch != ',' && ch != '-') {
+        if (!ch.isDigit() && ch != '.' && ch != ',' && ch != '-') { //非数字条件为非数字小数点分隔符负号
             isDigit = false;
             break;
         }
@@ -90,6 +102,9 @@ bool Utils::stringIsDigit(const QString &str)
     return isDigit;
 }
 
+/**
+ * @brief 针对输入框内容重新设置千位符
+ */
 QString Utils::reformatSeparators(const QString &exp)
 {
     QString seg;

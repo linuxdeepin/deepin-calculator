@@ -33,38 +33,6 @@ const MemoryKeypad::KeyDescription MemoryKeypad::keyDescriptions[] = {
     {"MS", Key_MS, 1, 4, 1, 1},       {"M˅", Key_Mlist, 1, 5, 1, 1},
 };
 
-static DPushButton *createSpecialKeyButton(MemoryKeypad::Buttons key)
-{
-    Q_UNUSED(key);
-    IconButton *button = new IconButton;
-
-    QString path;
-    if (DGuiApplicationHelper::instance()->themeType() == 2)
-        path = QString(":/assets/images/%1/").arg("dark");
-    else
-        path = QString(":/assets/images/%1/").arg("light");
-
-//    if (key == BasicKeypad::Key_Div) {
-//        button->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");
-//    } else if (key == BasicKeypad::Key_Mult) {
-//        button->setIconUrl(path + "x_normal.svg", path + "x_hover.svg", path + "x_press.svg");
-//    } else if (key == BasicKeypad::Key_Min) {
-//        button->setIconUrl(path + "-_normal.svg", path + "-_hover.svg", path + "-_press.svg");
-//    } else if (key == BasicKeypad::Key_Plus) {
-//        button->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
-//    } else if (key == BasicKeypad::Key_Backspace) {
-//        button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
-//    } else if (key == BasicKeypad::Key_Clear) {
-//        button->setIconUrl(path + "AC_normal.svg", path + "AC_hover.svg", path + "AC_press.svg");
-//    } else if (key == BasicKeypad::Key_Percent) {
-//        button->setIconUrl(path + "%_normal.svg", path + "%_hover.svg", path + "%_press.svg");
-//    } else if (key == BasicKeypad::Key_Brackets) {
-//        button->setIconUrl(path + "( )_normal.svg", path + "( )_hover.svg", path + "( )_press.svg");
-//    }
-    //connect(button, &IconButton::updateInterface, this, &BasicKeypad::updateInterface);
-    return button;
-}
-
 MemoryKeypad::MemoryKeypad(QWidget *parent)
     : DWidget(parent),
       m_layout(new QGridLayout(this)),
@@ -79,75 +47,53 @@ MemoryKeypad::MemoryKeypad(QWidget *parent)
     this->setContentsMargins(12, 0, 13, 0);
 
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
-    //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &BasicKeypad::handleThemeChanged);
 }
 
 MemoryKeypad::~MemoryKeypad()
 {
 }
 
+/**
+ * @brief 根据枚举值返回相应button
+ * @param key 按钮名
+ */
 DPushButton *MemoryKeypad::button(Buttons key)
 {
     return m_keys.value(key).first;
 }
 
+/**
+ * @brief 按钮点击动画效果
+ */
 void MemoryKeypad::animate(Buttons key)
 {
     MemoryButton *btn = static_cast<MemoryButton *>(button(key));
     btn->animate();
 }
 
-void MemoryKeypad::animate()
-{
-    //m_equal->setChecked(true);
-
-    //QTimer::singleShot(100, this, [=] { m_equal->setChecked(false); });
-}
-
+/**
+ * @brief 初始化button
+ */
 void MemoryKeypad::initButtons()
 {
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
         DPushButton *button;
-        if (desc->text.isEmpty()) {
-            button = createSpecialKeyButton(desc->button);
-        } else {
-            button = new MemoryButton(desc->text);
-            QFont font = button->font();
-            font.setFamily("Noto Sans");
-            button->setFont(font);
-        }
+        button = new MemoryButton(desc->text);
+        QFont font = button->font();
+        font.setFamily("Noto Sans");
+        button->setFont(font);
 
         m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
                             Qt::AlignHCenter | Qt::AlignBottom);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
-        m_keys.insert(desc->button, hashValue);
+        m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
-        connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();});
+        connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
         connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &MemoryKeypad::moveLeft);
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &MemoryKeypad::moveRight);
-        m_mapper->setMapping(button, desc->button);
+        m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
     }
-}
-
-void MemoryKeypad::buttonThemeChanged(int type)
-{
-    QString path;
-    if (type == 2)
-        path = QString(":/assets/images/%1/").arg("dark");
-    else
-        path = QString(":/assets/images/%1/").arg("light");
-
-//    IconButton *btn = static_cast<IconButton *>(button(Key_Div));
-//    btn->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");
-//    btn = static_cast<IconButton *>(button(Key_Mult));
-//    btn->setIconUrl(path + "x_normal.svg", path + "x_hover.svg", path + "x_press.svg");
-//    btn = static_cast<IconButton *>(button(Key_Min));
-//    btn->setIconUrl(path + "-_normal.svg", path + "-_hover.svg", path + "-_press.svg");
-//    btn = static_cast<IconButton *>(button(Key_Plus));
-//    btn->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
-//    btn = static_cast<IconButton *>(button(Key_Backspace));
-//    btn->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
 }

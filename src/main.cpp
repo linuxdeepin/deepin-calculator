@@ -99,23 +99,15 @@ int main(int argc, char *argv[])
     app.loadTranslator();
     app.setOrganizationName("deepin");
     app.setApplicationName("deepin-calculator");
-//    app.setApplicationVersion(DApplication::buildVersion("1.0.1"));
     app.setApplicationAcknowledgementPage(
         "https://www.deepin.org/acknowledgments/deepin-calculator");
     QIcon t_icon = QIcon::fromTheme("deepin-calculator");
-    // app.setProductIcon(QIcon(":/images/deepin-calculator.svg"));
     app.setProductIcon(t_icon);
     app.setProductName(DApplication::translate("MainWindow", "Calculator"));
     app.setApplicationDescription(
         DApplication::translate("MainWindow",
                                 "Calculator is an easy to use desktop calculator, supporting standard and scientific modes."));
-//    static const QDate buildDate =
-//        QLocale(QLocale::English).toDate(QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
-//    QString t_date = buildDate.toString("MMdd");
-    // Version Time
-//    app.setApplicationVersion(DApplication::buildVersion(t_date));
     app.setApplicationVersion(VERSION);
-    // app.setTheme("light");
     app.setQuitOnLastWindowClosed(true);
     app.setApplicationDisplayName(QObject::tr("Calculator"));
     // app.setStyle("chameleon");
