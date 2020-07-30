@@ -615,6 +615,11 @@ void SciExpressionBar::enterDeleteEvent()
     m_isUndo = false;
 }
 
+/**
+ * @brief SciExpressionBar::enterDegEvent
+ * 弧度/角度/梯度切换
+ * @param mod
+ */
 void SciExpressionBar::enterDegEvent(int mod)
 {
     //mod=1,enter走rad运算
@@ -653,6 +658,13 @@ void SciExpressionBar::enterSinEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::enterFEEvent
+ * 是否以科学计数法的方式输出计算结果，状态可切换，按清除键后还原。
+ * 默认不以科学计数法显示
+ * @param isdown
+ * 是否被按下
+ */
 void SciExpressionBar::enterFEEvent(bool isdown)
 {
     if (isdown) {
@@ -664,6 +676,10 @@ void SciExpressionBar::enterFEEvent(bool isdown)
     }
 }
 
+/**
+ * @brief SciExpressionBar::enterPIEvent
+ * 圆周率
+ */
 void SciExpressionBar::enterPIEvent()
 {
     if (m_isResult) {
@@ -702,7 +718,7 @@ void SciExpressionBar::enterPIEvent()
 }
 
 /**
- * @brief SciExpressionBar::无理数e
+ * @brief SciExpressionBar::自然常数e
  */
 void SciExpressionBar::enterEulerEvent()
 {
@@ -741,6 +757,10 @@ void SciExpressionBar::enterEulerEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::enterModEvent
+ * 取余
+ */
 void SciExpressionBar::enterModEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
@@ -791,6 +811,10 @@ void SciExpressionBar::enterModEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::enterx2Event
+ * 平方
+ */
 void SciExpressionBar::enterx2Event()
 {
     if (m_inputEdit->text().isEmpty()) {
@@ -1006,6 +1030,10 @@ void SciExpressionBar::enterFactorialsEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::enterExpEvent
+ * 提供科学计数法格式的输入
+ */
 void SciExpressionBar::enterExpEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
@@ -1081,6 +1109,10 @@ void SciExpressionBar::enterCosEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::enterx3Event
+ * 立方
+ */
 void SciExpressionBar::enterx3Event()
 {
     if (m_inputEdit->text().isEmpty()) {
@@ -1161,6 +1193,10 @@ void SciExpressionBar::enterTanEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::enterxyEvent
+ * x的y次方
+ */
 void SciExpressionBar::enterxyEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
@@ -1237,6 +1273,10 @@ void SciExpressionBar::enterCotEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::enter10xEvent
+ * 10的x次方
+ */
 void SciExpressionBar::enter10xEvent()
 {
     m_isResult = false;
@@ -1388,6 +1428,10 @@ void SciExpressionBar::enterModulusEvent()
     rx.setPattern("sRegNum1");
 }
 
+/**
+ * @brief SciExpressionBar::enterLogEvent
+ * 以10为底的对数
+ */
 void SciExpressionBar::enterLogEvent()
 {
     m_isResult = false;
@@ -1428,6 +1472,10 @@ void SciExpressionBar::enterRandEvent()
     m_inputEdit->setText(str);
 }
 
+/**
+ * @brief SciExpressionBar::enterLnEvent
+ * 自然对数
+ */
 void SciExpressionBar::enterLnEvent()
 {
     m_isResult = false;
@@ -1478,6 +1526,10 @@ void SciExpressionBar::enterArcsinEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::enterSqrtEvent
+ * square root 平方根
+ */
 void SciExpressionBar::enterSqrtEvent()
 {
     m_isResult = false;
@@ -1528,6 +1580,10 @@ void SciExpressionBar::enterArccosEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::enterCbrtEvent
+ * cuberoot 立方根
+ */
 void SciExpressionBar::enterCbrtEvent()
 {
     m_isResult = false;
@@ -1578,6 +1634,10 @@ void SciExpressionBar::enterArctanEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::enterYrootEvent
+ * x的y次方根,8yroot3 = 2
+ */
 void SciExpressionBar::enterYrootEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
@@ -1653,6 +1713,10 @@ void SciExpressionBar::enterArccotEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::enter2xEvent
+ * 2的x次方
+ */
 void SciExpressionBar::enter2xEvent()
 {
     m_isResult = false;
@@ -1694,6 +1758,10 @@ void SciExpressionBar::enter2xEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::enterlogyxEvent
+ * 以y为底的对数,底在右边，9 log 3 = 2
+ */
 void SciExpressionBar::enterlogyxEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
@@ -1744,6 +1812,10 @@ void SciExpressionBar::enterlogyxEvent()
     }
 }
 
+/**
+ * @brief SciExpressionBar::enterexEvent
+ * e的x次方
+ */
 void SciExpressionBar::enterexEvent()
 {
     m_isResult = false;

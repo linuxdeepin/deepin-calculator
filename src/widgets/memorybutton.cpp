@@ -28,6 +28,11 @@
 
 #include "dthememanager.h"
 
+const QSize MEMORYBUTTON_SIZE = QSize(50, 30);
+const qreal BLURRADIUS = 12; //阴影模糊半径
+const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
+const qreal ROUND_YRADIUS = 8; //按钮圆角y轴半径
+
 MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *parent)
     : TextButton(text, parent)
     , m_effect(new QGraphicsDropShadowEffect(this))
@@ -36,7 +41,7 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
     m_settings = DSettings::instance(this);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(50, 30);
+        setFixedSize(MEMORYBUTTON_SIZE);
     setObjectName("MemoryButton");
     m_widgetbtn = listwidgetbtn; //是否是内存列表按键
 
@@ -44,7 +49,7 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
     m_isHover = m_isPress = false;
     showtips();
     m_effect->setOffset(0, 4); //阴影偏移
-    m_effect->setBlurRadius(12); //阴影模糊半径
+    m_effect->setBlurRadius(BLURRADIUS); //阴影模糊半径
 }
 
 MemoryButton::~MemoryButton()
@@ -185,9 +190,9 @@ void MemoryButton::paintEvent(QPaintEvent *e)
     Q_UNUSED(e);
     int mode = m_settings->getOption("mode").toInt();
     if (mode == 0)
-        setFixedSize(50, 30);
+        setFixedSize(MEMORYBUTTON_SIZE);
     if (m_widgetbtn)
-        setFixedSize(50, 30);
+        setFixedSize(MEMORYBUTTON_SIZE);
     if (isEnabled() == false) {
         m_font.setPixelSize(16);
         m_font.setStyleName("Light");
@@ -307,7 +312,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
     if (m_isHover) { //hover状态
         painter.setPen(QPen(hoverFrame));
         painter.setBrush(QBrush(hoverbrush));
-        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+        painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
 
         QPen pen;
         pen.setColor(text);
@@ -318,7 +323,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         this->setGraphicsEffect(m_effect);
     } else if (m_isPress) { //press状态
         painter.setBrush(QBrush(pressBrush));
-        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+        painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
         QPen pen;
         pen.setColor(pressText);
         painter.setPen(pen);
@@ -326,7 +331,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         painter.drawText(textRect, this->text());
     } else { //normal状态
         painter.setBrush(QBrush(base));
-        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+        painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
         QPen pen;
         pen.setColor(text);
         painter.setPen(pen);
