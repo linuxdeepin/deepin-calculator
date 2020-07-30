@@ -65,7 +65,7 @@ void SimpleListView::contextMenuEvent(QContextMenuEvent *event)
     QMenu *menu = new QMenu(this);
     //缺翻译
     QAction *copy = new QAction(tr("Copy"), menu);
-    QAction *clean = new QAction(tr("Clear"), menu);
+    QAction *clean = new QAction(tr("Delete"), menu);
     menu->addAction(copy);
     menu->addAction(clean);
     connect(copy, &QAction::triggered, this, [ = ]() {

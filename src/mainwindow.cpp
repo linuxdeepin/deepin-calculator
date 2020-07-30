@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
     //缺翻译
     m_simpleAction = new QAction(tr("Standard"), this);
     m_scAction = new QAction(tr("Scientific"), this);
-    m_hisAction = new QAction(tr("view historical record"), this);
+    m_hisAction = new QAction(tr("History"), this);
 
     m_pActionGroup = new QActionGroup(nullptr); //实现互斥checked
     m_pActionGroup->addAction(m_simpleAction);
@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_scAction->setCheckable(true);
 
 #ifdef ENABLE_SCIENTIFIC
-    m_modeshowmenu = new DMenu(tr("show"));
+    m_modeshowmenu = new DMenu(tr("Mode"));
     m_tbMenu->addAction(m_hisAction);
     m_tbMenu->addSeparator(); //添加分隔符
     m_modeshowmenu->addAction(m_simpleAction);
