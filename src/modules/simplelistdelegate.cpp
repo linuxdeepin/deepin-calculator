@@ -32,6 +32,7 @@
 DWIDGET_USE_NAMESPACE
 
 const int PADDING = 15; //历史记录区边距
+const int NOHISTORYHEIGHT = 320; // 无历史记录rect高度
 
 SimpleListDelegate::SimpleListDelegate(int mode, QObject *parent)
     : QStyledItemDelegate(parent)
@@ -312,7 +313,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         if (splitList.size() == 1) {
             painter->setPen(QColor(nohistory));
             painter->drawText(
-                QRectF(rect.x() + PADDING, rect.y(), rect.width() - PADDING * 2, rect.height()),
+                QRectF(rect.x() + PADDING, rect.y(), rect.width() - PADDING * 2, NOHISTORYHEIGHT),
                 expression, Qt::AlignHCenter | Qt::AlignVCenter);
         } else {
             // draw result text.

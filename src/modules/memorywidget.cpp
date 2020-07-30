@@ -44,6 +44,7 @@ const int SCIENTIFIC_ITEM_WIDTH = 360; //标准模式最小宽度
 const int STANDARD_FORMAT_PREC = 15; //标准模式科学计数位数
 const int SCIENTIFIC_FORMAT_PREC = 31; //科学模式科学计数位数
 const int MAXSIZE = 500; //内存保存最大数
+const int NOMEMORYHEIGHT = 320; //无内存时item高度
 
 MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     : QWidget(parent)
@@ -292,7 +293,7 @@ void MemoryWidget::memoryclean()
     QFont m_clearbuttonfont;
     m_clearbuttonfont.setPixelSize(16);
     m_listwidget->item(0)->setFont(m_clearbuttonfont);
-    m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, m_listwidget->frameRect().height()));
+    m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, NOMEMORYHEIGHT));
     m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
     m_listwidget->item(0)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     emptymemoryfontcolor();
