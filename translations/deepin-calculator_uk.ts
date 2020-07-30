@@ -12,6 +12,10 @@
         <source>Clear all memory</source>
         <translation>Спорожнити усю пам&apos;ять</translation>
     </message>
+    <message>
+        <source>Clear history</source>
+        <translation>Спорожнити журнал</translation>
+    </message>
 </context>
 <context>
     <name>InputEdit</name>
@@ -51,8 +55,24 @@
         <translation>Калькулятор</translation>
     </message>
     <message>
-        <source>Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>Калькулятор є нескладним та простим у користуванні комп&apos;ютерним калькулятором. Передбачено підтримку додавання, віднімання, множення і ділення.</translation>
+        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
+        <translation>«Калькулятор» є простим у користуванні комп&apos;ютерним калькулятором. Передбачено підтримку стандартного та наукового режимів.</translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation>Стандартний</translation>
+    </message>
+    <message>
+        <source>Scientific</source>
+        <translation>Науковий</translation>
+    </message>
+    <message>
+        <source>History</source>
+        <translation>Журнал</translation>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation>Режим</translation>
     </message>
 </context>
 <context>
@@ -135,10 +155,39 @@
     </message>
 </context>
 <context>
+    <name>SciHistoryWidget</name>
+    <message>
+        <source>History</source>
+        <translation>Журнал</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation>Запам&apos;ятати</translation>
+    </message>
+</context>
+<context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
         <translation>Помилка у виразі</translation>
+    </message>
+</context>
+<context>
+    <name>SimpleListModel</name>
+    <message>
+        <source>No history</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>SimpleListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Копіювати</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Вилучити</translation>
     </message>
 </context>
 </TS>

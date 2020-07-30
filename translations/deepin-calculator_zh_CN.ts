@@ -12,6 +12,10 @@
         <source>Clear all memory</source>
         <translation>清除所有内存</translation>
     </message>
+    <message>
+        <source>Clear history</source>
+        <translation>清除历史记录</translation>
+    </message>
 </context>
 <context>
     <name>InputEdit</name>
@@ -51,8 +55,24 @@
         <translation>计算器</translation>
     </message>
     <message>
-        <source>Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>计算器是一款简单易用的桌面计算器，支持加、减、乘、除功能。</translation>
+        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
+        <translation>计算器是一款简单易用的桌面计算器，支持标准型和科学型模式。</translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation>标准</translation>
+    </message>
+    <message>
+        <source>Scientific</source>
+        <translation>科学</translation>
+    </message>
+    <message>
+        <source>History</source>
+        <translation>历史记录</translation>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation>模式</translation>
     </message>
 </context>
 <context>
@@ -135,10 +155,39 @@
     </message>
 </context>
 <context>
+    <name>SciHistoryWidget</name>
+    <message>
+        <source>History</source>
+        <translation>历史记录</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation>内存</translation>
+    </message>
+</context>
+<context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
         <translation>表达式错误</translation>
+    </message>
+</context>
+<context>
+    <name>SimpleListModel</name>
+    <message>
+        <source>No history</source>
+        <translation>无历史记录</translation>
+    </message>
+</context>
+<context>
+    <name>SimpleListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>复制</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
     </message>
 </context>
 </TS>

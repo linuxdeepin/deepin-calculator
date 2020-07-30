@@ -12,6 +12,10 @@
         <source>Clear all memory</source>
         <translation>Vymazat celou paměť kalkulačky</translation>
     </message>
+    <message>
+        <source>Clear history</source>
+        <translation>Vymazat historii</translation>
+    </message>
 </context>
 <context>
     <name>InputEdit</name>
@@ -51,8 +55,24 @@
         <translation>Kalkulačka</translation>
     </message>
     <message>
-        <source>Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>Kalkulačka je jednoduchá a snadno použitelná. Podporuje sčítání, odčítání, násobení a dělení.</translation>
+        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
+        <translation>Kalkulačka je jednoduchá a snadno použitelná. Podporuje standardní a vědecké režimy.</translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation>Standardní</translation>
+    </message>
+    <message>
+        <source>Scientific</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>History</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -135,10 +155,39 @@
     </message>
 </context>
 <context>
+    <name>SciHistoryWidget</name>
+    <message>
+        <source>History</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation>Paměť kalkulačky</translation>
+    </message>
+</context>
+<context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
         <translation>Chyba ve výrazu</translation>
+    </message>
+</context>
+<context>
+    <name>SimpleListModel</name>
+    <message>
+        <source>No history</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>SimpleListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Zkopírovat</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Smazat</translation>
     </message>
 </context>
 </TS>

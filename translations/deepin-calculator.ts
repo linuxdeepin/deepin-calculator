@@ -14,6 +14,10 @@
         <source>Clear all memory</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Clear history</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>InputEdit</name>
@@ -53,7 +57,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
+        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scientific</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mode</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -137,9 +157,38 @@
     </message>
 </context>
 <context>
+    <name>SciHistoryWidget</name>
+    <message>
+        <source>History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SimpleListModel</name>
+    <message>
+        <source>No history</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SimpleListView</name>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

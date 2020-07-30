@@ -1950,7 +1950,7 @@ Quantity Evaluator::exec(const QVector<Opcode> &opcodes,
 
         case Opcode::Pct:
             if (stack.count() < 1) {
-                m_error = tr("invalid expression");
+                m_error = /*tr*/("invalid expression");
                 return CMath::nan();
             }
             val1 = stack.pop();

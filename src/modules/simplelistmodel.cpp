@@ -101,8 +101,7 @@ void SimpleListModel::clearItems()
     m_answerlist.clear();
     if (m_mode == 1) {
         beginInsertRows(QModelIndex(), 0, 0);
-        //缺翻译
-        m_expressionList << "历史记录中没有数据";
+        m_expressionList << tr("No history");
         endInsertRows();
     }
 }
