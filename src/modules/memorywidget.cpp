@@ -293,9 +293,12 @@ void MemoryWidget::memoryclean()
     QFont m_clearbuttonfont;
     m_clearbuttonfont.setPixelSize(16);
     m_listwidget->item(0)->setFont(m_clearbuttonfont);
-    m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, NOMEMORYHEIGHT));
+    if (m_calculatormode == 0)
+        m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth - 40, m_listwidget->frameRect().height())); //标准模式
+    else
+        m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, NOMEMORYHEIGHT)); //科学模式
     m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
-    m_listwidget->item(0)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter);
     emptymemoryfontcolor();
     m_isempty = true;
     m_clearbutton->hide();
