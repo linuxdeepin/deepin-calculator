@@ -26,7 +26,7 @@
 #include "dthememanager.h"
 
 const int KEYPAD_HEIGHT = 316; //键盘界面高度
-const int KEYPAD_SPACING = 5; //键盘按键间距
+const int KEYPAD_SPACING = 3; //键盘按键间距,按钮比ui大2pix,此处小2pix
 const int LEFT_MARGIN = 12; //键盘左边距
 const int RIGHT_MARGIN = 13; //键盘右边距
 const int BOTTOM_MARGIN = 11; //键盘下边距

@@ -6,7 +6,7 @@
 
 #include <DGuiApplicationHelper>
 
-const QSize STANDARD_EQUALBTN_SIZE = QSize(76, 56); //标准模式等于按钮大小
+const QSize STANDARD_EQUALBTN_SIZE = QSize(78, 58); //标准模式等于按钮大小，为画边框比ui大2pix
 const qreal BLURRADIUS = 4; //阴影模糊半径
 const int FONT_PIXELSIZE = 30; //字号
 const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
@@ -130,8 +130,8 @@ void EqualButton::paintEvent(QPaintEvent *e)
     if (mode == 0)
         setFixedSize(STANDARD_EQUALBTN_SIZE);
     QRectF rect = this->rect();
-    QRectF normal(rect.left(), rect.top(), rect.width(), rect.height());
-    QRectF focusBase(rect.left(), rect.top(), rect.width(), rect.height());
+    QRectF normal(rect.left() + 1, rect.top() + 1, rect.width() - 2, rect.height() - 2);
+    QRectF focusBase(rect.left() + 1, rect.top() + 1, rect.width() - 2, rect.height() - 2);
     QLinearGradient linearGradient(rect.width() / 2, 0, rect.width() / 2, rect.height()); //线性渐变，起始点坐标rect.width() / 2, 0
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true); //反锯齿

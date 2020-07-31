@@ -41,7 +41,7 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     QHBoxLayout *lay = new QHBoxLayout(); //存放三个按钮
 
     lay->addStretch();
-    lay->setSpacing(5);
+    lay->setSpacing(3); //按钮比ui大2pix
     lay->addWidget(m_btnclean);
     lay->addWidget(m_btnplus);
     lay->addWidget(m_btnminus);

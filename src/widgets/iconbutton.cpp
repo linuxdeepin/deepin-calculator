@@ -25,7 +25,7 @@
 #include <QToolTip>
 
 const QSize HISTORY_WIDGET_CLEARBUTTONSIZE = QSize(36, 36); //历史记录区垃圾桶大小
-const QSize STANDARD_ICONBTNSIZE = QSize(76, 56); //标准模式等于按钮大小
+const QSize STANDARD_ICONBTNSIZE = QSize(78, 58); //标准模式等于按钮大小，为画边框比ui大2pix
 const qreal BLURRADIUS = 12; //阴影模糊半径
 const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
 const qreal ROUND_YRADIUS = 8; //按钮圆角y轴半径
@@ -216,8 +216,8 @@ void IconButton::paintEvent(QPaintEvent *)
             setFixedSize(STANDARD_ICONBTNSIZE);
 //        }
         QRectF frameRect = this->rect();
-        QRectF rect(frameRect.left(), frameRect.top(), frameRect.width(), frameRect.height());
-        QRectF hover(frameRect.left(), frameRect.top(), frameRect.width(), frameRect.height());
+        QRectF rect(frameRect.left() + 1, frameRect.top() + 1, frameRect.width() - 2, frameRect.height() - 2);
+        QRectF hover(frameRect.left() + 1, frameRect.top() + 1, frameRect.width() - 2, frameRect.height() - 2);
 //        if (m_isHistorybtn)
 //            rect = hover = frameRect;
         painter.setRenderHint(QPainter::Antialiasing, true);

@@ -38,9 +38,9 @@ MemoryKeypad::MemoryKeypad(QWidget *parent)
       m_layout(new QGridLayout(this)),
       m_mapper(new QSignalMapper(this))
 {
-    this->setFixedHeight(30);
+    this->setFixedHeight(35);
     m_layout->setMargin(0);
-    m_layout->setSpacing(4);
+    m_layout->setSpacing(2);  //按钮比ui大2pix,此处比ui小2pix
     m_layout->setContentsMargins(0, 0, 0, 0);
 
     initButtons();
@@ -86,7 +86,7 @@ void MemoryKeypad::initButtons()
         button->setFont(font);
 
         m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
-                            Qt::AlignHCenter | Qt::AlignBottom);
+                            Qt::AlignTop);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 

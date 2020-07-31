@@ -62,11 +62,11 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
     pl1.setColor(DPalette::Highlight, Qt::transparent);
     pl1.setColor(DPalette::HighlightedText, Qt::blue);
 
-    DPalette pl = this->palette();
-    pl.setColor(DPalette::Light, QColor(0, 0, 0, 0));
-    pl.setColor(DPalette::Dark, QColor(0, 0, 0, 0));
-    pl.setColor(DPalette::Base, QColor(0, 0, 0, 0));
-    this->setPalette(pl);
+//    DPalette pl = this->palette();
+//    pl.setColor(DPalette::Light, QColor(0, 0, 0, 0));
+//    pl.setColor(DPalette::Dark, QColor(0, 0, 0, 0));
+//    pl.setColor(DPalette::Base, QColor(0, 0, 0, 0));
+//    this->setPalette(pl);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
 //    layout->addWidget(m_listView);

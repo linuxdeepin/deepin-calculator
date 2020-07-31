@@ -28,7 +28,7 @@
 
 #include "dthememanager.h"
 
-const QSize MEMORYBUTTON_SIZE = QSize(50, 30);
+const QSize MEMORYBUTTON_SIZE = QSize(52, 32); //标准模式大小，为画边框比ui大2pix
 const qreal BLURRADIUS = 12; //阴影模糊半径
 const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
 const qreal ROUND_YRADIUS = 8; //按钮圆角y轴半径
@@ -202,8 +202,8 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         m_isgray = false;
     }
     QRectF rect = this->rect();
-    QRectF normal(rect.left(), rect.top(), rect.width(), rect.height());
-    QRectF hover(rect.left(), rect.top(), rect.width(), rect.height());
+    QRectF normal(rect.left() + 1, rect.top() + 1, rect.width() - 2, rect.height() - 2);
+    QRectF hover(rect.left() + 1, rect.top() + 1, rect.width() - 2, rect.height() - 2);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true); //反锯齿
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true); //光滑的象素映射变换算法

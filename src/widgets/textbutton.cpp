@@ -27,7 +27,7 @@
 
 #include "dthememanager.h"
 
-const QSize STANDARD_TEXTBTNSIZE = QSize(76, 56); //标准模式按钮大小
+const QSize STANDARD_TEXTBTNSIZE = QSize(78, 58); //标准模式按钮大小，为画边框比ui大2pix
 const qreal BLURRADIUS = 12; //阴影模糊半径
 const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
 const qreal ROUND_YRADIUS = 8; //按钮圆角y轴半径
@@ -253,8 +253,8 @@ void TextButton::paintEvent(QPaintEvent *e)
     if (mode == 0)
         setFixedSize(STANDARD_TEXTBTNSIZE);
     QRectF rect = this->rect();
-    QRectF normal(rect.left(), rect.top(), rect.width(), rect.height());
-    QRectF hover(rect.left(), rect.top(), rect.width(), rect.height());
+    QRectF normal(rect.left() + 1, rect.top() + 1, rect.width() - 2, rect.height() - 2);
+    QRectF hover(rect.left() + 1, rect.top() + 1, rect.width() - 2, rect.height() - 2);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true); //反锯齿
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true); //光滑的象素映射变换算法

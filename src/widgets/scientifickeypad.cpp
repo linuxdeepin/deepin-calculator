@@ -28,10 +28,11 @@
 
 #include "dthememanager.h"
 
-#define VPADDING 100 //预留垂直空隙
-#define HPADDING 24 //预留水平空隙
-#define BUTTONHEIGHT 44 //科学计算器按钮高度
-#define KEYPADHEIGHT 398//整体键盘的高度
+//const int VPADDING = 100; //预留垂直空隙
+const int HPADDING = 24; //预留水平空隙
+const int BUTTONHEIGHT = 44; //科学计算器按钮高度
+const int KEYPADHEIGHT = 398; //整体键盘的高度
+const int FRAMEWIDTH = 2;  //按钮边框2pix
 
 const ScientificKeyPad::KeyDescription ScientificKeyPad::keyDescriptions[] = {
     {"F-E", Key_FE, 1, 0, 1, 1},   {"MC", Key_MC, 1, 1, 1, 1},   {"MR", Key_MR, 1, 2, 1, 1},
@@ -141,7 +142,7 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     initButtons();
     initUI();
     m_gridlayout1->setMargin(0);
-    m_gridlayout1->setSpacing(5);
+    m_gridlayout1->setSpacing(3); //按钮比ui大2pix,此处小2pix
     m_gridlayout1->setContentsMargins(0, 0, 0, 0);
     this->setLayout(m_gridlayout1);
 
@@ -295,7 +296,7 @@ void ScientificKeyPad::initUI()
             Q_UNUSED(height);
             int hiswidth; //历史记录宽度
             hishide == false ? hiswidth = 360 : hiswidth = 0;
-            i.value().first->setFixedSize((width - HPADDING - hiswidth - 25) / 6, BUTTONHEIGHT);
+            i.value().first->setFixedSize((width - HPADDING - hiswidth - 25) / 6 + FRAMEWIDTH, BUTTONHEIGHT + FRAMEWIDTH);
         });
         if (i.key() == Key_left) {
             m_leftBracket->setParent(i.value().first);
@@ -343,7 +344,7 @@ void ScientificKeyPad::initUI()
             Q_UNUSED(height);
             int hiswidth; //历史记录宽度
             hishide == false ? hiswidth = 360 : hiswidth = 0;;
-            i1.value().first->setFixedSize((width - HPADDING - hiswidth - 25) / 6, BUTTONHEIGHT);
+            i1.value().first->setFixedSize((width - HPADDING - hiswidth - 25) / 6 + FRAMEWIDTH, BUTTONHEIGHT + FRAMEWIDTH);
         });
     }
 
@@ -381,7 +382,7 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
         Q_UNUSED(height);
         int hiswidth; //历史记录宽度
         hishide == false ? hiswidth = 360 : hiswidth = 0;
-        widget->setFixedSize((width - HPADDING - hiswidth - 25) / 6, BUTTONHEIGHT + 4);
+        widget->setFixedSize((width - HPADDING - hiswidth - 25) / 6 + FRAMEWIDTH, BUTTONHEIGHT + 4 + FRAMEWIDTH);
     });
 }
 

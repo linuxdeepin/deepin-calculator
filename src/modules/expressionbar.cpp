@@ -58,11 +58,11 @@ ExpressionBar::ExpressionBar(QWidget *parent)
 
     m_listView->setModel(m_listModel);
     m_listView->setItemDelegate(m_listDelegate);
-    DPalette pl = this->palette();
-    pl.setColor(DPalette::Light, QColor(0, 0, 0, 0));
-    pl.setColor(DPalette::Dark, QColor(0, 0, 0, 0));
-    pl.setColor(DPalette::Base, QColor(0, 0, 0, 0));
-    this->setPalette(pl);
+//    DPalette pl = this->palette();
+//    pl.setColor(DPalette::Light, QColor(0, 0, 0, 0));
+//    pl.setColor(DPalette::Dark, QColor(0, 0, 0, 0));
+//    pl.setColor(DPalette::Base, QColor(0, 0, 0, 0));
+//    this->setPalette(pl);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(m_listView);

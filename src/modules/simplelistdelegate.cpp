@@ -238,7 +238,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                 Qt::AlignVCenter | Qt::AlignRight, resultStr);
 
             QString linkNum, exp;
-            m_simpleListDelegate->cutApart(expStr, linkNum, exp);
+            m_simpleListDelegate->cutApart(expStr, linkNum, exp); //剪切出可能被联动项
             exp = exp + " ＝ ";
 
             // draw expression text;
@@ -250,7 +250,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
             painter->setPen(QColor(fontColor));
             for (int i = 0; i < m_linkedIten.size(); ++i) {
                 if (m_linkedIten[i] == index.row())
-                    painter->setPen(QColor(linkColor));
+                    painter->setPen(QColor(linkColor)); //判断第一个数是否是被联动项,如果是，设置字体颜色为高亮
             }
 
             int expWidth = painter->fontMetrics().width(exp);
@@ -399,6 +399,12 @@ bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
     return true;
 }
 
+/**
+ * @brief 将等于号左侧表达式中被联动项与剩余部分分开
+ * @param text 表达式
+ * @param linkNum 第一个数字
+ * @param expStr 剩余项
+ */
 void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString &expStr)
 {
     QString exp = text;
