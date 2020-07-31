@@ -70,7 +70,7 @@ private:
 
     BasicModule *m_basicModule;
     scientificModule *m_scientificModule;
-    QSize m_lastscisize = QSize(); //切换回标准时模式时科学模式的size
+//    QSize m_lastscisize = QSize(); //切换回标准时模式时科学模式的size
     bool m_isinit = true;//初始化
     int m_firstInitMode = 0;//初始化的界面，0-标准 1-科学
     bool m_isStandInit = false; //标准是否初始化

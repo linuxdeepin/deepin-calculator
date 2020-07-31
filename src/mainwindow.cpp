@@ -197,7 +197,7 @@ void MainWindow::switchToSimpleMode()
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
     }
     if (m_settings->getOption("mode") != 0 || m_isinit) {
-        m_lastscisize = m_isinit ? STANDARD_SIZE : this->size();
+//        m_lastscisize = m_isinit ? STANDARD_SIZE : this->size();
         m_settings->setOption("mode", 0);
         m_mainLayout->setCurrentIndex((m_firstInitMode == 0 ? 0 : 1));
         hideHistoryWidget(false);
@@ -219,10 +219,9 @@ void MainWindow::switchToScientificMode()
         m_mainLayout->setCurrentIndex((m_firstInitMode == 0 ? 1 : 0));
         m_scientificModule->checkLineEmpty();
         setMinimumSize(SCIENTIFIC_MIN_SIZE);
-//        setMaximumSize(QApplication::desktop()->screenGeometry().size());
         setMaximumSize(SCIENTIFIC_MAX_SIZE);
         hideHistoryWidget(false);
-        resize(m_lastscisize);
+        resize(SCIENTIFIC_MIN_SIZE);
     }
 }
 
