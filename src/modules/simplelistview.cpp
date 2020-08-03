@@ -118,7 +118,6 @@ void SimpleListView::mouseMoveEvent(QMouseEvent *e)
  */
 void SimpleListView::adjustScrollbarMargins()
 {
-    qDebug() << -verticalScrollBar()->sizeHint().width();
     if (!isVisible()) {
         return;
     }

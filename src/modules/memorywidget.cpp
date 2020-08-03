@@ -53,6 +53,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     , m_isempty(true)
     , m_memoryDelegate(new MemoryItemDelegate(this))
 {
+    m_label = new QLabel(this);
     m_calculatormode = mode;
     m_evaluator = Evaluator::instance();
     this->setContentsMargins(0, 0, 0, 0);
@@ -74,6 +75,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     m_listwidget->setSelectionRectVisible(false); //选择矩形框是否可见
     m_listwidget->setFocusPolicy(Qt::NoFocus);
     m_listwidget->setItemDelegate(m_memoryDelegate);
+    m_label->hide();
     memoryclean();
     lay->addStretch();
     layH->addStretch();
@@ -82,9 +84,6 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     layH->addSpacing(10);
     if (mode == 1)
         m_clearbutton->hide();
-//    connect(m_clearbutton, &DPushButton::clicked, this, [ = ]() {
-//        memoryclean();
-//    });
     connect(m_clearbutton, &DPushButton::clicked, this, &MemoryWidget::memorycleansignal);
     lay->addLayout(layH);
     lay->addSpacing(6);
@@ -100,6 +99,15 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
                 emit itemclick(p);
         }
     });
+
+    m_label->setText(tr("Nothing saved in memory"));
+    m_label->setAlignment(Qt::AlignCenter); //label字体居右，居上
+    m_label->setFixedSize(QSize(m_itemwidth, NOMEMORYHEIGHT));
+    m_label->setAttribute(Qt::WA_TranslucentBackground); //label窗体透明
+    QFont font;
+    font.setPixelSize(16);
+    m_label->setFont(font);
+    m_label->setAttribute(Qt::WA_TransparentForMouseEvents, true); //label鼠标穿透
 }
 
 /**
@@ -110,6 +118,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
  */
 void MemoryWidget::generateData(Quantity answer)
 {
+    m_label->hide();
     //500 memory number limit
     if (m_list.count() == MAXSIZE) {
         m_list.pop_back();
@@ -287,18 +296,17 @@ void MemoryWidget::memoryminus(Quantity answer)
  */
 void MemoryWidget::memoryclean()
 {
+    m_label->show();
     m_listwidget->clear();
     m_list.clear();
-    m_listwidget->addItem(tr("Nothing saved in memory"));
-    QFont m_clearbuttonfont;
-    m_clearbuttonfont.setPixelSize(16);
-    m_listwidget->item(0)->setFont(m_clearbuttonfont);
+    QListWidgetItem *item1 = new QListWidgetItem();
+
+    m_listwidget->insertItem(0, item1);
     if (m_calculatormode == 0)
-        m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth - 40, m_listwidget->frameRect().height())); //标准模式
+        m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, m_listwidget->frameRect().height())); //标准模式
     else
         m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, NOMEMORYHEIGHT)); //科学模式
     m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
-    m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter);
     emptymemoryfontcolor();
     m_isempty = true;
     m_clearbutton->hide();
@@ -307,15 +315,17 @@ void MemoryWidget::memoryclean()
 
 void MemoryWidget::emptymemoryfontcolor()
 {
+    DPalette pl = this->palette();
     if (m_themetype == 1) {
         QColor color(85, 85, 85);
         color.setAlphaF(0.4);
-        m_listwidget->item(0)->setTextColor(color);
+        pl.setColor(DPalette::WindowText, QColor(color));
     } else {
         QColor color(192, 198, 212);
         color.setAlphaF(0.4);
-        m_listwidget->item(0)->setTextColor(color);
+        pl.setColor(DPalette::WindowText, QColor(color));
     }
+    m_label->setPalette(pl);
 }
 
 /**
@@ -543,5 +553,4 @@ void MemoryWidget::setThemeType(int type)
 
 MemoryWidget::~MemoryWidget()
 {
-
 }

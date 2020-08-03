@@ -82,9 +82,6 @@ private:
     QGridLayout *m_layout;
     QSignalMapper *m_mapper;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
-    bool m_ispressed = false;
-    //DSuggestButton *m_equal;
-    //EqualButton *m_equal;
 };
 
 #endif

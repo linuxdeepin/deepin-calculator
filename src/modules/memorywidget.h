@@ -87,6 +87,7 @@ private:
     MemoryItemDelegate *m_memoryDelegate;
     int m_itemwidth = 0;
     int m_precision = -1;//计算精度
+    QLabel *m_label;//内存为空item
 
 private:
     QString formatExpression(const QString &text);
