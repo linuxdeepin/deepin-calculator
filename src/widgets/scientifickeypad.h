@@ -69,6 +69,8 @@ public:
     ScientificKeyPad(QWidget *parent = nullptr);
     ~ScientificKeyPad();
 
+    void mouseMoveEvent(QMouseEvent *e);
+
     DPushButton *button(Buttons key);
     void animate(Buttons key);
 

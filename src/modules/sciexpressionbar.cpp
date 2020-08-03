@@ -86,6 +86,11 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
 
 SciExpressionBar::~SciExpressionBar() {}
 
+void SciExpressionBar::mouseMoveEvent(QMouseEvent *e)
+{
+    Q_UNUSED(e);
+}
+
 QPair<bool, QString> SciExpressionBar::getexpression()
 {
     m_pair.second = m_expression;

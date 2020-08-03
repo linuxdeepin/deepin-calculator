@@ -105,6 +105,11 @@ BasicKeypad::~BasicKeypad()
 {
 }
 
+void BasicKeypad::mouseMoveEvent(QMouseEvent *e)
+{
+    Q_UNUSED(e);
+}
+
 /**
  * @brief 根据枚举值返回相应button
  * @param key 按钮名

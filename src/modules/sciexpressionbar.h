@@ -50,6 +50,8 @@ public:
     SciExpressionBar(QWidget *parent = nullptr);
     ~SciExpressionBar();
 
+    void mouseMoveEvent(QMouseEvent *e);
+
     QPair<bool, QString> getexpression();
     Quantity getanswer();
 

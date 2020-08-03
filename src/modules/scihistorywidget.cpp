@@ -198,6 +198,11 @@ void SciHistoryWidget::memoryFunctions(SciHistoryWidget::memOperate operate, Qua
     }
 }
 
+void SciHistoryWidget::mouseMoveEvent(QMouseEvent *e)
+{
+    Q_UNUSED(e);
+}
+
 /**
  * @brief 根据主题变换更换垃圾桶切图
  */

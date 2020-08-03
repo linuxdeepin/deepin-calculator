@@ -76,6 +76,11 @@ ExpressionBar::ExpressionBar(QWidget *parent)
 
 ExpressionBar::~ExpressionBar() {}
 
+void ExpressionBar::mouseMoveEvent(QMouseEvent *e)
+{
+    Q_UNUSED(e);
+}
+
 /**
  * @brief ExpressionBar::enterNumberEvent
  * 输入0-9的数字

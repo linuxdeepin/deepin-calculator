@@ -52,6 +52,8 @@ public:
     MemoryKeypad(QWidget *parent = nullptr);
     ~MemoryKeypad();
 
+    void mouseMoveEvent(QMouseEvent *e);
+
     DPushButton *button(Buttons key);
     void animate(Buttons key);
 

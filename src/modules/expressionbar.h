@@ -68,6 +68,8 @@ public:
     ExpressionBar(QWidget *parent = nullptr);
     ~ExpressionBar();
 
+    void mouseMoveEvent(QMouseEvent *e);
+
 signals:
     void keyPress(QKeyEvent *);
     void clearStateChanged(bool);

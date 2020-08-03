@@ -65,6 +65,7 @@ public:
     void focusOnButtonbox();
     MemoryWidget *getMemoryWidget();
     void memoryFunctions(memOperate operate = generateData, Quantity answer = Quantity(), int row = -1);
+    void mouseMoveEvent(QMouseEvent *e);
 
     SimpleListView *m_listView;
     SimpleListDelegate *m_listDelegate;
