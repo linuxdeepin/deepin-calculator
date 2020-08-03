@@ -616,7 +616,7 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
 
     if (newPos > m_ansStartPos && newPos < ansEnd) {
         m_currentInAns = true; //当前光标在ans开始后结束前
-    } else if (((selectStart >= m_ansStartPos && selectStart < ansEnd)) ||
+    } else if ((selectStart >= m_ansStartPos && selectStart < ansEnd && m_selected.selected.length() > 0) ||
                (selectEnd > m_ansStartPos && selectEnd <= ansEnd) ||
                (selectStart < m_ansStartPos && selectEnd > ansEnd)) { //选中->输入->selection为空->cursprchanged导致此处不会进入;删除hasSelectedText();
         m_currentInAns = true; //选中区与ans有交集
