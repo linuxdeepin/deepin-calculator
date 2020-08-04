@@ -278,6 +278,7 @@ void ScientificKeyPad::initButtons()
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
+        connect(static_cast<TextButton *>(pagebutton), &TextButton::focus, this, &ScientificKeyPad::getFocus); //获取上下左右键
         connect(static_cast<TextButton *>(button), &TextButton::focus, this, &ScientificKeyPad::getFocus); //获取上下左右键
         connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
@@ -521,29 +522,46 @@ void ScientificKeyPad::bracketsNum(int direction, QString num)
 void ScientificKeyPad::getFocus(int direction)
 {
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+    bool ihasfocus = false; //i是否有focus按钮
+    int number = -1; //记录focus的Buttons
     while (i.hasNext()) {
         i.next();
         if (i.value().first->hasFocus()) {
+            ihasfocus = true;
+            number = i.key();
             break; //获取焦点按钮
         }
     }
+    if (ihasfocus == false) {
+        QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription1 *>> i1(m_keys1);
+        while (i1.hasNext()) {
+            i1.next();
+            if (i1.value().first->hasFocus()) {
+                ihasfocus = true;
+                number = i1.key();
+                break; //获取焦点按钮
+            }
+        }
+    }
+    if (number == -1)
+        return;
     if (m_arcsinwidget->currentIndex() == 0) {
         switch (direction) {
         case 0:
-            if ((i.key() - 26) / 6 > 0)
-                button(static_cast<Buttons>(i.key() - 6))->setFocus(); //根据上下左右信号重置焦点
+            if ((number - 26) / 6 > 0)
+                button(static_cast<Buttons>(number - 6))->setFocus(); //根据上下左右信号重置焦点
             break;
         case 1:
-            if ((i.key() - 26) / 6 < 7)
-                button(static_cast<Buttons>(i.key() + 6))->setFocus();
+            if ((number - 26) / 6 < 7)
+                button(static_cast<Buttons>(number + 6))->setFocus();
             break;
         case 2:
-            if ((i.key() - 26) % 6 > 0)
-                button(static_cast<Buttons>(i.key() - 1))->setFocus();
+            if ((number - 26) % 6 > 0)
+                button(static_cast<Buttons>(number - 1))->setFocus();
             break;
         case 3:
-            if ((i.key() - 26) % 6 < 5)
-                button(static_cast<Buttons>(i.key() + 1))->setFocus();
+            if ((number - 26) % 6 < 5)
+                button(static_cast<Buttons>(number + 1))->setFocus();
             break;
         default:
             break;
@@ -551,52 +569,52 @@ void ScientificKeyPad::getFocus(int direction)
     } else {
         switch (direction) {
         case 0:
-            if (i.key() == Key_arcsin) //focus在arcsin
+            if (number == Key_arcsin) //focus在arcsin
                 button(Key_deg)->setFocus();
-            else if (i.key() == Key_sqrt2)
+            else if (number == Key_sqrt2)
                 button(Key_page)->setFocus();
-            else if (i.key() == Key_Modulus)
+            else if (number == Key_Modulus)
                 button(Key_arccot)->setFocus();
-            else if (i.key() >= 74 && i.key() <= 83) //focus在剩余第二页界面
-                button(static_cast<Buttons>(i.key() - 1))->setFocus();
-            else if ((i.key() - 26) / 6 > 0)
-                button(static_cast<Buttons>(i.key() - 6))->setFocus(); //根据上下左右信号重置焦点
+            else if (number >= 74 && number <= 83) //focus在剩余第二页界面
+                button(static_cast<Buttons>(number - 1))->setFocus();
+            else if ((number - 26) / 6 > 0)
+                button(static_cast<Buttons>(number - 6))->setFocus(); //根据上下左右信号重置焦点
             break;
         case 1:
-            if (i.key() == Key_deg) //focus在deg
+            if (number == Key_deg) //focus在deg
                 button(Key_arcsin)->setFocus();
-            else if (i.key() == Key_page)
+            else if (number == Key_page)
                 button(Key_sqrt2)->setFocus();
-            else if (i.key() == Key_arccot)
+            else if (number == Key_arccot)
                 button(Key_Modulus)->setFocus();
-            else if (i.key() >= 74 && i.key() <= 83) //focus在剩余第二页界面
-                button(static_cast<Buttons>(i.key() + 1))->setFocus();
-            else if ((i.key() - 26) / 6 < 7)
-                button(static_cast<Buttons>(i.key() + 6))->setFocus();
+            else if (number >= 74 && number < 83) //focus在剩余第二页界面
+                button(static_cast<Buttons>(number + 1))->setFocus();
+            else if ((number - 26) / 6 < 7)
+                button(static_cast<Buttons>(number + 6))->setFocus();
             break;
         case 2:
-            if (i.key() == Key_logyx) //focus在logyx
+            if (number == Key_logyx) //focus在logyx
                 button(Key_Modulus)->setFocus();
-            else if (i.key() == Key_ex)
+            else if (number == Key_ex)
                 button(Key_Rand)->setFocus();
-            else if (i.key() >= 78 && i.key() <= 83) //二行以下第二列
-                button(static_cast<Buttons>(i.key() - 4))->setFocus();
-            else if (i.key() < 74 && (i.key() - 26) / 6 > 1 && (i.key() - 26) % 6 == 2) //二行以下第三列
-                button(static_cast<Buttons>(i.key() + 13 + 5 * (7 - (i.key() - 26) / 6)))->setFocus();
-            else if (i.key() < 74 && (i.key() - 26) % 6 > 0)
-                button(static_cast<Buttons>(i.key() - 1))->setFocus();
+            else if (number >= 78 && number <= 83) //二行以下第二列
+                button(static_cast<Buttons>(number - 4))->setFocus();
+            else if (number < 74 && (number - 26) / 6 > 1 && (number - 26) % 6 == 2) //二行以下第三列
+                button(static_cast<Buttons>(number + 13 + 5 * (7 - (number - 26) / 6)))->setFocus();
+            else if (number < 74 && (number - 26) % 6 > 0)
+                button(static_cast<Buttons>(number - 1))->setFocus();
             break;
         case 3:
-            if (i.key() == Key_Modulus) //focus在logyx
+            if (number == Key_Modulus) //focus在logyx
                 button(Key_logyx)->setFocus();
-            else if (i.key() == Key_Rand)
+            else if (number == Key_Rand)
                 button(Key_ex)->setFocus();
-            else if (i.key() >= 74 && i.key() <= 77) //二行以下第一列
-                button(static_cast<Buttons>(i.key() + 4))->setFocus();
-            else if (i.key() >= 78 && i.key() <= 83) //二行以下第二列
-                button(static_cast<Buttons>(i.key() - 13 - 5 * (7 - (i.key() - 26) / 6)))->setFocus();
-            else if (i.key() < 74 && (i.key() - 26) % 6 < 5)
-                button(static_cast<Buttons>(i.key() + 1))->setFocus();
+            else if (number >= 74 && number <= 77) //二行以下第一列
+                button(static_cast<Buttons>(number + 4))->setFocus();
+            else if (number >= 78 && number <= 83) //二行以下第二列
+                button(static_cast<Buttons>(number - 13 - 5 * (83 - number)))->setFocus();
+            else if (number < 74 && (number - 26) % 6 < 5)
+                button(static_cast<Buttons>(number + 1))->setFocus();
             break;
         default:
             break;

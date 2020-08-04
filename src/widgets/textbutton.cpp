@@ -321,7 +321,7 @@ void TextButton::paintEvent(QPaintEvent *e)
         pen.setColor(text);
         painter.setPen(pen);
         painter.setFont(m_font);
-        painter.drawText(textRect, this->text());
+        paintspecialbtn(painter, rect, textRect);
         m_effect->setColor(focusShadow);
         this->setGraphicsEffect(m_effect);
 //        }
@@ -385,6 +385,12 @@ void TextButton::keyPressEvent(QKeyEvent *e)
     }
 }
 
+/**
+ * @brief 绘制有上标的按钮
+ * @param painter
+ * @param rect 按钮rect
+ * @param textRect 字体rect
+ */
 void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect)
 {
     painter.save();
