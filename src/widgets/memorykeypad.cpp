@@ -95,10 +95,38 @@ void MemoryKeypad::initButtons()
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
+        connect(static_cast<TextButton *>(button), &TextButton::focus, this, &MemoryKeypad::getFocus); //获取上下左右键
         connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
         connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &MemoryKeypad::moveLeft);
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &MemoryKeypad::moveRight);
         m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
+    }
+}
+
+/**
+ * @brief 获取button上下左右键信号setfocus
+ * @param direction 0-上　1-下　2-左　3-右
+ */
+void MemoryKeypad::getFocus(int direction)
+{
+    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+    while (i.hasNext()) {
+        i.next();
+        if (i.value().first->hasFocus()) {
+            break; //获取焦点按钮
+        }
+    }
+    switch (direction) {
+    case 2:
+        if ((i.key() - 20) % 6 > 0)
+            button(static_cast<Buttons>(i.key() - 1))->setFocus();
+        break;
+    case 3:
+        if ((i.key() - 20) % 6 < 5)
+            button(static_cast<Buttons>(i.key() + 1))->setFocus();
+        break;
+    default:
+        break;
     }
 }

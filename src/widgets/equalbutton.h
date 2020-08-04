@@ -45,6 +45,7 @@ public:
 signals:
     void moveLeft();
     void moveRight();
+    void focus(int direction); //direction 0-上　1-下　2-左　3-右
 
 public:
     void mousePressEvent(QMouseEvent *);
@@ -52,8 +53,8 @@ public:
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
     void paintEvent(QPaintEvent *e);
-protected:
     void keyPressEvent(QKeyEvent *e);
+
 private:
     QGraphicsDropShadowEffect *m_effect;
     DSettings *m_settings;

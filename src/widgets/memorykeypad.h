@@ -67,6 +67,7 @@ public:
     } keyDescriptions[];
 public slots:
     void initButtons();
+    void getFocus(int);
 signals:
     void buttonPressed(int);
     void equalPressed();

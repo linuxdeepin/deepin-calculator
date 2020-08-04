@@ -309,7 +309,7 @@ void IconButton::paintEvent(QPaintEvent *)
 //                }
 //            }
 //        } else {
-//            if (hasFocus()) {
+        if (hasFocus()) {
 //                if (m_isPress) {
 //                    painter.setBrush(QBrush(pressBrush));
 //                    QPen pen;
@@ -317,44 +317,44 @@ void IconButton::paintEvent(QPaintEvent *)
 //                    painter.setPen(pen);
 //                    painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
 //                } else {
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(QBrush(base));
-//                    painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
-//                    QPen pen;
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(base));
+            painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
+            QPen pen;
 //                    if (m_isacting) {
 //                        painter.setPen(Qt::NoPen);
 //                    } else {
-//                        pen.setColor(focus);
-//                        pen.setWidth(2);
-//                        painter.setPen(pen);
-//                    }
-//                    painter.setBrush(Qt::NoBrush);
-//                    painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
-//                    m_effect->setColor(focusShadow);
-//                    this->setGraphicsEffect(m_effect);
-//                }
-//            } else {
-        if (m_isHover) { //hover状态设置
-            QPen pen;
-            pen.setColor(hoverFrame);
-            pen.setWidth(1);
+            pen.setColor(focus);
+            pen.setWidth(2);
             painter.setPen(pen);
-            painter.setBrush(QBrush(hoverbrush));
-            painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
-            m_effect->setColor(hoverShadow);
+//                    }
+            painter.setBrush(Qt::NoBrush);
+            painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
+            m_effect->setColor(focusShadow);
             this->setGraphicsEffect(m_effect);
-        } else if (m_isPress) { //press状态设置
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(QBrush(pressBrush));
-            painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
-        } else { //normal状态设置
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(QBrush(base));
-            painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
-            m_effect->setColor(QColor(0, 0, 0, 0));
-            this->setGraphicsEffect(m_effect);
+//                }
+        } else {
+            if (m_isHover) { //hover状态设置
+                QPen pen;
+                pen.setColor(hoverFrame);
+                pen.setWidth(1);
+                painter.setPen(pen);
+                painter.setBrush(QBrush(hoverbrush));
+                painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
+                m_effect->setColor(hoverShadow);
+                this->setGraphicsEffect(m_effect);
+            } else if (m_isPress) { //press状态设置
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(QBrush(pressBrush));
+                painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
+            } else { //normal状态设置
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(QBrush(base));
+                painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
+                m_effect->setColor(QColor(0, 0, 0, 0));
+                this->setGraphicsEffect(m_effect);
+            }
         }
-//            }
 //        }
     }
     drawCenterPixMap(painter);

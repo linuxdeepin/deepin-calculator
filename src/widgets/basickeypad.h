@@ -69,6 +69,7 @@ public:
 public slots:
     void initButtons();
     void buttonThemeChanged(int type);
+    void getFocus(int);
 signals:
     void buttonPressed(int);
     void equalPressed();

@@ -94,6 +94,9 @@ BasicKeypad::BasicKeypad(QWidget *parent)
     m_layout->setMargin(0);
     m_layout->setSpacing(KEYPAD_SPACING);
     m_layout->setContentsMargins(0, 0, 0, 0);
+    setFocusPolicy(Qt::StrongFocus);
+
+    installEventFilter(this);
 
     initButtons();
     initUI();
@@ -150,11 +153,13 @@ void BasicKeypad::initButtons()
 
         if (desc->text.isEmpty()) {
             button = createSpecialKeyButton(desc->button);
+            button->setParent(this);
         } else {
-            if (desc->text == "=")
-                button = new EqualButton(desc->text);
-            else {
-                button = new TextButton(desc->text);
+            if (desc->text == "=") {
+                button = new EqualButton(desc->text, this);
+                connect(static_cast<EqualButton *>(button), &EqualButton::focus, this, &BasicKeypad::getFocus); //获取上下左右键
+            } else {
+                button = new TextButton(desc->text, false, this);
             }
         }
 
@@ -163,6 +168,7 @@ void BasicKeypad::initButtons()
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
+        connect(static_cast<TextButton *>(button), &TextButton::focus, this, &BasicKeypad::getFocus); //获取上下左右键
         connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
         connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &BasicKeypad::moveLeft);
@@ -202,4 +208,39 @@ void BasicKeypad::buttonThemeChanged(int type)
     btn->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
     btn = static_cast<IconButton *>(button(Key_Backspace));
     btn->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg", 1);
+}
+
+/**
+ * @brief 获取button上下左右键信号setfocus
+ * @param direction 0-上　1-下　2-左　3-右
+ */
+void BasicKeypad::getFocus(int direction)
+{
+    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+    while (i.hasNext()) {
+        i.next();
+        if (i.value().first->hasFocus()) {
+            break; //获取焦点按钮
+        }
+    }
+    switch (direction) {
+    case 0:
+        if (i.key() / 4 > 0)
+            button(static_cast<Buttons>(i.key() - 4))->setFocus(); //根据上下左右信号重置焦点
+        break;
+    case 1:
+        if (i.key() / 4 < 4)
+            button(static_cast<Buttons>(i.key() + 4))->setFocus();
+        break;
+    case 2:
+        if (i.key() % 4 > 0)
+            button(static_cast<Buttons>(i.key() - 1))->setFocus();
+        break;
+    case 3:
+        if (i.key() % 4 < 3)
+            button(static_cast<Buttons>(i.key() + 1))->setFocus();
+        break;
+    default:
+        break;
+    }
 }

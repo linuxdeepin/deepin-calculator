@@ -99,6 +99,7 @@ public slots:
     void turnPage(int key);
     void getdeg(int deg);
     void bracketsNum(int direction, QString num); //direction 0-左括号 1-右括号
+    void getFocus(int);
 signals:
     void buttonPressed(int);
     void equalPressed();

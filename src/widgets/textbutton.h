@@ -46,15 +46,16 @@ signals:
     void moveRight();
     void updateInterface();
     void mouseRelease();
+    void focus(int direction); //direction 0-上　1-下　2-左　3-右
 
 public:
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
-    void keyPressEvent(QKeyEvent *);
     void paintEvent(QPaintEvent *e);
     void focusOutEvent(QFocusEvent *);
+    void keyPressEvent(QKeyEvent *e);
 
 private:
     void paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect);
