@@ -318,8 +318,8 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         } else {
             // draw result text.
             painter->drawText(
-                QRectF(rect.x() + PADDING, rect.y(), rect.width() - PADDING * 2, expHeight),
-                exp, textoption);
+                QRectF(rect.x() + PADDING, rect.y() + 10, rect.width() - PADDING * 2, expHeight),
+                exp, textoption); //exp与上方空隙5pix
             painter->setFont(fontresult);
             int resultHeight;
             int resultline = (painter->fontMetrics().width(resultStr) % (rect.width() - PADDING * 2 - 1)) ?
@@ -332,8 +332,8 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                 painter->setPen(QColor(resultColor));
             }
             painter->drawText(
-                QRectF(rect.x() + PADDING, rect.y() + expHeight, rect.width() - PADDING * 2, resultHeight),
-                resultStr, textoption);
+                QRectF(rect.x() + PADDING, rect.y() + expHeight + 12, rect.width() - PADDING * 2, resultHeight),
+                resultStr, textoption); //result与exp空隙12pix
             if (option.state & QStyle::State_MouseOver && m_state == 0) {
                 painter->setBrush(normalbackground);
                 painter->setPen(Qt::NoPen);
@@ -381,7 +381,7 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
                          (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 1) + 1) :
                          (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 1)); //由于结果字体较大，暂以此避免
         resultHeight = fmresult.height() * resultline;
-        return QSize(360, expHeight + resultHeight + 20);
+        return QSize(360, expHeight + resultHeight + 25); //多出25pix空隙
     } else
         return QSize(-1, 33);
 //    QStyledItemDelegate::sizeHint(option, index);
