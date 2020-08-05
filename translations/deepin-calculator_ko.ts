@@ -1,193 +1,193 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="uk" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ko" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Помилка у виразі</translation>
+        <translation>표현식 오류</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>Спорожнити усю пам&apos;ять</translation>
+        <translation>모든 메모리 지우기</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation>Спорожнити журнал</translation>
+        <translation>기록 지우기</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>&amp;Undo</source>
-        <translation>&amp;Скасувати</translation>
+        <translation>되돌리기(&amp;U)</translation>
     </message>
     <message>
         <source>&amp;Redo</source>
-        <translation>&amp;Повторити</translation>
+        <translation>재실행(&amp;R)</translation>
     </message>
     <message>
         <source>Cu&amp;t</source>
-        <translation>Виріза&amp;ти</translation>
+        <translation>잘라내기(&amp;T)</translation>
     </message>
     <message>
         <source>&amp;Copy</source>
-        <translation>&amp;Копіювати</translation>
+        <translation>복사하기(&amp;C)</translation>
     </message>
     <message>
         <source>&amp;Paste</source>
-        <translation>&amp;Вставити</translation>
+        <translation>붙여넣기(&amp;P)</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Вилучити</translation>
+        <translation>삭제</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Позначити все</translation>
+        <translation>모두 선택</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>Калькулятор</translation>
+        <translation>계산기</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>«Калькулятор» є простим у користуванні комп&apos;ютерним калькулятором. Передбачено підтримку стандартного та наукового режимів.</translation>
+        <translation>계산기는 표준 및 공학용 모드를 지원하는 사용하기 쉬운 데스크탑 계산기입니다.</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>Стандартний</translation>
+        <translation>표준</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>Науковий</translation>
+        <translation>공학용</translation>
     </message>
     <message>
         <source>History</source>
-        <translation>Журнал</translation>
+        <translation>기록</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>Режим</translation>
+        <translation>모드</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Спорожнити запис пам&apos;яті</translation>
+        <translation>메모리 항목 지우기</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>Спорожнити усю пам&apos;ять</translation>
+        <translation>모든 메모리 지우기</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Відновлення з пам&apos;яті</translation>
+        <translation>메모리 재호출</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Додати до запису пам&apos;яті</translation>
+        <translation>메모리 항목에 추가</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Додати до пам&apos;яті</translation>
+        <translation>메모리 추가</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Відняти від запису пам&apos;яті</translation>
+        <translation>메모리 항목에서 빼기</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Відняти від пам&apos;яті</translation>
+        <translation>메모리 빼기</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Зберегти у пам&apos;яті</translation>
+        <translation>메모리 저장</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Запам&apos;ятати</translation>
+        <translation>메모리</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation>Копіювати</translation>
+        <translation>복사</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Спорожнити запис пам&apos;яті</translation>
+        <translation>메모리 항목 지우기</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Додати до запису пам&apos;яті</translation>
+        <translation>메모리 항목에 추가</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Відняти від запису пам&apos;яті</translation>
+        <translation>메모리 항목에서 빼기</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>У пам&apos;яті нічого не збережено</translation>
+        <translation>메모리에 저장된 것이 없습니다</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>Калькулятор</translation>
+        <translation>계산기</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Помилка у виразі</translation>
+        <translation>표현식 오류</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Журнал</translation>
+        <translation>기록</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Запам&apos;ятати</translation>
+        <translation>메모리</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>Помилка у виразі</translation>
+        <translation>표현식 오류</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>Немає журналу</translation>
+        <translation>기록 없음</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation>Копіювати</translation>
+        <translation>복사</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Вилучити</translation>
+        <translation>삭제</translation>
     </message>
 </context>
 </TS>

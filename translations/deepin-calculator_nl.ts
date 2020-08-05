@@ -1,193 +1,193 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="uk" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Помилка у виразі</translation>
+        <translation>Expressiefout</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>Спорожнити усю пам&apos;ять</translation>
+        <translation>Geschiedenis wissen</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation>Спорожнити журнал</translation>
+        <translation>Geschiedenis wissen</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>&amp;Undo</source>
-        <translation>&amp;Скасувати</translation>
+        <translation>&amp;Ongedaan maken</translation>
     </message>
     <message>
         <source>&amp;Redo</source>
-        <translation>&amp;Повторити</translation>
+        <translation>Opnieuw uitvoe&amp;ren</translation>
     </message>
     <message>
         <source>Cu&amp;t</source>
-        <translation>Виріза&amp;ти</translation>
+        <translation>&amp;Knippen</translation>
     </message>
     <message>
         <source>&amp;Copy</source>
-        <translation>&amp;Копіювати</translation>
+        <translation>&amp;Kopiëren</translation>
     </message>
     <message>
         <source>&amp;Paste</source>
-        <translation>&amp;Вставити</translation>
+        <translation>&amp;Plakken</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Вилучити</translation>
+        <translation>Wissen</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Позначити все</translation>
+        <translation>Alles selecteren</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>Калькулятор</translation>
+        <translation>Rekenmachine</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>«Калькулятор» є простим у користуванні комп&apos;ютерним калькулятором. Передбачено підтримку стандартного та наукового режимів.</translation>
+        <translation>Rekenmachine is een makkelijk te gebruiken rekenmachine met ondersteuning voor standaard- en wetenschappelijke functies.</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>Стандартний</translation>
+        <translation>Standaard</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>Науковий</translation>
+        <translation>Wetenschappelijk</translation>
     </message>
     <message>
         <source>History</source>
-        <translation>Журнал</translation>
+        <translation>Geschiedenis</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>Режим</translation>
+        <translation>Modus</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Спорожнити запис пам&apos;яті</translation>
+        <translation>Item wissen</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>Спорожнити усю пам&apos;ять</translation>
+        <translation>Geschiedenis wissen</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Відновлення з пам&apos;яті</translation>
+        <translation>Uit geschiedenis</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Додати до запису пам&apos;яті</translation>
+        <translation>Toevoegen aan geschiedenis</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Додати до пам&apos;яті</translation>
+        <translation>Geschiedenis toevoegen</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Відняти від запису пам&apos;яті</translation>
+        <translation>Ophalen uit geschiedenisitem</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Відняти від пам&apos;яті</translation>
+        <translation>Uit geschiedenis</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Зберегти у пам&apos;яті</translation>
+        <translation>Geschiedenis opslaan</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Запам&apos;ятати</translation>
+        <translation>Geschiedenis</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation>Копіювати</translation>
+        <translation>Kopiëren</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Спорожнити запис пам&apos;яті</translation>
+        <translation>Item wissen</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Додати до запису пам&apos;яті</translation>
+        <translation>Toevoegen aan geschiedenis</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Відняти від запису пам&apos;яті</translation>
+        <translation>Ophalen uit geschiedenisitem</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>У пам&apos;яті нічого не збережено</translation>
+        <translation>Niks opgeslagen in geschiedenis</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>Калькулятор</translation>
+        <translation>Rekenmachine</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Помилка у виразі</translation>
+        <translation>Expressiefout</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Журнал</translation>
+        <translation>Geschiedenis</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Запам&apos;ятати</translation>
+        <translation>Geschiedenis</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>Помилка у виразі</translation>
+        <translation>Expressiefout</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>Немає журналу</translation>
+        <translation>Geen geschiedenis</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation>Копіювати</translation>
+        <translation>Kopiëren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Вилучити</translation>
+        <translation>Wissen</translation>
     </message>
 </context>
 </TS>
