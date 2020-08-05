@@ -209,8 +209,8 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
 
             // 2020316修复添加符号后光标问题
             //添加符号后左侧数字不会多分隔符，只需考虑添加符号后输入框光标前的数字与添加前是否一致
-            if (exp.mid(0, curPos).remove(QRegExp("[＋－×÷,.%()e]")) ==
-                    m_inputEdit->text().mid(0, curPos).remove(QRegExp("[＋－×÷,.%()e]"))) {
+            if (exp.mid(0, curPos).remove(QRegExp("[＋－×÷,.%()E]")) ==
+                    m_inputEdit->text().mid(0, curPos).remove(QRegExp("[＋－×÷,.%()E]"))) {
                 QString sRegNum = "[＋－×÷]";
                 QRegExp rx;
                 rx.setPattern(sRegNum);
@@ -244,8 +244,8 @@ void ExpressionBar::enterPercentEventBak()
         m_inputEdit->setText("0");
         return;
     }
-    int epos = m_inputEdit->text().indexOf("e");
-    QString sRegNum = "[0-9,.e]";
+    int epos = m_inputEdit->text().indexOf("E");
+    QString sRegNum = "[0-9,.E]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curPos == 0 && hasselect == false) {
@@ -276,12 +276,12 @@ void ExpressionBar::enterPercentEventBak()
         QString newtext = m_inputEdit->text();
         int percentpos = m_inputEdit->text().indexOf('%');
         int operatorpos =
-            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
+            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.E]")), percentpos - 1);
         bool nooperator = false;
-        if (operatorpos > 0 && newtext.at(operatorpos - 1) == "e")
+        if (operatorpos > 0 && newtext.at(operatorpos - 1) == "E")
             operatorpos =
                 newtext.mid(0, operatorpos - 1)
-                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
+                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.E]")), percentpos - 1);
         if (operatorpos < 0) {
             operatorpos++;
             nooperator = true;
@@ -420,8 +420,8 @@ void ExpressionBar::enterPercentEventCommon()
         m_inputEdit->setText("0");
         return;
     }
-    int epos = m_inputEdit->text().indexOf("e");
-    QString sRegNum = "[0-9,.e]";
+    int epos = m_inputEdit->text().indexOf("E");
+    QString sRegNum = "[0-9,.E]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curPos == 0 && hasselect == false) {
@@ -479,7 +479,7 @@ void ExpressionBar::enterPercentEventCommon()
             if (m_evaluator->error().isEmpty())
                 break;
             lastOperatorPos = textToEval.right(textToEval.length() - (textToEval.front() == "-" ? 1 : 0))
-                              .indexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")));
+                              .indexOf(QRegularExpression(QStringLiteral("[^0-9,.E]")));
             evalStartPos = lastOperatorPos + 1;
         } while (evalStartPos < expPercentPos);
         if (evalStartPos < expPercentPos) {
@@ -501,12 +501,12 @@ void ExpressionBar::enterPercentEventCommon()
         //用整理后的百分号结果替换原表达式中百分号修饰的数字,截取需要替换的部分
         int percentpos = newText.indexOf('%');
         int operatorpos =
-            newText.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
+            newText.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.E]")), percentpos - 1);
         bool nooperator = false;
-        if (operatorpos > 0 && newText.at(operatorpos - 1) == "e")
+        if (operatorpos > 0 && newText.at(operatorpos - 1) == "E")
             operatorpos =
                 newText.mid(0, operatorpos - 1)
-                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.e]")), percentpos - 1);
+                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.E]")), percentpos - 1);
         if (operatorpos < 0) {
             operatorpos++;
             nooperator = true;
@@ -624,11 +624,11 @@ void ExpressionBar::enterBackspaceEvent()
                 selcurPos <= selection.curpos + selection.selected.size())
             selcurPos = selection.curpos;
         // 20200316选中部分光标置位问题修复
-        if (seloldtext.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()e]")).length() ==
-                m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()e]")).length())
+        if (seloldtext.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length() ==
+                m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length())
             m_inputEdit->setCursorPosition(selcurPos);
-        else if (seloldtext.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()e]")).length() >
-                 m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()e]")).length())
+        else if (seloldtext.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length() >
+                 m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length())
             m_inputEdit->setCursorPosition(selcurPos + 1);
         else
             m_inputEdit->setCursorPosition(selcurPos - 1);
@@ -765,7 +765,7 @@ void ExpressionBar::enterEqualEvent()
     QString newResult;
     // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
     // 20200407 超过16位小数未科学计数
-    if (m_evaluator->error().isEmpty() && (oldtext.indexOf(QRegExp("[＋－×÷.,%()e]")) != -1)) {
+    if (m_evaluator->error().isEmpty() && (oldtext.indexOf(QRegExp("[＋－×÷.,%()E]")) != -1)) {
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
             return;
         //edit 20200413 for bug--19653
@@ -869,7 +869,7 @@ void ExpressionBar::enterEqualEvent()
         //            m_inputEdit->clear();
     }
     // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
-    if (m_evaluator->error().isEmpty() && (oldtext.indexOf(QRegExp("[＋－×÷,.%()e]")) != -1))
+    if (m_evaluator->error().isEmpty() && (oldtext.indexOf(QRegExp("[＋－×÷,.%()E]")) != -1))
         m_hisRevision = -1;
     m_listView->scrollToBottom();
     m_isLinked = false;
@@ -898,7 +898,7 @@ void ExpressionBar::enterPercentEvent()
      * %做特殊处理--0%无效，故不显示
      */
     int diff = 0; //补数字后光标位移的距离
-    QString sRegNum = "[＋－×÷/(^!%e]";
+    QString sRegNum = "[＋－×÷/(^!%E]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curpos == 0 || rx.exactMatch(exp.at(curpos - 1))) {

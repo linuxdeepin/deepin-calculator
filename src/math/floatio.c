@@ -568,10 +568,10 @@ exp2str(
 
 static t_ioparams stdioparams[4] =
 {
-  {10, 10, '.', "0d", "eE(", "  )", "", DECPRECISION},
-  {16, 10, '.', "0x", "hH(", "  )", "sF", HEXPRECISION},
-  {2, 10, '.', "0b", "bB(", "  )", "s1", BINPRECISION},
-  {8, 10, '.', "0o", "oOC(", "   )", "s7", OCTPRECISION}
+  {10, 10, '.', "0d", "Ee(", "  )", "", DECPRECISION},  //edit 20200805 jingzhou for bug--41371,替换所有进制科学计数法标志的大小写
+  {16, 10, '.', "0x", "Hh(", "  )", "sF", HEXPRECISION},
+  {2, 10, '.', "0b", "Bb(", "  )", "s1", BINPRECISION},
+  {8, 10, '.', "0o", "OoC(", "   )", "s7", OCTPRECISION}
 };
 
 enum {idzero, idx10, idx16, idx2, idx8, idxcount};

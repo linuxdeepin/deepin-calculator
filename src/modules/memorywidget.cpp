@@ -469,7 +469,7 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
 {
     QString result = text;
     result.replace('-', "－").replace('+', "＋");
-    int index = result.indexOf("e");
+    int index = result.indexOf("E");
     m_line = 1;
     if (m_calculatormode == 0) {
         if (index > 0 && result.left(index).length() > 13) {

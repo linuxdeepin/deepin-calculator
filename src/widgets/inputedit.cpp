@@ -561,7 +561,7 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
         }
     }
     //edit 20200526 for bug-28491
-    int expPos = newText.indexOf("e");
+    int expPos = newText.indexOf("E");
     if (expPos > 0) {
         //e后非＋／－
         if (newText.length() > expPos + 1 && newText.at(expPos + 1) != QString::fromUtf8("－") && newText.at(expPos + 1) != QString::fromUtf8("＋")

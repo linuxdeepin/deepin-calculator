@@ -72,7 +72,7 @@ QString Utils::formatThousandsSeparators(const QString &str)
         int endPos = result.indexOf('.');
 
         if (endPos < 0) {
-            endPos = result.indexOf('e');
+            endPos = result.indexOf('E');
             if (endPos < 0)
                 endPos = result.length();
         }

@@ -134,7 +134,7 @@ void SciExpressionBar::enterNumberEvent(const QString &text)
      */
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
-    QString sRegNum1 = "[πℯ]";
+    QString sRegNum1 = "[πe]";
     QRegExp rx1;
     rx1.setPattern(sRegNum1);
     if (curpos > 0 && rx1.exactMatch(exp.at(curpos - 1))) {
@@ -198,8 +198,8 @@ void SciExpressionBar::enterSymbolEvent(const QString &text)
 
             // 2020316修复添加符号后光标问题
             //添加符号后左侧数字不会多分隔符，只需考虑添加符号后输入框光标前的数字与添加前是否一致
-            if (exp.mid(0, curPos).remove(QRegExp("[＋－×÷/,.%()e]")) ==
-                    m_inputEdit->text().mid(0, curPos).remove(QRegExp("[＋－×÷/,.%()e]"))) {
+            if (exp.mid(0, curPos).remove(QRegExp("[＋－×÷/,.%()E]")) ==
+                    m_inputEdit->text().mid(0, curPos).remove(QRegExp("[＋－×÷/,.%()E]"))) {
                 QString sRegNum = "[＋－×÷/]";
                 QRegExp rx;
                 rx.setPattern(sRegNum);
@@ -231,7 +231,7 @@ void SciExpressionBar::enterPercentEvent()
      * %做特殊处理--0%无效，故不显示
      */
     int diff = 0; //补数字后光标位移的距离
-    QString sRegNum = "[＋－×÷/(^!%e]";
+    QString sRegNum = "[＋－×÷/(^!%E]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curpos == 0 || rx.exactMatch(exp.at(curpos - 1))) {
@@ -352,11 +352,11 @@ void SciExpressionBar::enterBackspaceEvent()
         // 20200401 symbolFaultTolerance
         m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
         // 20200316选中部分光标置位问题修复
-        if ((seloldtext.mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()e]")).length()) ==
-                m_inputEdit->text().mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()e]")).length())
+        if ((seloldtext.mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()E]")).length()) ==
+                m_inputEdit->text().mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()E]")).length())
             m_inputEdit->setCursorPosition(removepos);
-        else if ((seloldtext.mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()e]")).length()) >
-                 m_inputEdit->text().mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()e]")).length())
+        else if ((seloldtext.mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()E]")).length()) >
+                 m_inputEdit->text().mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()E]")).length())
             m_inputEdit->setCursorPosition(removepos + 1);
         else
             m_inputEdit->setCursorPosition(removepos - 1);
@@ -496,7 +496,7 @@ void SciExpressionBar::enterEqualEvent()
     // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
     // 20200407 超过16位小数未科学计数
     qDebug() << "m_evaluator->error()" << m_evaluator->error();
-    if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegExp("[a-z＋－×÷/.,%()πℯ^!]")) != -1)) {
+    if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegExp("[a-z＋－×÷/.,%()πe^!]")) != -1)) {
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
             return;
         //edit 20200413 for bug--19653
@@ -699,7 +699,7 @@ void SciExpressionBar::enterPIEvent()
      * 当e和pi前面是数字类型的字符时，在前面补乘号防止直接出现表达式错误
      */
     int multi = 0;//是否需要补乘号
-    QString sRegNum1 = "[0-9,.πℯ]";
+    QString sRegNum1 = "[0-9,.πe]";
     QRegExp rx1;
     rx1.setPattern(sRegNum1);
     if (curpos > 0 && rx1.exactMatch(exp.at(curpos - 1))) {
@@ -739,14 +739,14 @@ void SciExpressionBar::enterEulerEvent()
      * 当e和pi前面是数字类型的字符时，在前面补乘号防止直接出现表达式错误
      */
     int multi = 0;//是否需要补乘号
-    QString sRegNum1 = "[0-9,.πℯ]";
+    QString sRegNum1 = "[0-9,.πe]";
     QRegExp rx1;
     rx1.setPattern(sRegNum1);
     if (curpos > 0 && rx1.exactMatch(exp.at(curpos - 1))) {
-        m_inputEdit->insert(QString::fromUtf8("×ℯ"));
+        m_inputEdit->insert(QString::fromUtf8("×e"));
         multi += 1;
     } else
-        m_inputEdit->insert(QString::fromUtf8("ℯ"));
+        m_inputEdit->insert(QString::fromUtf8("e"));
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -892,8 +892,8 @@ void SciExpressionBar::enterDerivativeEvent()
         m_inputEdit->setText("1/(");
         return;
     }
-    int epos = m_inputEdit->text().indexOf("e");
-    QString sRegNum = "[0-9,.πℯ]";
+    int epos = m_inputEdit->text().indexOf("E");
+    QString sRegNum = "[0-9,.πe]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curPos == 0 && hasselect == false) {
@@ -914,7 +914,7 @@ void SciExpressionBar::enterDerivativeEvent()
     }
     // start edit for task-13519
     //        QString sRegNum1 = "[^0-9,.×÷)]";
-    QString sRegNum1 = "[^0-9,.)πℯ]";
+    QString sRegNum1 = "[^0-9,.)πe]";
     QRegExp rx1;
     rx1.setPattern(sRegNum1);
     if (rx1.exactMatch(exp.at(curPos - 1)))
@@ -923,13 +923,13 @@ void SciExpressionBar::enterDerivativeEvent()
         QString newtext = m_inputEdit->text();
         int percentpos = m_inputEdit->cursorPosition();
         int operatorpos =
-            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπℯ]")), percentpos - 1);
+            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπE]")), percentpos - 1);
 
         bool nooperator = false;
-        if (operatorpos > 0 && newtext.at(operatorpos - 1) == "e")
+        if (operatorpos > 0 && newtext.at(operatorpos - 1) == "E")
             operatorpos =
                 newtext.mid(0, operatorpos - 1)
-                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπℯ]")), percentpos - 1);
+                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπE]")), percentpos - 1);
         if (operatorpos < 0) {
             operatorpos++;
             nooperator = true;
@@ -1042,7 +1042,7 @@ void SciExpressionBar::enterFactorialsEvent()
 void SciExpressionBar::enterExpEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
-        m_inputEdit->setText("0.e＋");
+        m_inputEdit->setText("0.E＋");
         return;
     }
 
@@ -1060,18 +1060,18 @@ void SciExpressionBar::enterExpEvent()
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curpos == 0) {
-        m_inputEdit->insert("0.e＋");
+        m_inputEdit->insert("0.E＋");
         diff = 1;
     } else if (rx.exactMatch(exp.at(curpos - 1))) {
         if (exp.at(curpos - 1) == "^") {
-            m_inputEdit->insert("(0.e＋");
+            m_inputEdit->insert("(0.E＋");
             diff = 2;
         } else {
-            m_inputEdit->insert("0.e＋");
+            m_inputEdit->insert("0.E＋");
             diff = 1;
         }
     } else
-        m_inputEdit->insert(".e＋");
+        m_inputEdit->insert(".E＋");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1289,7 +1289,7 @@ void SciExpressionBar::enter10xEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    QString sRegNum = "[0-9eℯπ,.]";
+    QString sRegNum = "[0-9eEπ,.]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curpos > 0 && rx.exactMatch(m_inputEdit->text().at(curpos - 1))) {
@@ -1302,7 +1302,7 @@ void SciExpressionBar::enter10xEvent()
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
 
-    rx.setPattern("[0-9eℯπ,)]");
+    rx.setPattern("[0-9eEπ,)]");
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
             if (rx.exactMatch(m_inputEdit->text().at(curpos - 1)) | rx.exactMatch(exp.at(curpos - 1)))
@@ -1342,8 +1342,8 @@ void SciExpressionBar::enterModulusEvent()
         m_inputEdit->setText("abs(");
         return;
     }
-    int epos = m_inputEdit->text().indexOf("e");
-    QString sRegNum = "[0-9,.e]";
+    int epos = m_inputEdit->text().indexOf("E");
+    QString sRegNum = "[0-9,.E]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curPos == 0 && hasselect == false) {
@@ -1358,7 +1358,7 @@ void SciExpressionBar::enterModulusEvent()
     }
     // start edit for task-13519
     //        QString sRegNum1 = "[^0-9,.×÷)]";
-    QString sRegNum1 = "[^0-9,.)πℯ]";
+    QString sRegNum1 = "[^0-9,.)πe]";
     QRegExp rx1;
     rx1.setPattern(sRegNum1);
     if (rx1.exactMatch(exp.at(curPos - 1)))
@@ -1367,13 +1367,13 @@ void SciExpressionBar::enterModulusEvent()
         QString newtext = m_inputEdit->text();
         int percentpos = m_inputEdit->cursorPosition();
         int operatorpos =
-            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπℯ]")), percentpos - 1);
+            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπE]")), percentpos - 1);
 
         bool nooperator = false;
-        if (operatorpos > 0 && newtext.at(operatorpos - 1) == "e")
+        if (operatorpos > 0 && newtext.at(operatorpos - 1) == "E")
             operatorpos =
                 newtext.mid(0, operatorpos - 1)
-                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπℯ]")), percentpos - 1);
+                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπE]")), percentpos - 1);
         if (operatorpos < 0) {
             operatorpos++;
             nooperator = true;
@@ -1729,7 +1729,7 @@ void SciExpressionBar::enter2xEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
-    QString sRegNum = "[0-9eℯπ,.]";
+    QString sRegNum = "[0-9eEπ,.]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curpos > 0 && rx.exactMatch(m_inputEdit->text().at(curpos - 1))) {
@@ -1742,7 +1742,7 @@ void SciExpressionBar::enter2xEvent()
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
 
-    rx.setPattern("[0-9eℯπ,)]");
+    rx.setPattern("[0-9eEπ,)]");
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
             if (rx.exactMatch(m_inputEdit->text().at(curpos - 1)) | rx.exactMatch(exp.at(curpos - 1)))
@@ -1832,14 +1832,14 @@ void SciExpressionBar::enterexEvent()
      * 当e和pi前面是数字类型的字符时，在前面补乘号防止直接出现表达式错误
      */
     int multi = 0;//是否需要补乘号
-    QString sRegNum1 = "[0-9,.πℯ]";
+    QString sRegNum1 = "[0-9,.πe]";
     QRegExp rx1;
     rx1.setPattern(sRegNum1);
     if (curpos > 0 && rx1.exactMatch(exp.at(curpos - 1))) {
-        m_inputEdit->insert("×ℯ^");
+        m_inputEdit->insert("×e^");
         multi += 1;
     } else
-        m_inputEdit->insert("ℯ^");
+        m_inputEdit->insert("e^");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
@@ -1875,8 +1875,8 @@ void SciExpressionBar::enterOppositeEvent()
         m_inputEdit->setText("(-");
         return;
     }
-    int epos = m_inputEdit->text().indexOf("e");
-    QString sRegNum = "[0-9,.e]";
+    int epos = m_inputEdit->text().indexOf("E");
+    QString sRegNum = "[0-9,.E]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curPos == 0 && hasselect == false) {
@@ -1897,7 +1897,7 @@ void SciExpressionBar::enterOppositeEvent()
     }
     // start edit for task-13519
     //        QString sRegNum1 = "[^0-9,.×÷)]";
-    QString sRegNum1 = "[^0-9,.)πℯ]";
+    QString sRegNum1 = "[^0-9,.)πe]";
     QString sRegNum2 = "[0-9,.]";
     QRegExp rx1, rx2;
     rx1.setPattern(sRegNum1);
@@ -1910,13 +1910,13 @@ void SciExpressionBar::enterOppositeEvent()
         QString newtext = m_inputEdit->text();
         int percentpos = m_inputEdit->cursorPosition();
         int operatorpos =
-            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπℯ]")), percentpos - 1);
+            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.Eπe]")), percentpos - 1);
 
         bool nooperator = false;
-        if (operatorpos > 0 && newtext.at(operatorpos - 1) == "e")
+        if (operatorpos > 0 && newtext.at(operatorpos - 1) == "E")
             operatorpos =
                 newtext.mid(0, operatorpos - 1)
-                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπℯ]")), percentpos - 1);
+                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.Eπe]")), percentpos - 1);
         if (operatorpos < 0) {
             operatorpos++;
             nooperator = true;
@@ -2054,7 +2054,7 @@ void SciExpressionBar::copyClipboard2Result()
            .replace('/', QString::fromUtf8("÷")); //对粘贴板中的内容进行英替中
 
     //匹配函数方法
-    QStringList list = text.split(QRegExp("[0-9＋－×÷/()%^!e.,]")); //正则表达式中为科学模式下可存在的非字母;函数中;无法被复制
+    QStringList list = text.split(QRegExp("[0-9＋－×÷/()%^!E.,]")); //正则表达式中为科学模式下可存在的非字母;函数中;无法被复制
     for (int i = 0; i < list.size(); i++) {
         QString item = list[i];
         for (int j = 0; j < m_funclist.size(); j++) {
@@ -2134,8 +2134,7 @@ QString SciExpressionBar::formatExpression(const QString &text)
            .replace(QString::fromUtf8("×"), "*")
            .replace(QString::fromUtf8("÷"), "/")
            .replace(QString::fromUtf8(","), "")
-           .replace(QString::fromUtf8("π"), QLatin1String("pi"))
-           .replace(QString::fromUtf8("ℯ"), QLatin1String("E")); //edit jingzhou 20200721,用E代替e，区分于科学计数法
+           .replace(QString::fromUtf8("π"), QLatin1String("pi"));
 }
 
 void SciExpressionBar::revisionResults(const QModelIndex &index)
@@ -2330,7 +2329,7 @@ QString SciExpressionBar::pasteFaultTolerance(QString exp)
         }
     }
     //匹配函数方法
-    QStringList list = exp.split(QRegExp("[0-9＋－×÷/()%^!e.,]"));
+    QStringList list = exp.split(QRegExp("[0-9＋－×÷/()%^!E.,]"));
     for (int i = 0; i < list.size(); i++) {
         QString item = list[i];
         for (int j = 0; j < m_funclist.size(); j++) {

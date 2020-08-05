@@ -430,8 +430,8 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
             linkNum.append("(");
         linkNum.append(list.at(0));
     }
-    if (linkNum.at(linkNum.size() - 1) == "e")
-        linkNum = linkNum + exp.at(exp.indexOf("e") + 1) + list.at(1);
+    if (linkNum.at(linkNum.size() - 1) == "E")
+        linkNum = linkNum + exp.at(exp.indexOf("E") + 1) + list.at(1);
     expStr = text.right(text.length() - linkNum.length());
 }
 

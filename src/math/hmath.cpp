@@ -854,8 +854,8 @@ char *formatGeneral(cfloatnum x, int prec, int base = 10)
 
     //edit 20200509 当出现循环小数时，位数由于小于科学计数法的临界值，format后进位，导致0.999...变成1e0
     QString strnew = QString(QLatin1String(str));
-    strnew.remove(QRegExp("[^0-9e]"));
-    int e = strnew.indexOf("e");
+    strnew.remove(QRegExp("[^0-9E]"));
+    int e = strnew.indexOf("E");
     if (e > 0) {
         if (strnew.left(e).length() + (strnew.right(strnew.length() - e - 1)).toInt() < prec + 2)
             str = formatFixed(x, prec, base);
