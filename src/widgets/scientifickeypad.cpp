@@ -149,6 +149,8 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
     connect(this, &ScientificKeyPad::buttonPressed, this,
             &ScientificKeyPad::turnPage); //按下2nd事件
+    connect(this, &ScientificKeyPad::buttonPressedbySpace, this,
+            &ScientificKeyPad::turnPage);
 }
 
 ScientificKeyPad::~ScientificKeyPad()
@@ -178,23 +180,35 @@ DPushButton *ScientificKeyPad::button(Buttons key)
 /**
  * @brief 按钮点击动画效果
  */
-void ScientificKeyPad::animate(Buttons key)
+void ScientificKeyPad::animate(Buttons key, bool isspace)
 {
     if (button(key)->text().isEmpty()) {
         IconButton *btn = static_cast<IconButton *>(button(key));
-        btn->animate();
+        btn->animate(isspace);
     } else {
         if (button(key)->text() == "=") {
             EqualButton *btn = dynamic_cast<EqualButton *>(button(key));
-            btn->animate();
+            btn->animate(isspace);
         } else if (key == Key_MC || key == Key_MR || key == Key_Mplus || key == Key_Mmin || key == Key_MS) {
             MemoryButton *btn = static_cast<MemoryButton *>(button(key));
-            btn->animate();
+            btn->animate(isspace);
         } else {
             TextButton *btn = static_cast<TextButton *>(button(key));
-            btn->animate();
+            btn->animate(isspace);
         }
     }
+}
+
+bool ScientificKeyPad::buttonHasFocus()
+{
+    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+    while (i.hasNext()) {
+        i.next();
+        if (i.value().first->hasFocus()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /**
@@ -218,6 +232,10 @@ void ScientificKeyPad::initButtons()
             if (desc->text == "=") {
                 button = new EqualButton(desc->text);
                 connect(static_cast<EqualButton *>(button), &EqualButton::focus, this, &ScientificKeyPad::getFocus); //获取上下左右键
+                connect(static_cast<EqualButton *>(button), &EqualButton::space, this, [ = ]() {
+                    Buttons spacekey = Key_Equals;
+                    emit buttonPressedbySpace(spacekey);
+                });
             } else if (desc->text == "MC" || desc->text == "MR" || desc->text == "M+" || desc->text == "M-" || desc->text == "MS") {
                 button = new MemoryButton(desc->text);
             } else {
@@ -281,6 +299,10 @@ void ScientificKeyPad::initButtons()
         connect(static_cast<TextButton *>(pagebutton), &TextButton::focus, this, &ScientificKeyPad::getFocus); //获取上下左右键
         connect(static_cast<TextButton *>(button), &TextButton::focus, this, &ScientificKeyPad::getFocus); //获取上下左右键
         connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
+        connect(static_cast<TextButton *>(button), &TextButton::space, this, [ = ]() {
+            Buttons spacekey = m_keys.key(hashValue);
+            emit buttonPressedbySpace(spacekey);
+        });
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
         connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &ScientificKeyPad::moveLeft);
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &ScientificKeyPad::moveRight);
@@ -385,6 +407,10 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
     connect(pagebutton, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
     connect(static_cast<TextButton *>(pagebutton), &TextButton::moveLeft, this, &ScientificKeyPad::moveLeft);
     connect(static_cast<TextButton *>(pagebutton), &TextButton::moveRight, this, &ScientificKeyPad::moveRight);
+    connect(static_cast<TextButton *>(pagebutton), &TextButton::space, this, [ = ]() {
+        Buttons spacekey = m_keys1.key(hashValue1);
+        emit buttonPressedbySpace(spacekey);
+    });
     m_mapper->setMapping(pagebutton, desc1->button); //多个按钮绑定到一个mapper上
     connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
         Q_UNUSED(height);

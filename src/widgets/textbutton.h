@@ -39,7 +39,7 @@ public:
     ~TextButton();
 
     void init();
-    void animate(int msec = 100);
+    void animate(bool isspace = false, int msec = 100);
     void setButtonDown(bool down);
 signals:
     void moveLeft();
@@ -47,6 +47,7 @@ signals:
     void updateInterface();
     void mouseRelease();
     void focus(int direction); //direction 0-上　1-下　2-左　3-右
+    void space();
 
 public:
     void mousePressEvent(QMouseEvent *);

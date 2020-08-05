@@ -70,10 +70,22 @@ DPushButton *MemoryKeypad::button(Buttons key)
 /**
  * @brief 按钮点击动画效果
  */
-void MemoryKeypad::animate(Buttons key)
+void MemoryKeypad::animate(Buttons key, bool isspace)
 {
     MemoryButton *btn = static_cast<MemoryButton *>(button(key));
-    btn->animate();
+    btn->animate(isspace);
+}
+
+bool MemoryKeypad::buttonHasFocus()
+{
+    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+    while (i.hasNext()) {
+        i.next();
+        if (i.value().first->hasFocus()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /**
@@ -95,11 +107,15 @@ void MemoryKeypad::initButtons()
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
-        connect(static_cast<TextButton *>(button), &TextButton::focus, this, &MemoryKeypad::getFocus); //获取上下左右键
-        connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
+        connect(static_cast<MemoryButton *>(button), &MemoryButton::focus, this, &MemoryKeypad::getFocus); //获取上下左右键
+        connect(static_cast<MemoryButton *>(button), &MemoryButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-        connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &MemoryKeypad::moveLeft);
-        connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &MemoryKeypad::moveRight);
+        connect(static_cast<MemoryButton *>(button), &MemoryButton::space, this, [ = ]() {
+            Buttons spacekey = m_keys.key(hashValue);
+            emit buttonPressedbySpace(spacekey);
+        });
+        connect(static_cast<MemoryButton *>(button), &MemoryButton::moveLeft, this, &MemoryKeypad::moveLeft);
+        connect(static_cast<MemoryButton *>(button), &MemoryButton::moveRight, this, &MemoryKeypad::moveRight);
         m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
     }
 }

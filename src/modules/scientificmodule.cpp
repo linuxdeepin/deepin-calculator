@@ -85,6 +85,7 @@ scientificModule::scientificModule(QWidget *parent)
     connect(m_scikeypadwidget, &ScientificKeyPad::equalPressed, this, &scientificModule::equalButtonPress);
     connect(m_scikeypadwidget, &ScientificKeyPad::moveLeft, [ = ] { m_sciexpressionBar->moveLeft(); });
     connect(m_scikeypadwidget, &ScientificKeyPad::moveRight, [ = ] { m_sciexpressionBar->moveRight(); });
+    connect(m_scikeypadwidget, &ScientificKeyPad::buttonPressedbySpace, this, &scientificModule::handleKeypadButtonPressByspace);
     connect(m_scihiswidget->getMemoryWidget(), &MemoryWidget::widgetplus, this, [ = ](int row) {
         //点击键盘按键上的m+,m-是先进行计算，若有计算结果放入内存中
         m_sciexpressionBar->enterEqualEvent();
@@ -277,7 +278,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_scihiswidget->historyfilled();
         }
         m_sciexpressionBar->addUndo();
-        setFocus();
+//        setFocus();
         break;
     case Qt::Key_Backspace:
         m_sciexpressionBar->enterBackspaceEvent();
@@ -595,7 +596,8 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
     default:
         break;
     }
-    m_sciexpressionBar->getInputEdit()->setFocus(); //edit 20200417 for bug--21146
+    if (!m_scikeypadwidget->buttonHasFocus())
+        m_sciexpressionBar->getInputEdit()->setFocus(); //edit 20200417 for bug--21146
     int left = 0;
     int right = 0;
     QString text = m_sciexpressionBar->getInputEdit()->text();
@@ -621,6 +623,311 @@ void scientificModule::handleKeypadButtonPress(int key)
     m_sciexpressionBar->getInputEdit()->setFocus();
     m_scikeypadwidget->update();
     m_sciexpressionBar->clearSelection();
+    //20200414 bug20294鼠标点击取消focus
+    switch (key) {
+    case ScientificKeyPad::Key_0:
+        if (!m_sciexpressionBar->judgeinput())
+            return; //光标在函数中直接return
+        m_sciexpressionBar->enterNumberEvent("0");
+        break;
+    case ScientificKeyPad::Key_1:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterNumberEvent("1");
+        break;
+    case ScientificKeyPad::Key_2:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterNumberEvent("2");
+        break;
+    case ScientificKeyPad::Key_3:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterNumberEvent("3");
+        break;
+    case ScientificKeyPad::Key_4:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterNumberEvent("4");
+        break;
+    case ScientificKeyPad::Key_5:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterNumberEvent("5");
+        break;
+    case ScientificKeyPad::Key_6:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterNumberEvent("6");
+        break;
+    case ScientificKeyPad::Key_7:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterNumberEvent("7");
+        break;
+    case ScientificKeyPad::Key_8:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterNumberEvent("8");
+        break;
+    case ScientificKeyPad::Key_9:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterNumberEvent("9");
+        break;
+    case ScientificKeyPad::Key_Plus:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterSymbolEvent("+");
+        break;
+    case ScientificKeyPad::Key_Min:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterSymbolEvent("-");
+        break;
+    case ScientificKeyPad::Key_Mult:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterSymbolEvent("*");
+        break;
+    case ScientificKeyPad::Key_Div:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterSymbolEvent("/");
+        break;
+    case ScientificKeyPad::Key_Percent:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterPercentEvent();
+        break;
+    case ScientificKeyPad::Key_Equals:
+        m_sciexpressionBar->enterEqualEvent();
+        if (m_sciexpressionBar->getexpression().first) {
+            m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->getanswer(), m_sciexpressionBar->getexpression().second, 0);
+            m_scihiswidget->historyfilled();
+        }
+        break;
+    case ScientificKeyPad::Key_Clear:
+        m_sciexpressionBar->enterClearEvent();
+        break;
+    case ScientificKeyPad::Key_Backspace:
+        m_sciexpressionBar->enterBackspaceEvent();
+        break;
+    case ScientificKeyPad::Key_Point:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterPointEvent();
+        break;
+    case ScientificKeyPad::Key_left:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterLeftBracketsEvent();
+        break;
+    case ScientificKeyPad::Key_right:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterRightBracketsEvent();
+        break;
+    case ScientificKeyPad::Key_MS:
+        m_sciexpressionBar->enterEqualEvent();
+        if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_scihiswidget->memoryFunctions(SciHistoryWidget::generateData, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
+        break;
+    case ScientificKeyPad::Key_MC:
+        m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryclean);
+        break;
+    case ScientificKeyPad::Key_Mplus:
+        m_sciexpressionBar->enterEqualEvent();
+        if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryplus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
+        break;
+    case ScientificKeyPad::Key_Mmin:
+        m_sciexpressionBar->enterEqualEvent();
+        if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryminus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
+        break;
+    case ScientificKeyPad::Key_MR:
+        m_sciexpressionBar->getInputEdit()->setAnswer(m_scihiswidget->getMemoryWidget()->getfirstnumber().first
+                                                      , m_scihiswidget->getMemoryWidget()->getfirstnumber().second);
+        break;
+    case ScientificKeyPad::Key_deg:
+        m_sciexpressionBar->enterDegEvent(m_deg);
+        break;
+    case ScientificKeyPad::Key_sin:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterSinEvent();
+        break;
+    case ScientificKeyPad::Key_FE:
+        m_sciexpressionBar->enterFEEvent(m_FEisdown);
+        break;
+    case ScientificKeyPad::Key_page:
+        handlePageStateChanged();
+        break;
+    case ScientificKeyPad::Key_PI:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterPIEvent();
+        break;
+    case ScientificKeyPad::Key_e:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterEulerEvent();
+        break;
+    case ScientificKeyPad::Key_Mod:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterModEvent();
+        break;
+    case ScientificKeyPad::Key_x2:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterx2Event();
+        break;
+    case ScientificKeyPad::Key_Derivative:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterDerivativeEvent();
+        break;
+    case ScientificKeyPad::Key_Factorials:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterFactorialsEvent();
+        break;
+    case ScientificKeyPad::Key_exp:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterExpEvent();
+        break;
+    case ScientificKeyPad::Key_cos:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterCosEvent();
+        break;
+    case ScientificKeyPad::Key_x3:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterx3Event();
+        break;
+    case ScientificKeyPad::Key_tan:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterTanEvent();
+        break;
+    case ScientificKeyPad::Key_xy:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterxyEvent();
+        break;
+    case ScientificKeyPad::Key_cot:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterCotEvent();
+        break;
+    case ScientificKeyPad::Key_10x:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enter10xEvent();
+        break;
+    case ScientificKeyPad::Key_Modulus:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterModulusEvent();
+        break;
+    case ScientificKeyPad::Key_log:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterLogEvent();
+        break;
+    case ScientificKeyPad::Key_Rand:
+        m_sciexpressionBar->enterRandEvent();
+        break;
+    case ScientificKeyPad::Key_ln:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterLnEvent();
+        break;
+    case ScientificKeyPad::Key_arcsin:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterArcsinEvent();
+        break;
+    case ScientificKeyPad::Key_sqrt2:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterSqrtEvent();
+        break;
+    case ScientificKeyPad::Key_arccos:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterArccosEvent();
+        break;
+    case ScientificKeyPad::Key_sqrt3:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterCbrtEvent();
+        break;
+    case ScientificKeyPad::Key_arctan:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterArctanEvent();
+        break;
+    case ScientificKeyPad::Key_ysqrtx:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterYrootEvent();
+        break;
+    case ScientificKeyPad::Key_arccot:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterArccotEvent();
+        break;
+    case ScientificKeyPad::Key_2x:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enter2xEvent();
+        break;
+    case ScientificKeyPad::Key_logyx:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterlogyxEvent();
+        break;
+    case ScientificKeyPad::Key_ex:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterexEvent();
+        break;
+    case ScientificKeyPad::Key_opposite:
+        if (!m_sciexpressionBar->judgeinput())
+            return;
+        m_sciexpressionBar->enterOppositeEvent();
+        break;
+    default:
+        break;
+    }
+    m_sciexpressionBar->addUndo();
+    int left = 0;
+    int right = 0;
+    QString text = m_sciexpressionBar->getInputEdit()->text();
+    for (int i = 0; i < text.length(); i++) {
+        if (text[i] == "(")
+            left ++;
+        else if (text[i] == ")") {
+            if (left > 0)
+                left--;
+            else
+                right++;
+        }
+    }
+    m_scikeypadwidget->bracketsNum(0, QString::number(left)); //写入左右括号不匹配数
+    m_scikeypadwidget->bracketsNum(1, QString::number(right));
+}
+
+void scientificModule::handleKeypadButtonPressByspace(int key)
+{
+    m_scikeypadwidget->update();
+    m_sciexpressionBar->clearSelection();
+    m_scikeypadwidget->animate(ScientificKeyPad::Buttons(key), true);
     //20200414 bug20294鼠标点击取消focus
     switch (key) {
     case ScientificKeyPad::Key_0:

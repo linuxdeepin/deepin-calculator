@@ -111,15 +111,17 @@ void TextButton::init()
  * @brief iconbutton物理键盘点击动画效果
  * @param msec 100ms
  */
-void TextButton::animate(int msec)
+void TextButton::animate(bool isspace, int msec)
 {
     if (m_isPress == false) { //edit for bug-20492 20200416
         m_isHover = false;  //edit for bug-20508 20200414
-        setDown(true);
+        if (!isspace)
+            setDown(true);
         m_isPress = true;
 
         QTimer::singleShot(msec, this, [ = ] {
-            setDown(false);
+            if (!isspace)
+                setDown(false);
             m_isPress = false;
             update();
         });
@@ -294,37 +296,36 @@ void TextButton::paintEvent(QPaintEvent *e)
         text = actcolor; //FE,2nd设置
     if (hasFocus()) {
         painter.setPen(Qt::NoPen);
-//        if (m_isPress) {
-//            qDebug() << "press";
-//            painter.setBrush(QBrush(pressBrush));
-//            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
-//            QPen pen;
-//            pen.setColor(pressText);
-//            painter.setPen(pen);
-//            painter.setFont(m_font);
-//            painter.drawText(textRect, this->text());
-//        } else {
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(QBrush(base));
-        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
-        QPen pen;
+        if (m_isPress) {
+            painter.setBrush(QBrush(pressBrush));
+            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+            QPen pen;
+            pen.setColor(pressText);
+            painter.setPen(pen);
+            painter.setFont(m_font);
+            paintspecialbtn(painter, rect, textRect);
+        } else {
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(base));
+            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+            QPen pen;
 //            if (m_isacting) {
 //                painter.setPen(Qt::NoPen);
 //            } else {
-        pen.setColor(focus);
-        pen.setWidth(2);
-        painter.setPen(pen);
+            pen.setColor(focus);
+            pen.setWidth(2);
+            painter.setPen(pen);
 //            }
-        painter.setBrush(Qt::NoBrush);
-        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+            painter.setBrush(Qt::NoBrush);
+            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
 
-        pen.setColor(text);
-        painter.setPen(pen);
-        painter.setFont(m_font);
-        paintspecialbtn(painter, rect, textRect);
-        m_effect->setColor(focusShadow);
-        this->setGraphicsEffect(m_effect);
-//        }
+            pen.setColor(text);
+            painter.setPen(pen);
+            painter.setFont(m_font);
+            paintspecialbtn(painter, rect, textRect);
+            m_effect->setColor(focusShadow);
+            this->setGraphicsEffect(m_effect);
+        }
     } else {
         painter.setPen(Qt::NoPen);
         painter.setBrush(QBrush(base));
@@ -378,6 +379,9 @@ void TextButton::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Right:
         emit focus(3);
+        break;
+    case Qt::Key_Space:
+        emit space();
         break;
     default:
         DPushButton::keyPressEvent(e);

@@ -48,14 +48,19 @@ void EqualButton::init()
  * @brief 动画效果
  * @param msec 100ms
  */
-void EqualButton::animate(int msec)
+void EqualButton::animate(bool isspace, int msec)
 {
     if (m_isPress == false) { //edit for bug-20492 20200416
         m_isHover = false;  //edit for bug-20508 20200414
-        setDown(true);
+        if (!isspace)
+            setDown(true);
         m_isPress = true;
 
-        QTimer::singleShot(msec, this, [ = ] { setDown(false); m_isPress = false;});
+        QTimer::singleShot(msec, this, [ = ] {
+            if (!isspace)
+                setDown(false);
+            m_isPress = false;
+        });
     }
 }
 
@@ -160,47 +165,47 @@ void EqualButton::paintEvent(QPaintEvent *e)
 
     if (hasFocus()) {
         painter.setPen(Qt::NoPen);
-//        if (m_isPress) {
-//            linearGradient.setColorAt(0, press0);
-//            linearGradient.setColorAt(1, press1);
-//            painter.setBrush(QBrush(linearGradient));
-//            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
-//            QPen pen;
-//            pen.setColor(pressText);
-//            painter.setPen(pen);
-//            painter.setFont(m_font);
-//            painter.drawText(textRect, "=");
-//            m_effect->setColor(shadow);
-//            this->setGraphicsEffect(m_effect);
-//        } else {
-        QPen pen;
+        if (m_isPress) {
+            linearGradient.setColorAt(0, press0);
+            linearGradient.setColorAt(1, press1);
+            painter.setBrush(QBrush(linearGradient));
+            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+            QPen pen;
+            pen.setColor(pressText);
+            painter.setPen(pen);
+            painter.setFont(m_font);
+            painter.drawText(textRect, "=");
+            m_effect->setColor(shadow);
+            this->setGraphicsEffect(m_effect);
+        } else {
+            QPen pen;
 //            if (m_isacting) {
 //                painter.setPen(Qt::NoPen);
 //                painter.setBrush(QBrush(base));
 //                painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
 //            } else {
-        pen.setColor(base);
-        pen.setWidth(2);
-        painter.setPen(pen);
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(QBrush(base));
-        painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(QBrush(frame));
-        painter.drawRoundedRect(focusBase, 8, 8); //圆角半径单位为像素
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(QBrush(base));
-        painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+            pen.setColor(base);
+            pen.setWidth(2);
+            painter.setPen(pen);
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(base));
+            painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(frame));
+            painter.drawRoundedRect(focusBase, 8, 8); //圆角半径单位为像素
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(base));
+            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
 //            }
 
-        //painter.drawRoundRect(rect,10,10);
-        pen.setColor(text);
-        painter.setPen(pen);
-        painter.setFont(m_font);
-        painter.drawText(textRect, "=");
-        m_effect->setColor(shadow);
-        this->setGraphicsEffect(m_effect);
-//        }
+            //painter.drawRoundRect(rect,10,10);
+            pen.setColor(text);
+            painter.setPen(pen);
+            painter.setFont(m_font);
+            painter.drawText(textRect, "=");
+            m_effect->setColor(shadow);
+            this->setGraphicsEffect(m_effect);
+        }
     } else {
         painter.setPen(Qt::NoPen);
         if (m_isHover) { //hover的绘制
@@ -256,6 +261,9 @@ void EqualButton::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Right:
         emit focus(3);
+        break;
+    case Qt::Key_Space:
+        emit space();
         break;
     default:
         DPushButton::keyPressEvent(e);

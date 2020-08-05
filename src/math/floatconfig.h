@@ -111,7 +111,7 @@
    If you do not declare a limit here, an appropriate value is derived from
    DECPRECISION. If you change this value, make sure 2^LOGICRANGE
    is less than 10^DECPRECISION */
- #define LOGICRANGE 256
+#define LOGICRANGE 256
 
 /***************************************************************************
 
@@ -161,7 +161,7 @@
 #define EXPNAN ((int)(~EXPZERO))
 
 #ifndef DECPRECISION
-  #define DECPRECISION MATHPRECISION
+#define DECPRECISION MATHPRECISION
 #endif
 #define BINPRECISION ((33219*DECPRECISION)/10000 + 1)
 #define OCTPRECISION ((11073*DECPRECISION)/10000 + 1)

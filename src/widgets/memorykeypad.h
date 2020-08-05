@@ -55,7 +55,8 @@ public:
     void mouseMoveEvent(QMouseEvent *e);
 
     DPushButton *button(Buttons key);
-    void animate(Buttons key);
+    void animate(Buttons key, bool isspace = false);
+    bool buttonHasFocus();
 
     static const struct KeyDescription {
         QString text; //按钮text
@@ -70,6 +71,7 @@ public slots:
     void getFocus(int);
 signals:
     void buttonPressed(int);
+    void buttonPressedbySpace(int);
     void equalPressed();
     void moveLeft();
     void moveRight();

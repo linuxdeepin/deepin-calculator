@@ -101,7 +101,7 @@ BasicKeypad::BasicKeypad(QWidget *parent)
     initButtons();
     initUI();
 
-    connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int))); //为了区分被按下的button，同时处理点击事件
+    connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
 }
 
 BasicKeypad::~BasicKeypad()
@@ -125,20 +125,32 @@ DPushButton *BasicKeypad::button(Buttons key)
 /**
  * @brief 按钮点击动画效果
  */
-void BasicKeypad::animate(Buttons key)
+void BasicKeypad::animate(Buttons key, bool isspace)
 {
     if (button(key)->text().isEmpty()) {
         IconButton *btn = static_cast<IconButton *>(button(key));
-        btn->animate();
+        btn->animate(isspace);
     } else {
         if (button(key)->text() == "=") {
             EqualButton *btn = dynamic_cast<EqualButton *>(button(key));
-            btn->animate();
+            btn->animate(isspace);
         } else {
             TextButton *btn = static_cast<TextButton *>(button(key));
-            btn->animate();
+            btn->animate(isspace);
         }
     }
+}
+
+bool BasicKeypad::buttonHasFocus()
+{
+    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+    while (i.hasNext()) {
+        i.next();
+        if (i.value().first->hasFocus()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /**
@@ -153,13 +165,17 @@ void BasicKeypad::initButtons()
 
         if (desc->text.isEmpty()) {
             button = createSpecialKeyButton(desc->button);
-            button->setParent(this);
+//            button->setParent(this);
         } else {
             if (desc->text == "=") {
-                button = new EqualButton(desc->text, this);
+                button = new EqualButton(desc->text);
                 connect(static_cast<EqualButton *>(button), &EqualButton::focus, this, &BasicKeypad::getFocus); //获取上下左右键
+                connect(static_cast<EqualButton *>(button), &EqualButton::space, this, [ = ]() {
+                    Buttons spacekey = Key_Equals;
+                    emit buttonPressedbySpace(spacekey);
+                });
             } else {
-                button = new TextButton(desc->text, false, this);
+                button = new TextButton(desc->text, false);
             }
         }
 
@@ -170,6 +186,10 @@ void BasicKeypad::initButtons()
 
         connect(static_cast<TextButton *>(button), &TextButton::focus, this, &BasicKeypad::getFocus); //获取上下左右键
         connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
+        connect(static_cast<TextButton *>(button), &TextButton::space, this, [ = ]() {
+            Buttons spacekey = m_keys.key(hashValue);
+            emit buttonPressedbySpace(spacekey);
+        });
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
         connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &BasicKeypad::moveLeft);
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &BasicKeypad::moveRight);

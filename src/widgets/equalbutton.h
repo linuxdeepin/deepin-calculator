@@ -41,11 +41,12 @@ public:
     void init();
     //void showShadow();
     //void hideShadow();
-    void animate(int msec = 100);
+    void animate(bool isspace = false, int msec = 100);
 signals:
     void moveLeft();
     void moveRight();
     void focus(int direction); //direction 0-上　1-下　2-左　3-右
+    void space();
 
 public:
     void mousePressEvent(QMouseEvent *);

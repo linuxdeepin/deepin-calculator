@@ -75,6 +75,8 @@ BasicModule::BasicModule(QWidget *parent)
             &BasicModule::handleClearStateChanged);
     connect(m_basicKeypad, &BasicKeypad::buttonPressed, this,
             &BasicModule::handleKeypadButtonPress);
+    connect(m_basicKeypad, &BasicKeypad::buttonPressedbySpace, this,
+            &BasicModule::handleKeypadButtonPressByspace);
     connect(m_basicKeypad, &BasicKeypad::equalPressed, this, &BasicModule::equalButtonPress);
     connect(m_basicKeypad, &BasicKeypad::moveLeft, [ = ] { m_expressionBar->moveLeft(); });
     connect(m_basicKeypad, &BasicKeypad::moveRight, [ = ] { m_expressionBar->moveRight(); });
@@ -82,6 +84,8 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_memoryKeypad, &MemoryKeypad::moveRight, [ = ] { m_expressionBar->moveRight(); });
     connect(m_memoryKeypad, &MemoryKeypad::buttonPressed, this,
             &BasicModule::handleKeypadButtonPress);
+    connect(m_memoryKeypad, &MemoryKeypad::buttonPressedbySpace, this,
+            &BasicModule::handleKeypadButtonPressByspace);
     connect(m_memorylistwidget, &MemoryWidget::widgetplus, this, [ = ](int row) {
         m_expressionBar->settingLinkage();
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
@@ -248,7 +252,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         m_basicKeypad->animate(BasicKeypad::Key_Equals);
         m_expressionBar->settingLinkage();
         m_expressionBar->addUndo();
-        setFocus();
+//        setFocus();
         break;
     case Qt::Key_Backspace:
         m_expressionBar->enterBackspaceEvent();
@@ -368,7 +372,8 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     default:
         break;
     }
-    m_expressionBar->getInputEdit()->setFocus(); //edit 20200417 for bug--21146
+    if (!m_basicKeypad->buttonHasFocus() && !m_memoryKeypad->buttonHasFocus())
+        m_expressionBar->getInputEdit()->setFocus(); //edit 20200417 for bug--21146
 }
 
 /**
@@ -480,6 +485,148 @@ void BasicModule::handleKeypadButtonPress(int key)
             m_memoryPublic->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case MemoryKeypad::Key_MR:
+        p = m_memorylistwidget->getfirstnumber();
+        m_expressionBar->getInputEdit()->setAnswer(p.first, p.second);
+        break;
+    default:
+        break;
+    }
+    m_expressionBar->addUndo();
+}
+
+void BasicModule::handleKeypadButtonPressByspace(int key)
+{
+    m_basicKeypad->update();
+    m_memoryKeypad->update();
+    m_expressionBar->clearSelection();
+    //20200414 bug20294鼠标点击取消focus
+//    m_expressionBar->getInputEdit()->setFocus();
+    QPair<QString, Quantity> p;
+    switch (key) {
+    case BasicKeypad::Key_0:
+        m_expressionBar->enterNumberEvent("0"); //按键0事件
+        m_basicKeypad->animate(BasicKeypad::Key_0, true);
+        break;
+    case BasicKeypad::Key_1:
+        m_expressionBar->enterNumberEvent("1");
+        m_basicKeypad->animate(BasicKeypad::Key_1, true);
+        break;
+    case BasicKeypad::Key_2:
+        m_expressionBar->enterNumberEvent("2");
+        m_basicKeypad->animate(BasicKeypad::Key_2, true);
+        break;
+    case BasicKeypad::Key_3:
+        m_expressionBar->enterNumberEvent("3");
+        m_basicKeypad->animate(BasicKeypad::Key_3, true);
+        break;
+    case BasicKeypad::Key_4:
+        m_expressionBar->enterNumberEvent("4");
+        m_basicKeypad->animate(BasicKeypad::Key_4, true);
+        break;
+    case BasicKeypad::Key_5:
+        m_expressionBar->enterNumberEvent("5");
+        m_basicKeypad->animate(BasicKeypad::Key_5, true);
+        break;
+    case BasicKeypad::Key_6:
+        m_expressionBar->enterNumberEvent("6");
+        m_basicKeypad->animate(BasicKeypad::Key_6, true);
+        break;
+    case BasicKeypad::Key_7:
+        m_expressionBar->enterNumberEvent("7");
+        m_basicKeypad->animate(BasicKeypad::Key_7, true);
+        break;
+    case BasicKeypad::Key_8:
+        m_expressionBar->enterNumberEvent("8");
+        m_basicKeypad->animate(BasicKeypad::Key_8, true);
+        break;
+    case BasicKeypad::Key_9:
+        m_expressionBar->enterNumberEvent("9");
+        m_basicKeypad->animate(BasicKeypad::Key_9, true);
+        break;
+    case BasicKeypad::Key_Plus:
+        m_expressionBar->enterSymbolEvent("+");
+        m_basicKeypad->animate(BasicKeypad::Key_Plus, true);
+        break;
+    case BasicKeypad::Key_Min:
+        m_expressionBar->enterSymbolEvent("-");
+        m_basicKeypad->animate(BasicKeypad::Key_Min, true);
+        break;
+    case BasicKeypad::Key_Mult:
+        m_expressionBar->enterSymbolEvent("*");
+        m_basicKeypad->animate(BasicKeypad::Key_Mult, true);
+        break;
+    case BasicKeypad::Key_Div:
+        m_expressionBar->enterSymbolEvent("/");
+        m_basicKeypad->animate(BasicKeypad::Key_Div, true);
+        break;
+    case BasicKeypad::Key_Percent:
+        if (new_Func_Percent == 0)
+            m_expressionBar->enterPercentEvent();
+        else
+            m_expressionBar->enterPercentEventCommon();
+        m_basicKeypad->animate(BasicKeypad::Key_Percent, true);
+        break;
+    case BasicKeypad::Key_Equals:
+        m_expressionBar->settingLinkage();
+        m_basicKeypad->animate(BasicKeypad::Key_Equals, true);
+        break;
+    case BasicKeypad::Key_Clear:
+        m_expressionBar->enterClearEvent();
+        m_basicKeypad->animate(BasicKeypad::Key_Clear, true);
+        break;
+    case BasicKeypad::Key_Backspace:
+        m_expressionBar->enterBackspaceEvent();
+        m_basicKeypad->animate(BasicKeypad::Key_Backspace, true);
+        break;
+    case BasicKeypad::Key_Point:
+        m_expressionBar->enterPointEvent();
+        m_basicKeypad->animate(BasicKeypad::Key_Point, true);
+        break;
+    case BasicKeypad::Key_Brackets:
+        m_expressionBar->enterBracketsEvent();
+        m_basicKeypad->animate(BasicKeypad::Key_Brackets, true);
+        break;
+    case MemoryKeypad::Key_MS:
+        m_memoryKeypad->animate(MemoryKeypad::Key_MS, true);
+        m_expressionBar->settingLinkage();
+        if (m_expressionBar->getInputEdit()->getMemoryAnswer().first) //如果输入栏中可计算出结果
+            m_memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+        break;
+    case MemoryKeypad::Key_MC:
+        m_memoryKeypad->animate(MemoryKeypad::Key_MC, true);
+        m_memoryPublic->memoryclean();
+        if (m_keypadLayout->currentIndex() == 1) {
+            m_keypadLayout->setCurrentIndex(0);
+            MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mlist));
+            btn5->setbtnlight(false);
+        }
+        break;
+    case MemoryKeypad::Key_Mlist:
+        m_memoryKeypad->animate(MemoryKeypad::Key_Mlist, true);
+        showListWidget();
+        if (m_keypadLayout->currentIndex() == 1) {
+            m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents); //鼠标穿透
+            m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents); //鼠标穿透
+        } else {
+            m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+            m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+        }
+        m_memorylistwidget->setFocus();
+        break;
+    case MemoryKeypad::Key_Mplus:
+        m_memoryKeypad->animate(MemoryKeypad::Key_Mplus, true);
+        m_expressionBar->settingLinkage();
+        if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_memoryPublic->memoryplus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+        break;
+    case MemoryKeypad::Key_Mminus:
+        m_memoryKeypad->animate(MemoryKeypad::Key_Mminus, true);
+        m_expressionBar->settingLinkage();
+        if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
+            m_memoryPublic->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+        break;
+    case MemoryKeypad::Key_MR:
+        m_memoryKeypad->animate(MemoryKeypad::Key_MR, true);
         p = m_memorylistwidget->getfirstnumber();
         m_expressionBar->getInputEdit()->setAnswer(p.first, p.second);
         break;
