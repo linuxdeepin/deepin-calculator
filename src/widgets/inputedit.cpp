@@ -66,12 +66,12 @@ InputEdit::InputEdit(QWidget *parent)
 
     connect(this, &QLineEdit::textChanged, this, &InputEdit::isExpressionEmpty);
 
-    DPalette pl = this->palette();
+//    DPalette pl = this->palette();
     // pl.setColor(DPalette::Text,QColor(48,48,48));
-    pl.setColor(DPalette::Button, Qt::transparent); //inputedit背景色
-    pl.setColor(DPalette::Highlight, Qt::transparent); //边框高亮色
-    pl.setColor(DPalette::HighlightedText, Qt::blue); //全选字体高亮色
-    this->setPalette(pl);
+//    pl.setColor(DPalette::Button, Qt::transparent); //inputedit背景色
+//    pl.setColor(DPalette::Highlight, Qt::transparent); //边框高亮色
+//    pl.setColor(DPalette::HighlightedText, Qt::blue); //全选字体高亮色
+//    this->setPalette(pl);
 
     m_funclist = {"arcsin", "arccos", "arctan", "arccot", "sin", "cos", "tan", "cot"
                   , "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π"
@@ -393,6 +393,21 @@ void InputEdit::autoZoomFontSize()
     }
 
     setFont(font);
+}
+
+void InputEdit::themetypechanged(int type)
+{
+    DPalette pl = this->palette();
+    //itemwidget字体颜色设置
+    if (type == 1) {
+        pl.setColor(DPalette::Text, QColor("#303030"));
+    } else {
+        pl.setColor(DPalette::Text, QColor("#B4B4B4"));
+    }
+    pl.setColor(DPalette::Button, Qt::transparent); //inputedit背景色
+    pl.setColor(DPalette::Highlight, Qt::transparent); //边框高亮色
+    pl.setColor(DPalette::HighlightedText, Qt::blue); //全选字体高亮色
+    this->setPalette(pl);
 }
 
 /**

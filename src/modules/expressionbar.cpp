@@ -1682,6 +1682,7 @@ void ExpressionBar::initTheme(int type)
         typeIn = DGuiApplicationHelper::instance()->themeType();
     }
     m_listDelegate->setThemeType(typeIn);
+    m_inputEdit->themetypechanged(typeIn);
 }
 
 /**

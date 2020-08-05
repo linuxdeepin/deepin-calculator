@@ -2521,6 +2521,7 @@ void SciExpressionBar::initTheme(int type)
         typeIn = DGuiApplicationHelper::instance()->themeType();
     }
     m_listDelegate->setThemeType(typeIn);
+    m_inputEdit->themetypechanged(typeIn);
 }
 
 void SciExpressionBar::clearSelection()

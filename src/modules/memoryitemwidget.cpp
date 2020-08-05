@@ -102,8 +102,8 @@ void MemoryItemWidget::mousePressEvent(QMouseEvent *event)
     m_ispress = true;
     DPalette pl1 = this->palette(); //按下时给label字体设置颜色
     if (m_themetype == 1) {
-        pl1.setColor(DPalette::Text, Qt::black);
-        pl1.setColor(DPalette::HighlightedText, Qt::black);
+        pl1.setColor(DPalette::Text, QColor("#303030"));
+        pl1.setColor(DPalette::HighlightedText, QColor("#303030"));
     } else {
         pl1.setColor(DPalette::Text, QColor("#FFFFFF"));
         pl1.setColor(DPalette::HighlightedText, QColor("#FFFFFF"));
@@ -122,8 +122,8 @@ void MemoryItemWidget::mouseReleaseEvent(QMouseEvent *event)
     m_ispress = false;
     DPalette pl1 = this->palette(); //松开鼠标时给label字体重新设置颜色
     if (m_themetype == 1) {
-        pl1.setColor(DPalette::Text, Qt::black);
-        pl1.setColor(DPalette::HighlightedText, Qt::black);
+        pl1.setColor(DPalette::Text, QColor("#303030"));
+        pl1.setColor(DPalette::HighlightedText, QColor("#303030"));
     } else {
         pl1.setColor(DPalette::Text, QColor("#B4B4B4"));
         pl1.setColor(DPalette::HighlightedText, QColor("#B4B4B4"));
@@ -231,7 +231,7 @@ void MemoryItemWidget::themetypechanged(int type)
     DPalette pl1 = this->palette();
     //itemwidget字体颜色设置
     if (m_themetype == 1) {
-        pl1.setColor(DPalette::Text, Qt::black);
+        pl1.setColor(DPalette::Text, QColor("#303030"));
     } else {
         pl1.setColor(DPalette::Text, QColor("#B4B4B4"));
     }

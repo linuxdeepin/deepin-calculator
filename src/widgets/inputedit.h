@@ -64,6 +64,7 @@ public slots:
     void isExpressionEmpty(); //edit 20200511,判断表达式是否有解，错误表达式无法存入内存  20200519 判断表达式是否为空
     void hisexpression(); //点击简易历史记录及科学左侧历史记录后清空ans
     void autoZoomFontSize(); //输入框字号变化
+    void themetypechanged(int type);
 
 Q_SIGNALS:
     void keyPress(QKeyEvent *);
