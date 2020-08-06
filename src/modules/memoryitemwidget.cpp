@@ -63,6 +63,9 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     connect(m_btnplus, &QPushButton::clicked, this, &MemoryItemWidget::plusbtnclicked);
     connect(m_btnminus, &QPushButton::clicked, this, &MemoryItemWidget::minusbtnclicked);
     connect(m_btnclean, &QPushButton::clicked, this, &MemoryItemWidget::cleanbtnclicked);
+    m_btnplus->setFocusPolicy(Qt::NoFocus);
+    m_btnminus->setFocusPolicy(Qt::NoFocus);
+    m_btnclean->setFocusPolicy(Qt::NoFocus);
     m_btnplus->setHidden(true);
     m_btnminus->setHidden(true);
     m_btnclean->setHidden(true);

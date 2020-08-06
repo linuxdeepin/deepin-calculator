@@ -79,14 +79,12 @@ private:
     MemoryWidget *m_memorywidget;
     DButtonBox *m_buttonbox;
     IconButton *m_clearbutton; //历史界面清除按钮
-    IconButton *m_clearbuttonM; //内存界面清除按钮
     MemoryPublic *memoryPublic;
-    QStackedWidget *m_buttonstack;
     //false-hide true-show,index-当前是历史界面/内存界面
     bool m_isshowM = false; //内存中无内容为false
-    bool m_indexM = false;
+//    bool m_indexM = false;
     bool m_isshowH = false;
-    bool m_indexH = true;
+//    bool m_indexH = true;
 };
 
 #endif // SCIHISTORYWIDGET_H
