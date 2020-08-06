@@ -10,7 +10,7 @@ Deepin calculator is an easy to use calculator for ordinary users.
 
 * mkdir build
 * cd build
-* qmake ..
+* cmake ..
 * make
 
 ## Usage
