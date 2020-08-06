@@ -298,16 +298,20 @@ void TextButton::paintEvent(QPaintEvent *e)
         painter.setPen(Qt::NoPen);
         if (m_isPress) {
             painter.setBrush(QBrush(pressBrush));
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+            painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
             QPen pen;
             pen.setColor(pressText);
             painter.setPen(pen);
-            painter.setFont(m_font);
+            pen.setColor(focus);
+            pen.setWidth(2);
+            painter.setPen(pen);
+            painter.setBrush(Qt::NoBrush);
+            painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //focus边框
             paintspecialbtn(painter, rect, textRect);
         } else {
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+            painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
             QPen pen;
 //            if (m_isacting) {
 //                painter.setPen(Qt::NoPen);
@@ -317,7 +321,7 @@ void TextButton::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
 //            }
             painter.setBrush(Qt::NoBrush);
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+            painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
 
             pen.setColor(text);
             painter.setPen(pen);
@@ -401,7 +405,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
     int powersize = 10; //次方字体大小
     int trisize = 16; //三角函数字体大小
     int vpadding = 0; //纵向微调距
-    if (m_isHover || m_isPress) {
+    if (!hasFocus() && (m_isHover || m_isPress)) {
         powersize = 12;
         trisize = 18;
     }
@@ -417,7 +421,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
                                                               Qt::AlignLeft, "nd");
         QFont a;
         a.setPixelSize(powersize);
-        if (m_isHover || m_isPress) {
+        if (!hasFocus() && (m_isHover || m_isPress)) {
             a.setPixelSize(11);
         }
         a.setFamily("Noto Sans");
@@ -437,7 +441,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
         painter.setFont(a);
         painter.drawText(textRect2, "y");
     } else if (m_btn == 3) {
-        if (m_isHover || m_isPress)
+        if (!hasFocus() && (m_isHover || m_isPress))
             vpadding = 1;
         QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                               Qt::AlignCenter, "10ˣ");
@@ -452,7 +456,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
         painter.setFont(a);
         painter.drawText(textRect2, "x");
     } else if (m_btn == 4) {
-        if (m_isHover || m_isPress)
+        if (!hasFocus() && (m_isHover || m_isPress))
             vpadding = 1;
         QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                               Qt::AlignCenter, "2ˣ");
@@ -480,7 +484,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
         painter.setFont(a);
         painter.drawText(textRect2, "x");
     } else if (m_btn == 6) {
-        if (m_isHover || m_isPress)
+        if (!hasFocus() && (m_isHover || m_isPress))
             vpadding = 4;
         else
             vpadding = 3;
@@ -498,7 +502,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
         painter.setFont(a);
         painter.drawText(textRect2, "-1");
     } else if (m_btn == 7) {
-        if (m_isHover || m_isPress)
+        if (!hasFocus() && (m_isHover || m_isPress))
             vpadding = 4;
         else
             vpadding = 3;
@@ -516,7 +520,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
         painter.setFont(a);
         painter.drawText(textRect2, "-1");
     } else if (m_btn == 8) {
-        if (m_isHover || m_isPress)
+        if (!hasFocus() && (m_isHover || m_isPress))
             vpadding = 4;
         else
             vpadding = 3;
@@ -534,7 +538,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
         painter.setFont(a);
         painter.drawText(textRect2, "-1");
     } else if (m_btn == 9) {
-        if (m_isHover || m_isPress)
+        if (!hasFocus() && (m_isHover || m_isPress))
             vpadding = 4;
         else
             vpadding = 3;

@@ -514,13 +514,19 @@ void ScientificKeyPad::getdeg(int deg)
     //m_deg == 1，点击后为rad
     if (m_deg == 1) {
         btn = static_cast<IconButton *>(button(Key_deg));
-        btn->setIconUrl(path + "rad_normal.svg", path + "rad_hover.svg", path + "rad_press.svg", 5);
+        QTimer::singleShot(100, this, [ = ] { //延迟出focus按下动画效果
+            btn->setIconUrl(path + "rad_normal.svg", path + "rad_hover.svg", path + "rad_press.svg", 5);
+        });
     } else if (m_deg == 2) {
         btn = static_cast<IconButton *>(button(Key_deg));
-        btn->setIconUrl(path + "grad_normal.svg", path + "grad_hover.svg", path + "grad_press.svg", 5);
+        QTimer::singleShot(100, this, [ = ] {
+            btn->setIconUrl(path + "grad_normal.svg", path + "grad_hover.svg", path + "grad_press.svg", 5);
+        });
     } else if (m_deg == 3) {
         btn = static_cast<IconButton *>(button(Key_deg));
-        btn->setIconUrl(path + "deg_normal.svg", path + "deg_hover.svg", path + "deg_press.svg", 5);
+        QTimer::singleShot(100, this, [ = ] {
+            btn->setIconUrl(path + "deg_normal.svg", path + "deg_hover.svg", path + "deg_press.svg", 5);
+        });
     }
 }
 

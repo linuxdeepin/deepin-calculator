@@ -60,6 +60,7 @@ void EqualButton::animate(bool isspace, int msec)
             if (!isspace)
                 setDown(false);
             m_isPress = false;
+            update();
         });
     }
 }
@@ -168,9 +169,17 @@ void EqualButton::paintEvent(QPaintEvent *e)
         if (m_isPress) {
             linearGradient.setColorAt(0, press0);
             linearGradient.setColorAt(1, press1);
-            painter.setBrush(QBrush(linearGradient));
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+
             QPen pen;
+
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(base));
+            painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(frame));
+            painter.drawRoundedRect(focusBase, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
+            painter.setBrush(QBrush(linearGradient));
+            painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
             pen.setColor(pressText);
             painter.setPen(pen);
             painter.setFont(m_font);
@@ -184,18 +193,16 @@ void EqualButton::paintEvent(QPaintEvent *e)
 //                painter.setBrush(QBrush(base));
 //                painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
 //            } else {
-            pen.setColor(base);
-            pen.setWidth(2);
-            painter.setPen(pen);
+            base.setAlphaF(0.8);
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
-            painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
+            painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(frame));
-            painter.drawRoundedRect(focusBase, 8, 8); //圆角半径单位为像素
+            painter.drawRoundedRect(focusBase, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+            painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
 //            }
 
             //painter.drawRoundRect(rect,10,10);

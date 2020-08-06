@@ -616,7 +616,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
 }
 
 /**
- * @brief 按钮时间
+ * @brief 按钮事件
  */
 void scientificModule::handleKeypadButtonPress(int key)
 {

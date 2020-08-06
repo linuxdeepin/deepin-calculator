@@ -284,16 +284,21 @@ void MemoryButton::paintEvent(QPaintEvent *e)
         painter.setPen(Qt::NoPen);
         if (m_isPress) {
             painter.setBrush(QBrush(pressBrush));
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+            painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
             QPen pen;
             pen.setColor(pressText);
             painter.setPen(pen);
             painter.setFont(m_font);
+            pen.setColor(focus);
+            pen.setWidth(2);
+            painter.setPen(pen);
+            painter.setBrush(Qt::NoBrush);
+            painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //focus边框
             painter.drawText(textRect, this->text());
         } else {
             painter.setPen(Qt::NoPen);
             painter.setBrush(QBrush(base));
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+            painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
             QPen pen;
 //            if (m_isacting) {
 //                painter.setPen(Qt::NoPen);
@@ -303,7 +308,7 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
 //            }
             painter.setBrush(Qt::NoBrush);
-            painter.drawRoundedRect(normal, 8, 8); //圆角半径单位为像素
+            painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
 
             pen.setColor(text);
             painter.setPen(pen);

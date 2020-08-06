@@ -84,6 +84,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     layH->addSpacing(10);
     if (mode == 1)
         m_clearbutton->hide();
+    connect(m_clearbutton, &TextButton::space, this, &MemoryWidget::memorycleansignal); //focus下空格按下
     connect(m_clearbutton, &DPushButton::clicked, this, &MemoryWidget::memorycleansignal);
     lay->addLayout(layH);
     lay->addSpacing(6);
@@ -152,16 +153,16 @@ void MemoryWidget::generateData(Quantity answer)
     m_list.insert(0, answer); //对于新增数据，同步在list中加入对应的Quantity
     connect(widget, &MemoryItemWidget::plusbtnclicked, this, [ = ]() {
         int row = m_listwidget->row(item1);
-        widget->setFocus(); //memorybutton取消focus状态
+//        widget->setFocus(); //memorybutton取消focus状态
         emit MemoryWidget::widgetplus(row);
     });
     connect(widget, &MemoryItemWidget::minusbtnclicked, this, [ = ]() {
         int row = m_listwidget->row(item1);
-        widget->setFocus(); //memorybutton取消focus状态
+//        widget->setFocus(); //memorybutton取消focus状态
         emit MemoryWidget::widgetminus(row);
     });
     connect(widget, &MemoryItemWidget::cleanbtnclicked, this, [ = ]() {
-        widget->setFocus(); //memorybutton取消focus状态
+//        widget->setFocus(); //memorybutton取消focus状态
         emit widgetclean(m_listwidget->row(item1), m_calculatormode, false);
         m_list.removeAt(m_listwidget->row(item1));
         m_listwidget->takeItem(m_listwidget->row(item1));

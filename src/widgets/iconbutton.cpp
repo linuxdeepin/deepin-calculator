@@ -107,8 +107,8 @@ void IconButton::animate(bool isspace, int msec)
                 m_mode = 1;
             if (m_mode == 4)
                 m_mode = 3;
-            if (m_mode == 5)
-                m_mode = 6;
+            if (m_mode == 6)
+                m_mode = 5;
             m_isPress = false;
             update();
         });
@@ -317,11 +317,16 @@ void IconButton::paintEvent(QPaintEvent *)
                 QPen pen;
                 pen.setColor(pressBrush);
                 painter.setPen(pen);
-                painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
+                painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
+                pen.setColor(focus);
+                pen.setWidth(2);
+                painter.setPen(pen);
+                painter.setBrush(Qt::NoBrush);
+                painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //focus边框
             } else {
                 painter.setPen(Qt::NoPen);
                 painter.setBrush(QBrush(base));
-                painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
+                painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
                 QPen pen;
 //                    if (m_isacting) {
 //                        painter.setPen(Qt::NoPen);
@@ -331,7 +336,7 @@ void IconButton::paintEvent(QPaintEvent *)
                 painter.setPen(pen);
 //                    }
                 painter.setBrush(Qt::NoBrush);
-                painter.drawRoundedRect(rect, 8, 8); //圆角半径单位为像素
+                painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
                 m_effect->setColor(focusShadow);
                 this->setGraphicsEffect(m_effect);
             }
@@ -358,6 +363,26 @@ void IconButton::paintEvent(QPaintEvent *)
             }
         }
 //        }
+    } else {
+        QRectF frameRect = this->rect();
+        QRectF rect(frameRect.left() + 1, frameRect.top() + 1, frameRect.width() - 2, frameRect.height() - 2);
+        painter.setRenderHint(QPainter::Antialiasing, true);
+        painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+        QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();//活动色
+        QColor focus;
+        focus = actcolor;
+        if (hasFocus()) {
+            QPen pen;
+            pen.setColor(focus);
+            pen.setWidth(2);
+            painter.setPen(pen);
+            painter.setBrush(Qt::NoBrush);
+            painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //focus边框
+        } else {
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(Qt::NoBrush);
+            painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
+        }
     }
     drawCenterPixMap(painter);
 }
