@@ -239,7 +239,7 @@ void SciHistoryWidget::historyfilled()
         m_listModel->deleteItem(1);
     m_listView->listItemFill(true);
     m_isshowH = true;
-    if (m_buttonbox->checkedId() == 0)
+    if (m_buttonbox->checkedId() <= 0)
         m_clearbutton->setHidden(false);
 //    m_clearbutton->setHidden(!(m_isshowH & m_indexH));
 }
