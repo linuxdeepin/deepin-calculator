@@ -39,6 +39,7 @@ MemoryListWidget::MemoryListWidget(QWidget *parent)
 //    DPalette pal = this->palette();
 //    pal.setColor(DPalette::Light, QColor(248, 248, 248));
 //    this->setPalette(pal);
+    setFocusPolicy(Qt::TabFocus);
 }
 
 /**
@@ -67,6 +68,34 @@ void MemoryListWidget::mouseReleaseEvent(QMouseEvent *event)
     }
     m_clickrow = -1;
     QListWidget::mouseReleaseEvent(event);
+}
+
+/**
+ * @brief focus时上下左右与空格键的信号
+ * @param 0-上　1-下　2-左　3-右
+ */
+void MemoryListWidget::keyPressEvent(QKeyEvent *e)
+{
+    switch (e->key()) {
+    case Qt::Key_Up:
+        emit focus(0);
+        break;
+    case Qt::Key_Down:
+        emit focus(1);
+        break;
+    case Qt::Key_Left:
+        emit focus(2);
+        break;
+    case Qt::Key_Right:
+        emit focus(3);
+        break;
+    case Qt::Key_Space:
+        emit space();
+        break;
+    default:
+        QWidget::keyPressEvent(e);
+        break;
+    }
 }
 
 MemoryListWidget::~MemoryListWidget()

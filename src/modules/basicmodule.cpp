@@ -116,12 +116,16 @@ BasicModule::BasicModule(QWidget *parent)
             btn1->setEnabled(true);
             btn1->setbuttongray(false);
             MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
+            btn2->setEnabled(true);
             btn2->setbuttongray(false);
             MemoryButton *btn3 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mminus));
+            btn3->setEnabled(true);
             btn3->setbuttongray(false);
             MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MS));
+            btn4->setEnabled(true);
             btn4->setbuttongray(false);
             MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mlist));
+            btn5->setEnabled(true);
             btn5->setbtnlight(false);
             m_memRCbtn = true;
             m_memCalbtn = true;

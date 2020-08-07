@@ -50,6 +50,7 @@ public:
     void generateData(Quantity answer);
     void paintEvent(QPaintEvent *event);
     void mousePressEvent(QMouseEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event);
 //    bool event(QEvent *event);
 
     void memoryplus(Quantity answer);
@@ -71,6 +72,7 @@ signals:
     void themechange(int type);
     void widgetclean(int row, int mode, bool ismenu); //是否通过menu点击发出，用于区分是否下一个item直接进入hover状态
     void memorycleansignal();
+
 private:
     MemoryListWidget *m_listwidget;
     QPoint m_mousepoint;

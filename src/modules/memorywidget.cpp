@@ -100,6 +100,33 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
                 emit itemclick(p);
         }
     });
+    connect(m_listwidget, &MemoryListWidget::space, this, [ = ] {
+        if (!m_isempty) //只有listwidget在focus状态才会触发keypress,所以此处未进行hasfocus判断
+        {
+            QPair<QString, Quantity> p;
+            int row = m_listwidget->currentRow();
+            MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
+            //        p.first = m_listwidget->item(row)->data(Qt::DisplayRole).toString();
+            p.first = w1->textLabel();
+            p.second = m_list.at(row);
+            if (m_listwidget->item(row)->flags() != Qt::NoItemFlags)
+                emit itemclick(p);
+        }
+    });
+    connect(m_listwidget, &MemoryListWidget::focus, this, [ = ](int direction) {
+        switch (direction) { //只有listwidget在focus状态才会触发keypress,所以此处未进行hasfocus判断
+        case 0:
+            if (m_listwidget->currentRow() > 0)
+                m_listwidget->setCurrentRow(m_listwidget->currentRow() - 1);
+            break;
+        case 1:
+            if (m_listwidget->currentRow() < (m_listwidget->count() - 1))
+                m_listwidget->setCurrentRow(m_listwidget->currentRow() + 1);
+            break;
+        default:
+            break;
+        }
+    });
 
     m_label->setText(tr("Nothing saved in memory"));
     m_label->setAlignment(Qt::AlignCenter); //label字体居右，居上
@@ -109,6 +136,10 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     font.setPixelSize(16);
     m_label->setFont(font);
     m_label->setAttribute(Qt::WA_TransparentForMouseEvents, true); //label鼠标穿透
+
+    m_listwidget->installEventFilter(this);
+    m_clearbutton->installEventFilter(this);
+    setTabOrder(m_listwidget, m_clearbutton);
 }
 
 /**
@@ -131,7 +162,7 @@ void MemoryWidget::generateData(Quantity answer)
     m_isempty = false;
     emit mListAvailable();
     QListWidgetItem *item1 = new QListWidgetItem();
-    item1->setFlags(Qt::ItemIsSelectable);
+    item1->setFlags(Qt::ItemIsEditable);
 //    item1->setTextAlignment(Qt::AlignRight | Qt::AlignTop);
     QFont font;
     font.setPixelSize(30);
@@ -226,6 +257,27 @@ void MemoryWidget::mousePressEvent(QMouseEvent *event)
     if (rect.contains(m_mousepoint) == true)
         emit insidewidget();
     QWidget::mousePressEvent(event);
+}
+
+bool MemoryWidget::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == m_listwidget || obj == m_clearbutton) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
+            if (key_event->key() == Qt::Key_Tab) {
+                if (m_listwidget->hasFocus()) {
+                    focusNextChild();//焦点移动
+                    m_clearbutton->setFocus();
+                } else if (m_clearbutton->hasFocus()) {
+                    focusNextChild();//焦点移动
+                    m_listwidget->setCurrentRow(0);
+                    m_listwidget->setFocus();
+                }
+                return true;
+            }
+        }
+    }
+    return QWidget::eventFilter(obj, event);
 }
 
 /**

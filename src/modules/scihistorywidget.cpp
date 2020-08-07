@@ -93,8 +93,10 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     QList<DButtonBoxButton *> listBtnBox;
     DButtonBoxButton *historybtn = new DButtonBoxButton(tr("History"));
     historybtn->setFixedSize(BUTTONBOX_WIDTH / 2, BUTTONBOX_HEIGHT);
+    historybtn->setFocusPolicy(Qt::TabFocus);
     DButtonBoxButton *memorybtn = new DButtonBoxButton(tr("Memory"));
     memorybtn->setFixedSize(BUTTONBOX_WIDTH / 2, BUTTONBOX_HEIGHT);
+    memorybtn->setFocusPolicy(Qt::TabFocus);
     listBtnBox << historybtn << memorybtn;
     m_buttonbox->setButtonList(listBtnBox, true);
     m_buttonbox->setId(historybtn, 0);
@@ -122,13 +124,25 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
             m_isshowH = false;
         } else {
             memoryPublic->memoryclean();
-            setFocus();
             m_isshowM = false;
         }
         m_clearbutton->setHidden(true);
 //        m_clearbutton->setHidden(!(m_isshowH & m_indexH));
         setFocus();
     });
+    connect(m_clearbutton, &TextButton::space, this, [ = ]() {
+        if (m_buttonbox->checkedId() == 0) {
+            m_listModel->clearItems();
+            m_listView->listItemFill(false);
+            m_isshowH = false;
+        } else {
+            memoryPublic->memoryclean();
+            m_isshowM = false;
+        }
+        m_clearbutton->setHidden(true);
+//        m_clearbutton->setHidden(!(m_isshowH & m_indexH));
+        setFocus();
+    }); //focus下空格按下
     connect(m_listModel, &SimpleListModel::hisbtnhidden, this, [ = ]() {
         m_listModel->clearItems(); //历史记录无数据信号接收
         m_listView->listItemFill(false);
@@ -155,6 +169,9 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
         if (mode == 1)
             this->setFocus();
     });
+//    setTabOrder(historybtn, memorybtn);
+//    setTabOrder(memorybtn, m_clearbutton);
+//    setTabOrder(m_clearbutton, m_memorywidget);
 }
 
 SciHistoryWidget::~SciHistoryWidget() {}

@@ -50,6 +50,16 @@ void MemoryItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         painter->setBrush(QColor("#252525"));
         painter->drawRect(rect);
     }
+    if (dragWidget->hasFocus()) {
+        QRectF itemrect(dragWidget->visualItemRect(dragWidget->currentItem()));
+        QRectF frame(itemrect.left() + 1, itemrect.top() + 1, itemrect.width() - 2, itemrect.height() - 2);
+        QPen pen;
+        pen.setColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name());
+        pen.setWidth(2);
+        painter->setPen(pen);
+        painter->setBrush(Qt::NoBrush);
+        painter->drawRoundedRect(frame, 8, 8); //focus边框
+    }
     QStyledItemDelegate::paint(painter, option, index);
 }
 
