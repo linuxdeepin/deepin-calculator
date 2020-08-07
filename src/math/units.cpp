@@ -82,30 +82,30 @@ void Units::initTable()
     pushUnit(ohm(), "ohm");                                     // el. resistance
     pushUnit(siemens(), "siemens");                             // el. conductance
     pushUnit(ohm()*meter(), "ohm meter");                       // el. resistivity
-    pushUnit(siemens()/meter(), "siemens/meter");               // el. conductivity
-    pushUnit(siemens()/meter()/mole(), "siemens/(meter mole)"); // molar conductivity
+    pushUnit(siemens() / meter(), "siemens/meter");             // el. conductivity
+    pushUnit(siemens() / meter() / mole(), "siemens/(meter mole)"); // molar conductivity
     pushUnit(farad(), "farad");                                 // capacitance
     pushUnit(tesla(), "tesla");                                 // magnetic flux density
     pushUnit(weber(), "weber");                                 // magnetic flux
     pushUnit(henry(), "henry");                                 // inductance
-    pushUnit(coulomb()/cbmeter(), "coulomb/meter³");            // electric charge density
-    pushUnit(coulomb()/sqmeter(), "coulomb/meter²");            // surface charge density or el. flux
-    pushUnit(coulomb()/kilogram(), "coulomb/kilogram");         // exposure
-    pushUnit(farad()/meter(), "farad/meter");                   // permittivity
-    pushUnit(henry()/meter(), "henry/meter");                   // permeability
-    pushUnit(joule()/kilogram()/kelvin(),"joule/(kilogram kelvin)");    // specific heat capacity
-    pushUnit(joule()/mole()/kelvin(), "joule/(mole kelvin");            // molar heat capacity
-    pushUnit(mole()/second()/cbmeter(), "mole/(second meter³)");        // catalytic activity
-    pushUnit(newton()/meter(), "newton/meter");                 // surface tension
+    pushUnit(coulomb() / cbmeter(), "coulomb/meter³");          // electric charge density
+    pushUnit(coulomb() / sqmeter(), "coulomb/meter²");          // surface charge density or el. flux
+    pushUnit(coulomb() / kilogram(), "coulomb/kilogram");       // exposure
+    pushUnit(farad() / meter(), "farad/meter");                 // permittivity
+    pushUnit(henry() / meter(), "henry/meter");                 // permeability
+    pushUnit(joule() / kilogram() / kelvin(), "joule/(kilogram kelvin)"); // specific heat capacity
+    pushUnit(joule() / mole() / kelvin(), "joule/(mole kelvin");        // molar heat capacity
+    pushUnit(mole() / second() / cbmeter(), "mole/(second meter³)");    // catalytic activity
+    pushUnit(newton() / meter(), "newton/meter");               // surface tension
     pushUnit(pascal()*second(), "pascal second");               // dynamic viscosity
-    pushUnit(volt()/meter(), "volt/meter");                     // el. field
-    pushUnit(watt()/meter()/kelvin(), "watt/(meter kelvin)");   // thermal conductivity
-    pushUnit(watt()/sqmeter(), "watt/meter²");                  // heat flux
-    pushUnit(joule()/kelvin(), "joule/kelvin");                 // entropy or heat capacity
-    pushUnit(joule()/kilogram(), "joule/kilogram");             // specific energy
+    pushUnit(volt() / meter(), "volt/meter");                   // el. field
+    pushUnit(watt() / meter() / kelvin(), "watt/(meter kelvin)"); // thermal conductivity
+    pushUnit(watt() / sqmeter(), "watt/meter²");                // heat flux
+    pushUnit(joule() / kelvin(), "joule/kelvin");               // entropy or heat capacity
+    pushUnit(joule() / kilogram(), "joule/kilogram");           // specific energy
 }
 
-void Units::findUnit(Quantity& q)
+void Units::findUnit(Quantity &q)
 {
     QString unit_name = "";
     CNumber unit(1);
@@ -125,7 +125,7 @@ void Units::findUnit(Quantity& q)
         while (i != dimension.constEnd()) {
             auto exponent = i.value().toString();
             if (exponent.contains('/'))
-                exponent = "^(" + exponent+')';
+                exponent = "^(" + exponent + ')';
             else if (exponent == "1")
                 exponent = "";
             else
@@ -394,7 +394,7 @@ UNIT_CACHE(sievert,             joule() / kilogram())
 UNIT_CACHE(katal,               mole() / second())
 UNIT_CACHE(steradian,           1)
 UNIT_CACHE(lumen,               candela()*steradian())
-UNIT_CACHE(lux,                 lumen()/sqmeter())
+UNIT_CACHE(lux,                 lumen() / sqmeter())
 
 UNIT_CACHE(sqmeter,             meter() * meter())
 UNIT_CACHE(cbmeter,             sqmeter() * meter())
@@ -415,7 +415,7 @@ UNIT_CACHE(astronomical_unit,   HNumber("149597870700") * meter()) // IAU 2012 R
 UNIT_CACHE(lightyear,           speed_of_light() * julian_year())
 UNIT_CACHE(lightminute,         speed_of_light() * minute())
 UNIT_CACHE(lightsecond,         speed_of_light() * second())
-UNIT_CACHE(parsec,              HNumber(648000)/HMath::pi() * astronomical_unit()) // IAU 2015 Resolution B2.
+UNIT_CACHE(parsec,              HNumber(648000) / HMath::pi() * astronomical_unit()) // IAU 2015 Resolution B2.
 UNIT_CACHE(inch,                HNumber("0.0254") * meter()) // International inch.
 UNIT_CACHE(foot,                HNumber(12) * inch())
 UNIT_CACHE(yard,                HNumber(36) * inch())
@@ -452,7 +452,7 @@ UNIT_CACHE(sidereal_year,       HNumber("365.25636") * day()) // http://hpiers.o
 UNIT_CACHE(percent,             HNumber("0.01"))
 UNIT_CACHE(ppm,                 HNumber("1e-6"))
 UNIT_CACHE(ppb,                 HNumber("1e-9"))
-UNIT_CACHE(karat,               Rational(1,24).toHNumber()) // Do not confuse with carat above.
+UNIT_CACHE(karat,               Rational(1, 24).toHNumber()) // Do not confuse with carat above.
 
 UNIT_CACHE(bar,                 HNumber("1e5") * pascal())
 UNIT_CACHE(atmosphere,          HNumber("1.01325") * bar())
@@ -474,6 +474,6 @@ UNIT_CACHE(cup,                 HNumber(240) * milli()*liter())
 UNIT_CACHE(gravity,             HNumber("9.80665") * newton() / kilogram()) // 3rd CGPM (1901, CR 70).
 UNIT_CACHE(speed_of_light,      HNumber(299792458) * meter() / second())
 UNIT_CACHE(elementary_charge,   HNumber("1.6021766208e-19") * coulomb()) // http://physics.nist.gov/cgi-bin/cuu/Value?e
-UNIT_CACHE(speed_of_sound_STP,  HNumber(331) * meter()/second())
-UNIT_CACHE(knot,                nautical_mile()/hour())
+UNIT_CACHE(speed_of_sound_STP,  HNumber(331) * meter() / second())
+UNIT_CACHE(knot,                nautical_mile() / hour())
 UNIT_CACHE(horsepower,          HNumber(550) * foot() * pound() * gravity() / second()) // Imperial horsepower.

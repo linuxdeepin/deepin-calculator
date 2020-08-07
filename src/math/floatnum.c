@@ -38,6 +38,7 @@
 
 #include "floatnum.h"
 #include "floatlong.h"
+#include "floatconfig.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -1503,6 +1504,27 @@ _addsub_ordered(
     return float_copy(dest, summand1, digits);
 
   /* separate true addition from true subtraction */
+  /*start edit jingzhou 20200807
+   * 处理过长的小数，截掉超过精度的部分后进行运算处理
+   * 例：无限循环小数，1/3000，减一加一后，n_value中的长度由原有的范围精度
+   * HMATH_WORKING_PREC = DECPRECISION(运算精度) + 2，减少了位数，即0.0003的前三个0
+   * 再次将结果去减1/3000时，最后几位无法对齐，导致运算结果为-3.33×e82。现将超过的部分截掉
+   */
+  int overprec_part_s1 = summand1->significand->n_scale - summand1->exponent - DECPRECISION;
+  int overprec_part_s2 = summand2->significand->n_scale - summand2->exponent - DECPRECISION;
+  if(overprec_part_s1 > 0)
+  {
+      for (;overprec_part_s1>0;overprec_part_s1--) {
+          summand1->significand->n_scale--;
+      }
+  }
+  if(overprec_part_s2 > 0)
+  {
+      for (;overprec_part_s2>0;overprec_part_s2--) {
+          summand2->significand->n_scale--;
+      }
+  }
+  //end edit jingzhou 20200807
   if (float_getsign(summand1) == float_getsign(summand2))
     return _addsub_normal(dest, summand1, summand2, digits);
   return _sub_ordered(dest, summand1, summand2, digits);
