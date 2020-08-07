@@ -120,7 +120,7 @@
 ***************************************************************************/
 
 /* the limit of the math library */
-#define MATHPRECISION 100
+#define MATHPRECISION (2*DECPRECISION + 3)
 
 #if defined(_FLOATNUMTEST)
 #  undef MAXDIGITS
