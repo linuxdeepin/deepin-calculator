@@ -198,6 +198,9 @@ void SimpleListView::keyPressEvent(QKeyEvent *e)
     }
 }
 
+/**
+ * @brief 焦点进入时设置焦点在第一条历史记录
+ */
 void SimpleListView::focusInEvent(QFocusEvent *event)
 {
     setCurrentIndex(this->model()->index(0, 0));

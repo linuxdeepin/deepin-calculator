@@ -98,6 +98,9 @@ void MemoryListWidget::keyPressEvent(QKeyEvent *e)
     }
 }
 
+/**
+ * @brief 焦点进入时设置焦点在第一条记录
+ */
 void MemoryListWidget::focusInEvent(QFocusEvent *event)
 {
     setCurrentRow(0);

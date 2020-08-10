@@ -141,7 +141,7 @@ void SimpleListDelegate::paintback(const QModelIndex &index, int state)
 void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                                const QModelIndex &index) const
 {
-    drawFocusStatus(painter, option);
+    drawFocusStatus(painter, option); //焦点边框
     const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
     if (m_mode == 0) {
         QRect rect(option.rect);
@@ -355,7 +355,9 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     }
 
 }
-
+/**
+ * @brief 绘制焦点状态
+ */
 void SimpleListDelegate::drawFocusStatus(QPainter *painter, const QStyleOptionViewItem &option) const
 {
     SimpleListView *listview = qobject_cast<SimpleListView *>(option.styleObject);
@@ -372,6 +374,9 @@ void SimpleListDelegate::drawFocusStatus(QPainter *painter, const QStyleOptionVi
     }
 }
 
+/**
+ * @brief 大小设置
+ */
 QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
                                    const QModelIndex &index) const
 {

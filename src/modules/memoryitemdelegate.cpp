@@ -50,6 +50,7 @@ void MemoryItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         painter->setBrush(QColor("#252525"));
         painter->drawRect(rect);
     }
+    //内存焦点选中边框绘制
     if (dragWidget->hasFocus()) {
         QRectF itemrect(dragWidget->visualItemRect(dragWidget->currentItem()));
         QRectF frame(itemrect.left() + 1, itemrect.top() + 1, itemrect.width() - 2, itemrect.height() - 2);

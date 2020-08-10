@@ -102,7 +102,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_buttonbox->setId(m_historybtn, 0);
     m_buttonbox->setId(m_memorybtn, 1);
     connect(m_buttonbox->button(0), &QAbstractButton::clicked, this, [ = ]() {
-        if (QApplication::focusWidget() != nullptr)
+        if (QApplication::focusWidget() != nullptr) //取消应用内所有焦点
             QApplication::focusWidget()->clearFocus();
         m_clearbutton->showtooltip(false); //设置历史垃圾桶tooltip
 //        m_indexH = true;
@@ -112,7 +112,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 //        m_clearbutton->setHidden(!(m_isshowH & m_indexH));
     });
     connect(m_buttonbox->button(1), &QAbstractButton::clicked, this, [ = ]() {
-        if (QApplication::focusWidget() != nullptr)
+        if (QApplication::focusWidget() != nullptr) //取消应用内所有焦点
             QApplication::focusWidget()->clearFocus();
         m_clearbutton->showtooltip(true); //设置内存垃圾桶tooltip
 //        m_indexH = false;
@@ -122,7 +122,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 //        m_clearbuttonM->setHidden(!(m_isshowM & m_indexM));
     });
     connect(m_clearbutton, &IconButton::clicked, this, [ = ]() {
-        if (QApplication::focusWidget() != nullptr)
+        if (QApplication::focusWidget() != nullptr) //取消应用内所有焦点
             QApplication::focusWidget()->clearFocus();
         if (m_buttonbox->checkedId() == 0) {
             m_listModel->clearItems();
@@ -138,7 +138,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 //        m_clearbutton->setHidden(!(m_isshowH & m_indexH));
 //        setFocus();
     });
-    connect(m_clearbutton, &TextButton::space, this, [ = ]() {
+    connect(m_clearbutton, &TextButton::space, this, [ = ]() { //清除焦点空格事件
         if (m_buttonbox->checkedId() == 0) {
             m_listModel->clearItems();
             m_listView->listItemFill(false);
@@ -244,6 +244,9 @@ void SciHistoryWidget::mouseMoveEvent(QMouseEvent *e)
     Q_UNUSED(e);
 }
 
+/**
+ * @brief 焦点在右侧时只会在buttonbox,cleatbutton,历史记录/内存切换
+ */
 bool SciHistoryWidget::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == m_historybtn || obj == m_clearbutton ||
@@ -284,6 +287,9 @@ void SciHistoryWidget::keyPressEvent(QKeyEvent *e)
     }
 }
 
+/**
+ * @brief 确保第一次焦点在历史记录按钮
+ */
 void SciHistoryWidget::focusInEvent(QFocusEvent *event)
 {
     m_historybtn->setFocus();

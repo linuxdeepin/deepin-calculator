@@ -117,13 +117,13 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
         case 0:
             if (m_listwidget->currentRow() > 0) {
                 m_listwidget->setCurrentRow(m_listwidget->currentRow() - 1);
-                m_listwidget->scrollToItem(m_listwidget->item(m_listwidget->currentRow()));
+                m_listwidget->scrollToItem(m_listwidget->item(m_listwidget->currentRow())); //滚动条跟随焦点项
             }
             break;
         case 1:
             if (m_listwidget->currentRow() < (m_listwidget->count() - 1)) {
                 m_listwidget->setCurrentRow(m_listwidget->currentRow() + 1);
-                m_listwidget->scrollToItem(m_listwidget->item(m_listwidget->currentRow()));
+                m_listwidget->scrollToItem(m_listwidget->item(m_listwidget->currentRow())); //滚动条跟随焦点项
             }
             break;
         default:
@@ -288,6 +288,9 @@ bool MemoryWidget::eventFilter(QObject *obj, QEvent *event)
     return QWidget::eventFilter(obj, event);
 }
 
+/**
+ * @brief 设置焦点到该widget时转移至listwidget
+ */
 void MemoryWidget::focusInEvent(QFocusEvent *event)
 {
     if (!m_isempty)
