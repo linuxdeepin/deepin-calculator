@@ -154,6 +154,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
  */
 void MemoryWidget::generateData(Quantity answer)
 {
+    m_listwidget->setFocusPolicy(Qt::TabFocus); //内存中有内容时TabFocus
     m_label->hide();
     //500 memory number limit
     if (m_list.count() == MAXSIZE) {
@@ -369,6 +370,7 @@ void MemoryWidget::memoryminus(Quantity answer)
  */
 void MemoryWidget::memoryclean()
 {
+    m_listwidget->setFocusPolicy(Qt::NoFocus); //内存无内容时NoFocus
     m_label->show();
     m_listwidget->clear();
     m_list.clear();

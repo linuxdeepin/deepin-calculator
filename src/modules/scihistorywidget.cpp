@@ -139,6 +139,8 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 //        setFocus();
     });
     connect(m_clearbutton, &TextButton::space, this, [ = ]() { //清除焦点空格事件
+        if (QApplication::focusWidget() != nullptr) //取消应用内所有焦点
+            QApplication::focusWidget()->clearFocus();
         if (m_buttonbox->checkedId() == 0) {
             m_listModel->clearItems();
             m_listView->listItemFill(false);
