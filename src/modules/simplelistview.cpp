@@ -40,15 +40,19 @@ SimpleListView::SimpleListView(int mode, QWidget *parent)
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn); //设置垂直滚条
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setEditTriggers(QAbstractItemView::SelectedClicked | QAbstractItemView::DoubleClicked); //单击已选中的内容双击单元格时编辑
-    setFocusPolicy(Qt::NoFocus);
+//    setFocusPolicy(Qt::TabFocus);
     setAutoScroll(false);
     setSelectionBehavior(QAbstractItemView::SelectRows); //选中一行
     setSelectionMode(QAbstractItemView::SingleSelection); //选中单个目标
-    if (m_mode == 0)
+    if (m_mode == 0) {
+        setFocusPolicy(Qt::NoFocus);
         setFixedHeight(99);
+    }
 
-    if (m_mode == 1)
+    if (m_mode == 1) {
+        setFocusPolicy(Qt::NoFocus);
         setMouseTracking(true);
+    }
 
     connect(verticalScrollBar(), &QScrollBar::rangeChanged, this, &SimpleListView::adjustScrollbarMargins);
 }
@@ -168,4 +172,30 @@ void SimpleListView::mouseReleaseEvent(QMouseEvent *event)
         m_presspoint = QPoint();
     }
     DListView::mouseReleaseEvent(event);
+}
+
+void SimpleListView::keyPressEvent(QKeyEvent *e)
+{
+    switch (e->key()) {
+    case Qt::Key_Up:
+        if (currentIndex().row() > 0)
+            setCurrentIndex(this->model()->index(currentIndex().row() - 1, 0));
+        break;
+    case Qt::Key_Down:
+        if (currentIndex().row() < this->count() - 1)
+            setCurrentIndex(this->model()->index(currentIndex().row() + 1, 0));
+        break;
+    case Qt::Key_Space:
+        emit obtainingHistorical(currentIndex());
+        break;
+    default:
+        DListView::keyPressEvent(e);
+        break;
+    }
+}
+
+void SimpleListView::focusInEvent(QFocusEvent *event)
+{
+    setCurrentIndex(this->model()->index(0, 0));
+    DListView::focusInEvent(event);
 }

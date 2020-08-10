@@ -73,7 +73,6 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     m_listwidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn); //设置垂直滚条
     m_listwidget->setAutoScroll(false); //鼠标在视口边缘时是否自动滚动内容
     m_listwidget->setSelectionRectVisible(false); //选择矩形框是否可见
-    m_listwidget->setFocusPolicy(Qt::NoFocus);
     m_listwidget->setItemDelegate(m_memoryDelegate);
     m_label->hide();
     memoryclean();
@@ -139,7 +138,8 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
 
     m_listwidget->installEventFilter(this);
     m_clearbutton->installEventFilter(this);
-    setTabOrder(m_listwidget, m_clearbutton);
+    if (m_calculatormode == 0)
+        setTabOrder(m_listwidget, m_clearbutton);
 }
 
 /**
@@ -259,25 +259,38 @@ void MemoryWidget::mousePressEvent(QMouseEvent *event)
     QWidget::mousePressEvent(event);
 }
 
+/**
+ * @brief 利用事件过滤器防止打开内存界面时focus到titlebar上
+ */
 bool MemoryWidget::eventFilter(QObject *obj, QEvent *event)
 {
-    if (obj == m_listwidget || obj == m_clearbutton) {
-        if (event->type() == QEvent::KeyPress) {
-            QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
-            if (key_event->key() == Qt::Key_Tab) {
-                if (m_listwidget->hasFocus()) {
-                    focusNextChild();//焦点移动
-                    m_clearbutton->setFocus();
-                } else if (m_clearbutton->hasFocus()) {
-                    focusNextChild();//焦点移动
-                    m_listwidget->setCurrentRow(0);
-                    m_listwidget->setFocus();
+    if (m_calculatormode == 0) {
+        if (obj == m_listwidget || obj == m_clearbutton) {
+            if (event->type() == QEvent::KeyPress) {
+                QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
+                if (key_event->key() == Qt::Key_Tab) {
+                    if (m_listwidget->hasFocus()) {
+                        focusNextChild();//焦点移动
+                        m_clearbutton->setFocus();
+                    } else if (m_clearbutton->hasFocus()) {
+                        focusNextChild();//焦点移动
+                        m_listwidget->setFocus();
+                    }
+                    return true;
                 }
-                return true;
             }
         }
     }
     return QWidget::eventFilter(obj, event);
+}
+
+void MemoryWidget::focusInEvent(QFocusEvent *event)
+{
+    if (!m_isempty)
+        m_listwidget->setCurrentRow(0);
+    if (m_calculatormode == 1)
+        m_listwidget->setFocus();
+    QWidget::focusInEvent(event);
 }
 
 /**
@@ -459,6 +472,11 @@ void MemoryWidget::widgetminusslot(int row, Quantity answer)
 bool MemoryWidget::isWidgetEmpty()
 {
     return m_isempty;
+}
+
+MemoryListWidget *MemoryWidget::getMemoryWidget()
+{
+    return m_listwidget;
 }
 
 /**

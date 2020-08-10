@@ -25,6 +25,7 @@
 #include <QStackedLayout>
 #include <QGridLayout>
 #include <QStackedWidget>
+#include <QApplication>
 #include <DButtonBox>
 #include <DIconButton>
 #include <DWidget>
@@ -66,6 +67,9 @@ public:
     MemoryWidget *getMemoryWidget();
     void memoryFunctions(memOperate operate = generateData, Quantity answer = Quantity(), int row = -1);
     void mouseMoveEvent(QMouseEvent *e);
+    bool eventFilter(QObject *obj, QEvent *event);
+    void keyPressEvent(QKeyEvent *e);
+    void focusInEvent(QFocusEvent *event);
 
     SimpleListView *m_listView;
     SimpleListDelegate *m_listDelegate;
@@ -78,6 +82,8 @@ private:
     QStackedLayout *m_stacklayout;
     MemoryWidget *m_memorywidget;
     DButtonBox *m_buttonbox;
+    DButtonBoxButton *m_historybtn;
+    DButtonBoxButton *m_memorybtn;
     IconButton *m_clearbutton; //历史界面清除按钮
     MemoryPublic *memoryPublic;
     //false-hide true-show,index-当前是历史界面/内存界面

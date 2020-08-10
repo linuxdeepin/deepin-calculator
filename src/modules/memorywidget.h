@@ -51,6 +51,7 @@ public:
     void paintEvent(QPaintEvent *event);
     void mousePressEvent(QMouseEvent *event);
     bool eventFilter(QObject *obj, QEvent *event);
+    void focusInEvent(QFocusEvent *event);
 //    bool event(QEvent *event);
 
     void memoryplus(Quantity answer);
@@ -61,6 +62,7 @@ public:
     void widgetplusslot(int row, Quantity answer);
     void widgetminusslot(int row, Quantity answer);
     bool isWidgetEmpty(); //内存列表是否为空
+    MemoryListWidget *getMemoryWidget();
 
 signals:
     void widgetplus(int row);

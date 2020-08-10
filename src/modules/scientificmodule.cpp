@@ -103,7 +103,7 @@ scientificModule::scientificModule(QWidget *parent)
         //内存界面点击item
         QString str = p.first;
         m_sciexpressionBar->getInputEdit()->setAnswer(str.remove("\n"), p.second);
-        m_sciexpressionBar->getInputEdit()->setFocus();
+//        m_sciexpressionBar->getInputEdit()->setFocus();
         MemoryButton *btn = static_cast<MemoryButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_MC));
         btn->setEnabled(true);
         MemoryButton *btn1 = static_cast<MemoryButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_MR));
@@ -620,7 +620,6 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
  */
 void scientificModule::handleKeypadButtonPress(int key)
 {
-    m_sciexpressionBar->getInputEdit()->setFocus();
     m_scikeypadwidget->update();
     m_sciexpressionBar->clearSelection();
     //20200414 bug20294鼠标点击取消focus
@@ -906,6 +905,7 @@ void scientificModule::handleKeypadButtonPress(int key)
         break;
     }
     m_sciexpressionBar->addUndo();
+    m_sciexpressionBar->getInputEdit()->setFocus();
     int left = 0;
     int right = 0;
     QString text = m_sciexpressionBar->getInputEdit()->text();

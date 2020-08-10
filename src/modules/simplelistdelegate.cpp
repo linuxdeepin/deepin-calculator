@@ -27,6 +27,7 @@
 
 #include "dthememanager.h"
 #include "simplelistmodel.h"
+#include "simplelistview.h"
 #include "src/utils.h"
 
 DWIDGET_USE_NAMESPACE
@@ -139,6 +140,7 @@ void SimpleListDelegate::paintback(const QModelIndex &index, int state)
 void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                                const QModelIndex &index) const
 {
+    drawFocusStatus(painter, option);
     const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
     if (m_mode == 0) {
         QRect rect(option.rect);
@@ -351,6 +353,22 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         }
     }
 
+}
+
+void SimpleListDelegate::drawFocusStatus(QPainter *painter, const QStyleOptionViewItem &option) const
+{
+    SimpleListView *listview = qobject_cast<SimpleListView *>(option.styleObject);
+    if (listview->hasFocus()) {
+        painter->setRenderHint(QPainter::Antialiasing, true);
+        QRectF itemrect(listview->visualRect(listview->currentIndex()));
+        QRectF frame(itemrect.left() + 1, itemrect.top() + 1, itemrect.width() - 2, itemrect.height() - 2);
+        QPen pen;
+        pen.setColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name());
+        pen.setWidth(2);
+        painter->setPen(pen);
+        painter->setBrush(Qt::NoBrush);
+        painter->drawRoundedRect(frame, 8, 8); //focus边框
+    }
 }
 
 QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,

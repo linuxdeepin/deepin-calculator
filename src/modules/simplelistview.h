@@ -43,6 +43,8 @@ protected:
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    void keyPressEvent(QKeyEvent *e);
+    void focusInEvent(QFocusEvent *event);
     void adjustScrollbarMargins();
 Q_SIGNALS:
     void clickrow(QString str);
