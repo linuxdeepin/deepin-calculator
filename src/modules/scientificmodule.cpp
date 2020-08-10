@@ -103,7 +103,7 @@ scientificModule::scientificModule(QWidget *parent)
         //内存界面点击item
         QString str = p.first;
         m_sciexpressionBar->getInputEdit()->setAnswer(str.remove("\n"), p.second);
-//        m_sciexpressionBar->getInputEdit()->setFocus();
+        m_sciexpressionBar->getInputEdit()->setFocus();
         MemoryButton *btn = static_cast<MemoryButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_MC));
         btn->setEnabled(true);
         MemoryButton *btn1 = static_cast<MemoryButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_MR));

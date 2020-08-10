@@ -2174,7 +2174,7 @@ void SciExpressionBar::hisRevisionResults(const QModelIndex &index, Quantity ans
     // fix addundo for history revision
     m_isUndo = false;
     addUndo();
-
+    m_inputEdit->setFocus();
     emit clearStateChanged(false); //清除按键为C
 }
 
