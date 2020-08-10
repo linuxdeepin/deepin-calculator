@@ -71,7 +71,6 @@ private:
     void handleEditKeyPress(QKeyEvent *);
     void handleKeypadButtonPress(int);
     void handleKeypadButtonPressByspace(int);
-    void equalButtonPress();
     void handleClearStateChanged(bool isAllClear);
     void handleDegChanged();
     void handleFEStateChanged(bool isdown);

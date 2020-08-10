@@ -547,7 +547,6 @@ void SciExpressionBar::enterEqualEvent()
             return;
         }
     }
-
     m_isResult = true;
     m_isUndo = false;
 }

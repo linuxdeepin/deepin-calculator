@@ -34,6 +34,7 @@ DWIDGET_USE_NAMESPACE
 
 const int PADDING = 15; //历史记录区边距
 const int NOHISTORYHEIGHT = 320; // 无历史记录rect高度
+const int HISWIDTH = 360; //历史记录宽度
 
 SimpleListDelegate::SimpleListDelegate(int mode, QObject *parent)
     : QStyledItemDelegate(parent)
@@ -361,7 +362,7 @@ void SimpleListDelegate::drawFocusStatus(QPainter *painter, const QStyleOptionVi
     if (listview->hasFocus()) {
         painter->setRenderHint(QPainter::Antialiasing, true);
         QRectF itemrect(listview->visualRect(listview->currentIndex()));
-        QRectF frame(itemrect.left() + 1, itemrect.top() + 1, itemrect.width() - 2, itemrect.height() - 2);
+        QRectF frame(itemrect.left() + 1, itemrect.top() + 1, HISWIDTH - 2, itemrect.height() - 2);
         QPen pen;
         pen.setColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name());
         pen.setWidth(2);
@@ -399,7 +400,7 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
                          (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 1) + 1) :
                          (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 1)); //由于结果字体较大，暂以此避免
         resultHeight = fmresult.height() * resultline;
-        return QSize(360, expHeight + resultHeight + 25); //多出25pix空隙
+        return QSize(HISWIDTH, expHeight + resultHeight + 25); //多出25pix空隙
     } else
         return QSize(-1, 33);
 //    QStyledItemDelegate::sizeHint(option, index);

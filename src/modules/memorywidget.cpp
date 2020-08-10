@@ -115,12 +115,16 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     connect(m_listwidget, &MemoryListWidget::focus, this, [ = ](int direction) {
         switch (direction) { //只有listwidget在focus状态才会触发keypress,所以此处未进行hasfocus判断
         case 0:
-            if (m_listwidget->currentRow() > 0)
+            if (m_listwidget->currentRow() > 0) {
                 m_listwidget->setCurrentRow(m_listwidget->currentRow() - 1);
+                m_listwidget->scrollToItem(m_listwidget->item(m_listwidget->currentRow()));
+            }
             break;
         case 1:
-            if (m_listwidget->currentRow() < (m_listwidget->count() - 1))
+            if (m_listwidget->currentRow() < (m_listwidget->count() - 1)) {
                 m_listwidget->setCurrentRow(m_listwidget->currentRow() + 1);
+                m_listwidget->scrollToItem(m_listwidget->item(m_listwidget->currentRow()));
+            }
             break;
         default:
             break;

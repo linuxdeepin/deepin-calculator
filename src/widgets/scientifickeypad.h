@@ -104,7 +104,6 @@ public slots:
 signals:
     void buttonPressed(int);
     void buttonPressedbySpace(int);
-    void equalPressed();
     void moveLeft();
     void moveRight();
     void windowSize(int width, int height, bool hishide);

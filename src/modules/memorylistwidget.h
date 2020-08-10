@@ -38,6 +38,7 @@ public:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *e);
+    void focusInEvent(QFocusEvent *event);
 
 signals:
     void itemselected(int row);

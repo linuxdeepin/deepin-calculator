@@ -122,6 +122,8 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 //        m_clearbuttonM->setHidden(!(m_isshowM & m_indexM));
     });
     connect(m_clearbutton, &IconButton::clicked, this, [ = ]() {
+        if (QApplication::focusWidget() != nullptr)
+            QApplication::focusWidget()->clearFocus();
         if (m_buttonbox->checkedId() == 0) {
             m_listModel->clearItems();
             m_listView->listItemFill(false);

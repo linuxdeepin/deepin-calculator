@@ -82,7 +82,6 @@ scientificModule::scientificModule(QWidget *parent)
     connect(this, &scientificModule::changedeg, m_scikeypadwidget, &ScientificKeyPad::getdeg); //切换deg切图
     connect(m_scikeypadwidget, &ScientificKeyPad::buttonPressed, this,
             &scientificModule::handleKeypadButtonPress);
-    connect(m_scikeypadwidget, &ScientificKeyPad::equalPressed, this, &scientificModule::equalButtonPress);
     connect(m_scikeypadwidget, &ScientificKeyPad::moveLeft, [ = ] { m_sciexpressionBar->moveLeft(); });
     connect(m_scikeypadwidget, &ScientificKeyPad::moveRight, [ = ] { m_sciexpressionBar->moveRight(); });
     connect(m_scikeypadwidget, &ScientificKeyPad::buttonPressedbySpace, this, &scientificModule::handleKeypadButtonPressByspace);
@@ -276,6 +275,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         if (m_sciexpressionBar->getexpression().first) {
             m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->getanswer(), m_sciexpressionBar->getexpression().second, 0);
             m_scihiswidget->historyfilled();
+            m_scihiswidget->m_listView->scrollToTop();
         }
         m_sciexpressionBar->addUndo();
 //        setFocus();
@@ -704,6 +704,7 @@ void scientificModule::handleKeypadButtonPress(int key)
         if (m_sciexpressionBar->getexpression().first) {
             m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->getanswer(), m_sciexpressionBar->getexpression().second, 0);
             m_scihiswidget->historyfilled();
+            m_scihiswidget->m_listView->scrollToTop();
         }
         break;
     case ScientificKeyPad::Key_Clear:
@@ -1010,6 +1011,7 @@ void scientificModule::handleKeypadButtonPressByspace(int key)
         if (m_sciexpressionBar->getexpression().first) {
             m_scihiswidget->m_listModel->updataList(m_sciexpressionBar->getanswer(), m_sciexpressionBar->getexpression().second, 0);
             m_scihiswidget->historyfilled();
+            m_scihiswidget->m_listView->scrollToTop();
         }
         break;
     case ScientificKeyPad::Key_Clear:
@@ -1226,12 +1228,6 @@ void scientificModule::handleKeypadButtonPressByspace(int key)
     }
     m_scikeypadwidget->bracketsNum(0, QString::number(left)); //写入左右括号不匹配数
     m_scikeypadwidget->bracketsNum(1, QString::number(right));
-}
-
-void scientificModule::equalButtonPress()
-{
-    m_sciexpressionBar->enterEqualEvent();
-    m_sciexpressionBar->addUndo();
 }
 
 /**

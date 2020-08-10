@@ -109,7 +109,6 @@ void ExpressionBar::enterNumberEvent(const QString &text)
             m_inputEdit->clear();
 
         m_isContinue = true;
-        m_listView->setFocus();
     }
 
     m_inputNumber = false;
