@@ -388,6 +388,9 @@ void MemoryWidget::memoryclean()
     emit mListUnavailable();
 }
 
+/**
+ * @brief 内存中没有数据的字体颜色
+ */
 void MemoryWidget::emptymemoryfontcolor()
 {
     DPalette pl = this->palette();

@@ -855,7 +855,7 @@ void ExpressionBar::enterEqualEvent()
                 settingLinkage();
             }
         }
-        if (m_Selected != -1) {
+        if (m_Selected != -1 && m_evaluator->error().isEmpty()) {
             selectedresult = m_listModel->index(m_Selected)
                              .data(SimpleListModel::ExpressionRole)
                              .toString()
