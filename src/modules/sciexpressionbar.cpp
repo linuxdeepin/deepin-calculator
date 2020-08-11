@@ -307,7 +307,7 @@ void SciExpressionBar::enterBackspaceEvent()
         //光标不在开头且光标左侧是字母或者光标右侧是字母
         if ((selection.curpos > 0 &&
                 rx.exactMatch(m_inputEdit->text().at(selection.curpos - 1)))
-                || rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size() - 1))) {
+                || rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size()))) {
             int funpos = -1;
             int rightfunpos = -1;
             int j;
@@ -498,8 +498,12 @@ void SciExpressionBar::enterEqualEvent()
     qDebug() << "m_evaluator->error()" << m_evaluator->error();
     qDebug() << "ans" << m_inputEdit->expressionText();
     if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegExp("[a-z＋－×÷/.,%()πe^!]")) != -1)) {
-        if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
+        if (ans.isNan() && !m_evaluator->isUserFunctionAssign()) {
+            m_pair.first = false;
+            m_expression = exp + "＝" + tr("Expression error");
+            m_listModel->updataList(m_expression, -1, true);
             return;
+        }
         //edit 20200413 for bug--19653
         QString result;
         if (m_FEisdown)
@@ -2189,15 +2193,15 @@ bool SciExpressionBar::judgeinput()
         //光标不在开头且光标左侧是字母或者光标右侧是字母
         if ((selection.curpos > 0 &&
                 rx.exactMatch(m_inputEdit->text().at(selection.curpos - 1)))
-                || rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size() - 1))) {
+                || rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size()))) {
             int funpos = -1;
             int rightfunpos = -1;
             for (int i = 0; i < m_funclist.size(); i++) {
                 //记录光标左侧离光标最近的函数位
                 funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], selection.curpos - 1);
-                if (funpos != -1 && (funpos <= selection.curpos) && (selection.curpos < funpos + m_funclist[i].length()))
+                if (funpos != -1 && (funpos <= selection.curpos) && (selection.curpos < funpos + m_funclist[i].length())) {
                     return false; //选中左侧在函数中
-
+                }
             }
             for (int j = 0; j < m_funclist.size(); j++) {
                 //记录离光标最近的右侧函数位
