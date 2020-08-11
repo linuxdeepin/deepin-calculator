@@ -67,7 +67,6 @@ public:
     MemoryWidget *getMemoryWidget();
     void memoryFunctions(memOperate operate = generateData, Quantity answer = Quantity(), int row = -1);
     void mouseMoveEvent(QMouseEvent *e);
-    bool eventFilter(QObject *obj, QEvent *event);
     void keyPressEvent(QKeyEvent *e);
     void focusInEvent(QFocusEvent *event);
 

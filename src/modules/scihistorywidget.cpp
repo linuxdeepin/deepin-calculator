@@ -184,12 +184,6 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 //        if (mode == 1)
 //            this->setFocus();
 //    });
-
-    m_historybtn->installEventFilter(this);
-    m_clearbutton->installEventFilter(this);
-    m_listView->installEventFilter(this);
-    m_memorywidget->getMemoryWidget()->installEventFilter(this);
-    setFocusPolicy(Qt::TabFocus);
 }
 
 SciHistoryWidget::~SciHistoryWidget() {}
@@ -244,38 +238,6 @@ void SciHistoryWidget::memoryFunctions(SciHistoryWidget::memOperate operate, Qua
 void SciHistoryWidget::mouseMoveEvent(QMouseEvent *e)
 {
     Q_UNUSED(e);
-}
-
-/**
- * @brief 焦点在右侧时只会在buttonbox,cleatbutton,历史记录/内存切换
- */
-bool SciHistoryWidget::eventFilter(QObject *obj, QEvent *event)
-{
-    if (obj == m_historybtn || obj == m_clearbutton ||
-            obj == m_listView || obj == m_memorywidget->getMemoryWidget()) {
-        if (event->type() == QEvent::KeyPress) {
-            QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
-            if (key_event->key() == Qt::Key_Tab) {
-                if (m_historybtn->hasFocus()) {
-                    focusNextChild();//焦点移动
-                    m_clearbutton->setFocus();
-                } else if (m_clearbutton->hasFocus()) {
-                    if (m_stacklayout->currentIndex() == 0) {
-                        focusNextChild();//焦点移动
-                        m_listView->setFocus();
-                    } else {
-                        focusNextChild();//焦点移动
-                        m_memorywidget->setFocus();
-                    }
-                } else if (m_listView->hasFocus() || m_memorywidget->getMemoryWidget()->hasFocus()) {
-                    focusNextChild();//焦点移动
-                    m_historybtn->setFocus();
-                }
-                return true;
-            }
-        }
-    }
-    return DWidget::eventFilter(obj, event);
 }
 
 void SciHistoryWidget::keyPressEvent(QKeyEvent *e)
