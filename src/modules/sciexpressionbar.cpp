@@ -295,7 +295,7 @@ void SciExpressionBar::enterPointEvent()
 
 void SciExpressionBar::enterBackspaceEvent()
 {
-    QString sRegNum = "[A-Za-z]";
+    QString sRegNum = "[a-z]"; //20200811去除大写字母，否则Ｅ将被看作函数
     QRegExp rx;
     rx.setPattern(sRegNum);
     SSelection selection = m_inputEdit->getSelection();
@@ -496,6 +496,7 @@ void SciExpressionBar::enterEqualEvent()
     // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
     // 20200407 超过16位小数未科学计数
     qDebug() << "m_evaluator->error()" << m_evaluator->error();
+    qDebug() << "ans" << m_inputEdit->expressionText();
     if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegExp("[a-z＋－×÷/.,%()πe^!]")) != -1)) {
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
             return;
@@ -2300,6 +2301,25 @@ QString SciExpressionBar::symbolComplement(const QString exp)
         ++index;
         index = text.indexOf(")", index);
     }
+    //20200811　fix bug-42274 e,π,lastans跟随函数表达式错误问题
+    index = text.indexOf("e", 0);
+    while (index != -1) {
+        text.insert(index, "(");
+        text.insert(index + 2, ")");
+        index = text.indexOf("e", index + 3);
+    }
+    index = text.indexOf("pi", 0);
+    while (index != -1) {
+        text.insert(index, "(");
+        text.insert(index + 3, ")");
+        index = text.indexOf("pi", index + 4);
+    }
+    index = text.indexOf("lastans", 0);
+    while (index != -1) {
+        text.insert(index, "(");
+        text.insert(index + 8, ")");
+        index = text.indexOf("lastans", index + 9);
+    }
     return text;
 }
 
@@ -2385,7 +2405,8 @@ QString SciExpressionBar::pointFaultTolerance(const QString &text)
         }
     }
     for (int i = 0; i < reformatStr.size(); ++i) {
-        if (reformatStr[i] == "." && (i == 0 || !reformatStr[i - 1].isNumber())) {
+        //20200811避免e,π后的小数点补0
+        if (reformatStr[i] == "." && (i == 0 || (!reformatStr[i - 1].isNumber() && reformatStr[i - 1] != "e" && reformatStr[i - 1] != "π"))) {
             reformatStr.insert(i, "0"); //补0操作，例:1+.2->1+0.2
             ++i;
         }
