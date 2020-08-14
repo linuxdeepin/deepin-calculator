@@ -101,6 +101,7 @@ void MemoryItemWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)
         return;
+    setFocus();
     m_ispress = true;
     DPalette pl1 = this->palette(); //按下时给label字体设置颜色
     if (m_themetype == 1) {
@@ -120,6 +121,7 @@ void MemoryItemWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)
         return;
+    clearFocus();
     m_ispress = false;
     DPalette pl1 = this->palette(); //松开鼠标时给label字体重新设置颜色
     if (m_themetype == 1) {

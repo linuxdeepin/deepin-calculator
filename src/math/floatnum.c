@@ -1516,12 +1516,16 @@ _addsub_ordered(
   {
       for (;overprec_part_s1>0;overprec_part_s1--) {
           summand1->significand->n_scale--;
+          if(summand1->significand->n_scale == 0)
+              break;
       }
   }
   if(overprec_part_s2 > 0)
   {
       for (;overprec_part_s2>0;overprec_part_s2--) {
           summand2->significand->n_scale--;
+          if(summand2->significand->n_scale == 0)
+              break;
       }
   }
   //end edit jingzhou 20200807

@@ -40,7 +40,7 @@
 
 // TODO make this configurable
 #define HMATH_WORKING_PREC (2*DECPRECISION)
-#define HMATH_EVAL_PREC (DECPRECISION + 5)
+#define HMATH_EVAL_PREC (HMATH_WORKING_PREC + 2)
 
 // TODO should go into a separate format file
 // default scale for fall back in formatting
