@@ -1,193 +1,193 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sr" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Error de expresión</translation>
+        <translation>Грешка израза</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>Borrar toda la memoria</translation>
+        <translation>Очисти сву меморију</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation>Limpia historial</translation>
+        <translation>Очисти историју</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>&amp;Undo</source>
-        <translation>Deshacer (&amp;U)</translation>
+        <translation>Опозови (&amp;U)</translation>
     </message>
     <message>
         <source>&amp;Redo</source>
-        <translation>Rehacer (&amp;R)</translation>
+        <translation>Обнови (&amp;R)</translation>
     </message>
     <message>
         <source>Cu&amp;t</source>
-        <translation>Cortar (&amp;T)</translation>
+        <translation>Исеци (&amp;T)</translation>
     </message>
     <message>
         <source>&amp;Copy</source>
-        <translation>Copiar (&amp;C)</translation>
+        <translation>Копирај (&amp;C)</translation>
     </message>
     <message>
         <source>&amp;Paste</source>
-        <translation>Pegar (&amp;P)</translation>
+        <translation>Убаци (&amp;P)</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Borrar</translation>
+        <translation> Обриши</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Seleccionar todo</translation>
+        <translation>Изабери све</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>Calculadora</translation>
+        <translation>Калкулатор</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Calculadora de Deepin es fácil de usar, soporta los modos estándar y científico.</translation>
+        <translation>Калкулатор је једноставан за употребу рачунарски калкулатор. Подржава стандардни и научни режим.</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>Estándar</translation>
+        <translation>Стандардни</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>Científica</translation>
+        <translation>Научни</translation>
     </message>
     <message>
         <source>History</source>
-        <translation>Historial</translation>
+        <translation>Историја</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>Modo</translation>
+        <translation>Режим</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Borrar el elemento de memoria</translation>
+        <translation>Уклони ставку меморије</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>Borrar toda la memoria</translation>
+        <translation>Очисти сву меморију</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Recuperar memoria</translation>
+        <translation>Позови из меморије</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Sumar elemento a la memoria</translation>
+        <translation>Сабери са ставком меморије</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Sumar a la memoria </translation>
+        <translation>Сабери са меморијом</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Restar elemento a la memoria</translation>
+        <translation>Одузми од ставке меморије</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Restar a la memoria</translation>
+        <translation>Одузими од меморије</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Guardar en memoria</translation>
+        <translation>Сачувај у меморији</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Memoria</translation>
+        <translation>Меморија</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Копирај</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Borrar el elemento de la memoria</translation>
+        <translation>Уклони ставку меморије</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Sumar elemento a la memoria</translation>
+        <translation>Додај у ставку меморије</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Restar elemento a la memoria</translation>
+        <translation>Одузми од ставке меморије</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>No hay nada guardado en la memoria</translation>
+        <translation>Меморија је празна</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>Calculadora</translation>
+        <translation>Калкулатор</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Error de expresión</translation>
+        <translation>Грешка израза</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Historial</translation>
+        <translation>Историја</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Memoria</translation>
+        <translation>Меморија</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>Error de expresión</translation>
+        <translation>Грешка израза</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>No hay historial</translation>
+        <translation>Нема историје</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Копирај</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Borrar</translation>
+        <translation> Обриши</translation>
     </message>
 </context>
 </TS>

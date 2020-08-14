@@ -1,193 +1,193 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ug" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Error de expresión</translation>
+        <translation>ئىپادە خاتا</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>Borrar toda la memoria</translation>
+        <translation>بارلىق ساقلىغۇچنى ئۆچۈرۈش</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation>Limpia historial</translation>
+        <translation>تارىخىي خاتىرىنى ئۆچۈرۈش</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>&amp;Undo</source>
-        <translation>Deshacer (&amp;U)</translation>
+        <translation>&amp;يېنىۋېلىش</translation>
     </message>
     <message>
         <source>&amp;Redo</source>
-        <translation>Rehacer (&amp;R)</translation>
+        <translation>&amp;قايتا قىلىش</translation>
     </message>
     <message>
         <source>Cu&amp;t</source>
-        <translation>Cortar (&amp;T)</translation>
+        <translation>&amp;كېسىش</translation>
     </message>
     <message>
         <source>&amp;Copy</source>
-        <translation>Copiar (&amp;C)</translation>
+        <translation>&amp;كۆچۈرۈش</translation>
     </message>
     <message>
         <source>&amp;Paste</source>
-        <translation>Pegar (&amp;P)</translation>
+        <translation>&amp;چاپلاش</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Borrar</translation>
+        <translation>ئۆچۈرۈش</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Seleccionar todo</translation>
+        <translation>ھەممىنى تاللاش</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>Calculadora</translation>
+        <translation>ھېسابلىغۇچ</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Calculadora de Deepin es fácil de usar, soporta los modos estándar y científico.</translation>
+        <translation>ھېسابلىغۇچ ئاددىي  ھەم ئاسان بولغان ئۈستەل يۈزى ھېسابلىغۇچتۇر، ئۇ ئۆلچەملىك ۋە ئىلمىي مودېلنى قوللايدۇ.</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>Estándar</translation>
+        <translation>ئۆلچەم</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>Científica</translation>
+        <translation>ئىلمىي</translation>
     </message>
     <message>
         <source>History</source>
-        <translation>Historial</translation>
+        <translation>تارىخىي خاتىرە</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>Modo</translation>
+        <translation>ھالەت</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Borrar el elemento de memoria</translation>
+        <translation>ساقلانما تۈرلىرىنى ئۆچۈرۈش</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>Borrar toda la memoria</translation>
+        <translation>بارلىق ساقلىغۇچنى ئۆچۈرۈش</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Recuperar memoria</translation>
+        <translation>ساقلانمىنى كۆرۈش</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Sumar elemento a la memoria</translation>
+        <translation>ساقلانما تۈرى قوشۇش</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Sumar a la memoria </translation>
+        <translation>ئىچكى ساقلىغۇچقا قوشۇلدى</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Restar elemento a la memoria</translation>
+        <translation>ئىچكى ساقلىغۇچ تۈرىدىن ئازايتىش</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Restar a la memoria</translation>
+        <translation>ئىچكى ساقلىغۇچ ئازايدى</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Guardar en memoria</translation>
+        <translation>ئىچكى ساقلىغۇچقا ساقلاش</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Memoria</translation>
+        <translation>ئىچكى ساقلىغۇچ</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>كۆچۈرۈش</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Borrar el elemento de la memoria</translation>
+        <translation>خاتېرە تۈرلىرىنى ئۆچۈرۈش</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Sumar elemento a la memoria</translation>
+        <translation>خاتېرە تۈرى قوشۇش</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Restar elemento a la memoria</translation>
+        <translation>ئىچكى ساقلىغۇچ تۈرىدىن ئازايتىش</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>No hay nada guardado en la memoria</translation>
+        <translation>ساقلىغۇچىتا ھېچنىمە يوق</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>Calculadora</translation>
+        <translation>ھېسابلىغۇچ</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Error de expresión</translation>
+        <translation>ئىپادىلەش خاتا</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Historial</translation>
+        <translation>تارىخىي خاتىرە</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Memoria</translation>
+        <translation>ئىچكى ساقلىغۇچ</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>Error de expresión</translation>
+        <translation>ئىپادىلەش خاتا</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>No hay historial</translation>
+        <translation>تارىخىي خاتىرە يوق</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>كۆچۈرۈش</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Borrar</translation>
+        <translation>ئۆچۈرۈش</translation>
     </message>
 </context>
 </TS>
