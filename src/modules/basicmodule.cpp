@@ -77,7 +77,6 @@ BasicModule::BasicModule(QWidget *parent)
             &BasicModule::handleKeypadButtonPress);
     connect(m_basicKeypad, &BasicKeypad::buttonPressedbySpace, this,
             &BasicModule::handleKeypadButtonPressByspace);
-    connect(m_basicKeypad, &BasicKeypad::equalPressed, this, &BasicModule::equalButtonPress);
     connect(m_basicKeypad, &BasicKeypad::moveLeft, [ = ] { m_expressionBar->moveLeft(); });
     connect(m_basicKeypad, &BasicKeypad::moveRight, [ = ] { m_expressionBar->moveRight(); });
     connect(m_memoryKeypad, &MemoryKeypad::moveLeft, [ = ] { m_expressionBar->moveLeft(); });
@@ -498,6 +497,10 @@ void BasicModule::handleKeypadButtonPress(int key)
     m_expressionBar->getInputEdit()->setFocus();
 }
 
+/**
+ * @brief 焦点空格事件
+ * @param key-button枚举值
+ */
 void BasicModule::handleKeypadButtonPressByspace(int key)
 {
     m_basicKeypad->update();
@@ -637,12 +640,6 @@ void BasicModule::handleKeypadButtonPressByspace(int key)
     default:
         break;
     }
-    m_expressionBar->addUndo();
-}
-
-void BasicModule::equalButtonPress()
-{
-    m_expressionBar->settingLinkage();
     m_expressionBar->addUndo();
 }
 
