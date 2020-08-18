@@ -54,7 +54,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 {
     memoryPublic = MemoryPublic::instance(this);
     m_memorywidget = memoryPublic->getwidget(MemoryPublic::scientificright);
-    m_memorywidget->setFocusPolicy(Qt::NoFocus);
+//    m_memorywidget->setFocusPolicy(Qt::TabFocus);
     m_stacklayout = new QStackedLayout();
     QVBoxLayout *m_Vlayout = new QVBoxLayout(this);
     QHBoxLayout *m_Hlayout = new QHBoxLayout();
@@ -98,6 +98,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_historybtn->setFocusPolicy(Qt::TabFocus);
     m_memorybtn->setFixedSize(BUTTONBOX_WIDTH / 2, BUTTONBOX_HEIGHT);
     listBtnBox << m_historybtn << m_memorybtn;
+    m_memorybtn->setFocusPolicy(Qt::TabFocus);
     m_buttonbox->setButtonList(listBtnBox, true);
     m_buttonbox->setId(m_historybtn, 0);
     m_buttonbox->setId(m_memorybtn, 1);
@@ -235,6 +236,30 @@ void SciHistoryWidget::memoryFunctions(SciHistoryWidget::memOperate operate, Qua
     }
 }
 
+void *SciHistoryWidget::getChildWidgets(int i)
+{
+    switch (i) {
+    case 0:
+        return m_historybtn;
+    case 1:
+        return m_memorybtn;
+    case 2:
+        return m_clearbutton;
+    case 3:
+        return m_listView;
+    case 4:
+        return m_memorywidget;
+    default:
+        return m_buttonbox->button(0);
+    }
+}
+
+void SciHistoryWidget::resetFocus()
+{
+    m_isshowH ? m_listView->setFocusPolicy(Qt::TabFocus) : m_listView->setFocusPolicy(Qt::NoFocus);
+    m_isshowM ? m_memorywidget->setFocusPolicy(Qt::TabFocus) : m_memorywidget->setFocusPolicy(Qt::NoFocus);
+}
+
 void SciHistoryWidget::mouseMoveEvent(QMouseEvent *e)
 {
     Q_UNUSED(e);
@@ -254,11 +279,11 @@ void SciHistoryWidget::keyPressEvent(QKeyEvent *e)
 /**
  * @brief 确保第一次焦点在历史记录按钮
  */
-void SciHistoryWidget::focusInEvent(QFocusEvent *event)
-{
-    m_historybtn->setFocus();
-    QWidget::focusInEvent(event);
-}
+//void SciHistoryWidget::focusInEvent(QFocusEvent *event)
+//{
+//    m_historybtn->setFocus();
+//    QWidget::focusInEvent(event);
+//}
 
 /**
  * @brief 根据主题变换更换垃圾桶切图

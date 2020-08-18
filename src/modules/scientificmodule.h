@@ -75,6 +75,7 @@ private:
     void handleDegChanged();
     void handleFEStateChanged(bool isdown);
     void handlePageStateChanged();
+    void setScientificTabOrder();
 
 private:
     SciExpressionBar *m_sciexpressionBar;

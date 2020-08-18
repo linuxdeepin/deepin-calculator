@@ -66,13 +66,18 @@ public:
     void focusOnButtonbox();
     MemoryWidget *getMemoryWidget();
     void memoryFunctions(memOperate operate = generateData, Quantity answer = Quantity(), int row = -1);
+    void *getChildWidgets(int i);
+    void resetFocus();
+
     void mouseMoveEvent(QMouseEvent *e);
     void keyPressEvent(QKeyEvent *e);
-    void focusInEvent(QFocusEvent *event);
+//    void focusInEvent(QFocusEvent *event);
 
+public:
     SimpleListView *m_listView;
     SimpleListDelegate *m_listDelegate;
     SimpleListModel *m_listModel;
+
 public slots:
     void themeChanged(int type);
     void historyfilled();

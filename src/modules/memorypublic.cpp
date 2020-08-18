@@ -21,17 +21,17 @@
 
 #include "memorypublic.h"
 
-static MemoryPublic *INSTANCE = nullptr;
+static MemoryPublic *m_mempubINSTANCE = nullptr;
 
 /**
  * @brief 实例
  */
 MemoryPublic *MemoryPublic::instance(QObject *p)
 {
-    if (!INSTANCE) {
-        INSTANCE = new MemoryPublic(p);
+    if (!m_mempubINSTANCE) {
+        m_mempubINSTANCE = new MemoryPublic(p);
     }
-    return INSTANCE;
+    return m_mempubINSTANCE;
 }
 
 MemoryPublic::MemoryPublic(QObject *parent)
@@ -39,6 +39,7 @@ MemoryPublic::MemoryPublic(QObject *parent)
 {
     m_standard_l = new MemoryWidget(0);
     m_scientific_r = new MemoryWidget(1);
+    m_scientific_r->setFocusPolicy(Qt::TabFocus);
     initconnects();
 }
 

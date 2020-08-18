@@ -149,6 +149,7 @@ scientificModule::scientificModule(QWidget *parent)
         mAvailableEvent();
     else
         mUnAvailableEvent();
+    setScientificTabOrder();
 }
 
 scientificModule::~scientificModule() {}
@@ -1287,6 +1288,71 @@ void scientificModule::handlePageStateChanged()
     btn->setButtonDown(m_Pageisdown);
 }
 
+void scientificModule::setScientificTabOrder()
+{
+    this->setTabOrder(m_sciexpressionBar->getInputEdit(), m_scikeypadwidget->button(ScientificKeyPad::Key_FE));
+    for (int i = 0; i < 47; i++) {
+        switch (ScientificKeyPad::Key_FE + i) {
+        case 38:
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_arcsin));
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_arcsin), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
+            break;
+        case 39:
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_sqrt2));
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_sqrt2), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
+            break;
+        case 44:
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_arccos));
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_arccos), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
+            break;
+        case 45:
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_sqrt3));
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_sqrt3), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
+            break;
+        case 50:
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_arctan));
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_arctan), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
+            break;
+        case 51:
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_ysqrtx));
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_ysqrtx), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
+            break;
+        case 56:
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_arccot));
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_arccot), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
+            break;
+        case 57:
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_2x));
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_2x), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
+            break;
+        case 63:
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_logyx));
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_logyx), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
+            break;
+        case 69:
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_ex));
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_ex), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
+            break;
+        default:
+            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
+        }
+    }
+    this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_Equals)
+                      , static_cast<DButtonBoxButton *>(m_scihiswidget->getChildWidgets(0)));
+
+    this->setTabOrder(static_cast<DButtonBoxButton *>(m_scihiswidget->getChildWidgets(0)),
+                      static_cast<DButtonBoxButton *>(m_scihiswidget->getChildWidgets(1)));
+
+    this->setTabOrder(static_cast<DButtonBoxButton *>(m_scihiswidget->getChildWidgets(1))
+                      , static_cast<DPushButton *>(m_scihiswidget->getChildWidgets(2)));
+
+    this->setTabOrder(static_cast<DPushButton *>(m_scihiswidget->getChildWidgets(2))
+                      , static_cast<DListView *>(m_scihiswidget->getChildWidgets(3)));
+
+    this->setTabOrder(static_cast<DListView *>(m_scihiswidget->getChildWidgets(3))
+                      , static_cast<MemoryWidget *>(m_scihiswidget->getChildWidgets(4)));
+}
+
 /**
  * @brief 焦点不在scientificmodul时也触发keypress
  */
@@ -1331,6 +1397,7 @@ void scientificModule::showOrHideHistory(bool hide)
     else {
         m_scihiswidget->show();
         m_scihiswidget->focusOnButtonbox();
+        m_scihiswidget->resetFocus();
     }
 }
 

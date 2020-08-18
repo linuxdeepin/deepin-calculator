@@ -177,6 +177,17 @@ DPushButton *ScientificKeyPad::button(Buttons key)
     }
 }
 
+DPushButton *ScientificKeyPad::button(int key)
+{
+    if (key == Key_arcsin || key == Key_arccos || key == Key_arccot ||
+            key == Key_arctan || key == Key_sqrt2 || key == Key_sqrt3 ||
+            key == Key_ysqrtx || key == Key_2x || key == Key_logyx || key == Key_ex) {
+        return m_keys1.value(Buttons(key)).first;
+    } else {
+        return m_keys.value(Buttons(key)).first;
+    }
+}
+
 /**
  * @brief 按钮点击动画效果
  */
