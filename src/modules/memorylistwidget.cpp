@@ -81,7 +81,6 @@ void MemoryListWidget::keyPressEvent(QKeyEvent *e)
         emit focus(0);
         break;
     case Qt::Key_Down:
-        qDebug() << "in";
         emit focus(1);
         break;
     case Qt::Key_Left:

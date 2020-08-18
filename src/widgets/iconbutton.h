@@ -27,7 +27,6 @@
 #include <QDomElement>
 #include <QSvgRenderer>
 #include <DLabel>
-#include <DSvgRenderer>
 #include <DGuiApplicationHelper>
 
 DWIDGET_USE_NAMESPACE

@@ -1288,6 +1288,10 @@ void scientificModule::handlePageStateChanged()
     btn->setButtonDown(m_Pageisdown);
 }
 
+/**
+ * @brief scientificModule::setScientificTabOrder
+ * tab事件排序
+ */
 void scientificModule::setScientificTabOrder()
 {
     this->setTabOrder(m_sciexpressionBar->getInputEdit(), m_scikeypadwidget->button(ScientificKeyPad::Key_FE));
