@@ -39,7 +39,6 @@ MemoryPublic::MemoryPublic(QObject *parent)
 {
     m_standard_l = new MemoryWidget(0);
     m_scientific_r = new MemoryWidget(1);
-    m_scientific_r->setFocusPolicy(Qt::TabFocus);
     initconnects();
 }
 

@@ -56,6 +56,7 @@ public:
                           const int &Pos); //str1-完整表达式 str2, ans-百分比计算结果 Pos-光标位置
     QPair<bool, Quantity> getMemoryAnswer(); //edit 20200507,获取上一次计算的全精度结果，用于数字内存。
     QString symbolComplement(const QString exp);
+    void focusInEvent(QFocusEvent *event);
 
 public slots:
     void setUndoAction(bool state);

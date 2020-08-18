@@ -35,6 +35,7 @@
 #include <DGuiApplicationHelper>
 
 #include "src/utils.h"
+#include "src/mainwindow.h"
 
 const int GLOBALPREC = 78; //全局精度
 const int STANDARD_MWIDGET_HEIGHT = 260; //标准模式memorywidget高度
@@ -154,7 +155,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
  */
 void MemoryWidget::generateData(Quantity answer)
 {
-    m_listwidget->setFocusPolicy(Qt::TabFocus); //内存中有内容时TabFocus
+//    m_listwidget->setFocusPolicy(Qt::TabFocus); //内存中有内容时TabFocus
     m_label->hide();
     //500 memory number limit
     if (m_list.count() == MAXSIZE) {
@@ -284,6 +285,16 @@ bool MemoryWidget::eventFilter(QObject *obj, QEvent *event)
                     return true;
                 }
             }
+        }
+    }
+    if (m_calculatormode == 1 && obj == m_listwidget && event->type() == QEvent::KeyPress) {
+        QKeyEvent *key_Event = static_cast<QKeyEvent *>(event);
+        if (key_Event->key() == Qt::Key_Tab) {
+            if (m_listwidget->hasFocus()) {
+                emit scimemtab();
+                m_listwidget->clearFocus();
+            }
+            return true;
         }
     }
     return QWidget::eventFilter(obj, event);

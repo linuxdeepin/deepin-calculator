@@ -852,3 +852,12 @@ QString InputEdit::symbolComplement(const QString exp)
     return text;
 }
 
+void InputEdit::focusInEvent(QFocusEvent *event)
+{
+    int curtemp = cursorPosition();
+    QLineEdit::focusInEvent(event);
+    if (event->reason() == Qt::TabFocusReason) {
+        setCursorPosition(curtemp);
+    }
+}
+

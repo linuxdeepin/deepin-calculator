@@ -54,7 +54,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 {
     memoryPublic = MemoryPublic::instance(this);
     m_memorywidget = memoryPublic->getwidget(MemoryPublic::scientificright);
-//    m_memorywidget->setFocusPolicy(Qt::TabFocus);
+    m_memorywidget->setFocusPolicy(Qt::TabFocus);
     m_stacklayout = new QStackedLayout();
     QVBoxLayout *m_Vlayout = new QVBoxLayout(this);
     QHBoxLayout *m_Hlayout = new QHBoxLayout();

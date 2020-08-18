@@ -39,7 +39,7 @@ MemoryListWidget::MemoryListWidget(QWidget *parent)
 //    DPalette pal = this->palette();
 //    pal.setColor(DPalette::Light, QColor(248, 248, 248));
 //    this->setPalette(pal);
-    setFocusPolicy(Qt::TabFocus);
+    setFocusPolicy(Qt::NoFocus);
 }
 
 /**
@@ -81,6 +81,7 @@ void MemoryListWidget::keyPressEvent(QKeyEvent *e)
         emit focus(0);
         break;
     case Qt::Key_Down:
+        qDebug() << "in";
         emit focus(1);
         break;
     case Qt::Key_Left:

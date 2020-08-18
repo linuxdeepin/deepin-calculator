@@ -223,6 +223,9 @@ void MainWindow::switchToScientificMode()
         hideHistoryWidget(false);
         resize(SCIENTIFIC_MIN_SIZE);
     }
+    connect(m_scientificModule, &scientificModule::sciMemTab, this, [ = ]() {
+        titlebar()->setFocus();
+    });
 }
 
 void MainWindow::showHistoryWidget()

@@ -60,6 +60,7 @@ public:
 signals:
     void changedeg(int deg);
     void getWindowChanged(int width, int height, bool hishide);
+    void sciMemTab();
 
 public slots:
     //memory func

@@ -1351,6 +1351,7 @@ void scientificModule::setScientificTabOrder()
 
     this->setTabOrder(static_cast<DListView *>(m_scihiswidget->getChildWidgets(3))
                       , static_cast<MemoryWidget *>(m_scihiswidget->getChildWidgets(4)));
+    connect(static_cast<MemoryWidget *>(m_scihiswidget->getChildWidgets(4)), &MemoryWidget::scimemtab, this, &scientificModule::sciMemTab);
 }
 
 /**
