@@ -21,6 +21,7 @@
 
 #include <QDir>
 #include <QDesktopWidget>
+#include <QDebug>
 #include <DApplication>
 
 #include "utils.h"
@@ -47,7 +48,7 @@ DSettings::DSettings(QObject *parent)
     : QObject(parent),
       m_settings(new QSettings(QDir(Utils::getConfigDir()).filePath("config.config"), QSettings::IniFormat, this))
 {
-    initConfig();
+    initConfig();;
 }
 
 DSettings::~DSettings()
@@ -98,4 +99,10 @@ QVariant DSettings::getOption(const QString &key)
 void DSettings::setOption(const QString &key, const QVariant &value)
 {
     m_settings->setValue(key, value);
+}
+
+void DSettings::deleteInstance()
+{
+    delete INSTANCE;
+    INSTANCE = nullptr;
 }

@@ -35,6 +35,7 @@ public:
 
     QVariant getOption(const QString &key);
     void setOption(const QString &key, const QVariant &value);
+    static void deleteInstance();
 
 private:
     void initConfig();

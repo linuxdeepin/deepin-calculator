@@ -21,17 +21,23 @@
 
 #include "memorypublic.h"
 
-static MemoryPublic *m_mempubINSTANCE = nullptr;
+static MemoryPublic *INSTANCE = nullptr;
 
 /**
  * @brief 实例
  */
 MemoryPublic *MemoryPublic::instance(QObject *p)
 {
-    if (!m_mempubINSTANCE) {
-        m_mempubINSTANCE = new MemoryPublic(p);
+    if (!INSTANCE) {
+        INSTANCE = new MemoryPublic(p);
     }
-    return m_mempubINSTANCE;
+    return INSTANCE;
+}
+
+void MemoryPublic::deleteInstance()
+{
+    delete INSTANCE;
+    INSTANCE = nullptr;
 }
 
 MemoryPublic::MemoryPublic(QObject *parent)

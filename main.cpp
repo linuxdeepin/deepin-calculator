@@ -30,9 +30,9 @@
 #include <DWidgetUtil>
 #include <DWindowManagerHelper>
 
-#include "mainwindow.h"
+#include "src/mainwindow.h"
 #include "environments.h"
-#include "utils.h"
+#include "src/utils.h"
 
 DWIDGET_USE_NAMESPACE
 static QString g_appPath;  //全局路径

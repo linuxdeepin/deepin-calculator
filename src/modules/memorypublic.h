@@ -46,6 +46,7 @@ public:
         scientificright //科学模式
     };
     static MemoryPublic *instance(QObject *p);
+    static void deleteInstance();
     ~MemoryPublic();
     MemoryWidget *getwidget(memorymode mode);
 
