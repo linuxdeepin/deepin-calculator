@@ -110,5 +110,4 @@ void MemoryListWidget::focusInEvent(QFocusEvent *event)
 
 MemoryListWidget::~MemoryListWidget()
 {
-
 }

@@ -385,7 +385,6 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
 void BasicModule::handleKeypadButtonPress(int key)
 {
     m_basicKeypad->update();
-    m_expressionBar->clearSelection();
     //20200414 bug20294鼠标点击取消focus
     QPair<QString, Quantity> p;
     switch (key) {
@@ -505,7 +504,6 @@ void BasicModule::handleKeypadButtonPressByspace(int key)
 {
     m_basicKeypad->update();
     m_memoryKeypad->update();
-    m_expressionBar->clearSelection();
     //20200414 bug20294鼠标点击取消focus
 //    m_expressionBar->getInputEdit()->setFocus();
     QPair<QString, Quantity> p;

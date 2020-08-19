@@ -2559,26 +2559,26 @@ void SciExpressionBar::clearSelection()
     }
 }
 
-void SciExpressionBar::setSelection()
-{
-    SSelection select = m_inputEdit->getSelection();
-    if (select.selected.isEmpty())
-        return;
-    if (m_inputEdit->text() == select.clearText)
-        m_inputEdit->setText(select.oldText);
-    select.selected = "";
-}
+//void SciExpressionBar::setSelection()
+//{
+//    SSelection select = m_inputEdit->getSelection();
+//    if (select.selected.isEmpty())
+//        return;
+//    if (m_inputEdit->text() == select.clearText)
+//        m_inputEdit->setText(select.oldText);
+//    select.selected = "";
+//}
 
-void SciExpressionBar::getSelection()
-{
-    if (!m_inputEdit->selectedText().isEmpty()) {
-        int start = m_inputEdit->selectionStart();
-        QString exp = m_inputEdit->text();
-        exp = exp.remove(start, m_inputEdit->selectionLength());
-        m_inputEdit->setText(exp);
-        m_inputEdit->setCursorPosition(start);
-    }
-}
+//void SciExpressionBar::getSelection()
+//{
+//    if (!m_inputEdit->selectedText().isEmpty()) {
+//        int start = m_inputEdit->selectionStart();
+//        QString exp = m_inputEdit->text();
+//        exp = exp.remove(start, m_inputEdit->selectionLength());
+//        m_inputEdit->setText(exp);
+//        m_inputEdit->setCursorPosition(start);
+//    }
+//}
 
 void SciExpressionBar::setResultFalse()
 {

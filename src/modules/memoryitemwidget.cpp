@@ -271,5 +271,4 @@ void MemoryItemWidget::setNextItemHover()
 
 MemoryItemWidget::~MemoryItemWidget()
 {
-
 }

@@ -227,179 +227,179 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
 /**
  * @brief ExpressionBar::标准模式百分号旧版本（暂不使用）
  */
-void ExpressionBar::enterPercentEventBak()
-{
-    if (m_inputEdit->text().isEmpty()) {
-        m_inputEdit->setText("0%");
-        return;
-    }
-    bool hasselect = (m_inputEdit->getSelection().selected != "");
-    QString oldText = m_inputEdit->text();
-    QString exp = m_inputEdit->text();
-    // 20200316百分号选中部分格式替代
-    replaceSelection(m_inputEdit->text());
-    int curPos = m_inputEdit->cursorPosition();
-    if (m_inputEdit->text() == QString()) {
-        m_inputEdit->setText("0");
-        return;
-    }
-    int epos = m_inputEdit->text().indexOf("E");
-    QString sRegNum = "[0-9,.E]";
-    QRegExp rx;
-    rx.setPattern(sRegNum);
-    if (curPos == 0 && hasselect == false) {
-        m_inputEdit->setText(oldText);
-        m_inputEdit->setCursorPosition(curPos);
-        return;
-    }
-    if ((curPos == 0 && hasselect == true) ||
-            (m_inputEdit->text().length() > curPos && rx.exactMatch(m_inputEdit->text().at(curPos)))) {
-        m_inputEdit->setText(oldText);
-        m_inputEdit->setCursorPosition(curPos);
-        return;
-    }
-    if (epos > -1 && epos == curPos - 1) {
-        m_inputEdit->setText(oldText);
-        m_inputEdit->setCursorPosition(curPos);
-        return;
-    }
-    // start edit for task-13519
-    //        QString sRegNum1 = "[^0-9,.×÷)]";
-    QString sRegNum1 = "[^0-9,.)]";
-    QRegExp rx1;
-    rx1.setPattern(sRegNum1);
-    if (rx1.exactMatch(exp.at(curPos - 1)))
-        m_inputEdit->setText(oldText);
-    else {
-        m_inputEdit->insert("%");
-        QString newtext = m_inputEdit->text();
-        int percentpos = m_inputEdit->text().indexOf('%');
-        int operatorpos =
-            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.E]")), percentpos - 1);
-        bool nooperator = false;
-        if (operatorpos > 0 && newtext.at(operatorpos - 1) == "E")
-            operatorpos =
-                newtext.mid(0, operatorpos - 1)
-                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.E]")), percentpos - 1);
-        if (operatorpos < 0) {
-            operatorpos++;
-            nooperator = true;
-        }
-        QString exptext;  //%表达式
-        if (newtext.at(percentpos - 1) == ')') {
-            if (operatorpos > 0 && newtext.at(operatorpos - 1) == '(') {
-                m_inputEdit->setText(oldText);
-                m_inputEdit->setCursorPosition(percentpos);
-                return;
-            }
-            do {
-                operatorpos = newtext.lastIndexOf('(', operatorpos - 1);
-                if (operatorpos <= 0) {
-                    break;
-                }
-            } while (newtext.mid(operatorpos, newtext.size() - operatorpos).count('(') !=
-                     newtext.mid(operatorpos, percentpos - operatorpos).count(')'));
-            exptext = newtext.mid(operatorpos,
-                                  percentpos - operatorpos + 1);  //截取%表达式
-        } else {
-            exptext = newtext.mid(operatorpos + (nooperator == true ? 0 : 1),
-                                  percentpos - operatorpos + (nooperator == true ? 1 : 0));
-            //截取%表达式
-        }
-        exptext = m_inputEdit->expressionPercent(exptext);
-        qDebug() << "exptext" << exptext;
-        QString express = symbolComplement(exptext);
-        const QString expression = formatExpression(express);
-        m_evaluator->setExpression(expression);
-        Quantity ans = m_evaluator->evalUpdateAns();
-        if (m_evaluator->error().isEmpty()) {
-            if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
-                return;
-            //edit 20200413 for bug--19653
-            const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(STANDPREC));
-            QString formatResult = Utils::formatThousandsSeparators(result);
-            formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
-                           .replace(QString::fromUtf8("－"), "-")
-                           .replace(QString::fromUtf8("×"), "*")
-                           .replace(QString::fromUtf8("÷"), "/");
-            QString tStr = exptext.replace(QString::fromUtf8(","), "");
-            if (formatResult != tStr) {
-                if ((percentpos + 1) < newtext.size() &&
-                        (newtext.at(percentpos + 1).isDigit() || newtext.at(percentpos + 1) == '.')) {
-                    if (operatorpos > 0 &&
-                            (newtext.at(percentpos + 1).isDigit() ||
-                             newtext.at(percentpos + 1) == '.') &&
-                            (newtext.at(operatorpos - 1).isDigit() ||
-                             newtext.at(operatorpos - 1) == '.') &&
-                            newtext.at(percentpos - 1) == ')') {
-                        m_inputEdit->setText(newtext.mid(0, operatorpos) + QString::fromUtf8("×") +
-                                             formatResult + QString::fromUtf8("×") +
-                                             newtext.right(newtext.size() - percentpos - 1));
-                        m_inputEdit->setPercentAnswer(m_inputEdit->text(), formatResult, ans,
-                                                      operatorpos);
-                        m_inputEdit->setCursorPosition(operatorpos + 1 + formatResult.size());
-                    } else {
-                        m_inputEdit->setText(
-                            newtext.mid(0, operatorpos + ((nooperator == true ||
-                                                           newtext.at(percentpos - 1) == ')')
-                                                          ? 0
-                                                          : 1)) +
-                            formatResult + QString::fromUtf8("×") +
-                            newtext.right(newtext.size() - percentpos - 1));
-                        m_inputEdit->setPercentAnswer(m_inputEdit->text(), formatResult, ans,
-                                                      operatorpos);
-                        m_inputEdit->setCursorPosition(
-                            operatorpos +
-                            ((nooperator == true || newtext.at(operatorpos) == '(') ? 0 : 1) +
-                            formatResult.size());
-                    }
-                } else if (operatorpos > 0 &&
-                           (newtext.at(operatorpos - 1).isDigit() ||
-                            newtext.at(operatorpos - 1) == '.') &&
-                           newtext.at(operatorpos) == '(') {
-                    if (newtext.at(percentpos - 1) == ')') {
-                        m_inputEdit->setText(newtext.mid(0, operatorpos) + QString::fromUtf8("×") +
-                                             formatResult +
-                                             newtext.right(newtext.size() - percentpos - 1));
-                    } else {
-                        m_inputEdit->setText(newtext.mid(0, operatorpos + 1) + formatResult +
-                                             newtext.right(newtext.size() - percentpos - 1));
-                    }
-                    m_inputEdit->setPercentAnswer(m_inputEdit->text(), formatResult, ans,
-                                                  operatorpos);
-                    m_inputEdit->setCursorPosition(operatorpos + 1 + formatResult.size());
-                } else if (nooperator == false) {
-                    QString opera = newtext.at(operatorpos);
-                    if (newtext.at(operatorpos) == '(' && newtext.at(percentpos - 1) == ')')
-                        opera = QString();
-                    m_inputEdit->setText(newtext.mid(0, operatorpos) + opera + formatResult +
-                                         newtext.right(newtext.size() - percentpos - 1));
-                    m_inputEdit->setPercentAnswer(m_inputEdit->text(), formatResult, ans,
-                                                  operatorpos);
-                    m_inputEdit->setCursorPosition(operatorpos + opera.size() +
-                                                   formatResult.size());
-                } else {
-                    m_inputEdit->setText(newtext.mid(0, operatorpos) + formatResult +
-                                         newtext.right(newtext.size() - percentpos - 1));
-                    m_inputEdit->setPercentAnswer(m_inputEdit->text(), formatResult, ans,
-                                                  operatorpos);
-                    m_inputEdit->setCursorPosition(operatorpos + formatResult.size());
-                }
-                //                m_inputEdit->setPercentAnswer(m_inputEdit->text(), formatResult,
-                //                ans, operatorpos);
-            }
-        } else {
-            m_inputEdit->setText(oldText);
-            m_inputEdit->setCursorPosition(percentpos);
-            return;
-        }
-    }
-    // end edit for task-13519
-    m_listView->scrollToBottom();
-    m_isContinue = true;
-    m_isUndo = false;
-    m_isResult = false;
-}
+//void ExpressionBar::enterPercentEventBak()
+//{
+//    if (m_inputEdit->text().isEmpty()) {
+//        m_inputEdit->setText("0%");
+//        return;
+//    }
+//    bool hasselect = (m_inputEdit->getSelection().selected != "");
+//    QString oldText = m_inputEdit->text();
+//    QString exp = m_inputEdit->text();
+//    // 20200316百分号选中部分格式替代
+//    replaceSelection(m_inputEdit->text());
+//    int curPos = m_inputEdit->cursorPosition();
+//    if (m_inputEdit->text() == QString()) {
+//        m_inputEdit->setText("0");
+//        return;
+//    }
+//    int epos = m_inputEdit->text().indexOf("E");
+//    QString sRegNum = "[0-9,.E]";
+//    QRegExp rx;
+//    rx.setPattern(sRegNum);
+//    if (curPos == 0 && hasselect == false) {
+//        m_inputEdit->setText(oldText);
+//        m_inputEdit->setCursorPosition(curPos);
+//        return;
+//    }
+//    if ((curPos == 0 && hasselect == true) ||
+//            (m_inputEdit->text().length() > curPos && rx.exactMatch(m_inputEdit->text().at(curPos)))) {
+//        m_inputEdit->setText(oldText);
+//        m_inputEdit->setCursorPosition(curPos);
+//        return;
+//    }
+//    if (epos > -1 && epos == curPos - 1) {
+//        m_inputEdit->setText(oldText);
+//        m_inputEdit->setCursorPosition(curPos);
+//        return;
+//    }
+//    // start edit for task-13519
+//    //        QString sRegNum1 = "[^0-9,.×÷)]";
+//    QString sRegNum1 = "[^0-9,.)]";
+//    QRegExp rx1;
+//    rx1.setPattern(sRegNum1);
+//    if (rx1.exactMatch(exp.at(curPos - 1)))
+//        m_inputEdit->setText(oldText);
+//    else {
+//        m_inputEdit->insert("%");
+//        QString newtext = m_inputEdit->text();
+//        int percentpos = m_inputEdit->text().indexOf('%');
+//        int operatorpos =
+//            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.E]")), percentpos - 1);
+//        bool nooperator = false;
+//        if (operatorpos > 0 && newtext.at(operatorpos - 1) == "E")
+//            operatorpos =
+//                newtext.mid(0, operatorpos - 1)
+//                .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.E]")), percentpos - 1);
+//        if (operatorpos < 0) {
+//            operatorpos++;
+//            nooperator = true;
+//        }
+//        QString exptext;  //%表达式
+//        if (newtext.at(percentpos - 1) == ')') {
+//            if (operatorpos > 0 && newtext.at(operatorpos - 1) == '(') {
+//                m_inputEdit->setText(oldText);
+//                m_inputEdit->setCursorPosition(percentpos);
+//                return;
+//            }
+//            do {
+//                operatorpos = newtext.lastIndexOf('(', operatorpos - 1);
+//                if (operatorpos <= 0) {
+//                    break;
+//                }
+//            } while (newtext.mid(operatorpos, newtext.size() - operatorpos).count('(') !=
+//                     newtext.mid(operatorpos, percentpos - operatorpos).count(')'));
+//            exptext = newtext.mid(operatorpos,
+//                                  percentpos - operatorpos + 1);  //截取%表达式
+//        } else {
+//            exptext = newtext.mid(operatorpos + (nooperator == true ? 0 : 1),
+//                                  percentpos - operatorpos + (nooperator == true ? 1 : 0));
+//            //截取%表达式
+//        }
+//        exptext = m_inputEdit->expressionPercent(exptext);
+//        qDebug() << "exptext" << exptext;
+//        QString express = symbolComplement(exptext);
+//        const QString expression = formatExpression(express);
+//        m_evaluator->setExpression(expression);
+//        Quantity ans = m_evaluator->evalUpdateAns();
+//        if (m_evaluator->error().isEmpty()) {
+//            if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
+//                return;
+//            //edit 20200413 for bug--19653
+//            const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(STANDPREC));
+//            QString formatResult = Utils::formatThousandsSeparators(result);
+//            formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
+//                           .replace(QString::fromUtf8("－"), "-")
+//                           .replace(QString::fromUtf8("×"), "*")
+//                           .replace(QString::fromUtf8("÷"), "/");
+//            QString tStr = exptext.replace(QString::fromUtf8(","), "");
+//            if (formatResult != tStr) {
+//                if ((percentpos + 1) < newtext.size() &&
+//                        (newtext.at(percentpos + 1).isDigit() || newtext.at(percentpos + 1) == '.')) {
+//                    if (operatorpos > 0 &&
+//                            (newtext.at(percentpos + 1).isDigit() ||
+//                             newtext.at(percentpos + 1) == '.') &&
+//                            (newtext.at(operatorpos - 1).isDigit() ||
+//                             newtext.at(operatorpos - 1) == '.') &&
+//                            newtext.at(percentpos - 1) == ')') {
+//                        m_inputEdit->setText(newtext.mid(0, operatorpos) + QString::fromUtf8("×") +
+//                                             formatResult + QString::fromUtf8("×") +
+//                                             newtext.right(newtext.size() - percentpos - 1));
+//                        m_inputEdit->setPercentAnswer(m_inputEdit->text(), formatResult, ans,
+//                                                      operatorpos);
+//                        m_inputEdit->setCursorPosition(operatorpos + 1 + formatResult.size());
+//                    } else {
+//                        m_inputEdit->setText(
+//                            newtext.mid(0, operatorpos + ((nooperator == true ||
+//                                                           newtext.at(percentpos - 1) == ')')
+//                                                          ? 0
+//                                                          : 1)) +
+//                            formatResult + QString::fromUtf8("×") +
+//                            newtext.right(newtext.size() - percentpos - 1));
+//                        m_inputEdit->setPercentAnswer(m_inputEdit->text(), formatResult, ans,
+//                                                      operatorpos);
+//                        m_inputEdit->setCursorPosition(
+//                            operatorpos +
+//                            ((nooperator == true || newtext.at(operatorpos) == '(') ? 0 : 1) +
+//                            formatResult.size());
+//                    }
+//                } else if (operatorpos > 0 &&
+//                           (newtext.at(operatorpos - 1).isDigit() ||
+//                            newtext.at(operatorpos - 1) == '.') &&
+//                           newtext.at(operatorpos) == '(') {
+//                    if (newtext.at(percentpos - 1) == ')') {
+//                        m_inputEdit->setText(newtext.mid(0, operatorpos) + QString::fromUtf8("×") +
+//                                             formatResult +
+//                                             newtext.right(newtext.size() - percentpos - 1));
+//                    } else {
+//                        m_inputEdit->setText(newtext.mid(0, operatorpos + 1) + formatResult +
+//                                             newtext.right(newtext.size() - percentpos - 1));
+//                    }
+//                    m_inputEdit->setPercentAnswer(m_inputEdit->text(), formatResult, ans,
+//                                                  operatorpos);
+//                    m_inputEdit->setCursorPosition(operatorpos + 1 + formatResult.size());
+//                } else if (nooperator == false) {
+//                    QString opera = newtext.at(operatorpos);
+//                    if (newtext.at(operatorpos) == '(' && newtext.at(percentpos - 1) == ')')
+//                        opera = QString();
+//                    m_inputEdit->setText(newtext.mid(0, operatorpos) + opera + formatResult +
+//                                         newtext.right(newtext.size() - percentpos - 1));
+//                    m_inputEdit->setPercentAnswer(m_inputEdit->text(), formatResult, ans,
+//                                                  operatorpos);
+//                    m_inputEdit->setCursorPosition(operatorpos + opera.size() +
+//                                                   formatResult.size());
+//                } else {
+//                    m_inputEdit->setText(newtext.mid(0, operatorpos) + formatResult +
+//                                         newtext.right(newtext.size() - percentpos - 1));
+//                    m_inputEdit->setPercentAnswer(m_inputEdit->text(), formatResult, ans,
+//                                                  operatorpos);
+//                    m_inputEdit->setCursorPosition(operatorpos + formatResult.size());
+//                }
+//                //                m_inputEdit->setPercentAnswer(m_inputEdit->text(), formatResult,
+//                //                ans, operatorpos);
+//            }
+//        } else {
+//            m_inputEdit->setText(oldText);
+//            m_inputEdit->setCursorPosition(percentpos);
+//            return;
+//        }
+//    }
+//    // end edit for task-13519
+//    m_listView->scrollToBottom();
+//    m_isContinue = true;
+//    m_isUndo = false;
+//    m_isResult = false;
+//}
 
 /**
  * @brief ExpressionBar::点击百分号后直接出结果，计算方法为当前所使用的（暂不使用）
@@ -1297,18 +1297,18 @@ void ExpressionBar::revisionResults(const QModelIndex &index)
  * @param text
  * @return
  */
-QString ExpressionBar::completedBracketsCalculation(QString &text)
-{
-    int leftBrack = text.count("(");
-    int rightBrack = text.count(")");
-    QString newText = text;
-    if (leftBrack > rightBrack) {
-        for (int i = 0; i < leftBrack - rightBrack; i++)
-            newText += ")";
-    }
+//QString ExpressionBar::completedBracketsCalculation(QString &text)
+//{
+//    int leftBrack = text.count("(");
+//    int rightBrack = text.count(")");
+//    QString newText = text;
+//    if (leftBrack > rightBrack) {
+//        for (int i = 0; i < leftBrack - rightBrack; i++)
+//            newText += ")";
+//    }
 
-    return newText;
-}
+//    return newText;
+//}
 
 // edit 20200318 for fix cleanlinkcache
 /**
@@ -1460,31 +1460,31 @@ QString ExpressionBar::symbolComplement(const QString exp)
  * @param exp 复制的内容
  * @return 粘贴后的text
  */
-QString ExpressionBar::pasteFaultTolerance(QString exp)
-{
-    exp = m_inputEdit->text().insert(m_inputEdit->cursorPosition(), exp);
-    exp = pointFaultTolerance(exp); //避免粘贴后的text有两个.
-    if (exp[0] == ",")
-        exp.remove(0, 1);
-    for (int i = 0; i < exp.size(); ++i) {
-        while (exp[i].isNumber()) {
-            if (exp[i] == "0"
-                    && exp[i + 1] != "."
-                    && (i == 0 || (exp[i - 1] != "," && exp[i - 1] != "." && !exp[i - 1].isNumber()))
-                    && (i == 0 || !exp[i - 1].isNumber())
-                    && (exp.size() == 1 || exp[i + 1].isNumber())) {
-                exp.remove(i, 1); //0的容错处理，例:将0123的0去除 //在输入符号时也会进行此操作
-                --i;
-            }
-            ++i;
-        }
-        if (exp[i] == "." && (i == 0 || !exp[i - 1].isNumber())) {
-            exp.insert(i, "0"); //补0操作，例:1+.2->1+0.2 //小数点容错处理会进行此操作
-            ++i;
-        }
-    }
-    return exp;
-}
+//QString ExpressionBar::pasteFaultTolerance(QString exp)
+//{
+//    exp = m_inputEdit->text().insert(m_inputEdit->cursorPosition(), exp);
+//    exp = pointFaultTolerance(exp); //避免粘贴后的text有两个.
+//    if (exp[0] == ",")
+//        exp.remove(0, 1);
+//    for (int i = 0; i < exp.size(); ++i) {
+//        while (exp[i].isNumber()) {
+//            if (exp[i] == "0"
+//                    && exp[i + 1] != "."
+//                    && (i == 0 || (exp[i - 1] != "," && exp[i - 1] != "." && !exp[i - 1].isNumber()))
+//                    && (i == 0 || !exp[i - 1].isNumber())
+//                    && (exp.size() == 1 || exp[i + 1].isNumber())) {
+//                exp.remove(i, 1); //0的容错处理，例:将0123的0去除 //在输入符号时也会进行此操作
+//                --i;
+//            }
+//            ++i;
+//        }
+//        if (exp[i] == "." && (i == 0 || !exp[i - 1].isNumber())) {
+//            exp.insert(i, "0"); //补0操作，例:1+.2->1+0.2 //小数点容错处理会进行此操作
+//            ++i;
+//        }
+//    }
+//    return exp;
+//}
 
 /**
  * @brief ExpressionBar::pointFaultTolerance
@@ -1684,41 +1684,26 @@ void ExpressionBar::initTheme(int type)
     m_inputEdit->themetypechanged(typeIn);
 }
 
-/**
- * @brief ExpressionBar::clearSelection
- * 清除选中的高亮
- */
-void ExpressionBar::clearSelection()
-{
-    SSelection select = m_inputEdit->getSelection();
-    if (!select.selected.isEmpty()) {
-        int start = select.curpos - select.selected.length();
-        QString exp = m_inputEdit->text();
-        exp = exp.remove(start, select.selected.length());
-        select.clearText = exp;
-    }
-}
+//void ExpressionBar::setSelection()
+//{
+//    SSelection select = m_inputEdit->getSelection();
+//    if (select.selected.isEmpty())
+//        return;
+//    if (m_inputEdit->text() == select.clearText)
+//        m_inputEdit->setText(select.oldText);
+//    select.selected = "";
+//}
 
-void ExpressionBar::setSelection()
-{
-    SSelection select = m_inputEdit->getSelection();
-    if (select.selected.isEmpty())
-        return;
-    if (m_inputEdit->text() == select.clearText)
-        m_inputEdit->setText(select.oldText);
-    select.selected = "";
-}
-
-void ExpressionBar::getSelection()
-{
-    if (!m_inputEdit->selectedText().isEmpty()) {
-        int start = m_inputEdit->selectionStart();
-        QString exp = m_inputEdit->text();
-        exp = exp.remove(start, m_inputEdit->selectionLength());
-        m_inputEdit->setText(exp);
-        m_inputEdit->setCursorPosition(start);
-    }
-}
+//void ExpressionBar::getSelection()
+//{
+//    if (!m_inputEdit->selectedText().isEmpty()) {
+//        int start = m_inputEdit->selectionStart();
+//        QString exp = m_inputEdit->text();
+//        exp = exp.remove(start, m_inputEdit->selectionLength());
+//        m_inputEdit->setText(exp);
+//        m_inputEdit->setCursorPosition(start);
+//    }
+//}
 
 void ExpressionBar::setResultFalse()
 {
@@ -1782,16 +1767,16 @@ bool ExpressionBar::cancelLink(int index)
     return isRemove;
 }
 
-void ExpressionBar::settingLinkage(const QModelIndex &index)
-{
-    int row = index.row();
-    for (int i = 0; i < m_hisLink.size(); i++) {
-        if (m_hisLink[i].linkageTerm == row) {
-            m_hisLink[i].isLink = true;
-            m_inputEdit->clear();
-        }
-    }
-}
+//void ExpressionBar::settingLinkage(const QModelIndex &index)
+//{
+//    int row = index.row();
+//    for (int i = 0; i < m_hisLink.size(); i++) {
+//        if (m_hisLink[i].linkageTerm == row) {
+//            m_hisLink[i].isLink = true;
+//            m_inputEdit->clear();
+//        }
+//    }
+//}
 
 bool ExpressionBar::isOperator(const QString &text)
 {

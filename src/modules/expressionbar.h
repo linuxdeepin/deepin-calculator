@@ -85,7 +85,7 @@ public slots:
     void enterClearEvent();
     void enterEqualEvent();
     void enterPercentEvent();
-    void enterPercentEventBak();
+//    void enterPercentEventBak();
     void enterPercentEventCommon();
     void enterBracketsEvent();
     void enterLeftBracketsEvent();
@@ -98,15 +98,14 @@ public slots:
     void allElection();
     void shear();
     void clearLinkageCache(const QString &text, bool isequal);
-    void settingLinkage(const QModelIndex &index);
+//    void settingLinkage(const QModelIndex &index);
     void settingLinkage();
     void Undo();
     void addUndo();
     void Redo();
     void initTheme(int type);
-    void clearSelection();
-    void setSelection();
-    void getSelection();
+//    void setSelection();
+//    void getSelection();
     void setResultFalse();
     void replaceSelection(QString text);
     InputEdit *getInputEdit();
@@ -118,12 +117,12 @@ private slots:
 private:
     bool cursorPosAtEnd();
     QString formatExpression(const QString &text);
-    QString completedBracketsCalculation(QString &text);
+//    QString completedBracketsCalculation(QString &text);
     bool isOperator(const QString &text);
     bool cancelLink(int index);
     void initConnect();
     QString symbolComplement(const QString exp);
-    QString pasteFaultTolerance(QString exp);
+//    QString pasteFaultTolerance(QString exp);
     QString pointFaultTolerance(const QString &text);
     void expressionCheck();
 
