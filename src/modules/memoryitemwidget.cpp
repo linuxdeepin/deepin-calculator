@@ -91,7 +91,7 @@ void MemoryItemWidget::leaveEvent(QEvent *event)
     m_btnplus->setHidden(true); //离开时隐藏按钮
     m_btnminus->setHidden(true);
     m_btnclean->setHidden(true);
-    emit itemchanged(m_themetype); //发送item改变信号，改变一次update一次
+    update();
 //    this->setAttribute(Qt::WA_StyledBackground, true);
 //    this->setStyleSheet("background-color: rgb(255,255,255)");
     QWidget::leaveEvent(event);

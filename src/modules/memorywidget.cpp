@@ -209,9 +209,6 @@ void MemoryWidget::generateData(Quantity answer)
     });
     widget->themetypechanged(m_themetype);
     connect(this, &MemoryWidget::themechange, widget, &MemoryItemWidget::themetypechanged);
-    connect(widget, &MemoryItemWidget::itemchanged, this, [ = ]() {
-        widget->update();
-    });
     connect(widget, &MemoryItemWidget::menuclean, this, [ = ]() { //item菜单MC
         emit widgetclean(m_listwidget->row(item1), m_calculatormode, true);
         m_list.removeAt(m_listwidget->row(item1));

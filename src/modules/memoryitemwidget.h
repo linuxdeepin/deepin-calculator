@@ -55,7 +55,6 @@ signals:
     void plusbtnclicked();
     void minusbtnclicked();
     void cleanbtnclicked();
-    void itemchanged(int type);
     void menuclean();
     void menucopy();
     void menuplus();
