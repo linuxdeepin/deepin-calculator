@@ -233,22 +233,6 @@ void MemoryWidget::generateData(Quantity answer)
     });
 }
 
-void MemoryWidget::paintEvent(QPaintEvent *event)
-{
-    QPainter painter(this);
-    if (m_themetype == 1) {
-        QPen pen(QBrush(QColor("#F8F8F8")), 0);
-        painter.setPen(pen);
-    } else {
-        QPen pen(QBrush(QColor("#252525")), 0);
-        painter.setPen(pen);
-    }
-//    painter.setBrush(QBrush(QColor("#F8F8F8")));
-    QRect rect(this->rect().left(), this->rect().top(), this->rect().width(), this->rect().bottom() + 30);
-    painter.drawRect(rect);
-    QWidget::paintEvent(event);
-}
-
 void MemoryWidget::mousePressEvent(QMouseEvent *event)
 {
     m_type = -1;

@@ -48,7 +48,6 @@ public:
     ~MemoryWidget();
 
     void generateData(Quantity answer);
-    void paintEvent(QPaintEvent *event);
     void mousePressEvent(QMouseEvent *event);
     bool eventFilter(QObject *obj, QEvent *event);
     void focusInEvent(QFocusEvent *event);
