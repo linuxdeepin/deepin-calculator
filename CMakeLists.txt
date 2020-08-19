@@ -70,10 +70,10 @@ file(GLOB_RECURSE CAL_C ${CMAKE_CURRENT_LIST_DIR}/src/*.c)
 
 file(GLOB_RECURSE CAL_CPP ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
 #file(GLOB_RECURSE CAL_TEST ${CMAKE_CURRENT_LIST_DIR}/tests/*.cpp)
-include_directories(libs/googletest)                           #一下三行添加包含以便测试用例代码的编写
-include_directories(libs/googletest/googlemock/include)
-include_directories(libs/googletest/googletest/include)
-add_subdirectory(libs/googletest)                              #添加googletest库
+include_directories(googletest)                           #一下三行添加包含以便测试用例代码的编写
+include_directories(googletest/googlemock/include)
+include_directories(googletest/googletest/include)
+add_subdirectory(googletest)                              #添加googletest库
 
 set (DC_QRC_FILES
     src/deepin-calculator.qrc
@@ -149,7 +149,7 @@ add_custom_command(TARGET test
     #3.过滤一些我们不感兴趣的文件的覆盖率信息
     COMMAND echo " =================== do filter begin ==================== "
     COMMAND lcov --remove ./coverageResult/${PROJECT_NAME}_Coverage.info
-    '*/${PROJECT_NAME_TEST}_autogen/*' '*/${PROJECT_NAME}_autogen/*' '*/tests/*' '*/libs/*' '*/usr/include/*' '*/src/core' '*/src/math'
+    '*/${PROJECT_NAME_TEST}_autogen/*' '*/${PROJECT_NAME}_autogen/*' '*/tests/*' '*/googletest/*' '*/usr/include/*' '*/src/core' '*/src/math'
     -o ./coverageResult/${PROJECT_NAME}_Coverage.info
     COMMAND echo " =================== do filter end ==================== "
 
