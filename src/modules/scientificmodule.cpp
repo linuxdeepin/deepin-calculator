@@ -622,7 +622,6 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
 void scientificModule::handleKeypadButtonPress(int key)
 {
     m_scikeypadwidget->update();
-    m_sciexpressionBar->clearSelection();
     //20200414 bug20294鼠标点击取消focus
     switch (key) {
     case ScientificKeyPad::Key_0:
@@ -928,7 +927,6 @@ void scientificModule::handleKeypadButtonPress(int key)
 void scientificModule::handleKeypadButtonPressByspace(int key)
 {
     m_scikeypadwidget->update();
-    m_sciexpressionBar->clearSelection();
     m_scikeypadwidget->animate(ScientificKeyPad::Buttons(key), true);
     //20200414 bug20294鼠标点击取消focus
     switch (key) {

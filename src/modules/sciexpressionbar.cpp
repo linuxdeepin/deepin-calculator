@@ -2548,17 +2548,6 @@ void SciExpressionBar::initTheme(int type)
     m_inputEdit->themetypechanged(typeIn);
 }
 
-void SciExpressionBar::clearSelection()
-{
-    SSelection select = m_inputEdit->getSelection();
-    if (!select.selected.isEmpty()) {
-        int start = select.curpos - select.selected.length();
-        QString exp = m_inputEdit->text();
-        exp = exp.remove(start, select.selected.length());
-        select.clearText = exp;
-    }
-}
-
 //void SciExpressionBar::setSelection()
 //{
 //    SSelection select = m_inputEdit->getSelection();
