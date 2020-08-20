@@ -471,15 +471,3 @@ TEST_F(Ut_ScientificModule, handleKeypadButtonPressByspace)
     MemoryPublic::deleteInstance();
 }
 
-TEST_F(Ut_ScientificModule, handleClearStateChanged)
-{
-    scientificModule *m_scientificModule = new scientificModule;
-    m_scientificModule->checkLineEmpty();
-    m_scientificModule->findChild<InputEdit *>()->setText("1");
-
-    m_scientificModule->handleClearStateChanged(true);
-    ASSERT_TRUE(m_scientificModule->m_memCalbtn);
-    DSettings::deleteInstance();
-    MemoryPublic::deleteInstance();
-}
-
