@@ -1,8 +1,13 @@
 #ifndef UT_SCIEXPRESSIONBAR_H
 #define UT_SCIEXPRESSIONBAR_H
 
+#include <gtest/gtest.h>
+#include <gmock/gmock-matchers.h>
+#include <QTest>
 
-class Ut_SciexpressionBar
+#include "src/dsettings.h"
+
+class Ut_SciexpressionBar : public ::testing::Test
 {
 public:
     Ut_SciexpressionBar();
