@@ -70,10 +70,10 @@ file(GLOB_RECURSE CAL_C ${CMAKE_CURRENT_LIST_DIR}/src/*.c)
 
 file(GLOB_RECURSE CAL_CPP ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
 #file(GLOB_RECURSE CAL_TEST ${CMAKE_CURRENT_LIST_DIR}/tests/*.cpp)
-include_directories(googletest)                           #一下三行添加包含以便测试用例代码的编写
-include_directories(googletest/googlemock/include)
-include_directories(googletest/googletest/include)
-add_subdirectory(googletest)                              #添加googletest库
+include_directories(third_party)                           #一下三行添加包含以便测试用例代码的编写
+include_directories(third_party/googlemock/include)
+include_directories(third_party/googletest/include)
+add_subdirectory(third_party)                              #添加googletest库
 
 set (DC_QRC_FILES
     src/deepin-calculator.qrc
