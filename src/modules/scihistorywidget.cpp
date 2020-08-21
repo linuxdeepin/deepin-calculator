@@ -103,7 +103,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_buttonbox->setId(m_historybtn, 0);
     m_buttonbox->setId(m_memorybtn, 1);
     connect(m_buttonbox->button(0), &QAbstractButton::clicked, this, [ = ]() {
-        if (QApplication::focusWidget() != nullptr) //取消应用内所有焦点
+        if (QApplication::focusWidget() != m_buttonbox->button(0)) //取消应用内所有焦点
             QApplication::focusWidget()->clearFocus();
         m_clearbutton->showtooltip(false); //设置历史垃圾桶tooltip
 //        m_indexH = true;
@@ -113,7 +113,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 //        m_clearbutton->setHidden(!(m_isshowH & m_indexH));
     });
     connect(m_buttonbox->button(1), &QAbstractButton::clicked, this, [ = ]() {
-        if (QApplication::focusWidget() != nullptr) //取消应用内所有焦点
+        if (QApplication::focusWidget() != m_buttonbox->button(1)) //取消应用内所有焦点
             QApplication::focusWidget()->clearFocus();
         m_clearbutton->showtooltip(true); //设置内存垃圾桶tooltip
 //        m_indexH = false;
