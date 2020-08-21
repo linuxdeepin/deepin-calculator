@@ -41,39 +41,70 @@ TEST_F(Ut_SciexpressionBar, enterNumberEvent)
     DSettings::deleteInstance();
 }
 
-//TEST_F(Ut_SciexpressionBar, enterSymbolEvent)
-//{
-//    ExpressionBar *m_expressionBar = new ExpressionBar;
+TEST_F(Ut_SciexpressionBar, enterSymbolEvent)
+{
+    SciExpressionBar *m_expressionBar = new SciExpressionBar;
 //    m_expressionBar->m_listModel->updataList(QString("1＋2") + "＝" + "3", -1);
 //    m_expressionBar->findChild<InputEdit *>()->setText("3");
 //    m_expressionBar->m_isUndo = true;
-//    m_expressionBar->enterSymbolEvent("-");
-//    m_expressionBar->m_hisLink.last().linkedItem = -1;
-//    m_expressionBar->enterSymbolEvent("＋");
-//    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
-//    m_expressionBar->enterSymbolEvent("-");
-//    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(1);
-//    m_expressionBar->enterSymbolEvent("-");
-//    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "－3＋");
-//    DSettings::deleteInstance();
-//}
+    m_expressionBar->enterSymbolEvent("＋");
+    m_expressionBar->findChild<InputEdit *>()->clear();
+    m_expressionBar->enterSymbolEvent("-");
+    m_expressionBar->enterSymbolEvent("-");
+    m_expressionBar->enterSymbolEvent("＋");
+    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
+    m_expressionBar->enterSymbolEvent("-");
+    m_expressionBar->findChild<InputEdit *>()->setText("1");
+    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
+    m_expressionBar->enterSymbolEvent("-");
+    m_expressionBar->findChild<InputEdit *>()->setText("1＋2");
+    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(1);
+    m_expressionBar->enterSymbolEvent("-");
+    m_expressionBar->findChild<InputEdit *>()->setText("11");
+    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(1);
+    m_expressionBar->enterSymbolEvent("-");
+    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1－1");
+    DSettings::deleteInstance();
+}
 
-//TEST_F(Ut_SciexpressionBar, enterPointEvent)
-//{
-//    ExpressionBar *m_expressionBar = new ExpressionBar;
-//    m_expressionBar->enterPointEvent();
-//    m_expressionBar->findChild<InputEdit *>()->setText("1");
-//    m_expressionBar->enterPointEvent();
-//    m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
-//    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-//    m_expressionBar->enterPointEvent();
-//    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1＋0.1");
-//    DSettings::deleteInstance();
-//}
+TEST_F(Ut_SciexpressionBar, enterPercentEvent)
+{
+    SciExpressionBar *m_expressionBar = new SciExpressionBar;
+    m_expressionBar->enterPercentEvent();
+    m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
+    m_expressionBar->enterPercentEvent();
+    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(1);
+    m_expressionBar->enterPercentEvent();
+    m_expressionBar->findChild<InputEdit *>()->setText("1111");
+    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(1);
+    m_expressionBar->enterPercentEvent();
+    m_expressionBar->findChild<InputEdit *>()->setText("1111");
+    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
+    m_expressionBar->enterPercentEvent();
+    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1%111");
+    DSettings::deleteInstance();
+}
+
+TEST_F(Ut_SciexpressionBar, enterPointEvent)
+{
+    SciExpressionBar *m_expressionBar = new SciExpressionBar;
+    m_expressionBar->enterPointEvent();
+    m_expressionBar->findChild<InputEdit *>()->setText("1");
+    m_expressionBar->enterPointEvent();
+    m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
+    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
+    m_expressionBar->enterPointEvent();
+    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(4);
+    m_expressionBar->enterPointEvent();
+    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(5);
+    m_expressionBar->enterPointEvent();
+    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1＋0.1");
+    DSettings::deleteInstance();
+}
 
 //TEST_F(Ut_SciexpressionBar, enterBackspaceEvent)
 //{
-//    ExpressionBar *m_expressionBar = new ExpressionBar;
+//    SciExpressionBar *m_expressionBar = new SciExpressionBar;
 //    m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
 //    m_expressionBar->allElection();
 //    m_expressionBar->enterBackspaceEvent();
@@ -120,18 +151,6 @@ TEST_F(Ut_SciexpressionBar, enterNumberEvent)
 //    m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
 //    m_expressionBar->enterEqualEvent();
 //    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "2");
-//    DSettings::deleteInstance();
-//}
-
-//TEST_F(Ut_SciexpressionBar, enterPercentEvent)
-//{
-//    ExpressionBar *m_expressionBar = new ExpressionBar;
-//    m_expressionBar->enterPercentEvent();
-//    m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
-//    m_expressionBar->enterPercentEvent();
-//    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(1);
-//    m_expressionBar->enterPercentEvent();
-//    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1%＋1%");
 //    DSettings::deleteInstance();
 //}
 
