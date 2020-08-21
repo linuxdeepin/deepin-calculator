@@ -2016,6 +2016,9 @@ void SciExpressionBar::copyClipboard2Result()
 //            }
 //        }
 //    }
+
+    if (!judgeinput())
+        return;
     QString oldText = m_inputEdit->text(); //未粘贴操作的text
     int curpos = m_inputEdit->cursorPosition(); //未粘贴操作的光标位
     replaceSelection(oldText);
