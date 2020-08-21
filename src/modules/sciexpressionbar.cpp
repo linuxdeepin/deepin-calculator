@@ -307,7 +307,7 @@ void SciExpressionBar::enterBackspaceEvent()
         //光标不在开头且光标左侧是字母或者光标右侧是字母
         if ((selection.curpos > 0 &&
                 rx.exactMatch(m_inputEdit->text().at(selection.curpos - 1)))
-                || rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size()))) {
+                || (selection.curpos + selection.selected.size() < m_inputEdit->text().size() && rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size())))) {
             int funpos = -1;
             int rightfunpos = -1;
             int j;
