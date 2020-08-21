@@ -556,22 +556,6 @@ void SciExpressionBar::enterEqualEvent()
     m_isUndo = false;
 }
 
-void SciExpressionBar::enterBracketsEvent()
-{
-    m_isResult = false;
-    replaceSelection(m_inputEdit->text());
-    QString oldText = m_inputEdit->text();
-    int currentPos = m_inputEdit->cursorPosition();
-    m_inputEdit->insert("()");
-    // 20200401 symbolFaultTolerance
-    m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
-    if (oldText.mid(0, currentPos).count(",") == m_inputEdit->text().mid(0, currentPos).count(","))
-        m_inputEdit->setCursorPosition(currentPos + 1);
-    else
-        m_inputEdit->setCursorPosition(currentPos);
-    m_isUndo = false;
-}
-
 void SciExpressionBar::enterLeftBracketsEvent()
 {
     m_isResult = false;
@@ -616,12 +600,6 @@ void SciExpressionBar::enterRightBracketsEvent()
             m_inputEdit->setCursorPosition(curpos + 1);
         }
     }
-}
-
-void SciExpressionBar::enterDeleteEvent()
-{
-    m_inputEdit->clear();
-    m_isUndo = false;
 }
 
 /**
@@ -2224,46 +2202,46 @@ bool SciExpressionBar::judgeinput()
     }
 }
 
-void SciExpressionBar::computationalResults(const QString &expression, QString &result)
-{
-    if (m_inputEdit->text().isEmpty())
-        return;
+//void SciExpressionBar::computationalResults(const QString &expression, QString &result)
+//{
+//    if (m_inputEdit->text().isEmpty())
+//        return;
 
-    QString exp = expression.left(expression.size() - 1);
-    exp = formatExpression(exp);
-    m_evaluator->setExpression(formatExpression(exp));
-    Quantity ans = m_evaluator->evalUpdateAns();
+//    QString exp = expression.left(expression.size() - 1);
+//    exp = formatExpression(exp);
+//    m_evaluator->setExpression(formatExpression(exp));
+//    Quantity ans = m_evaluator->evalUpdateAns();
 
-    if (m_evaluator->error().isEmpty()) {
-        if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
-            return;
+//    if (m_evaluator->error().isEmpty()) {
+//        if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
+//            return;
 
-        const QString tResult = DMath::format(ans, Quantity::Format::Fixed());
-        result = Utils::formatThousandsSeparators(tResult);
-        result = formatExpression(result);
-        m_inputEdit->setAnswer(result, ans);
+//        const QString tResult = DMath::format(ans, Quantity::Format::Fixed());
+//        result = Utils::formatThousandsSeparators(tResult);
+//        result = formatExpression(result);
+//        m_inputEdit->setAnswer(result, ans);
 
-        if (result != m_inputEdit->text()) {
-            m_isContinue = false;
-        }
-    } else {
-        result = tr("Expression error");
-        m_inputEdit->setText(result);
-    }
-}
+//        if (result != m_inputEdit->text()) {
+//            m_isContinue = false;
+//        }
+//    } else {
+//        result = tr("Expression error");
+//        m_inputEdit->setText(result);
+//    }
+//}
 
-QString SciExpressionBar::completedBracketsCalculation(QString &text)
-{
-    int leftBrack = text.count("(");
-    int rightBrack = text.count(")");
-    QString newText = text;
-    if (leftBrack > rightBrack) {
-        for (int i = 0; i < leftBrack - rightBrack; i++)
-            newText += ")";
-    }
+//QString SciExpressionBar::completedBracketsCalculation(QString &text)
+//{
+//    int leftBrack = text.count("(");
+//    int rightBrack = text.count(")");
+//    QString newText = text;
+//    if (leftBrack > rightBrack) {
+//        for (int i = 0; i < leftBrack - rightBrack; i++)
+//            newText += ")";
+//    }
 
-    return newText;
-}
+//    return newText;
+//}
 
 void SciExpressionBar::initConnect()
 {
@@ -2332,41 +2310,41 @@ QString SciExpressionBar::symbolComplement(const QString exp)
  * @param exp 复制的内容
  * @return 粘贴后的text
  */
-QString SciExpressionBar::pasteFaultTolerance(QString exp)
-{
-    exp = m_inputEdit->text().insert(m_inputEdit->cursorPosition(), exp);
-    exp = Utils::reformatSeparators(QString(exp).remove(',').remove(QString::fromUtf8("，")));
-    exp = pointFaultTolerance(exp); //避免粘贴后的text有两个.
-    for (int i = 0; i < exp.size(); ++i) {
-        while (exp[i].isNumber()) {
-            if (exp[i] == "0" && exp[i + 1] != "." && (i == 0 || exp[i - 1] != ".") &&
-                    (i == 0 || !exp[i - 1].isNumber()) && (exp.size() == 1 || exp[i + 1].isNumber())) {
-                exp.remove(i, 1); //0的容错处理，例:将0123的0去除 //在输入符号时也会进行此操作
-                --i;
-            }
-            ++i;
-        }
-        if (exp[i] == "." && (i == 0 || !exp[i - 1].isNumber())) {
-            exp.insert(i, "0");
-            ++i;
-        }
-    }
-    //匹配函数方法
-    QStringList list = exp.split(QRegExp("[0-9＋－×÷/()%^!E.,]"));
-    for (int i = 0; i < list.size(); i++) {
-        QString item = list[i];
-        for (int j = 0; j < m_funclist.size(); j++) {
-            if (item.toLower().contains(m_funclist[j])) {
-                item.replace(item, m_funclist[j]);
-                break;
-            }
-            if (j == m_funclist.size() - 1)
-                item.replace(item, QString());
-        }
-        exp.replace(list[i], item);
-    }
-    return exp;
-}
+//QString SciExpressionBar::pasteFaultTolerance(QString exp)
+//{
+//    exp = m_inputEdit->text().insert(m_inputEdit->cursorPosition(), exp);
+//    exp = Utils::reformatSeparators(QString(exp).remove(',').remove(QString::fromUtf8("，")));
+//    exp = pointFaultTolerance(exp); //避免粘贴后的text有两个.
+//    for (int i = 0; i < exp.size(); ++i) {
+//        while (exp[i].isNumber()) {
+//            if (exp[i] == "0" && exp[i + 1] != "." && (i == 0 || exp[i - 1] != ".") &&
+//                    (i == 0 || !exp[i - 1].isNumber()) && (exp.size() == 1 || exp[i + 1].isNumber())) {
+//                exp.remove(i, 1); //0的容错处理，例:将0123的0去除 //在输入符号时也会进行此操作
+//                --i;
+//            }
+//            ++i;
+//        }
+//        if (exp[i] == "." && (i == 0 || !exp[i - 1].isNumber())) {
+//            exp.insert(i, "0");
+//            ++i;
+//        }
+//    }
+//    //匹配函数方法
+//    QStringList list = exp.split(QRegExp("[0-9＋－×÷/()%^!E.,]"));
+//    for (int i = 0; i < list.size(); i++) {
+//        QString item = list[i];
+//        for (int j = 0; j < m_funclist.size(); j++) {
+//            if (item.toLower().contains(m_funclist[j])) {
+//                item.replace(item, m_funclist[j]);
+//                break;
+//            }
+//            if (j == m_funclist.size() - 1)
+//                item.replace(item, QString());
+//        }
+//        exp.replace(list[i], item);
+//    }
+//    return exp;
+//}
 
 QString SciExpressionBar::pointFaultTolerance(const QString &text)
 {
@@ -2419,18 +2397,18 @@ QString SciExpressionBar::pointFaultTolerance(const QString &text)
     return reformatStr;
 }
 
-void SciExpressionBar::clearSelectSymbol()
-{
-    SSelection select = m_inputEdit->getSelection();
-    if (select.selected.size() == 1 && (select.selected == "＋" || select.selected == "－" ||
-                                        select.selected == "×" || select.selected == "÷")) {
-        select.selected = "";
-        QString exp = m_inputEdit->text();
-        exp.remove(select.curpos, 1);
-        m_inputEdit->setText(exp);
-        m_inputEdit->setCursorPosition(select.curpos);
-    }
-}
+//void SciExpressionBar::clearSelectSymbol()
+//{
+//    SSelection select = m_inputEdit->getSelection();
+//    if (select.selected.size() == 1 && (select.selected == "＋" || select.selected == "－" ||
+//                                        select.selected == "×" || select.selected == "÷")) {
+//        select.selected = "";
+//        QString exp = m_inputEdit->text();
+//        exp.remove(select.curpos, 1);
+//        m_inputEdit->setText(exp);
+//        m_inputEdit->setCursorPosition(select.curpos);
+//    }
+//}
 
 void SciExpressionBar::expressionCheck()
 {

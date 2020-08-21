@@ -71,10 +71,8 @@ public slots:
     void enterClearEvent();
     void enterEqualEvent();
     void enterPercentEvent();
-    void enterBracketsEvent();
     void enterLeftBracketsEvent();
     void enterRightBracketsEvent();
-    void enterDeleteEvent();
     void enterDegEvent(int mod);
     void enterSinEvent();
     void enterFEEvent(bool isdown);
@@ -112,7 +110,7 @@ public slots:
     void copyClipboard2Result();
     void allElection();
     void shear();
-    void computationalResults(const QString &expression, QString &result);
+//    void computationalResults(const QString &expression, QString &result);
 //    void historicalLinkage(int index, QString newValue);
 //    void clearLinkageCache(const QString &text, bool isequal);
 //    void setLinkState(const QModelIndex index);
@@ -138,15 +136,15 @@ private slots:
 private:
     bool cursorPosAtEnd();
     QString formatExpression(const QString &text);
-    QString completedBracketsCalculation(QString &text);
+//    QString completedBracketsCalculation(QString &text);
     bool isOperator(const QString &text);
 //    bool cancelLink(int index);
 //    void judgeLinkageAgain();
     void initConnect();
     QString symbolComplement(const QString exp);
-    QString pasteFaultTolerance(QString exp);
+//    QString pasteFaultTolerance(QString exp);
     QString pointFaultTolerance(const QString &text);
-    void clearSelectSymbol();
+//    void clearSelectSymbol();
     void expressionCheck();
 
 private:
