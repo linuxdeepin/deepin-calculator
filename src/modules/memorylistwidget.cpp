@@ -76,6 +76,7 @@ void MemoryListWidget::mouseReleaseEvent(QMouseEvent *event)
  */
 void MemoryListWidget::keyPressEvent(QKeyEvent *e)
 {
+    bool ispressalt = e->modifiers() == Qt::AltModifier;
     switch (e->key()) {
     case Qt::Key_Up:
         emit focus(0);
@@ -90,7 +91,13 @@ void MemoryListWidget::keyPressEvent(QKeyEvent *e)
         emit focus(3);
         break;
     case Qt::Key_Space:
+    case Qt::Key_Enter:
+    case Qt::Key_Return:
         emit space();
+        break;
+    case Qt::Key_M:
+        if (ispressalt)
+            emit altAndM();
         break;
     default:
         QWidget::keyPressEvent(e);

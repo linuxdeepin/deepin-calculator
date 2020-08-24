@@ -63,6 +63,7 @@ public slots:
     void themetypechanged(int type);
     void isexpressionempty(bool b);
     void setNextItemHover();
+    void showTextEditMenuByAltM();
 
 public:
 

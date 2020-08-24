@@ -44,6 +44,7 @@ signals:
     void itemselected(int row);
     void focus(int direction); //direction 0-上　1-下　2-左　3-右
     void space();
+    void altAndM();
 
 private:
     QPoint m_mousepoint;

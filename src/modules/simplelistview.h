@@ -38,6 +38,7 @@ public:
     ~SimpleListView();
     void contextMenuEvent(QContextMenuEvent *event);
     void listItemFill(bool itemfill); //itemfill中是否有历史记录
+    void showTextEditMenuByAltM(const QModelIndex &index);
 
 protected:
     void mouseMoveEvent(QMouseEvent *);

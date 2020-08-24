@@ -130,6 +130,11 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
             break;
         }
     });
+    connect(m_listwidget, &MemoryListWidget::altAndM, this, [ = ]() {
+        int row = m_listwidget->currentRow();
+        MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
+        w1->showTextEditMenuByAltM();
+    });
 
     m_label->setText(tr("Nothing saved in memory"));
     m_label->setAlignment(Qt::AlignCenter); //label字体居右，居上

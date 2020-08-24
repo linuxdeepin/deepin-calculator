@@ -99,9 +99,10 @@ private slots:
     bool isSymbol(const QString &text);
     bool eventFilter(QObject *watched, QEvent *event);
     void multipleArithmetic(QString &text);
-    void showTextEditMenu(QPoint p);
+    void showTextEditMenu();
     void selectionChangedSlot();
     void pressSlot();
+    void showTextEditMenuByAltM();
 
 private:
     Quantity m_ans;

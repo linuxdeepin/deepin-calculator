@@ -92,6 +92,26 @@ void SimpleListView::listItemFill(bool itemfill)
     m_itemfill = itemfill;
 }
 
+void SimpleListView::showTextEditMenuByAltM(const QModelIndex &index)
+{
+    QMenu *menu = new QMenu(this);
+    //缺翻译
+    QAction *copy = new QAction(tr("Copy"), menu);
+    QAction *clean = new QAction(tr("Delete"), menu);
+    menu->addAction(copy);
+    menu->addAction(clean);
+    connect(copy, &QAction::triggered, this, [ = ]() {
+        static_cast<SimpleListModel *>(model())->copyToClipboard(index.row());
+    });
+    connect(clean, &QAction::triggered, this, [ = ]() {
+        static_cast<SimpleListModel *>(model())->deleteItem(index.row());
+    });
+    if (index.row() >= 0 && m_itemfill) {
+        menu->exec(mapToGlobal(visualRect(index).bottomLeft()));
+    }
+    delete menu;
+}
+
 /**
  * @brief 更改delegate参数，实现delegate的hover状态
  */
@@ -176,6 +196,7 @@ void SimpleListView::mouseReleaseEvent(QMouseEvent *event)
 
 void SimpleListView::keyPressEvent(QKeyEvent *e)
 {
+    bool ispressalt = e->modifiers() == Qt::AltModifier;
     switch (e->key()) {
     case Qt::Key_Up:
         if (currentIndex().row() > 0) {
@@ -190,7 +211,13 @@ void SimpleListView::keyPressEvent(QKeyEvent *e)
         }
         break;
     case Qt::Key_Space:
+    case Qt::Key_Enter:
+    case Qt::Key_Return:
         emit obtainingHistorical(currentIndex());
+        break;
+    case Qt::Key_M:
+        if (ispressalt)
+            showTextEditMenuByAltM(currentIndex());
         break;
     default:
         DListView::keyPressEvent(e);

@@ -228,6 +228,40 @@ void MemoryItemWidget::setLineHight(int line)
     m_label->setFixedHeight(45 * line);
 }
 
+void MemoryItemWidget::showTextEditMenuByAltM()
+{
+    QMenu *menu = new QMenu(this); //添加各item的菜单项
+    QAction *copy = new QAction(tr("Copy"), menu); //复制
+    QAction *clean = new QAction(tr("Clear memory item"), menu); //MC
+    QAction *plus = new QAction(tr("Add to memory item"), menu); //M+
+    QAction *minus = new QAction(tr("Subtract from memory item"), menu); //M-
+    menu->addAction(copy);
+    menu->addAction(clean);
+    menu->addAction(plus);
+    menu->addAction(minus);
+    if (m_isExpressionEmpty) {
+        plus->setEnabled(false);
+        minus->setEnabled(false);
+    } else {
+        plus->setEnabled(true);
+        minus->setEnabled(true);
+    }
+    connect(copy, &QAction::triggered, this, [ = ]() {
+        emit menucopy();
+    });
+    connect(clean, &QAction::triggered, this, [ = ]() {
+        emit menuclean();
+    });
+    connect(plus, &QAction::triggered, this, [ = ]() {
+        emit menuplus();
+    });
+    connect(minus, &QAction::triggered, this, [ = ]() {
+        emit menuminus();
+    });
+    menu->exec(mapToGlobal(rect().bottomLeft())); //当前鼠标位置显示菜单
+    delete menu;
+}
+
 void MemoryItemWidget::themetypechanged(int type)
 {
     m_themetype = type;

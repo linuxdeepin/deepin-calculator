@@ -56,6 +56,7 @@ protected:
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
     void paintEvent(QPaintEvent *);
+    void keyPressEvent(QKeyEvent *e);
 
 private:
     //void setIconSize(const int &size);

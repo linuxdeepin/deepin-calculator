@@ -236,7 +236,10 @@ void InputEdit::setRedoAction(bool state)
  */
 void InputEdit::keyPressEvent(QKeyEvent *e)
 {
-    Q_EMIT keyPress(e);
+    if (hasFocus() && e->modifiers() == Qt::AltModifier && e->key() == Qt::Key_M) {
+        showTextEditMenuByAltM();
+    } else
+        Q_EMIT keyPress(e);
     return;
 }
 
@@ -721,9 +724,8 @@ void InputEdit::multipleArithmetic(QString &text)
     }
 }
 
-void InputEdit::showTextEditMenu(QPoint p)
+void InputEdit::showTextEditMenu()
 {
-    Q_UNUSED(p);
     DMenu *menu = new DMenu(this);
     menu->addAction(m_undo);
     menu->addAction(m_redo);
@@ -752,6 +754,33 @@ void InputEdit::showTextEditMenu(QPoint p)
 void InputEdit::pressSlot()
 {
     return;
+}
+
+void InputEdit::showTextEditMenuByAltM()
+{
+    DMenu *menu = new DMenu(this);
+    menu->addAction(m_undo);
+    menu->addAction(m_redo);
+    menu->addAction(m_cut);
+    menu->addAction(m_copy);
+    menu->addAction(m_paste);
+    menu->addAction(m_delete);
+    menu->addSeparator();
+    menu->addAction(m_select);
+
+    if (QApplication::clipboard()->text().isEmpty())
+        m_paste->setEnabled(false);
+    else
+        m_paste->setEnabled(true);
+
+    if (this->selectedText().isEmpty())
+        m_cut->setEnabled(false);
+    else
+        m_cut->setEnabled(true);
+
+    menu->move(mapToGlobal(cursorRect().bottomRight()));
+    menu->exec();
+    menu->deleteLater();
 }
 
 /**

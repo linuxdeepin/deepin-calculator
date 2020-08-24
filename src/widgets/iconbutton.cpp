@@ -387,6 +387,35 @@ void IconButton::paintEvent(QPaintEvent *)
     drawCenterPixMap(painter);
 }
 
+void IconButton::keyPressEvent(QKeyEvent *e)
+{
+    switch (e->key()) {
+    case Qt::Key_Up:
+        emit focus(0);
+        break;
+    case Qt::Key_Down:
+        emit focus(1);
+        break;
+    case Qt::Key_Left:
+        emit focus(2);
+        break;
+    case Qt::Key_Right:
+        emit focus(3);
+        break;
+    case Qt::Key_Space:
+        emit space();
+        break;
+    case Qt::Key_Enter:
+    case Qt::Key_Return:
+        if (m_isEmptyBtn)
+            emit space();
+        break;
+    default:
+        DPushButton::keyPressEvent(e);
+        break;
+    }
+}
+
 /**
  * @brief SetAttrRecur
  * @param elem
