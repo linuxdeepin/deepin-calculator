@@ -78,6 +78,9 @@ public:
     SimpleListDelegate *m_listDelegate;
     SimpleListModel *m_listModel;
 
+signals:
+    void hisbtnClicked();
+
 public slots:
     void themeChanged(int type);
     void historyfilled();
