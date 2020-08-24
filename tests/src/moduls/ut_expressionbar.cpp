@@ -1,7 +1,9 @@
 #include "ut_expressionbar.h"
 #define private public
+#define protected public
 #include "src/modules/expressionbar.h"
 #undef private
+#undef protected
 
 Ut_ExpressionBar::Ut_ExpressionBar()
 {
@@ -14,6 +16,14 @@ void Ut_ExpressionBar::SetUp()
 
 void Ut_ExpressionBar::TearDown()
 {
+}
+
+TEST_F(Ut_ExpressionBar, mouseMoveEvent)
+{
+    ExpressionBar *m_expressionBar = new ExpressionBar;
+    m_expressionBar->mouseMoveEvent(new QMouseEvent(QMouseEvent::Type::MouseMove, m_expressionBar->pos(), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    //无ASSERT
+    DSettings::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, enterNumberEvent)
@@ -94,6 +104,7 @@ TEST_F(Ut_ExpressionBar, enterClearEvent)
 TEST_F(Ut_ExpressionBar, enterEqualEvent)
 {
     ExpressionBar *m_expressionBar = new ExpressionBar;
+    m_expressionBar->enterEqualEvent();
     m_expressionBar->findChild<InputEdit *>()->setText("1＋");
     historicalLinkageIndex his;
     his.linkageTerm = 0;
@@ -122,18 +133,6 @@ TEST_F(Ut_ExpressionBar, enterPercentEvent)
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(1);
     m_expressionBar->enterPercentEvent();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1%＋1%");
-    DSettings::deleteInstance();
-}
-
-TEST_F(Ut_ExpressionBar, enterPercentEventCommon)
-{
-    ExpressionBar *m_expressionBar = new ExpressionBar;
-    m_expressionBar->enterPercentEventCommon();
-    m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
-    m_expressionBar->enterPercentEventCommon();
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(1);
-    m_expressionBar->enterPercentEventCommon();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "0.01＋0.01");
     DSettings::deleteInstance();
 }
 
@@ -200,6 +199,7 @@ TEST_F(Ut_ExpressionBar, moveRight)
 TEST_F(Ut_ExpressionBar, copyResultToClipboard)
 {
     ExpressionBar *m_expressionBar = new ExpressionBar;
+    m_expressionBar->copyResultToClipboard();
     m_expressionBar->findChild<InputEdit *>()->setText("1＋2");
     m_expressionBar->allElection();
     m_expressionBar->copyResultToClipboard();

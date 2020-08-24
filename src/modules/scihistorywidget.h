@@ -64,9 +64,7 @@ public:
     ~SciHistoryWidget();
 //    void paintEvent(QPaintEvent *event);
     void focusOnButtonbox();
-    MemoryWidget *getMemoryWidget();
     void memoryFunctions(memOperate operate = generateData, Quantity answer = Quantity(), int row = -1);
-    void *getChildWidgets(int i);
     void resetFocus();
 
     void mouseMoveEvent(QMouseEvent *e);

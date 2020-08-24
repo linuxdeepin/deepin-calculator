@@ -408,7 +408,6 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
         return QSize(HISWIDTH, expHeight + resultHeight + 25); //多出25pix空隙
     } else
         return QSize(-1, 33);
-//    QStyledItemDelegate::sizeHint(option, index);
 }
 
 bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,

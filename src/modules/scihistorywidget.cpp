@@ -104,7 +104,8 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_buttonbox->setId(m_historybtn, 0);
     m_buttonbox->setId(m_memorybtn, 1);
     connect(m_buttonbox->button(0), &QAbstractButton::clicked, this, [ = ]() {
-        emit hisbtnClicked();
+        if (!m_buttonbox->button(0)->hasFocus())
+            emit hisbtnClicked();
         m_clearbutton->showtooltip(false); //设置历史垃圾桶tooltip
 //        m_indexH = true;
 //        m_indexM = false;
@@ -113,7 +114,8 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 //        m_clearbutton->setHidden(!(m_isshowH & m_indexH));
     });
     connect(m_buttonbox->button(1), &QAbstractButton::clicked, this, [ = ]() {
-        emit hisbtnClicked();
+        if (!m_buttonbox->button(1)->hasFocus())
+            emit hisbtnClicked();
         m_clearbutton->showtooltip(true); //设置内存垃圾桶tooltip
 //        m_indexH = false;
 //        m_indexM = true;
@@ -122,7 +124,8 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 //        m_clearbuttonM->setHidden(!(m_isshowM & m_indexM));
     });
     connect(m_clearbutton, &IconButton::clicked, this, [ = ]() {
-        emit hisbtnClicked();
+        if (!m_clearbutton->hasFocus())
+            emit hisbtnClicked();
         if (m_buttonbox->checkedId() == 0) {
             m_listModel->clearItems();
             m_listView->listItemFill(false);
@@ -138,7 +141,8 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 //        setFocus();
     });
     connect(m_clearbutton, &TextButton::space, this, [ = ]() { //清除焦点空格事件
-        emit hisbtnClicked();
+        if (!m_clearbutton->hasFocus())
+            emit hisbtnClicked();
         if (m_buttonbox->checkedId() == 0) {
             m_listModel->clearItems();
             m_listView->listItemFill(false);
@@ -199,14 +203,6 @@ void SciHistoryWidget::focusOnButtonbox()
 }
 
 /**
- * @brief 返回memorywidget
- */
-MemoryWidget *SciHistoryWidget::getMemoryWidget()
-{
-    return m_memorywidget;
-}
-
-/**
  * @brief 对公共内存进行操作
  */
 void SciHistoryWidget::memoryFunctions(SciHistoryWidget::memOperate operate, Quantity answer, int row)
@@ -230,24 +226,6 @@ void SciHistoryWidget::memoryFunctions(SciHistoryWidget::memOperate operate, Qua
     default:
         memoryPublic->generateData(answer);
         break;
-    }
-}
-
-void *SciHistoryWidget::getChildWidgets(int i)
-{
-    switch (i) {
-    case 0:
-        return m_historybtn;
-    case 1:
-        return m_memorybtn;
-    case 2:
-        return m_clearbutton;
-    case 3:
-        return m_listView;
-    case 4:
-        return m_memorywidget;
-    default:
-        return m_buttonbox->button(0);
     }
 }
 

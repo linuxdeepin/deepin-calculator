@@ -6,7 +6,6 @@
 #include <QTest>
 
 #include "src/dsettings.h"
-#include "src/modules/memorypublic.h"
 
 class Ut_SciHistoryWidget : public ::testing::Test
 {
