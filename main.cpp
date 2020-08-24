@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 {
     //DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-    DApplication::loadDXcbPlugin();
+//    DApplication::loadDXcbPlugin();
     DApplication app(argc, argv);
     app.setAttribute(Qt::AA_UseHighDpiPixmaps);
     g_appPath = QDir::homePath() + QDir::separator() + "." + qApp->applicationName();
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
     app.setProductIcon(t_icon);
     app.setProductName(DApplication::translate("MainWindow", "Calculator"));
     app.setApplicationDescription(DApplication::translate("MainWindow", "Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division."));
-    static const QDate buildDate = QLocale( QLocale::English ).toDate( QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
+    static const QDate buildDate = QLocale(QLocale::English).toDate(QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
     QString t_date = buildDate.toString("MMdd");
     // Version Time
     app.setApplicationVersion(DApplication::buildVersion(t_date));
@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
     //saveThemeTypeSetting(t_type);
     //监听当前应用主题切换事件
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
-    [] (DGuiApplicationHelper::ColorType type) {
+    [](DGuiApplicationHelper::ColorType type) {
         qDebug() << type;
         // 保存程序的主题设置  type : 0,系统主题， 1,浅色主题， 2,深色主题
         saveThemeTypeSetting(type);
