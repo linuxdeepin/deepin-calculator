@@ -60,6 +60,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     QHBoxLayout *m_Hlayout = new QHBoxLayout();
     QWidget *clearwidget = new QWidget(this);
     m_clearbutton->setParent(clearwidget);
+    m_clearbutton->setObjectName("clearbtn");
     m_Hlayout->addSpacing(LEFT_SPACE);
     m_Hlayout->addWidget(m_buttonbox);
     m_buttonbox->setFixedWidth(BUTTONBOX_WIDTH);
