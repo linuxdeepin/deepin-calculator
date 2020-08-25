@@ -92,6 +92,7 @@ private:
     int m_itemwidth = 0;
     int m_precision = -1;//计算精度
     QLabel *m_label;//内存为空item
+    int m_currentrow = 0;//listwidget当前行
 
 private:
     QString formatExpression(const QString &text);

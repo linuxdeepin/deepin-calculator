@@ -58,6 +58,7 @@ private:
     bool m_ispressed = false;
     QPoint m_presspoint = QPoint();
     bool m_presschanged = false;
+    int m_currentindexrow = 0;//当前row
 };
 
 #endif

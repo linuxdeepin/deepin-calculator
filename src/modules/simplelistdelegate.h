@@ -46,6 +46,7 @@ public:
 public slots:
     void setThemeType(int type);
     void paintback(const QModelIndex &index, int state);//state 0-normal 1-hover 2-press
+    void currentfocusindex(QModelIndex index);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
@@ -72,6 +73,7 @@ private:
     int m_mode = 0;
     int m_row = -1;
     int m_state = 0;
+    QModelIndex m_focusindex;
 };
 
 #endif

@@ -5,7 +5,6 @@
 #include <gmock/gmock-matchers.h>
 
 #include "src/ut_qtest.h"
-#include "src/moduls/ut_basicmodul.h"
 
 #include <QTest>
 int main(int argc, char *argv[])

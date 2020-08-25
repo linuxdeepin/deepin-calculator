@@ -90,7 +90,7 @@ set(PROJECT_NAME_TEST
     ${PROJECT_NAME}_test)
 FILE (GLOB allTestSource
     "./tests/*.cpp" "./tests/src/*.cpp" "./tests/src/*.h"
-    "./tests/src/moduls/*.cpp" "./tests/src/moduls/*.h"
+    "./tests/src/modules/*.cpp" "./tests/src/modules/*.h"
     "./tests/src/widgets/*.cpp" "./tests/src/widgets/*.h"
     "./tests/*.c" "./tests/*.hpp")
 

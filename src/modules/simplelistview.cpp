@@ -201,12 +201,16 @@ void SimpleListView::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Up:
         if (currentIndex().row() > 0) {
             setCurrentIndex(this->model()->index(currentIndex().row() - 1, 0));
+            static_cast<SimpleListDelegate *>(itemDelegate(currentIndex()))->currentfocusindex(currentIndex());
+            m_currentindexrow = currentIndex().row();
             scrollTo(this->model()->index(currentIndex().row(), 0));
         }
         break;
     case Qt::Key_Down:
         if (currentIndex().row() < this->count() - 1) {
             setCurrentIndex(this->model()->index(currentIndex().row() + 1, 0));
+            static_cast<SimpleListDelegate *>(itemDelegate(currentIndex()))->currentfocusindex(currentIndex());
+            m_currentindexrow = currentIndex().row();
             scrollTo(this->model()->index(currentIndex().row(), 0));
         }
         break;
@@ -230,7 +234,8 @@ void SimpleListView::keyPressEvent(QKeyEvent *e)
  */
 void SimpleListView::focusInEvent(QFocusEvent *event)
 {
-    setCurrentIndex(this->model()->index(0, 0));
+    setCurrentIndex(this->model()->index(m_currentindexrow, 0));
+    static_cast<SimpleListDelegate *>(itemDelegate(currentIndex()))->currentfocusindex(currentIndex());
     scrollTo(this->model()->index(0, 0));
     DListView::focusInEvent(event);
 }

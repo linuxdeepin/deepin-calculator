@@ -138,6 +138,11 @@ void SimpleListDelegate::paintback(const QModelIndex &index, int state)
     m_state = state;
 }
 
+void SimpleListDelegate::currentfocusindex(QModelIndex index)
+{
+    m_focusindex = index;
+}
+
 void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                                const QModelIndex &index) const
 {
@@ -363,7 +368,7 @@ void SimpleListDelegate::drawFocusStatus(QPainter *painter, const QStyleOptionVi
     SimpleListView *listview = qobject_cast<SimpleListView *>(option.styleObject);
     if (listview->hasFocus()) {
         painter->setRenderHint(QPainter::Antialiasing, true);
-        QRectF itemrect(listview->visualRect(listview->currentIndex()));
+        QRectF itemrect(listview->visualRect(m_focusindex));
         QRectF frame(itemrect.left() + 1, itemrect.top() + 1, HISWIDTH - 2, itemrect.height() - 2);
         QPen pen;
         pen.setColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name());
