@@ -107,7 +107,10 @@ void SimpleListView::showTextEditMenuByAltM(const QModelIndex &index)
         static_cast<SimpleListModel *>(model())->deleteItem(index.row());
     });
     if (index.row() >= 0 && m_itemfill) {
-        menu->exec(mapToGlobal(visualRect(index).bottomLeft()));
+        QPoint menupoint;
+        menupoint.setX(mapToGlobal(visualRect(index).center()).x());
+        menupoint.setY(mapToGlobal(visualRect(index).bottomLeft()).y() - 20);
+        menu->exec(menupoint);
     }
     delete menu;
 }

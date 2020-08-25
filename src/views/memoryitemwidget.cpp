@@ -258,7 +258,10 @@ void MemoryItemWidget::showTextEditMenuByAltM()
     connect(minus, &QAction::triggered, this, [ = ]() {
         emit menuminus();
     });
-    menu->exec(mapToGlobal(rect().bottomLeft())); //当前鼠标位置显示菜单
+    QPoint menupoint;
+    menupoint.setX(mapToGlobal(m_label->rect().center()).x());
+    menupoint.setY(mapToGlobal(m_label->rect().bottomLeft()).y());
+    menu->exec(menupoint); //当前鼠标位置显示菜单
     delete menu;
 }
 
