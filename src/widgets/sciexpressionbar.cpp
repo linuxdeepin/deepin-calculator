@@ -487,8 +487,10 @@ void SciExpressionBar::enterEqualEvent()
 {
 //    m_evaluator->setVariable(QLatin1String("e"), DMath::e(), Variable::BuiltIn);
     QString exp = m_inputEdit->text();
-    if (m_inputEdit->text().isEmpty())
+    if (m_inputEdit->text().isEmpty()) {
+        m_pair.first = false;
         return;
+    }
     const QString expression = formatExpression(m_inputEdit->expressionText());
     QString exp1 = symbolComplement(expression);
     m_evaluator->setExpression(exp1);
