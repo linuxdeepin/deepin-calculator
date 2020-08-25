@@ -90,9 +90,9 @@ set(PROJECT_NAME_TEST
     ${PROJECT_NAME}_test)
 FILE (GLOB allTestSource
     "./tests/*.cpp" "./tests/src/*.cpp" "./tests/src/*.h"
-    "./tests/src/modules/*.cpp" "./tests/src/modules/*.h"
+    "./tests/src/control/*.cpp" "./tests/src/control/*.h"
     "./tests/src/widgets/*.cpp" "./tests/src/widgets/*.h"
-    "./tests/*.c" "./tests/*.hpp")
+    "./tests/src/views/*.cpp" "./tests/src/views/*.h")
 
 # 生成测试可执行程序
 add_executable(${PROJECT_NAME_TEST} ${CAL_H} ${CAL_C} ${CAL_CPP} ${allTestSource})
@@ -149,7 +149,7 @@ add_custom_command(TARGET test
     #3.过滤一些我们不感兴趣的文件的覆盖率信息
     COMMAND echo " =================== do filter begin ==================== "
     COMMAND lcov --remove ./coverageResult/${PROJECT_NAME}_Coverage.info
-    '*/${PROJECT_NAME_TEST}_autogen/*' '*/${PROJECT_NAME}_autogen/*' '*/tests/*' '*/googletest/*' '*/usr/include/*' '*/src/core/*' '*/src/math/*'
+    '*/${PROJECT_NAME_TEST}_autogen/*' '*/${PROJECT_NAME}_autogen/*' '*/tests/*' '*/googletest/*' '*/usr/include/*' '*/src/test/*' '*/src/core/*' '*/src/math/*'
     -o ./coverageResult/${PROJECT_NAME}_Coverage.info
     COMMAND echo " =================== do filter end ==================== "
 
