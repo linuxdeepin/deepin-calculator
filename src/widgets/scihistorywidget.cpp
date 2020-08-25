@@ -100,6 +100,9 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_memorybtn->setFixedSize(BUTTONBOX_WIDTH / 2, BUTTONBOX_HEIGHT);
     listBtnBox << m_historybtn << m_memorybtn;
     m_memorybtn->setFocusPolicy(Qt::TabFocus);
+    m_historybtn->installEventFilter(this);
+    m_memorybtn->installEventFilter(this);
+    m_buttonbox->setFocusPolicy(Qt::NoFocus);
     m_buttonbox->setButtonList(listBtnBox, true);
     m_buttonbox->setId(m_historybtn, 0);
     m_buttonbox->setId(m_memorybtn, 1);
@@ -246,9 +249,23 @@ void SciHistoryWidget::keyPressEvent(QKeyEvent *e)
         focusNextChild();//焦点移动
         m_historybtn->setFocus();
     } else if (e->key() == Qt::Key_Right && (m_historybtn->hasFocus() ||  m_memorybtn->hasFocus())) {
+        m_iskeypressfocus = true;
         focusNextChild();//焦点移动
         m_memorybtn->setFocus();
+        m_iskeypressfocus = false;
     }
+}
+
+bool SciHistoryWidget::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == m_memorybtn && event->type() == QEvent::FocusIn) {
+        QFocusEvent *focus_Event = static_cast<QFocusEvent *>(event);
+        if (focus_Event->reason() == Qt::TabFocusReason && !m_iskeypressfocus) {
+            m_historybtn->setFocus();
+            return true;
+        }
+    }
+    return QWidget::eventFilter(obj, event);
 }
 
 /**

@@ -68,6 +68,7 @@ public:
     void mouseMoveEvent(QMouseEvent *e);
     void keyPressEvent(QKeyEvent *e);
 //    void focusInEvent(QFocusEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event);
 
 public:
     SimpleListView *m_listView;
@@ -94,6 +95,7 @@ private:
 //    bool m_indexM = false;
     bool m_isshowH = false;
 //    bool m_indexH = true;
+    bool m_iskeypressfocus = false;
 };
 
 #endif // SCIHISTORYWIDGET_H
