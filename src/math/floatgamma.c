@@ -69,6 +69,12 @@ binetasymptotic(floatnum x,
   float_create(&smd);
   float_create(&pwr);
 
+  int tempdigits = 0;
+  if(digits > 117)
+  {
+      tempdigits = digits;
+      digits = 117;
+  }
   float_copy(&pwr, &c1, EXACT);
   float_setzero(&sum);
   float_div(&smd, &c1, &c12, digits+1);
@@ -102,6 +108,7 @@ binetasymptotic(floatnum x,
   float_free(&smd);
   float_free(&sum);
   float_free(&recsqr);
+  digits = tempdigits;
   return i <= MAXBERNOULLIIDX;
 }
 
