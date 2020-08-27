@@ -96,6 +96,7 @@ MainWindow::MainWindow(QWidget *parent)
                 showHistoryWidget();
                 emit windowChanged(width(), height(), false);
             } else {
+                setWindowState(Qt::WindowNoState);
                 hideHistoryWidget(true);
                 if (width() == HISTORY_SHOW_LEAST_WIDTH)
                     resize(SCIENTIFIC_MIN_SIZE);
