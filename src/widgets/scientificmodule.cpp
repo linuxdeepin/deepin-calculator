@@ -1399,7 +1399,7 @@ void scientificModule::showOrHideHistory(bool hide)
     if (hide == true)
         m_scihiswidget->hide();
     else {
-        m_scihiswidget->show();
+        m_scihiswidget->setHidden(false);
         m_scihiswidget->focusOnButtonbox();
         m_scihiswidget->resetFocus();
     }

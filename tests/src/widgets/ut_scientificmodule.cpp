@@ -253,6 +253,8 @@ TEST_F(Ut_ScientificModule, handleKeypadButtonPress)
     m_scientificModule->handleKeypadButtonPress(ScientificKeyPad::Key_Mmin);
     m_scientificModule->handleKeypadButtonPress(ScientificKeyPad::Key_MR);
     m_scientificModule->handleKeypadButtonPress(ScientificKeyPad::Key_deg);
+    m_scientificModule->handleKeypadButtonPress(ScientificKeyPad::Key_deg);
+    m_scientificModule->handleKeypadButtonPress(ScientificKeyPad::Key_deg);
     m_scientificModule->handleKeypadButtonPress(ScientificKeyPad::Key_sin);
     m_scientificModule->handleKeypadButtonPress(ScientificKeyPad::Key_FE);
     m_scientificModule->handleKeypadButtonPress(ScientificKeyPad::Key_page);

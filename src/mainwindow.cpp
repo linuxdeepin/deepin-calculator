@@ -81,30 +81,23 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWindowTitle(tr("Calculator"));
 
-    if (m_firstInitMode == 0)
-        m_basicModule->setFocus();
-    else
-        m_scientificModule->setFocus();
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &MainWindow::initTheme);
     connect(m_simpleAction, &QAction::triggered, this, &MainWindow::switchToSimpleMode);
     connect(m_scAction, &QAction::triggered, this, &MainWindow::switchToScientificMode);
     connect(m_hisAction, &QAction::triggered, this, [ = ]() {
-        if (m_mainLayout->currentIndex() == (m_firstInitMode == 0 ? 1 : 0)) {
-            if (m_settings->getOption("history").toInt() == 0) {
-                if (width() < HISTORY_SHOW_LEAST_WIDTH)
-                    resize(HISTORY_SHOW_LEAST_WIDTH, this->height());
-                showHistoryWidget();
-                emit windowChanged(width(), height(), false);
-            } else {
-                setWindowState(Qt::WindowNoState);
-                hideHistoryWidget(true);
-                if (width() == HISTORY_SHOW_LEAST_WIDTH)
-                    resize(SCIENTIFIC_MIN_SIZE);
+        if (m_settings->getOption("history").toInt() == 0) {
+            if (width() < HISTORY_SHOW_LEAST_WIDTH)
+                resize(HISTORY_SHOW_LEAST_WIDTH, this->height());
+            showHistoryWidget();
+            emit windowChanged(width(), height(), false);
+        } else {
+            setWindowState(Qt::WindowNoState);
+            hideHistoryWidget(true);
+            if (width() == HISTORY_SHOW_LEAST_WIDTH)
+                resize(SCIENTIFIC_MIN_SIZE);
 //                    resize(width() - 1, this->height());
-                emit windowChanged(width(), height(), true);
-            }
-        } else
-            hideHistoryWidget(false);
+            emit windowChanged(width(), height(), true);
+        }
     });
 
 }
@@ -116,7 +109,6 @@ MainWindow::~MainWindow()
 void MainWindow::initTheme()
 {
     int type = DGuiApplicationHelper::instance()->paletteType();
-    QString path;
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
@@ -125,7 +117,6 @@ void MainWindow::initTheme()
         titlePa.setColor(DPalette::Dark, QColor(240, 240, 240));
         titlePa.setColor(DPalette::Base, QColor(240, 240, 240));
         titlebar()->setPalette(titlePa);
-        path = QString(":/assets/images/%1/").arg("light");
     } else {
         DPalette titlePa = titlebar()->palette();
         QColor normalbackground = QColor(0, 0, 0);
@@ -137,7 +128,6 @@ void MainWindow::initTheme()
 //        titlePa.setColor(DPalette::Dark, QColor(37, 37, 37));
 //        titlePa.setColor(DPalette::Base, QColor(37, 37, 37));
         titlebar()->setPalette(titlePa);
-        path = QString(":/assets/images/%1/").arg("dark");
     }
 }
 

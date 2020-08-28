@@ -101,11 +101,7 @@ static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool p
         button->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
     } else if (key == ScientificKeyPad::Key_Backspace) {
         button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg", 1);
-    } else if (key == ScientificKeyPad::Key_Clear) {
-        button->setIconUrl(path + "AC_normal.svg", path + "AC_hover.svg", path + "AC_press.svg");
-    } else if (key == ScientificKeyPad::Key_Percent) {
-        button->setIconUrl(path + "%_normal.svg", path + "%_hover.svg", path + "%_press.svg");
-    } else if (key == ScientificKeyPad::Key_sqrt2) {
+    }  else if (key == ScientificKeyPad::Key_sqrt2) {
         button->setIconUrl(path + "squareroot_normal.svg", path + "squareroot_hover.svg", path + "squareroot_press.svg", 3);
     } else if (key == ScientificKeyPad::Key_sqrt3) {
         button->setIconUrl(path + "cuberoot_normal.svg", path + "cuberoot_hover.svg", path + "cuberoot_press.svg", 3);

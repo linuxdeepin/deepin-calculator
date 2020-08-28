@@ -5,7 +5,6 @@
 #include <gmock/gmock-matchers.h>
 #include <QTest>
 
-#include "src/memorypublic.h"
 #include "src/dsettings.h"
 
 class Ut_BasicKeypad : public ::testing::Test
