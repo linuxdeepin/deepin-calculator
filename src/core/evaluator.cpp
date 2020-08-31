@@ -316,11 +316,12 @@ static int opPrecedence(Token::Operator op)
         // Not really operator but needed for managing shift/reduce conflicts.
         prec = 600;
         break;
+    //edit jingzhou 20200831 取余的优先级与乘除相同
+    case Token::Modulo:
     case Token::Multiplication:
     case Token::Division:
         prec = 500;
         break;
-    case Token::Modulo:
     case Token::IntegerDivision:
     //add jingzhou 20200720
     case Token::Yroot:
