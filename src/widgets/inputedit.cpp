@@ -57,7 +57,6 @@ InputEdit::InputEdit(QWidget *parent)
     connect(this, &QLineEdit::textChanged, this, &InputEdit::handleTextChanged);
     connect(this, &QLineEdit::cursorPositionChanged, this, &InputEdit::handleCursorPositionChanged);
     connect(this, &QLineEdit::customContextMenuRequested, this, &InputEdit::showTextEditMenu); //右键菜单信号槽
-    connect(this, &InputEdit::returnPressed, this, &InputEdit::pressSlot);
     connect(this, &QLineEdit::selectionChanged, this, &InputEdit::selectionChangedSlot);
     connect(this, &QLineEdit::selectionChanged, [ = ] {
         int pos = this->cursorPosition();
@@ -85,38 +84,38 @@ InputEdit::~InputEdit() {}
  * @return precentans
  * 由于百分号逻辑改变，此函数暂未使用
  */
-QString InputEdit::expressionPercent(QString &str)
-{
-    QString t = str;
-    bool longnumber = false;
+//QString InputEdit::expressionPercent(QString &str)
+//{
+//    QString t = str;
+//    bool longnumber = false;
 
-    QString ans = DMath::format(m_ans, Quantity::Format::Fixed() + Quantity::Format::Precision(DECPRECISION));
-    m_evaluator->setVariable(QLatin1String("precentans"), m_ans, Variable::BuiltIn); //把ans当作precentans保存
-    /*
-     * 判断ans是否是长数字
-     */
-    if (ans.length() > 17) {
-        for (int i = 17; i < ans.length(); i++) {
-            if (ans.at(i) != "0") {
-                longnumber = true;
-                break;
-            }
-        }
-    }
-    /*
-     * 是长数字时返回ans
-     */
-    if (longnumber && m_lastPos == m_ansStartPos + m_ansLength + 1) {
-        t = QLatin1String("precentans") + str.back();
-        m_ispercentanswer = true;
-    }
-    //    if (m_ansVaild) {
-    //        QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
-    //        t.remove(m_ansStartPos, m_ansLength);
-    //        t.insert(m_ansStartPos, ans);
-    //    }
-    return t;
-}
+//    QString ans = DMath::format(m_ans, Quantity::Format::Fixed() + Quantity::Format::Precision(DECPRECISION));
+//    m_evaluator->setVariable(QLatin1String("precentans"), m_ans, Variable::BuiltIn); //把ans当作precentans保存
+//    /*
+//     * 判断ans是否是长数字
+//     */
+//    if (ans.length() > 17) {
+//        for (int i = 17; i < ans.length(); i++) {
+//            if (ans.at(i) != "0") {
+//                longnumber = true;
+//                break;
+//            }
+//        }
+//    }
+//    /*
+//     * 是长数字时返回ans
+//     */
+//    if (longnumber && m_lastPos == m_ansStartPos + m_ansLength + 1) {
+//        t = QLatin1String("precentans") + str.back();
+//        m_ispercentanswer = true;
+//    }
+//    //    if (m_ansVaild) {
+//    //        QString ans = DMath::format(m_ans, Quantity::Format::Precision(DECPRECISION));
+//    //        t.remove(m_ansStartPos, m_ansLength);
+//    //        t.insert(m_ansStartPos, ans);
+//    //    }
+//    return t;
+//}
 
 /**
  * @brief 在点击等于号时使用此函数判断输入框中是否存在上一次结果的长数字
@@ -187,24 +186,24 @@ void InputEdit::setAnswer(const QString &str, const Quantity &ans)
  * @param Pos-光标位置
  * （由于百分号逻辑改变，暂未使用）
  */
-void InputEdit::setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans,
-                                 const int &Pos)
-{
-    if (m_ispercentanswer) {
-        m_ans = ans;
-        m_ansStartPos = Pos + ((Pos == 0) ? 0 : 1); //edit 20200416
-        m_ansLength = str2.length();
-        m_oldText = "";
-        setText(str1);
-        int ansEnd = m_ansStartPos + m_ansLength;
-        while (ansEnd > str1.length()) {
-            --ansEnd;
-        }
-        m_ansVaild = /*m_ansLength > 10 &&*/ m_ansLength > 0 && (m_ansStartPos == 0 || !str1[m_ansStartPos - 1].isDigit()) &&
-                                             (ansEnd == str1.length() || !str1[ansEnd].isDigit());
-    }
-    m_ispercentanswer = false;
-}
+//void InputEdit::setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans,
+//                                 const int &Pos)
+//{
+//    if (m_ispercentanswer) {
+//        m_ans = ans;
+//        m_ansStartPos = Pos + ((Pos == 0) ? 0 : 1); //edit 20200416
+//        m_ansLength = str2.length();
+//        m_oldText = "";
+//        setText(str1);
+//        int ansEnd = m_ansStartPos + m_ansLength;
+//        while (ansEnd > str1.length()) {
+//            --ansEnd;
+//        }
+//        m_ansVaild = /*m_ansLength > 10 &&*/ m_ansLength > 0 && (m_ansStartPos == 0 || !str1[m_ansStartPos - 1].isDigit()) &&
+//                                             (ansEnd == str1.length() || !str1[ansEnd].isDigit());
+//    }
+//    m_ispercentanswer = false;
+//}
 
 /**
  * @brief 清空输入框且更新ans参数
@@ -320,61 +319,61 @@ void InputEdit::updateAction()
 /**
  * 暂未使用
  */
-bool InputEdit::isSymbolCategoryChanged(int pos1, int pos2)
-{
-    QString str = text();
-    QChar::Category category1 = str.at(pos1).category();
-    QChar::Category category2 = str.at(pos2).category();
+//bool InputEdit::isSymbolCategoryChanged(int pos1, int pos2)
+//{
+//    QString str = text();
+//    QChar::Category category1 = str.at(pos1).category();
+//    QChar::Category category2 = str.at(pos2).category();
 
-    if (category1 == QChar::Number_DecimalDigit || category1 == QChar::Punctuation_Other) {
-        if (category2 == QChar::Number_DecimalDigit || category2 == QChar::Punctuation_Other) {
-            return false;
-        }
-    }
+//    if (category1 == QChar::Number_DecimalDigit || category1 == QChar::Punctuation_Other) {
+//        if (category2 == QChar::Number_DecimalDigit || category2 == QChar::Punctuation_Other) {
+//            return false;
+//        }
+//    }
 
-    return true;
-}
-
-/**
- * 暂未使用
- */
-int InputEdit::findWordBeginPosition(int pos)
-{
-    QString str = text();
-
-    if (0 >= pos) {
-        return 0;
-    }
-    while (pos > 0) {
-        pos--;
-        if (isSymbolCategoryChanged(pos, pos + 1)) {
-            return pos + 1;
-        }
-    }
-
-    return 0;
-}
+//    return true;
+//}
 
 /**
  * 暂未使用
  */
-int InputEdit::findWordEndPosition(int pos)
-{
-    QString str = text();
+//int InputEdit::findWordBeginPosition(int pos)
+//{
+//    QString str = text();
 
-    if (pos >= str.length()) {
-        return str.length() - 1;
-    }
+//    if (0 >= pos) {
+//        return 0;
+//    }
+//    while (pos > 0) {
+//        pos--;
+//        if (isSymbolCategoryChanged(pos, pos + 1)) {
+//            return pos + 1;
+//        }
+//    }
 
-    while (pos < str.length() - 1) {
-        pos++;
-        if (isSymbolCategoryChanged(pos, pos - 1)) {
-            return pos - 1;
-        }
-    }
+//    return 0;
+//}
 
-    return str.length() - 1;
-}
+/**
+ * 暂未使用
+ */
+//int InputEdit::findWordEndPosition(int pos)
+//{
+//    QString str = text();
+
+//    if (pos >= str.length()) {
+//        return str.length() - 1;
+//    }
+
+//    while (pos < str.length() - 1) {
+//        pos++;
+//        if (isSymbolCategoryChanged(pos, pos - 1)) {
+//            return pos - 1;
+//        }
+//    }
+
+//    return str.length() - 1;
+//}
 
 /**
  * @brief InputEdit::输入框字号变化
@@ -690,23 +689,6 @@ void InputEdit::BracketCompletion(QKeyEvent *e)
 }
 
 /**
- * @brief 未安装事件过滤器
- */
-bool InputEdit::eventFilter(QObject *watched, QEvent *event)
-{
-    if (event->type() == QEvent::KeyPress) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        Q_EMIT keyPress(keyEvent);
-        return true;
-    } else if (event->type() == QEvent::MouseButtonDblClick) {
-        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
-        mouseDoubleClickEvent(mouseEvent);
-        return true;
-    }
-    return QLineEdit::eventFilter(watched, event);
-}
-
-/**
  * @brief 猜测防止异常情况\n出现在)及%后补*,当前text中不会出现\n,故此函数无效
  */
 void InputEdit::multipleArithmetic(QString &text)
@@ -724,6 +706,9 @@ void InputEdit::multipleArithmetic(QString &text)
     }
 }
 
+/**
+ * @brief 在鼠标处显示菜单
+ */
 void InputEdit::showTextEditMenu()
 {
     DMenu *menu = new DMenu(this);
@@ -751,11 +736,9 @@ void InputEdit::showTextEditMenu()
     menu->deleteLater();
 }
 
-void InputEdit::pressSlot()
-{
-    return;
-}
-
+/**
+ * @brief 在光标处显示菜单
+ */
 void InputEdit::showTextEditMenuByAltM()
 {
     DMenu *menu = new DMenu(this);
