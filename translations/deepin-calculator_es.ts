@@ -14,7 +14,7 @@
     </message>
     <message>
         <source>Clear history</source>
-        <translation>Limpia historial</translation>
+        <translation>Limpiar historial</translation>
     </message>
 </context>
 <context>
