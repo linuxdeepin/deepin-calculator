@@ -106,7 +106,7 @@ TEST_F(Ut_SimpleListDelegate, sizeHint)
     SimpleListModel *model = new SimpleListModel();
     m_simpleListDelegate->sizeHint(QStyleOptionViewItem(), model->index(0, 0));
     model->appendText("1＋1＝2", true);
-    ASSERT_EQ(m_simpleListDelegate->sizeHint(QStyleOptionViewItem(), model->index(0, 0)).width(), 360);
+    ASSERT_EQ(m_simpleListDelegate->sizeHint(QStyleOptionViewItem(), model->index(0, 0)).width(), 451);
     DSettings::deleteInstance();
 }
 

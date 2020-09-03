@@ -59,27 +59,27 @@ TEST_F(TestCala, switchToScientificMode)
     MemoryPublic::deleteInstance();
 }
 
-TEST_F(TestCala, showHistoryWidget)
-{
-    MainWindow m_mainwindow;
-    m_mainwindow.m_settings->setOption("history", 0);
-    m_mainwindow.showHistoryWidget();
-    ASSERT_EQ(m_mainwindow.m_settings->getOption("history"), 1);
-    DSettings::deleteInstance();
-    MemoryPublic::deleteInstance();
-}
+//TEST_F(TestCala, showHistoryWidget)
+//{
+//    MainWindow m_mainwindow;
+//    m_mainwindow.m_settings->setOption("history", 0);
+//    m_mainwindow.showHistoryWidget();
+//    ASSERT_EQ(m_mainwindow.m_settings->getOption("history"), 1);
+//    DSettings::deleteInstance();
+//    MemoryPublic::deleteInstance();
+//}
 
-TEST_F(TestCala, hideHistoryWidget)
-{
-    MainWindow m_mainwindow;
-    m_mainwindow.m_settings->setOption("history", 1);
-    m_mainwindow.m_isinit = true;
-    m_mainwindow.m_settings->setOption("mode", 1);
-    m_mainwindow.hideHistoryWidget(true);
-    ASSERT_EQ(m_mainwindow.m_settings->getOption("history"), 0);
-    DSettings::deleteInstance();
-    MemoryPublic::deleteInstance();
-}
+//TEST_F(TestCala, hideHistoryWidget)
+//{
+//    MainWindow m_mainwindow;
+//    m_mainwindow.m_settings->setOption("history", 1);
+//    m_mainwindow.m_isinit = true;
+//    m_mainwindow.m_settings->setOption("mode", 1);
+//    m_mainwindow.hideHistoryWidget(true);
+//    ASSERT_EQ(m_mainwindow.m_settings->getOption("history"), 0);
+//    DSettings::deleteInstance();
+//    MemoryPublic::deleteInstance();
+//}
 
 TEST_F(TestCala, keyPressEvent)
 {

@@ -12,23 +12,23 @@ Ut_ScientificModule::Ut_ScientificModule()
 
 }
 
-TEST_F(Ut_ScientificModule, connect)
-{
-    scientificModule *m_scientificModule = new scientificModule;
-    QTest::mouseClick(m_scientificModule->findChild<ScientificKeyPad *>()->button(ScientificKeyPad::Key_1), Qt::LeftButton);
-    QTest::mouseClick(m_scientificModule->findChild<ScientificKeyPad *>()->button(ScientificKeyPad::Key_Plus), Qt::LeftButton);
-    QTest::mouseClick(m_scientificModule->findChild<ScientificKeyPad *>()->button(ScientificKeyPad::Key_2), Qt::LeftButton);
-    QTest::mouseClick(m_scientificModule->findChild<ScientificKeyPad *>()->button(ScientificKeyPad::Key_Equals), Qt::LeftButton);
-    QTest::mouseClick(m_scientificModule->findChild<ScientificKeyPad *>()->button(ScientificKeyPad::Key_Clear), Qt::LeftButton);
-    QTest::mouseClick(m_scientificModule->findChild<ScientificKeyPad *>()->button(ScientificKeyPad::Key_1), Qt::LeftButton);
-//    QTest::mouseClick(m_scientificModule->findChild<ScientificKeyPad *>()->button(ScientificKeyPad::Key_MS), Qt::LeftButton);
-    QTest::mouseClick(m_scientificModule->findChild<MemoryItemWidget *>()->m_btnplus, Qt::LeftButton);
-    QTest::mouseClick(m_scientificModule->findChild<MemoryItemWidget *>()->m_btnminus, Qt::LeftButton);
-    QTest::mouseClick(m_scientificModule->findChild<MemoryItemWidget *>(), Qt::LeftButton);
-    ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "1");
-    DSettings::deleteInstance();
-    MemoryPublic::deleteInstance();
-}
+//TEST_F(Ut_ScientificModule, connect)
+//{
+//    scientificModule *m_scientificModule = new scientificModule;
+//    QTest::mouseClick(m_scientificModule->findChild<ScientificKeyPad *>()->button(ScientificKeyPad::Key_1), Qt::LeftButton);
+//    QTest::mouseClick(m_scientificModule->findChild<ScientificKeyPad *>()->button(ScientificKeyPad::Key_Plus), Qt::LeftButton);
+//    QTest::mouseClick(m_scientificModule->findChild<ScientificKeyPad *>()->button(ScientificKeyPad::Key_2), Qt::LeftButton);
+//    QTest::mouseClick(m_scientificModule->findChild<ScientificKeyPad *>()->button(ScientificKeyPad::Key_Equals), Qt::LeftButton);
+//    QTest::mouseClick(m_scientificModule->findChild<ScientificKeyPad *>()->button(ScientificKeyPad::Key_Clear), Qt::LeftButton);
+//    QTest::mouseClick(m_scientificModule->findChild<ScientificKeyPad *>()->button(ScientificKeyPad::Key_1), Qt::LeftButton);
+////    QTest::mouseClick(m_scientificModule->findChild<ScientificKeyPad *>()->button(ScientificKeyPad::Key_MS), Qt::LeftButton);
+//    QTest::mouseClick(m_scientificModule->findChild<MemoryItemWidget *>()->m_btnplus, Qt::LeftButton);
+//    QTest::mouseClick(m_scientificModule->findChild<MemoryItemWidget *>()->m_btnminus, Qt::LeftButton);
+//    QTest::mouseClick(m_scientificModule->findChild<MemoryItemWidget *>(), Qt::LeftButton);
+//    ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "1");
+//    DSettings::deleteInstance();
+//    MemoryPublic::deleteInstance();
+//}
 
 TEST_F(Ut_ScientificModule, setKeyPress)
 {

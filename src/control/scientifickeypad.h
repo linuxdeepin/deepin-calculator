@@ -54,7 +54,6 @@ public:
      * @brief 科学模式键盘
      */
     enum Buttons {
-        Key_FE = 26, Key_MC, Key_MR, Key_Mplus, Key_Mmin, Key_MS, //FE, MC, MR, M+, M-, MS
         Key_deg, Key_page, Key_PI, Key_e, Key_Mod, Key_Backspace, //deg, 2ⁿᵈ, π, e, mod, 退格符
         Key_sin, Key_x2, Key_Derivative, Key_Factorials, Key_exp, Key_Clear, //sin, x², 1/x, x!, exp, C
         Key_cos, Key_x3, Key_left, Key_right, Key_Percent, Key_Div, //cos, x³, (, ), %, 除号
@@ -107,7 +106,7 @@ signals:
     void buttonPressedbySpace(int);
     void moveLeft();
     void moveRight();
-    void windowSize(int width, int height, bool hishide);
+//    void windowSize(int width, int height, bool hishide);
 
 private:
     void initUI();

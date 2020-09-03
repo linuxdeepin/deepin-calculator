@@ -52,6 +52,7 @@ SimpleListView::SimpleListView(int mode, QWidget *parent)
     if (m_mode == 1) {
 //        setFocusPolicy(Qt::NoFocus);
         setMouseTracking(true);
+        setFixedHeight(302);
     }
 
     connect(verticalScrollBar(), &QScrollBar::rangeChanged, this, &SimpleListView::adjustScrollbarMargins);

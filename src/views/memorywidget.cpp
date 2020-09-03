@@ -38,13 +38,13 @@
 
 const int GLOBALPREC = 78; //全局精度
 const int STANDARD_MWIDGET_HEIGHT = 260; //标准模式memorywidget高度
-const int SCIENTIFIC_MWIDGET_HEIGHT = 420; //科学模式memorywidget高度
-const int STANDARD_ITEM_WIDTH = 344; //科学模式宽度
-const int SCIENTIFIC_ITEM_WIDTH = 360; //标准模式最小宽度
+const int SCIENTIFIC_MWIDGET_HEIGHT = 302; //科学模式memorywidget高度
+const int STANDARD_ITEM_WIDTH = 344; //标准模式宽度
+const int SCIENTIFIC_ITEM_WIDTH = 451; //科学模式最小宽度
 const int STANDARD_FORMAT_PREC = 15; //标准模式科学计数位数
 const int SCIENTIFIC_FORMAT_PREC = 31; //科学模式科学计数位数
 const int MAXSIZE = 500; //内存保存最大数
-const int NOMEMORYHEIGHT = 320; //无内存时item高度
+const int NOMEMORYHEIGHT = 302; //无内存时item高度
 
 MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     : QWidget(parent)

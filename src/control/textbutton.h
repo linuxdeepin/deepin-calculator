@@ -25,8 +25,6 @@
 #include <DPushButton>
 #include <DPalette>
 
-#include "src/dsettings.h"
-
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
 
@@ -65,7 +63,6 @@ private:
     QGraphicsDropShadowEffect *m_effect;
 
     DPalette m_palette;
-    DSettings *m_settings;
     bool m_isHover;
     bool m_isPress;
     QFont m_font;

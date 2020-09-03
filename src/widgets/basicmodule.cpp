@@ -726,6 +726,9 @@ void BasicModule::showListWidget()
     }*/
 }
 
+/**
+ * @brief 鼠标点击切换stackwidget
+ */
 void BasicModule::mousePressEvent(QMouseEvent *event)
 {
     //内存界面显示时，点击内存界面以外部分切换内存界面为键盘界面

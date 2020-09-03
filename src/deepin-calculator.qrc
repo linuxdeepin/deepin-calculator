@@ -131,5 +131,9 @@
         <file>assets/images/dark/deg_hover.svg</file>
         <file>assets/images/dark/deg_normal.svg</file>
         <file>assets/images/dark/deg_press.svg</file>
+        <file>assets/images/icon_history_checked.svg</file>
+        <file>assets/images/icon_history_normal.svg</file>
+        <file>assets/images/icon_memory_checked.svg</file>
+        <file>assets/images/icon_memory_normal.svg</file>
     </qresource>
 </RCC>

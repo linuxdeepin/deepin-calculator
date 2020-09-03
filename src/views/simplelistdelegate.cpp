@@ -33,8 +33,8 @@
 DWIDGET_USE_NAMESPACE
 
 const int PADDING = 15; //历史记录区边距
-const int NOHISTORYHEIGHT = 320; // 无历史记录rect高度
-const int HISWIDTH = 360; //历史记录宽度
+const int NOHISTORYHEIGHT = 302; // 无历史记录rect高度
+const int HISWIDTH = 451; //历史记录宽度
 
 SimpleListDelegate::SimpleListDelegate(int mode, QObject *parent)
     : QStyledItemDelegate(parent)
@@ -388,12 +388,12 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
     Q_UNUSED(option);
     if (m_mode == 1) {
         const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
-        const int rectwidth = 356; //paintevent设置右边缘后的宽度
+        const int rectwidth = 447; //paintevent设置右边缘后的宽度
         QStringList splitList = expression.split("＝");
         if (splitList.size() == 1)
-            return QSize(-1, 420); //历史记录无内容时大小
+            return QSize(-1, 302); //历史记录无内容时大小
         QString resultStr = splitList.last();
-        QString exp = splitList.first() + "＝";
+        QString exp = splitList.first() + " ＝ ";
         QFont font;
         font.setPixelSize(16);
         QFontMetrics fmexp(font);

@@ -27,7 +27,6 @@
 
 #include "dthememanager.h"
 
-const QSize STANDARD_TEXTBTNSIZE = QSize(78, 58); //标准模式按钮大小，为画边框比ui大2pix
 const qreal BLURRADIUS = 12; //阴影模糊半径
 const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
 const qreal ROUND_YRADIUS = 8; //按钮圆角y轴半径
@@ -36,10 +35,6 @@ TextButton::TextButton(const QString &text, bool page, QWidget *parent)
     : DPushButton(text, parent)
     , m_effect(new QGraphicsDropShadowEffect(this))
 {
-    m_settings = DSettings::instance(this);
-    int mode = m_settings->getOption("mode").toInt();
-    if (mode == 0)
-        setFixedSize(STANDARD_TEXTBTNSIZE);
     setFocusPolicy(Qt::TabFocus);
     setObjectName("TextButton");
 
@@ -134,6 +129,7 @@ void TextButton::animate(bool isspace, int msec)
 void TextButton::setButtonDown(bool down)
 {
     m_Btnisdown = down;
+    update();
 }
 
 /**
@@ -236,9 +232,6 @@ void TextButton::leaveEvent(QEvent *e)
 void TextButton::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-    int mode = m_settings->getOption("mode").toInt();
-    if (mode == 0)
-        setFixedSize(STANDARD_TEXTBTNSIZE);
     QRectF rect = this->rect();
     QRectF normal(rect.left() + 1, rect.top() + 1, rect.width() - 2, rect.height() - 2);
     QRectF hover(rect.left() + 1, rect.top() + 1, rect.width() - 2, rect.height() - 2);
@@ -292,8 +285,9 @@ void TextButton::paintEvent(QPaintEvent *e)
         else
             text = QColor(224, 224, 224);
     }
-    if (m_Btnisdown)
+    if (m_Btnisdown) {
         text = actcolor; //FE,2nd设置
+    }
     if (hasFocus()) {
         painter.setPen(Qt::NoPen);
         if (m_isPress) {

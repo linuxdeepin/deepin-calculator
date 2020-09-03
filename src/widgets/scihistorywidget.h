@@ -23,7 +23,6 @@
 #define SCIHISTORYWIDGET_H
 
 #include <QStackedLayout>
-#include <QGridLayout>
 #include <QStackedWidget>
 #include <QApplication>
 #include <DButtonBox>

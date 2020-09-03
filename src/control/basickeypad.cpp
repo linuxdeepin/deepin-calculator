@@ -76,12 +76,6 @@ static DPushButton *createSpecialKeyButton(BasicKeypad::Buttons key)
         button->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
     } else if (key == BasicKeypad::Key_Backspace) {
         button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
-    } else if (key == BasicKeypad::Key_Clear) {
-        button->setIconUrl(path + "AC_normal.svg", path + "AC_hover.svg", path + "AC_press.svg");
-    } else if (key == BasicKeypad::Key_Percent) {
-        button->setIconUrl(path + "%_normal.svg", path + "%_hover.svg", path + "%_press.svg");
-    } else if (key == BasicKeypad::Key_Brackets) {
-        button->setIconUrl(path + "( )_normal.svg", path + "( )_hover.svg", path + "( )_press.svg");
     }
     return button;
 }

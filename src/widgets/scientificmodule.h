@@ -22,19 +22,16 @@
 #ifndef SCIENTIFICMODEL_H
 #define SCIENTIFICMODEL_H
 
-#include <QStackedLayout>
-#include <QGridLayout>
+#include <QStackedWidget>
 #include <QTimer>
 #include <DWidget>
 #include <DGuiApplicationHelper>
 
 #include "src/control/textbutton.h"
 #include "src/control/iconbutton.h"
-#include "src/control/basickeypad.h"
-#include "src/control/memorykeypad.h"
 #include "src/control/scientifickeypad.h"
-#include "src/widgets/inputedit.h"
-#include "scihistorywidget.h"
+#include "src/control/memhiskeypad.h"
+#include "memhiswidget.h"
 #include "sciexpressionbar.h"
 #include "src/views/memorywidget.h"
 #include "src/memorypublic.h"
@@ -54,11 +51,11 @@ public:
     ~scientificModule();
     void setKeyPress(QKeyEvent *e);
 
-    void showOrHideHistory(bool hide);
+//    void showOrHideHistory(bool hide);
     void checkLineEmpty();
+    void mousePressEvent(QMouseEvent *event);
 signals:
     void changedeg(int deg);
-    void getWindowChanged(int width, int height, bool hishide);
     void sciMemTab();
 
 public slots:
@@ -76,18 +73,23 @@ private:
     void handleFEStateChanged(bool isdown);
     void handlePageStateChanged();
     void setScientificTabOrder();
+    void showMemHisWidget();
 
 private:
+    QStackedWidget *m_stackWidget;
     SciExpressionBar *m_sciexpressionBar;
+    MemHisKeypad *m_memhiskeypad;
     ScientificKeyPad *m_scikeypadwidget;
-    bool m_avail = false;
+    bool m_avail = false; //内存是否有内容
+    bool m_havail = false; //历史记录是否有内容
     int m_deg = 1;//1-deg 2-rad 3-grad
     bool m_FEisdown = false; //FE按键是否被按下
     bool m_Pageisdown = false; //2nd按键是否被按下
     bool m_isinsidefun = false;//鼠标点击在函数widget内
     bool m_memCalbtn; //m+,m-,ms
     bool m_memRCbtn;//mr,mc
-    SciHistoryWidget *m_scihiswidget;
+    bool m_isallgray = false; //内存按钮全部置灰;
+    MemHisWidget *m_memhiswidget;
     MemoryPublic *m_memoryPublic;
 };
 

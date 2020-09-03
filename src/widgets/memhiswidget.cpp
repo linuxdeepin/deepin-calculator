@@ -42,7 +42,6 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     m_memoryPublic = MemoryPublic::instance(this);
     m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::scientificright);
     m_memoryWidget->setFocusPolicy(Qt::TabFocus);
-//    m_stackWidget->setFixedSize(451, 302);
     m_stackWidget->addWidget(m_memoryWidget);
     m_listView->setModel(m_listModel);
     m_listView->setItemDelegate(m_listDelegate);
@@ -51,7 +50,7 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     m_buttonBox->setFixedSize(60, 25);
     m_buttonBox->setFocusPolicy(Qt::NoFocus);
     m_memoryBtn->setFixedSize(30, 25);
-    m_memoryBtn->setIcon(QIcon(":/assets/images/icon_memory_normal.svg"));
+    m_memoryBtn->setIcon(QIcon(":/assets/images/icon_memory_checked.svg"));
     m_memoryBtn->setIconSize(QSize(30, 25));
     m_historyBtn->setFixedSize(30, 25);
     m_historyBtn->setIcon(QIcon(":/assets/images/icon_history_normal.svg"));
