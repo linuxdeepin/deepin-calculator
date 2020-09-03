@@ -30,6 +30,7 @@ const int KEYPAD_SPACING = 3; //键盘按键间距,按钮比ui大2pix,此处小2
 const int LEFT_MARGIN = 12; //键盘左边距
 const int RIGHT_MARGIN = 13; //键盘右边距
 const int BOTTOM_MARGIN = 11; //键盘下边距
+const QSize STANDARD_TEXTBTNSIZE = QSize(78, 58); //标准模式按钮大小，为画边框比ui大2pix
 
 const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
 //    {"MC", Key_MC, 1, 0, 1, 2},       {"MR", Key_MR, 1, 2, 1, 2},
@@ -75,6 +76,12 @@ static DPushButton *createSpecialKeyButton(BasicKeypad::Buttons key)
         button->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
     } else if (key == BasicKeypad::Key_Backspace) {
         button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
+    } else if (key == BasicKeypad::Key_Clear) {
+        button->setIconUrl(path + "AC_normal.svg", path + "AC_hover.svg", path + "AC_press.svg");
+    } else if (key == BasicKeypad::Key_Percent) {
+        button->setIconUrl(path + "%_normal.svg", path + "%_hover.svg", path + "%_press.svg");
+    } else if (key == BasicKeypad::Key_Brackets) {
+        button->setIconUrl(path + "( )_normal.svg", path + "( )_hover.svg", path + "( )_press.svg");
     }
     return button;
 }
@@ -173,6 +180,7 @@ void BasicKeypad::initButtons()
             }
         }
 
+        button->setFixedSize(STANDARD_TEXTBTNSIZE);
         m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
                             Qt::AlignHCenter | Qt::AlignVCenter);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);

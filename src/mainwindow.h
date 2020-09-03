@@ -42,7 +42,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 signals:
-    void windowChanged(int width, int height, bool hishide); //hishide-历史记录栏是否隐藏
+//    void windowChanged(int width, int height, bool hishide); //hishide-历史记录栏是否隐藏
 public slots:
     //void onViewShortcut();
 protected:
@@ -58,7 +58,7 @@ private:
     void switchToScientificMode();
     void switchToProgrammerMode();
     void showHistoryWidget();
-    void hideHistoryWidget(bool hissetting);
+//    void hideHistoryWidget(bool hissetting);
 
 private:
     DSettings *m_settings;
@@ -67,7 +67,7 @@ private:
     DMenu *m_modeshowmenu;
     QAction *m_simpleAction;
     QAction *m_scAction;
-    QAction *m_hisAction;
+//    QAction *m_hisAction;
     QAction *m_programmerAction;
     QActionGroup *m_pActionGroup;
 

@@ -29,15 +29,10 @@
 #include "dthememanager.h"
 
 //const int VPADDING = 100; //预留垂直空隙
-const int HPADDING = 24; //预留水平空隙
-const int BUTTONHEIGHT = 44; //科学计算器按钮高度
-const int KEYPADHEIGHT = 398; //整体键盘的高度
-const int FRAMEWIDTH = 2;  //按钮边框2pix
+const int KEYPADHEIGHT = 350; //整体键盘的高度
+const QSize BUTTON_SIZE = QSize(69, 46); //科学模式的固定大小
 
 const ScientificKeyPad::KeyDescription ScientificKeyPad::keyDescriptions[] = {
-    {"F-E", Key_FE, 1, 0, 1, 1},   {"MC", Key_MC, 1, 1, 1, 1},   {"MR", Key_MR, 1, 2, 1, 1},
-    {"M+", Key_Mplus, 1, 3, 1, 1}, {"M-", Key_Mmin, 1, 4, 1, 1}, {"MS", Key_MS, 1, 5, 1, 1},
-
     {"", Key_deg, 2, 0, 1, 1}, {"2ⁿᵈ", Key_page, 2, 1, 1, 1}, {"π", Key_PI, 2, 2, 1, 1},
     {"e", Key_e, 2, 3, 1, 1},     {"Mod", Key_Mod, 2, 4, 1, 1},   {"", Key_Backspace, 2, 5, 1, 1},
 
@@ -101,7 +96,11 @@ static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool p
         button->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
     } else if (key == ScientificKeyPad::Key_Backspace) {
         button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg", 1);
-    }  else if (key == ScientificKeyPad::Key_sqrt2) {
+    } else if (key == ScientificKeyPad::Key_Clear) {
+        button->setIconUrl(path + "AC_normal.svg", path + "AC_hover.svg", path + "AC_press.svg");
+    } else if (key == ScientificKeyPad::Key_Percent) {
+        button->setIconUrl(path + "%_normal.svg", path + "%_hover.svg", path + "%_press.svg");
+    } else if (key == ScientificKeyPad::Key_sqrt2) {
         button->setIconUrl(path + "squareroot_normal.svg", path + "squareroot_hover.svg", path + "squareroot_press.svg", 3);
     } else if (key == ScientificKeyPad::Key_sqrt3) {
         button->setIconUrl(path + "cuberoot_normal.svg", path + "cuberoot_hover.svg", path + "cuberoot_press.svg", 3);
@@ -196,9 +195,6 @@ void ScientificKeyPad::animate(Buttons key, bool isspace)
         if (button(key)->text() == "=") {
             EqualButton *btn = dynamic_cast<EqualButton *>(button(key));
             btn->animate(isspace);
-        } else if (key == Key_MC || key == Key_MR || key == Key_Mplus || key == Key_Mmin || key == Key_MS) {
-            MemoryButton *btn = static_cast<MemoryButton *>(button(key));
-            btn->animate(isspace);
         } else {
             TextButton *btn = static_cast<TextButton *>(button(key));
             btn->animate(isspace);
@@ -231,7 +227,7 @@ void ScientificKeyPad::initButtons()
         DPushButton *pagebutton;
 
         if (desc->text.isEmpty()) {
-            if (i > 5 && (i % 6 == 0 || i % 6 == 1))
+            if (i % 6 == 0 || i % 6 == 1)
                 button = createSpecialKeyButton(desc->button, true);
             else
                 button = createSpecialKeyButton(desc->button, false);
@@ -246,7 +242,7 @@ void ScientificKeyPad::initButtons()
             } else if (desc->text == "MC" || desc->text == "MR" || desc->text == "M+" || desc->text == "M-" || desc->text == "MS") {
                 button = new MemoryButton(desc->text);
             } else {
-                if (i > 5 && (i % 6 == 0 || i % 6 == 1))
+                if (i % 6 == 0 || i % 6 == 1)
                     button = new TextButton(desc->text, true);
                 else {
                     button = new TextButton(desc->text);
@@ -300,6 +296,8 @@ void ScientificKeyPad::initButtons()
                                      Qt::AlignCenter/* | Qt::AlignTop*/);
         }
 
+        button->setFixedSize(BUTTON_SIZE);
+        pagebutton->setFixedSize(BUTTON_SIZE);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
@@ -329,18 +327,19 @@ void ScientificKeyPad::initUI()
     while (i.hasNext()) {
         i.next();
         //以下信号槽按窗口比例缩放按键等
-        connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
-            Q_UNUSED(height);
-            int hiswidth; //历史记录宽度
-            hishide == false ? hiswidth = 360 : hiswidth = 0;
-            i.value().first->setFixedSize((width - HPADDING - hiswidth - 25) / 6 + FRAMEWIDTH, BUTTONHEIGHT + FRAMEWIDTH);
-        });
+//        connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
+//            Q_UNUSED(height);
+//            int hiswidth; //历史记录宽度
+//            hishide == false ? hiswidth = 360 : hiswidth = 0;
+//            i.value().first->setFixedSize((width - HPADDING - hiswidth - 25) / 6 + FRAMEWIDTH, BUTTONHEIGHT + FRAMEWIDTH);
+//        });
         if (i.key() == Key_left) {
             m_leftBracket->setParent(i.value().first);
-            connect(this, &ScientificKeyPad::windowSize, [ = ]() {
-                //label跟随button大小变化移动至(右下角
-                m_leftBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
-            });
+            m_leftBracket->move(i.value().first->rect().x() + 37, i.value().first->rect().y() + 22);
+//            connect(this, &ScientificKeyPad::windowSize, [ = ]() {
+//                //label跟随button大小变化移动至(右下角
+//                m_leftBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
+//            });
             connect(i.value().first, &DPushButton::pressed, [ = ]() {
                 m_leftBracket->setStyleSheet(QString("font-family:Noto Sans;color:%1;font-size:14px;")
                                              .arg(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name()));
@@ -355,10 +354,11 @@ void ScientificKeyPad::initUI()
         }
         if (i.key() == Key_right) {
             m_rightBracket->setParent(i.value().first);
-            connect(this, &ScientificKeyPad::windowSize, [ = ]() {
-                //label跟随button大小变化移动至)右下角
-                m_rightBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
-            });
+            m_rightBracket->move(i.value().first->rect().x() + 37, i.value().first->rect().y() + 22);
+//            connect(this, &ScientificKeyPad::windowSize, [ = ]() {
+//                //label跟随button大小变化移动至)右下角
+//                m_rightBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
+//            });
             connect(i.value().first, &DPushButton::pressed, [ = ]() {
                 m_rightBracket->setStyleSheet(QString("font-family:Noto Sans;color:%1;font-size:14px;")
                                               .arg(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name()));
@@ -374,23 +374,23 @@ void ScientificKeyPad::initUI()
 
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription1 *>> i1(m_keys1);
 
-    while (i1.hasNext()) {
-        i1.next();
-        //以下信号槽按窗口比例缩放按键等
-        connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
-            Q_UNUSED(height);
-            int hiswidth; //历史记录宽度
-            hishide == false ? hiswidth = 360 : hiswidth = 0;;
-            i1.value().first->setFixedSize((width - HPADDING - hiswidth - 25) / 6 + FRAMEWIDTH, BUTTONHEIGHT + FRAMEWIDTH);
-        });
-    }
+//    while (i1.hasNext()) {
+//        i1.next();
+    //以下信号槽按窗口比例缩放按键等
+//        connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
+//            Q_UNUSED(height);
+//            int hiswidth; //历史记录宽度
+//            hishide == false ? hiswidth = 360 : hiswidth = 0;;
+//            i1.value().first->setFixedSize((width - HPADDING - hiswidth - 25) / 6 + FRAMEWIDTH, BUTTONHEIGHT + FRAMEWIDTH);
+//        });
+//    }
 
     button(Key_Div)->setObjectName("SymbolButton");
     button(Key_Mult)->setObjectName("SymbolButton");
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
 
-    this->setContentsMargins(12, 0, 12, 12);
+    this->setContentsMargins(10, 0, 10, 10); //按钮比ui宽2pix,此处比ui小2pix
 }
 
 /**
@@ -406,6 +406,7 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
     widget->addWidget(button);
     widget->addWidget(pagebutton);
     widget->setCurrentIndex(0);
+    widget->setFixedSize(BUTTON_SIZE.width(), BUTTON_SIZE.height() + 4); //预留４pix给阴影
     m_gridlayout1->addWidget(widget, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,
                              Qt::AlignCenter/* | Qt::AlignTop*/);
     const QPair<DPushButton *, const KeyDescription1 *> hashValue1(pagebutton, desc1);
@@ -419,12 +420,12 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
         emit buttonPressedbySpace(spacekey);
     });
     m_mapper->setMapping(pagebutton, desc1->button); //多个按钮绑定到一个mapper上
-    connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
-        Q_UNUSED(height);
-        int hiswidth; //历史记录宽度
-        hishide == false ? hiswidth = 360 : hiswidth = 0;
-        widget->setFixedSize((width - HPADDING - hiswidth - 25) / 6 + FRAMEWIDTH, BUTTONHEIGHT + 4 + FRAMEWIDTH);
-    });
+//    connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
+//        Q_UNUSED(height);
+//        int hiswidth; //历史记录宽度
+//        hishide == false ? hiswidth = 360 : hiswidth = 0;
+//        widget->setFixedSize((width - HPADDING - hiswidth - 25) / 6 + FRAMEWIDTH, BUTTONHEIGHT + 4 + FRAMEWIDTH);
+//    });
 }
 
 /**
@@ -590,19 +591,19 @@ void ScientificKeyPad::getFocus(int direction)
     if (m_arcsinwidget->currentIndex() == 0) {
         switch (direction) {
         case 0:
-            if ((number - 26) / 6 > 0)
+            if (number / 6 > 0)
                 button(static_cast<Buttons>(number - 6))->setFocus(); //根据上下左右信号重置焦点
             break;
         case 1:
-            if ((number - 26) / 6 < 7)
+            if (number / 6 < 6)
                 button(static_cast<Buttons>(number + 6))->setFocus();
             break;
         case 2:
-            if ((number - 26) % 6 > 0)
+            if (number % 6 > 0)
                 button(static_cast<Buttons>(number - 1))->setFocus();
             break;
         case 3:
-            if ((number - 26) % 6 < 5)
+            if (number % 6 < 5)
                 button(static_cast<Buttons>(number + 1))->setFocus();
             break;
         default:
@@ -617,9 +618,9 @@ void ScientificKeyPad::getFocus(int direction)
                 button(Key_page)->setFocus();
             else if (number == Key_Modulus)
                 button(Key_arccot)->setFocus();
-            else if (number >= 74 && number <= 83) //focus在剩余第二页界面
+            else if (number >= 42 && number <= 51) //focus在剩余第二页界面
                 button(static_cast<Buttons>(number - 1))->setFocus();
-            else if ((number - 26) / 6 > 0)
+            else if (number / 6 > 0)
                 button(static_cast<Buttons>(number - 6))->setFocus(); //根据上下左右信号重置焦点
             break;
         case 1:
@@ -629,9 +630,9 @@ void ScientificKeyPad::getFocus(int direction)
                 button(Key_sqrt2)->setFocus();
             else if (number == Key_arccot)
                 button(Key_Modulus)->setFocus();
-            else if (number >= 74 && number < 83) //focus在剩余第二页界面
+            else if (number >= 42 && number < 51) //focus在剩余第二页界面
                 button(static_cast<Buttons>(number + 1))->setFocus();
-            else if ((number - 26) / 6 < 7)
+            else if (number / 6 < 6)
                 button(static_cast<Buttons>(number + 6))->setFocus();
             break;
         case 2:
@@ -639,11 +640,11 @@ void ScientificKeyPad::getFocus(int direction)
                 button(Key_Modulus)->setFocus();
             else if (number == Key_ex)
                 button(Key_Rand)->setFocus();
-            else if (number >= 78 && number <= 83) //二行以下第二列
+            else if (number >= 46 && number <= 51) //二行以下第二列
                 button(static_cast<Buttons>(number - 4))->setFocus();
-            else if (number < 74 && (number - 26) / 6 > 1 && (number - 26) % 6 == 2) //二行以下第三列
-                button(static_cast<Buttons>(number + 13 + 5 * (7 - (number - 26) / 6)))->setFocus();
-            else if (number < 74 && (number - 26) % 6 > 0)
+            else if (number < 42 && number / 6 > 0 && number % 6 == 2) //二行以下第三列
+                button(static_cast<Buttons>(number + 13 + 5 * (6 - number / 6)))->setFocus();
+            else if (number < 42 && number % 6 > 0)
                 button(static_cast<Buttons>(number - 1))->setFocus();
             break;
         case 3:
@@ -651,11 +652,11 @@ void ScientificKeyPad::getFocus(int direction)
                 button(Key_logyx)->setFocus();
             else if (number == Key_Rand)
                 button(Key_ex)->setFocus();
-            else if (number >= 74 && number <= 77) //二行以下第一列
+            else if (number >= 42 && number <= 45) //二行以下第一列
                 button(static_cast<Buttons>(number + 4))->setFocus();
-            else if (number >= 78 && number <= 83) //二行以下第二列
-                button(static_cast<Buttons>(number - 13 - 5 * (83 - number)))->setFocus();
-            else if (number < 74 && (number - 26) % 6 < 5)
+            else if (number >= 46 && number <= 51) //二行以下第二列
+                button(static_cast<Buttons>(number - 13 - 5 * (51 - number)))->setFocus();
+            else if (number < 42 && number % 6 < 5)
                 button(static_cast<Buttons>(number + 1))->setFocus();
             break;
         default:
