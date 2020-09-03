@@ -49,6 +49,7 @@ public:
     void setKeyPress(QKeyEvent *e);
 
     void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
 public slots:
     //memory func
     void mAvailableEvent();

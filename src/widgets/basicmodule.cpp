@@ -772,3 +772,8 @@ void BasicModule::mousePressEvent(QMouseEvent *event)
     m_expressionBar->getInputEdit()->isExpressionEmpty(); //确认输入栏是否有内容，发送信号M+,M-,MS是否置灰
     QWidget::mousePressEvent(event);
 }
+
+void BasicModule::mouseMoveEvent(QMouseEvent *event)
+{
+    Q_UNUSED(event);
+}
