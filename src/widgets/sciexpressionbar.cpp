@@ -2070,6 +2070,7 @@ void SciExpressionBar::copyClipboard2Result()
         emit clearStateChanged(false);
     m_isResult = false;
     m_isUndo = false;
+    addUndo();
 }
 
 void SciExpressionBar::allElection()

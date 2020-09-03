@@ -298,7 +298,6 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_V:
         if (isPressCtrl) {
             m_expressionBar->copyClipboard2Result();
-            m_expressionBar->addUndo();
         }
         break;
     case Qt::Key_A:
@@ -314,7 +313,6 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
             m_basicKeypad->animate(BasicKeypad::Key_Mult);
             m_expressionBar->addUndo();
         }
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_Delete:
         m_expressionBar->enterClearEvent();

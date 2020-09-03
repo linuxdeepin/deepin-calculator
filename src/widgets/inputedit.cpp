@@ -269,6 +269,15 @@ void InputEdit::mousePressEvent(QMouseEvent *e)
     QLineEdit::mousePressEvent(e);
 }
 
+void InputEdit::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::MiddleButton) {
+        emit paste();
+        return;
+    }
+    QLineEdit::mouseReleaseEvent(event);
+}
+
 /**
  * @brief 右键菜单action初始化
  */

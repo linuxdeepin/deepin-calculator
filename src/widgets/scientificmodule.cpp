@@ -335,7 +335,6 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_V:
         if (isPressCtrl) {
             m_sciexpressionBar->copyClipboard2Result();
-            m_sciexpressionBar->addUndo();
         } else {
             m_sciexpressionBar->enterFEEvent(m_FEisdown);
             m_scikeypadwidget->animate(ScientificKeyPad::Key_FE);
@@ -357,7 +356,6 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_sciexpressionBar->enterSymbolEvent("*");
             m_sciexpressionBar->addUndo();
         }
-        m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_Delete:
         m_sciexpressionBar->enterClearEvent();

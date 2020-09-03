@@ -84,6 +84,7 @@ protected:
     void keyPressEvent(QKeyEvent *);
     void mouseDoubleClickEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
+    void mouseReleaseEvent(QMouseEvent *event);
 
 private slots:
     void initAction();
