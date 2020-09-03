@@ -26,6 +26,7 @@
 
 #include "widgets/basicmodule.h"
 #include "widgets/scientificmodule.h"
+#include "widgets/programmodule.h"
 #include "control/iconbutton.h"
 #include "dsettings.h"
 
@@ -55,6 +56,7 @@ private:
     void initModule();
     void switchToSimpleMode();
     void switchToScientificMode();
+    void switchToProgrammerMode();
     void showHistoryWidget();
     void hideHistoryWidget(bool hissetting);
 
@@ -66,15 +68,17 @@ private:
     QAction *m_simpleAction;
     QAction *m_scAction;
     QAction *m_hisAction;
+    QAction *m_programmerAction;
     QActionGroup *m_pActionGroup;
 
     BasicModule *m_basicModule;
     scientificModule *m_scientificModule;
+    ProgramModule *m_programmerModule;
 //    QSize m_lastscisize = QSize(); //切换回标准时模式时科学模式的size
     bool m_isinit = true;//初始化
-    int m_firstInitMode = 0;//初始化的界面，0-标准 1-科学
     bool m_isStandInit = false; //标准是否初始化
     bool m_isSciInit = false; //科学是否初始化
+    bool m_isProgrammerInit = false; //科学是否初始化
 };
 
 #endif
