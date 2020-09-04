@@ -50,7 +50,7 @@ SimpleListView::SimpleListView(int mode, QWidget *parent)
     }
 
     if (m_mode == 1) {
-//        setFocusPolicy(Qt::NoFocus);
+        setFocusPolicy(Qt::NoFocus);
         setMouseTracking(true);
         setFixedHeight(302);
     }

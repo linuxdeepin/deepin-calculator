@@ -149,8 +149,6 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
 
     m_listwidget->installEventFilter(this);
     m_clearbutton->installEventFilter(this);
-    if (m_calculatormode == 0)
-        setTabOrder(m_listwidget, m_clearbutton);
 }
 
 /**
@@ -173,6 +171,7 @@ void MemoryWidget::generateData(Quantity answer)
     }
     m_isempty = false;
     emit mListAvailable();
+    m_listwidget->setFocusPolicy(Qt::TabFocus);
     QListWidgetItem *item1 = new QListWidgetItem();
     item1->setFlags(Qt::ItemIsEditable);
 //    item1->setTextAlignment(Qt::AlignRight | Qt::AlignTop);
@@ -274,16 +273,16 @@ bool MemoryWidget::eventFilter(QObject *obj, QEvent *event)
             }
         }
     }
-    if (m_calculatormode == 1 && obj == m_listwidget && event->type() == QEvent::KeyPress) {
-        QKeyEvent *key_Event = static_cast<QKeyEvent *>(event);
-        if (key_Event->key() == Qt::Key_Tab) {
-            if (m_listwidget->hasFocus()) {
-                emit scimemtab();
-                m_listwidget->clearFocus();
-            }
-            return true;
-        }
-    }
+//    if (m_calculatormode == 1 && obj == m_listwidget && event->type() == QEvent::KeyPress) {
+//        QKeyEvent *key_Event = static_cast<QKeyEvent *>(event);
+//        if (key_Event->key() == Qt::Key_Tab) {
+//            if (m_listwidget->hasFocus()) {
+//                emit scimemtab();
+//                m_listwidget->clearFocus();
+//            }
+//            return true;
+//        }
+//    }
     return QWidget::eventFilter(obj, event);
 }
 
@@ -294,8 +293,7 @@ void MemoryWidget::focusInEvent(QFocusEvent *event)
 {
     if (!m_isempty)
         m_listwidget->setCurrentRow(m_currentrow);
-    if (m_calculatormode == 1)
-        m_listwidget->setFocus();
+    m_listwidget->setFocus();
     QWidget::focusInEvent(event);
 }
 

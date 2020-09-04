@@ -137,12 +137,22 @@ void MemHisKeypad::getFocus(int direction)
     }
     switch (direction) {
     case 2:
-        if ((i.key() - 52) % 6 > 0)
-            button(static_cast<Buttons>(i.key() - 1))->setFocus();
+        if ((i.key() - 52) % 7 > 0) {
+            int enablekey = i.key() - 1;
+            while (!button(static_cast<Buttons>(enablekey))->isEnabled() && enablekey > 52) {
+                enablekey -= 1;
+            }
+            button(static_cast<Buttons>(enablekey))->setFocus();
+        }
         break;
     case 3:
-        if ((i.key() - 52) % 6 < 6)
-            button(static_cast<Buttons>(i.key() + 1))->setFocus();
+        if ((i.key() - 52) % 7 < 6) {
+            int enablekey = i.key() + 1;
+            while (!button(static_cast<Buttons>(enablekey))->isEnabled() && enablekey < 58) {
+                enablekey += 1;
+            }
+            button(static_cast<Buttons>(enablekey))->setFocus();
+        }
         break;
     default:
         break;

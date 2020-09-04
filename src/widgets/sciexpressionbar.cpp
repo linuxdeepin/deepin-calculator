@@ -2070,6 +2070,7 @@ void SciExpressionBar::copyClipboard2Result()
         emit clearStateChanged(false);
     m_isResult = false;
     m_isUndo = false;
+    addUndo();
 }
 
 void SciExpressionBar::allElection()
@@ -2149,9 +2150,6 @@ void SciExpressionBar::revisionResults(const QModelIndex &index)
 void SciExpressionBar::hisRevisionResults(const QModelIndex &index, Quantity ans)
 {
     QString text = index.data(SimpleListModel::ExpressionRole).toString();
-    QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
-    if (historic.size() != 2)
-        return;
     QString expression = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(SCIPREC));
 //    m_hisRevision = index.row();
     m_inputEdit->setAnswer(expression, ans);

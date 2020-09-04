@@ -103,6 +103,9 @@ BasicKeypad::~BasicKeypad()
 {
 }
 
+/**
+ * @brief 防止鼠标点击拖拽可拖动窗口
+ */
 void BasicKeypad::mouseMoveEvent(QMouseEvent *e)
 {
     Q_UNUSED(e);

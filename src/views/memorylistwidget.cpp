@@ -39,7 +39,7 @@ MemoryListWidget::MemoryListWidget(QWidget *parent)
 //    DPalette pal = this->palette();
 //    pal.setColor(DPalette::Light, QColor(248, 248, 248));
 //    this->setPalette(pal);
-    setFocusPolicy(Qt::NoFocus);
+    setFocusPolicy(Qt::NoFocus); //防止内存无内容时被focus
 }
 
 /**
@@ -111,6 +111,8 @@ void MemoryListWidget::keyPressEvent(QKeyEvent *e)
 void MemoryListWidget::focusInEvent(QFocusEvent *event)
 {
 //    setCurrentRow(0);
+    if (currentRow() == -1)
+        setCurrentRow(0);
     scrollToItem(this->item(currentRow()));
     QWidget::focusInEvent(event);
 }

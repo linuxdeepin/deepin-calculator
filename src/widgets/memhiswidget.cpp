@@ -43,12 +43,15 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::scientificright);
     m_memoryWidget->setFocusPolicy(Qt::TabFocus);
     m_stackWidget->addWidget(m_memoryWidget);
+//    m_stackWidget->setFocusPolicy(Qt::TabFocus);
     m_listView->setModel(m_listModel);
     m_listView->setItemDelegate(m_listDelegate);
     m_stackWidget->addWidget(m_listView);
     m_stackWidget->setCurrentWidget(m_memoryWidget);
+    m_stackWidget->setFixedSize(451, 302);
     m_buttonBox->setFixedSize(60, 25);
     m_buttonBox->setFocusPolicy(Qt::NoFocus);
+    m_memoryBtn->setObjectName("mButtonBoxButton");
     m_memoryBtn->setFixedSize(30, 25);
     m_memoryBtn->setIcon(QIcon(":/assets/images/icon_memory_checked.svg"));
     m_memoryBtn->setIconSize(QSize(30, 25));
@@ -56,8 +59,6 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     m_historyBtn->setIcon(QIcon(":/assets/images/icon_history_normal.svg"));
     m_historyBtn->setIconSize(QSize(30, 25));
     m_memoryBtn->setFocusPolicy(Qt::TabFocus);
-    m_historyBtn->setFocusPolicy(Qt::TabFocus);
-    m_historyBtn->installEventFilter(this);
     QList<DButtonBoxButton *> listBtnBox;
     listBtnBox << m_memoryBtn << m_historyBtn;
     m_buttonBox->setButtonList(listBtnBox, true);
@@ -66,6 +67,7 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     m_buttonBox->button(0)->setChecked(true);
 
     QVBoxLayout *m_Vlayout = new QVBoxLayout(this);
+    QWidget *hwidget = new QWidget(this);
     QHBoxLayout *m_Hlayout = new QHBoxLayout();
     m_Hlayout->addSpacing(12);
     m_Hlayout->addWidget(m_buttonBox);
@@ -75,20 +77,36 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     m_clearButton->setParent(clearwidget);
     m_clearButton->setObjectName("clearbtn");
     m_clearButton->showtooltip(true); //设置内存垃圾桶tooltip
-    m_clearButton->setHidden(true);
+    if (m_memoryWidget->isWidgetEmpty())  //防止在其他模式下初始化有内存切换至科学模式清除按钮隐藏
+        m_clearButton->setHidden(true);
     m_Hlayout->addWidget(clearwidget);
     m_Hlayout->addSpacing(10);
+    m_Hlayout->setMargin(0);
+    hwidget->setLayout(m_Hlayout);
+    hwidget->setFixedHeight(48);
     m_Vlayout->addWidget(m_stackWidget);
-    m_Vlayout->addLayout(m_Hlayout);
+    m_Vlayout->addWidget(hwidget);
     m_Vlayout->setSpacing(0);
     m_Vlayout->setMargin(0);
+    m_Vlayout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(m_Vlayout);
     this->setContentsMargins(0, 0, 0, 0);
 
+    m_historyBtn->installEventFilter(this);
+    m_memoryBtn->installEventFilter(this);
+    m_memoryWidget->findChild<MemoryListWidget *>()->installEventFilter(this);
+    m_listView->installEventFilter(this);
+    m_clearButton->installEventFilter(this);
+    m_stackWidget->installEventFilter(this);
+    this->installEventFilter(this);
+
+    setTabOrder(m_stackWidget, m_memoryBtn);
+    setTabOrder(m_memoryBtn, m_clearButton);
+
     //信号槽
     connect(m_buttonBox->button(0), &QAbstractButton::clicked, this, [ = ]() {
-        if (!m_buttonBox->button(0)->hasFocus())
-            emit buttonboxClicked();
+        if (!m_buttonBox->button(0)->hasFocus() && QApplication::focusWidget() != nullptr)
+            this->setFocus();
         m_clearButton->showtooltip(true); //设置历史垃圾桶tooltip
         m_stackWidget->setCurrentWidget(m_memoryWidget);
         m_clearButton->setHidden(!m_isshowM);
@@ -97,8 +115,8 @@ MemHisWidget::MemHisWidget(QWidget *parent)
         m_historyBtn->setIcon(QIcon(":/assets/images/icon_history_normal.svg"));
     });
     connect(m_buttonBox->button(1), &QAbstractButton::clicked, this, [ = ]() {
-        if (!m_buttonBox->button(1)->hasFocus())
-            emit buttonboxClicked();
+        if (!m_buttonBox->button(1)->hasFocus() && QApplication::focusWidget() != nullptr)
+            this->setFocus();
         m_clearButton->showtooltip(false); //设置内存垃圾桶tooltip
         m_stackWidget->setCurrentWidget(m_listView);
         m_clearButton->setHidden(!m_isshowH);
@@ -107,8 +125,7 @@ MemHisWidget::MemHisWidget(QWidget *parent)
         m_historyBtn->setIcon(QIcon(":/assets/images/icon_history_checked.svg"));
     });
     connect(m_clearButton, &IconButton::clicked, this, [ = ]() {
-        if (!m_clearButton->hasFocus())
-            emit buttonboxClicked();
+        this->setFocus(); //让下次焦点在m_memoryBtn
         if (m_buttonBox->checkedId() == 1) {
             m_listModel->clearItems();
             emit hisIsFilled(false);
@@ -123,8 +140,7 @@ MemHisWidget::MemHisWidget(QWidget *parent)
         m_clearButton->setHidden(true);
     });
     connect(m_clearButton, &TextButton::space, this, [ = ]() { //清除焦点空格事件
-        if (!m_clearButton->hasFocus())
-            emit buttonboxClicked();
+        this->setFocus(); //让下次焦点在m_memoryBtn
         if (m_buttonBox->checkedId() == 1) {
             m_listModel->clearItems();
             emit hisIsFilled(false);
@@ -236,11 +252,47 @@ void MemHisWidget::keyPressEvent(QKeyEvent *e)
  */
 bool MemHisWidget::eventFilter(QObject *obj, QEvent *event)
 {
+    //防止tab到m_historybtn
     if (obj == m_historyBtn && event->type() == QEvent::FocusIn) {
         QFocusEvent *focus_Event = static_cast<QFocusEvent *>(event);
         if (focus_Event->reason() == Qt::TabFocusReason) {
             m_memoryBtn->setFocus();
             return true;
+        }
+    }
+
+    //焦点在该widget上点击tab切换到stackwidget
+    if (obj == this && event->type() == QEvent::KeyPress) {
+        QKeyEvent *key_event = static_cast <QKeyEvent *>(event);
+        if (key_event->key() == Qt::Key_Tab && !m_clearButton->isHidden()) {
+            m_stackWidget->currentWidget()->setFocus();
+            return true;
+        }
+    }
+
+    if (obj == m_memoryWidget->findChild<MemoryListWidget *>() || obj == m_clearButton || obj == m_listView
+            || obj == m_memoryBtn || obj == m_historyBtn) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
+            if (key_event->key() == Qt::Key_Tab) {
+                if (m_memoryWidget->findChild<MemoryListWidget *>()->hasFocus()) {
+                    focusNextChild();//焦点移动
+                    m_memoryBtn->setFocus();
+                } else if (m_listView->hasFocus()) {
+                    focusNextChild();//焦点移动
+                    m_memoryBtn->setFocus();
+                } else if ((m_memoryBtn->hasFocus() || m_historyBtn->hasFocus()) && !m_clearButton->isHidden()) {
+                    focusNextChild();//焦点移动
+                    m_clearButton->setFocus();
+                } else if (m_clearButton->hasFocus()) {
+                    focusNextChild();//焦点移动
+                    if (m_stackWidget->currentWidget() == m_memoryWidget)
+                        m_memoryWidget->findChild<MemoryListWidget *>()->setFocus();
+                    else
+                        m_listView->setFocus();
+                }
+                return true; //在该对象点击tab不让焦点到窗口外
+            }
         }
     }
     return QWidget::eventFilter(obj, event);

@@ -64,9 +64,7 @@ scientificModule::scientificModule(QWidget *parent)
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_sciexpressionBar, &SciExpressionBar::initTheme);
 
-    connect(m_memhiswidget->findChild<SimpleListView *>(), &SimpleListView::obtainingHistorical, this, [ = ](const QModelIndex & index) {
-        m_sciexpressionBar->hisRevisionResults(index, m_memhiswidget->findChild<SimpleListModel *>()->getAnswer(index.row()));
-    }); //点击右侧历史记录
+    connect(m_memhiswidget->findChild<SimpleListView *>(), &SimpleListView::obtainingHistorical, this, &scientificModule::clickListView); //点击切换界面的历史记录
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this,
             &scientificModule::initTheme);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
@@ -98,7 +96,6 @@ scientificModule::scientificModule(QWidget *parent)
             m_havail = false;
         }
     });
-    connect(m_memhiswidget, &MemHisWidget::buttonboxClicked, [ = ] { m_sciexpressionBar->getInputEdit()->setFocus(); });
     connect(m_memhiswidget->findChild<MemoryWidget *>(), &MemoryWidget::widgetplus, this, [ = ](int row) {
         //点击键盘按键上的m+,m-是先进行计算，若有计算结果放入内存中
         m_sciexpressionBar->enterEqualEvent();
@@ -355,7 +352,6 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_V:
         if (isPressCtrl) {
             m_sciexpressionBar->copyClipboard2Result();
-            m_sciexpressionBar->addUndo();
         } else {
             m_sciexpressionBar->enterFEEvent(m_FEisdown);
             m_memhiskeypad->animate(MemHisKeypad::Key_FE);
@@ -377,7 +373,6 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_sciexpressionBar->enterSymbolEvent("*");
             m_sciexpressionBar->addUndo();
         }
-        m_sciexpressionBar->addUndo();
         break;
     case Qt::Key_Delete:
         m_sciexpressionBar->enterClearEvent();
@@ -775,7 +770,6 @@ void scientificModule::handleKeypadButtonPress(int key)
         m_memhiswidget->focusOnButtonbox();
         m_sciexpressionBar->setAttribute(Qt::WA_TransparentForMouseEvents); //鼠标穿透
         m_memhiskeypad->setAttribute(Qt::WA_TransparentForMouseEvents); //鼠标穿透
-        m_memhiswidget->setFocus();
         break;
     case ScientificKeyPad::Key_deg:
         m_sciexpressionBar->enterDegEvent(m_deg);
@@ -933,7 +927,8 @@ void scientificModule::handleKeypadButtonPress(int key)
         break;
     }
     m_sciexpressionBar->addUndo();
-    m_sciexpressionBar->getInputEdit()->setFocus();
+    if (m_stackWidget->currentWidget() == m_scikeypadwidget)
+        m_sciexpressionBar->getInputEdit()->setFocus();
     int left = 0;
     int right = 0;
     QString text = m_sciexpressionBar->getInputEdit()->text();
@@ -957,6 +952,7 @@ void scientificModule::handleKeypadButtonPress(int key)
 void scientificModule::handleKeypadButtonPressByspace(int key)
 {
     m_scikeypadwidget->update();
+    m_memhiskeypad->update();
     if (key > 51 && key < 58)
         m_memhiskeypad->animate(MemHisKeypad::Buttons(key), true);
     else if (key < 52)
@@ -1095,7 +1091,6 @@ void scientificModule::handleKeypadButtonPressByspace(int key)
         m_memhiswidget->focusOnButtonbox();
         m_sciexpressionBar->setAttribute(Qt::WA_TransparentForMouseEvents); //鼠标穿透
         m_memhiskeypad->setAttribute(Qt::WA_TransparentForMouseEvents); //鼠标穿透
-        m_memhiswidget->setFocus();
         break;
     case ScientificKeyPad::Key_deg:
         m_sciexpressionBar->enterDegEvent(m_deg);
@@ -1330,6 +1325,16 @@ void scientificModule::handlePageStateChanged()
 void scientificModule::showMemHisWidget()
 {
     m_stackWidget->setCurrentWidget(m_memhiswidget);
+    if (static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MHlist))->hasFocus()) {
+        //当前界面无历史focus到membuttonboxbutton
+        if (!m_memhiswidget->findChild<IconButton *>()->isHidden())
+            m_memhiswidget->findChild<QStackedWidget *>()->currentWidget()->setFocus();
+        else {
+            m_memhiswidget->findChild<DButtonBoxButton *>("mButtonBoxButton")->setFocus();
+        }
+    } else {
+        m_memhiswidget->setFocus();
+    }
     MemoryButton *btn2 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_Mplus));
     btn2->setbuttongray(true);
     btn2->setEnabled(false);
@@ -1354,74 +1359,58 @@ void scientificModule::showMemHisWidget()
 }
 
 /**
- * @brief scientificModule::setScientificTabOrder
- * tab事件排序
+ * @brief 点击历史记录
  */
-//void scientificModule::setScientificTabOrder()
-//{
-//    this->setTabOrder(m_sciexpressionBar->getInputEdit(), m_scikeypadwidget->button(ScientificKeyPad::Key_FE));
-//    for (int i = 0; i < 47; i++) {
-//        switch (ScientificKeyPad::Key_FE + i) {
-//        case 38:
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_arcsin));
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_arcsin), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
-//            break;
-//        case 39:
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_sqrt2));
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_sqrt2), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
-//            break;
-//        case 44:
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_arccos));
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_arccos), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
-//            break;
-//        case 45:
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_sqrt3));
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_sqrt3), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
-//            break;
-//        case 50:
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_arctan));
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_arctan), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
-//            break;
-//        case 51:
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_ysqrtx));
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_ysqrtx), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
-//            break;
-//        case 56:
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_arccot));
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_arccot), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
-//            break;
-//        case 57:
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_2x));
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_2x), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
-//            break;
-//        case 63:
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_logyx));
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_logyx), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
-//            break;
-//        case 69:
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_ex));
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_ex), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
-//            break;
-//        default:
-//            this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i), m_scikeypadwidget->button(ScientificKeyPad::Key_FE + i + 1));
-//        }
-//    }
-//    this->setTabOrder(m_scikeypadwidget->button(ScientificKeyPad::Key_Equals)
-//                      , static_cast<DButtonBoxButton *>(m_memhiswidget->findChild<DButtonBox *>()->button(0)));
-
-//    this->setTabOrder(static_cast<DButtonBoxButton *>(m_memhiswidget->findChild<DButtonBox *>()->button(0)),
-//                      static_cast<DButtonBoxButton *>(m_memhiswidget->findChild<DButtonBox *>()->button(1)));
-
-//    this->setTabOrder(static_cast<DButtonBoxButton *>(m_memhiswidget->findChild<DButtonBox *>()->button(1))
-//                      , static_cast<DPushButton *>(m_memhiswidget->findChild<IconButton *>("clearbtn")));
-
-//    this->setTabOrder(static_cast<DPushButton *>(m_memhiswidget->findChild<IconButton *>("clearbtn"))
-//                      , static_cast<DListView *>(m_memhiswidget->findChild<SimpleListView *>()));
-
-//    this->setTabOrder(static_cast<DListView *>(m_memhiswidget->findChild<SimpleListView *>())
-//                      , static_cast<MemoryWidget *>(m_memhiswidget->findChild<MemoryWidget *>()));
-//    connect(static_cast<MemoryWidget *>(m_memhiswidget->findChild<MemoryWidget *>()), &MemoryWidget::scimemtab, this, &scientificModule::sciMemTab);
-//}
+void scientificModule::clickListView(const QModelIndex &index)
+{
+    QString text = index.data(SimpleListModel::ExpressionRole).toString();
+    QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
+    if (historic.size() != 2)
+        return;
+    m_sciexpressionBar->hisRevisionResults(index, m_memhiswidget->findChild<SimpleListModel *>()->getAnswer(index.row()));
+    //点击item切换界面
+    m_stackWidget->setCurrentWidget(m_scikeypadwidget);
+    m_isallgray = false;
+    m_sciexpressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    m_memhiskeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    m_sciexpressionBar->getInputEdit()->setFocus();
+    MemoryButton *btn2 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_Mplus));
+    btn2->setbuttongray(false);
+    btn2->setEnabled(true);
+    MemoryButton *btn3 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_Mmin));
+    btn3->setbuttongray(false);
+    btn3->setEnabled(true);
+    MemoryButton *btn4 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MS));
+    btn4->setbuttongray(false);
+    btn4->setEnabled(true);
+    MemoryButton *btn5 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MHlist));
+    btn5->setbtnlight(false);
+    btn5->setEnabled(true);
+    TextButton *btn6 = static_cast<TextButton *>(m_memhiskeypad->button(MemHisKeypad::Key_FE));
+    btn6->setEnabled(true);
+    if (m_avail == true) {
+        MemoryButton *btn = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MC));
+        btn->setbuttongray(false);
+        btn->setEnabled(true);
+        MemoryButton *btn4 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MR));
+        btn4->setbuttongray(false);
+        btn4->setEnabled(true);
+        m_memRCbtn = true;
+    } else {
+        MemoryButton *btn = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MC));
+        btn->setbuttongray(true);
+        btn->setEnabled(false);
+        MemoryButton *btn1 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MR));
+        btn->setbuttongray(true);
+        btn1->setEnabled(false);
+        if (m_havail == false) {
+            MemoryButton *btn5 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MHlist));
+            btn5->setEnabled(false);
+        }
+        m_memRCbtn = false;
+    }
+    m_sciexpressionBar->getInputEdit()->isExpressionEmpty(); //确认输入栏是否有内容，发送信号M+,M-,MS是否置灰
+}
 
 /**
  * @brief 焦点不在scientificmodul时也触发keypress
@@ -1462,20 +1451,6 @@ void scientificModule::mUnAvailableEvent()
     m_memRCbtn = false;
     m_avail = false;
 }
-
-/**
- * @brief 科学界面缩放情况和切换模式情况的历史记录是否显示
- */
-//void scientificModule::showOrHideHistory(bool hide)
-//{
-//    if (hide == true)
-//        m_memhiswidget->hide();
-//    else {
-//        m_memhiswidget->show();
-//        m_memhiswidget->focusOnButtonbox();
-//        m_memhiswidget->resetFocus();
-//    }
-//}
 
 /**
  * @brief 切到标准模式时在初始化进行判断m+,m-,ms是否可用
@@ -1538,5 +1513,13 @@ void scientificModule::mousePressEvent(QMouseEvent *event)
     }
     m_sciexpressionBar->getInputEdit()->isExpressionEmpty(); //确认输入栏是否有内容，发送信号M+,M-,MS是否置灰
     QWidget::mousePressEvent(event);
+}
+
+/**
+ * @brief 防止下拉菜单时鼠标点击拖拽可移动窗口
+ */
+void scientificModule::mouseMoveEvent(QMouseEvent *e)
+{
+    Q_UNUSED(e);
 }
 

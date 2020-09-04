@@ -34,7 +34,7 @@ const int new_Func_Percent = 0; //0-旧的百分号方法 1-新
 BasicModule::BasicModule(QWidget *parent)
     : DWidget(parent)
 {
-    m_keypadLayout = new QStackedLayout;
+    m_keypadLayout = new QStackedWidget;
     m_basicKeypad = new BasicKeypad;
     m_memoryKeypad = new MemoryKeypad;
     m_insidewidget = false;
@@ -48,7 +48,7 @@ BasicModule::BasicModule(QWidget *parent)
     layout->addWidget(m_expressionBar);
     layout->addWidget(m_memoryKeypad);
     layout->addSpacing(1); //按钮边框多1pix
-    layout->addLayout(m_keypadLayout);
+    layout->addWidget(m_keypadLayout);
     m_keypadLayout->addWidget(m_basicKeypad);
     m_keypadLayout->addWidget(m_memorylistwidget);
 
@@ -298,7 +298,6 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_V:
         if (isPressCtrl) {
             m_expressionBar->copyClipboard2Result();
-            m_expressionBar->addUndo();
         }
         break;
     case Qt::Key_A:
@@ -314,7 +313,6 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
             m_basicKeypad->animate(BasicKeypad::Key_Mult);
             m_expressionBar->addUndo();
         }
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_Delete:
         m_expressionBar->enterClearEvent();
@@ -473,7 +471,6 @@ void BasicModule::handleKeypadButtonPress(int key)
             m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
             m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
         }
-        m_memorylistwidget->setFocus();
         break;
     case MemoryKeypad::Key_Mplus:
         m_expressionBar->settingLinkage();
@@ -493,7 +490,8 @@ void BasicModule::handleKeypadButtonPress(int key)
         break;
     }
     m_expressionBar->addUndo();
-    m_expressionBar->getInputEdit()->setFocus();
+    if (m_keypadLayout->currentWidget() == m_basicKeypad)
+        m_expressionBar->getInputEdit()->setFocus();
 }
 
 /**
@@ -616,7 +614,6 @@ void BasicModule::handleKeypadButtonPressByspace(int key)
             m_expressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
             m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
         }
-        m_memorylistwidget->setFocus();
         break;
     case MemoryKeypad::Key_Mplus:
         m_memoryKeypad->animate(MemoryKeypad::Key_Mplus, true);
@@ -702,6 +699,10 @@ void BasicModule::showListWidget()
 {
     if (m_keypadLayout->currentIndex() == 0) {
         m_keypadLayout->setCurrentIndex(1);
+        if (static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mlist))->hasFocus()) {
+            m_memorylistwidget->setFocus();
+        } else
+            m_keypadLayout->setFocus();
         MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
         btn2->setbuttongray(true);
         btn2->setEnabled(false);
@@ -776,4 +777,12 @@ void BasicModule::mousePressEvent(QMouseEvent *event)
     m_insidewidget = false;
     m_expressionBar->getInputEdit()->isExpressionEmpty(); //确认输入栏是否有内容，发送信号M+,M-,MS是否置灰
     QWidget::mousePressEvent(event);
+}
+
+/**
+ * @brief 防止下拉菜单时鼠标点击拖拽可移动窗口
+ */
+void BasicModule::mouseMoveEvent(QMouseEvent *e)
+{
+    Q_UNUSED(e);
 }

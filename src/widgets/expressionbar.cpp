@@ -1192,6 +1192,7 @@ void ExpressionBar::copyClipboard2Result()
         emit clearStateChanged(false);
     m_isResult = false;
     m_isUndo = false;
+    addUndo();
 }
 
 /**

@@ -20,9 +20,10 @@
 #ifndef BASICMODULE_H
 #define BASICMODULE_H
 
-#include <QStackedLayout>
+#include <QStackedWidget>
 #include <QGridLayout>
 #include <QTimer>
+#include <QApplication>
 #include <DWidget>
 #include <DGuiApplicationHelper>
 
@@ -49,6 +50,7 @@ public:
     void setKeyPress(QKeyEvent *e);
 
     void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *e);
 public slots:
     //memory func
     void mAvailableEvent();
@@ -69,7 +71,7 @@ private:
     ExpressionBar *m_expressionBar;
     BasicKeypad *m_basicKeypad;
     MemoryKeypad *m_memoryKeypad;
-    QStackedLayout *m_keypadLayout;
+    QStackedWidget *m_keypadLayout;
     MemoryWidget *m_memorylistwidget;
     bool m_insidewidget;
     bool m_avail = false; //内存中有数据

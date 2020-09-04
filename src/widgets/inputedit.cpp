@@ -270,6 +270,18 @@ void InputEdit::mousePressEvent(QMouseEvent *e)
 }
 
 /**
+ * @brief 鼠标中键粘贴操作
+ */
+void InputEdit::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::MiddleButton) {
+        emit paste();
+        return;
+    }
+    QLineEdit::mouseReleaseEvent(event);
+}
+
+/**
  * @brief 右键菜单action初始化
  */
 void InputEdit::initAction()

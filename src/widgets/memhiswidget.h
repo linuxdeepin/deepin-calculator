@@ -65,7 +65,6 @@ public:
     bool eventFilter(QObject *obj, QEvent *event);
 
 signals:
-    void buttonboxClicked();
     void hisIsFilled(bool isfilled);
 
 public slots:

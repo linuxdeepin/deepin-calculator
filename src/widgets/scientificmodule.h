@@ -51,9 +51,9 @@ public:
     ~scientificModule();
     void setKeyPress(QKeyEvent *e);
 
-//    void showOrHideHistory(bool hide);
     void checkLineEmpty();
     void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *e);
 signals:
     void changedeg(int deg);
     void sciMemTab();
@@ -64,6 +64,7 @@ public slots:
     void mUnAvailableEvent();
 private slots:
     void initTheme(int type);
+    void clickListView(const QModelIndex &index);
 private:
     void handleEditKeyPress(QKeyEvent *);
     void handleKeypadButtonPress(int);
@@ -72,7 +73,6 @@ private:
     void handleDegChanged();
     void handleFEStateChanged(bool isdown);
     void handlePageStateChanged();
-    void setScientificTabOrder();
     void showMemHisWidget();
 
 private:

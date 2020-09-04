@@ -364,6 +364,8 @@ void MemoryButton::paintEvent(QPaintEvent *e)
                 painter.setFont(a1);
                 painter.drawText(textRect1, "M");
                 QRectF textRect2 = QRectF(normal.left() + 29, normal.top() + 12, 10, 17);
+                pen.setWidth(1);
+                painter.setPen(pen);
                 painter.drawLine(textRect2.bottomLeft(), textRect2.topRight());
                 QRectF textRect3 = QRectF(normal.left() + 37, normal.top() + 14, 9, 17);
                 QFont a3;
