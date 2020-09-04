@@ -95,15 +95,15 @@
     </message>
     <message>
         <source>Memory add</source>
-        <translation type="unfinished"/>
+        <translation>Memóriához adás</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation type="unfinished"/>
+        <translation>Kivonás a memóriában lévő elemből</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation type="unfinished"/>
+        <translation>Memória kivonása</translation>
     </message>
     <message>
         <source>Memory store</source>
@@ -130,7 +130,7 @@
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation type="unfinished"/>
+        <translation>Kivonás a memóriában lévő elemből</translation>
     </message>
 </context>
 <context>
