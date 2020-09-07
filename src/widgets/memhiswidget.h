@@ -66,6 +66,7 @@ public:
 
 signals:
     void hisIsFilled(bool isfilled);
+    void hideWidget();
 
 public slots:
     void themeChanged(int type);

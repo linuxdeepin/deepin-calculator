@@ -56,7 +56,6 @@ public:
     void mouseMoveEvent(QMouseEvent *e);
 signals:
     void changedeg(int deg);
-    void sciMemTab();
 
 public slots:
     //memory func
@@ -74,12 +73,15 @@ private:
     void handleFEStateChanged(bool isdown);
     void handlePageStateChanged();
     void showMemHisWidget();
+    void hideMemHisWidget();
 
 private:
     QStackedWidget *m_stackWidget;
     SciExpressionBar *m_sciexpressionBar;
     MemHisKeypad *m_memhiskeypad;
     ScientificKeyPad *m_scikeypadwidget;
+    MemHisWidget *m_memhiswidget;
+    MemoryPublic *m_memoryPublic;
     bool m_avail = false; //内存是否有内容
     bool m_havail = false; //历史记录是否有内容
     int m_deg = 1;//1-deg 2-rad 3-grad
@@ -89,8 +91,6 @@ private:
     bool m_memCalbtn; //m+,m-,ms
     bool m_memRCbtn;//mr,mc
     bool m_isallgray = false; //内存按钮全部置灰;
-    MemHisWidget *m_memhiswidget;
-    MemoryPublic *m_memoryPublic;
 };
 
 #endif // SCIENTIFICMODEL_H

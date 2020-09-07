@@ -43,7 +43,6 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::scientificright);
     m_memoryWidget->setFocusPolicy(Qt::TabFocus);
     m_stackWidget->addWidget(m_memoryWidget);
-//    m_stackWidget->setFocusPolicy(Qt::TabFocus);
     m_listView->setModel(m_listModel);
     m_listView->setItemDelegate(m_listDelegate);
     m_stackWidget->addWidget(m_listView);
@@ -261,18 +260,27 @@ bool MemHisWidget::eventFilter(QObject *obj, QEvent *event)
         }
     }
 
-    //焦点在该widget上点击tab切换到stackwidget
-    if (obj == this && event->type() == QEvent::KeyPress) {
-        QKeyEvent *key_event = static_cast <QKeyEvent *>(event);
-        if (key_event->key() == Qt::Key_Tab && !m_clearButton->isHidden()) {
-            m_stackWidget->currentWidget()->setFocus();
-            return true;
+    if (obj == this) {
+        if (event->type() == QEvent::KeyPress) {
+            //焦点在该widget上点击tab切换到stackwidget
+            QKeyEvent *key_event = static_cast <QKeyEvent *>(event);
+            if (key_event->key() == Qt::Key_Tab && !m_clearButton->isHidden()) {
+                m_stackWidget->currentWidget()->setFocus();
+                return true;
+            }
+        } else if (event->type() == QEvent::FocusOut) {
+            //点击标题栏及外部桌面失去焦点时切换至scientifickeypad
+            QFocusEvent *focus_Event = static_cast<QFocusEvent *>(event);
+            if (focus_Event->reason() == Qt::MouseFocusReason || focus_Event->reason() == Qt::ActiveWindowFocusReason) {
+                emit hideWidget();
+            }
         }
     }
 
     if (obj == m_memoryWidget->findChild<MemoryListWidget *>() || obj == m_clearButton || obj == m_listView
             || obj == m_memoryBtn || obj == m_historyBtn) {
         if (event->type() == QEvent::KeyPress) {
+            //焦点循环
             QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
             if (key_event->key() == Qt::Key_Tab) {
                 if (m_memoryWidget->findChild<MemoryListWidget *>()->hasFocus()) {
@@ -293,7 +301,14 @@ bool MemHisWidget::eventFilter(QObject *obj, QEvent *event)
                 }
                 return true; //在该对象点击tab不让焦点到窗口外
             }
+        } else if (event->type() == QEvent::FocusOut) {
+            //点击标题栏及外部桌面失去焦点时切换至scientifickeypad
+            QFocusEvent *focus_Event = static_cast<QFocusEvent *>(event);
+            if (focus_Event->reason() == Qt::MouseFocusReason || focus_Event->reason() == Qt::ActiveWindowFocusReason) {
+                emit hideWidget();
+            }
         }
+
     }
     return QWidget::eventFilter(obj, event);
 }
@@ -330,5 +345,4 @@ void MemHisWidget::historyfilled()
     emit hisIsFilled(true);
     if (m_buttonBox->checkedId() == 1)
         m_clearButton->setHidden(false);
-//    m_clearbutton->setHidden(!(m_isshowH & m_indexH));
 }

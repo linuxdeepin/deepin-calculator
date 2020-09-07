@@ -141,6 +141,7 @@ scientificModule::scientificModule(QWidget *parent)
         m_memCalbtn = true;
         m_isallgray = false;
     });
+    connect(m_memhiswidget, &MemHisWidget::hideWidget, this, &scientificModule::hideMemHisWidget);
     connect(m_sciexpressionBar->getInputEdit(), &InputEdit::emptyExpression, this, [ = ](bool b) {
         //输入栏为空m+,m-,ms置灰；否则可用
         if (b == false) {
@@ -1322,6 +1323,9 @@ void scientificModule::handlePageStateChanged()
     btn->setButtonDown(m_Pageisdown);
 }
 
+/**
+ * @brief m_stackWidget切换至m_memhiswidget
+ */
 void scientificModule::showMemHisWidget()
 {
     m_stackWidget->setCurrentWidget(m_memhiswidget);
@@ -1359,16 +1363,10 @@ void scientificModule::showMemHisWidget()
 }
 
 /**
- * @brief 点击历史记录
+ * @brief m_stackWidget切换至m_scikeypadwidget
  */
-void scientificModule::clickListView(const QModelIndex &index)
+void scientificModule::hideMemHisWidget()
 {
-    QString text = index.data(SimpleListModel::ExpressionRole).toString();
-    QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
-    if (historic.size() != 2)
-        return;
-    m_sciexpressionBar->hisRevisionResults(index, m_memhiswidget->findChild<SimpleListModel *>()->getAnswer(index.row()));
-    //点击item切换界面
     m_stackWidget->setCurrentWidget(m_scikeypadwidget);
     m_isallgray = false;
     m_sciexpressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
@@ -1410,6 +1408,20 @@ void scientificModule::clickListView(const QModelIndex &index)
         m_memRCbtn = false;
     }
     m_sciexpressionBar->getInputEdit()->isExpressionEmpty(); //确认输入栏是否有内容，发送信号M+,M-,MS是否置灰
+}
+
+/**
+ * @brief 点击历史记录
+ */
+void scientificModule::clickListView(const QModelIndex &index)
+{
+    QString text = index.data(SimpleListModel::ExpressionRole).toString();
+    QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
+    //历史记录中无内容不继续执行
+    if (historic.size() != 2)
+        return;
+    m_sciexpressionBar->hisRevisionResults(index, m_memhiswidget->findChild<SimpleListModel *>()->getAnswer(index.row()));
+    hideMemHisWidget();
 }
 
 /**

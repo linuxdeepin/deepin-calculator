@@ -41,12 +41,8 @@ class MainWindow : public DMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-signals:
-//    void windowChanged(int width, int height, bool hishide); //hishide-历史记录栏是否隐藏
-public slots:
-    //void onViewShortcut();
+
 protected:
-    //void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *event);
     void moveEvent(QMoveEvent *event);
     void resizeEvent(QResizeEvent *event);
@@ -58,7 +54,6 @@ private:
     void switchToScientificMode();
     void switchToProgrammerMode();
     void showHistoryWidget();
-//    void hideHistoryWidget(bool hissetting);
 
 private:
     DSettings *m_settings;
@@ -67,14 +62,12 @@ private:
     DMenu *m_modeshowmenu;
     QAction *m_simpleAction;
     QAction *m_scAction;
-//    QAction *m_hisAction;
     QAction *m_programmerAction;
     QActionGroup *m_pActionGroup;
 
     BasicModule *m_basicModule;
     scientificModule *m_scientificModule;
     ProgramModule *m_programmerModule;
-//    QSize m_lastscisize = QSize(); //切换回标准时模式时科学模式的size
     bool m_isinit = true;//初始化
     bool m_isStandInit = false; //标准是否初始化
     bool m_isSciInit = false; //科学是否初始化
