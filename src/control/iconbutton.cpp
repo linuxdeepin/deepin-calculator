@@ -35,10 +35,6 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
     , m_effect(new QGraphicsDropShadowEffect(this))
     , m_iconRenderer(new QSvgRenderer(this))
 {
-    m_settings = DSettings::instance(this);
-    int mode = m_settings->getOption("mode").toInt();
-    if (mode == 0)
-        setFixedSize(STANDARD_ICONBTNSIZE);
     if (b == 1)
         setFixedSize(HISTORY_WIDGET_CLEARBUTTONSIZE);
     m_isHover = false;
@@ -212,11 +208,6 @@ void IconButton::paintEvent(QPaintEvent *)
     m_pixmap = pixmap; //保存以取图片rect,move到该按钮中间
     QPainter painter(this);
     if (m_isEmptyBtn == false) {
-//        if (!m_isHistorybtn) {
-        int mode = m_settings->getOption("mode").toInt();
-        if (mode == 0)
-            setFixedSize(STANDARD_ICONBTNSIZE);
-//        }
         QRectF frameRect = this->rect();
         QRectF rect(frameRect.left() + 1, frameRect.top() + 1, frameRect.width() - 2, frameRect.height() - 2);
         QRectF hover(frameRect.left() + 1, frameRect.top() + 1, frameRect.width() - 2, frameRect.height() - 2);

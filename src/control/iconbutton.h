@@ -21,7 +21,6 @@
 #define ICONBUTTON_H
 
 #include "textbutton.h"
-#include "src/dsettings.h"
 
 #include <QPaintEvent>
 #include <QDomElement>
@@ -66,7 +65,6 @@ private:
 
 //    DSvgRenderer *m_iconRenderer;
     QSvgRenderer *m_iconRenderer; //改用QSvgRenderer
-    DSettings *m_settings;
 
     int m_normalSize;
     int m_hoverSize;
