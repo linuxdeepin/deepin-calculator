@@ -19,15 +19,6 @@
 
 #include "textbutton.h"
 
-#include <QMouseEvent>
-#include <QPainter>
-#include <QPainterPath>
-#include <QTimer>
-#include <DGuiApplicationHelper>
-
-#include "dthememanager.h"
-
-const QSize STANDARD_TEXTBTNSIZE = QSize(78, 58); //标准模式按钮大小，为画边框比ui大2pix
 const qreal BLURRADIUS = 12; //阴影模糊半径
 const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
 const qreal ROUND_YRADIUS = 8; //按钮圆角y轴半径
