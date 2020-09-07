@@ -6,7 +6,6 @@
 
 #include <DGuiApplicationHelper>
 
-const QSize STANDARD_EQUALBTN_SIZE = QSize(80, 60); //标准模式等于按钮大小，为画边框比ui大2pix
 const qreal BLURRADIUS = 4; //阴影模糊半径
 const int FONT_PIXELSIZE = 36; //字号
 const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
@@ -16,10 +15,6 @@ EqualButton::EqualButton(const QString &text, QWidget *parent)
     : DSuggestButton(text, parent),
       m_effect(new QGraphicsDropShadowEffect(this))
 {
-    m_settings = DSettings::instance(this);
-    int mode = m_settings->getOption("mode").toInt();
-    if (mode == 0)
-        setFixedSize(STANDARD_EQUALBTN_SIZE);
     setFocusPolicy(Qt::TabFocus);
     setObjectName("TextButton");
 
@@ -115,9 +110,6 @@ void EqualButton::leaveEvent(QEvent *e)
 void EqualButton::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-    int mode = m_settings->getOption("mode").toInt();
-    if (mode == 0)
-        setFixedSize(STANDARD_EQUALBTN_SIZE);
     QRectF rect = this->rect();
     QRectF focusBase(rect.left() + 1, rect.top() + 1, rect.width() - 2, rect.height() - 2);
     QRectF normal(rect.left() + 2, rect.top() + 2, rect.width() - 4, rect.height() - 4);

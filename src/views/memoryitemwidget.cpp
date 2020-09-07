@@ -30,6 +30,8 @@
 #include <QClipboard>
 #include <DGuiApplicationHelper>
 
+const QSize MEMORYBUTTON_SIZE = QSize(52, 32); //内存按键大小，为画边框比ui大2pix
+
 MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     : QWidget(parent)
     , m_btnplus(new MemoryButton(QString("M+"), true, this))
@@ -42,6 +44,9 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
 
     lay->addStretch();
     lay->setSpacing(3); //按钮比ui大2pix
+    m_btnplus->setFixedSize(MEMORYBUTTON_SIZE);
+    m_btnminus->setFixedSize(MEMORYBUTTON_SIZE);
+    m_btnclean->setFixedSize(MEMORYBUTTON_SIZE);
     lay->addWidget(m_btnclean);
     lay->addWidget(m_btnplus);
     lay->addWidget(m_btnminus);

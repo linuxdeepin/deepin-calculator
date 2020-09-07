@@ -36,10 +36,6 @@ TextButton::TextButton(const QString &text, bool page, QWidget *parent)
     : DPushButton(text, parent)
     , m_effect(new QGraphicsDropShadowEffect(this))
 {
-    m_settings = DSettings::instance(this);
-    int mode = m_settings->getOption("mode").toInt();
-    if (mode == 0)
-        setFixedSize(STANDARD_TEXTBTNSIZE);
     setFocusPolicy(Qt::TabFocus);
     setObjectName("TextButton");
 
@@ -236,9 +232,6 @@ void TextButton::leaveEvent(QEvent *e)
 void TextButton::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-    int mode = m_settings->getOption("mode").toInt();
-    if (mode == 0)
-        setFixedSize(STANDARD_TEXTBTNSIZE);
     QRectF rect = this->rect();
     QRectF normal(rect.left() + 1, rect.top() + 1, rect.width() - 2, rect.height() - 2);
     QRectF hover(rect.left() + 1, rect.top() + 1, rect.width() - 2, rect.height() - 2);

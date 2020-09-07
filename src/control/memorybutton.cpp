@@ -39,9 +39,6 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
     , m_isallgray(false)
 {
     m_settings = DSettings::instance(this);
-    int mode = m_settings->getOption("mode").toInt();
-    if (mode == 0)
-        setFixedSize(MEMORYBUTTON_SIZE);
     setObjectName("MemoryButton");
     m_widgetbtn = listwidgetbtn; //是否是内存列表按键
 
@@ -193,11 +190,6 @@ void MemoryButton::leaveEvent(QEvent *e)
 void MemoryButton::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-    int mode = m_settings->getOption("mode").toInt();
-    if (mode == 0)
-        setFixedSize(MEMORYBUTTON_SIZE);
-    if (m_widgetbtn)
-        setFixedSize(MEMORYBUTTON_SIZE);
     if (isEnabled() == false) {
         m_font.setPixelSize(16);
         m_font.setStyleName("Light");

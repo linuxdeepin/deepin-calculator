@@ -33,6 +33,7 @@ const int HPADDING = 24; //预留水平空隙
 const int BUTTONHEIGHT = 44; //科学计算器按钮高度
 const int KEYPADHEIGHT = 398; //整体键盘的高度
 const int FRAMEWIDTH = 2;  //按钮边框2pix
+const QSize BUTTON_SIZE = QSize(69, 46); //科学模式的固定大小
 
 const ScientificKeyPad::KeyDescription ScientificKeyPad::keyDescriptions[] = {
     {"F-E", Key_FE, 1, 0, 1, 1},   {"MC", Key_MC, 1, 1, 1, 1},   {"MR", Key_MR, 1, 2, 1, 1},
@@ -300,6 +301,8 @@ void ScientificKeyPad::initButtons()
                                      Qt::AlignCenter/* | Qt::AlignTop*/);
         }
 
+        button->setFixedSize(BUTTON_SIZE);
+        pagebutton->setFixedSize(BUTTON_SIZE);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 

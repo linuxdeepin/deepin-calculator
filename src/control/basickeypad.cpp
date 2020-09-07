@@ -30,6 +30,7 @@ const int KEYPAD_SPACING = 3; //键盘按键间距,按钮比ui大2pix,此处小2
 const int LEFT_MARGIN = 12; //键盘左边距
 const int RIGHT_MARGIN = 13; //键盘右边距
 const int BOTTOM_MARGIN = 11; //键盘下边距
+const QSize STANDARD_TEXTBTNSIZE = QSize(78, 58); //标准模式按钮大小，为画边框比ui大2pix
 
 const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
 //    {"MC", Key_MC, 1, 0, 1, 2},       {"MR", Key_MR, 1, 2, 1, 2},
@@ -173,6 +174,7 @@ void BasicKeypad::initButtons()
             }
         }
 
+        button->setFixedSize(STANDARD_TEXTBTNSIZE);
         m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
                             Qt::AlignHCenter | Qt::AlignVCenter);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);

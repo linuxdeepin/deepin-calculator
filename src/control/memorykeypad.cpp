@@ -21,11 +21,7 @@
 
 #include "memorykeypad.h"
 
-#include <QTimer>
-#include <DPalette>
-#include <DImageButton>
-
-#include "dthememanager.h"
+const QSize MEMORYBUTTON_SIZE = QSize(52, 32); //标准模式大小，为画边框比ui大2pix
 
 const MemoryKeypad::KeyDescription MemoryKeypad::keyDescriptions[] = {
     {"MC", Key_MC, 1, 0, 1, 1},       {"MR", Key_MR, 1, 1, 1, 1},
@@ -102,6 +98,7 @@ void MemoryKeypad::initButtons()
         font.setFamily("Noto Sans");
         button->setFont(font);
 
+        button->setFixedSize(MEMORYBUTTON_SIZE);
         m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
                             Qt::AlignTop);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
