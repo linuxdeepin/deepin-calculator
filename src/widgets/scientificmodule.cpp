@@ -104,8 +104,7 @@ scientificModule::scientificModule(QWidget *parent)
         QString str = p.first;
         m_sciexpressionBar->getInputEdit()->setAnswer(str.remove("\n"), p.second);
         m_sciexpressionBar->getInputEdit()->setFocus();
-        if (str != QString())
-            this->handleClearStateChanged(false);
+        this->handleClearStateChanged(false);
         MemoryButton *btn = static_cast<MemoryButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_MC));
         btn->setEnabled(true);
         MemoryButton *btn1 = static_cast<MemoryButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_MR));
@@ -412,6 +411,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_scikeypadwidget->animate(ScientificKeyPad::Key_MR);
             m_sciexpressionBar->getInputEdit()->setAnswer(m_scihiswidget->findChild<MemoryWidget *>()->getfirstnumber().first
                                                           , m_scihiswidget->findChild<MemoryWidget *>()->getfirstnumber().second);
+            this->handleClearStateChanged(false);
         } else if (!isPressCtrl) {
             if (isPressShift) {
                 m_scikeypadwidget->animate(ScientificKeyPad::Key_Rand);
@@ -750,6 +750,7 @@ void scientificModule::handleKeypadButtonPress(int key)
     case ScientificKeyPad::Key_MR:
         m_sciexpressionBar->getInputEdit()->setAnswer(m_scihiswidget->findChild<MemoryWidget *>()->getfirstnumber().first
                                                       , m_scihiswidget->findChild<MemoryWidget *>()->getfirstnumber().second);
+        this->handleClearStateChanged(false);
         break;
     case ScientificKeyPad::Key_deg:
         m_sciexpressionBar->enterDegEvent(m_deg);
@@ -1056,6 +1057,7 @@ void scientificModule::handleKeypadButtonPressByspace(int key)
     case ScientificKeyPad::Key_MR:
         m_sciexpressionBar->getInputEdit()->setAnswer(m_scihiswidget->findChild<MemoryWidget *>()->getfirstnumber().first
                                                       , m_scihiswidget->findChild<MemoryWidget *>()->getfirstnumber().second);
+        this->handleClearStateChanged(false);
         break;
     case ScientificKeyPad::Key_deg:
         m_sciexpressionBar->enterDegEvent(m_deg);
