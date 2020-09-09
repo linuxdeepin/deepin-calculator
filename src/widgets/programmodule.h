@@ -11,6 +11,9 @@
 
 #include "src/views/programmerarrowdelegate.h"
 #include "src/views/programmeritemwidget.h"
+#include "src/views/prolistview.h"
+#include "src/views/prolistmodel.h"
+#include "src/views/prolistdelegate.h"
 #include "src/control/bitbutton.h"
 
 DGUI_USE_NAMESPACE

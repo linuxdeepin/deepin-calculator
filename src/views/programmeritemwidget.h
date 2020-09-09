@@ -22,13 +22,12 @@ public:
     void leaveEvent(QEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
-//    void setTextLabel(QString s);
-//    void setIcon(const QIcon &icon);
     void paintEvent(QPaintEvent *e);
 public slots:
     void themetypechanged(int type);
 
 private:
+    DIconButton *m_markbtn;
     DIconButton *m_iconbtn;
     QLabel *m_label;
     bool m_ispress = false;
