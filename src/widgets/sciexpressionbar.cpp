@@ -2149,7 +2149,7 @@ void SciExpressionBar::revisionResults(const QModelIndex &index)
  */
 void SciExpressionBar::hisRevisionResults(const QModelIndex &index, Quantity ans)
 {
-    QString text = index.data(SimpleListModel::ExpressionRole).toString();
+    QString text = index.data(SimpleListModel::ExpressionWithOutTip).toString();
     QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
     if (historic.size() != 2)
         return;

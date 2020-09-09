@@ -53,7 +53,11 @@ QVariant SimpleListModel::data(const QModelIndex &index, int role) const
     const int r = index.row();
 
     switch (role) {
+    case ExpressionWithOutTip:
+        return m_expressionList.at(r);
     case ExpressionRole:
+        if (m_mode == 1)
+            break;
         return m_expressionList.at(r);
     case ExpressionCount:
         return m_expressionList.count();
