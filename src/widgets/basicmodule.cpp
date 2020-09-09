@@ -104,6 +104,8 @@ BasicModule::BasicModule(QWidget *parent)
         QString str = p.first;
         m_expressionBar->getInputEdit()->setAnswer(str.remove("\n"), p.second);
         m_expressionBar->getInputEdit()->setFocus();
+        if (str != QString())
+            this->handleClearStateChanged(false);
         if (m_keypadLayout->currentIndex() == 1) {
             m_keypadLayout->setCurrentIndex(0);
             m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
