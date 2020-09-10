@@ -247,7 +247,8 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
  */
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    Q_UNUSED(e);
+  //fix bug-47162保持触摸屏双击输入框与其他应用一致
+    QLineEdit::mouseDoubleClickEvent(e);
     selectAll();
     m_selected.selected = text();
     /*if (e->button() == Qt::LeftButton) {
