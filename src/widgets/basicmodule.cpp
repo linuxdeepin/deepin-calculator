@@ -104,6 +104,8 @@ BasicModule::BasicModule(QWidget *parent)
         QString str = p.first;
         m_expressionBar->getInputEdit()->setAnswer(str.remove("\n"), p.second);
         m_expressionBar->getInputEdit()->setFocus();
+        //点击item清除键状态改变
+        this->handleClearStateChanged(false);
         if (m_keypadLayout->currentIndex() == 1) {
             m_keypadLayout->setCurrentIndex(0);
             m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
@@ -344,6 +346,8 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         if (isPressCtrl && m_memRCbtn && !m_isallgray) {
             m_memoryKeypad->animate(MemoryKeypad::Key_MR);
             m_expressionBar->getInputEdit()->setAnswer(m_memorylistwidget->getfirstnumber().first, m_memorylistwidget->getfirstnumber().second);
+            //点击item清除键状态改变
+            this->handleClearStateChanged(false);
         }
         break;
     case Qt::Key_P:
@@ -485,6 +489,8 @@ void BasicModule::handleKeypadButtonPress(int key)
     case MemoryKeypad::Key_MR:
         p = m_memorylistwidget->getfirstnumber();
         m_expressionBar->getInputEdit()->setAnswer(p.first, p.second);
+        //点击item清除键状态改变
+        this->handleClearStateChanged(false);
         break;
     default:
         break;
@@ -631,6 +637,8 @@ void BasicModule::handleKeypadButtonPressByspace(int key)
         m_memoryKeypad->animate(MemoryKeypad::Key_MR, true);
         p = m_memorylistwidget->getfirstnumber();
         m_expressionBar->getInputEdit()->setAnswer(p.first, p.second);
+        //点击item清除键状态改变
+        this->handleClearStateChanged(false);
         break;
     default:
         break;

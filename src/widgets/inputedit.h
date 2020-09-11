@@ -88,7 +88,6 @@ protected:
 
 private slots:
     void initAction();
-    void updateAction();
 //    bool isSymbolCategoryChanged(int pos1, int pos2);
 //    int findWordBeginPosition(int pos);
 //    int findWordEndPosition(int pos);

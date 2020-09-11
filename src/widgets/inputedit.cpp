@@ -65,13 +65,6 @@ InputEdit::InputEdit(QWidget *parent)
 
     connect(this, &QLineEdit::textChanged, this, &InputEdit::isExpressionEmpty);
 
-//    DPalette pl = this->palette();
-    // pl.setColor(DPalette::Text,QColor(48,48,48));
-//    pl.setColor(DPalette::Button, Qt::transparent); //inputedit背景色
-//    pl.setColor(DPalette::Highlight, Qt::transparent); //边框高亮色
-//    pl.setColor(DPalette::HighlightedText, Qt::blue); //全选字体高亮色
-//    this->setPalette(pl);
-
     m_funclist = {"arcsin", "arccos", "arctan", "arccot", "sin", "cos", "tan", "cot"
                   , "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π"
                  };
@@ -247,7 +240,8 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
  */
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    Q_UNUSED(e);
+    //fix bug-47162保持触摸屏双击输入框与其他应用一致
+    QLineEdit::mouseDoubleClickEvent(e);
     selectAll();
     m_selected.selected = text();
     /*if (e->button() == Qt::LeftButton) {
@@ -286,11 +280,11 @@ void InputEdit::mouseReleaseEvent(QMouseEvent *event)
  */
 void InputEdit::initAction()
 {
-    m_undo = new QAction(tr("&Undo"), this);
-    m_redo = new QAction(tr("&Redo"), this);
-    m_cut = new QAction(tr("Cu&t"), this);
-    m_copy = new QAction(tr("&Copy"), this);
-    m_paste = new QAction(tr("&Paste"), this);
+    m_undo = new QAction(tr("Undo"), this);
+    m_redo = new QAction(tr("Redo"), this);
+    m_cut = new QAction(tr("Cut"), this);
+    m_copy = new QAction(tr("Copy"), this);
+    m_paste = new QAction(tr("Paste"), this);
     m_delete = new QAction(tr("Delete"), this);
     m_select = new QAction(tr("Select All"), this);
 
@@ -308,24 +302,6 @@ void InputEdit::initAction()
     m_copy->setEnabled(false);
     m_delete->setEnabled(false);
     m_select->setEnabled(false);
-}
-
-/**
- * @brief 更新右键菜单状态
- */
-void InputEdit::updateAction()
-{
-    if (this->text().isEmpty()) {
-        m_select->setEnabled(false);
-        m_delete->setEnabled(false);
-        m_copy->setEnabled(false);
-        m_cut->setEnabled(false);
-    } else {
-        m_select->setEnabled(true);
-        m_delete->setEnabled(true);
-        m_copy->setEnabled(false);
-        m_cut->setEnabled(true);
-    }
 }
 
 /**
@@ -485,7 +461,6 @@ void InputEdit::handleTextChanged(const QString &text)
     //    reformatStr = symbolFaultTolerance(reformatStr);
     setText(reformatStr);
     autoZoomFontSize();
-    updateAction(); //textchanged时更新右键菜单状态
 
     // reformat text.
     int oldLength = text.length();
@@ -738,10 +713,22 @@ void InputEdit::showTextEditMenu()
     else
         m_paste->setEnabled(true);
 
-    if (this->selectedText().isEmpty())
+    if (this->selectedText().isEmpty()) {
         m_cut->setEnabled(false);
-    else
+        m_copy->setEnabled(false);
+        m_delete->setEnabled(false);
+    } else {
         m_cut->setEnabled(true);
+        m_copy->setEnabled(true);
+        m_delete->setEnabled(true);
+    }
+
+    //全选需要有内容
+    if (this->text() != QString()) {
+        m_select->setEnabled(true);
+    } else {
+        m_select->setEnabled(false);
+    }
 
     menu->move(cursor().pos());
     menu->exec();
@@ -768,10 +755,22 @@ void InputEdit::showTextEditMenuByAltM()
     else
         m_paste->setEnabled(true);
 
-    if (this->selectedText().isEmpty())
+    if (this->selectedText().isEmpty()) {
         m_cut->setEnabled(false);
-    else
+        m_copy->setEnabled(false);
+        m_delete->setEnabled(false);
+    } else {
         m_cut->setEnabled(true);
+        m_copy->setEnabled(true);
+        m_delete->setEnabled(true);
+    }
+
+    //全选需要有内容
+    if (this->text() != QString()) {
+        m_select->setEnabled(true);
+    } else {
+        m_select->setEnabled(false);
+    }
 
     menu->move(mapToGlobal(cursorRect().bottomRight()));
     menu->exec();
@@ -783,11 +782,6 @@ void InputEdit::showTextEditMenuByAltM()
  */
 void InputEdit::selectionChangedSlot()
 {
-    if (this->selectedText().isEmpty()) { //无选中项时关闭右键复制
-        m_copy->setEnabled(false);
-    } else {
-        m_copy->setEnabled(true);
-    }
     if (!hasFocus())
         return; //只有选中被改变情况下给m_selected赋值,选中输入不会改变;选中输入后优先级高于cursorchanged，去掉return无意义
     m_selected.oldText = text();

@@ -35,8 +35,9 @@ public:
 
     //model的data数据类型
     enum Role {
+        ExpressionWithOutTip = Qt::DisplayRole,//无提示文本
         ExpressionRole = Qt::ToolTipRole, //有提示文本
-        ExpressionCount, //数据数量
+        ExpressionCount = 4, //数据数量
         ExpressionPrevious, //前一个数据
         ExpressionNext //下一个数据
     };

@@ -1214,6 +1214,7 @@ void ExpressionBar::allElection()
 void ExpressionBar::shear()
 {
     QString text = m_inputEdit->text();
+    int selcurPos = m_inputEdit->cursorPosition();
     QString selectText = m_inputEdit->selectedText();
     selectText = selectText.replace(",", "");
     QApplication::clipboard()->setText(selectText);
@@ -1223,6 +1224,50 @@ void ExpressionBar::shear()
     m_inputEdit->setText(text);
     addUndo();
     m_isUndo = false;
+    //设置剪切后光标位置
+    if (text.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length() ==
+            m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length())
+        m_inputEdit->setCursorPosition(selcurPos);
+    else if (text.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length() >
+             m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length())
+        m_inputEdit->setCursorPosition(selcurPos + 1);
+    else
+        m_inputEdit->setCursorPosition(selcurPos - 1);
+
+    //发送C/AC切换信号
+    if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
+        emit clearStateChanged(true);
+        m_isAllClear = true;
+    } else {
+        emit clearStateChanged(false);
+        m_isAllClear = false;
+    }
+}
+
+/**
+ * @brief 删除事件，选中删除
+ */
+void ExpressionBar::deleteText()
+{
+    QString text = m_inputEdit->text();
+    int selcurPos = m_inputEdit->cursorPosition();
+    int start = m_inputEdit->selectionStart();
+    int length = m_inputEdit->selectionLength();
+    text.remove(start, length);
+    m_inputEdit->setText(text);
+    addUndo();
+    m_isUndo = false;
+    //设置删除后光标位置
+    if (text.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length() ==
+            m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length())
+        m_inputEdit->setCursorPosition(selcurPos);
+    else if (text.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length() >
+             m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length())
+        m_inputEdit->setCursorPosition(selcurPos + 1);
+    else
+        m_inputEdit->setCursorPosition(selcurPos - 1);
+
+    //发送C/AC切换信号
     if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
         emit clearStateChanged(true);
         m_isAllClear = true;
@@ -1419,7 +1464,7 @@ void ExpressionBar::initConnect()
     connect(m_inputEdit, &InputEdit::cut, this, &ExpressionBar::shear);
     connect(m_inputEdit, &InputEdit::copy, this, &ExpressionBar::copyResultToClipboard);
     connect(m_inputEdit, &InputEdit::paste, this, &ExpressionBar::copyClipboard2Result);
-    connect(m_inputEdit, &InputEdit::deleteText, this, &ExpressionBar::enterClearEvent);
+    connect(m_inputEdit, &InputEdit::deleteText, this, &ExpressionBar::deleteText);
     connect(m_inputEdit, &InputEdit::selectAllText, this, &ExpressionBar::allElection);
     connect(m_inputEdit, &InputEdit::undo, this, &ExpressionBar::Undo);
     connect(m_inputEdit, &InputEdit::redo, this, &ExpressionBar::Redo);

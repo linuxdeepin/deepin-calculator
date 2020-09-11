@@ -114,6 +114,8 @@ scientificModule::scientificModule(QWidget *parent)
         QString str = p.first;
         m_sciexpressionBar->getInputEdit()->setAnswer(str.remove("\n"), p.second);
         m_sciexpressionBar->getInputEdit()->setFocus();
+        //点击item清除键状态改变
+        this->handleClearStateChanged(false);
         m_stackWidget->setCurrentWidget(m_scikeypadwidget);
         m_memhiskeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
         m_sciexpressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, false);
@@ -427,6 +429,8 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_memhiskeypad->animate(MemHisKeypad::Key_MR);
             m_sciexpressionBar->getInputEdit()->setAnswer(m_memhiswidget->findChild<MemoryWidget *>()->getfirstnumber().first
                                                           , m_memhiswidget->findChild<MemoryWidget *>()->getfirstnumber().second);
+            //点击item清除键状态改变
+            this->handleClearStateChanged(false);
         } else if (!isPressCtrl) {
             if (isPressShift) {
                 m_scikeypadwidget->animate(ScientificKeyPad::Key_Rand);
@@ -765,6 +769,8 @@ void scientificModule::handleKeypadButtonPress(int key)
     case MemHisKeypad::Key_MR:
         m_sciexpressionBar->getInputEdit()->setAnswer(m_memhiswidget->findChild<MemoryWidget *>()->getfirstnumber().first
                                                       , m_memhiswidget->findChild<MemoryWidget *>()->getfirstnumber().second);
+        //点击item清除键状态改变
+        this->handleClearStateChanged(false);
         break;
     case MemHisKeypad::Key_MHlist:
         showMemHisWidget();
@@ -1085,6 +1091,8 @@ void scientificModule::handleKeypadButtonPressByspace(int key)
     case MemHisKeypad::Key_MR:
         m_sciexpressionBar->getInputEdit()->setAnswer(m_memhiswidget->findChild<MemoryWidget *>()->getfirstnumber().first
                                                       , m_memhiswidget->findChild<MemoryWidget *>()->getfirstnumber().second);
+        //点击item清除键状态改变
+        this->handleClearStateChanged(false);
         break;
     case MemHisKeypad::Key_MHlist:
         m_memhiskeypad->animate(MemHisKeypad::Key_MHlist, true);
@@ -1415,7 +1423,7 @@ void scientificModule::hideMemHisWidget()
  */
 void scientificModule::clickListView(const QModelIndex &index)
 {
-    QString text = index.data(SimpleListModel::ExpressionRole).toString();
+    QString text = index.data(SimpleListModel::ExpressionWithOutTip).toString();
     QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
     //历史记录中无内容不继续执行
     if (historic.size() != 2)
