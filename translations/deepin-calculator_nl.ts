@@ -20,32 +20,32 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>&amp;Ongedaan maken</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>Opnieuw uitvoe&amp;ren</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>&amp;Knippen</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>&amp;Kopiëren</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>&amp;Plakken</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Wissen</translation>
     </message>
     <message>
         <source>Select All</source>
         <translation>Alles selecteren</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopiëren</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

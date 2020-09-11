@@ -20,32 +20,32 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>&amp;Zhbëje</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>&amp;Ribëje</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>&amp;Prije</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>&amp;Kopjoje</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>&amp;Ngjite</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Fshije</translation>
     </message>
     <message>
         <source>Select All</source>
         <translation>Përzgjidhi Krejt</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopjoje</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

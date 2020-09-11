@@ -720,6 +720,13 @@ void InputEdit::showTextEditMenu()
         m_delete->setEnabled(true);
     }
 
+    //全选需要有内容
+    if (this->text() != QString()) {
+        m_select->setEnabled(true);
+    } else {
+        m_select->setEnabled(false);
+    }
+
     menu->move(cursor().pos());
     menu->exec();
     menu->deleteLater();
@@ -753,6 +760,13 @@ void InputEdit::showTextEditMenuByAltM()
         m_cut->setEnabled(true);
         m_copy->setEnabled(true);
         m_delete->setEnabled(true);
+    }
+
+    //全选需要有内容
+    if (this->text() != QString()) {
+        m_select->setEnabled(true);
+    } else {
+        m_select->setEnabled(false);
     }
 
     menu->move(mapToGlobal(cursorRect().bottomRight()));

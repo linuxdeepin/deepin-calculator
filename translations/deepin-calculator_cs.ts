@@ -20,32 +20,32 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>Zpět (&amp;U)</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>Znovu (&amp;R)</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>Vyjmout (&amp;T)</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>Kopírovat (&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>Vložit (&amp;P)</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
     <message>
         <source>Select All</source>
         <translation>Vybrat vše</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Zkopírovat</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -64,15 +64,15 @@
     </message>
     <message>
         <source>Scientific</source>
-        <translation type="unfinished"/>
+        <translation>Vědecký</translation>
     </message>
     <message>
         <source>History</source>
-        <translation type="unfinished"/>
+        <translation>Historie</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation type="unfinished"/>
+        <translation>Režim</translation>
     </message>
 </context>
 <context>
@@ -158,7 +158,7 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation type="unfinished"/>
+        <translation>Historie</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -176,7 +176,7 @@
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation type="unfinished"/>
+        <translation>Žádná historie</translation>
     </message>
 </context>
 <context>

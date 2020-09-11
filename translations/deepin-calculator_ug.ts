@@ -20,32 +20,32 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>&amp;يېنىۋېلىش</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>&amp;قايتا قىلىش</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>&amp;كېسىش</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>&amp;كۆچۈرۈش</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>&amp;چاپلاش</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>ئۆچۈرۈش</translation>
     </message>
     <message>
         <source>Select All</source>
         <translation>ھەممىنى تاللاش</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>كۆچۈرۈش</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

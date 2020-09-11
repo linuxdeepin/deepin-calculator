@@ -20,32 +20,32 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>&amp;Geri al</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>&amp;Tekrarla</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>&amp;Kes</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>&amp;Kopyala</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>&amp;Yapıştır</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Sil</translation>
     </message>
     <message>
         <source>Select All</source>
         <translation>Tümünü Seç</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopyala</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

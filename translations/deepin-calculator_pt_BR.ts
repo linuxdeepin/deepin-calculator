@@ -20,32 +20,32 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>Desfazer (&amp;Z)</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>Refazer (&amp;R)</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>Recortar (&amp;X)</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>Copiar (&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>Colar (&amp;V)</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Excluir</translation>
     </message>
     <message>
         <source>Select All</source>
         <translation>Selecionar Tudo</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Copiar</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
