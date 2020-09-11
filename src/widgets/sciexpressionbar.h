@@ -110,6 +110,7 @@ public slots:
     void copyClipboard2Result();
     void allElection();
     void shear();
+    void deleteText();
 //    void computationalResults(const QString &expression, QString &result);
 //    void historicalLinkage(int index, QString newValue);
 //    void clearLinkageCache(const QString &text, bool isequal);

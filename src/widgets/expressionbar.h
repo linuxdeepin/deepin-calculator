@@ -97,6 +97,7 @@ public slots:
     void copyClipboard2Result();
     void allElection();
     void shear();
+    void deleteText();
     void clearLinkageCache(const QString &text, bool isequal);
 //    void settingLinkage(const QModelIndex &index);
     void settingLinkage();
