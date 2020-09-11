@@ -2,6 +2,7 @@
 
 #include <QTimer>
 #include <QPainter>
+#include <QPainterPath>
 #include <QMouseEvent>
 
 #include <DGuiApplicationHelper>

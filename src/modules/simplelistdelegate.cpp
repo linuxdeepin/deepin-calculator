@@ -23,6 +23,7 @@
 #include <QEvent>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QPainterPath>
 #include <DGuiApplicationHelper>
 
 #include "dthememanager.h"
