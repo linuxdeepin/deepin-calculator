@@ -29,15 +29,15 @@
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Geri al</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>Tekrarla</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"/>
+        <translation>Kes</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -45,7 +45,7 @@
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>Yapıştır</translation>
     </message>
 </context>
 <context>

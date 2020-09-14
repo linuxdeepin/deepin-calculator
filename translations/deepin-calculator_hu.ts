@@ -29,15 +29,15 @@
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Vissza</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>Előre</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"/>
+        <translation>Kivágás</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -45,7 +45,7 @@
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>Beillesztés</translation>
     </message>
 </context>
 <context>

@@ -29,15 +29,15 @@
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Ongedaan maken</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>Opnieuw</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"/>
+        <translation>Knippen</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -45,7 +45,7 @@
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>Plakken</translation>
     </message>
 </context>
 <context>

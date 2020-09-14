@@ -29,15 +29,15 @@
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەلدىن قالدۇرۇش</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>ئەسلىگە كەلتۈرۈش</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"/>
+        <translation>كېسىش</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -45,7 +45,7 @@
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>چاپلاش</translation>
     </message>
 </context>
 <context>

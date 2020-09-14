@@ -29,15 +29,15 @@
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Kumoa</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>Toista</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"/>
+        <translation>Leikkaa</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -45,7 +45,7 @@
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>Liitä</translation>
     </message>
 </context>
 <context>

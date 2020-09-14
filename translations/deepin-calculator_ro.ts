@@ -1,193 +1,193 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sr" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ro" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Грешка израза</translation>
+        <translation>Eroare expresie</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>Очисти сву меморију</translation>
+        <translation>Golește memoria</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation>Очисти историју</translation>
+        <translation>Golește istoria</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>Delete</source>
-        <translation> Обриши</translation>
+        <translation>Șterge</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Изабери све</translation>
+        <translation>Selectează tot</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation>Опозови</translation>
+        <translation>Anulare</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation>Обнови</translation>
+        <translation>Repetare</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>Исеци</translation>
+        <translation>Decupare</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Копирај</translation>
+        <translation>Copiere</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Убаци</translation>
+        <translation>Lipire</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>Калкулатор</translation>
+        <translation>Calculator </translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Калкулатор је једноставан за употребу рачунарски калкулатор. Подржава стандардни и научни режим.</translation>
+        <translation>Calculatorul - este o aplicație simplă și ușoară ce facilitează utilizarea calculatorului desktop, având două setări de bază: calculator standard și calculator științific.</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>Стандардни</translation>
+        <translation>Standard</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>Научни</translation>
+        <translation>Științific</translation>
     </message>
     <message>
         <source>History</source>
-        <translation>Историја</translation>
+        <translation>Istoria</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>Режим</translation>
+        <translation>Mod</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Уклони ставку меморије</translation>
+        <translation>Golește memoria</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>Очисти сву меморију</translation>
+        <translation>Golește memoria</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Позови из меморије</translation>
+        <translation>Readuce din memorie</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Сабери са ставком меморије</translation>
+        <translation>Adăugați la elementul de memorie</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Сабери са меморијом</translation>
+        <translation>Adăugare la memorie</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Одузми од ставке меморије</translation>
+        <translation>Scade din elementul de memorie</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Одузими од меморије</translation>
+        <translation>Scade din memorie</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Сачувај у меморији</translation>
+        <translation>Stocare în memorie</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Меморија</translation>
+        <translation>Memorie</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation>Копирај</translation>
+        <translation>Copiază</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Уклони ставку меморије</translation>
+        <translation>Ștergeți elementul din memorie</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Додај у ставку меморије</translation>
+        <translation>Adăugați la elementul de memorie</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Одузми од ставке меморије</translation>
+        <translation>Scade din elementul de memorie</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>Меморија је празна</translation>
+        <translation>Nimic salvat în memorie</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>Калкулатор</translation>
+        <translation>Calculator</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Грешка израза</translation>
+        <translation>Eroare expresie</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Историја</translation>
+        <translation>Istoria</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Меморија</translation>
+        <translation>Memorie</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>Грешка израза</translation>
+        <translation>Eroare expresie</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>Нема историје</translation>
+        <translation>Nimic istorie</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation>Копирај</translation>
+        <translation>Copiază</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation> Обриши</translation>
+        <translation>Șterge</translation>
     </message>
 </context>
 </TS>
