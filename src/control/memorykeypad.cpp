@@ -72,6 +72,9 @@ void MemoryKeypad::animate(Buttons key, bool isspace)
     btn->animate(isspace);
 }
 
+/**
+ * @brief 焦点是否在该button上
+ */
 bool MemoryKeypad::buttonHasFocus()
 {
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);

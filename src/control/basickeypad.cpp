@@ -139,6 +139,9 @@ void BasicKeypad::animate(Buttons key, bool isspace)
     }
 }
 
+/**
+ * @brief 焦点是否在该button上
+ */
 bool BasicKeypad::buttonHasFocus()
 {
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);

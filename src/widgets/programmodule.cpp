@@ -3,12 +3,41 @@
 #include <DLabel>
 #include <DPushButton>
 
+#include "src/widgets/probitwidget.h"
+
+const int EXPRESSIONBAR_HEIGHT = 95;
+
 ProgramModule::ProgramModule(QWidget *parent)
     : DWidget(parent)
+    , m_proExpressionBar(new ProExpressionBar(this))
+    , m_proListView(new ProListView(this))
+    , m_proListModel(new ProListModel(this))
+    , m_proListDelegate(new ProListDelegate())
+    , m_checkBtnKeypad(new ProCheckBtnKeypad(this))
+    , m_programmerKeypad(new ProgrammerKeypad)
+    , m_proSystemKeypad(new ProSystemKeypad)
+    , m_stackWidget(new QStackedWidget(this))
     , m_arrowRectangle(new DArrowRectangle(DArrowRectangle::ArrowTop, DArrowRectangle::FloatWidget/*, this*/))
     , m_arrowListWidget(new DListWidget)
     , m_programmerArrowDelegate(new ProgrammerArrowDelegate)
 {
+    m_proExpressionBar->setFixedHeight(EXPRESSIONBAR_HEIGHT);
+    m_proListView->setModel(m_proListModel);
+    m_proListView->setItemDelegate(m_proListDelegate);
+    m_stackWidget->addWidget(m_programmerKeypad);
+    m_stackWidget->addWidget(m_proSystemKeypad);
+    m_stackWidget->setCurrentWidget(m_programmerKeypad);
+    m_stackWidget->setFixedSize(451, 279);
+
+    QVBoxLayout *vlay = new QVBoxLayout(this);
+    vlay->addWidget(m_proExpressionBar);
+    vlay->addWidget(m_proListView);
+    vlay->addWidget(m_checkBtnKeypad);
+    vlay->addWidget(m_stackWidget);
+    vlay->setSpacing(0);
+    vlay->setMargin(0);
+    vlay->setContentsMargins(0, 0, 0, 0);
+
     /*
     m_arrowListWidget->setItemDelegate(m_programmerArrowDelegate);
     m_arrowListWidget->setFrameShape(QFrame::NoFrame); //设置边框类型，无边框
@@ -60,13 +89,21 @@ ProgramModule::ProgramModule(QWidget *parent)
         }
     });
     */
-//    BitButton *bitbtn = new BitButton(this);
 
 //    ProListView *prolistview = new ProListView(this);
 //    ProListModel *prolistmodel = new ProListModel(this);
 //    ProListDelegate *prolistdelegate = new ProListDelegate(this);
 //    prolistview->setModel(prolistmodel);
 //    prolistview->setItemDelegate(prolistdelegate);
+
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+            m_checkBtnKeypad, &ProCheckBtnKeypad::buttonThemeChanged);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+            m_programmerKeypad, &ProgrammerKeypad::buttonThemeChanged);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+            m_proListDelegate, &ProListDelegate::setThemeType);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+            m_proExpressionBar, &ProExpressionBar::initTheme);
 }
 
 ProgramModule::~ProgramModule()

@@ -1,6 +1,6 @@
 #include "bitbutton.h"
 
-const QSize PROGRAMMER_BITBTNSIZE = QSize(15, 20);
+const QSize PROGRAMMER_BITBTNSIZE = QSize(16, 26);
 
 BitButton::BitButton(QWidget *parent)
     : DPushButton(parent)
@@ -18,7 +18,7 @@ BitButton::~BitButton()
 
 void BitButton::init()
 {
-    m_font.setPixelSize(16);
+    m_font.setPixelSize(18);
     m_font.setFamily("Noto Sans");
     m_font.setStyleName("Light");
     m_font.setWeight(2);
