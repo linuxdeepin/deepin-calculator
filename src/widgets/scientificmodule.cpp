@@ -37,13 +37,13 @@ const int EXPRESSIONBAR_HEIGHT = 95;
 scientificModule::scientificModule(QWidget *parent)
     : DWidget(parent)
 {
-    m_scikeypadwidget = new ScientificKeyPad;
+    m_scikeypadwidget = new ScientificKeyPad(this);
     m_scihiswidget = new SciHistoryWidget(this);
     m_memCalbtn = false;
     m_memRCbtn = false;
     QHBoxLayout *layout = new QHBoxLayout(this);
     QVBoxLayout *leftlay = new QVBoxLayout();
-    m_sciexpressionBar = new SciExpressionBar;
+    m_sciexpressionBar = new SciExpressionBar(this);
     m_memoryPublic = MemoryPublic::instance(this);
     m_sciexpressionBar->setFixedHeight(EXPRESSIONBAR_HEIGHT);
     leftlay->addWidget(m_sciexpressionBar);

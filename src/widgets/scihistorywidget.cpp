@@ -44,12 +44,12 @@ const int SPACE_BETWEEN_BUTTONANDVIEW = 15; //button与下侧widget之间空隙
 
 SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     : DWidget(parent)
-    , m_listView(new SimpleListView(1))
+    , m_listView(new SimpleListView(1, this))
     , m_listDelegate(new SimpleListDelegate(1, this))
     , m_listModel(new SimpleListModel(1, this))
     , m_buttonbox(new DButtonBox(this))
-    , m_historybtn(new DButtonBoxButton(tr("History")))
-    , m_memorybtn(new DButtonBoxButton(tr("Memory")))
+    , m_historybtn(new DButtonBoxButton(tr("History"), this))
+    , m_memorybtn(new DButtonBoxButton(tr("Memory"), this))
     , m_clearbutton(new IconButton(this, 1))
 {
     memoryPublic = MemoryPublic::instance(this);

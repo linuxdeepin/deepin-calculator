@@ -93,7 +93,7 @@ void MemoryKeypad::initButtons()
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
         DPushButton *button;
-        button = new MemoryButton(desc->text);
+        button = new MemoryButton(desc->text, false, this);
         QFont font = button->font();
         font.setFamily("Noto Sans");
         button->setFont(font);

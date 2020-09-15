@@ -35,10 +35,10 @@ const int HISTORYLINKAGE_MAXSIZE = 10;
 ExpressionBar::ExpressionBar(QWidget *parent)
     : DWidget(parent)
 {
-    m_listView = new SimpleListView;
+    m_listView = new SimpleListView(0, this);
     m_listDelegate = new SimpleListDelegate(0, this);
     m_listModel = new SimpleListModel(0, this);
-    m_inputEdit = new InputEdit;
+    m_inputEdit = new InputEdit(this);
     m_evaluator = Evaluator::instance();
     m_isContinue = true;
     m_isAllClear = false;

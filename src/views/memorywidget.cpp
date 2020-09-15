@@ -53,6 +53,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     , m_isempty(true)
     , m_memoryDelegate(new MemoryItemDelegate(this))
 {
+    this->setAttribute(Qt::WA_DeleteOnClose);
     m_label = new QLabel(this);
     m_calculatormode = mode;
     m_evaluator = Evaluator::instance();
@@ -372,7 +373,7 @@ void MemoryWidget::memoryclean()
     m_label->show();
     m_listwidget->clear();
     m_list.clear();
-    QListWidgetItem *item1 = new QListWidgetItem();
+    QListWidgetItem *item1 = new QListWidgetItem(m_listwidget);
 
     m_listwidget->insertItem(0, item1);
     if (m_calculatormode == 0)

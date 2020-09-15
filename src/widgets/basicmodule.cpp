@@ -35,8 +35,8 @@ BasicModule::BasicModule(QWidget *parent)
     : DWidget(parent)
 {
     m_keypadLayout = new QStackedLayout;
-    m_basicKeypad = new BasicKeypad;
-    m_memoryKeypad = new MemoryKeypad;
+    m_basicKeypad = new BasicKeypad(this);
+    m_memoryKeypad = new MemoryKeypad(this);
     m_insidewidget = false;
     m_memCalbtn = false;
     m_memRCbtn = false;
@@ -44,7 +44,7 @@ BasicModule::BasicModule(QWidget *parent)
     m_memoryPublic = MemoryPublic::instance(this);
     m_memorylistwidget = m_memoryPublic->getwidget(MemoryPublic::standardleft);
     QVBoxLayout *layout = new QVBoxLayout(this);
-    m_expressionBar = new ExpressionBar;
+    m_expressionBar = new ExpressionBar(this);
     layout->addWidget(m_expressionBar);
     layout->addWidget(m_memoryKeypad);
     layout->addSpacing(1); //按钮边框多1pix
