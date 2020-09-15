@@ -301,6 +301,7 @@ void ScientificKeyPad::initButtons()
             }
 
             pagebutton->setFixedSize(BUTTON_SIZE);
+            connect(static_cast<TextButton *>(pagebutton), &TextButton::focus, this, &ScientificKeyPad::getFocus); //获取上下左右键
         } else {
             m_gridlayout1->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
                                      Qt::AlignCenter/* | Qt::AlignTop*/);
