@@ -23,6 +23,7 @@
 #include "utils.h"
 #include <QPainter>
 #include <QDebug>
+#include <QPainterPath>
 #include <QMouseEvent>
 #include <QEvent>
 
@@ -125,8 +126,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         errorFontColor = "#F37D54";
         linkColor = "#3489DF";
         fontColor = "#838483";
-    }
-    else {
+    } else {
         errorFontColor = "#F37D54";
         linkColor = "#3489DF";
         fontColor = "#838483";
@@ -156,8 +156,8 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
         //Setting Gradient
         QLinearGradient linear(resultRect.topLeft(), resultRect.bottomRight());
-        linear.setColorAt(0, QColor(0,151,231,255));
-        linear.setColorAt(1, QColor(0,122,219,255));
+        linear.setColorAt(0, QColor(0, 151, 231, 255));
+        linear.setColorAt(1, QColor(0, 122, 219, 255));
         linear.setSpread(QGradient::PadSpread);
         painter->fillPath(path, linear);
 
@@ -177,8 +177,8 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                                 rect.y(), rect.width() - padding * 2, rect.height()),
                           Qt::AlignVCenter | Qt::AlignRight, resultStr);
 
-        QString linkNum,exp;
-        m_simpleListDelegate->cutApart(expStr,linkNum,exp);
+        QString linkNum, exp;
+        m_simpleListDelegate->cutApart(expStr, linkNum, exp);
         exp = exp + " ＝ ";
 
         // draw expression text;
