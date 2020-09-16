@@ -20,6 +20,7 @@
 #include "textbutton.h"
 #include <QMouseEvent>
 #include <QPainter>
+#include <QPainterPath>
 #include <QTimer>
 #include "dthememanager.h"
 
@@ -27,7 +28,7 @@
 
 TextButton::TextButton(const QString &text, QWidget *parent)
     : DPushButton(text, parent)  //,
-                                 // m_effect(new QGraphicsDropShadowEffect(this))
+      // m_effect(new QGraphicsDropShadowEffect(this))
 {
     setFixedSize(80, 58);
     setFocusPolicy(Qt::NoFocus);
@@ -66,7 +67,7 @@ void TextButton::animate(int msec)
     setDown(true);
     m_isPress = true;
 
-    QTimer::singleShot(msec, this, [=] {
+    QTimer::singleShot(msec, this, [ = ] {
         setDown(false);
         m_isPress = false;
         update();
