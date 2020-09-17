@@ -62,6 +62,7 @@ private:
     void handleKeypadButtonPress(int);
     void handleKeypadButtonPressByspace(int);
     void handleClearStateChanged(bool isAllClear);
+    void setBasicTabOrder();
 
 protected:
     //void paintEvent(QPaintEvent *);

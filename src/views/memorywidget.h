@@ -51,6 +51,7 @@ public:
     void mousePressEvent(QMouseEvent *event);
     bool eventFilter(QObject *obj, QEvent *event);
     void focusInEvent(QFocusEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 //    bool event(QEvent *event);
 
     void memoryplus(Quantity answer);
@@ -74,6 +75,7 @@ signals:
     void widgetclean(int row, int mode, bool ismenu); //是否通过menu点击发出，用于区分是否下一个item直接进入hover状态
     void memorycleansignal();
     void scimemtab();
+    void basicPressEscape();
 
 private:
     MemoryListWidget *m_listwidget;

@@ -89,7 +89,7 @@ BasicKeypad::BasicKeypad(QWidget *parent)
     m_layout->setMargin(0);
     m_layout->setSpacing(KEYPAD_SPACING);
     m_layout->setContentsMargins(0, 0, 0, 0);
-    setFocusPolicy(Qt::StrongFocus);
+//    setFocusPolicy(Qt::StrongFocus);
 
     installEventFilter(this);
 
@@ -115,6 +115,11 @@ void BasicKeypad::mouseMoveEvent(QMouseEvent *e)
 DPushButton *BasicKeypad::button(Buttons key)
 {
     return m_keys.value(key).first;
+}
+
+DPushButton *BasicKeypad::button(int key)
+{
+    return m_keys.value(Buttons(key)).first;
 }
 
 /**

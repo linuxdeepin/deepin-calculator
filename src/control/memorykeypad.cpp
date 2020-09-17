@@ -63,6 +63,11 @@ DPushButton *MemoryKeypad::button(Buttons key)
     return m_keys.value(key).first;
 }
 
+DPushButton *MemoryKeypad::button(int key)
+{
+    return m_keys.value(Buttons(key)).first;
+}
+
 /**
  * @brief 按钮点击动画效果
  */

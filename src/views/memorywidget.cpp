@@ -84,8 +84,14 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     layH->addSpacing(10);
     if (mode == 1)
         m_clearbutton->hide();
-    connect(m_clearbutton, &TextButton::space, this, &MemoryWidget::memorycleansignal); //focus下空格按下
-    connect(m_clearbutton, &DPushButton::clicked, this, &MemoryWidget::memorycleansignal);
+    connect(m_clearbutton, &TextButton::space, this, [ = ]() {
+        emit memorycleansignal();
+        setFocus();
+    }); //focus下空格按下
+    connect(m_clearbutton, &DPushButton::clicked, this, [ = ]() {
+        emit memorycleansignal();
+        setFocus();
+    });
     lay->addLayout(layH);
     lay->addSpacing(6);
     this->setLayout(lay);
@@ -150,6 +156,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
 
     m_listwidget->installEventFilter(this);
     m_clearbutton->installEventFilter(this);
+    this->installEventFilter(this);
     if (m_calculatormode == 0)
         setTabOrder(m_listwidget, m_clearbutton);
 }
@@ -259,6 +266,18 @@ void MemoryWidget::mousePressEvent(QMouseEvent *event)
 bool MemoryWidget::eventFilter(QObject *obj, QEvent *event)
 {
     if (m_calculatormode == 0) {
+        if (obj == this && event->type() == QEvent::KeyPress) {
+            QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
+            if (key_event->key() == Qt::Key_Tab) {
+                if (!m_isempty) {
+                    m_listwidget->setCurrentRow(m_currentrow);
+                    m_listwidget->setFocus();
+                } else {
+                    setFocus();
+                }
+                return true;
+            }
+        }
         if (obj == m_listwidget || obj == m_clearbutton) {
             if (event->type() == QEvent::KeyPress) {
                 QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
@@ -270,6 +289,10 @@ bool MemoryWidget::eventFilter(QObject *obj, QEvent *event)
                         focusNextChild();//焦点移动
                         m_listwidget->setFocus();
                     }
+                    return true;
+                }
+                if (key_event->key() == Qt::Key_Escape) {
+                    emit basicPressEscape();
                     return true;
                 }
             }
@@ -293,11 +316,19 @@ bool MemoryWidget::eventFilter(QObject *obj, QEvent *event)
  */
 void MemoryWidget::focusInEvent(QFocusEvent *event)
 {
-    if (!m_isempty)
+    if (!m_isempty && event->reason() == Qt::TabFocusReason) {
         m_listwidget->setCurrentRow(m_currentrow);
-    if (m_calculatormode == 1)
         m_listwidget->setFocus();
+    }
     QWidget::focusInEvent(event);
+}
+
+void MemoryWidget::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Escape)
+        emit basicPressEscape();
+    else
+        return;
 }
 
 /**
