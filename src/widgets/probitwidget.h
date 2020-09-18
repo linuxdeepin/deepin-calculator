@@ -20,6 +20,7 @@ class ProBitWidget : public DWidget
 public:
     ProBitWidget(QWidget *parent = nullptr);
     ~ProBitWidget();
+    void setButtonEnabled(bool enabled);
 
 private:
     BitButton *m_firstbtn;

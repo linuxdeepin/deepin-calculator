@@ -87,18 +87,34 @@ void BitButton::leaveEvent(QEvent *e)
 void BitButton::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-    QColor textColor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();//活动色
+    QColor press = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();//活动色
+    QColor text, disabletext;
     QPainter painter(this);
     QPen pen;
+    int type = DGuiApplicationHelper::instance()->paletteType();
+    if (type == 0)
+        type = DGuiApplicationHelper::instance()->themeType();
+    if (type == 1) { //浅色主题设置
+        text = QColor("#303030");
+        disabletext = QColor("#555555");
+        disabletext.setAlphaF(0.4);
+    } else {
+        text = QColor("#C0C6D4");
+        disabletext = QColor("#C0C6D4");
+        disabletext.setAlphaF(0.4);
+    }
     if (m_isPress || m_btnState) {
         if (m_isPress)
-            textColor.setAlphaF(0.7);
+            press.setAlphaF(0.7);
         else
-            textColor.setAlphaF(1);
-        pen.setColor(textColor);
+            press.setAlphaF(1);
+        pen.setColor(press);
         painter.setPen(pen);
     } else {
-        pen.setColor(QColor("#303030"));
+        if (this->isEnabled())
+            pen.setColor(text);
+        else
+            pen.setColor(disabletext);
         painter.setPen(pen);
     }
     painter.setFont(m_font);

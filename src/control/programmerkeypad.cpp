@@ -27,33 +27,6 @@ const ProgrammerKeypad::KeyDescription ProgrammerKeypad::keyDescriptions[] = {
     {"0", Key_0, 5, 3},             {".", Key_point, 5, 4},         {"=", Key_equal, 5, 5}
 };
 
-/**
- * @brief 初始化并设置iconbutton
- */
-static DPushButton *createSpecialKeyButton(ProgrammerKeypad::Buttons key)
-{
-    IconButton *button = new IconButton;
-
-    QString path;
-    if (DGuiApplicationHelper::instance()->themeType() == 2)
-        path = QString(":/assets/images/%1/").arg("dark");
-    else
-        path = QString(":/assets/images/%1/").arg("light");
-
-    if (key == ProgrammerKeypad::Key_Div) {
-        button->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");
-    } else if (key == ProgrammerKeypad::Key_Mult) {
-        button->setIconUrl(path + "x_normal.svg", path + "x_hover.svg", path + "x_press.svg");
-    } else if (key == ProgrammerKeypad::Key_Min) {
-        button->setIconUrl(path + "-_normal.svg", path + "-_hover.svg", path + "-_press.svg");
-    } else if (key == ProgrammerKeypad::Key_Plus) {
-        button->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
-    } else if (key == ProgrammerKeypad::Key_Backspace) {
-        button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
-    }
-    return button;
-}
-
 ProgrammerKeypad::ProgrammerKeypad(QWidget *parent)
     : DWidget(parent),
       m_layout(new QGridLayout(this)),
@@ -140,8 +113,7 @@ void ProgrammerKeypad::initButtons()
         DPushButton *button;
 
         if (desc->text.isEmpty()) {
-            button = createSpecialKeyButton(desc->button);
-//            button->setParent(this);
+            button = new IconButton;
         } else {
             if (desc->text == "=") {
                 button = new EqualButton(desc->text);

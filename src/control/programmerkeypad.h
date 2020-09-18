@@ -15,14 +15,14 @@
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
 
+/**
+ * @brief 程序员模式普通键盘
+ */
 class ProgrammerKeypad : public DWidget
 {
     Q_OBJECT
 
 public:
-    /**
-     * @brief 标准模式键盘
-     */
     enum Buttons {
         Key_AND, Key_A, Key_moveL, Key_moveR, Key_Clear, Key_Backspace, //AND, A, <<, >>, AC, 退格
         Key_OR, Key_B, Key_leftBracket, Key_rightBracket, Key_percent, Key_Div, //OR, B, (, ), %, /

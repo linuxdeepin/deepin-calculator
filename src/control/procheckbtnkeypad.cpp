@@ -4,32 +4,9 @@ const QSize BUTTON_SIZE = QSize(69, 42); //程序员模式大小，为画边框�
 
 const ProCheckBtnKeypad::KeyDescription ProCheckBtnKeypad::keyDescriptions[] = {
     {"", Key_GeneralKeypad, 0, 0},      {"", Key_BinaryKeypad, 0, 1},
-    {"BYTE", Key_System, 0, 2},         {"", Key_Option, 0, 3},
+    {"QWORD", Key_System, 0, 2},         {"", Key_Option, 0, 3},
     {"MS", Key_MS, 0, 4},               {"M˅", Key_Mlist, 0, 5}
 };
-
-/**
- * @brief 初始化并设置iconbutton
- */
-static DPushButton *createSpecialKeyButton(ProCheckBtnKeypad::Buttons key)
-{
-    IconButton *button = new IconButton;
-
-    QString path;
-    if (DGuiApplicationHelper::instance()->themeType() == 2)
-        path = QString(":/assets/images/%1/").arg("dark");
-    else
-        path = QString(":/assets/images/%1/").arg("light");
-
-    if (key == ProCheckBtnKeypad::Key_GeneralKeypad) {
-        button->setIconUrl(path + "icon_generalkeyboard_normal.svg", path + "icon_generalkeyboard_hover.svg", path + "icon_generalkeyboard_normal.svg");
-    } else if (key == ProCheckBtnKeypad::Key_BinaryKeypad) {
-        button->setIconUrl(path + "icon_binarysystem_normal.svg", path + "icon_binarysystem_hover.svg", path + "icon_binarysystem_normal.svg");
-    } else if (key == ProCheckBtnKeypad::Key_Option) {
-        button->setIconUrl(path + "icon_rc_normal.svg", path + "icon_rc_hover.svg", path + "icon_rc_normal.svg");
-    }
-    return button;
-}
 
 ProCheckBtnKeypad::ProCheckBtnKeypad(QWidget *parent)
     : DWidget(parent),
@@ -100,8 +77,8 @@ void ProCheckBtnKeypad::initButtons()
         const KeyDescription *desc = keyDescriptions + i;
         DPushButton *button;
         if (desc->text.isEmpty()) {
-            button = createSpecialKeyButton(desc->button);
-        } else if (desc->text == "BYTE") {
+            button = new IconButton;
+        } else if (desc->text == "QWORD") {
             button = new TextButton(desc->text);
         } else {
             button = new MemoryButton(desc->text);
@@ -140,7 +117,7 @@ void ProCheckBtnKeypad::buttonThemeChanged(int type)
     btn = static_cast<IconButton *>(button(Key_BinaryKeypad));
     btn->setIconUrl(path + "icon_binarysystem_normal.svg", path + "icon_binarysystem_hover.svg", path + "icon_binarysystem_hover.svg", 3);
     btn = static_cast<IconButton *>(button(Key_Option));
-    btn->setIconUrl(path + "icon_rc_normal.svg", path + "icon_rc_hover.svg", path + "icon_rc_hover.svg", 3);
+    btn->setIconUrl(path + "icon_as_normal.svg", path + "icon_as_hover.svg", path + "icon_as_hover.svg", 3);
 }
 
 /**

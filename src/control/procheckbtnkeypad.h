@@ -26,7 +26,7 @@ public:
     /**
      * @brief 按键栏
      */
-    enum Buttons {Key_GeneralKeypad = 36, Key_BinaryKeypad, Key_System, Key_Option, Key_MS, Key_Mlist}; //普通键盘, 二进制键盘, 进制, 计算方法选项, MS, M^
+    enum Buttons {Key_GeneralKeypad = 36, Key_BinaryKeypad, Key_System, Key_Option, Key_MS, Key_Mlist}; //普通键盘, 二进制键盘, 位数, 计算方法选项, MS, M^
 
     ProCheckBtnKeypad(QWidget *parent = nullptr);
     ~ProCheckBtnKeypad();

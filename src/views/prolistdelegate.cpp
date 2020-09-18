@@ -1,5 +1,7 @@
 #include "prolistdelegate.h"
 
+const int LEFT_MARGIN = 12; //prolistview左边距
+
 ProListDelegate::ProListDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
@@ -20,10 +22,10 @@ void ProListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
 {
     const QString expression = index.data(ProListModel::ExpressionRole).toString();
     ProListView *listview = qobject_cast<ProListView *>(option.styleObject);
-    QRect selectrect(option.rect.x(), option.rect.y() + 3, 3, option.rect.height() - 6);  //被选中行选中标记
-    QRect hoverrect(option.rect.x(), option.rect.y() + 1, 427, option.rect.height() - 2);  //hover背景色
-    QRect textrect(option.rect.x() + 80, option.rect.y(), 268, 24);  //textrect
-    QRect systemrect(option.rect.x() + 10, option.rect.y(), 24, 24);  //进制字体框
+    QRect selectrect(option.rect.x() + LEFT_MARGIN, option.rect.y() + 3, 3, option.rect.height() - 6);  //被选中行选中标记
+    QRect hoverrect(option.rect.x() + LEFT_MARGIN, option.rect.y() + 1, 427, option.rect.height() - 2);  //hover背景色
+    QRect textrect(option.rect.x() + 80 + LEFT_MARGIN, option.rect.y(), 268, 24);  //textrect
+    QRect systemrect(option.rect.x() + 10 + LEFT_MARGIN, option.rect.y(), 24, 24);  //进制字体框
 
     QColor hoverbackground, fontColor, systemfontColor;
     if (m_themeType == 1) {
@@ -85,14 +87,15 @@ void ProListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
     painter->setPen(fontColor);
     if (index.row() == 3) {
         if (expression.size() > 39) {
+            //显示64位时
             //第一行
-            painter->drawText(QRect(option.rect.x() + 80, option.rect.y(), 280, 14),
+            painter->drawText(QRect(option.rect.x() + 80 + LEFT_MARGIN, option.rect.y(), 280, 14),
                               expression.mid(0, 39), Qt::AlignLeft | Qt::AlignVCenter);
             //第二行
-            painter->drawText(QRect(option.rect.x() + 80, option.rect.y() + 14, 280, 14),
+            painter->drawText(QRect(option.rect.x() + 80 + LEFT_MARGIN, option.rect.y() + 14, 280, 14),
                               expression.mid(40, -1), Qt::AlignLeft | Qt::AlignVCenter);
         } else {
-            painter->drawText(QRect(option.rect.x() + 80, option.rect.y(), 268, 28), expression, Qt::AlignLeft | Qt::AlignVCenter);
+            painter->drawText(QRect(option.rect.x() + 80 + LEFT_MARGIN, option.rect.y(), 268, 28), expression, Qt::AlignLeft | Qt::AlignVCenter);
         }
     } else
         painter->drawText(textrect, expression, Qt::AlignLeft | Qt::AlignVCenter);
@@ -102,9 +105,9 @@ QSize ProListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModel
 {
     Q_UNUSED(option);
     if (index.row() == 3)
-        return QSize(427, 28);
+        return QSize(451, 28);
     else
-        return QSize(427, 24);
+        return QSize(451, 24);
 }
 
 bool ProListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)

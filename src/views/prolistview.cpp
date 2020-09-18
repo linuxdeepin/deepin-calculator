@@ -5,7 +5,7 @@ ProListView::ProListView(DWidget *parent)
 {
     setSelectionBehavior(QAbstractItemView::SelectRows); //选中一行
     setSelectionMode(QAbstractItemView::SingleSelection); //选中单个目标
-    setFixedSize(427, 106);
+    setFixedSize(451, 106);
 
     connect(this, &DListView::clicked, [ = ](const QModelIndex & index) {
         this->setCurrentIndex(index);

@@ -1,6 +1,7 @@
 #ifndef PROGRAMMERITEMWIDGET_H
 #define PROGRAMMERITEMWIDGET_H
 
+#include <QDebug>
 #include <QWidget>
 #include <DIconButton>
 #include <QLabel>
@@ -17,6 +18,7 @@ class ProgrammerItemWidget : public QWidget
     Q_OBJECT
 public:
     ProgrammerItemWidget(QString label, const QIcon &icon, QWidget *parent = nullptr);
+    ProgrammerItemWidget(QString label, QWidget *parent = nullptr);
     ~ProgrammerItemWidget();
     void enterEvent(QEvent *event);
     void leaveEvent(QEvent *event);

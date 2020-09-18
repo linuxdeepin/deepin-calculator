@@ -42,3 +42,15 @@ ProBitWidget::~ProBitWidget()
 {
 
 }
+
+/**
+ * @brief 设置当前widget，button可用状态
+ * @param enabled true-可用　false-不可用
+ */
+void ProBitWidget::setButtonEnabled(bool enabled)
+{
+    m_firstbtn->setEnabled(enabled);
+    m_secondbtn->setEnabled(enabled);
+    m_thirdbtn->setEnabled(enabled);
+    m_fourthbtn->setEnabled(enabled);
+}

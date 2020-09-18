@@ -32,6 +32,16 @@ public:
     ProgramModule(QWidget *parent = nullptr);
     ~ProgramModule();
 
+private slots:
+    void handleCheckBtnKeypadButtonPress(int key);
+    void shiftArrowListWidgetItemClicked(QListWidgetItem *item);
+    void byteArrowListWidgetItemClicked(QListWidgetItem *item);
+    void checkBtnKeypadThemeChange(int type);
+
+private:
+    void initArrowRectangle();
+    void handleEditKeyPress(QKeyEvent *);
+
 private:
     ProExpressionBar *m_proExpressionBar;
     ProListView *m_proListView;
@@ -42,9 +52,12 @@ private:
     ProSystemKeypad *m_proSystemKeypad;
     QStackedWidget *m_stackWidget;
 
-    DArrowRectangle *m_arrowRectangle;
-    DListWidget *m_arrowListWidget;
-    ProgrammerArrowDelegate *m_programmerArrowDelegate;
+    DArrowRectangle *m_byteArrowRectangle;
+    DListWidget *m_byteArrowListWidget;
+    ProgrammerArrowDelegate *m_byteProgrammerArrowDelegate;
+    DArrowRectangle *m_shiftArrowRectangle;
+    DListWidget *m_shiftArrowListWidget;
+    ProgrammerArrowDelegate *m_shiftProgrammerArrowDelegate;
 };
 
 #endif // PROGRAMMODULE_H

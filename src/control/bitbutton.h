@@ -12,6 +12,9 @@
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
 
+/**
+ * @brief 程序员模式0-1二进制按钮
+ */
 class BitButton : public DPushButton
 {
     Q_OBJECT
