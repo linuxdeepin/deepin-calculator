@@ -30,9 +30,9 @@
 #include <DWidgetUtil>
 #include <DWindowManagerHelper>
 
-#include "src/mainwindow.h"
+#include "mainwindow.h"
 #include "environments.h"
-#include "src/utils.h"
+#include "utils.h"
 
 DWIDGET_USE_NAMESPACE
 static QString g_appPath;  //全局路径
@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 
 
     MainWindow window;
-    DSettings *m_dsettings = DSettings::instance(&window);
+    DSettingsAlt *m_dsettings = DSettingsAlt::instance(&window);
     if (app.setSingleInstance(app.applicationName(), DApplication::UserScope)) {
         Dtk::Widget::moveToCenter(&window);
         m_dsettings->setOption("windowX", window.pos().x());

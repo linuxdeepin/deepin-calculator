@@ -28,7 +28,7 @@
 #include "dthememanager.h"
 #include "simplelistmodel.h"
 #include "simplelistview.h"
-#include "src/utils.h"
+#include "utils.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -40,7 +40,6 @@ SimpleListDelegate::SimpleListDelegate(int mode, QObject *parent)
     : QStyledItemDelegate(parent)
 {
     m_mode = mode;
-    m_settings = DSettings::instance(this);
     m_selected = false;
     m_simpleListDelegate = this;
 }

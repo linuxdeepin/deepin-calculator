@@ -30,8 +30,8 @@
 #include <QList>
 
 #include "dthememanager.h"
-#include "src/utils.h"
-#include "src/math/quantity.h"
+#include "utils.h"
+#include "math/quantity.h"
 
 const int WIDGET_WIDTH = 360; //历史记录侧宽度
 const int BUTTONBOX_WIDTH = 200; //buttonbox宽度

@@ -1,6 +1,6 @@
 #include "ut_memorybutton.h"
 #define private public
-#include "src/control/memorybutton.h"
+#include "../../src/control/memorybutton.h"
 #undef private
 
 Ut_MemoryButton::Ut_MemoryButton()

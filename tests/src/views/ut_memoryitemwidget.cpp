@@ -1,9 +1,9 @@
 #include "ut_memoryitemwidget.h"
 #define private public
-#include "src/views/memoryitemwidget.h"
+#include "../../src/views/memoryitemwidget.h"
 #undef private
-#include "src/dsettings.h"
-#include "src/memorypublic.h"
+#include "../../src/dsettings.h"
+#include "../../src/memorypublic.h"
 
 Ut_MemoryItemWidget::Ut_MemoryItemWidget()
 {
@@ -15,7 +15,7 @@ TEST_F(Ut_MemoryItemWidget, enterEvent)
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
     m_memoryItemWidget->enterEvent(new QEvent(QEvent::Type::MouseMove));
     ASSERT_TRUE(m_memoryItemWidget->m_ishover);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -24,7 +24,7 @@ TEST_F(Ut_MemoryItemWidget, leaveEvent)
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
     m_memoryItemWidget->leaveEvent(new QEvent(QEvent::Type::MouseMove));
     ASSERT_FALSE(m_memoryItemWidget->m_ishover);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -39,7 +39,7 @@ TEST_F(Ut_MemoryItemWidget, mousePressEvent)
                                                         m_memoryItemWidget->pos(), Qt::MouseButton::LeftButton,
                                                         Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
     ASSERT_TRUE(m_memoryItemWidget->m_ispress);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -54,7 +54,7 @@ TEST_F(Ut_MemoryItemWidget, mouseReleaseEvent)
                                                           m_memoryItemWidget->pos(), Qt::MouseButton::LeftButton,
                                                           Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
     ASSERT_FALSE(m_memoryItemWidget->m_ispress);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -65,7 +65,7 @@ TEST_F(Ut_MemoryItemWidget, mouseReleaseEvent)
 //                                                               QPoint(0, 0), QPoint(0, 0),
 //                                                               Qt::KeyboardModifier::NoModifier));
 //    ASSERT_FALSE(m_memoryItemWidget->m_ispress);
-//    DSettings::deleteInstance();
+//    DSettingsAlt::deleteInstance();
 //    MemoryPublic::deleteInstance();
 //}
 
@@ -81,7 +81,7 @@ TEST_F(Ut_MemoryItemWidget, paintEvent)
     m_memoryItemWidget->update();
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
     m_memoryItemWidget->paintEvent(event);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -91,7 +91,7 @@ TEST_F(Ut_MemoryItemWidget, themetypechanged)
     m_memoryItemWidget->themetypechanged(1);
     ASSERT_EQ(m_memoryItemWidget->m_label->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Text).name(),
               "#303030");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -100,6 +100,6 @@ TEST_F(Ut_MemoryItemWidget, setNextItemHover)
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
     m_memoryItemWidget->setNextItemHover();
     ASSERT_TRUE(m_memoryItemWidget->m_ishover);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }

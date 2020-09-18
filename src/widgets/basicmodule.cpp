@@ -26,8 +26,8 @@
 #include <QVBoxLayout>
 
 #include "dthememanager.h"
-#include "src/utils.h"
-#include "src/math/quantity.h"
+#include "utils.h"
+#include "math/quantity.h"
 
 const int new_Func_Percent = 0; //0-旧的百分号方法 1-新
 

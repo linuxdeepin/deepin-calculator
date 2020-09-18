@@ -34,7 +34,7 @@
 #include <QClipboard>
 #include <DGuiApplicationHelper>
 
-#include "src/utils.h"
+#include "utils.h"
 
 const int GLOBALPREC = 78; //全局精度
 const int STANDARD_MWIDGET_HEIGHT = 260; //标准模式memorywidget高度

@@ -31,7 +31,7 @@
 #include <QPainter>
 #include <QPen>
 
-#include "src/control/memorybutton.h"
+#include "control/memorybutton.h"
 
 /**
  * @brief 内存列表Item界面

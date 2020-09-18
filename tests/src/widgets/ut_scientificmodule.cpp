@@ -1,11 +1,11 @@
 #include "ut_scientificmodule.h"
 #define private public
 #define protected public
-#include "src/widgets/scientificmodule.h"
-#include "src/views/memoryitemwidget.h"
+#include "../../src/widgets/scientificmodule.h"
+#include "../../src/views/memoryitemwidget.h"
 #undef private
 #undef protected
-#include "src/memorypublic.h"
+#include "../../src/memorypublic.h"
 
 Ut_ScientificModule::Ut_ScientificModule()
 {
@@ -26,7 +26,7 @@ TEST_F(Ut_ScientificModule, connect)
     QTest::mouseClick(m_scientificModule->findChild<MemoryItemWidget *>()->m_btnminus, Qt::LeftButton);
     QTest::mouseClick(m_scientificModule->findChild<MemoryItemWidget *>(), Qt::LeftButton);
     ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "1");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -35,7 +35,7 @@ TEST_F(Ut_ScientificModule, setKeyPress)
     scientificModule *m_scientificModule = new scientificModule;
     m_scientificModule->setKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
     ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "1");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -45,7 +45,7 @@ TEST_F(Ut_ScientificModule, showOrHideHistory)
     m_scientificModule->showOrHideHistory(true);
     m_scientificModule->showOrHideHistory(false);
     ASSERT_FALSE(m_scientificModule->m_scihiswidget->isHidden());
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -56,7 +56,7 @@ TEST_F(Ut_ScientificModule, checkLineEmpty)
     m_scientificModule->findChild<InputEdit *>()->setText("1");
     m_scientificModule->checkLineEmpty();
     ASSERT_TRUE(m_scientificModule->m_memCalbtn);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -65,7 +65,7 @@ TEST_F(Ut_ScientificModule, mAvailableEvent)
     scientificModule *m_scientificModule = new scientificModule;
     m_scientificModule->mAvailableEvent();
     ASSERT_TRUE(m_scientificModule->m_memRCbtn);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -74,7 +74,7 @@ TEST_F(Ut_ScientificModule, mUnAvailableEvent)
     scientificModule *m_scientificModule = new scientificModule;
     m_scientificModule->mUnAvailableEvent();
     ASSERT_FALSE(m_scientificModule->m_memRCbtn);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -83,7 +83,7 @@ TEST_F(Ut_ScientificModule, initTheme)
     scientificModule *m_scientificModule = new scientificModule;
     m_scientificModule->initTheme(1);
     ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Text), "#303030");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -217,7 +217,7 @@ TEST_F(Ut_ScientificModule, handleEditKeyPress)
     m_scientificModule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
     m_scientificModule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Equal, Qt::NoModifier));
     ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "2");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -343,7 +343,7 @@ TEST_F(Ut_ScientificModule, handleKeypadButtonPress)
     m_scientificModule->handleKeypadButtonPress(ScientificKeyPad::Key_1);
     m_scientificModule->handleKeypadButtonPress(ScientificKeyPad::Key_Equals);
     ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "2");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -469,7 +469,7 @@ TEST_F(Ut_ScientificModule, handleKeypadButtonPressByspace)
     m_scientificModule->handleKeypadButtonPressByspace(ScientificKeyPad::Key_1);
     m_scientificModule->handleKeypadButtonPressByspace(ScientificKeyPad::Key_Equals);
     ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "2");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 

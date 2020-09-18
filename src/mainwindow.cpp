@@ -45,7 +45,7 @@ const QSize SCIENTIFIC_MAX_SIZE = QSize(811, 542); //科学模式的最大size
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent)
 {
-    m_settings = DSettings::instance(this);
+    m_settings = DSettingsAlt::instance(this);
     m_mainLayout = new QStackedLayout();
     m_tbMenu = new DMenu(this);
     QIcon t_icon = QIcon::fromTheme("deepin-calculator");

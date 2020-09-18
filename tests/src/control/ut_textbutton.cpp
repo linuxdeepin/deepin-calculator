@@ -1,6 +1,6 @@
 #include "ut_textbutton.h"
 #define private public
-#include "src/control/textbutton.h"
+#include "../../src/control/textbutton.h"
 #undef private
 
 Ut_TextButton::Ut_TextButton()

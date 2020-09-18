@@ -20,14 +20,14 @@
 #ifndef CORE_EVALUATOR_H
 #define CORE_EVALUATOR_H
 
-#include "src/core/functions.h"
-#include "src/core/opcode.h"
-#include "src/core/variable.h"
-#include "src/core/userfunction.h"
+#include "core/functions.h"
+#include "core/opcode.h"
+#include "core/variable.h"
+#include "core/userfunction.h"
 
-#include "src/math/hmath.h"
-#include "src/math/cmath.h"
-#include "src/math/quantity.h"
+#include "math/hmath.h"
+#include "math/cmath.h"
+#include "math/quantity.h"
 
 #include <QHash>
 #include <QObject>

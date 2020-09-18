@@ -5,8 +5,8 @@
 #include <gmock/gmock-matchers.h>
 #include <QTest>
 
-#include "src/memorypublic.h"
-#include "src/dsettings.h"
+#include "../../src/memorypublic.h"
+#include "../../src/dsettings.h"
 
 class TestCala : public::testing::Test
 {

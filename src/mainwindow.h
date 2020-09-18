@@ -59,7 +59,7 @@ private:
     void hideHistoryWidget(bool hissetting);
 
 private:
-    DSettings *m_settings;
+    DSettingsAlt *m_settings;
     QStackedLayout *m_mainLayout;
     DMenu *m_tbMenu;
     DMenu *m_modeshowmenu;

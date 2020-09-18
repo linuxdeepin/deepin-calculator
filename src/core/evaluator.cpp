@@ -22,11 +22,11 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#include "src/core/evaluator.h"
-#include "src/core/session.h"
-#include "src/core/settings.h"
-#include "../math/rational.h"
-#include "../math/units.h"
+#include "core/evaluator.h"
+#include "core/session.h"
+#include "core/settings.h"
+#include "math/rational.h"
+#include "math/units.h"
 
 #include <QCoreApplication>
 #include <QRegularExpression>

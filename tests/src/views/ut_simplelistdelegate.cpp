@@ -1,8 +1,8 @@
 #include "ut_simplelistdelegate.h"
 #define private public
 #define protected public
-#include "src/views/simplelistdelegate.h"
-#include "src/views/simplelistmodel.h"
+#include "../../src/views/simplelistdelegate.h"
+#include "../../src/views/simplelistmodel.h"
 #undef private
 #undef protected
 
@@ -16,7 +16,7 @@ TEST_F(Ut_SimpleListDelegate, setHisLink)
     SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->setHisLink(0);
     ASSERT_EQ(m_simpleListDelegate->m_linkItem.count(), 1);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListDelegate, setHisLinked)
@@ -24,7 +24,7 @@ TEST_F(Ut_SimpleListDelegate, setHisLinked)
     SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->setHisLinked(0);
     ASSERT_EQ(m_simpleListDelegate->m_linkedIten.count(), 1);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListDelegate, removeLine2)
@@ -34,7 +34,7 @@ TEST_F(Ut_SimpleListDelegate, removeLine2)
     m_simpleListDelegate->setHisLinked(0);
     m_simpleListDelegate->removeLine(0, 0);
     ASSERT_EQ(m_simpleListDelegate->m_linkedIten.count(), 0);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListDelegate, removeLine1)
@@ -46,7 +46,7 @@ TEST_F(Ut_SimpleListDelegate, removeLine1)
     m_simpleListDelegate->setHisLinked(1);
     m_simpleListDelegate->removeLine(0, 0);
     ASSERT_EQ(m_simpleListDelegate->m_linkedIten.count(), 1);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListDelegate, removeHisLink)
@@ -56,7 +56,7 @@ TEST_F(Ut_SimpleListDelegate, removeHisLink)
     m_simpleListDelegate->setHisLink(1);
     m_simpleListDelegate->removeHisLink();
     ASSERT_EQ(m_simpleListDelegate->m_linkItem.count(), 1);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListDelegate, removeAllLink)
@@ -68,7 +68,7 @@ TEST_F(Ut_SimpleListDelegate, removeAllLink)
     m_simpleListDelegate->setHisLinked(1);
     m_simpleListDelegate->removeAllLink();
     ASSERT_EQ(m_simpleListDelegate->m_linkedIten.count(), 0);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListDelegate, removeHisLinked)
@@ -78,7 +78,7 @@ TEST_F(Ut_SimpleListDelegate, removeHisLinked)
     m_simpleListDelegate->setHisLinked(1);
     m_simpleListDelegate->removeHisLinked();
     ASSERT_EQ(m_simpleListDelegate->m_linkedIten.count(), 1);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListDelegate, setThemeType)
@@ -86,7 +86,7 @@ TEST_F(Ut_SimpleListDelegate, setThemeType)
     SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->setThemeType(1);
     ASSERT_EQ(m_simpleListDelegate->m_type, 1);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListDelegate, paintback)
@@ -94,7 +94,7 @@ TEST_F(Ut_SimpleListDelegate, paintback)
     SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->paintback(QModelIndex(), 1);
     ASSERT_EQ(m_simpleListDelegate->m_state, 1);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListDelegate, sizeHint)
@@ -107,7 +107,7 @@ TEST_F(Ut_SimpleListDelegate, sizeHint)
     m_simpleListDelegate->sizeHint(QStyleOptionViewItem(), model->index(0, 0));
     model->appendText("1＋1＝2", true);
     ASSERT_EQ(m_simpleListDelegate->sizeHint(QStyleOptionViewItem(), model->index(0, 0)).width(), 360);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListDelegate, editorEvent)
@@ -117,7 +117,7 @@ TEST_F(Ut_SimpleListDelegate, editorEvent)
     SimpleListModel *model = new SimpleListModel();
     QStyleOptionViewItem item;
     ASSERT_TRUE(m_simpleListDelegate->editorEvent(new QEvent(QEvent::Type::None), model, item, model->index(0, 0)));
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListDelegate, cutApart)
@@ -133,7 +133,7 @@ TEST_F(Ut_SimpleListDelegate, cutApart)
     expStr = QString();
     m_simpleListDelegate->cutApart("1＋2＝3", linkNum, expStr);
     ASSERT_EQ(linkNum, "1");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListDelegate, setSelect)
@@ -141,5 +141,5 @@ TEST_F(Ut_SimpleListDelegate, setSelect)
     SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->setSelect(true);
     ASSERT_TRUE(m_simpleListDelegate->m_selected);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }

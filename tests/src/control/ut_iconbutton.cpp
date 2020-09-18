@@ -1,7 +1,7 @@
 #include "ut_iconbutton.h"
 #define private public
 #define protected public
-#include "src/control/iconbutton.h"
+#include "../../src/control/iconbutton.h"
 #undef protected
 #undef private
 

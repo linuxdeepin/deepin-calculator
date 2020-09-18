@@ -27,8 +27,8 @@
 #include <QStringList>
 #include <DMenu>
 
-#include "src/math/floatconfig.h"
-#include "src/utils.h"
+#include "math/floatconfig.h"
+#include "utils.h"
 
 InputEdit::InputEdit(QWidget *parent)
     : QLineEdit(parent)

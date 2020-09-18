@@ -30,8 +30,8 @@
 #include <QObject>
 #include <DPushButton>
 
-#include "src/core/evaluator.h"
-#include "src/control/iconbutton.h"
+#include "core/evaluator.h"
+#include "control/iconbutton.h"
 #include "memoryitemwidget.h"
 #include "memorylistwidget.h"
 #include "memoryitemdelegate.h"

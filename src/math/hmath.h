@@ -21,7 +21,7 @@
 #ifndef MATH_HMATH_H
 #define MATH_HMATH_H
 
-#include "src/core/errors.h"
+#include "core/errors.h"
 
 #include <QJsonObject>
 #include <QString>

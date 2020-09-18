@@ -22,7 +22,7 @@
 
 #include <QAbstractListModel>
 
-#include "src/core/evaluator.h"
+#include "core/evaluator.h"
 
 class SimpleListModel : public QAbstractListModel
 {
