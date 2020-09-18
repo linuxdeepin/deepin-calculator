@@ -16,8 +16,7 @@ endif ()
 
 if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "mips64")
     message(STATUS "this system is mips64=========")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips
-        -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,--as-needed")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,--as-needed")
 endif()
 
 if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
