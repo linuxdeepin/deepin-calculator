@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Kifejezéshiba</translation>
+        <translation>Kifejezési hiba</translation>
     </message>
 </context>
 <context>
@@ -151,7 +151,7 @@
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Kifejezéshiba</translation>
+        <translation>Kifejezési hiba</translation>
     </message>
 </context>
 <context>
@@ -169,7 +169,7 @@
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>Kifejezéshiba</translation>
+        <translation>Kifejezési hiba</translation>
     </message>
 </context>
 <context>
