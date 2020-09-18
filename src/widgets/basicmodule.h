@@ -55,6 +55,7 @@ public slots:
     void mAvailableEvent();
     void mUnAvailableEvent();
     void showListWidget();
+    void closeListWidget();
 private slots:
     void initTheme(int type);
 private:

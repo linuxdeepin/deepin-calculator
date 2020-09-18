@@ -99,7 +99,6 @@ MainWindow::MainWindow(QWidget *parent)
             emit windowChanged(width(), height(), true);
         }
     });
-
 }
 
 MainWindow::~MainWindow()

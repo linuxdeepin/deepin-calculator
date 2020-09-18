@@ -39,6 +39,7 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     , m_btnclean(new MemoryButton(QString("MC"), true, this))
     , m_label(new QLabel(this))
 {
+    setFocusPolicy(Qt::NoFocus);
     QVBoxLayout *layV = new QVBoxLayout(this); //存放四个控件
     QHBoxLayout *lay = new QHBoxLayout(); //存放三个按钮
 
@@ -106,7 +107,7 @@ void MemoryItemWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)
         return;
-    setFocus();
+//    setFocus();
     m_ispress = true;
     DPalette pl1 = this->palette(); //按下时给label字体设置颜色
     if (m_themetype == 1) {
@@ -126,7 +127,7 @@ void MemoryItemWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)
         return;
-    clearFocus();
+//    clearFocus();
     m_ispress = false;
     DPalette pl1 = this->palette(); //松开鼠标时给label字体重新设置颜色
     if (m_themetype == 1) {

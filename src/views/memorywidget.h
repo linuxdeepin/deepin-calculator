@@ -81,7 +81,6 @@ private:
     MemoryListWidget *m_listwidget;
     QPoint m_mousepoint;
     IconButton *m_clearbutton;
-    int m_type;
     bool m_isempty; //内存中是否为空
     Evaluator *m_evaluator;
     Quantity m_ans;
