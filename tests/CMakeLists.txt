@@ -32,8 +32,8 @@ endif()
 if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 
-    execute_process(COMMAND bash "translate_generation.sh"
-                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+    execute_process(COMMAND bash "${CMAKE_CURRENT_LIST_DIR}/../translate_generation.sh"
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../)
 endif ()
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../src/environments.h.in environments.h @ONLY)
@@ -124,7 +124,7 @@ target_link_libraries (${PROJECT_NAME_TEST} ${LINK_LIBS})
 set(CMAKE_INSTALL_PREFIX /usr)
 
 install(TARGETS deepin-calculator DESTINATION bin)
-file(GLOB QM_FILES "translations/*.qm")
+file(GLOB QM_FILES "${CMAKE_CURRENT_LIST_DIR}/../translations/*.qm")
 install(FILES ${QM_FILES} DESTINATION share/deepin-calculator/translations)
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/../deepin-calculator.desktop
         DESTINATION share/applications/)
