@@ -140,6 +140,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
             m_memorywidget->setFocusPolicy(Qt::NoFocus);
         }
         m_clearbutton->setHidden(true);
+        m_clearbutton->updateWhenBtnDisable();
 //        m_clearbutton->setHidden(!(m_isshowH & m_indexH));
 //        setFocus();
     });
@@ -157,6 +158,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
             m_memorywidget->setFocusPolicy(Qt::NoFocus);
         }
         m_clearbutton->setHidden(true);
+        m_clearbutton->updateWhenBtnDisable();
 //        m_clearbutton->setHidden(!(m_isshowH & m_indexH));
 //        setFocus();
     }); //focus下空格按下

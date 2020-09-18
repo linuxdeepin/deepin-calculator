@@ -180,6 +180,7 @@ BasicModule::BasicModule(QWidget *parent)
         {
             MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
             btn->setEnabled(true);
+            btn->updateWhenBtnDisable();
             MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MR));
             btn4->setEnabled(true);
             m_memRCbtn = true;
@@ -747,6 +748,7 @@ void BasicModule::mUnAvailableEvent()
     m_avail = false;
     MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
     btn->setEnabled(false);
+    btn->updateWhenBtnDisable();
     MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MR));
     btn1->setEnabled(false);
     m_memRCbtn = false;
@@ -779,6 +781,7 @@ void BasicModule::showListWidget()
         btn1->setbuttongray(true);
         btn1->setEnabled(false);
         MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mlist));
+        btn5->updateWhenBtnDisable();
         btn5->setbtnlight(true);
         btn5->setEnabled(false);
         m_isallgray = true;
@@ -825,6 +828,7 @@ void BasicModule::mousePressEvent(QMouseEvent *event)
     } else {
         MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MC));
         btn->setEnabled(false);
+        btn->updateWhenBtnDisable();
         MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_MR));
         btn1->setEnabled(false);
         MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mlist));

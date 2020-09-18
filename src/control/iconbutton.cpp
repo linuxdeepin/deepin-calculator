@@ -127,6 +127,18 @@ void IconButton::showtooltip(bool ismemory)
 }
 
 /**
+ * @brief IconButton::updateWhenBtnDisable
+ * 当拥有焦点时同时按下空格和鼠标后会导致问题，将其置回普通状态
+ */
+void IconButton::updateWhenBtnDisable()
+{
+    m_isPress = false;
+    m_buttonStatus = 0;
+    m_mode = 1;
+    update();
+}
+
+/**
  * @brief 点击时改变标置位
  */
 void IconButton::mousePressEvent(QMouseEvent *e)

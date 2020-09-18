@@ -139,6 +139,16 @@ void MemoryButton:: setbuttongray(bool memorywidgetshow)
 }
 
 /**
+ * @brief IconButton::updateWhenBtnDisable
+ * 当拥有焦点时同时按下空格和鼠标后会导致问题，将其置回普通状态
+ */
+void MemoryButton::updateWhenBtnDisable()
+{
+    this->setPalette(m_palette);
+    m_isPress = false;
+}
+
+/**
  * @brief 鼠标按下
  */
 void MemoryButton::mousePressEvent(QMouseEvent *e)

@@ -54,6 +54,7 @@ public:
     void showtips();
 public slots:
     void setbuttongray(bool memorywidgetshow);
+    void updateWhenBtnDisable();
 
 signals:
     void moveLeft();

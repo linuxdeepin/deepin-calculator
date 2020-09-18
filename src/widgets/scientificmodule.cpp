@@ -1387,6 +1387,7 @@ void scientificModule::mUnAvailableEvent()
 {
     MemoryButton *btn = static_cast<MemoryButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_MC));
     btn->setEnabled(false);
+    btn->updateWhenBtnDisable();
     MemoryButton *btn1 = static_cast<MemoryButton *>(m_scikeypadwidget->button(ScientificKeyPad::Key_MR));
     btn1->setEnabled(false);
     m_memRCbtn = false;

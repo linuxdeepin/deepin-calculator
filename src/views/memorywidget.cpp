@@ -283,11 +283,11 @@ bool MemoryWidget::eventFilter(QObject *obj, QEvent *event)
                 QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
                 if (key_event->key() == Qt::Key_Tab) {
                     if (m_listwidget->hasFocus()) {
-                        focusNextChild();//焦点移动
-                        m_clearbutton->setFocus();
+//                        focusNextChild();//焦点移动
+                        m_clearbutton->setFocus(Qt::TabFocusReason);
                     } else if (m_clearbutton->hasFocus()) {
-                        focusNextChild();//焦点移动
-                        m_listwidget->setFocus();
+//                        focusNextChild();//焦点移动
+                        m_listwidget->setFocus(Qt::TabFocusReason);
                     }
                     return true;
                 }
@@ -594,6 +594,7 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
         }
         if (m_clearbutton->isHidden() == true) {
             m_clearbutton->show();
+            m_clearbutton->updateWhenBtnDisable();
             m_clearbutton->showtooltip(true);
         }
     } else {
