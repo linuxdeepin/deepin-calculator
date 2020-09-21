@@ -70,6 +70,8 @@ void EqualButton::mouseReleaseEvent(QMouseEvent *e)
         return;
     this->setPalette(m_palette);
     m_isPress = false;
+    if (this->rect().contains(e->pos()))
+        emit btnclicked();
     DPushButton::mouseReleaseEvent(e);
 }
 

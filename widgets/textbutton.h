@@ -44,13 +44,14 @@ signals:
     void moveLeft();
     void moveRight();
     void updateInterface();
+    void btnclicked();
 
 public:
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
-    void keyPressEvent(QKeyEvent*);
+    void keyPressEvent(QKeyEvent *);
     void paintEvent(QPaintEvent *e);
     void focusOutEvent(QFocusEvent *);
 private:

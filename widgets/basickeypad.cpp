@@ -163,11 +163,19 @@ void BasicKeypad::initButtons()
 
         connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();});
 //        connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-        connect(button, &DPushButton::clicked, this, [ = ]() {
-            int key = desc->button;
-            qDebug() << "clicked key:" << key;
-            emit buttonPressed(key);
-        });
+        if (desc->button == Key_Equals) {
+            connect(static_cast<EqualButton *>(button), &EqualButton::btnclicked, this, [ = ]() {
+                int key = desc->button;
+                qDebug() << "clicked key:" << key;
+                emit buttonPressed(key);
+            });
+        } else {
+            connect(static_cast<TextButton *>(button), &TextButton::btnclicked, this, [ = ]() {
+                int key = desc->button;
+                qDebug() << "clicked key:" << key;
+                emit buttonPressed(key);
+            });
+        }
         connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &BasicKeypad::moveLeft);
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &BasicKeypad::moveRight);
 //        m_mapper->setMapping(button, desc->button);

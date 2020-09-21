@@ -42,6 +42,7 @@ public:
 signals:
     void moveLeft();
     void moveRight();
+    void btnclicked();
 
 public:
     void mousePressEvent(QMouseEvent *);
