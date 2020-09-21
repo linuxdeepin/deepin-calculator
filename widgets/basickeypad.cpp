@@ -20,6 +20,7 @@
 
 #include <DPalette>
 #include <DImageButton>
+#include <QDebug>
 
 #include "basickeypad.h"
 #include "dthememanager.h"
@@ -94,7 +95,7 @@ BasicKeypad::BasicKeypad(QWidget *parent)
     initButtons();
     initUI();
 
-    connect(m_mapper, SIGNAL(mappedInt(int)), SIGNAL(buttonPressed(int)));
+//    connect(m_mapper, SIGNAL(mappedInt(int)), SIGNAL(buttonPressed(int)));
     //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &BasicKeypad::handleThemeChanged);
 }
 
@@ -161,10 +162,15 @@ void BasicKeypad::initButtons()
         m_keys.insert(desc->button, hashValue);
 
         connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();});
-        connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+//        connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+        connect(button, &DPushButton::clicked, this, [ = ]() {
+            int key = desc->button;
+            qDebug() << "clicked key:" << key;
+            emit buttonPressed(key);
+        });
         connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &BasicKeypad::moveLeft);
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &BasicKeypad::moveRight);
-        m_mapper->setMapping(button, desc->button);
+//        m_mapper->setMapping(button, desc->button);
     }
 }
 
