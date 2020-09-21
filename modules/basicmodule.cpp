@@ -40,16 +40,16 @@ BasicModule::BasicModule(QWidget *parent)
 
     layout->setSpacing(0);
     layout->setMargin(0);
-    layout->setContentsMargins(0,0,0,11);
+    layout->setContentsMargins(0, 0, 0, 11);
 
     setMouseTracking(true);
     setFocus();
     //initTheme();
     m_expressionBar->initTheme(DGuiApplicationHelper::instance()->themeType());
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,m_expressionBar,&ExpressionBar::initTheme);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, m_expressionBar, &ExpressionBar::initTheme);
 
     DPalette pal = this->palette();
-    pal.setColor(DPalette::Light,QColor(248,248,248));
+    pal.setColor(DPalette::Light, QColor(248, 248, 248));
     this->setPalette(pal);
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this, &BasicModule::initTheme);
@@ -58,8 +58,8 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_expressionBar, &ExpressionBar::clearStateChanged, this, &BasicModule::handleClearStateChanged);
     connect(m_basicKeypad, &BasicKeypad::buttonPressed, this, &BasicModule::handleKeypadButtonPress);
     connect(m_basicKeypad, &BasicKeypad::equalPressed, this, &BasicModule::equalButtonPress);
-    connect(m_basicKeypad, &BasicKeypad::moveLeft, [=] {m_expressionBar->moveLeft();});
-    connect(m_basicKeypad, &BasicKeypad::moveRight, [=] {m_expressionBar->moveRight();});
+    connect(m_basicKeypad, &BasicKeypad::moveLeft, [ = ] {m_expressionBar->moveLeft();});
+    connect(m_basicKeypad, &BasicKeypad::moveRight, [ = ] {m_expressionBar->moveRight();});
 
     //m_expBarColor = "#F8F8F8";
     //m_expBarSepColor = "#F8F8F8";
@@ -321,6 +321,7 @@ void BasicModule::handleKeypadButtonPress(int key)
 {
     m_basicKeypad->update();
     m_expressionBar->clearSelection();
+    qDebug() << "handleKeypadButtonPress key:" << key;
     switch (key) {
     case BasicKeypad::Key_0:            m_expressionBar->enterNumberEvent("0");     break;
     case BasicKeypad::Key_1:            m_expressionBar->enterNumberEvent("1");     break;

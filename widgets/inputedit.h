@@ -27,14 +27,14 @@
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
 
-struct SSelection
-{
-    QString oldText;
-    QString selected;
-    QString clearText;
+struct SSelection {
+    QString oldText = QString();
+    QString selected = QString();
+    QString clearText = QString();
     bool isChanged;
-    int curpos;
-    SSelection() {
+    int curpos = 0;
+    SSelection()
+    {
         isChanged = false;
     }
 };
@@ -103,13 +103,13 @@ private:
     QString m_oldText;
     SSelection m_selected;
 
-    QAction* m_undo;
-    QAction* m_redo;
-    QAction* m_cut;
-    QAction* m_copy;
-    QAction* m_paste;
-    QAction* m_delete;
-    QAction* m_select;
+    QAction *m_undo;
+    QAction *m_redo;
+    QAction *m_cut;
+    QAction *m_copy;
+    QAction *m_paste;
+    QAction *m_delete;
+    QAction *m_select;
 };
 
 #endif

@@ -22,6 +22,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QTimer>
+#include <QDebug>
 #include "dthememanager.h"
 
 #include <DGuiApplicationHelper>
@@ -78,6 +79,7 @@ void TextButton::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::RightButton)
         return;
+    qDebug() << "pressed";
     setFocus();
     m_palette = this->palette();
     int type = DGuiApplicationHelper::instance()->paletteType();
