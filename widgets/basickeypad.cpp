@@ -47,11 +47,12 @@ const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
 
     { "0", Key_0, 5, 0 },
     { ".", Key_Point, 5, 1 },
-    { "()" , Key_Brackets, 5, 2 },
+    { "()", Key_Brackets, 5, 2 },
     { "=", Key_Equals, 5, 3 }
 };
 
-static DPushButton* createSpecialKeyButton(BasicKeypad::Buttons key) {
+static DPushButton *createSpecialKeyButton(BasicKeypad::Buttons key)
+{
     IconButton *button = new IconButton;
 
     QString path;
@@ -88,12 +89,12 @@ BasicKeypad::BasicKeypad(QWidget *parent)
 {
     m_layout->setMargin(0);
     m_layout->setSpacing(1);
-    m_layout->setContentsMargins(0,0,0,0);
+    m_layout->setContentsMargins(0, 0, 0, 0);
 
     initButtons();
     initUI();
 
-    connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
+    connect(m_mapper, SIGNAL(mappedInt(int)), SIGNAL(buttonPressed(int)));
     //connect(DThemeManager::instance(), &DThemeManager::themeChanged, this, &BasicKeypad::handleThemeChanged);
 }
 
@@ -101,7 +102,7 @@ BasicKeypad::~BasicKeypad()
 {
 }
 
-DPushButton* BasicKeypad::button(Buttons key)
+DPushButton *BasicKeypad::button(Buttons key)
 {
     return m_keys.value(key).first;
 }
@@ -159,10 +160,10 @@ void BasicKeypad::initButtons()
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue);
 
-        connect(static_cast<TextButton*>(button), &TextButton::updateInterface, [=] {update();});
+        connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();});
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-        connect(static_cast<TextButton*>(button), &TextButton::moveLeft, this, &BasicKeypad::moveLeft);
-        connect(static_cast<TextButton*>(button), &TextButton::moveRight, this, &BasicKeypad::moveRight);
+        connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &BasicKeypad::moveLeft);
+        connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &BasicKeypad::moveRight);
         m_mapper->setMapping(button, desc->button);
     }
 }
@@ -181,7 +182,7 @@ void BasicKeypad::initUI()
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
 
-    this->setContentsMargins(12,0,13,0);
+    this->setContentsMargins(12, 0, 13, 0);
 }
 
 void BasicKeypad::buttonThemeChanged(int type)
