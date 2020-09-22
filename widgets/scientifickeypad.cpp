@@ -83,7 +83,7 @@ void ScientificKeypad::initButtons()
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
-        DPushButton *button;
+        QPushButton *button;
 
         if (desc->button == Key_Backspace) {
             button = new IconButton;
@@ -94,7 +94,7 @@ void ScientificKeypad::initButtons()
         }
 
         m_layout->addWidget(button, desc->row, desc->column);
-        const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
+        const QPair<QPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue);
     }
 }

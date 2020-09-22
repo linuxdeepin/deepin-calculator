@@ -58,7 +58,7 @@ private:
 
 private:
     QGridLayout *m_layout;
-    QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
+    QHash<Buttons, QPair<QPushButton *, const KeyDescription *>> m_keys;
 };
 
 #endif

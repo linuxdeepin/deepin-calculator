@@ -8,7 +8,7 @@
 #include <DGuiApplicationHelper>
 
 EqualButton::EqualButton(const QString &text, QWidget *parent)
-    : DPushButton(text, parent),
+    : QPushButton(text, parent),
       m_effect(new QGraphicsDropShadowEffect(this))
 {
     setFixedSize(80, 58);
@@ -52,7 +52,7 @@ void EqualButton::keyPressEvent(QKeyEvent *e)
     } else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down)
         return;
     else
-        DPushButton::keyPressEvent(e);
+        QPushButton::keyPressEvent(e);
 }
 
 void EqualButton::mousePressEvent(QMouseEvent *e)
@@ -61,7 +61,7 @@ void EqualButton::mousePressEvent(QMouseEvent *e)
         return;
     setFocus();
     m_isPress = true;
-    DPushButton::mousePressEvent(e);
+    QPushButton::mousePressEvent(e);
 }
 
 void EqualButton::mouseReleaseEvent(QMouseEvent *e)
@@ -72,7 +72,7 @@ void EqualButton::mouseReleaseEvent(QMouseEvent *e)
     m_isPress = false;
     if (this->rect().contains(e->pos()))
         emit btnclicked();
-    DPushButton::mouseReleaseEvent(e);
+    QPushButton::mouseReleaseEvent(e);
 }
 
 void EqualButton::enterEvent(QEvent *e)
@@ -80,7 +80,7 @@ void EqualButton::enterEvent(QEvent *e)
     //m_font.setPixelSize(20);
     //m_font.setStyleName("");
     m_isHover = true;
-    DPushButton::enterEvent(e);
+    QPushButton::enterEvent(e);
 }
 
 void EqualButton::leaveEvent(QEvent *e)
@@ -88,7 +88,7 @@ void EqualButton::leaveEvent(QEvent *e)
     //m_font.setPixelSize(18);
     //m_font.setStyleName("Light");
     m_isHover = false;
-    DPushButton::leaveEvent(e);
+    QPushButton::leaveEvent(e);
 }
 
 void EqualButton::paintEvent(QPaintEvent *e)

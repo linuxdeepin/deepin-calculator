@@ -48,7 +48,7 @@ public:
     BasicKeypad(QWidget *parent = nullptr);
     ~BasicKeypad();
 
-    DPushButton *button(Buttons key);
+    QPushButton *button(Buttons key);
     DSuggestButton *button();
     void animate(Buttons key);
     void animate();
@@ -74,7 +74,7 @@ private:
 private:
     QGridLayout *m_layout;
     QSignalMapper *m_mapper;
-    QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
+    QHash<Buttons, QPair<QPushButton *, const KeyDescription *>> m_keys;
     //DSuggestButton *m_equal;
     //EqualButton *m_equal;
 };

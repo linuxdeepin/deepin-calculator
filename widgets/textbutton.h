@@ -27,7 +27,7 @@
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
 
-class TextButton : public DPushButton
+class TextButton : public QPushButton
 {
     Q_OBJECT
 

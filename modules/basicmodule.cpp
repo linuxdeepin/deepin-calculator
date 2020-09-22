@@ -234,7 +234,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         m_expressionBar->addUndo();
         break;
     case Qt::Key_Escape:
-        (static_cast<DPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Clear)))->animateClick();
+        (static_cast<QPushButton *>(m_basicKeypad->button(BasicKeypad::Key_Clear)))->animateClick();
         //m_expressionBar->enterClearEvent();
         //m_basicKeypad->animate(BasicKeypad::Key_Clear);
         m_expressionBar->addUndo();
