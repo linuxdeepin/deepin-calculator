@@ -79,7 +79,6 @@ void TextButton::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::RightButton)
         return;
-    qDebug() << "pressed";
     setFocus();
     m_palette = this->palette();
     int type = DGuiApplicationHelper::instance()->paletteType();
@@ -109,14 +108,6 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
         return;
     this->setPalette(m_palette);
     m_isPress = false;
-    qDebug() << "mouseRelease";
-//    if (this->rect().contains(e->pos()) || this->rect().contains(e->globalPos())) {
-//        qDebug() << "emit btnclick";
-//        emit btnclicked();
-//    } else {
-//        qDebug() << "btnclick outside";
-//    }
-    qDebug() << "emit btnclick";
     emit btnclicked();
     QPushButton::mouseReleaseEvent(e);
 }

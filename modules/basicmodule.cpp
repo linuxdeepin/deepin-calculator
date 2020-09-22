@@ -321,7 +321,6 @@ void BasicModule::handleKeypadButtonPress(int key)
 {
     m_basicKeypad->update();
     m_expressionBar->clearSelection();
-    qDebug() << "handleKeypadButtonPress key:" << key;
     switch (key) {
     case BasicKeypad::Key_0:            m_expressionBar->enterNumberEvent("0");     break;
     case BasicKeypad::Key_1:            m_expressionBar->enterNumberEvent("1");     break;

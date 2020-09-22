@@ -71,12 +71,7 @@ void EqualButton::mouseReleaseEvent(QMouseEvent *e)
         return;
     this->setPalette(m_palette);
     m_isPress = false;
-    if (this->rect().contains(e->pos()) || this->rect().contains(e->globalPos())) {
-        qDebug() << "emit btnclick";
-        emit btnclicked();
-    } else {
-        qDebug() << "btnclick outside";
-    }
+    emit btnclicked();
     QPushButton::mouseReleaseEvent(e);
 }
 

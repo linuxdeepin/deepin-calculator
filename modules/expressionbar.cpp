@@ -74,7 +74,6 @@ void ExpressionBar::setContinue(bool isContinue)
 void ExpressionBar::enterNumberEvent(const QString &text)
 {
     int aaa = m_inputEdit->cursorPosition();
-    qDebug() << "enterNumberEvent text:" << text;
     if (m_isLinked)
         clearLinkageCache();
     if (m_inputNumber && m_hisRevision == -1) {
@@ -100,8 +99,6 @@ void ExpressionBar::enterNumberEvent(const QString &text)
     m_isUndo = false;
     QString oldText = m_inputEdit->text();
     SSelection selection = m_inputEdit->getSelection();
-    qDebug() << "selection.selected:" << selection.selected;
-    qDebug() << "selection.curpos:" << selection.curpos;
     if (selection.selected != "") {
         QString exp = m_inputEdit->text();
         exp.remove(selection.curpos, selection.selected.size());
