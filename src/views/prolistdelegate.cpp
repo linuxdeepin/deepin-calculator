@@ -1,5 +1,16 @@
 #include "prolistdelegate.h"
 
+#include <QDebug>
+#include <QEvent>
+#include <QMouseEvent>
+#include <QPainter>
+
+#include "prolistmodel.h"
+#include "prolistview.h"
+#include "utils.h"
+
+DWIDGET_USE_NAMESPACE
+
 const int LEFT_MARGIN = 12; //prolistview左边距
 
 ProListDelegate::ProListDelegate(QObject *parent)

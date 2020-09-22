@@ -1,7 +1,7 @@
 #include "ut_simplelistview.h"
 #define private public
 #define protected public
-#include "src/views/simplelistview.h"
+#include "../../src/views/simplelistview.h"
 #undef private
 #undef protected
 
@@ -15,7 +15,7 @@ TEST_F(Ut_SimpleListView, contextMenuEvent)
     SimpleListView *m_simpleListView = new SimpleListView();
     m_simpleListView->contextMenuEvent(new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_simpleListView->pos(), m_simpleListView->pos(), Qt::KeyboardModifier::NoModifier));
     //无ASSERT
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListView, mouseMoveEvent)
@@ -31,7 +31,7 @@ TEST_F(Ut_SimpleListView, mouseMoveEvent)
     m_simpleListView->mouseMoveEvent(new QMouseEvent(QMouseEvent::Type::MouseMove, m_simpleListView->pos(), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
     m_simpleListView->mouseMoveEvent(new QMouseEvent(QMouseEvent::Type::MouseMove, QPoint(m_simpleListView->pos().x() + 640, m_simpleListView->pos().y()), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
     //无ASSERT
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListView, adjustScrollbarMargins)
@@ -39,7 +39,7 @@ TEST_F(Ut_SimpleListView, adjustScrollbarMargins)
     SimpleListView *m_simpleListView = new SimpleListView();
     m_simpleListView->adjustScrollbarMargins();
     //无ASSERT
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListView, keyPressEvent)
@@ -56,5 +56,5 @@ TEST_F(Ut_SimpleListView, keyPressEvent)
     m_simpleListView->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier));
     m_simpleListView->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier));
     //无ASSERT
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }

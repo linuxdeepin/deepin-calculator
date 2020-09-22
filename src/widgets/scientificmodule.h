@@ -27,14 +27,15 @@
 #include <DWidget>
 #include <DGuiApplicationHelper>
 
-#include "src/control/textbutton.h"
-#include "src/control/iconbutton.h"
-#include "src/control/scientifickeypad.h"
-#include "src/control/memhiskeypad.h"
+#include "control/textbutton.h"
+#include "control/iconbutton.h"
+#include "control/scientifickeypad.h"
+#include "control/memhiskeypad.h"
 #include "memhiswidget.h"
+#include "scihistorywidget.h"
 #include "sciexpressionbar.h"
-#include "src/views/memorywidget.h"
-#include "src/memorypublic.h"
+#include "views/memorywidget.h"
+#include "memorypublic.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
@@ -50,10 +51,10 @@ public:
     scientificModule(QWidget *parent = nullptr);
     ~scientificModule();
     void setKeyPress(QKeyEvent *e);
-
     void checkLineEmpty();
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *e);
+
 signals:
     void changedeg(int deg);
 

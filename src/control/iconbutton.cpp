@@ -25,7 +25,6 @@
 #include <QToolTip>
 
 const QSize HISTORY_WIDGET_CLEARBUTTONSIZE = QSize(36, 36); //历史记录区垃圾桶大小
-const QSize STANDARD_ICONBTNSIZE = QSize(78, 58); //标准模式等于按钮大小，为画边框比ui大2pix
 const qreal BLURRADIUS = 12; //阴影模糊半径
 const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
 const qreal ROUND_YRADIUS = 8; //按钮圆角y轴半径
@@ -58,10 +57,9 @@ IconButton::~IconButton()
  */
 void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode)
 {
-    int type = DGuiApplicationHelper::instance()->paletteType();
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
-    m_themetype = type;
+//    int type = DGuiApplicationHelper::instance()->paletteType();
+//    if (type == 0)
+//        type = DGuiApplicationHelper::instance()->themeType();
     m_normalUrl = normalFileName;
     m_hoverUrl = hoverFileName;
     m_pressUrl = pressFileName;
@@ -124,6 +122,18 @@ void IconButton::showtooltip(bool ismemory)
         m_cleartooltip = tr("Clear history");
         this->setToolTip(m_cleartooltip);
     }
+}
+
+/**
+ * @brief IconButton::updateWhenBtnDisable
+ * 当拥有焦点时同时按下空格和鼠标后会导致问题，将其置回普通状态
+ */
+void IconButton::updateWhenBtnDisable()
+{
+    m_isPress = false;
+    m_buttonStatus = 0;
+    m_mode = 1;
+    update();
 }
 
 /**

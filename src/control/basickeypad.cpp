@@ -56,29 +56,29 @@ const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
 /**
  * @brief 初始化并设置iconbutton
  */
-static DPushButton *createSpecialKeyButton(BasicKeypad::Buttons key)
-{
-    IconButton *button = new IconButton;
+//static DPushButton *createSpecialKeyButton(BasicKeypad::Buttons key)
+//{
+//    IconButton *button = new IconButton;
 
-    QString path;
-    if (DGuiApplicationHelper::instance()->themeType() == 2)
-        path = QString(":/assets/images/%1/").arg("dark");
-    else
-        path = QString(":/assets/images/%1/").arg("light");
+//    QString path;
+//    if (DGuiApplicationHelper::instance()->themeType() == 2)
+//        path = QString(":/assets/images/%1/").arg("dark");
+//    else
+//        path = QString(":/assets/images/%1/").arg("light");
 
-    if (key == BasicKeypad::Key_Div) {
-        button->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");
-    } else if (key == BasicKeypad::Key_Mult) {
-        button->setIconUrl(path + "x_normal.svg", path + "x_hover.svg", path + "x_press.svg");
-    } else if (key == BasicKeypad::Key_Min) {
-        button->setIconUrl(path + "-_normal.svg", path + "-_hover.svg", path + "-_press.svg");
-    } else if (key == BasicKeypad::Key_Plus) {
-        button->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
-    } else if (key == BasicKeypad::Key_Backspace) {
-        button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
-    }
-    return button;
-}
+//    if (key == BasicKeypad::Key_Div) {
+//        button->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");
+//    } else if (key == BasicKeypad::Key_Mult) {
+//        button->setIconUrl(path + "x_normal.svg", path + "x_hover.svg", path + "x_press.svg");
+//    } else if (key == BasicKeypad::Key_Min) {
+//        button->setIconUrl(path + "-_normal.svg", path + "-_hover.svg", path + "-_press.svg");
+//    } else if (key == BasicKeypad::Key_Plus) {
+//        button->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
+//    } else if (key == BasicKeypad::Key_Backspace) {
+//        button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
+//    }
+//    return button;
+//}
 
 BasicKeypad::BasicKeypad(QWidget *parent)
     : DWidget(parent),
@@ -89,7 +89,7 @@ BasicKeypad::BasicKeypad(QWidget *parent)
     m_layout->setMargin(0);
     m_layout->setSpacing(KEYPAD_SPACING);
     m_layout->setContentsMargins(0, 0, 0, 0);
-    setFocusPolicy(Qt::StrongFocus);
+//    setFocusPolicy(Qt::StrongFocus);
 
     installEventFilter(this);
 
@@ -118,6 +118,11 @@ void BasicKeypad::mouseMoveEvent(QMouseEvent *e)
 DPushButton *BasicKeypad::button(Buttons key)
 {
     return m_keys.value(key).first;
+}
+
+DPushButton *BasicKeypad::button(int key)
+{
+    return m_keys.value(Buttons(key)).first;
 }
 
 /**
@@ -165,18 +170,19 @@ void BasicKeypad::initButtons()
         DPushButton *button;
 
         if (desc->text.isEmpty()) {
-            button = createSpecialKeyButton(desc->button);
+            button = new IconButton(this);
+//            button = createSpecialKeyButton(desc->button);
 //            button->setParent(this);
         } else {
             if (desc->text == "=") {
-                button = new EqualButton(desc->text);
+                button = new EqualButton(desc->text, this);
                 connect(static_cast<EqualButton *>(button), &EqualButton::focus, this, &BasicKeypad::getFocus); //获取上下左右键
                 connect(static_cast<EqualButton *>(button), &EqualButton::space, this, [ = ]() {
                     Buttons spacekey = Key_Equals;
                     emit buttonPressedbySpace(spacekey);
                 });
             } else {
-                button = new TextButton(desc->text, false);
+                button = new TextButton(desc->text, false, this);
             }
         }
 

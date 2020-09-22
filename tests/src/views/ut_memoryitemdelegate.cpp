@@ -1,10 +1,10 @@
 #include "ut_memoryitemdelegate.h"
 #define protected public
-#include "src/views/memoryitemdelegate.h"
+#include "../../src/views/memoryitemdelegate.h"
 #undef protected
 
-#include "src/dsettings.h"
-#include "src/memorypublic.h"
+#include "../../src/dsettings.h"
+#include "../../src/memorypublic.h"
 
 Ut_MemoryItemDelegate::Ut_MemoryItemDelegate()
 {

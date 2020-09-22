@@ -53,10 +53,9 @@ private:
     void switchToSimpleMode();
     void switchToScientificMode();
     void switchToProgrammerMode();
-    void showHistoryWidget();
 
 private:
-    DSettings *m_settings;
+    DSettingsAlt *m_settings;
     QStackedLayout *m_mainLayout;
     DMenu *m_tbMenu;
     DMenu *m_modeshowmenu;
@@ -68,6 +67,7 @@ private:
     BasicModule *m_basicModule;
     scientificModule *m_scientificModule;
     ProgramModule *m_programmerModule;
+
     bool m_isinit = true;//初始化
     bool m_isStandInit = false; //标准是否初始化
     bool m_isSciInit = false; //科学是否初始化

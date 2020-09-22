@@ -29,8 +29,8 @@
 #include <QHBoxLayout>
 
 #include "dthememanager.h"
-#include "src/utils.h"
-#include "src/math/quantity.h"
+#include "utils.h"
+#include "math/quantity.h"
 
 const int EXPRESSIONBAR_HEIGHT = 100;
 
@@ -38,9 +38,9 @@ scientificModule::scientificModule(QWidget *parent)
     : DWidget(parent)
 {
     m_stackWidget = new QStackedWidget(this);
-    m_sciexpressionBar = new SciExpressionBar;
-    m_memhiskeypad = new MemHisKeypad;
-    m_scikeypadwidget = new ScientificKeyPad;
+    m_sciexpressionBar = new SciExpressionBar(this);
+    m_memhiskeypad = new MemHisKeypad(this);
+    m_scikeypadwidget = new ScientificKeyPad(this);
     m_memhiswidget = new MemHisWidget(this);
     m_memCalbtn = false;
     m_memRCbtn = false;

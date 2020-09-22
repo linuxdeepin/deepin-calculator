@@ -30,8 +30,8 @@
 #include <QList>
 
 #include "dthememanager.h"
-#include "src/utils.h"
-#include "src/math/quantity.h"
+#include "utils.h"
+#include "math/quantity.h"
 
 const int WIDGET_WIDTH = 360; //历史记录侧宽度
 const int BUTTONBOX_WIDTH = 200; //buttonbox宽度
@@ -44,12 +44,12 @@ const int SPACE_BETWEEN_BUTTONANDVIEW = 15; //button与下侧widget之间空隙
 
 SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     : DWidget(parent)
-    , m_listView(new SimpleListView(1))
+    , m_listView(new SimpleListView(1, this))
     , m_listDelegate(new SimpleListDelegate(1, this))
     , m_listModel(new SimpleListModel(1, this))
     , m_buttonbox(new DButtonBox(this))
-    , m_historybtn(new DButtonBoxButton(tr("History")))
-    , m_memorybtn(new DButtonBoxButton(tr("Memory")))
+    , m_historybtn(new DButtonBoxButton(tr("History"), this))
+    , m_memorybtn(new DButtonBoxButton(tr("Memory"), this))
     , m_clearbutton(new IconButton(this, 1))
 {
     memoryPublic = MemoryPublic::instance(this);
@@ -140,6 +140,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
             m_memorywidget->setFocusPolicy(Qt::NoFocus);
         }
         m_clearbutton->setHidden(true);
+        m_clearbutton->updateWhenBtnDisable();
 //        m_clearbutton->setHidden(!(m_isshowH & m_indexH));
 //        setFocus();
     });
@@ -157,6 +158,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
             m_memorywidget->setFocusPolicy(Qt::NoFocus);
         }
         m_clearbutton->setHidden(true);
+        m_clearbutton->updateWhenBtnDisable();
 //        m_clearbutton->setHidden(!(m_isshowH & m_indexH));
 //        setFocus();
     }); //focus下空格按下

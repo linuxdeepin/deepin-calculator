@@ -2,10 +2,10 @@
 #define PROSYSTEMKEYPAD_H
 
 #include <DWidget>
-#include <QGridLayout>
 #include <DGuiApplicationHelper>
+#include <QGridLayout>
 
-#include "src/widgets/probitwidget.h"
+#include "widgets/probitwidget.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE

@@ -33,9 +33,9 @@
 #include <DGuiApplicationHelper>
 #include <DSuggestButton>
 
-#include "src/control/textbutton.h"
-#include "src/control/iconbutton.h"
-#include "src/control/equalbutton.h"
+#include "control/textbutton.h"
+#include "control/iconbutton.h"
+#include "control/equalbutton.h"
 #include "tricombobox.h"
 #include "funcombobox.h"
 

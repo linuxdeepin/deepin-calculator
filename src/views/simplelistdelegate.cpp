@@ -28,7 +28,7 @@
 #include "dthememanager.h"
 #include "simplelistmodel.h"
 #include "simplelistview.h"
-#include "src/utils.h"
+#include "utils.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -40,7 +40,6 @@ SimpleListDelegate::SimpleListDelegate(int mode, QObject *parent)
     : QStyledItemDelegate(parent)
 {
     m_mode = mode;
-    m_settings = DSettings::instance(this);
     m_selected = false;
     m_simpleListDelegate = this;
 }
@@ -394,7 +393,7 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
         if (splitList.size() == 1)
             return QSize(-1, 302); //历史记录无内容时大小
         QString resultStr = splitList.last();
-        QString exp = splitList.first() + " ＝ ";
+        QString exp = splitList.first() + "＝";
         QFont font;
         font.setPixelSize(16);
         QFontMetrics fmexp(font);

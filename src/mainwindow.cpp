@@ -44,8 +44,8 @@ const QSize PROGRAMM_SIZE = QSize(451, 576); //程序员模式固定大小
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent)
 {
-    m_settings = DSettings::instance(this);
-    m_mainLayout = new QStackedLayout;
+    m_settings = DSettingsAlt::instance(this);
+    m_mainLayout = new QStackedLayout();
     m_tbMenu = new DMenu(this);
     QIcon t_icon = QIcon::fromTheme("deepin-calculator");
     titlebar()->setIcon(t_icon);
@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
     //缺翻译
     m_programmerAction = new QAction(tr("Programmer"), this);
 
-    m_pActionGroup = new QActionGroup(nullptr); //实现互斥checked
+    m_pActionGroup = new QActionGroup(this); //实现互斥checked
     m_pActionGroup->addAction(m_simpleAction);
     m_pActionGroup->addAction(m_scAction);
     m_pActionGroup->addAction(m_programmerAction);
@@ -66,7 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_programmerAction->setCheckable(true);
 
 #ifdef ENABLE_SCIENTIFIC
-    m_modeshowmenu = new DMenu(tr("Mode"));
+    m_modeshowmenu = new DMenu(tr("Mode"), this);
     m_tbMenu->addSeparator(); //添加分隔符
     m_modeshowmenu->addAction(m_simpleAction);
     m_modeshowmenu->addAction(m_scAction);
@@ -83,7 +83,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_simpleAction, &QAction::triggered, this, &MainWindow::switchToSimpleMode);
     connect(m_scAction, &QAction::triggered, this, &MainWindow::switchToScientificMode);
     connect(m_programmerAction, &QAction::triggered, this, &MainWindow::switchToProgrammerMode);
-
 }
 
 MainWindow::~MainWindow()
@@ -93,7 +92,6 @@ MainWindow::~MainWindow()
 void MainWindow::initTheme()
 {
     int type = DGuiApplicationHelper::instance()->paletteType();
-    QString path;
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
@@ -102,7 +100,6 @@ void MainWindow::initTheme()
         titlePa.setColor(DPalette::Dark, QColor(240, 240, 240));
         titlePa.setColor(DPalette::Base, QColor(240, 240, 240));
         titlebar()->setPalette(titlePa);
-        path = QString(":/assets/images/%1/").arg("light");
     } else {
         DPalette titlePa = titlebar()->palette();
         QColor normalbackground = QColor(0, 0, 0);
@@ -110,15 +107,17 @@ void MainWindow::initTheme()
         titlePa.setColor(DPalette::Light, normalbackground);
         titlePa.setColor(DPalette::Dark, normalbackground);
         titlePa.setColor(DPalette::Base, normalbackground);
+//        titlePa.setColor(DPalette::Light, QColor(37, 37, 37));
+//        titlePa.setColor(DPalette::Dark, QColor(37, 37, 37));
+//        titlePa.setColor(DPalette::Base, QColor(37, 37, 37));
         titlebar()->setPalette(titlePa);
-        path = QString(":/assets/images/%1/").arg("dark");
     }
 }
 
 void MainWindow::initModule()
 {
     int mode = m_settings->getOption("mode").toInt();
-    QWidget *centralWidget = new QWidget;
+    QWidget *centralWidget = new QWidget(this);
 
     centralWidget->setLayout(m_mainLayout);
     setCentralWidget(centralWidget);
@@ -128,28 +127,28 @@ void MainWindow::initModule()
     m_isinit = true;
     switch (mode) {
     case 0:
-        m_basicModule = new BasicModule;
+        m_basicModule = new BasicModule(this);
         m_mainLayout->addWidget(m_basicModule);
         m_isStandInit = true;
         m_simpleAction->setChecked(true);
         switchToSimpleMode();
         break;
     case 1:
-        m_scientificModule = new scientificModule;
+        m_scientificModule = new scientificModule(this);
         m_mainLayout->addWidget(m_scientificModule);
         m_isSciInit = true;
         m_scAction->setChecked(true);
         switchToScientificMode();
         break;
     case 2:
-        m_programmerModule = new ProgramModule;
+        m_programmerModule = new ProgramModule(this);
         m_mainLayout->addWidget(m_programmerModule);
         m_isProgrammerInit = true;
         m_programmerAction->setChecked(true);
         switchToProgrammerMode();
         break;
     default:
-        m_basicModule = new BasicModule;
+        m_basicModule = new BasicModule(this);
         m_mainLayout->addWidget(m_basicModule);
         m_isStandInit = true;
         m_simpleAction->setChecked(true);
@@ -162,7 +161,7 @@ void MainWindow::initModule()
 void MainWindow::switchToSimpleMode()
 {
     if (!m_isStandInit) {
-        m_basicModule = new BasicModule;
+        m_basicModule = new BasicModule(this);
         m_mainLayout->addWidget(m_basicModule);
         m_isStandInit = true;
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
@@ -177,7 +176,7 @@ void MainWindow::switchToSimpleMode()
 void MainWindow::switchToScientificMode()
 {
     if (!m_isSciInit) {
-        m_scientificModule = new scientificModule;
+        m_scientificModule = new scientificModule(this);
         m_mainLayout->addWidget(m_scientificModule);
         m_isSciInit = true;
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
@@ -192,9 +191,8 @@ void MainWindow::switchToScientificMode()
 
 void MainWindow::switchToProgrammerMode()
 {
-//    m_hisAction->setVisible(false);
     if (!m_isProgrammerInit) {
-        m_programmerModule = new ProgramModule;
+        m_programmerModule = new ProgramModule(this);
         m_mainLayout->addWidget(m_programmerModule);
         m_isProgrammerInit = true;
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());

@@ -17,9 +17,9 @@
 // Boston, MA 02110-1301, USA.
 
 
-#include "src/core/userfunction.h"
-#include "src/core/evaluator.h"
-#include "src/core/opcode.h"
+#include "core/userfunction.h"
+#include "core/evaluator.h"
+#include "core/opcode.h"
 #include <QJsonArray>
 
 

@@ -37,7 +37,7 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
     , m_effect(new QGraphicsDropShadowEffect(this))
     , m_isallgray(false)
 {
-    m_settings = DSettings::instance(this);
+    m_settings = DSettingsAlt::instance(this);
     setObjectName("MemoryButton");
     m_widgetbtn = listwidgetbtn; //是否是内存列表按键
 
@@ -144,6 +144,16 @@ void MemoryButton:: setbuttongray(bool memorywidgetshow)
     //20200701 精简代码
     m_isallgray = memorywidgetshow;
     update();
+}
+
+/**
+ * @brief IconButton::updateWhenBtnDisable
+ * 当拥有焦点时同时按下空格和鼠标后会导致问题，将其置回普通状态
+ */
+void MemoryButton::updateWhenBtnDisable()
+{
+    this->setPalette(m_palette);
+    m_isPress = false;
 }
 
 /**
@@ -343,13 +353,13 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             painter.setBrush(QBrush(base));
             painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
             QPen pen;
-//            if (m_isacting) {
-//                painter.setPen(Qt::NoPen);
-//            } else {
+            //            if (m_isacting) {
+            //                painter.setPen(Qt::NoPen);
+            //            } else {
             pen.setColor(focus);
             pen.setWidth(2);
             painter.setPen(pen);
-//            }
+            //            }
             painter.setBrush(Qt::NoBrush);
             painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
 
@@ -525,7 +535,6 @@ void MemoryButton::paintEvent(QPaintEvent *e)
             m_effect->setColor(QColor(0, 0, 0, 0));
             this->setGraphicsEffect(m_effect);
         }
-
     }
 }
 

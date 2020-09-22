@@ -19,14 +19,6 @@
 
 #include "textbutton.h"
 
-#include <QMouseEvent>
-#include <QPainter>
-#include <QPainterPath>
-#include <QTimer>
-#include <DGuiApplicationHelper>
-
-#include "dthememanager.h"
-
 const qreal BLURRADIUS = 12; //阴影模糊半径
 const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
 const qreal ROUND_YRADIUS = 8; //按钮圆角y轴半径
@@ -285,9 +277,8 @@ void TextButton::paintEvent(QPaintEvent *e)
         else
             text = QColor(224, 224, 224);
     }
-    if (m_Btnisdown) {
+    if (m_Btnisdown)
         text = actcolor; //FE,2nd设置
-    }
     if (hasFocus()) {
         painter.setPen(Qt::NoPen);
         if (m_isPress) {

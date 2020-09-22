@@ -20,11 +20,11 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#include "src/core/functions.h"
+#include "core/functions.h"
 
-#include "src/core/settings.h"
-#include "../math/hmath.h"
-#include "../math/cmath.h"
+#include "core/settings.h"
+#include "math/hmath.h"
+#include "math/cmath.h"
 
 #include <QCoreApplication>
 #include <QHash>

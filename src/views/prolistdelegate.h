@@ -3,18 +3,9 @@
 
 #include <QStyledItemDelegate>
 #include <QObject>
-#include <QDebug>
-#include <QEvent>
-#include <QMouseEvent>
-#include <QPainter>
 #include <DGuiApplicationHelper>
 
-#include "prolistmodel.h"
-#include "prolistview.h"
-#include "src/utils.h"
-
 DGUI_USE_NAMESPACE
-DWIDGET_USE_NAMESPACE
 
 class ProListDelegate : public QStyledItemDelegate
 {

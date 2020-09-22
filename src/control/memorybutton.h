@@ -29,8 +29,8 @@
 #include <DPalette>
 #include <DPushButton>
 
-#include "src/dsettings.h"
 #include "textbutton.h"
+#include "dsettings.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -54,6 +54,7 @@ public:
     void showtips();
 public slots:
     void setbuttongray(bool memorywidgetshow);
+    void updateWhenBtnDisable();
 
 signals:
     void moveLeft();
@@ -70,9 +71,9 @@ public:
 
 private:
     QGraphicsDropShadowEffect *m_effect;
+    DSettingsAlt *m_settings;
 
     DPalette m_palette;
-    DSettings *m_settings;
     bool m_isHover;
     bool m_isPress;
     bool m_isgray; //按键不可用置灰

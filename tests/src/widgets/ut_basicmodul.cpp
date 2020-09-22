@@ -1,7 +1,7 @@
 #include <QPalette>
 #include "ut_basicmodul.h"
 #define private public
-#include "src/widgets/basicmodule.h"
+#include "../../src/widgets/basicmodule.h"
 #undef private
 
 Ut_BasicModul::Ut_BasicModul()
@@ -22,7 +22,7 @@ TEST_F(Ut_BasicModul, setKeyPress)
     BasicModule *m_basicmodul = new BasicModule;
     m_basicmodul->setKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
     ASSERT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -31,7 +31,7 @@ TEST_F(Ut_BasicModul, mAvailableEvent)
     BasicModule *m_basicmodul = new BasicModule;
     m_basicmodul->mAvailableEvent();
     ASSERT_TRUE(m_basicmodul->m_memRCbtn);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -40,7 +40,7 @@ TEST_F(Ut_BasicModul, mUnAvailableEvent)
     BasicModule *m_basicmodul = new BasicModule;
     m_basicmodul->mUnAvailableEvent();
     ASSERT_FALSE(m_basicmodul->m_memRCbtn);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -49,7 +49,7 @@ TEST_F(Ut_BasicModul, showListWidget)
     BasicModule *m_basicmodul = new BasicModule;
     m_basicmodul->showListWidget();
     ASSERT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 1);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -58,7 +58,7 @@ TEST_F(Ut_BasicModul, initTheme)
     BasicModule *m_basicmodul = new BasicModule;
     m_basicmodul->initTheme(1);
     ASSERT_EQ(m_basicmodul->findChild<InputEdit *>()->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Text), "#303030");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -111,7 +111,7 @@ TEST_F(Ut_BasicModul, handleEditKeyPress)
     m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Escape, Qt::NoModifier));
     m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
     ASSERT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
     //25.2
 }
@@ -153,7 +153,7 @@ TEST_F(Ut_BasicModul, handleKeypadButtonPress)
     m_basicmodul->handleKeypadButtonPress(BasicKeypad::Key_Clear);
     m_basicmodul->handleKeypadButtonPress(BasicKeypad::Key_1);
     ASSERT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -189,7 +189,7 @@ TEST_F(Ut_BasicModul, handleKeypadButtonPressByspace)
     m_basicmodul->handleKeypadButtonPressByspace(BasicKeypad::Key_Clear);
     m_basicmodul->handleKeypadButtonPressByspace(BasicKeypad::Key_1);
     ASSERT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -204,7 +204,7 @@ TEST_F(Ut_BasicModul, mousePressEvent)
     QTest::mouseClick(m_basicmodul->findChild<MemoryWidget *>()->findChild<IconButton *>(), Qt::LeftButton);
     m_basicmodul->mousePressEvent(new QMouseEvent(QEvent::MouseButtonPress, m_basicmodul->findChild<InputEdit *>()->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
     ASSERT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 0);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -216,6 +216,6 @@ TEST_F(Ut_BasicModul, itemclick)
     QTest::mouseClick(m_basicmodul->findChild<MemoryKeypad *>()->button(MemoryKeypad::Key_Mlist), Qt::LeftButton);
     QTest::mouseClick(m_basicmodul->findChild<MemoryItemWidget *>(), Qt::LeftButton);
     ASSERT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 0);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }

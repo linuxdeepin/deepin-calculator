@@ -10,16 +10,16 @@
 #include <QVBoxLayout>
 #include <QStackedWidget>
 
-#include "src/views/programmerarrowdelegate.h"
-#include "src/views/programmeritemwidget.h"
-#include "src/views/prolistview.h"
-#include "src/views/prolistmodel.h"
-#include "src/views/prolistdelegate.h"
-#include "src/control/bitbutton.h"
-#include "src/control/programmerkeypad.h"
-#include "src/control/procheckbtnkeypad.h"
-#include "src/control/prosystemkeypad.h"
-#include "src/widgets/proexpressionbar.h"
+#include "views/programmerarrowdelegate.h"
+#include "views/programmeritemwidget.h"
+#include "views/prolistview.h"
+#include "views/prolistmodel.h"
+#include "views/prolistdelegate.h"
+#include "control/bitbutton.h"
+#include "control/programmerkeypad.h"
+#include "control/procheckbtnkeypad.h"
+#include "control/prosystemkeypad.h"
+#include "widgets/proexpressionbar.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE

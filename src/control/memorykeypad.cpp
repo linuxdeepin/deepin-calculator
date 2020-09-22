@@ -63,6 +63,11 @@ DPushButton *MemoryKeypad::button(Buttons key)
     return m_keys.value(key).first;
 }
 
+DPushButton *MemoryKeypad::button(int key)
+{
+    return m_keys.value(Buttons(key)).first;
+}
+
 /**
  * @brief 按钮点击动画效果
  */
@@ -96,7 +101,7 @@ void MemoryKeypad::initButtons()
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
         DPushButton *button;
-        button = new MemoryButton(desc->text);
+        button = new MemoryButton(desc->text, false, this);
         QFont font = button->font();
         font.setFamily("Noto Sans");
         button->setFont(font);

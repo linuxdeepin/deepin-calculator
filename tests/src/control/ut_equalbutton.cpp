@@ -1,6 +1,6 @@
 #include "ut_equalbutton.h"
 #define private public
-#include "src/control/equalbutton.h"
+#include "../../src/control/equalbutton.h"
 #undef private
 
 Ut_EqualButton::Ut_EqualButton()
@@ -15,7 +15,6 @@ TEST_F(Ut_EqualButton, mousePressEvent)
                                                    m_equalButton->pos(), Qt::MouseButton::LeftButton,
                                                    Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
     ASSERT_TRUE(m_equalButton->m_isPress);
-    DSettings::deleteInstance();
 }
 
 TEST_F(Ut_EqualButton, mouseReleaseEvent)
@@ -25,7 +24,6 @@ TEST_F(Ut_EqualButton, mouseReleaseEvent)
                                                      m_equalButton->pos(), Qt::MouseButton::LeftButton,
                                                      Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
     ASSERT_FALSE(m_equalButton->m_isPress);
-    DSettings::deleteInstance();
 }
 
 TEST_F(Ut_EqualButton, enterEvent)
@@ -33,7 +31,6 @@ TEST_F(Ut_EqualButton, enterEvent)
     EqualButton *m_equalButton = new EqualButton;
     m_equalButton->enterEvent(new QEvent(QEvent::Type::Enter));
     ASSERT_TRUE(m_equalButton->m_isHover);
-    DSettings::deleteInstance();
 }
 
 TEST_F(Ut_EqualButton, leaveEvent)
@@ -41,7 +38,6 @@ TEST_F(Ut_EqualButton, leaveEvent)
     EqualButton *m_equalButton = new EqualButton;
     m_equalButton->leaveEvent(new QEvent(QEvent::Type::Leave));
     ASSERT_FALSE(m_equalButton->m_isHover);
-    DSettings::deleteInstance();
 }
 
 TEST_F(Ut_EqualButton, paintEvent)
@@ -57,7 +53,6 @@ TEST_F(Ut_EqualButton, paintEvent)
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
     m_equalButton->paintEvent(event);
     //无ASSERT
-    DSettings::deleteInstance();
 }
 
 TEST_F(Ut_EqualButton, keyPressEvent)
@@ -70,5 +65,4 @@ TEST_F(Ut_EqualButton, keyPressEvent)
     m_equalButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier));
     m_equalButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
     //无ASSERT
-    DSettings::deleteInstance();
 }

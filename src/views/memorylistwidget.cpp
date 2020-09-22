@@ -111,8 +111,9 @@ void MemoryListWidget::keyPressEvent(QKeyEvent *e)
 void MemoryListWidget::focusInEvent(QFocusEvent *event)
 {
 //    setCurrentRow(0);
-    if (currentRow() == -1)
-        setCurrentRow(0);
+    //暂定
+//    if (currentRow() == -1)
+//        setCurrentRow(0);
     scrollToItem(this->item(currentRow()));
     QWidget::focusInEvent(event);
 }

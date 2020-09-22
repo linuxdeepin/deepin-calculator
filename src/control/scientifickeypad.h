@@ -106,7 +106,6 @@ signals:
     void buttonPressedbySpace(int);
     void moveLeft();
     void moveRight();
-//    void windowSize(int width, int height, bool hishide);
 
 private:
     void initUI();

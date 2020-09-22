@@ -1,6 +1,6 @@
 #include "ut_memorypublic.h"
 #define private public
-#include "src/memorypublic.h"
+#include "../../src/memorypublic.h"
 #undef private
 
 Ut_MemoryPublic::Ut_MemoryPublic()
@@ -13,7 +13,7 @@ TEST_F(Ut_MemoryPublic, getwidget)
     MemoryPublic *m_memoryPublic = new MemoryPublic;
     MemoryWidget *memorywidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
     ASSERT_EQ(memorywidget->m_calculatormode, 1);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -23,7 +23,7 @@ TEST_F(Ut_MemoryPublic, memoryplus)
     MemoryWidget *memorywidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
     m_memoryPublic->memoryplus(Quantity(0));
     ASSERT_EQ(memorywidget->m_listwidget->count(), 1);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -33,7 +33,7 @@ TEST_F(Ut_MemoryPublic, memoryminus)
     MemoryWidget *memorywidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
     m_memoryPublic->memoryminus(Quantity(0));
     ASSERT_EQ(memorywidget->m_listwidget->count(), 1);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -46,7 +46,7 @@ TEST_F(Ut_MemoryPublic, memoryclean)
     m_memoryPublic->generateData(Quantity(0));
     m_memoryPublic->memoryclean();
     ASSERT_EQ(memorywidget->m_listwidget->count(), 1);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -58,7 +58,7 @@ TEST_F(Ut_MemoryPublic, widgetplus)
     m_memoryPublic->widgetplus(0, Quantity(1));
     MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(memorywidget->m_listwidget->itemWidget(memorywidget->m_listwidget->item(0)));
     ASSERT_EQ(w1->textLabel(), "2");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -70,7 +70,7 @@ TEST_F(Ut_MemoryPublic, widgetminus)
     m_memoryPublic->widgetminus(0, Quantity(1));
     MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(memorywidget->m_listwidget->itemWidget(memorywidget->m_listwidget->item(0)));
     ASSERT_EQ(w1->textLabel(), "0");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -84,7 +84,7 @@ TEST_F(Ut_MemoryPublic, widgetclean)
     m_memoryPublic->generateData(Quantity(0));
     m_memoryPublic->widgetclean(1, 1, false);
     ASSERT_EQ(memorywidget->m_listwidget->count(), 2);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
 
@@ -98,6 +98,6 @@ TEST_F(Ut_MemoryPublic, setThemeType)
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
     m_memoryPublic->setThemeType(0);
     ASSERT_EQ(memorywidget->m_clearbutton->m_currentUrl, ":/assets/images/dark/empty_normal.svg");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }

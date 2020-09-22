@@ -16,7 +16,7 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#include "src/core/pageserver.h"
+#include "core/pageserver.h"
 
 QString PageServer::getPageContent(const QString &id)
 {

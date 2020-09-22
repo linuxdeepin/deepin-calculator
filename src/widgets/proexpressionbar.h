@@ -4,10 +4,10 @@
 #include <QApplication>
 #include <QClipboard>
 
-#include "src/widgets/inputedit.h"
-#include "src/views/simplelistview.h"
-#include "src/views/simplelistmodel.h"
-#include "src/views/simplelistdelegate.h"
+#include "widgets/inputedit.h"
+#include "views/simplelistview.h"
+#include "views/simplelistmodel.h"
+#include "views/simplelistdelegate.h"
 
 DWIDGET_USE_NAMESPACE
 

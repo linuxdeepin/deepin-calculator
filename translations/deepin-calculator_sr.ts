@@ -20,32 +20,32 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>Опозови (&amp;U)</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>Обнови (&amp;R)</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>Исеци (&amp;T)</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>Копирај (&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>Убаци (&amp;P)</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation> Обриши</translation>
     </message>
     <message>
         <source>Select All</source>
         <translation>Изабери све</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>Опозови</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Обнови</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Исеци</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Копирај</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Убаци</translation>
     </message>
 </context>
 <context>

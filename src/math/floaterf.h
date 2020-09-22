@@ -32,7 +32,7 @@
 #ifndef FLOATERF_H
 #define FLOATERF_H
 
-#include "../math/floatseries.h"
+#include "math/floatseries.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -1,7 +1,7 @@
 #include "ut_expressionbar.h"
 #define private public
 #define protected public
-#include "src/widgets/expressionbar.h"
+#include "../../src/widgets/expressionbar.h"
 #undef private
 #undef protected
 
@@ -23,7 +23,7 @@ TEST_F(Ut_ExpressionBar, mouseMoveEvent)
     ExpressionBar *m_expressionBar = new ExpressionBar;
     m_expressionBar->mouseMoveEvent(new QMouseEvent(QMouseEvent::Type::MouseMove, m_expressionBar->pos(), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
     //无ASSERT
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, enterNumberEvent)
@@ -38,7 +38,7 @@ TEST_F(Ut_ExpressionBar, enterNumberEvent)
     m_expressionBar->enterNumberEvent("1");
     m_expressionBar->enterNumberEvent("1");
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "11");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, enterSymbolEvent)
@@ -55,7 +55,7 @@ TEST_F(Ut_ExpressionBar, enterSymbolEvent)
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(1);
     m_expressionBar->enterSymbolEvent("-");
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "－3＋");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, enterPointEvent)
@@ -68,7 +68,7 @@ TEST_F(Ut_ExpressionBar, enterPointEvent)
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
     m_expressionBar->enterPointEvent();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1＋0.1");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, enterBackspaceEvent)
@@ -82,7 +82,7 @@ TEST_F(Ut_ExpressionBar, enterBackspaceEvent)
     m_expressionBar->enterBackspaceEvent();
     m_expressionBar->enterBackspaceEvent();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, enterClearEvent)
@@ -98,7 +98,7 @@ TEST_F(Ut_ExpressionBar, enterClearEvent)
     m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
     m_expressionBar->enterClearEvent();
     ASSERT_EQ(m_expressionBar->m_listModel->rowCount(QModelIndex()), 0);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, enterEqualEvent)
@@ -121,7 +121,7 @@ TEST_F(Ut_ExpressionBar, enterEqualEvent)
     m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
     m_expressionBar->enterEqualEvent();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "2");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, enterPercentEvent)
@@ -133,7 +133,7 @@ TEST_F(Ut_ExpressionBar, enterPercentEvent)
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(1);
     m_expressionBar->enterPercentEvent();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1%＋1%");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, enterBracketsEvent)
@@ -146,7 +146,7 @@ TEST_F(Ut_ExpressionBar, enterBracketsEvent)
     m_expressionBar->m_hisLink.last().linkedItem = -1;
     m_expressionBar->enterBracketsEvent();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "3(())");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, enterLeftBracketsEvent)
@@ -160,7 +160,7 @@ TEST_F(Ut_ExpressionBar, enterLeftBracketsEvent)
     m_expressionBar->m_hisLink.last().linkedItem = -1;
     m_expressionBar->enterLeftBracketsEvent();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "(3(");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, enterRightBracketsEvent)
@@ -174,7 +174,7 @@ TEST_F(Ut_ExpressionBar, enterRightBracketsEvent)
     m_expressionBar->m_hisLink.last().linkedItem = -1;
     m_expressionBar->enterRightBracketsEvent();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), ")3)");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, moveLeft)
@@ -183,7 +183,7 @@ TEST_F(Ut_ExpressionBar, moveLeft)
     m_expressionBar->findChild<InputEdit *>()->setText("1＋2");
     m_expressionBar->moveLeft();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->cursorPosition(), 2);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, moveRight)
@@ -193,7 +193,7 @@ TEST_F(Ut_ExpressionBar, moveRight)
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
     m_expressionBar->moveRight();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->cursorPosition(), 1);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, copyResultToClipboard)
@@ -210,7 +210,7 @@ TEST_F(Ut_ExpressionBar, copyResultToClipboard)
     m_expressionBar->m_hisLink.last().linkedItem = -1;
     m_expressionBar->copyClipboard2Result();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "31＋21＋2");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, allElection)
@@ -219,7 +219,7 @@ TEST_F(Ut_ExpressionBar, allElection)
     m_expressionBar->findChild<InputEdit *>()->setText("1＋2");
     m_expressionBar->allElection();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->getSelection().selected, "1＋2");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, shear)
@@ -229,7 +229,7 @@ TEST_F(Ut_ExpressionBar, shear)
     m_expressionBar->allElection();
     m_expressionBar->shear();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, clearLinkageCache)
@@ -250,7 +250,7 @@ TEST_F(Ut_ExpressionBar, clearLinkageCache)
     m_expressionBar->clearLinkageCache("1＋2＝3", false);
 //    m_expressionBar->shear();
     ASSERT_EQ(m_expressionBar->m_hisLink.count(), 0);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, setResultFalse)
@@ -259,7 +259,7 @@ TEST_F(Ut_ExpressionBar, setResultFalse)
     m_expressionBar->m_isResult = true;
     m_expressionBar->setResultFalse();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, replaceSelection)
@@ -269,7 +269,7 @@ TEST_F(Ut_ExpressionBar, replaceSelection)
     m_expressionBar->allElection();
     m_expressionBar->replaceSelection("1＋2");
     ASSERT_FALSE(m_expressionBar->m_isResult);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, revisionResults)
@@ -278,7 +278,7 @@ TEST_F(Ut_ExpressionBar, revisionResults)
     m_expressionBar->m_listModel->updataList(QString("1＋2") + "＝" + "3", -1);
     m_expressionBar->revisionResults(m_expressionBar->m_listModel->index(0, 0));
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1＋2");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, cancelLink)
@@ -292,5 +292,5 @@ TEST_F(Ut_ExpressionBar, cancelLink)
     m_expressionBar->m_hisLink.append(his);
     m_expressionBar->m_hisRevision = 1;
     ASSERT_TRUE(m_expressionBar->cancelLink(1));
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }

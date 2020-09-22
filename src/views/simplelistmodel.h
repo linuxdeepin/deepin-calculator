@@ -22,7 +22,7 @@
 
 #include <QAbstractListModel>
 
-#include "src/core/evaluator.h"
+#include "core/evaluator.h"
 
 class SimpleListModel : public QAbstractListModel
 {
@@ -39,7 +39,7 @@ public:
         ExpressionRole = Qt::ToolTipRole, //有提示文本
         ExpressionCount = 4, //数据数量
         ExpressionPrevious, //前一个数据
-        ExpressionNext //下一个数据
+        ExpressionNext, //下一个数据
     };
 
     int rowCount(const QModelIndex &parent) const;

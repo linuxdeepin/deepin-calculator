@@ -5,7 +5,7 @@
 #include <QClipboard>
 #include <QApplication>
 
-#include "src/core/evaluator.h"
+#include "core/evaluator.h"
 
 class ProListModel : public QAbstractListModel
 {

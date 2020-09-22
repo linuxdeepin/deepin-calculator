@@ -28,7 +28,6 @@
 
 #include "dthememanager.h"
 
-//const int VPADDING = 100; //预留垂直空隙
 const int KEYPADHEIGHT = 350; //整体键盘的高度
 const QSize BUTTON_SIZE = QSize(69, 46); //科学模式的固定大小
 
@@ -72,59 +71,59 @@ const ScientificKeyPad::KeyDescription1 ScientificKeyPad::keyDescriptions1[] = {
 /**
  * @brief 初始化并设置iconbutton
  */
-static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool page)
-{
-    IconButton *button;
-    if (page)
-        button = new IconButton(nullptr, 0, true);
-    else
-        button = new IconButton();
+//static DPushButton *createSpecialKeyButton(ScientificKeyPad::Buttons key, bool page)
+//{
+//    IconButton *button;
+//    if (page)
+//        button = new IconButton(nullptr, 0, true);
+//    else
+//        button = new IconButton();
 
-    QString path;
-    if (DGuiApplicationHelper::instance()->themeType() == 2)
-        path = QString(":/assets/images/%1/").arg("dark");
-    else
-        path = QString(":/assets/images/%1/").arg("light");
+//    QString path;
+//    if (DGuiApplicationHelper::instance()->themeType() == 2)
+//        path = QString(":/assets/images/%1/").arg("dark");
+//    else
+//        path = QString(":/assets/images/%1/").arg("light");
 
-    if (key == ScientificKeyPad::Key_Div) {
-        button->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");
-    } else if (key == ScientificKeyPad::Key_Mult) {
-        button->setIconUrl(path + "x_normal.svg", path + "x_hover.svg", path + "x_press.svg");
-    } else if (key == ScientificKeyPad::Key_Min) {
-        button->setIconUrl(path + "-_normal.svg", path + "-_hover.svg", path + "-_press.svg");
-    } else if (key == ScientificKeyPad::Key_Plus) {
-        button->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
-    } else if (key == ScientificKeyPad::Key_Backspace) {
-        button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg", 1);
-    } else if (key == ScientificKeyPad::Key_sqrt2) {
-        button->setIconUrl(path + "squareroot_normal.svg", path + "squareroot_hover.svg", path + "squareroot_press.svg", 3);
-    } else if (key == ScientificKeyPad::Key_sqrt3) {
-        button->setIconUrl(path + "cuberoot_normal.svg", path + "cuberoot_hover.svg", path + "cuberoot_press.svg", 3);
-    } else if (key == ScientificKeyPad::Key_ysqrtx) {
-        button->setIconUrl(path + "yroot_normal.svg", path + "yroot_hover.svg", path + "yroot_press.svg", 3);
-    } else if (key == ScientificKeyPad::Key_deg) {
-        button->setIconUrl(path + "deg_normal.svg", path + "deg_hover.svg", path + "deg_press.svg", 5);
-    }
-    //connect(button, &IconButton::updateInterface, this, &ScientificKeyPad::updateInterface);
-    return button;
-}
+//    if (key == ScientificKeyPad::Key_Div) {
+//        button->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");
+//    } else if (key == ScientificKeyPad::Key_Mult) {
+//        button->setIconUrl(path + "x_normal.svg", path + "x_hover.svg", path + "x_press.svg");
+//    } else if (key == ScientificKeyPad::Key_Min) {
+//        button->setIconUrl(path + "-_normal.svg", path + "-_hover.svg", path + "-_press.svg");
+//    } else if (key == ScientificKeyPad::Key_Plus) {
+//        button->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
+//    } else if (key == ScientificKeyPad::Key_Backspace) {
+//        button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg", 1);
+//    }  else if (key == ScientificKeyPad::Key_sqrt2) {
+//        button->setIconUrl(path + "squareroot_normal.svg", path + "squareroot_hover.svg", path + "squareroot_press.svg", 3);
+//    } else if (key == ScientificKeyPad::Key_sqrt3) {
+//        button->setIconUrl(path + "cuberoot_normal.svg", path + "cuberoot_hover.svg", path + "cuberoot_press.svg", 3);
+//    } else if (key == ScientificKeyPad::Key_ysqrtx) {
+//        button->setIconUrl(path + "yroot_normal.svg", path + "yroot_hover.svg", path + "yroot_press.svg", 3);
+//    } else if (key == ScientificKeyPad::Key_deg) {
+//        button->setIconUrl(path + "deg_normal.svg", path + "deg_hover.svg", path + "deg_press.svg", 5);
+//    }
+//    //connect(button, &IconButton::updateInterface, this, &ScientificKeyPad::updateInterface);
+//    return button;
+//}
 
 ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     : DWidget(parent)
-    , m_gridlayout1(new QGridLayout)
+    , m_gridlayout1(new QGridLayout(this))
     , m_mapper(new QSignalMapper(this))
-    , m_leftBracket(new DLabel)
-    , m_rightBracket(new DLabel)
-    , m_arcsinwidget(new QStackedWidget)
-    , m_arccoswidget(new QStackedWidget)
-    , m_arctanwidget(new QStackedWidget)
-    , m_arccotwidget(new QStackedWidget)
-    , m_sqrtwidget(new QStackedWidget)
-    , m_cbrtwidget(new QStackedWidget)
-    , m_yrootwidget(new QStackedWidget)
-    , m_2xwidget(new QStackedWidget)
-    , m_logyxwidget(new QStackedWidget)
-    , m_exwidget(new QStackedWidget)
+    , m_leftBracket(new DLabel(this))
+    , m_rightBracket(new DLabel(this))
+    , m_arcsinwidget(new QStackedWidget(this))
+    , m_arccoswidget(new QStackedWidget(this))
+    , m_arctanwidget(new QStackedWidget(this))
+    , m_arccotwidget(new QStackedWidget(this))
+    , m_sqrtwidget(new QStackedWidget(this))
+    , m_cbrtwidget(new QStackedWidget(this))
+    , m_yrootwidget(new QStackedWidget(this))
+    , m_2xwidget(new QStackedWidget(this))
+    , m_logyxwidget(new QStackedWidget(this))
+    , m_exwidget(new QStackedWidget(this))
 {
     this->setFixedHeight(KEYPADHEIGHT);
     m_leftBracket->setFixedSize(24, 14);
@@ -220,84 +219,88 @@ void ScientificKeyPad::initButtons()
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
         DPushButton *button;
-        DPushButton *pagebutton;
 
         if (desc->text.isEmpty()) {
             if (i % 6 == 0 || i % 6 == 1)
-                button = createSpecialKeyButton(desc->button, true);
+                button = new IconButton(this, 0, true);
             else
-                button = createSpecialKeyButton(desc->button, false);
+                button = new IconButton(this, 0, false);
         } else {
             if (desc->text == "=") {
-                button = new EqualButton(desc->text);
+                button = new EqualButton(desc->text, this);
                 connect(static_cast<EqualButton *>(button), &EqualButton::focus, this, &ScientificKeyPad::getFocus); //获取上下左右键
                 connect(static_cast<EqualButton *>(button), &EqualButton::space, this, [ = ]() {
                     Buttons spacekey = Key_Equals;
                     emit buttonPressedbySpace(spacekey);
                 });
             } else if (desc->text == "MC" || desc->text == "MR" || desc->text == "M+" || desc->text == "M-" || desc->text == "MS") {
-                button = new MemoryButton(desc->text);
+                button = new MemoryButton(desc->text, false, this);
             } else {
                 if (i % 6 == 0 || i % 6 == 1)
-                    button = new TextButton(desc->text, true);
+                    button = new TextButton(desc->text, true, this);
                 else {
-                    button = new TextButton(desc->text);
+                    button = new TextButton(desc->text, false, this);
                 }
             }
         }
-        //翻页按键初始化
-        if (desc->button == Key_sin) {
-            const KeyDescription1 *desc1 = keyDescriptions1;
-            pagebutton = new TextButton("arcsin", true);
-            initStackWidget(m_arcsinwidget, button, pagebutton, desc1);
-        } else if (desc->button == Key_x2) {
-            const KeyDescription1 *desc1 = keyDescriptions1 + 1;
-            pagebutton = createSpecialKeyButton(Key_sqrt2, true);
-            initStackWidget(m_arccoswidget, button, pagebutton, desc1);
-        } else if (desc->button == Key_cos) {
-            const KeyDescription1 *desc1 = keyDescriptions1 + 2;
-            pagebutton = new TextButton("arccos", true);
-            initStackWidget(m_arctanwidget, button, pagebutton, desc1);
-        } else if (desc->button == Key_x3) {
-            const KeyDescription1 *desc1 = keyDescriptions1 + 3;
-            pagebutton = createSpecialKeyButton(Key_sqrt3, true);
-            initStackWidget(m_arccotwidget, button, pagebutton, desc1);
-        } else if (desc->button == Key_tan) {
-            const KeyDescription1 *desc1 = keyDescriptions1 + 4;
-            pagebutton = new TextButton("arctan", true);
-            initStackWidget(m_sqrtwidget, button, pagebutton, desc1);
-        } else if (desc->button == Key_xy) {
-            const KeyDescription1 *desc1 = keyDescriptions1 + 5;
-            pagebutton = createSpecialKeyButton(Key_ysqrtx, true);
-            initStackWidget(m_cbrtwidget, button, pagebutton, desc1);
-        } else if (desc->button == Key_cot) {
-            const KeyDescription1 *desc1 = keyDescriptions1 + 6;
-            pagebutton = new TextButton("arccot", true);
-            initStackWidget(m_yrootwidget, button, pagebutton, desc1);
-        } else if (desc->button == Key_10x) {
-            const KeyDescription1 *desc1 = keyDescriptions1 + 7;
-            pagebutton = new TextButton("2ˣ", true);
-            initStackWidget(m_2xwidget, button, pagebutton, desc1);
-        } else if (desc->button == Key_log) {
-            const KeyDescription1 *desc1 = keyDescriptions1 + 8;
-            pagebutton = new TextButton("logᵧx", true);
-            initStackWidget(m_logyxwidget, button, pagebutton, desc1);
-        } else if (desc->button == Key_ln) {
-            const KeyDescription1 *desc1 = keyDescriptions1 + 9;
-            pagebutton = new TextButton("eˣ", true);
-            initStackWidget(m_exwidget, button, pagebutton, desc1);
+
+        //stackwidget中按钮初始化
+        if ((i / 6 > 0) && (i % 6 == 0 || i % 6 == 1) && i != 30 && i != 36) {
+            DPushButton *pagebutton;
+            //翻页按键初始化
+            if (desc->button == Key_sin) {
+                const KeyDescription1 *desc1 = keyDescriptions1;
+                pagebutton = new TextButton("arcsin", true, this);
+                initStackWidget(m_arcsinwidget, button, pagebutton, desc1);
+            } else if (desc->button == Key_x2) {
+                const KeyDescription1 *desc1 = keyDescriptions1 + 1;
+                pagebutton = new IconButton(this, 0, true);
+                initStackWidget(m_arccoswidget, button, pagebutton, desc1);
+            } else if (desc->button == Key_cos) {
+                const KeyDescription1 *desc1 = keyDescriptions1 + 2;
+                pagebutton = new TextButton("arccos", true, this);
+                initStackWidget(m_arctanwidget, button, pagebutton, desc1);
+            } else if (desc->button == Key_x3) {
+                const KeyDescription1 *desc1 = keyDescriptions1 + 3;
+                pagebutton = new IconButton(this, 0, true);
+                initStackWidget(m_arccotwidget, button, pagebutton, desc1);
+            } else if (desc->button == Key_tan) {
+                const KeyDescription1 *desc1 = keyDescriptions1 + 4;
+                pagebutton = new TextButton("arctan", true, this);
+                initStackWidget(m_sqrtwidget, button, pagebutton, desc1);
+            } else if (desc->button == Key_xy) {
+                const KeyDescription1 *desc1 = keyDescriptions1 + 5;
+                pagebutton = new IconButton(this, 0, true);
+                initStackWidget(m_cbrtwidget, button, pagebutton, desc1);
+            } else if (desc->button == Key_cot) {
+                const KeyDescription1 *desc1 = keyDescriptions1 + 6;
+                pagebutton = new TextButton("arccot", true, this);
+                initStackWidget(m_yrootwidget, button, pagebutton, desc1);
+            } else if (desc->button == Key_10x) {
+                const KeyDescription1 *desc1 = keyDescriptions1 + 7;
+                pagebutton = new TextButton("2ˣ", true, this);
+                initStackWidget(m_2xwidget, button, pagebutton, desc1);
+            } else if (desc->button == Key_log) {
+                const KeyDescription1 *desc1 = keyDescriptions1 + 8;
+                pagebutton = new TextButton("logᵧx", true, this);
+                initStackWidget(m_logyxwidget, button, pagebutton, desc1);
+            } else {
+                const KeyDescription1 *desc1 = keyDescriptions1 + 9;
+                pagebutton = new TextButton("eˣ", true, this);
+                initStackWidget(m_exwidget, button, pagebutton, desc1);
+            }
+
+            pagebutton->setFixedSize(BUTTON_SIZE);
+            connect(static_cast<TextButton *>(pagebutton), &TextButton::focus, this, &ScientificKeyPad::getFocus); //获取上下左右键
         } else {
-            pagebutton = new DPushButton;
             m_gridlayout1->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
                                      Qt::AlignCenter/* | Qt::AlignTop*/);
         }
 
         button->setFixedSize(BUTTON_SIZE);
-        pagebutton->setFixedSize(BUTTON_SIZE);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
-        connect(static_cast<TextButton *>(pagebutton), &TextButton::focus, this, &ScientificKeyPad::getFocus); //获取上下左右键
         connect(static_cast<TextButton *>(button), &TextButton::focus, this, &ScientificKeyPad::getFocus); //获取上下左右键
         connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
         connect(static_cast<TextButton *>(button), &TextButton::space, this, [ = ]() {
@@ -310,7 +313,6 @@ void ScientificKeyPad::initButtons()
         m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
 
     }
-
 }
 
 /**
@@ -322,20 +324,9 @@ void ScientificKeyPad::initUI()
 
     while (i.hasNext()) {
         i.next();
-        //以下信号槽按窗口比例缩放按键等
-//        connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
-//            Q_UNUSED(height);
-//            int hiswidth; //历史记录宽度
-//            hishide == false ? hiswidth = 360 : hiswidth = 0;
-//            i.value().first->setFixedSize((width - HPADDING - hiswidth - 25) / 6 + FRAMEWIDTH, BUTTONHEIGHT + FRAMEWIDTH);
-//        });
         if (i.key() == Key_left) {
             m_leftBracket->setParent(i.value().first);
             m_leftBracket->move(i.value().first->rect().x() + 37, i.value().first->rect().y() + 22);
-//            connect(this, &ScientificKeyPad::windowSize, [ = ]() {
-//                //label跟随button大小变化移动至(右下角
-//                m_leftBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
-//            });
             connect(i.value().first, &DPushButton::pressed, [ = ]() {
                 m_leftBracket->setStyleSheet(QString("font-family:Noto Sans;color:%1;font-size:14px;")
                                              .arg(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name()));
@@ -351,10 +342,6 @@ void ScientificKeyPad::initUI()
         if (i.key() == Key_right) {
             m_rightBracket->setParent(i.value().first);
             m_rightBracket->move(i.value().first->rect().x() + 37, i.value().first->rect().y() + 22);
-//            connect(this, &ScientificKeyPad::windowSize, [ = ]() {
-//                //label跟随button大小变化移动至)右下角
-//                m_rightBracket->move(i.value().first->rect().x() + 37 * i.value().first->width() / 67, i.value().first->rect().y() + 22 * i.value().first->height() / 47);
-//            });
             connect(i.value().first, &DPushButton::pressed, [ = ]() {
                 m_rightBracket->setStyleSheet(QString("font-family:Noto Sans;color:%1;font-size:14px;")
                                               .arg(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name()));
@@ -370,23 +357,12 @@ void ScientificKeyPad::initUI()
 
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription1 *>> i1(m_keys1);
 
-//    while (i1.hasNext()) {
-//        i1.next();
-    //以下信号槽按窗口比例缩放按键等
-//        connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
-//            Q_UNUSED(height);
-//            int hiswidth; //历史记录宽度
-//            hishide == false ? hiswidth = 360 : hiswidth = 0;;
-//            i1.value().first->setFixedSize((width - HPADDING - hiswidth - 25) / 6 + FRAMEWIDTH, BUTTONHEIGHT + FRAMEWIDTH);
-//        });
-//    }
-
     button(Key_Div)->setObjectName("SymbolButton");
     button(Key_Mult)->setObjectName("SymbolButton");
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
 
-    this->setContentsMargins(10, 0, 10, 10); //按钮比ui宽2pix,此处比ui小2pix
+    this->setContentsMargins(12, 0, 12, 12);
 }
 
 /**
@@ -416,12 +392,6 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
         emit buttonPressedbySpace(spacekey);
     });
     m_mapper->setMapping(pagebutton, desc1->button); //多个按钮绑定到一个mapper上
-//    connect(this, &ScientificKeyPad::windowSize, [ = ](int width, int height, bool hishide) {
-//        Q_UNUSED(height);
-//        int hiswidth; //历史记录宽度
-//        hishide == false ? hiswidth = 360 : hiswidth = 0;
-//        widget->setFixedSize((width - HPADDING - hiswidth - 25) / 6 + FRAMEWIDTH, BUTTONHEIGHT + 4 + FRAMEWIDTH);
-//    });
 }
 
 /**

@@ -5,8 +5,6 @@
 #include <gmock/gmock-matchers.h>
 #include <QTest>
 
-#include "src/dsettings.h"
-
 class Ut_MemoryWidget : public ::testing::Test
 {
 public:

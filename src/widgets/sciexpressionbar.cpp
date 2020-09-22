@@ -27,8 +27,8 @@
 #include <QTimer>
 #include <DGuiApplicationHelper>
 
-#include "src/utils.h"
-#include "src/core/settings.h"
+#include "utils.h"
+#include "core/settings.h"
 
 const int SCIPREC = 31; //科学计算器精度
 const int LIST_HEIGHT = 35; //输入栏上方表达式的高度
@@ -37,10 +37,10 @@ const int INPUTEDIT_HEIGHT = 55;
 SciExpressionBar::SciExpressionBar(QWidget *parent)
     : DWidget(parent)
 {
-    m_listView = new SimpleListView;
+    m_listView = new SimpleListView(0, this);
     m_listDelegate = new SimpleListDelegate(0, this);
     m_listModel = new SimpleListModel(0, this);
-    m_inputEdit = new InputEdit;
+    m_inputEdit = new InputEdit(this);
     m_evaluator = Evaluator::instance();
     m_isContinue = true;
     m_isAllClear = false;
@@ -2195,6 +2195,9 @@ void SciExpressionBar::revisionResults(const QModelIndex &index)
 void SciExpressionBar::hisRevisionResults(const QModelIndex &index, Quantity ans)
 {
     QString text = index.data(SimpleListModel::ExpressionWithOutTip).toString();
+//    QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
+//    if (historic.size() != 2)
+//        return;
     QString expression = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(SCIPREC));
 //    m_hisRevision = index.row();
     m_inputEdit->setAnswer(expression, ans);

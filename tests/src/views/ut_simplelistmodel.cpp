@@ -1,6 +1,6 @@
 #include "ut_simplelistmodel.h"
 #define private public
-#include "src/views/simplelistmodel.h"
+#include "../../src/views/simplelistmodel.h"
 #undef private
 
 Ut_SimpleListModel::Ut_SimpleListModel()
@@ -18,7 +18,7 @@ TEST_F(Ut_SimpleListModel, data)
     m_simpleListModel->data(m_simpleListModel->index(1, 0), SimpleListModel::Role::ExpressionCount);
     m_simpleListModel->data(m_simpleListModel->index(1, 0), SimpleListModel::Role::ExpressionPrevious);
     ASSERT_EQ(m_simpleListModel->data(m_simpleListModel->index(1, 0), SimpleListModel::Role::ExpressionNext), "3");
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListModel, updataList1)
@@ -31,7 +31,7 @@ TEST_F(Ut_SimpleListModel, updataList1)
     m_simpleListModel->updataList("3", 500, false);
     m_simpleListModel->updataList("3x3", 500, false);
     ASSERT_EQ(m_simpleListModel->m_expressionList.count(), 500);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListModel, updataList2)
@@ -43,7 +43,7 @@ TEST_F(Ut_SimpleListModel, updataList2)
     }
     m_simpleListModel->updataList(Quantity(9), "3x3", 500);
     ASSERT_EQ(m_simpleListModel->m_expressionList.count(), 500);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListModel, deleteItem)
@@ -53,7 +53,7 @@ TEST_F(Ut_SimpleListModel, deleteItem)
     m_simpleListModel->m_answerlist.append(Quantity(1));
     m_simpleListModel->deleteItem(0);
     ASSERT_EQ(m_simpleListModel->m_expressionList.count(), 0);
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListModel, copyToClipboard)
@@ -62,7 +62,7 @@ TEST_F(Ut_SimpleListModel, copyToClipboard)
     m_simpleListModel->m_expressionList.append("1");
     m_simpleListModel->copyToClipboard(0);
     //无ASSERT
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_SimpleListModel, getAnswer)
@@ -71,5 +71,5 @@ TEST_F(Ut_SimpleListModel, getAnswer)
     m_simpleListModel->m_answerlist.append(Quantity(1));
     m_simpleListModel->getAnswer(1);
     ASSERT_EQ(m_simpleListModel->getAnswer(0), Quantity(1));
-    DSettings::deleteInstance();
+    DSettingsAlt::deleteInstance();
 }

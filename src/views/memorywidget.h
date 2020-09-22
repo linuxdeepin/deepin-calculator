@@ -30,8 +30,8 @@
 #include <QObject>
 #include <DPushButton>
 
-#include "src/core/evaluator.h"
-#include "src/control/iconbutton.h"
+#include "core/evaluator.h"
+#include "control/iconbutton.h"
 #include "memoryitemwidget.h"
 #include "memorylistwidget.h"
 #include "memoryitemdelegate.h"
@@ -51,6 +51,7 @@ public:
     void mousePressEvent(QMouseEvent *event);
     bool eventFilter(QObject *obj, QEvent *event);
     void focusInEvent(QFocusEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 //    bool event(QEvent *event);
 
     void memoryplus(Quantity answer);
@@ -74,12 +75,12 @@ signals:
     void widgetclean(int row, int mode, bool ismenu); //是否通过menu点击发出，用于区分是否下一个item直接进入hover状态
     void memorycleansignal();
     void scimemtab();
+    void basicPressEscape();
 
 private:
     MemoryListWidget *m_listwidget;
     QPoint m_mousepoint;
     IconButton *m_clearbutton;
-    int m_type;
     bool m_isempty; //内存中是否为空
     Evaluator *m_evaluator;
     Quantity m_ans;

@@ -27,8 +27,8 @@
 #include <QStringList>
 #include <DMenu>
 
-#include "src/math/floatconfig.h"
-#include "src/utils.h"
+#include "math/floatconfig.h"
+#include "utils.h"
 
 InputEdit::InputEdit(QWidget *parent)
     : QLineEdit(parent)
@@ -263,9 +263,6 @@ void InputEdit::mousePressEvent(QMouseEvent *e)
     QLineEdit::mousePressEvent(e);
 }
 
-/**
- * @brief 鼠标中键粘贴操作
- */
 void InputEdit::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::MiddleButton) {
@@ -280,6 +277,7 @@ void InputEdit::mouseReleaseEvent(QMouseEvent *event)
  */
 void InputEdit::initAction()
 {
+    //fix bug-47321
     m_undo = new QAction(tr("Undo"), this);
     m_redo = new QAction(tr("Redo"), this);
     m_cut = new QAction(tr("Cut"), this);
@@ -427,7 +425,6 @@ void InputEdit::handleTextChanged(const QString &text)
         Q_EMIT equal(); //当前外界键盘及计算器键盘中=均不走此；猜测为了复制粘贴等于式；当前粘贴会去除=，也不会走此；暂不删除
         return;
     }
-
 
     int ansEnd = m_ansStartPos + m_ansLength;
 

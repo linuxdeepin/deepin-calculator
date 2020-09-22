@@ -25,7 +25,7 @@
 #include <QSet>
 #include <QList>
 
-#include "../math/quantity.h"
+#include "math/quantity.h"
 
 class Variable
 {

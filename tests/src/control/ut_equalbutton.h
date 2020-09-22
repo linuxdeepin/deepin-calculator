@@ -5,7 +5,6 @@
 #include <gmock/gmock-matchers.h>
 #include <QTest>
 
-#include "src/dsettings.h"
 #include <DGuiApplicationHelper>
 
 class Ut_EqualButton : public ::testing::Test

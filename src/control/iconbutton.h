@@ -48,6 +48,7 @@ public:
     void setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode = 0);
     void animate(bool isspace = false, int msec = 100);
     void showtooltip(bool ismemory); //ismemory-true-内存区垃圾桶 false-历史区垃圾桶
+    void updateWhenBtnDisable();
 
 protected:
     void mousePressEvent(QMouseEvent *);
@@ -78,7 +79,7 @@ private:
     QString m_currentUrl;
     int m_buttonStatus = 0; //0-normal 1-hover 2-press
     bool m_isEmptyBtn; //内存中的清空按钮
-    int m_themetype;
+//    int m_themetype;
     bool m_page;
     bool m_isHistorybtn = false; //打开历史记录的按钮，暂时保存
     QString m_cleartooltip = QString();

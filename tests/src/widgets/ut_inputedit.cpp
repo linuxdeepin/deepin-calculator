@@ -1,7 +1,7 @@
 #include "ut_inputedit.h"
 #define private public
 #define protected public
-#include "src/widgets/inputedit.h"
+#include "../../src/widgets/inputedit.h"
 #undef protected
 #undef private
 

@@ -24,7 +24,7 @@
 #include <QString>
 #include <QList>
 
-#include "../math/quantity.h"
+#include "math/quantity.h"
 
 
 class HistoryEntry

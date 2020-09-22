@@ -24,8 +24,6 @@
 #include <QObject>
 #include <DGuiApplicationHelper>
 
-#include "src/dsettings.h"
-
 DGUI_USE_NAMESPACE
 class SimpleListDelegate : public QStyledItemDelegate
 {
@@ -67,7 +65,6 @@ private:
     SimpleListDelegate *m_simpleListDelegate;
     QVector<int> m_linkItem;
     QVector<int> m_linkedIten;
-    DSettings *m_settings;
     bool m_selected;
     int m_type;
     int m_mode = 0;
