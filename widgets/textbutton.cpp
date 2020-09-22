@@ -110,9 +110,11 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
     this->setPalette(m_palette);
     m_isPress = false;
     qDebug() << "mouseRelease";
-    if (this->rect().contains(e->pos())) {
+    if (this->rect().contains(e->pos()) || this->rect().contains(e->globalPos())) {
         qDebug() << "emit btnclick";
         emit btnclicked();
+    } else {
+        qDebug() << "btnclick outside";
     }
     QPushButton::mouseReleaseEvent(e);
 }
