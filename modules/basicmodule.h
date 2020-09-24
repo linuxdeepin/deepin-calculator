@@ -23,6 +23,7 @@
 #include <DWidget>
 #include <DGuiApplicationHelper>
 #include <QStackedLayout>
+#include <QStackedWidget>
 #include <QGridLayout>
 
 #include "../widgets/textbutton.h"
@@ -59,7 +60,7 @@ protected:
 private:
     ExpressionBar *m_expressionBar;
     BasicKeypad *m_basicKeypad;
-    QStackedLayout *m_keypadLayout;
+    QStackedWidget *m_keypadLayout;
     QColor m_expBarColor;
     QColor m_expBarSepColor;
     QColor m_btnSepColor;

@@ -37,7 +37,6 @@ DGUI_USE_NAMESPACE
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent),
       m_settings(DSettings::instance()),
-      m_mainLayout(new QStackedLayout),
       m_tbMenu(new DMenu)
 {
     //titlebar()->setBackgroundTransparent(true);
@@ -116,12 +115,13 @@ void MainWindow::initTheme()
 void MainWindow::initModule()
 {
     int mode = m_settings->getOption("mode").toInt();
-    QWidget *centralWidget = new QWidget;
+    QWidget *centralWidget = new QWidget(this);
 
+    m_mainLayout = new QStackedLayout(centralWidget);
     centralWidget->setLayout(m_mainLayout);
     setCentralWidget(centralWidget);
 
-    m_basicModule = new BasicModule;
+    m_basicModule = new BasicModule(this);
 
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->addWidget(m_basicModule);

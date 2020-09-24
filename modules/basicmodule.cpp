@@ -28,15 +28,14 @@
 
 BasicModule::BasicModule(QWidget *parent)
     : DWidget(parent),
-      m_expressionBar(new ExpressionBar),
-      m_basicKeypad(new BasicKeypad),
-      m_keypadLayout(new QStackedLayout)
+      m_expressionBar(new ExpressionBar(this)),
+      m_basicKeypad(new BasicKeypad(this))
 {
-    m_keypadLayout->addWidget(m_basicKeypad);
-
     QVBoxLayout *layout = new QVBoxLayout(this);
+    m_keypadLayout = new QStackedWidget(this);
+    m_keypadLayout->addWidget(m_basicKeypad);
     layout->addWidget(m_expressionBar);
-    layout->addLayout(m_keypadLayout);
+    layout->addWidget(m_keypadLayout);
 
     layout->setSpacing(0);
     layout->setMargin(0);
