@@ -52,36 +52,36 @@ const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
     { "=", Key_Equals, 5, 3 }
 };
 
-static QPushButton *createSpecialKeyButton(BasicKeypad::Buttons key)
-{
-    IconButton *button = new IconButton;
+//static QPushButton *createSpecialKeyButton(BasicKeypad::Buttons key)
+//{
+//    IconButton *button = new IconButton;
 
-    QString path;
-    if (DGuiApplicationHelper::instance()->themeType() == 2)
-        path = QString(":/images/%1/").arg("dark");
-    else
-        path = QString(":/images/%1/").arg("light");
+//    QString path;
+//    if (DGuiApplicationHelper::instance()->themeType() == 2)
+//        path = QString(":/images/%1/").arg("dark");
+//    else
+//        path = QString(":/images/%1/").arg("light");
 
-    if (key == BasicKeypad::Key_Div) {
-        button->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");
-    } else if (key == BasicKeypad::Key_Mult) {
-        button->setIconUrl(path + "x_normal.svg", path + "x_hover.svg", path + "x_press.svg");
-    } else if (key == BasicKeypad::Key_Min) {
-        button->setIconUrl(path + "-_normal.svg", path + "-_hover.svg", path + "-_press.svg");
-    } else if (key == BasicKeypad::Key_Plus) {
-        button->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
-    } else if (key == BasicKeypad::Key_Backspace) {
-        button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
-    } else if (key == BasicKeypad::Key_Clear) {
-        button->setIconUrl(path + "AC_normal.svg", path + "AC_hover.svg", path + "AC_press.svg");
-    } else if (key == BasicKeypad::Key_Percent) {
-        button->setIconUrl(path + "%_normal.svg", path + "%_hover.svg", path + "%_press.svg");
-    } else if (key == BasicKeypad::Key_Brackets) {
-        button->setIconUrl(path + "( )_normal.svg", path + "( )_hover.svg", path + "( )_press.svg");
-    }
-    //connect(button, &IconButton::updateInterface, this, &BasicKeypad::updateInterface);
-    return button;
-}
+//    if (key == BasicKeypad::Key_Div) {
+//        button->setIconUrl(path + "divide_normal.svg", path + "divide_hover.svg", path + "divide_press.svg");
+//    } else if (key == BasicKeypad::Key_Mult) {
+//        button->setIconUrl(path + "x_normal.svg", path + "x_hover.svg", path + "x_press.svg");
+//    } else if (key == BasicKeypad::Key_Min) {
+//        button->setIconUrl(path + "-_normal.svg", path + "-_hover.svg", path + "-_press.svg");
+//    } else if (key == BasicKeypad::Key_Plus) {
+//        button->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
+//    } else if (key == BasicKeypad::Key_Backspace) {
+//        button->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg");
+//    } else if (key == BasicKeypad::Key_Clear) {
+//        button->setIconUrl(path + "AC_normal.svg", path + "AC_hover.svg", path + "AC_press.svg");
+//    } else if (key == BasicKeypad::Key_Percent) {
+//        button->setIconUrl(path + "%_normal.svg", path + "%_hover.svg", path + "%_press.svg");
+//    } else if (key == BasicKeypad::Key_Brackets) {
+//        button->setIconUrl(path + "( )_normal.svg", path + "( )_hover.svg", path + "( )_press.svg");
+//    }
+//    //connect(button, &IconButton::updateInterface, this, &BasicKeypad::updateInterface);
+//    return button;
+//}
 
 BasicKeypad::BasicKeypad(QWidget *parent)
     : DWidget(parent),
@@ -145,12 +145,13 @@ void BasicKeypad::initButtons()
         QPushButton *button;
 
         if (desc->text.isEmpty()) {
-            button = createSpecialKeyButton(desc->button);
+//            button = createSpecialKeyButton(desc->button);
+            button = new IconButton(this);
         } else {
             if (desc->text == "=")
-                button = new EqualButton(desc->text);
+                button = new EqualButton(desc->text, this);
             else {
-                button = new TextButton(desc->text);
+                button = new TextButton(desc->text, this);
                 QFont font = button->font();
                 font.setFamily("HelveticaNeue");
                 button->setFont(font);
@@ -163,17 +164,21 @@ void BasicKeypad::initButtons()
 
         connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();});
 //        connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-        if (desc->button == Key_Equals) {
-            connect(static_cast<EqualButton *>(button), &EqualButton::btnclicked, this, [ = ]() {
-                int key = desc->button;
-                emit buttonPressed(key);
-            });
-        } else {
-            connect(static_cast<TextButton *>(button), &TextButton::btnclicked, this, [ = ]() {
-                int key = desc->button;
-                emit buttonPressed(key);
-            });
-        }
+        connect(button, &DPushButton::clicked, this, [ = ]() {
+            int key = desc->button;
+            emit buttonPressed(key);
+        });
+//        if (desc->button == Key_Equals) {
+//            connect(static_cast<EqualButton *>(button), &EqualButton::btnclicked, this, [ = ]() {
+//                int key = desc->button;
+//                emit buttonPressed(key);
+//            });
+//        } else {
+//            connect(static_cast<TextButton *>(button), &TextButton::btnclicked, this, [ = ]() {
+//                int key = desc->button;
+//                emit buttonPressed(key);
+//            });
+//        }
         connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &BasicKeypad::moveLeft);
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &BasicKeypad::moveRight);
 //        m_mapper->setMapping(button, desc->button);
