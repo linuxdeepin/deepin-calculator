@@ -125,7 +125,7 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     });
     connect(m_clearButton, &IconButton::clicked, this, [ = ]() {
         this->setFocus(); //让下次焦点在m_memoryBtn
-        if (m_buttonBox->checkedId() == 1) {
+        if (m_stackWidget->currentWidget() != m_memoryWidget) {
             m_listModel->clearItems();
             emit hisIsFilled(false);
             m_listView->listItemFill(false);
@@ -140,7 +140,7 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     });
     connect(m_clearButton, &TextButton::space, this, [ = ]() { //清除焦点空格事件
         this->setFocus(); //让下次焦点在m_memoryBtn
-        if (m_buttonBox->checkedId() == 1) {
+        if (m_stackWidget->currentWidget() != m_memoryWidget) {
             m_listModel->clearItems();
             emit hisIsFilled(false);
             m_listView->listItemFill(false);
@@ -159,19 +159,19 @@ MemHisWidget::MemHisWidget(QWidget *parent)
         m_listView->listItemFill(false);
         m_isshowH = false;
         emit hisIsFilled(false);
-        if (m_buttonBox->checkedId() == 1)
+        if (m_stackWidget->currentWidget() != m_memoryWidget)
             m_clearButton->setHidden(true);
     });
     connect(m_memoryPublic, &MemoryPublic::filledMem, this, [ = ]() {
         m_isshowM = true; //公共内存中有数据信号接收
         m_memoryWidget->setFocusPolicy(Qt::TabFocus);
-        if (m_buttonBox->checkedId() == 0)
+        if (m_stackWidget->currentWidget() == m_memoryWidget)
             m_clearButton->setHidden(false);
     });
     connect(m_memoryPublic, &MemoryPublic::emptyMem, this, [ = ]() {
         m_isshowM = false; //公共内存中无数据信号接收
         m_memoryWidget->setFocusPolicy(Qt::NoFocus);
-        if (m_buttonBox->checkedId() == 0)
+        if (m_stackWidget->currentWidget() == m_memoryWidget)
             m_clearButton->setHidden(true);
     });
 }
@@ -184,13 +184,14 @@ MemHisWidget::~MemHisWidget()
 /**
  * @brief 现实历史记录侧时调用，设置buttonbox状态
  */
-void MemHisWidget::focusOnButtonbox()
+void MemHisWidget::focusOnButtonbox(Qt::FocusReason Reason)
 {
     if (m_stackWidget->currentWidget() == m_memoryWidget) {
         m_buttonBox->button(0)->setChecked(true);
     } else {
         m_buttonBox->button(1)->setChecked(true);
     }
+    this->setFocus(Reason);
 }
 
 /**
@@ -237,11 +238,13 @@ void MemHisWidget::mouseMoveEvent(QMouseEvent *e)
 void MemHisWidget::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Left && (m_historyBtn->hasFocus() ||  m_memoryBtn->hasFocus())) {
-        focusNextChild();//焦点移动
+//        focusNextChild();//焦点移动
         m_memoryBtn->setFocus();
     } else if (e->key() == Qt::Key_Right && (m_historyBtn->hasFocus() ||  m_memoryBtn->hasFocus())) {
-        focusNextChild();//焦点移动
+//        focusNextChild();//焦点移动
         m_historyBtn->setFocus();
+    } else if (e->key() == Qt::Key_Escape) {
+        emit hideWidget();
     }
 }
 
@@ -265,7 +268,7 @@ bool MemHisWidget::eventFilter(QObject *obj, QEvent *event)
             //焦点在该widget上点击tab切换到stackwidget
             QKeyEvent *key_event = static_cast <QKeyEvent *>(event);
             if (key_event->key() == Qt::Key_Tab && !m_clearButton->isHidden()) {
-                m_stackWidget->currentWidget()->setFocus();
+                m_stackWidget->currentWidget()->setFocus(Qt::TabFocusReason);
                 return true;
             }
         } else if (event->type() == QEvent::FocusOut) {
@@ -284,20 +287,21 @@ bool MemHisWidget::eventFilter(QObject *obj, QEvent *event)
             QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
             if (key_event->key() == Qt::Key_Tab) {
                 if (m_memoryWidget->findChild<MemoryListWidget *>()->hasFocus()) {
-                    focusNextChild();//焦点移动
-                    m_memoryBtn->setFocus();
+//                    focusNextChild();//焦点移动
+                    m_memoryBtn->setFocus(Qt::TabFocusReason);
                 } else if (m_listView->hasFocus()) {
-                    focusNextChild();//焦点移动
-                    m_memoryBtn->setFocus();
+//                    focusNextChild();//焦点移动
+                    m_memoryBtn->setFocus(Qt::TabFocusReason);
                 } else if ((m_memoryBtn->hasFocus() || m_historyBtn->hasFocus()) && !m_clearButton->isHidden()) {
-                    focusNextChild();//焦点移动
-                    m_clearButton->setFocus();
+//                    focusNextChild();//焦点移动
+                    m_clearButton->setFocus(Qt::TabFocusReason);
                 } else if (m_clearButton->hasFocus()) {
-                    focusNextChild();//焦点移动
+//                    focusNextChild();//焦点移动
                     if (m_stackWidget->currentWidget() == m_memoryWidget)
-                        m_memoryWidget->findChild<MemoryListWidget *>()->setFocus();
+//                        m_memoryWidget->findChild<MemoryListWidget *>()->setFocus();
+                        m_memoryWidget->setFocus(Qt::TabFocusReason);
                     else
-                        m_listView->setFocus();
+                        m_listView->setFocus(Qt::TabFocusReason);
                 }
                 return true; //在该对象点击tab不让焦点到窗口外
             }
@@ -311,6 +315,18 @@ bool MemHisWidget::eventFilter(QObject *obj, QEvent *event)
 
     }
     return QWidget::eventFilter(obj, event);
+}
+
+void MemHisWidget::focusInEvent(QFocusEvent *event)
+{
+    if (event->reason() == Qt::TabFocusReason) {
+        if (m_stackWidget->currentWidget() == m_memoryWidget) {
+            m_memoryWidget->setFocus(Qt::TabFocusReason);
+        } else {
+            m_listView->setFocus(Qt::TabFocusReason);
+        }
+    }
+    QWidget::focusInEvent(event);
 }
 
 /**
@@ -343,6 +359,6 @@ void MemHisWidget::historyfilled()
     m_listView->setFocusPolicy(Qt::TabFocus);
     m_isshowH = true;
     emit hisIsFilled(true);
-    if (m_buttonBox->checkedId() == 1)
+    if (m_stackWidget->currentWidget() != m_memoryWidget)
         m_clearButton->setHidden(false);
 }

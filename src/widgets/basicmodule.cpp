@@ -154,7 +154,7 @@ BasicModule::BasicModule(QWidget *parent)
             m_memorylistwidget->expressionempty(b);
         }
     });
-    connect(m_memorylistwidget, &MemoryWidget::basicPressEscape, this, &BasicModule::closeListWidget);
+    connect(m_memorylistwidget, &MemoryWidget::hideWidget, this, &BasicModule::closeListWidget);
     //获取科学模式内存是否为空，处理分开初始化科学模式下增加内存切到标准模式Mlist不能点击情况
     if (!m_memoryPublic->isWidgetEmpty(0))
         mAvailableEvent();

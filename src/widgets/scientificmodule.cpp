@@ -641,6 +641,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
  */
 void scientificModule::handleKeypadButtonPress(int key)
 {
+    bool memoryfocus = false;
     m_scikeypadwidget->update();
     //20200414 bug20294鼠标点击取消focus
     switch (key) {
@@ -774,9 +775,10 @@ void scientificModule::handleKeypadButtonPress(int key)
         break;
     case MemHisKeypad::Key_MHlist:
         showMemHisWidget();
-        m_memhiswidget->focusOnButtonbox();
+        m_memhiswidget->focusOnButtonbox(Qt::MouseFocusReason);
         m_sciexpressionBar->setAttribute(Qt::WA_TransparentForMouseEvents); //鼠标穿透
         m_memhiskeypad->setAttribute(Qt::WA_TransparentForMouseEvents); //鼠标穿透
+        memoryfocus = true;
         break;
     case ScientificKeyPad::Key_deg:
         m_sciexpressionBar->enterDegEvent(m_deg);
@@ -934,7 +936,9 @@ void scientificModule::handleKeypadButtonPress(int key)
         break;
     }
     m_sciexpressionBar->addUndo();
-    if (m_stackWidget->currentWidget() == m_scikeypadwidget)
+//    if (m_stackWidget->currentWidget() == m_scikeypadwidget)
+//        m_sciexpressionBar->getInputEdit()->setFocus();
+    if (!memoryfocus)
         m_sciexpressionBar->getInputEdit()->setFocus();
     int left = 0;
     int right = 0;
@@ -1097,7 +1101,7 @@ void scientificModule::handleKeypadButtonPressByspace(int key)
     case MemHisKeypad::Key_MHlist:
         m_memhiskeypad->animate(MemHisKeypad::Key_MHlist, true);
         showMemHisWidget();
-        m_memhiswidget->focusOnButtonbox();
+        m_memhiswidget->focusOnButtonbox(Qt::TabFocusReason);
         m_sciexpressionBar->setAttribute(Qt::WA_TransparentForMouseEvents); //鼠标穿透
         m_memhiskeypad->setAttribute(Qt::WA_TransparentForMouseEvents); //鼠标穿透
         break;

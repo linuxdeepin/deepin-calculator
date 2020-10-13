@@ -264,22 +264,34 @@ void MemoryWidget::mousePressEvent(QMouseEvent *event)
  */
 bool MemoryWidget::eventFilter(QObject *obj, QEvent *event)
 {
+    if (obj == this && event->type() == QEvent::KeyPress) {
+        QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
+        if (key_event->key() == Qt::Key_Tab) {
+            if (!m_isempty) {
+                m_listwidget->setCurrentRow(m_currentrow);
+                m_listwidget->setFocus();
+            } else {
+                setFocus();
+            }
+            return true;
+        }
+    }
     if (m_calculatormode == 0) {
         if (event->type() == QEvent::FocusOut && !(m_listwidget->hasFocus() || m_clearbutton->hasFocus() || this->hasFocus())) {
-            emit basicPressEscape();
+            emit hideWidget();
         }
-        if (obj == this && event->type() == QEvent::KeyPress) {
-            QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
-            if (key_event->key() == Qt::Key_Tab) {
-                if (!m_isempty) {
-                    m_listwidget->setCurrentRow(m_currentrow);
-                    m_listwidget->setFocus();
-                } else {
-                    setFocus();
-                }
-                return true;
-            }
-        }
+//        if (obj == this && event->type() == QEvent::KeyPress) {
+//            QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
+//            if (key_event->key() == Qt::Key_Tab) {
+//                if (!m_isempty) {
+//                    m_listwidget->setCurrentRow(m_currentrow);
+//                    m_listwidget->setFocus();
+//                } else {
+//                    setFocus();
+//                }
+//                return true;
+//            }
+//        }
         if (obj == m_listwidget || obj == m_clearbutton) {
             if (event->type() == QEvent::KeyPress) {
                 QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
@@ -294,7 +306,7 @@ bool MemoryWidget::eventFilter(QObject *obj, QEvent *event)
                     return true;
                 }
                 if (key_event->key() == Qt::Key_Escape) {
-                    emit basicPressEscape();
+                    emit hideWidget();
                     return true;
                 }
             }
@@ -318,7 +330,7 @@ void MemoryWidget::focusInEvent(QFocusEvent *event)
 void MemoryWidget::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Escape)
-        emit basicPressEscape();
+        emit hideWidget();
     else
         return;
 }

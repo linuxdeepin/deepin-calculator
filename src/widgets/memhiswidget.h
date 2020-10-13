@@ -55,7 +55,7 @@ public:
     };
     MemHisWidget(QWidget *parent = nullptr);
     ~MemHisWidget();
-    void focusOnButtonbox();
+    void focusOnButtonbox(Qt::FocusReason Reason);
     void memoryFunctions(memOperate operate = generateData, Quantity answer = Quantity(), int row = -1);
     void resetFocus();
     void historyfilled();
@@ -63,6 +63,7 @@ public:
     void mouseMoveEvent(QMouseEvent *e);
     void keyPressEvent(QKeyEvent *e);
     bool eventFilter(QObject *obj, QEvent *event);
+    void focusInEvent(QFocusEvent *event);
 
 signals:
     void hisIsFilled(bool isfilled);
