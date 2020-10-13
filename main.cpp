@@ -118,10 +118,10 @@ int main(int argc, char *argv[])
 
     MainWindow window;
     //start fix bug-37751
-    window.setWindowFlags(window.windowFlags() & ~Qt::WindowMinMaxButtonsHint);
+    window.setWindowFlags(window.windowFlags() & ~ Qt::WindowMaximizeButtonHint);
     window.setAttribute(Qt::WA_NativeWindow);
-    window.windowHandle()->setProperty("_d_dwayland_window-type", "wallpaper");
-    window.windowHandle()->setProperty("_d_dwayland_minimizable", false);
+//    window.windowHandle()->setProperty("_d_dwayland_window-type", "wallpaper");
+//    window.windowHandle()->setProperty("_d_dwayland_minimizable", false);
     window.windowHandle()->setProperty("_d_dwayland_maximizable", false);
     window.windowHandle()->setProperty("_d_dwayland_resizable", false);
     //end fix
