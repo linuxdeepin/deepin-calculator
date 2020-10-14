@@ -304,6 +304,8 @@ bool MemHisWidget::eventFilter(QObject *obj, QEvent *event)
                         m_listView->setFocus(Qt::TabFocusReason);
                 }
                 return true; //在该对象点击tab不让焦点到窗口外
+            } else if (key_event->key() == Qt::Key_Escape) {
+                emit hideWidget();
             }
         } else if (event->type() == QEvent::FocusOut) {
             //点击标题栏及外部桌面失去焦点时切换至scientifickeypad
