@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
     window.setWindowFlags(window.windowFlags() & ~ Qt::WindowMaximizeButtonHint);
     window.setAttribute(Qt::WA_NativeWindow);
 //    window.windowHandle()->setProperty("_d_dwayland_window-type", "wallpaper");
-//    window.windowHandle()->setProperty("_d_dwayland_minimizable", false);
+    window.windowHandle()->setProperty("_d_dwayland_minimizable", true);
     window.windowHandle()->setProperty("_d_dwayland_maximizable", false);
     window.windowHandle()->setProperty("_d_dwayland_resizable", false);
     //end fix
