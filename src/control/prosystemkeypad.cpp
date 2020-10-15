@@ -58,6 +58,11 @@ void ProSystemKeypad::setSystem(int system)
     }
 }
 
+void ProSystemKeypad::mouseMoveEvent(QMouseEvent *event)
+{
+    Q_UNUSED(event);
+}
+
 void ProSystemKeypad::initUI()
 {
     for (int i = 0; i < 16; i++) {

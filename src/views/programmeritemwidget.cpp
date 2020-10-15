@@ -6,6 +6,7 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, const QIcon &icon, QWi
     , m_iconbtn(new DIconButton(nullptr))
     , m_label(new QLabel(label))
 {
+    setFocusPolicy(Qt::NoFocus);
     setFixedSize(QSize(250, 34));
     setAttribute(Qt::WA_TranslucentBackground, true);
     m_iconbtn->setIcon(icon);

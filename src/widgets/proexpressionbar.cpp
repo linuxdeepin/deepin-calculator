@@ -31,6 +31,11 @@ ProExpressionBar::~ProExpressionBar()
 
 }
 
+void ProExpressionBar::mouseMoveEvent(QMouseEvent *event)
+{
+    Q_UNUSED(event);
+}
+
 void ProExpressionBar::enterEqualEvent()
 {
 

@@ -18,6 +18,7 @@ class ProExpressionBar : public DWidget
 public:
     ProExpressionBar(QWidget *parent = nullptr);
     ~ProExpressionBar();
+    void mouseMoveEvent(QMouseEvent *event);
 
 signals:
 //    void keyPress(QKeyEvent *);

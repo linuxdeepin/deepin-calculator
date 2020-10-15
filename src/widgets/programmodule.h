@@ -20,6 +20,7 @@
 #include "control/procheckbtnkeypad.h"
 #include "control/prosystemkeypad.h"
 #include "widgets/proexpressionbar.h"
+#include "widgets/arrowrectangle.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
@@ -31,6 +32,8 @@ class ProgramModule : public DWidget
 public:
     ProgramModule(QWidget *parent = nullptr);
     ~ProgramModule();
+    void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 
 private slots:
     void handleCheckBtnKeypadButtonPress(int key);
@@ -41,6 +44,7 @@ private slots:
 private:
     void initArrowRectangle();
     void handleEditKeyPress(QKeyEvent *);
+    void setwidgetAttribute(bool b);
 
 private:
     ProExpressionBar *m_proExpressionBar;
@@ -52,10 +56,10 @@ private:
     ProSystemKeypad *m_proSystemKeypad;
     QStackedWidget *m_stackWidget;
 
-    DArrowRectangle *m_byteArrowRectangle;
+    ArrowRectangle *m_byteArrowRectangle;
     DListWidget *m_byteArrowListWidget;
     ProgrammerArrowDelegate *m_byteProgrammerArrowDelegate;
-    DArrowRectangle *m_shiftArrowRectangle;
+    ArrowRectangle *m_shiftArrowRectangle;
     DListWidget *m_shiftArrowListWidget;
     ProgrammerArrowDelegate *m_shiftProgrammerArrowDelegate;
 };

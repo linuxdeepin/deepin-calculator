@@ -14,13 +14,13 @@ ProgramModule::ProgramModule(QWidget *parent)
     , m_proListModel(new ProListModel(this))
     , m_proListDelegate(new ProListDelegate())
     , m_checkBtnKeypad(new ProCheckBtnKeypad(this))
-    , m_programmerKeypad(new ProgrammerKeypad)
-    , m_proSystemKeypad(new ProSystemKeypad)
+    , m_programmerKeypad(new ProgrammerKeypad(this))
+    , m_proSystemKeypad(new ProSystemKeypad(this))
     , m_stackWidget(new QStackedWidget(this))
-    , m_byteArrowRectangle(new DArrowRectangle(DArrowRectangle::ArrowTop, DArrowRectangle::FloatWidget, this))
+    , m_byteArrowRectangle(new ArrowRectangle(DArrowRectangle::ArrowTop, DArrowRectangle::FloatWidget, this))
     , m_byteArrowListWidget(new DListWidget)
     , m_byteProgrammerArrowDelegate(new ProgrammerArrowDelegate)
-    , m_shiftArrowRectangle(new DArrowRectangle(DArrowRectangle::ArrowTop, DArrowRectangle::FloatWidget, this))
+    , m_shiftArrowRectangle(new ArrowRectangle(DArrowRectangle::ArrowTop, DArrowRectangle::FloatWidget, this))
     , m_shiftArrowListWidget(new DListWidget())
     , m_shiftProgrammerArrowDelegate(new ProgrammerArrowDelegate)
 {
@@ -60,6 +60,19 @@ ProgramModule::~ProgramModule()
 
 }
 
+void ProgramModule::mouseMoveEvent(QMouseEvent *event)
+{
+    Q_UNUSED(event);
+}
+
+void ProgramModule::mousePressEvent(QMouseEvent *event)
+{
+    m_byteArrowRectangle->setHidden(true);
+    m_shiftArrowRectangle->setHidden(true);
+    setwidgetAttribute(false);
+    DWidget::mousePressEvent(event);
+}
+
 void ProgramModule::handleCheckBtnKeypadButtonPress(int key)
 {
     QString path;
@@ -87,9 +100,13 @@ void ProgramModule::handleCheckBtnKeypadButtonPress(int key)
         break;
     case ProCheckBtnKeypad::Key_System:
         m_byteArrowRectangle->setHidden(false);
+        setwidgetAttribute(true);
+        m_byteArrowRectangle->setFocus();
         break;
     case ProCheckBtnKeypad::Key_Option:
         m_shiftArrowRectangle->setHidden(false);
+        setwidgetAttribute(true);
+        m_shiftArrowRectangle->setFocus();
         break;
     case ProCheckBtnKeypad::Key_Mlist:
         break;
@@ -112,6 +129,7 @@ void ProgramModule::shiftArrowListWidgetItemClicked(QListWidgetItem *item)
         path = QString(":/assets/images/%1/").arg("light");
     m_shiftArrowListWidget->setCurrentItem(item);
     m_shiftArrowRectangle->setHidden(true);
+    setwidgetAttribute(false);
 
     //计算方式选项按钮图标跟随选项改变
     switch (m_shiftArrowListWidget->currentRow()) {
@@ -143,6 +161,7 @@ void ProgramModule::byteArrowListWidgetItemClicked(QListWidgetItem *item)
     QString str = static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->currentItem()))->findChild<QLabel *>()->text();
     static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setText(str);
     m_byteArrowRectangle->setHidden(true);
+    setwidgetAttribute(false);
 
     //改变m_proSystemKeypad按钮状态
     switch (m_byteArrowListWidget->currentRow()) {
@@ -306,9 +325,32 @@ void ProgramModule::initArrowRectangle()
             static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(previous))->findChild<DIconButton *>("markBtn")->setHidden(true);
         }
     });
+    connect(m_byteArrowRectangle, &ArrowRectangle::hidearrowrectangle, this, [ = ]() {
+        m_byteArrowRectangle->setHidden(true);
+        setwidgetAttribute(false);
+    });
+    connect(m_shiftArrowRectangle, &ArrowRectangle::hidearrowrectangle, this, [ = ]() {
+        m_shiftArrowRectangle->setHidden(true);
+        setwidgetAttribute(false);
+    });
 }
 
 void ProgramModule::handleEditKeyPress(QKeyEvent *)
 {
 
+}
+
+/**
+ * @brief ProgramModule::setwidgetAttribute
+ * 设置鼠标能否点击module中的其他控件，用于点出rectangle和内存列表
+ * @param b
+ * true:无法点击 false：可以点击
+ */
+void ProgramModule::setwidgetAttribute(bool b)
+{
+    m_proExpressionBar->setAttribute(Qt::WA_TransparentForMouseEvents, b);
+    m_programmerKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, b);
+    m_proSystemKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, b);
+    m_checkBtnKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, b);
+    m_proListView->setAttribute(Qt::WA_TransparentForMouseEvents, b);
 }

@@ -21,6 +21,7 @@ public:
     ProSystemKeypad(QWidget *parent = nullptr);
     ~ProSystemKeypad();
     void setSystem(int system); //system-64, 32, 16, 8
+    void mouseMoveEvent(QMouseEvent *event);
 
 private:
     void initUI();
