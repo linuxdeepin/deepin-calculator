@@ -13,7 +13,7 @@ class ProgrammerArrowDelegate : public QStyledItemDelegate
     Q_OBJECT
 
 public:
-    ProgrammerArrowDelegate(DListWidget *parent = nullptr);
+    ProgrammerArrowDelegate(QObject *parent = nullptr);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;

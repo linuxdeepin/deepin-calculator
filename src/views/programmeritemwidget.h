@@ -27,6 +27,7 @@ public:
     void paintEvent(QPaintEvent *e);
 public slots:
     void themetypechanged(int type);
+    void setitemfocused(bool b);
 
 private:
     DIconButton *m_markbtn;
@@ -35,6 +36,7 @@ private:
     bool m_ispress = false;
     bool m_ishover = false;
     int m_themetype = 1;
+    bool m_isfocus = false;
 };
 
 #endif // PROGRAMMERITEMWIDGET_H

@@ -7,6 +7,8 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, const QIcon &icon, QWi
     , m_label(new QLabel(label))
 {
     setFocusPolicy(Qt::NoFocus);
+    m_markbtn->setFocusPolicy(Qt::NoFocus);
+    m_iconbtn->setFocusPolicy(Qt::NoFocus);
     setFixedSize(QSize(250, 34));
     setAttribute(Qt::WA_TranslucentBackground, true);
     m_iconbtn->setIcon(icon);
@@ -41,6 +43,8 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, QWidget *parent)
     , m_markbtn(new DIconButton(DStyle::SP_MarkElement))
     , m_label(new QLabel(label))
 {
+    setFocusPolicy(Qt::NoFocus);
+    m_markbtn->setFocusPolicy(Qt::NoFocus);
     setFixedSize(QSize(250, 34));
     setAttribute(Qt::WA_TranslucentBackground, true);
     QWidget *markWidget = new QWidget(this);
@@ -138,6 +142,21 @@ void ProgrammerItemWidget::paintEvent(QPaintEvent *e)
         pl1.setColor(DPalette::Text, text);
         pl1.setColor(DPalette::HighlightedText, text);
         m_label->setPalette(pl1);
+    } else if (m_isfocus) {
+        QRectF frame(this->rect().left(), this->rect().top(), this->rect().width(), this->rect().height());
+        painter.setPen(Qt::NoPen);
+        QColor color(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name());
+        painter.setBrush(color);
+        painter.drawRect(frame); //focus边框
+        DPalette pl1 = this->palette(); //按下时给label字体设置颜色
+        if (m_themetype == 1) {
+            pl1.setColor(DPalette::Text, QColor("#000000"));
+            pl1.setColor(DPalette::HighlightedText, QColor("#000000"));
+        } else {
+            pl1.setColor(DPalette::Text, QColor("#FFFFFF"));
+            pl1.setColor(DPalette::HighlightedText, QColor("#FFFFFF"));
+        }
+        m_label->setPalette(pl1);
     } else {
         painter.setPen(Qt::NoPen);
         painter.setBrush(background);
@@ -182,4 +201,14 @@ void ProgrammerItemWidget::themetypechanged(int type)
     }
 
     m_label->setPalette(pl1);
+}
+
+/**
+ * @brief ProgrammerItemWidget::setitemfocused
+ * 设置是否需要画focus的框
+ * @param b
+ */
+void ProgrammerItemWidget::setitemfocused(bool b)
+{
+    m_isfocus = b;
 }

@@ -115,6 +115,7 @@ void MemoryListWidget::focusInEvent(QFocusEvent *event)
 //    if (currentRow() == -1)
 //        setCurrentRow(0);
     scrollToItem(this->item(currentRow()));
+    emit ArrowFocusIn();
     QWidget::focusInEvent(event);
 }
 

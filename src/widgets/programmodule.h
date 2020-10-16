@@ -15,6 +15,8 @@
 #include "views/prolistview.h"
 #include "views/prolistmodel.h"
 #include "views/prolistdelegate.h"
+#include "views/memorylistwidget.h"
+#include "views/memoryitemdelegate.h"
 #include "control/bitbutton.h"
 #include "control/programmerkeypad.h"
 #include "control/procheckbtnkeypad.h"
@@ -37,8 +39,12 @@ public:
 
 private slots:
     void handleCheckBtnKeypadButtonPress(int key);
-    void shiftArrowListWidgetItemClicked(QListWidgetItem *item);
-    void byteArrowListWidgetItemClicked(QListWidgetItem *item);
+//    void shiftArrowListWidgetItemClicked(QListWidgetItem *item);
+//    void byteArrowListWidgetItemClicked(QListWidgetItem *item);
+    void shiftArrowListWidgetItemClicked(int row);
+    void shiftArrowListWidgetItemSpace();
+    void byteArrowListWidgetItemClicked(int row);
+    void byteArrowListWidgetItemSpace();
     void checkBtnKeypadThemeChange(int type);
 
 private:
@@ -57,11 +63,15 @@ private:
     QStackedWidget *m_stackWidget;
 
     ArrowRectangle *m_byteArrowRectangle;
-    DListWidget *m_byteArrowListWidget;
-    ProgrammerArrowDelegate *m_byteProgrammerArrowDelegate;
+    MemoryListWidget *m_byteArrowListWidget;
+    MemoryItemDelegate *m_byteProgrammerArrowDelegate;
     ArrowRectangle *m_shiftArrowRectangle;
-    DListWidget *m_shiftArrowListWidget;
-    ProgrammerArrowDelegate *m_shiftProgrammerArrowDelegate;
+    MemoryListWidget *m_shiftArrowListWidget;
+    MemoryItemDelegate *m_shiftProgrammerArrowDelegate;
+
+    //rectangle中当前选中的行数
+    int m_shiftArrowCurrentRow = 0;
+    int m_byteArrowCurrentRow = 0;
 };
 
 #endif // PROGRAMMODULE_H
