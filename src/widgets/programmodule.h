@@ -10,13 +10,12 @@
 #include <QVBoxLayout>
 #include <QStackedWidget>
 
+#include "views/memorylistwidget.h"
 #include "views/programmerarrowdelegate.h"
 #include "views/programmeritemwidget.h"
 #include "views/prolistview.h"
 #include "views/prolistmodel.h"
 #include "views/prolistdelegate.h"
-#include "views/memorylistwidget.h"
-#include "views/memoryitemdelegate.h"
 #include "control/bitbutton.h"
 #include "control/programmerkeypad.h"
 #include "control/procheckbtnkeypad.h"
@@ -39,8 +38,8 @@ public:
 
 private slots:
     void handleCheckBtnKeypadButtonPress(int key);
-//    void shiftArrowListWidgetItemClicked(QListWidgetItem *item);
-//    void byteArrowListWidgetItemClicked(QListWidgetItem *item);
+    //    void shiftArrowListWidgetItemClicked(QListWidgetItem *item);
+    //    void byteArrowListWidgetItemClicked(QListWidgetItem *item);
     void shiftArrowListWidgetItemClicked(int row);
     void shiftArrowListWidgetItemSpace();
     void byteArrowListWidgetItemClicked(int row);
@@ -64,10 +63,10 @@ private:
 
     ArrowRectangle *m_byteArrowRectangle;
     MemoryListWidget *m_byteArrowListWidget;
-    MemoryItemDelegate *m_byteProgrammerArrowDelegate;
+    ProgrammerArrowDelegate *m_byteProgrammerArrowDelegate;
     ArrowRectangle *m_shiftArrowRectangle;
     MemoryListWidget *m_shiftArrowListWidget;
-    MemoryItemDelegate *m_shiftProgrammerArrowDelegate;
+    ProgrammerArrowDelegate *m_shiftProgrammerArrowDelegate;
 
     //rectangle中当前选中的行数
     int m_shiftArrowCurrentRow = 0;

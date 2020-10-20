@@ -25,9 +25,10 @@ public:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void paintEvent(QPaintEvent *e);
+    bool eventFilter(QObject *obj, QEvent *event);
+    void cleanHoverState();
 public slots:
     void themetypechanged(int type);
-    void setitemfocused(bool b);
 
 private:
     DIconButton *m_markbtn;
@@ -36,7 +37,6 @@ private:
     bool m_ispress = false;
     bool m_ishover = false;
     int m_themetype = 1;
-    bool m_isfocus = false;
 };
 
 #endif // PROGRAMMERITEMWIDGET_H

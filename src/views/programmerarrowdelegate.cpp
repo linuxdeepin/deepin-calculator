@@ -14,27 +14,29 @@ void ProgrammerArrowDelegate::paint(QPainter *painter, const QStyleOptionViewIte
 {
     //边框绘制
     MemoryListWidget *dragWidget = qobject_cast<MemoryListWidget *>(option.styleObject);
-//    QRectF rect = dragWidget->rect(); //获取memorylistwidget.rect绘制背景色
+    QRectF rect = dragWidget->rect(); //获取memorylistwidget.rect绘制背景色
     painter->setRenderHint(QPainter::Antialiasing, true);
-    if (dragWidget->hasFocus()) {
-//        qDebug() << "paint";
-        qDebug() << dragWidget->row(dragWidget->currentItem());
-        QRectF itemrect(dragWidget->visualItemRect(dragWidget->currentItem()));
-        QRectF frame(itemrect.left() + 1, itemrect.top() + 1, itemrect.width() - 2, itemrect.height() - 2);
-        QPen pen;
-        pen.setColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name());
-        pen.setWidth(4);
-        painter->setPen(pen);
-        painter->setBrush(Qt::red);
-        painter->drawRoundedRect(frame, 4, 4); //focus边框
+    int type = DGuiApplicationHelper::instance()->paletteType();
+    if (type == 0)
+        type = DGuiApplicationHelper::instance()->themeType();
+    if (type == 1) {
+        painter->setPen(Qt::NoPen);
+        painter->setBrush(QColor("#F8F8F8"));
+        painter->drawRect(rect);
+    } else {
+        painter->setPen(Qt::NoPen);
+        painter->setBrush(QColor("#252525"));
+        painter->drawRect(rect);
     }
-    if (option.state & QStyle::State_MouseOver) {
-        qDebug() << "123";
-        qDebug() << option.index.row();
-        painter->setPen(Qt::blue);
-        painter->setBrush(Qt::red);
-        QRect rect = option.rect;
-        painter->drawRoundedRect(rect, 4, 4);
+    if (dragWidget->hasFocus()) {
+        QRectF itemrect(dragWidget->visualItemRect(dragWidget->currentItem()));
+//        QPen pen;
+//        pen.setColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name());
+//        pen.setWidth(4);
+//        painter->setPen(Qt::NoPen);
+        QColor color(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name());
+        painter->setBrush(color);
+        painter->drawRect(itemrect); //背景填充
     }
     QStyledItemDelegate::paint(painter, option, index);
 }

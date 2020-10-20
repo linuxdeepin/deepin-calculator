@@ -18,11 +18,11 @@ ProgramModule::ProgramModule(QWidget *parent)
     , m_proSystemKeypad(new ProSystemKeypad(this))
     , m_stackWidget(new QStackedWidget(this))
     , m_byteArrowRectangle(new ArrowRectangle(DArrowRectangle::ArrowTop, DArrowRectangle::FloatWidget, this))
-    , m_byteArrowListWidget(new MemoryListWidget(this))
-    , m_byteProgrammerArrowDelegate(new MemoryItemDelegate(this))
+    , m_byteArrowListWidget(new MemoryListWidget(this, true))
+    , m_byteProgrammerArrowDelegate(new ProgrammerArrowDelegate(this))
     , m_shiftArrowRectangle(new ArrowRectangle(DArrowRectangle::ArrowTop, DArrowRectangle::FloatWidget, this))
-    , m_shiftArrowListWidget(new MemoryListWidget(this))
-    , m_shiftProgrammerArrowDelegate(new MemoryItemDelegate(this))
+    , m_shiftArrowListWidget(new MemoryListWidget(this, true))
+    , m_shiftProgrammerArrowDelegate(new ProgrammerArrowDelegate(this))
 {
     m_proExpressionBar->setFixedHeight(EXPRESSIONBAR_HEIGHT);
     m_proListView->setModel(m_proListModel);
@@ -68,9 +68,7 @@ void ProgramModule::mouseMoveEvent(QMouseEvent *event)
 void ProgramModule::mousePressEvent(QMouseEvent *event)
 {
     m_byteArrowRectangle->setHidden(true);
-    static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->currentItem()))->setitemfocused(false);
     m_shiftArrowRectangle->setHidden(true);
-    static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->currentItem()))->setitemfocused(false);
     setwidgetAttribute(false);
     DWidget::mousePressEvent(event);
 }
@@ -129,12 +127,10 @@ void ProgramModule::shiftArrowListWidgetItemClicked(int row)
         path = QString(":/assets/images/%1/").arg("dark");
     else
         path = QString(":/assets/images/%1/").arg("light");
-
     m_shiftArrowListWidget->setCurrentRow(row);
     static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->currentItem()))->findChild<DIconButton *>("markBtn")->setHidden(false);
     static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->item(m_shiftArrowCurrentRow)))->findChild<DIconButton *>("markBtn")->setHidden(true);
     m_shiftArrowRectangle->setHidden(true);
-    static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->currentItem()))->setitemfocused(false);
     setwidgetAttribute(false);
 
     //计算方式选项按钮图标跟随选项改变
@@ -159,6 +155,10 @@ void ProgramModule::shiftArrowListWidgetItemClicked(int row)
     m_shiftArrowCurrentRow = row;
 }
 
+/**
+ * @brief ProgramModule::shiftArrowListWidgetItemSpace
+ * focus后空格点击
+ */
 void ProgramModule::shiftArrowListWidgetItemSpace()
 {
     shiftArrowListWidgetItemClicked(m_shiftArrowListWidget->currentRow());
@@ -175,7 +175,6 @@ void ProgramModule::byteArrowListWidgetItemClicked(int row)
     QString str = static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->currentItem()))->findChild<QLabel *>()->text();
     static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setText(str);
     m_byteArrowRectangle->setHidden(true);
-    static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->currentItem()))->setitemfocused(false);
     setwidgetAttribute(false);
 
     //改变m_proSystemKeypad按钮状态
@@ -196,6 +195,10 @@ void ProgramModule::byteArrowListWidgetItemClicked(int row)
     m_byteArrowCurrentRow = row;
 }
 
+/**
+ * @brief ProgramModule::byteArrowListWidgetItemSpace
+ * focus后空格点击
+ */
 void ProgramModule::byteArrowListWidgetItemSpace()
 {
     byteArrowListWidgetItemClicked(m_byteArrowListWidget->currentRow());
@@ -283,8 +286,6 @@ void ProgramModule::initArrowRectangle()
     m_shiftArrowRectangle->setHeight(181);
     m_shiftArrowRectangle->setHidden(true);
 
-    m_byteArrowListWidget->setAutoScroll(false); //鼠标在视口边缘时是否自动滚动内容
-    m_byteArrowListWidget->setSelectionRectVisible(false); //选择矩形框是否可见
     m_byteArrowListWidget->setItemDelegate(m_byteProgrammerArrowDelegate);
     m_byteArrowListWidget->setFrameShape(QFrame::NoFrame); //设置边框类型，无边框
     m_byteArrowListWidget->setAttribute(Qt::WA_TranslucentBackground, true);
@@ -317,8 +318,6 @@ void ProgramModule::initArrowRectangle()
     m_byteArrowListWidget->setCurrentItem(m_byteArrowListWidget->item(0));
     static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->currentItem()))
     ->findChild<DIconButton *>("markBtn")->setHidden(false);
-//    static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->item(m_byteArrowCurrentRow)))
-//    ->findChild<DIconButton *>("markBtn")->setHidden(false);
 
     m_byteArrowListWidget->setFixedSize(QSize(250, 136));
     m_byteArrowRectangle->setRadius(15);
@@ -340,36 +339,21 @@ void ProgramModule::initArrowRectangle()
     //信号槽
     connect(m_byteArrowListWidget, &MemoryListWidget::itemselected, this, &ProgramModule::byteArrowListWidgetItemClicked);
     connect(m_byteArrowListWidget, &MemoryListWidget::space, this, &ProgramModule::byteArrowListWidgetItemSpace);
-    connect(m_byteArrowListWidget, &QListWidget::currentItemChanged, [ = ](QListWidgetItem * current, QListWidgetItem * previous) {
-        static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(current))->setitemfocused(true);
-        if (m_byteArrowListWidget->row(previous) != -1) {
-            static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(previous))->setitemfocused(false);
-        }
-    });
-    connect(m_byteArrowListWidget, &MemoryListWidget::ArrowFocusIn, this, [ = ]() {
-        static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->item(m_byteArrowListWidget->currentRow())))->setitemfocused(true);
-    });
-
+//    connect(m_byteArrowListWidget, &QListWidget::currentItemChanged, [ = ](QListWidgetItem * current, QListWidgetItem * previous) {
+//        static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(current))->findChild<DIconButton *>("markBtn")->setHidden(false);
+//        if (m_byteArrowListWidget->row(previous) != -1) {
+//            static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(previous))->findChild<DIconButton *>("markBtn")->setHidden(true);
+//        }
+//    });
     connect(m_shiftArrowListWidget, &MemoryListWidget::itemselected, this, &ProgramModule::shiftArrowListWidgetItemClicked);
     connect(m_shiftArrowListWidget, &MemoryListWidget::space, this, &ProgramModule::shiftArrowListWidgetItemSpace);
-    connect(m_shiftArrowListWidget, &QListWidget::currentItemChanged, [ = ](QListWidgetItem * current, QListWidgetItem * previous) {
-        static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(current))->setitemfocused(true);
-        if (m_shiftArrowListWidget->row(previous) != -1) {
-            static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(previous))->setitemfocused(false);
-        }
-    });
-    connect(m_shiftArrowListWidget, &MemoryListWidget::ArrowFocusIn, this, [ = ]() {
-        static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->item(m_shiftArrowListWidget->currentRow())))->setitemfocused(true);
-    });
 
     connect(m_byteArrowRectangle, &ArrowRectangle::hidearrowrectangle, this, [ = ]() {
         m_byteArrowRectangle->setHidden(true);
-        static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->currentItem()))->setitemfocused(false);
         setwidgetAttribute(false);
     });
     connect(m_shiftArrowRectangle, &ArrowRectangle::hidearrowrectangle, this, [ = ]() {
         m_shiftArrowRectangle->setHidden(true);
-        static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->currentItem()))->setitemfocused(false);
         setwidgetAttribute(false);
     });
 
@@ -409,6 +393,8 @@ void ProgramModule::initArrowRectangle()
             break;
         }
     });
+    connect(m_byteArrowListWidget, &MemoryListWidget::mousemoving, m_byteArrowRectangle, &ArrowRectangle::mouseMoveToClearFocus);
+    connect(m_shiftArrowListWidget, &MemoryListWidget::mousemoving, m_shiftArrowRectangle, &ArrowRectangle::mouseMoveToClearFocus);
 }
 
 void ProgramModule::handleEditKeyPress(QKeyEvent *)

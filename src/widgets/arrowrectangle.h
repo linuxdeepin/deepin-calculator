@@ -13,7 +13,10 @@ public:
     ~ArrowRectangle();
     bool eventFilter(QObject *obj, QEvent *event);
     void focusInEvent(QFocusEvent *event);
+//    void mouseMoveEvent(QMouseEvent *event);
 
+public slots:
+    void mouseMoveToClearFocus();
 signals:
     void hidearrowrectangle();
 };

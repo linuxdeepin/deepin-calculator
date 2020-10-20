@@ -32,23 +32,26 @@ class MemoryListWidget : public QListWidget
     Q_OBJECT
 
 public:
-    explicit MemoryListWidget(QWidget *parent = nullptr);
+    explicit MemoryListWidget(QWidget *parent = nullptr, bool isarrowlist = false);
     ~MemoryListWidget();
 
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *e);
     void focusInEvent(QFocusEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event);
+    void oneItemFocused();
 
 signals:
     void itemselected(int row);
     void focus(int direction); //direction 0-上　1-下　2-左　3-右
     void space();
     void altAndM();
-    void ArrowFocusIn();
+    void mousemoving();
 
 private:
     QPoint m_mousepoint;
+    QPoint m_mousemovepoint;//鼠标的实时全局位置
     int m_clickrow = -1;
 
 public slots:

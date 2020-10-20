@@ -6,6 +6,7 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, const QIcon &icon, QWi
     , m_iconbtn(new DIconButton(nullptr))
     , m_label(new QLabel(label))
 {
+    setMouseTracking(true);
     setFocusPolicy(Qt::NoFocus);
     m_markbtn->setFocusPolicy(Qt::NoFocus);
     m_iconbtn->setFocusPolicy(Qt::NoFocus);
@@ -33,6 +34,16 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, const QIcon &icon, QWi
     hlayout->setMargin(0);
     hlayout->setContentsMargins(0, 0, 16, 0); //图片比ui大10，此处边框比ui小5
     setLayout(hlayout);
+    this->installEventFilter(this);
+    setMouseTracking(true);
+    m_markbtn->installEventFilter(this);
+    m_markbtn->setMouseTracking(true);
+    m_label->installEventFilter(this);
+    m_label->setMouseTracking(true);
+    m_iconbtn->installEventFilter(this);
+    m_iconbtn->setMouseTracking(true);
+    markWidget->installEventFilter(this);
+    markWidget->setMouseTracking(true);
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             this, &ProgrammerItemWidget::themetypechanged);
@@ -43,9 +54,9 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, QWidget *parent)
     , m_markbtn(new DIconButton(DStyle::SP_MarkElement))
     , m_label(new QLabel(label))
 {
+    setFixedSize(QSize(250, 34));
     setFocusPolicy(Qt::NoFocus);
     m_markbtn->setFocusPolicy(Qt::NoFocus);
-    setFixedSize(QSize(250, 34));
     setAttribute(Qt::WA_TranslucentBackground, true);
     QWidget *markWidget = new QWidget(this);
     markWidget->setFixedSize(12, 10);
@@ -63,6 +74,14 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, QWidget *parent)
     hlayout->setMargin(0);
     hlayout->setContentsMargins(0, 0, 21, 0);
     setLayout(hlayout);
+    this->installEventFilter(this);
+    setMouseTracking(true);
+    m_markbtn->installEventFilter(this);
+    m_markbtn->setMouseTracking(true);
+    m_label->installEventFilter(this);
+    m_label->setMouseTracking(true);
+    markWidget->installEventFilter(this);
+    markWidget->setMouseTracking(true);
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             this, &ProgrammerItemWidget::themetypechanged);
@@ -142,25 +161,7 @@ void ProgrammerItemWidget::paintEvent(QPaintEvent *e)
         pl1.setColor(DPalette::Text, text);
         pl1.setColor(DPalette::HighlightedText, text);
         m_label->setPalette(pl1);
-    } else if (m_isfocus) {
-        QRectF frame(this->rect().left(), this->rect().top(), this->rect().width(), this->rect().height());
-        painter.setPen(Qt::NoPen);
-        QColor color(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name());
-        painter.setBrush(color);
-        painter.drawRect(frame); //focus边框
-        DPalette pl1 = this->palette(); //按下时给label字体设置颜色
-        if (m_themetype == 1) {
-            pl1.setColor(DPalette::Text, QColor("#000000"));
-            pl1.setColor(DPalette::HighlightedText, QColor("#000000"));
-        } else {
-            pl1.setColor(DPalette::Text, QColor("#FFFFFF"));
-            pl1.setColor(DPalette::HighlightedText, QColor("#FFFFFF"));
-        }
-        m_label->setPalette(pl1);
     } else {
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(background);
-        painter.drawRect(rect); //press状态下对item进行颜色填充
         DPalette pl1 = this->palette(); //按下时给label字体设置颜色
         if (m_themetype == 1) {
             pl1.setColor(DPalette::Text, QColor("#000000"));
@@ -171,6 +172,23 @@ void ProgrammerItemWidget::paintEvent(QPaintEvent *e)
         }
         m_label->setPalette(pl1);
     }
+}
+
+bool ProgrammerItemWidget::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::MouseMove) {
+        if (!m_ispress)
+            m_ishover = true;
+        return false;
+    }
+    return QWidget::eventFilter(obj, event);
+}
+
+void ProgrammerItemWidget::cleanHoverState()
+{
+    qDebug() << "ishover" << m_ishover;
+    m_ishover = false;
+    update();
 }
 
 void ProgrammerItemWidget::themetypechanged(int type)
@@ -201,14 +219,4 @@ void ProgrammerItemWidget::themetypechanged(int type)
     }
 
     m_label->setPalette(pl1);
-}
-
-/**
- * @brief ProgrammerItemWidget::setitemfocused
- * 设置是否需要画focus的框
- * @param b
- */
-void ProgrammerItemWidget::setitemfocused(bool b)
-{
-    m_isfocus = b;
 }
