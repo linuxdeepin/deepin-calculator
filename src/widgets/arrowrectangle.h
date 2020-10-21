@@ -18,7 +18,7 @@ public:
 public slots:
     void mouseMoveToClearFocus();
 signals:
-    void hidearrowrectangle();
+    void hidearrowrectangle(bool isesc = false);//判断是否为esc退出
 };
 
 #endif // ARROWRECTANGLE_H

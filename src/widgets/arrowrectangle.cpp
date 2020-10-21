@@ -29,7 +29,7 @@ bool ArrowRectangle::eventFilter(QObject *obj, QEvent *event)
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
         if (key_event->key() == Qt::Key_Escape) {
-            emit hidearrowrectangle();
+            emit hidearrowrectangle(true);
         } else if (key_event->key() == Qt::Key_Tab && getContent()) {
             if (obj == this) {
                 static_cast<MemoryListWidget *>(getContent())->setFocus(Qt::TabFocusReason);

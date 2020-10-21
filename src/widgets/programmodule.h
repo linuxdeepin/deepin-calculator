@@ -38,6 +38,7 @@ public:
 
 private slots:
     void handleCheckBtnKeypadButtonPress(int key);
+    void handleKeypadButtonPressByspace(int key);
     //    void shiftArrowListWidgetItemClicked(QListWidgetItem *item);
     //    void byteArrowListWidgetItemClicked(QListWidgetItem *item);
     void shiftArrowListWidgetItemClicked(int row);

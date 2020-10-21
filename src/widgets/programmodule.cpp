@@ -52,6 +52,7 @@ ProgramModule::ProgramModule(QWidget *parent)
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_proExpressionBar, &ProExpressionBar::initTheme);
     connect(m_checkBtnKeypad, &ProCheckBtnKeypad::buttonPressed, this, &ProgramModule::handleCheckBtnKeypadButtonPress);
+    connect(m_checkBtnKeypad, &ProCheckBtnKeypad::buttonPressedbySpace, this, &ProgramModule::handleKeypadButtonPressByspace);
 //    connect(m_proExpressionBar, &ProExpressionBar::keyPress, this, &ProgramModule::handleEditKeyPress);
 }
 
@@ -107,6 +108,50 @@ void ProgramModule::handleCheckBtnKeypadButtonPress(int key)
         m_shiftArrowRectangle->setHidden(false);
         setwidgetAttribute(true);
         m_shiftArrowRectangle->setFocus();
+        break;
+    case ProCheckBtnKeypad::Key_Mlist:
+        break;
+    case ProCheckBtnKeypad::Key_MS:
+        break;
+    default:
+        break;
+    }
+}
+
+void ProgramModule::handleKeypadButtonPressByspace(int key)
+{
+    QString path;
+    if (DGuiApplicationHelper::instance()->themeType() == 2)
+        path = QString(":/assets/images/%1/").arg("dark");
+    else
+        path = QString(":/assets/images/%1/").arg("light");
+    m_checkBtnKeypad->update();
+    switch (key) {
+    case ProCheckBtnKeypad::Key_GeneralKeypad:
+        //点击后设置Key_GeneralKeypad为点击状态，Key_BinaryKeypad为普通状态
+        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_GeneralKeypad))->
+        setIconUrl(path + "icon_generalkeyboard_press.svg", path + "icon_generalkeyboard_press.svg", path + "icon_generalkeyboard_press.svg", 3);
+        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_BinaryKeypad))->
+        setIconUrl(path + "icon_binarysystem_normal.svg", path + "icon_binarysystem_hover.svg", path + "icon_binarysystem_normal.svg", 3);
+        m_stackWidget->setCurrentWidget(m_programmerKeypad);
+        break;
+    case ProCheckBtnKeypad::Key_BinaryKeypad:
+        //点击后设置Key_BinaryKeypad为点击状态，Key_GeneralKeypad为普通状态
+        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_BinaryKeypad))->
+        setIconUrl(path + "icon_binarysystem_press.svg", path + "icon_binarysystem_press.svg", path + "icon_binarysystem_press.svg", 3);
+        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_GeneralKeypad))->
+        setIconUrl(path + "icon_generalkeyboard_normal.svg", path + "icon_generalkeyboard_hover.svg", path + "icon_generalkeyboard_normal.svg", 3);
+        m_stackWidget->setCurrentWidget(m_proSystemKeypad);
+        break;
+    case ProCheckBtnKeypad::Key_System:
+        m_byteArrowRectangle->setHidden(false);
+        setwidgetAttribute(true);
+        m_byteArrowRectangle->setFocus(Qt::TabFocusReason);
+        break;
+    case ProCheckBtnKeypad::Key_Option:
+        m_shiftArrowRectangle->setHidden(false);
+        setwidgetAttribute(true);
+        m_shiftArrowRectangle->setFocus(Qt::TabFocusReason);
         break;
     case ProCheckBtnKeypad::Key_Mlist:
         break;
@@ -348,13 +393,19 @@ void ProgramModule::initArrowRectangle()
     connect(m_shiftArrowListWidget, &MemoryListWidget::itemselected, this, &ProgramModule::shiftArrowListWidgetItemClicked);
     connect(m_shiftArrowListWidget, &MemoryListWidget::space, this, &ProgramModule::shiftArrowListWidgetItemSpace);
 
-    connect(m_byteArrowRectangle, &ArrowRectangle::hidearrowrectangle, this, [ = ]() {
+    connect(m_byteArrowRectangle, &ArrowRectangle::hidearrowrectangle, this, [ = ](bool isesc) {
         m_byteArrowRectangle->setHidden(true);
         setwidgetAttribute(false);
+        //esc按钮退出时需要focus到按钮上
+        if (isesc)
+            static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setFocus(Qt::TabFocusReason);
     });
-    connect(m_shiftArrowRectangle, &ArrowRectangle::hidearrowrectangle, this, [ = ]() {
+    connect(m_shiftArrowRectangle, &ArrowRectangle::hidearrowrectangle, this, [ = ](bool isesc) {
         m_shiftArrowRectangle->setHidden(true);
         setwidgetAttribute(false);
+        //esc按钮退出时需要focus到按钮上
+        if (isesc)
+            static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setFocus(Qt::TabFocusReason);
     });
 
     connect(m_byteArrowListWidget, &MemoryListWidget::focus, this, [ = ](int direction) {
