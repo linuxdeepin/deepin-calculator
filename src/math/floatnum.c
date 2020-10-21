@@ -1514,18 +1514,18 @@ _addsub_ordered(
   int overprec_part_s2 = summand2->significand->n_scale - summand2->exponent - DECPRECISION;
   if(overprec_part_s1 > 0)
   {
-      for (;overprec_part_s1>0;overprec_part_s1--) {
-          summand1->significand->n_scale--;
+      for (;overprec_part_s1>0;overprec_part_s1--) {          
           if(summand1->significand->n_scale == 0)
               break;
+          summand1->significand->n_scale--;
       }
   }
   if(overprec_part_s2 > 0)
   {
       for (;overprec_part_s2>0;overprec_part_s2--) {
-          summand2->significand->n_scale--;
           if(summand2->significand->n_scale == 0)
               break;
+          summand2->significand->n_scale--;
       }
   }
   //end edit jingzhou 20200807
