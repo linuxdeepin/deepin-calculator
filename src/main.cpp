@@ -89,9 +89,6 @@ DGuiApplicationHelper::ColorType getThemeTypeSetting()
 
 int main(int argc, char *argv[])
 {
-    using namespace Dtk::Core;
-    Dtk::Core::DLogManager::registerConsoleAppender();
-    Dtk::Core::DLogManager::registerFileAppender();
     PerformanceMonitor::initializeAppStart();
     // DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
@@ -117,6 +114,9 @@ int main(int argc, char *argv[])
     // app.setStyle("chameleon");
 
     QDBusConnection dbus = QDBusConnection::sessionBus();
+    using namespace Dtk::Core;
+    Dtk::Core::DLogManager::registerConsoleAppender();
+    Dtk::Core::DLogManager::registerFileAppender();
     dbus.registerService("com.deepin.calculator");
     QCommandLineParser cmdParser;
     cmdParser.setApplicationDescription("deepin-calculator");
