@@ -26,6 +26,8 @@
 #include <DSuggestButton>
 #include <DPalette>
 
+#include "performancemonitor.h"
+
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
 

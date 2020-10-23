@@ -33,6 +33,7 @@
 #include "mainwindow.h"
 #include "environments.h"
 #include "utils.h"
+#include "performancemonitor.h"
 
 DWIDGET_USE_NAMESPACE
 static QString g_appPath;  //全局路径
@@ -88,6 +89,10 @@ DGuiApplicationHelper::ColorType getThemeTypeSetting()
 
 int main(int argc, char *argv[])
 {
+    using namespace Dtk::Core;
+    Dtk::Core::DLogManager::registerConsoleAppender();
+    Dtk::Core::DLogManager::registerFileAppender();
+    PerformanceMonitor::initializeAppStart();
     // DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     DApplication app(argc, argv);
@@ -113,9 +118,6 @@ int main(int argc, char *argv[])
 
     QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.registerService("com.deepin.calculator");
-    using namespace Dtk::Core;
-    Dtk::Core::DLogManager::registerConsoleAppender();
-    Dtk::Core::DLogManager::registerFileAppender();
     QCommandLineParser cmdParser;
     cmdParser.setApplicationDescription("deepin-calculator");
     cmdParser.addHelpOption();
@@ -158,5 +160,6 @@ int main(int argc, char *argv[])
     // Register debus service.
     dbus.registerObject("/com/deepin/calculator", &window, QDBusConnection::ExportScriptableSlots);
     window.show();
+    PerformanceMonitor::initializAppFinish();
     return app.exec();
 }

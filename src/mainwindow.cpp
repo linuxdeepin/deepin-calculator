@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 #include "mainwindow.h"
 
 #include <QPainter>
@@ -103,6 +103,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    PerformanceMonitor::closeAPPFinish();
 }
 
 void MainWindow::initTheme()
@@ -277,5 +278,11 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     m_settings->setOption("windowWidth", event->size().width());
     m_settings->setOption("windowHeight", event->size().height());
     DMainWindow::resizeEvent(event);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    PerformanceMonitor::closeAppStart();
+    DMainWindow::closeEvent(event);
 }
 

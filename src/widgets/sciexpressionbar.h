@@ -36,6 +36,7 @@
 #include "views/simplelistdelegate.h"
 #include "views/simplelistmodel.h"
 #include "views/simplelistview.h"
+#include "performancemonitor.h"
 
 DWIDGET_USE_NAMESPACE
 

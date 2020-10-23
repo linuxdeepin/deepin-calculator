@@ -28,6 +28,7 @@
 #include "widgets/scientificmodule.h"
 #include "control/iconbutton.h"
 #include "dsettings.h"
+#include "performancemonitor.h"
 
 #define ENABLE_SCIENTIFIC 1
 
@@ -49,6 +50,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
     void moveEvent(QMoveEvent *event);
     void resizeEvent(QResizeEvent *event);
+    void closeEvent(QCloseEvent *event);
 
 private:
     void initTheme();

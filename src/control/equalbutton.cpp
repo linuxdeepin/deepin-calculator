@@ -85,6 +85,7 @@ void EqualButton::mouseReleaseEvent(QMouseEvent *e)
     if (this->rect().contains(e->pos())) {
         m_isacting = true;
         m_isHover = true;
+        PerformanceMonitor::startCalculate();
     } else
         m_isacting = false;
     DPushButton::mouseReleaseEvent(e);

@@ -554,6 +554,7 @@ void SciExpressionBar::enterEqualEvent()
             return;
         }
     }
+    PerformanceMonitor::finishCalculate();
     m_isResult = true;
     m_isUndo = false;
 }
