@@ -18,9 +18,13 @@ ProBitWidget::ProBitWidget(QWidget *parent)
     QHBoxLayout *hlay = new QHBoxLayout();
     QVBoxLayout *vlay = new QVBoxLayout(this);
     hlay->addWidget(m_firstbtn);
+    hlay->addSpacing(1);
     hlay->addWidget(m_secondbtn);
+    hlay->addSpacing(1);
     hlay->addWidget(m_thirdbtn);
+    hlay->addSpacing(1);
     hlay->addWidget(m_fourthbtn);
+    hlay->addSpacing(1);
     hlay->setMargin(0);
     hlay->setSpacing(4);
     hlay->setContentsMargins(0, 0, 0, 0);

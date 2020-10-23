@@ -17,6 +17,7 @@ public:
 
 public slots:
     void setThemeType(int type);
+    void currentfocusindex(QModelIndex index);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
@@ -25,11 +26,13 @@ protected:
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option,
                      const QModelIndex &index);
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void drawFocusStatus(QPainter *painter, const QStyleOptionViewItem &option) const;
 signals:
     void obtainingHistorical(const QModelIndex &index);
 
 private:
     int m_themeType;
+    QModelIndex m_focusindex;
 };
 
 #endif // PROLISTDELEGATE_H

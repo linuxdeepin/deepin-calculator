@@ -27,6 +27,7 @@ ProgramModule::ProgramModule(QWidget *parent)
     m_proExpressionBar->setFixedHeight(EXPRESSIONBAR_HEIGHT);
     m_proListView->setModel(m_proListModel);
     m_proListView->setItemDelegate(m_proListDelegate);
+    m_proListView->setCurrentIndex(m_proListModel->index(1, 0));
     m_stackWidget->addWidget(m_programmerKeypad);
     m_stackWidget->addWidget(m_proSystemKeypad);  //此处可继续添加内存界面
     m_stackWidget->setCurrentWidget(m_programmerKeypad);
@@ -54,6 +55,7 @@ ProgramModule::ProgramModule(QWidget *parent)
     connect(m_checkBtnKeypad, &ProCheckBtnKeypad::buttonPressed, this, &ProgramModule::handleCheckBtnKeypadButtonPress);
     connect(m_checkBtnKeypad, &ProCheckBtnKeypad::buttonPressedbySpace, this, &ProgramModule::handleKeypadButtonPressByspace);
 //    connect(m_proExpressionBar, &ProExpressionBar::keyPress, this, &ProgramModule::handleEditKeyPress);
+    connect(m_proListView, &ProListView::obtainingHistorical, this, &ProgramModule::radixListChange);
 }
 
 ProgramModule::~ProgramModule()
@@ -270,6 +272,13 @@ void ProgramModule::checkBtnKeypadThemeChange(int type)
         static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_BinaryKeypad))->
         setIconUrl(path + "icon_binarysystem_press.svg", path + "icon_binarysystem_press.svg", path + "icon_binarysystem_press.svg", 3);
     }
+}
+
+void ProgramModule::radixListChange(const QModelIndex &index)
+{
+    QString text = index.data(SimpleListModel::ExpressionWithOutTip).toString();
+    m_proExpressionBar->getInputEdit()->setText(text);
+    m_proExpressionBar->getInputEdit()->setFocus();
 }
 
 void ProgramModule::initArrowRectangle()

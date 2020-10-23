@@ -11,6 +11,7 @@
 #include <QMouseEvent>
 
 #include "prolistmodel.h"
+#include "prolistdelegate.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -23,15 +24,25 @@ public:
     ~ProListView();
     void contextMenuEvent(QContextMenuEvent *event);
     void showTextEditMenuByAltM(const QModelIndex &index);
+    QModelIndex focusIndex() const;
+    QModelIndex indexBeforeFocusOut() const;
+
+public slots:
+    void itemclicked(const QModelIndex &index);
 
 protected:
 //    void mouseMoveEvent(QMouseEvent *);
 //    void mouseClickEvent(QMouseEvent *event);
 //    void mouseReleaseEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *e);
-//    void focusInEvent(QFocusEvent *event);
+    void focusInEvent(QFocusEvent *event);
 Q_SIGNALS:
     void obtainingHistorical(const QModelIndex &index);
+
+private:
+    int m_focusrow = 1;
+    int m_currentrow = 1;
+    bool m_isMenuAltM = false; //是否是altM的菜单
 };
 
 #endif // PROLISTVIEW_H

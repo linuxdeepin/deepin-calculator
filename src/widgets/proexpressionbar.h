@@ -19,6 +19,7 @@ public:
     ProExpressionBar(QWidget *parent = nullptr);
     ~ProExpressionBar();
     void mouseMoveEvent(QMouseEvent *event);
+    InputEdit *getInputEdit();
 
 signals:
 //    void keyPress(QKeyEvent *);

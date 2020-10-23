@@ -29,8 +29,14 @@ void ProListDelegate::setThemeType(int type)
     m_themeType = type;
 }
 
+void ProListDelegate::currentfocusindex(QModelIndex index)
+{
+    m_focusindex = index;
+}
+
 void ProListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    drawFocusStatus(painter, option); //焦点边框
     const QString expression = index.data(ProListModel::ExpressionRole).toString();
     ProListView *listview = qobject_cast<ProListView *>(option.styleObject);
     QRect selectrect(option.rect.x() + LEFT_MARGIN, option.rect.y() + 3, 3, option.rect.height() - 6);  //被选中行选中标记
@@ -134,4 +140,20 @@ void ProListDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionVi
 {
     Q_UNUSED(index);
     editor->setGeometry(option.rect);
+}
+
+void ProListDelegate::drawFocusStatus(QPainter *painter, const QStyleOptionViewItem &option) const
+{
+    ProListView *listview = qobject_cast<ProListView *>(option.styleObject);
+    if (listview->hasFocus()) {
+        painter->setRenderHint(QPainter::Antialiasing, true);
+        QRectF itemrect(listview->visualRect(m_focusindex));
+        QRectF frame(itemrect.left() + 1, itemrect.top() + 1, itemrect.width() - 2, itemrect.height() - 2);
+        QPen pen;
+        pen.setColor(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name());
+        pen.setWidth(2);
+        painter->setPen(pen);
+        painter->setBrush(Qt::NoBrush);
+        painter->drawRect(frame); //focus边框
+    }
 }

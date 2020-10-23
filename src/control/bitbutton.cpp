@@ -91,6 +91,7 @@ void BitButton::paintEvent(QPaintEvent *e)
     QColor text, disabletext;
     QPainter painter(this);
     QPen pen;
+    QRect focusrect(rect().left(), rect().top(), rect().width() - 1, rect().height() - 1);
     int type = DGuiApplicationHelper::instance()->paletteType();
     if (type == 0)
         type = DGuiApplicationHelper::instance()->themeType();
@@ -118,7 +119,16 @@ void BitButton::paintEvent(QPaintEvent *e)
         painter.setPen(pen);
     }
     painter.setFont(m_font);
-    painter.drawText(this->rect(), this->text());
+    QTextOption opt(Qt::AlignCenter);
+    painter.drawText(this->rect(), this->text(), opt);
+    if (hasFocus()) {
+        painter.setPen(Qt::NoPen);
+        pen.setWidth(1);
+        pen.setColor(press);
+        painter.setPen(pen);
+        painter.setBrush(Qt::NoBrush);
+        painter.drawRect(focusrect);
+    }
 //    DPushButton::paintEvent(e);
 }
 

@@ -36,6 +36,11 @@ void ProExpressionBar::mouseMoveEvent(QMouseEvent *event)
     Q_UNUSED(event);
 }
 
+InputEdit *ProExpressionBar::getInputEdit()
+{
+    return m_inputEdit;
+}
+
 void ProExpressionBar::enterEqualEvent()
 {
 

@@ -46,6 +46,7 @@ private slots:
     void byteArrowListWidgetItemClicked(int row);
     void byteArrowListWidgetItemSpace();
     void checkBtnKeypadThemeChange(int type);
+    void radixListChange(const QModelIndex &index);
 
 private:
     void initArrowRectangle();
