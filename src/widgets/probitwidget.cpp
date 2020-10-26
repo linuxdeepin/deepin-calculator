@@ -8,10 +8,10 @@ const QSize SIZE = QSize(76, 46);
 
 ProBitWidget::ProBitWidget(QWidget *parent)
     : DWidget(parent),
-      m_firstbtn(new BitButton()),
-      m_secondbtn(new BitButton()),
-      m_thirdbtn(new BitButton()),
-      m_fourthbtn(new BitButton()),
+      m_firstbtn(new BitButton(this)),
+      m_secondbtn(new BitButton(this)),
+      m_thirdbtn(new BitButton(this)),
+      m_fourthbtn(new BitButton(this)),
       m_label(new DLabel(this))
 {
     setFixedSize(SIZE);
@@ -57,4 +57,25 @@ void ProBitWidget::setButtonEnabled(bool enabled)
     m_secondbtn->setEnabled(enabled);
     m_thirdbtn->setEnabled(enabled);
     m_fourthbtn->setEnabled(enabled);
+}
+
+/**
+ * @brief ProBitWidget::getbutton
+ * @param i：第几个按钮
+ * @return 对应按钮
+ */
+BitButton *ProBitWidget::getbutton(int i)
+{
+    switch (i) {
+    case 3:
+        return m_fourthbtn;
+    case 2:
+        return m_thirdbtn;
+    case 1:
+        return m_secondbtn;
+    case 0:
+        return m_firstbtn;
+    default:
+        return m_firstbtn;
+    }
 }

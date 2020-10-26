@@ -56,6 +56,8 @@ public:
 //                          const int &Pos); //str1-完整表达式 str2, ans-百分比计算结果 Pos-光标位置
     QPair<bool, Quantity> getMemoryAnswer(); //edit 20200507,获取上一次计算的全精度结果，用于数字内存。
     QString symbolComplement(const QString exp);
+    void getCurrentCursorPositionNumber(int pos);//获取当前光标所在位置对应的数字
+    bool isNumber(QChar a);//判断是否为数字(分隔符)
     void focusInEvent(QFocusEvent *event);
 
 public slots:
@@ -66,6 +68,7 @@ public slots:
     void hisexpression(); //点击简易历史记录及科学左侧历史记录后清空ans
     void autoZoomFontSize(); //输入框字号变化
     void themetypechanged(int type);
+    void valueChangeFromProSyskeypad(QString num);
 
 Q_SIGNALS:
     void keyPress(QKeyEvent *);
@@ -79,6 +82,7 @@ Q_SIGNALS:
     void deleteText();
     void setResult();
     void emptyExpression(bool b);
+    void cursorPositionNumberChanged(QString num);
 
 protected:
     void keyPressEvent(QKeyEvent *);

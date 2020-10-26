@@ -41,6 +41,20 @@ void BitButton::animate(bool isspace, int msec)
     }
 }
 
+/**
+ * @brief BitButton::setButtonState
+ * @param b:false--0 true--1
+ * 设置按键的状态 0/1
+ */
+void BitButton::setButtonState(bool b)
+{
+    if (b)
+        setText("1");
+    else
+        setText("0");
+    m_btnState = b;
+}
+
 void BitButton::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::RightButton)

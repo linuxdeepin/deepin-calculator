@@ -24,6 +24,7 @@ public:
 
     void init();
     void animate(bool isspace = false, int msec = 100);
+    void setButtonState(bool b);
 
 public:
     void mousePressEvent(QMouseEvent *);

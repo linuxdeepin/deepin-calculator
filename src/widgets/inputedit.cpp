@@ -30,6 +30,8 @@
 #include "math/floatconfig.h"
 #include "utils.h"
 
+const QString AtoF = "ABCDEF";
+
 InputEdit::InputEdit(QWidget *parent)
     : QLineEdit(parent)
     , m_ans(0)
@@ -398,6 +400,11 @@ void InputEdit::themetypechanged(int type)
     this->setPalette(pl);
 }
 
+void InputEdit::valueChangeFromProSyskeypad(QString num)
+{
+
+}
+
 /**
  * @brief 输入框textchange时触发
  */
@@ -629,6 +636,7 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
         m_currentOnAnsLeft = false;
     }
     m_lastPos = newPos;
+    getCurrentCursorPositionNumber(newPos);
 }
 
 /**
@@ -865,6 +873,37 @@ QString InputEdit::symbolComplement(const QString exp)
         index = text.indexOf(")", index);
     }
     return text;
+}
+
+/**
+ * @brief InputEdit::getCurrentCursorPositionNumber
+ * @param pos:当前光标位置
+ * 获取当前光标所在位置对应的数字，用于修改位键盘
+ */
+void InputEdit::getCurrentCursorPositionNumber(int pos)
+{
+    QString text = this->text();
+    QString currentnum = QString();
+    int numstart = pos - 1, numend = pos - 1;
+    if (numstart >= 0 && isNumber(text.at(numstart))) {
+        while (numstart != 0 && isNumber(text.at(numstart - 1))) {
+            numstart--;
+        }
+        while (numend < text.length() && isNumber(text.at(numend))) {
+            numend++;
+        }
+        currentnum = text.mid(numstart, numend - numstart);
+    }
+    emit cursorPositionNumberChanged(currentnum);
+    qDebug() << "currentnum" << currentnum;
+}
+
+bool InputEdit::isNumber(QChar a)
+{
+    if (a.isDigit() || a == " " || a == "," || AtoF.contains(a))
+        return true;
+    else
+        return false;
 }
 
 void InputEdit::focusInEvent(QFocusEvent *event)

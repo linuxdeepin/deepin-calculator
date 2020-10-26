@@ -13,7 +13,7 @@ ProExpressionBar::ProExpressionBar(QWidget *parent)
     m_listModel = new SimpleListModel(0, this);
     m_listView->setModel(m_listModel);
     m_listView->setItemDelegate(m_listDelegate);
-    m_inputEdit = new InputEdit;
+    m_inputEdit = new InputEdit(this);
     m_listView->setFixedHeight(LIST_HEIGHT);
     m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT);
     m_inputEdit->setAlignment(Qt::AlignRight);
@@ -24,6 +24,7 @@ ProExpressionBar::ProExpressionBar(QWidget *parent)
     layout->addWidget(m_inputEdit);
     layout->setMargin(0);
     layout->setSpacing(0);
+    initConnect();
 }
 
 ProExpressionBar::~ProExpressionBar()

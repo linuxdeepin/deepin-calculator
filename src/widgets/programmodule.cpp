@@ -56,6 +56,10 @@ ProgramModule::ProgramModule(QWidget *parent)
     connect(m_checkBtnKeypad, &ProCheckBtnKeypad::buttonPressedbySpace, this, &ProgramModule::handleKeypadButtonPressByspace);
 //    connect(m_proExpressionBar, &ProExpressionBar::keyPress, this, &ProgramModule::handleEditKeyPress);
     connect(m_proListView, &ProListView::obtainingHistorical, this, &ProgramModule::radixListChange);
+
+    //位键盘与输入栏交互
+    connect(m_proExpressionBar->getInputEdit(), &InputEdit::cursorPositionNumberChanged, m_proSystemKeypad, &ProSystemKeypad::setvalue);
+    connect(m_proSystemKeypad, &ProSystemKeypad::valuechanged, m_proExpressionBar->getInputEdit(), &InputEdit::valueChangeFromProSyskeypad);
 }
 
 ProgramModule::~ProgramModule()
@@ -224,19 +228,37 @@ void ProgramModule::byteArrowListWidgetItemClicked(int row)
     m_byteArrowRectangle->setHidden(true);
     setwidgetAttribute(false);
 
+    int oldsystem;
+    switch (m_byteArrowCurrentRow) {
+    case 0:
+        oldsystem = 64;
+        break;
+    case 1:
+        oldsystem = 32;
+        break;
+    case 2:
+        oldsystem = 16;
+        break;
+    case 3:
+        oldsystem = 8;
+        break;
+    default:
+        oldsystem = 64;
+        break;
+    }
     //改变m_proSystemKeypad按钮状态
     switch (m_byteArrowListWidget->currentRow()) {
     case 0:
-        m_proSystemKeypad->setSystem(64);
+        m_proSystemKeypad->setSystem(64, oldsystem);
         break;
     case 1:
-        m_proSystemKeypad->setSystem(32);
+        m_proSystemKeypad->setSystem(32, oldsystem);
         break;
     case 2:
-        m_proSystemKeypad->setSystem(16);
+        m_proSystemKeypad->setSystem(16, oldsystem);
         break;
     case 3:
-        m_proSystemKeypad->setSystem(8);
+        m_proSystemKeypad->setSystem(8, oldsystem);
         break;
     }
     m_byteArrowCurrentRow = row;

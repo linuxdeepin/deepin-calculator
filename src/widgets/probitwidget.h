@@ -21,6 +21,7 @@ public:
     ProBitWidget(QWidget *parent = nullptr);
     ~ProBitWidget();
     void setButtonEnabled(bool enabled);
+    BitButton *getbutton(int i);
 
 private:
     BitButton *m_firstbtn;
