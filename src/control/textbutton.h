@@ -44,6 +44,7 @@ public:
     void init();
     void animate(bool isspace = false, int msec = 100);
     void setButtonDown(bool down);
+    void setBtnPressing(bool press);
 signals:
     void moveLeft();
     void moveRight();

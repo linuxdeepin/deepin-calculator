@@ -75,7 +75,9 @@ void ProgramModule::mouseMoveEvent(QMouseEvent *event)
 void ProgramModule::mousePressEvent(QMouseEvent *event)
 {
     m_byteArrowRectangle->setHidden(true);
+    static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setBtnPressing(false);
     m_shiftArrowRectangle->setHidden(true);
+    static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setBtnPressing(false);
     setwidgetAttribute(false);
     DWidget::mousePressEvent(event);
 }
@@ -106,11 +108,13 @@ void ProgramModule::handleCheckBtnKeypadButtonPress(int key)
         m_stackWidget->setCurrentWidget(m_proSystemKeypad);
         break;
     case ProCheckBtnKeypad::Key_System:
+        static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setBtnPressing(true);
         m_byteArrowRectangle->setHidden(false);
         setwidgetAttribute(true);
         m_byteArrowRectangle->setFocus();
         break;
     case ProCheckBtnKeypad::Key_Option:
+        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setBtnPressing(true);
         m_shiftArrowRectangle->setHidden(false);
         setwidgetAttribute(true);
         m_shiftArrowRectangle->setFocus();
@@ -150,11 +154,13 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
         m_stackWidget->setCurrentWidget(m_proSystemKeypad);
         break;
     case ProCheckBtnKeypad::Key_System:
+        static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setBtnPressing(true);
         m_byteArrowRectangle->setHidden(false);
         setwidgetAttribute(true);
         m_byteArrowRectangle->setFocus(Qt::TabFocusReason);
         break;
     case ProCheckBtnKeypad::Key_Option:
+        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setBtnPressing(true);
         m_shiftArrowRectangle->setHidden(false);
         setwidgetAttribute(true);
         m_shiftArrowRectangle->setFocus(Qt::TabFocusReason);
@@ -182,6 +188,7 @@ void ProgramModule::shiftArrowListWidgetItemClicked(int row)
     static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->currentItem()))->findChild<DIconButton *>("markBtn")->setHidden(false);
     static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->item(m_shiftArrowCurrentRow)))->findChild<DIconButton *>("markBtn")->setHidden(true);
     m_shiftArrowRectangle->setHidden(true);
+    static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setBtnPressing(false);
     setwidgetAttribute(false);
 
     //计算方式选项按钮图标跟随选项改变
@@ -226,6 +233,7 @@ void ProgramModule::byteArrowListWidgetItemClicked(int row)
     QString str = static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->currentItem()))->findChild<QLabel *>()->text();
     static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setText(str);
     m_byteArrowRectangle->setHidden(true);
+    static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setBtnPressing(false);
     setwidgetAttribute(false);
 
     int oldsystem;
@@ -426,6 +434,7 @@ void ProgramModule::initArrowRectangle()
 
     connect(m_byteArrowRectangle, &ArrowRectangle::hidearrowrectangle, this, [ = ](bool isesc) {
         m_byteArrowRectangle->setHidden(true);
+        static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setBtnPressing(false);
         setwidgetAttribute(false);
         //esc按钮退出时需要focus到按钮上
         if (isesc)
@@ -433,6 +442,7 @@ void ProgramModule::initArrowRectangle()
     });
     connect(m_shiftArrowRectangle, &ArrowRectangle::hidearrowrectangle, this, [ = ](bool isesc) {
         m_shiftArrowRectangle->setHidden(true);
+        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setBtnPressing(false);
         setwidgetAttribute(false);
         //esc按钮退出时需要focus到按钮上
         if (isesc)

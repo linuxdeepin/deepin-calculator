@@ -49,6 +49,7 @@ public:
     void animate(bool isspace = false, int msec = 100);
     void showtooltip(bool ismemory); //ismemory-true-内存区垃圾桶 false-历史区垃圾桶
     void updateWhenBtnDisable();
+    void setBtnPressing(bool press);
 
 protected:
     void mousePressEvent(QMouseEvent *);
@@ -84,6 +85,7 @@ private:
     bool m_isHistorybtn = false; //打开历史记录的按钮，暂时保存
     QString m_cleartooltip = QString();
     bool m_isacting = false; //规避鼠标在button内release时出现foucus状态的框
+    bool m_isPressing = false; //对于两个rectangle的特殊按钮，点击后需要持续显示press状态
 private:
     void SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval);
     void drawCenterPixMap(QPainter &painter);

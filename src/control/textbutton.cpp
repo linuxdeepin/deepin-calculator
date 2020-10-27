@@ -127,6 +127,23 @@ void TextButton::setButtonDown(bool down)
 }
 
 /**
+ * @brief TextButton::setBtnPressing
+ * 用于数据长度和移位类型的按键，点开列表后，保持press的状态
+ */
+void TextButton::setBtnPressing(bool press)
+{
+    if (press) {
+        m_palette = this->palette();
+        m_font.setPixelSize(14);
+        m_isPress = true;
+        m_isHover = false; //20200722删除foucus状态
+    } else {
+        m_isPress = false;
+    }
+    emit updateInterface();
+}
+
+/**
  * @brief 鼠标按下
  */
 void TextButton::mousePressEvent(QMouseEvent *e)

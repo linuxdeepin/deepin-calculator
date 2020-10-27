@@ -137,6 +137,31 @@ void IconButton::updateWhenBtnDisable()
 }
 
 /**
+ * @brief IconButton::setBtnPressing
+ * 用于数据长度和移位类型的按键，点开列表后，保持press的状态
+ */
+void IconButton::setBtnPressing(bool press)
+{
+    if (press) {
+        m_currentUrl = m_pressUrl;
+        if (m_mode == 5)
+            m_mode = 6;
+        m_isPress = true;
+        m_buttonStatus = 2;
+        m_isHover = false; //20200722删除foucus状态
+        m_isPressing = true;
+    } else {
+        m_currentUrl = m_normalUrl;
+        if (m_mode == 6)
+            m_mode = 5;
+        m_isPress = false;
+        m_buttonStatus = 0;
+        m_isPressing = false;
+    }
+    emit updateInterface();
+}
+
+/**
  * @brief 点击时改变标置位
  */
 void IconButton::mousePressEvent(QMouseEvent *e)
@@ -165,7 +190,6 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
 //    if (m_isHistorybtn)
 //        clearFocus();
     m_currentUrl = m_normalUrl;
-//    m_buttonStatus = 0;
     if (m_mode == 2)
         m_mode = 1;
     if (m_mode == 4)
@@ -202,10 +226,12 @@ void IconButton::enterEvent(QEvent *e)
 
 void IconButton::leaveEvent(QEvent *e)
 {
-    m_currentUrl = m_normalUrl;
-    m_buttonStatus = 0;
-    m_isHover = false;
-    m_isacting = false;
+    if (!m_isPressing) {
+        m_currentUrl = m_normalUrl;
+        m_buttonStatus = 0;
+        m_isHover = false;
+        m_isacting = false;
+    }
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
     //DPushButton::setIcon(QIcon(pixmap));
 
