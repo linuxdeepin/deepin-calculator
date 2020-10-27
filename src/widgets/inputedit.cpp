@@ -400,9 +400,32 @@ void InputEdit::themetypechanged(int type)
     this->setPalette(pl);
 }
 
-void InputEdit::valueChangeFromProSyskeypad(QString num)
+/**
+ * @brief InputEdit::valueChangeFromProSyskeypad
+ * @param num:二进制数字
+ * 点击位键盘时，对应修改光标位置的数字
+ */
+void InputEdit::valueChangeFromProSyskeypad(const QString num)
 {
-
+    qDebug() << "change";
+    QString text = this->text();
+    int pos = this->cursorPosition();
+    int numstart = pos - 1, numend = pos - 1;
+    QString number = formatBinaryNumber(num);
+    qDebug() << "changenumber:" << number;
+    if (text == QString()) {
+        text = number;
+    } else if (numstart >= 0 && isNumber(text.at(numstart))) {
+        while (numstart != 0 && isNumber(text.at(numstart - 1))) {
+            numstart--;
+        }
+        while (numend < text.length() && isNumber(text.at(numend))) {
+            numend++;
+        }
+//        currentnum = text.mid(numstart, numend - numstart);
+        text.remove(numstart, numend - numstart).insert(numstart, number);
+    }
+    this->setText(text);
 }
 
 /**
@@ -880,7 +903,7 @@ QString InputEdit::symbolComplement(const QString exp)
  * @param pos:当前光标位置
  * 获取当前光标所在位置对应的数字，用于修改位键盘
  */
-void InputEdit::getCurrentCursorPositionNumber(int pos)
+void InputEdit::getCurrentCursorPositionNumber(const int pos)
 {
     QString text = this->text();
     QString currentnum = QString();
@@ -904,6 +927,21 @@ bool InputEdit::isNumber(QChar a)
         return true;
     else
         return false;
+}
+
+QString InputEdit::formatBinaryNumber(const QString num)
+{
+    QString str;
+    for (int i = 0; i < num.length(); i++) {
+        if (num.at(i) == '1') {
+            str = num.right(num.length() - i);
+            return str;
+        }
+        if (i == num.length() - 1 && num.at(num.length() - 1) != '1') {
+            str = "0";
+            return str;
+        }
+    }
 }
 
 void InputEdit::focusInEvent(QFocusEvent *event)

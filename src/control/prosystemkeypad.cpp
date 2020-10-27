@@ -38,6 +38,7 @@ void ProSystemKeypad::setSystem(int system, int oldsystem)
                 m_buttons.value(i)->setButtonState(true);
                 m_binaryValue.replace(63 - i, 1, "1");
             }
+            emit valuechanged(m_binaryValue);
         }
     } else if (system == 32) {
         while (i.hasNext()) {
@@ -52,12 +53,14 @@ void ProSystemKeypad::setSystem(int system, int oldsystem)
                 m_buttons.value(i)->setButtonState(true);
                 m_binaryValue.replace(63 - i, 1, "1");
             }
+            emit valuechanged(m_binaryValue);
         }
         if (oldsystem > system) {
             for (int i = oldsystem - 1; i > 31; i--) {
                 m_buttons.value(i)->setButtonState(false);
                 m_binaryValue.replace(63 - i, 1, "0");
             }
+            emit valuechanged(m_binaryValue);
         }
     } else if (system == 16) {
         while (i.hasNext()) {
@@ -72,12 +75,14 @@ void ProSystemKeypad::setSystem(int system, int oldsystem)
                 m_buttons.value(i)->setButtonState(true);
                 m_binaryValue.replace(63 - i, 1, "1");
             }
+            emit valuechanged(m_binaryValue);
         }
         if (oldsystem > system) {
             for (int i = oldsystem - 1; i > 15; i--) {
                 m_buttons.value(i)->setButtonState(false);
                 m_binaryValue.replace(63 - i, 1, "0");
             }
+            emit valuechanged(m_binaryValue);
         }
     } else {
         while (i.hasNext()) {
@@ -92,6 +97,7 @@ void ProSystemKeypad::setSystem(int system, int oldsystem)
                 m_buttons.value(i)->setButtonState(false);
                 m_binaryValue.replace(63 - i, 1, "0");
             }
+            emit valuechanged(m_binaryValue);
         }
     }
     qDebug() << m_binaryValue;
