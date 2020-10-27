@@ -28,16 +28,16 @@ public:
     QModelIndex indexBeforeFocusOut() const;
 
 public slots:
-    void itemclicked(const QModelIndex &index);
+    void itemclicked(const QModelIndex &index, bool isspace);
 
 protected:
-//    void mouseMoveEvent(QMouseEvent *);
-//    void mouseClickEvent(QMouseEvent *event);
+//    void mouseMoveEvent(QMouseEvent *e);
+//    void mousePressEvent(QMouseEvent *event);
 //    void mouseReleaseEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *e);
     void focusInEvent(QFocusEvent *event);
 Q_SIGNALS:
-    void obtainingHistorical(const QModelIndex &index);
+    void obtainingHistorical(const QModelIndex &index, bool isspace);
 
 private:
     int m_focusrow = 1;

@@ -6,8 +6,12 @@ ProListView::ProListView(DWidget *parent)
     setSelectionBehavior(QAbstractItemView::SelectRows); //选中一行
     setSelectionMode(QAbstractItemView::SingleSelection); //选中单个目标
     setFixedSize(451, 106);
+    setMouseTracking(true);
+    setFocusPolicy(Qt::TabFocus);
 
-    connect(this, &DListView::clicked, this, &ProListView::itemclicked);
+    connect(this, &DListView::clicked, [ = ](const QModelIndex & index) {
+        itemclicked(index, false);
+    });
 }
 
 ProListView::~ProListView()
@@ -61,14 +65,15 @@ QModelIndex ProListView::indexBeforeFocusOut() const
 
 /**
  * @brief ProListView::itemclicked
- * @param index
- * 列表点击槽函数
+ * @param index:点击索引
+ * @param isspace:是否为键盘交互
+ * 进制列表的点击事件
  */
-void ProListView::itemclicked(const QModelIndex &index)
+void ProListView::itemclicked(const QModelIndex &index, bool isspace)
 {
     m_currentrow = index.row();
     this->setCurrentIndex(index);
-    emit obtainingHistorical(index);
+    emit obtainingHistorical(index, isspace);
 }
 
 void ProListView::keyPressEvent(QKeyEvent *e)
@@ -94,7 +99,7 @@ void ProListView::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Space:
     case Qt::Key_Enter:
     case Qt::Key_Return:
-        itemclicked(model()->index(m_focusrow, 0));
+        itemclicked(model()->index(m_focusrow, 0), true);
 //        emit obtainingHistorical(model()->index(m_focusrow, 0));
         break;
     case Qt::Key_M:

@@ -51,6 +51,7 @@ public slots:
     void initButtons();
     void buttonThemeChanged(int type);
     void getFocus(int);
+    void radixChanged(int row);
 signals:
     void buttonPressed(int);
     void buttonPressedbySpace(int);
@@ -65,6 +66,9 @@ private:
     QGridLayout *m_layout;
     QSignalMapper *m_mapper;
     QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
+    QList<TextButton *> m_decdisable; //十进制置灰按钮
+    QList<TextButton *> m_octdisable; //八进制置灰按钮
+    QList<TextButton *> m_bindisable; //二进制置灰按钮
 };
 
 #endif // PROGRAMMERKEYPAD_H

@@ -45,6 +45,7 @@ public:
     void animate(bool isspace = false, int msec = 100);
     void setButtonDown(bool down);
     void setBtnPressing(bool press);
+    void setButtonGray(bool gray);
 signals:
     void moveLeft();
     void moveRight();
@@ -76,6 +77,7 @@ private:
     bool m_Btnisdown = false;
     bool m_isacting = false; //规避鼠标在button内release时出现foucus状态的框
     int m_btn = 0; //1-2ⁿᵈ, 2-xʸ, 3-10ˣ, 4-2ˣ, 5-eˣ, 6-arcsin, 7-arccos, 8-arctan, 9-arccot
+    bool m_isgray = false; //置灰按钮
 };
 
 #endif

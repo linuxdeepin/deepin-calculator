@@ -143,6 +143,13 @@ void TextButton::setBtnPressing(bool press)
     emit updateInterface();
 }
 
+void TextButton::setButtonGray(bool gray)
+{
+//    m_isgray = gray;
+    this->setEnabled(!gray);
+    update();
+}
+
 /**
  * @brief 鼠标按下
  */
@@ -247,6 +254,14 @@ void TextButton::leaveEvent(QEvent *e)
 void TextButton::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
+    if (isEnabled() == false) {
+        m_font.setPixelSize(18);
+        m_font.setStyleName("Light");
+        m_isHover = false;
+        m_isgray = true;
+    } else {
+        m_isgray = false;
+    }
     QRectF rect = this->rect();
     QRectF normal(rect.left() + 1, rect.top() + 1, rect.width() - 2, rect.height() - 2);
     QRectF hover(rect.left() + 1, rect.top() + 1, rect.width() - 2, rect.height() - 2);
@@ -282,6 +297,13 @@ void TextButton::paintEvent(QPaintEvent *e)
             hoverbrush = QColor("#FFFFFF");
         }
         text = QColor("#303030");
+        if (m_isgray == true) {
+            base = QColor("#FFFFFF");
+            hoverbrush = QColor("#FFFFFF");
+            text = QColor("#303030");
+            text.setAlphaF(0.4);
+            pressBrush = QColor("#FFFFFF");
+        }
     } else { //深色主题设置
         pressBrush = QColor(0, 0, 0);
         pressBrush.setAlphaF(0.5);
@@ -299,6 +321,16 @@ void TextButton::paintEvent(QPaintEvent *e)
             text = Qt::white;
         else
             text = QColor(224, 224, 224);
+        if (m_isgray == true) {
+            base = QColor(48, 48, 48);
+            base.setAlphaF(0.4);
+            text = QColor(224, 224, 224);
+            text.setAlphaF(0.4);
+            pressText = Qt::black;
+            pressBrush = QColor("#FFFFFF");
+            hoverbrush = QColor(48, 48, 48);
+            hoverbrush.setAlphaF(0.4);
+        }
     }
     if (m_Btnisdown)
         text = actcolor; //FE,2nd设置
@@ -340,7 +372,6 @@ void TextButton::paintEvent(QPaintEvent *e)
         }
     } else {
         painter.setPen(Qt::NoPen);
-        painter.setBrush(QBrush(base));
         if (m_isHover) { //hover状态
             painter.setPen(QPen(hoverFrame));
             painter.setBrush(QBrush(hoverbrush));
@@ -360,6 +391,7 @@ void TextButton::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             paintspecialbtn(painter, rect, textRect);
         } else { //normal状态
+            painter.setBrush(QBrush(base));
             painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
             QPen pen;
             pen.setColor(text);

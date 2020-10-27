@@ -36,7 +36,7 @@ ProgrammerKeypad::ProgrammerKeypad(QWidget *parent)
     m_layout->setMargin(0);
     m_layout->setSpacing(KEYPAD_SPACING);
     m_layout->setContentsMargins(0, 0, 0, 0);
-    setFocusPolicy(Qt::StrongFocus);
+//    setFocusPolicy(Qt::StrongFocus);
 
     installEventFilter(this);
 
@@ -128,6 +128,18 @@ void ProgrammerKeypad::initButtons()
                     button = new TextButton(desc->text, false, this);
             }
         }
+        if (i % 6 == 1) {
+            m_decdisable << static_cast<TextButton *>(button);
+            m_octdisable << static_cast<TextButton *>(button);
+            m_bindisable << static_cast<TextButton *>(button);
+        }
+        if (i == 15 || i == 16) {
+            m_octdisable << static_cast<TextButton *>(button);
+            m_bindisable << static_cast<TextButton *>(button);
+        }
+        if (i == 14 || i == 20 || i == 21 || i == 22 || i == 27 || i == 28) {
+            m_bindisable << static_cast<TextButton *>(button);
+        }
 
         button->setFixedSize(STANDARD_TEXTBTNSIZE);
         m_layout->addWidget(button, desc->row, desc->column, Qt::AlignHCenter | Qt::AlignVCenter);
@@ -145,6 +157,7 @@ void ProgrammerKeypad::initButtons()
         connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &ProgrammerKeypad::moveRight);
         m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
     }
+    static_cast<TextButton *>(this->button(Key_point))->setButtonGray(true);
 }
 
 /**
@@ -201,6 +214,58 @@ void ProgrammerKeypad::getFocus(int direction)
             button(static_cast<Buttons>(i.key() + 1))->setFocus();
         break;
     default:
+        break;
+    }
+}
+
+/**
+ * @brief ProgrammerKeypad::radixChanged
+ * @param row:进制列表的行数 0-16 1-10 2-8 3-2
+ * 根据当前进制，屏蔽或开放数字键盘的对应按键
+ */
+void ProgrammerKeypad::radixChanged(int row)
+{
+    switch (row) {
+    case 0:
+        foreach (TextButton *button, m_bindisable) {
+            if (!button->isEnabled())
+                button->setEnabled(true);
+        }
+        break;
+    case 1:
+        foreach (TextButton *button, m_bindisable) {
+            if (!button->isEnabled())
+                button->setEnabled(true);
+        }
+        foreach (TextButton *button, m_decdisable) {
+            if (button->isEnabled())
+                button->setEnabled(false);
+        }
+        break;
+    case 2:
+        foreach (TextButton *button, m_bindisable) {
+            if (!button->isEnabled())
+                button->setEnabled(true);
+        }
+        foreach (TextButton *button, m_octdisable) {
+            if (button->isEnabled())
+                button->setEnabled(false);
+        }
+        break;
+    case 3:
+        foreach (TextButton *button, m_bindisable) {
+            button->setEnabled(false);
+        }
+        break;
+    default:
+        foreach (TextButton *button, m_bindisable) {
+            if (!button->isEnabled())
+                button->setEnabled(true);
+        }
+        foreach (TextButton *button, m_decdisable) {
+            if (button->isEnabled())
+                button->setEnabled(false);
+        }
         break;
     }
 }

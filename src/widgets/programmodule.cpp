@@ -55,6 +55,8 @@ ProgramModule::ProgramModule(QWidget *parent)
     connect(m_checkBtnKeypad, &ProCheckBtnKeypad::buttonPressed, this, &ProgramModule::handleCheckBtnKeypadButtonPress);
     connect(m_checkBtnKeypad, &ProCheckBtnKeypad::buttonPressedbySpace, this, &ProgramModule::handleKeypadButtonPressByspace);
 //    connect(m_proExpressionBar, &ProExpressionBar::keyPress, this, &ProgramModule::handleEditKeyPress);
+
+    //进制列表点击事件
     connect(m_proListView, &ProListView::obtainingHistorical, this, &ProgramModule::radixListChange);
 
     //位键盘与输入栏交互
@@ -304,11 +306,19 @@ void ProgramModule::checkBtnKeypadThemeChange(int type)
     }
 }
 
-void ProgramModule::radixListChange(const QModelIndex &index)
+/**
+ * @brief ProgramModule::radixListChange
+ * @param index:点击索引
+ * @param isspace:是否键盘交互
+ * 进制列表的点击事件
+ */
+void ProgramModule::radixListChange(const QModelIndex &index, bool isspace)
 {
     QString text = index.data(SimpleListModel::ExpressionWithOutTip).toString();
-    m_proExpressionBar->getInputEdit()->setText(text);
-    m_proExpressionBar->getInputEdit()->setFocus();
+//    m_proExpressionBar->getInputEdit()->setText(text);
+    if (!isspace)
+        m_proExpressionBar->getInputEdit()->setFocus();
+    m_programmerKeypad->radixChanged(index.row());
 }
 
 void ProgramModule::initArrowRectangle()
