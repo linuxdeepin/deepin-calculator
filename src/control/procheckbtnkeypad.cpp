@@ -77,11 +77,11 @@ void ProCheckBtnKeypad::initButtons()
         const KeyDescription *desc = keyDescriptions + i;
         DPushButton *button;
         if (desc->text.isEmpty()) {
-            button = new IconButton;
+            button = new IconButton(this);
         } else if (desc->text == "QWORD") {
-            button = new TextButton(desc->text);
+            button = new TextButton(desc->text, false, this);
         } else {
-            button = new MemoryButton(desc->text);
+            button = new MemoryButton(desc->text, false, this);
         }
 
         button->setFixedSize(BUTTON_SIZE);

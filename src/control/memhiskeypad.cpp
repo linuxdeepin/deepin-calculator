@@ -93,9 +93,9 @@ void MemHisKeypad::initButtons()
         const KeyDescription *desc = keyDescriptions + i;
         DPushButton *button;
         if (desc->text == "F-E")
-            button = new TextButton(desc->text);
+            button = new TextButton(desc->text, false, this);
         else
-            button = new MemoryButton(desc->text);
+            button = new MemoryButton(desc->text, false, this);
         QFont font = button->font();
         font.setFamily("Noto Sans");
         button->setFont(font);

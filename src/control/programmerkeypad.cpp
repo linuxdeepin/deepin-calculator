@@ -113,19 +113,19 @@ void ProgrammerKeypad::initButtons()
         DPushButton *button;
 
         if (desc->text.isEmpty()) {
-            button = new IconButton;
+            button = new IconButton(this);
         } else {
             if (desc->text == "=") {
-                button = new EqualButton(desc->text);
+                button = new EqualButton(desc->text, this);
                 connect(static_cast<EqualButton *>(button), &EqualButton::focus, this, &ProgrammerKeypad::getFocus); //获取上下左右键
                 connect(static_cast<EqualButton *>(button), &EqualButton::space, this, [ = ]() {
                     emit buttonPressedbySpace(Key_equal);
                 });
             } else {
                 if (i % 6 == 0)
-                    button = new TextButton(desc->text, true);
+                    button = new TextButton(desc->text, true, this);
                 else
-                    button = new TextButton(desc->text);
+                    button = new TextButton(desc->text, false, this);
             }
         }
 
