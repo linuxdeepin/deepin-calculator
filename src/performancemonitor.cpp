@@ -83,5 +83,5 @@ void PerformanceMonitor::finishOperate(const QString operate)
     finishOperateMs = current.toMSecsSinceEpoch();
     qint64 time = finishOperateMs - startOperateMs;
 //    qInfo() << QString("%1 %2-%3 %4 #(Calculate time)").arg(GRAB_POINT).arg(APP_NAME).arg(CALCULATE_TIME).arg(time);
-    qInfo() << QString("%1 %2 %3 time=%4ms").arg(GRAB_POINT).arg(OPERATE_TIME).arg(operate).arg(time);
+    qInfo() << QString("%1 %2 operationType=%3 time=%4ms").arg(GRAB_POINT).arg(OPERATE_TIME).arg(operate).arg(time);
 }
