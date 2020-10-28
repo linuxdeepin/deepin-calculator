@@ -933,19 +933,19 @@ void scientificModule::handleKeypadButtonPress(int key)
     m_scikeypadwidget->bracketsNum(1, QString::number(right));
     switch (presskind) {
     case 0:
-        PerformanceMonitor::finishOperate("数字键盘点击");
+//        PerformanceMonitor::finishOperate("数字键盘点击");
         break;
     case 1:
         PerformanceMonitor::finishOperate("运算");
         break;
     case 2:
-        PerformanceMonitor::finishOperate("内存操作");
+//        PerformanceMonitor::finishOperate("内存操作");
         break;
     case 3:
-        PerformanceMonitor::finishOperate("内存清空");
+//        PerformanceMonitor::finishOperate("内存清空");
         break;
     default:
-        PerformanceMonitor::finishOperate("数字键盘点击");
+//        PerformanceMonitor::finishOperate("数字键盘点击");
         break;
     }
 }

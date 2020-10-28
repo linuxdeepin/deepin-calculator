@@ -141,7 +141,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
         }
         m_clearbutton->setHidden(true);
         m_clearbutton->updateWhenBtnDisable();
-        PerformanceMonitor::finishOperate("历史/内存列表垃圾桶");
+//        PerformanceMonitor::finishOperate("历史/内存列表垃圾桶");
 //        m_clearbutton->setHidden(!(m_isshowH & m_indexH));
 //        setFocus();
     });
