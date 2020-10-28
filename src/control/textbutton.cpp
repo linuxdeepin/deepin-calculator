@@ -19,6 +19,8 @@
 
 #include "textbutton.h"
 
+#include "performancemonitor.h"
+
 const qreal BLURRADIUS = 12; //阴影模糊半径
 const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
 const qreal ROUND_YRADIUS = 8; //按钮圆角y轴半径
@@ -151,6 +153,7 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
     if (this->rect().contains(e->pos())) {
         m_isacting = true;
         m_isHover = true;
+        PerformanceMonitor::startOperate();
     } else
         m_isacting = false;
     emit mouseRelease();

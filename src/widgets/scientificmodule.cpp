@@ -624,6 +624,7 @@ void scientificModule::handleKeypadButtonPress(int key)
 {
     m_scikeypadwidget->update();
     //20200414 bug20294鼠标点击取消focus
+    int presskind = 0; //性能打点，0-数字点击 1-等于 2-内存操作 3-内存清空
     switch (key) {
     case ScientificKeyPad::Key_0:
         if (!m_sciexpressionBar->judgeinput())
@@ -707,6 +708,7 @@ void scientificModule::handleKeypadButtonPress(int key)
             m_scihiswidget->historyfilled();
             m_scihiswidget->m_listView->scrollToTop();
         }
+        presskind = 1;
         break;
     case ScientificKeyPad::Key_Clear:
         m_sciexpressionBar->enterClearEvent();
@@ -733,24 +735,29 @@ void scientificModule::handleKeypadButtonPress(int key)
         m_sciexpressionBar->enterEqualEvent();
         if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
             m_scihiswidget->memoryFunctions(SciHistoryWidget::generateData, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
+        presskind = 2;
         break;
     case ScientificKeyPad::Key_MC:
         m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryclean);
+        presskind = 3;
         break;
     case ScientificKeyPad::Key_Mplus:
         m_sciexpressionBar->enterEqualEvent();
         if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
             m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryplus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
+        presskind = 2;
         break;
     case ScientificKeyPad::Key_Mmin:
         m_sciexpressionBar->enterEqualEvent();
         if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
             m_scihiswidget->memoryFunctions(SciHistoryWidget::memoryminus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
+        presskind = 2;
         break;
     case ScientificKeyPad::Key_MR:
         m_sciexpressionBar->getInputEdit()->setAnswer(m_scihiswidget->findChild<MemoryWidget *>()->getfirstnumber().first
                                                       , m_scihiswidget->findChild<MemoryWidget *>()->getfirstnumber().second);
         this->handleClearStateChanged(false);
+        presskind = 2;
         break;
     case ScientificKeyPad::Key_deg:
         m_sciexpressionBar->enterDegEvent(m_deg);
@@ -924,6 +931,23 @@ void scientificModule::handleKeypadButtonPress(int key)
     }
     m_scikeypadwidget->bracketsNum(0, QString::number(left)); //写入左右括号不匹配数
     m_scikeypadwidget->bracketsNum(1, QString::number(right));
+    switch (presskind) {
+    case 0:
+        PerformanceMonitor::finishOperate("数字键盘点击");
+        break;
+    case 1:
+        PerformanceMonitor::finishOperate("运算");
+        break;
+    case 2:
+        PerformanceMonitor::finishOperate("内存操作");
+        break;
+    case 3:
+        PerformanceMonitor::finishOperate("内存清空");
+        break;
+    default:
+        PerformanceMonitor::finishOperate("数字键盘点击");
+        break;
+    }
 }
 
 void scientificModule::handleKeypadButtonPressByspace(int key)

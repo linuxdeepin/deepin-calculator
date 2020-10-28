@@ -24,6 +24,8 @@
 #include <QTimer>
 #include <QToolTip>
 
+#include "performancemonitor.h"
+
 const QSize HISTORY_WIDGET_CLEARBUTTONSIZE = QSize(36, 36); //历史记录区垃圾桶大小
 const QSize STANDARD_ICONBTNSIZE = QSize(78, 58); //标准模式等于按钮大小，为画边框比ui大2pix
 const qreal BLURRADIUS = 12; //阴影模糊半径
@@ -185,6 +187,8 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
     if (this->rect().contains(e->pos())) {
         m_isacting = true;
         m_isHover = true;
+        if (this->objectName() == "clearbtn")
+            PerformanceMonitor::startOperate();
     } else
         m_isacting = false;
 

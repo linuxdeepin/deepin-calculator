@@ -265,8 +265,11 @@ void MemoryWidget::mousePressEvent(QMouseEvent *event)
 bool MemoryWidget::eventFilter(QObject *obj, QEvent *event)
 {
     if (m_calculatormode == 0) {
-        if (event->type() == QEvent::FocusOut && !(m_listwidget->hasFocus() || m_clearbutton->hasFocus() || this->hasFocus())) {
-            emit basicPressEscape();
+        if (event->type() == QEvent::FocusOut) {
+            QFocusEvent *focus_Event = static_cast<QFocusEvent *>(event);
+            if (focus_Event->reason() == Qt::MouseFocusReason || focus_Event->reason() == Qt::ActiveWindowFocusReason) {
+                emit basicPressEscape();
+            }
         }
         if (obj == this && event->type() == QEvent::KeyPress) {
             QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件

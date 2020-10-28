@@ -16,8 +16,8 @@ public:
     static void initializAppFinish();
     static void closeAppStart();
     static void closeAPPFinish();
-    static void startCalculate();
-    static void finishCalculate();
+    static void startOperate();
+    static void finishOperate(const QString operate);
 
 private:
     Q_DISABLE_COPY(PerformanceMonitor)
@@ -26,8 +26,8 @@ private:
     static qint64 inittalizeApoFinishMs;
     static qint64 closeAppStartMs;
     static qint64 closeAppFinishMs;
-    static qint64 startCalculateMs;
-    static qint64 finishCalculateMs;
+    static qint64 startOperateMs;
+    static qint64 finishOperateMs;
 };
 
 #endif // PERFORMANCEMONITOR_H
