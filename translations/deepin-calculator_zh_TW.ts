@@ -52,7 +52,7 @@
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>計算機</translation>
+        <translation>計算器</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
@@ -144,7 +144,7 @@
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>計算機</translation>
+        <translation>計算器</translation>
     </message>
 </context>
 <context>

@@ -187,7 +187,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation> Обриши</translation>
+        <translation>Обриши</translation>
     </message>
 </context>
 </TS>

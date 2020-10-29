@@ -56,7 +56,7 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>A Számológép egy könnyen használható asztali számológép, amely támogatja a szabványos és tudományos módokat.</translation>
+        <translation>A Számológép egy könnyen használható asztali számológép, amely támogatja a hagyományos és tudományos módokat.</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -79,7 +79,7 @@
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Elem törlése a memóriából</translation>
+        <translation>Memória elem törlése</translation>
     </message>
     <message>
         <source>Clear all memory</source>
@@ -107,7 +107,7 @@
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Tárolás a memóriában</translation>
+        <translation>Memóriatár</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -122,7 +122,7 @@
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Elem törlése a memóriából</translation>
+        <translation>Memória elem törlése</translation>
     </message>
     <message>
         <source>Add to memory item</source>
@@ -137,7 +137,7 @@
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>Üres a memória</translation>
+        <translation>A memória üres</translation>
     </message>
 </context>
 <context>
