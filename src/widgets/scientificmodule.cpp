@@ -641,7 +641,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
  */
 void scientificModule::handleKeypadButtonPress(int key)
 {
-    bool memoryfocus = false;
+    bool pagefocus = false;
     m_scikeypadwidget->update();
     //20200414 bug20294鼠标点击取消focus
     switch (key) {
@@ -778,7 +778,7 @@ void scientificModule::handleKeypadButtonPress(int key)
         m_memhiswidget->focusOnButtonbox(Qt::MouseFocusReason);
         m_sciexpressionBar->setAttribute(Qt::WA_TransparentForMouseEvents); //鼠标穿透
         m_memhiskeypad->setAttribute(Qt::WA_TransparentForMouseEvents); //鼠标穿透
-        memoryfocus = true;
+        pagefocus = true;
         break;
     case ScientificKeyPad::Key_deg:
         m_sciexpressionBar->enterDegEvent(m_deg);
@@ -938,7 +938,7 @@ void scientificModule::handleKeypadButtonPress(int key)
     m_sciexpressionBar->addUndo();
 //    if (m_stackWidget->currentWidget() == m_scikeypadwidget)
 //        m_sciexpressionBar->getInputEdit()->setFocus();
-    if (!memoryfocus)
+    if (!pagefocus)
         m_sciexpressionBar->getInputEdit()->setFocus();
     int left = 0;
     int right = 0;

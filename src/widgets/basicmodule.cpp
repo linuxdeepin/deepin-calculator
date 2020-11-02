@@ -388,7 +388,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
  */
 void BasicModule::handleKeypadButtonPress(int key)
 {
-    bool memoryfocus = false;
+    bool pagefocus = false;
     m_basicKeypad->update();
     //20200414 bug20294鼠标点击取消focus
     QPair<QString, Quantity> p;
@@ -479,7 +479,7 @@ void BasicModule::handleKeypadButtonPress(int key)
             m_memoryKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, false);
         }
         m_memorylistwidget->setFocus(Qt::MouseFocusReason);
-        memoryfocus = true;
+        pagefocus = true;
         break;
     case MemoryKeypad::Key_Mplus:
         m_expressionBar->settingLinkage();
@@ -500,7 +500,7 @@ void BasicModule::handleKeypadButtonPress(int key)
         break;
     }
     m_expressionBar->addUndo();
-    if (!memoryfocus)
+    if (!pagefocus)
         m_expressionBar->getInputEdit()->setFocus();
 }
 

@@ -20,13 +20,31 @@ public:
     ~ProExpressionBar();
     void mouseMoveEvent(QMouseEvent *event);
     InputEdit *getInputEdit();
+    bool isnumber(QChar a);
 
 signals:
 //    void keyPress(QKeyEvent *);
     void clearStateChanged(bool);
+    void keyPress(QKeyEvent *);
 
 public slots:
+    //输入事件
+    void enterNumberEvent(const QString &text);
+    void enterSymbolEvent(const QString &text);
+    void enterBackspaceEvent();
+    void enterClearEvent();
     void enterEqualEvent();
+//    void enterModEvent();
+    void enterNotEvent();
+//    void enterAndEvent();
+//    void enterOrEvent();
+//    void enterXorEvent();
+//    void enterNandEvent();
+//    void enterNorEvent();
+    void enterOperatorEvent(const QString &text);
+    void enterLeftBracketsEvent();
+    void enterRightBracketsEvent();
+
     void initTheme(int type);
     void revisionResults(const QModelIndex &index);
     void addUndo();
@@ -43,12 +61,16 @@ private:
     void initConnect();
     void replaceSelection(QString text);
     QString symbolComplement(const QString exp);
-    QString pointFaultTolerance(const QString &text);
+    bool cursorPosAtEnd();
+    bool isOperator(const QString &text);
+    void expressionCheck();
+    QString formatExpression(const QString &text);
 
 private slots:
     void handleTextChanged();
 
 private:
+    Evaluator *m_evaluator;
     SimpleListView *m_listView;
     SimpleListDelegate *m_listDelegate;
     SimpleListModel *m_listModel;
@@ -57,9 +79,12 @@ private:
     bool m_isContinue;
     bool m_isAllClear;
     bool m_isResult;           //计算结果
+    bool m_inputNumber;        //输入数字
     bool m_isUndo;
     QVector<QString> m_undo;
     QVector<QString> m_redo;
+    QList<QString> m_funclist; //支持的函数
+    QString m_expression = QString();
 };
 
 #endif // PROEXPRESSIONBAR_H

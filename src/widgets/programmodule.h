@@ -33,18 +33,21 @@ class ProgramModule : public DWidget
 public:
     ProgramModule(QWidget *parent = nullptr);
     ~ProgramModule();
+    void setKeyPress(QKeyEvent *e);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
 
 private slots:
-    void handleCheckBtnKeypadButtonPress(int key);
+    //数字键盘事件--鼠标点击、键盘交互、键盘输入
+    void handleKeypadButtonPress(int key);
     void handleKeypadButtonPressByspace(int key);
-    //    void shiftArrowListWidgetItemClicked(QListWidgetItem *item);
-    //    void byteArrowListWidgetItemClicked(QListWidgetItem *item);
+
+    //arrowrectangle处理
     void shiftArrowListWidgetItemClicked(int row);
     void shiftArrowListWidgetItemSpace();
     void byteArrowListWidgetItemClicked(int row);
     void byteArrowListWidgetItemSpace();
+
     void checkBtnKeypadThemeChange(int type);
     void radixListChange(const QModelIndex &index, bool isspace);
 

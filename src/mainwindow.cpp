@@ -213,6 +213,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         m_basicModule->setKeyPress(event);
     else if (m_mainLayout->currentWidget() == m_scientificModule)
         m_scientificModule->setKeyPress(event);
+    else if (m_mainLayout->currentWidget() == m_programmerModule) {
+        m_programmerModule->setKeyPress(event);
+    }
     return;
 }
 

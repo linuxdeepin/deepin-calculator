@@ -52,9 +52,13 @@ ProgramModule::ProgramModule(QWidget *parent)
             m_proListDelegate, &ProListDelegate::setThemeType);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_proExpressionBar, &ProExpressionBar::initTheme);
-    connect(m_checkBtnKeypad, &ProCheckBtnKeypad::buttonPressed, this, &ProgramModule::handleCheckBtnKeypadButtonPress);
+
+    //数字键盘事件--鼠标点击、键盘交互、键盘输入
+    connect(m_checkBtnKeypad, &ProCheckBtnKeypad::buttonPressed, this, &ProgramModule::handleKeypadButtonPress);
     connect(m_checkBtnKeypad, &ProCheckBtnKeypad::buttonPressedbySpace, this, &ProgramModule::handleKeypadButtonPressByspace);
-//    connect(m_proExpressionBar, &ProExpressionBar::keyPress, this, &ProgramModule::handleEditKeyPress);
+    connect(m_programmerKeypad, &ProgrammerKeypad::buttonPressed, this, &ProgramModule::handleKeypadButtonPress);
+    connect(m_programmerKeypad, &ProgrammerKeypad::buttonPressedbySpace, this, &ProgramModule::handleKeypadButtonPressByspace);
+    connect(m_proExpressionBar, &ProExpressionBar::keyPress, this, &ProgramModule::handleEditKeyPress);
 
     //进制列表点击事件
     connect(m_proListView, &ProListView::obtainingHistorical, this, &ProgramModule::radixListChange);
@@ -67,6 +71,14 @@ ProgramModule::ProgramModule(QWidget *parent)
 ProgramModule::~ProgramModule()
 {
 
+}
+
+/**
+ * @brief mainwindow焦点不在basicmodul时也触发keypress
+ */
+void ProgramModule::setKeyPress(QKeyEvent *e)
+{
+    handleEditKeyPress(e);
 }
 
 void ProgramModule::mouseMoveEvent(QMouseEvent *event)
@@ -84,7 +96,7 @@ void ProgramModule::mousePressEvent(QMouseEvent *event)
     DWidget::mousePressEvent(event);
 }
 
-void ProgramModule::handleCheckBtnKeypadButtonPress(int key)
+void ProgramModule::handleKeypadButtonPress(int key)
 {
     QString path;
     if (DGuiApplicationHelper::instance()->themeType() == 2)
@@ -92,6 +104,10 @@ void ProgramModule::handleCheckBtnKeypadButtonPress(int key)
     else
         path = QString(":/assets/images/%1/").arg("light");
     m_checkBtnKeypad->update();
+    m_programmerKeypad->update();
+    bool pagefocus = false;
+
+    QPair<QString, Quantity> p;
     switch (key) {
     case ProCheckBtnKeypad::Key_GeneralKeypad:
         //点击后设置Key_GeneralKeypad为点击状态，Key_BinaryKeypad为普通状态
@@ -114,20 +130,159 @@ void ProgramModule::handleCheckBtnKeypadButtonPress(int key)
         m_byteArrowRectangle->setHidden(false);
         setwidgetAttribute(true);
         m_byteArrowRectangle->setFocus();
+        pagefocus = true;
         break;
     case ProCheckBtnKeypad::Key_Option:
         static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setBtnPressing(true);
         m_shiftArrowRectangle->setHidden(false);
         setwidgetAttribute(true);
         m_shiftArrowRectangle->setFocus();
+        pagefocus = true;
         break;
     case ProCheckBtnKeypad::Key_Mlist:
         break;
     case ProCheckBtnKeypad::Key_MS:
         break;
+    case ProgrammerKeypad::Key_0:
+        m_proExpressionBar->enterNumberEvent("0"); //按键0事件
+        break;
+    case ProgrammerKeypad::Key_1:
+        m_proExpressionBar->enterNumberEvent("1");
+        break;
+    case ProgrammerKeypad::Key_2:
+        m_proExpressionBar->enterNumberEvent("2");
+        break;
+    case ProgrammerKeypad::Key_3:
+        m_proExpressionBar->enterNumberEvent("3");
+        break;
+    case ProgrammerKeypad::Key_4:
+        m_proExpressionBar->enterNumberEvent("4");
+        break;
+    case ProgrammerKeypad::Key_5:
+        m_proExpressionBar->enterNumberEvent("5");
+        break;
+    case ProgrammerKeypad::Key_6:
+        m_proExpressionBar->enterNumberEvent("6");
+        break;
+    case ProgrammerKeypad::Key_7:
+        m_proExpressionBar->enterNumberEvent("7");
+        break;
+    case ProgrammerKeypad::Key_8:
+        m_proExpressionBar->enterNumberEvent("8");
+        break;
+    case ProgrammerKeypad::Key_9:
+        m_proExpressionBar->enterNumberEvent("9");
+        break;
+    case ProgrammerKeypad::Key_A:
+        m_proExpressionBar->enterNumberEvent("A");
+        break;
+    case ProgrammerKeypad::Key_B:
+        m_proExpressionBar->enterNumberEvent("B");
+        break;
+    case ProgrammerKeypad::Key_C:
+        m_proExpressionBar->enterNumberEvent("C");
+        break;
+    case ProgrammerKeypad::Key_D:
+        m_proExpressionBar->enterNumberEvent("D");
+        break;
+    case ProgrammerKeypad::Key_E:
+        m_proExpressionBar->enterNumberEvent("E");
+        break;
+    case ProgrammerKeypad::Key_F:
+        m_proExpressionBar->enterNumberEvent("F");
+        break;
+    case ProgrammerKeypad::Key_Plus:
+        m_proExpressionBar->enterSymbolEvent("+");
+        break;
+    case ProgrammerKeypad::Key_Min:
+        m_proExpressionBar->enterSymbolEvent("-");
+        break;
+    case ProgrammerKeypad::Key_Mult:
+        m_proExpressionBar->enterSymbolEvent("*");
+        break;
+    case ProgrammerKeypad::Key_Div:
+        m_proExpressionBar->enterSymbolEvent("/");
+        break;
+    case ProgrammerKeypad::Key_percent:
+        m_proExpressionBar->enterOperatorEvent("mod");
+        break;
+    case ProgrammerKeypad::Key_equal:
+        m_proExpressionBar->enterEqualEvent();
+        break;
+    case ProgrammerKeypad::Key_Clear:
+        m_proExpressionBar->enterClearEvent();
+        break;
+    case ProgrammerKeypad::Key_Backspace:
+        m_proExpressionBar->enterBackspaceEvent();
+        break;
+    case ProgrammerKeypad::Key_leftBracket:
+        m_proExpressionBar->enterLeftBracketsEvent();
+        break;
+    case ProgrammerKeypad::Key_rightBracket:
+        m_proExpressionBar->enterRightBracketsEvent();
+        break;
+    case ProgrammerKeypad::Key_AND:
+        m_proExpressionBar->enterOperatorEvent("and");
+        break;
+    case ProgrammerKeypad::Key_OR:
+        m_proExpressionBar->enterOperatorEvent("or");
+        break;
+    case ProgrammerKeypad::Key_NOT:
+        m_proExpressionBar->enterNotEvent();
+        break;
+    case ProgrammerKeypad::Key_XOR:
+        m_proExpressionBar->enterOperatorEvent("xor");
+        break;
+    case ProgrammerKeypad::Key_NAND:
+        m_proExpressionBar->enterOperatorEvent("nand");
+        break;
+    case ProgrammerKeypad::Key_NOR:
+        m_proExpressionBar->enterOperatorEvent("nor");
+        break;
+    case ProgrammerKeypad::Key_moveL:
+        switch (m_shiftArrowCurrentRow) {
+        case 0:
+            m_proExpressionBar->enterOperatorEvent("sal");
+            break;
+        case 1:
+            m_proExpressionBar->enterOperatorEvent("shl");
+            break;
+        case 2:
+            m_proExpressionBar->enterOperatorEvent("rol");
+            break;
+        case 3:
+            m_proExpressionBar->enterOperatorEvent("rcl");
+            break;
+        default:
+            m_proExpressionBar->enterOperatorEvent("sal");
+            break;
+        }
+        break;
+    case ProgrammerKeypad::Key_moveR:
+        switch (m_shiftArrowCurrentRow) {
+        case 0:
+            m_proExpressionBar->enterOperatorEvent("sar");
+            break;
+        case 1:
+            m_proExpressionBar->enterOperatorEvent("shr");
+            break;
+        case 2:
+            m_proExpressionBar->enterOperatorEvent("ror");
+            break;
+        case 3:
+            m_proExpressionBar->enterOperatorEvent("rcr");
+            break;
+        default:
+            m_proExpressionBar->enterOperatorEvent("sar");
+            break;
+        }
+        break;
     default:
         break;
     }
+    m_proExpressionBar->addUndo();
+    if (!pagefocus)
+        m_proExpressionBar->getInputEdit()->setFocus();
 }
 
 void ProgramModule::handleKeypadButtonPressByspace(int key)
@@ -314,7 +469,7 @@ void ProgramModule::checkBtnKeypadThemeChange(int type)
  */
 void ProgramModule::radixListChange(const QModelIndex &index, bool isspace)
 {
-    QString text = index.data(SimpleListModel::ExpressionWithOutTip).toString();
+//    QString text = index.data(SimpleListModel::ExpressionWithOutTip).toString();
 //    m_proExpressionBar->getInputEdit()->setText(text);
     if (!isspace)
         m_proExpressionBar->getInputEdit()->setFocus();
@@ -499,7 +654,7 @@ void ProgramModule::initArrowRectangle()
     connect(m_shiftArrowListWidget, &MemoryListWidget::mousemoving, m_shiftArrowRectangle, &ArrowRectangle::mouseMoveToClearFocus);
 }
 
-void ProgramModule::handleEditKeyPress(QKeyEvent *)
+void ProgramModule::handleEditKeyPress(QKeyEvent *e)
 {
 
 }

@@ -426,6 +426,12 @@ void InputEdit::valueChangeFromProSyskeypad(const QString num)
         text.remove(numstart, numend - numstart).insert(numstart, number);
     }
     this->setText(text);
+    //重新找到numend
+    numend = numstart < 0 ? 0 : numstart;
+    while (numend < this->text().length() && isNumber(this->text().at(numend))) {
+        numend++;
+    }
+    this->setCursorPosition(numend);
 }
 
 /**

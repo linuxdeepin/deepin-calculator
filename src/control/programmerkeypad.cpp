@@ -158,6 +158,7 @@ void ProgrammerKeypad::initButtons()
         m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
     }
     static_cast<TextButton *>(this->button(Key_point))->setButtonGray(true);
+    radixChanged(1);
 }
 
 /**
