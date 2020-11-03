@@ -567,7 +567,7 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
         //e后非＋／－
         if (newText.length() > expPos + 1 && newText.at(expPos + 1) != QString::fromUtf8("－") && newText.at(expPos + 1) != QString::fromUtf8("＋")
                 && newText.at(expPos + 1) != "-" && newText.at(expPos + 1) != "+") {
-            while (newText.at(expPos + 1) == "(" || newText.at(expPos + 1) == ")") {
+            while (newText.length() > expPos + 1 && (newText.at(expPos + 1) == "(" || newText.at(expPos + 1) == ")")) {
                 newText.remove(expPos + 1, 1); //避免e后可输入()情况
             }
             return newText;
