@@ -70,6 +70,7 @@ public slots:
     void autoZoomFontSize(); //输入框字号变化
     void themetypechanged(int type);
     void valueChangeFromProSyskeypad(const QString num);
+    void handleTextChanged(const QString &text);
 
 Q_SIGNALS:
     void keyPress(QKeyEvent *);
@@ -96,7 +97,7 @@ private slots:
 //    bool isSymbolCategoryChanged(int pos1, int pos2);
 //    int findWordBeginPosition(int pos);
 //    int findWordEndPosition(int pos);
-    void handleTextChanged(const QString &text);
+//    void handleTextChanged(const QString &text);
     void handleCursorPositionChanged(int oldPos, int newPos);
     void BracketCompletion(QKeyEvent *e);
     QString pointFaultTolerance(const QString &text);

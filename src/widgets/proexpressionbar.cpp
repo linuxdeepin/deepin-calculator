@@ -90,7 +90,7 @@ void ProExpressionBar::enterNumberEvent(const QString &text)
     replaceSelection(m_inputEdit->text());
     m_inputEdit->insert(text);
     int nowcur = m_inputEdit->cursorPosition();
-    m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
+    m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
 //    m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
     m_inputEdit->setCursorPosition(nowcur);
     emit clearStateChanged(false);
@@ -145,14 +145,15 @@ void ProExpressionBar::enterSymbolEvent(const QString &text)
 
             // 2020316修复添加符号后光标问题
             //添加符号后左侧数字不会多分隔符，只需考虑添加符号后输入框光标前的数字与添加前是否一致
-            if (exp.mid(0, curPos).remove(QRegExp("[＋－×÷/,.%()]")) ==
-                    m_inputEdit->text().mid(0, curPos).remove(QRegExp("[＋－×÷/,.%()]"))) {
+            if (exp.mid(0, curPos).remove(QRegExp("[＋－×÷/,%()\\s]")) ==
+                    m_inputEdit->text().mid(0, curPos).remove(QRegExp("[＋－×÷/,%()\\s]"))) {
                 QString sRegNum = "[＋－×÷/]";
                 QRegExp rx;
                 rx.setPattern(sRegNum);
                 rx.exactMatch(m_inputEdit->text().at(curPos))
                 ? m_inputEdit->setCursorPosition(curPos + 1)
                 : m_inputEdit->setCursorPosition(curPos);
+                qDebug() << curPos;
             } else
                 m_inputEdit->setCursorPosition(curPos - 1);
         }
@@ -218,13 +219,13 @@ void ProExpressionBar::enterBackspaceEvent()
 
         m_inputEdit->setText(text); //输入栏删除被选中
         // 20200401 symbolFaultTolerance
-        m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
+        m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
         // 20200316选中部分光标置位问题修复
-        if ((seloldtext.mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()]")).length()) ==
-                m_inputEdit->text().mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()]")).length())
+        if ((seloldtext.mid(0, removepos).remove(QRegExp("[＋－×÷/,%()\\s]")).length()) ==
+                m_inputEdit->text().mid(0, removepos).remove(QRegExp("[＋－×÷/,%()\\s]")).length())
             m_inputEdit->setCursorPosition(removepos);
-        else if ((seloldtext.mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()]")).length()) >
-                 m_inputEdit->text().mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()]")).length())
+        else if ((seloldtext.mid(0, removepos).remove(QRegExp("[＋－×÷/,%()\\s]")).length()) >
+                 m_inputEdit->text().mid(0, removepos).remove(QRegExp("[＋－×÷/,%()\\s]")).length())
             m_inputEdit->setCursorPosition(removepos + 1);
         else
             m_inputEdit->setCursorPosition(removepos - 1);
@@ -240,7 +241,7 @@ void ProExpressionBar::enterBackspaceEvent()
         text.remove(cur - 2, 2);
         m_inputEdit->setText(text);
         // 20200401 symbolFaultTolerance
-        m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
+        m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
         m_inputEdit->setCursorPosition(cur - 2);
     } else {
         //退函数
@@ -264,7 +265,7 @@ void ProExpressionBar::enterBackspaceEvent()
             m_inputEdit->backspace();
             int separator = proNumber - m_inputEdit->text().count(",");
             // 20200401 symbolFaultTolerance
-            m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
+            m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
             int newPro = m_inputEdit->text().count(",");
             if (cur > 0) {
                 QString sRegNum = "[0-9]+";
@@ -334,7 +335,7 @@ void ProExpressionBar::enterEqualEvent()
     // 20200407 超过16位小数未科学计数
     qDebug() << "m_evaluator->error()" << m_evaluator->error();
     qDebug() << "ans" << m_inputEdit->expressionText();
-    if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegExp("[a-z＋－×÷/.,%()πe^!]")) != -1)) {
+    if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegExp("[a-z＋－×÷,%()\\s]")) != -1)) {
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign()) {
             m_expression = exp + "＝" + tr("Expression error");
             m_listModel->updataList(m_expression, -1, true);
@@ -401,7 +402,7 @@ void ProExpressionBar::enterNotEvent()
         m_inputEdit->setText("not(");
         return;
     }
-    QString sRegNum = "[\\s][0-9,][A-Z]";
+    QString sRegNum = "[A-Z0-9,\\s]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curPos == 0 && hasselect == false) {
@@ -413,7 +414,7 @@ void ProExpressionBar::enterNotEvent()
     }
     // start edit for task-13519
     //        QString sRegNum1 = "[^0-9,.×÷)]";
-    QString sRegNum1 = "[^A-Z][^0-9,)][\\s]";
+    QString sRegNum1 = "[^A-Z^0-9,\\s)]";
     QRegExp rx1;
     rx1.setPattern(sRegNum1);
     if (rx1.exactMatch(exp.at(curPos - 1)))
@@ -422,7 +423,7 @@ void ProExpressionBar::enterNotEvent()
         QString newtext = m_inputEdit->text();
         int percentpos = m_inputEdit->cursorPosition();
         int operatorpos =
-            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^A-Z][^0-9,][\\s]")), percentpos - 1);
+            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^A-Z^0-9,\\s]")), percentpos - 1);
 
         bool nooperator = false;
         if (operatorpos < 0) {
@@ -518,7 +519,7 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
 
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
-    m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
+    m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
 
@@ -543,7 +544,7 @@ void ProExpressionBar::enterLeftBracketsEvent()
     m_inputEdit->insert("(");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
-    m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
+    m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
 
@@ -566,7 +567,7 @@ void ProExpressionBar::enterRightBracketsEvent()
     m_inputEdit->insert(")");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
-    m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
+    m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
 
@@ -632,7 +633,7 @@ void ProExpressionBar::copyClipboard2Result()
            .replace('-', QString::fromUtf8("－"))
            .replace("_", QString::fromUtf8("－"))
            .replace('*', QString::fromUtf8("×"))
-           .replace('x', QString::fromUtf8("×"))
+//           .replace('x', QString::fromUtf8("×"))
            .replace('X', QString::fromUtf8("×"))
            .replace(QString::fromUtf8("＊"), QString::fromUtf8("×"))
            .replace(QString::fromUtf8("（"), "(")
@@ -677,11 +678,11 @@ void ProExpressionBar::shear()
     addUndo();
     m_isUndo = false;
     //设置剪切后光标位置
-    if (text.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length() ==
-            m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length())
+    if (text.mid(0, selcurPos).remove(QRegExp("[＋－×÷,%()\\s]")).length() ==
+            m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,%()\\s]")).length())
         m_inputEdit->setCursorPosition(selcurPos);
-    else if (text.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length() >
-             m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length())
+    else if (text.mid(0, selcurPos).remove(QRegExp("[＋－×÷,%()\\s]")).length() >
+             m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,%()\\s]")).length())
         m_inputEdit->setCursorPosition(selcurPos + 1);
     else
         m_inputEdit->setCursorPosition(selcurPos - 1);
@@ -790,11 +791,11 @@ void ProExpressionBar::replaceSelection(QString text)
                 selcurPos <= selection.curpos + selection.selected.size())
             selcurPos = selection.curpos;
         // 20200313选中部分光标置位问题修复
-        if (seloldtext.mid(0, selcurPos).remove(QRegExp("[,]")).length() ==
-                m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[,]")).length())
+        if (seloldtext.mid(0, selcurPos).remove(QRegExp("[,\\s]")).length() ==
+                m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[,\\s]")).length())
             m_inputEdit->setCursorPosition(selcurPos);
-        else if (seloldtext.mid(0, selcurPos).remove(QRegExp("[,]")).length() >
-                 m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[,]")).length())
+        else if (seloldtext.mid(0, selcurPos).remove(QRegExp("[,\\s]")).length() >
+                 m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[,\\s]")).length())
             m_inputEdit->setCursorPosition(selcurPos + 1);
         else
             m_inputEdit->setCursorPosition(selcurPos - 1);
@@ -907,6 +908,59 @@ QString ProExpressionBar::formatExpression(const QString &text)
            .replace(QString::fromUtf8("×"), "*")
            .replace(QString::fromUtf8("÷"), "/")
            .replace(QString::fromUtf8(","), "");
+}
+
+/**
+ * @brief ProExpressionBar::symbolFaultTolerance
+ * @param text:输入栏中的内容
+ * @return 修改后的内容
+ * 处理当有多个四则运算符时，只保留最后输入的符号
+ */
+QString ProExpressionBar::symbolFaultTolerance(const QString &text)
+{
+    if (text.isEmpty())
+        return text;
+    QString exp = text;
+    QString newText;
+    QStringList symbolList;
+    for (int i = 0; i < exp.length(); ++i) {
+        if (!isSymbol(exp.at(i))) {
+            if (!symbolList.isEmpty()) {
+                if (!newText.isEmpty())
+                    newText.append(symbolList.last()); //保证数字中间的符号只有一个，去除多余符号
+                if (newText.isEmpty() && symbolList.last() == "－")
+                    newText.append(symbolList.last()); //保存负数的-号
+            }
+            newText.append(exp.at(i));
+            symbolList.clear();
+        } else {
+            symbolList.append(exp.at(i));
+            continue;
+        }
+    }
+//    qDebug() << symbolList << " a " << newText;
+    if (!symbolList.isEmpty() /*&& !newText.isEmpty()*/) { //防止输入栏中只有符号可输入*/+;暂未屏蔽%
+        if ((newText.isEmpty() && symbolList.contains("－"))) {
+            newText.append("－");
+        } else if (!newText.isEmpty()) {
+            newText.append(symbolList.last());
+        }
+    }
+    return newText;
+}
+
+bool ProExpressionBar::isSymbol(const QString &text)
+{
+    if (text == QString::fromUtf8("＋"))
+        return true;
+    else if (text == QString::fromUtf8("－"))
+        return true;
+    else if (text == QString::fromUtf8("×"))
+        return true;
+    else if (text == QString::fromUtf8("÷"))
+        return true;
+    else
+        return false;
 }
 
 void ProExpressionBar::handleTextChanged()

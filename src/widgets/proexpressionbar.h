@@ -65,6 +65,8 @@ private:
     bool isOperator(const QString &text);
     void expressionCheck();
     QString formatExpression(const QString &text);
+    QString symbolFaultTolerance(const QString &text);
+    bool isSymbol(const QString &text);
 
 private slots:
     void handleTextChanged();

@@ -186,7 +186,7 @@ bool ProgrammerItemWidget::eventFilter(QObject *obj, QEvent *event)
 
 void ProgrammerItemWidget::cleanHoverState()
 {
-    qDebug() << "ishover" << m_ishover;
+//    qDebug() << "ishover" << m_ishover;
     m_ishover = false;
     update();
 }

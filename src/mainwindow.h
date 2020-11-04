@@ -72,6 +72,7 @@ private:
     bool m_isStandInit = false; //标准是否初始化
     bool m_isSciInit = false; //科学是否初始化
     bool m_isProgrammerInit = false; //科学是否初始化
+    int programmerOldBase = 10;//切换前程序员计算器的进制
 };
 
 #endif

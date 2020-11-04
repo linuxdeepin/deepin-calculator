@@ -27,6 +27,7 @@
 #include <QStringList>
 #include <DMenu>
 
+#include "core/settings.h"
 #include "math/floatconfig.h"
 #include "utils.h"
 
@@ -407,12 +408,12 @@ void InputEdit::themetypechanged(int type)
  */
 void InputEdit::valueChangeFromProSyskeypad(const QString num)
 {
-    qDebug() << "change";
+//    qDebug() << "change";
     QString text = this->text();
     int pos = this->cursorPosition();
     int numstart = pos - 1, numend = pos - 1;
     QString number = formatBinaryNumber(num);
-    qDebug() << "changenumber:" << number;
+//    qDebug() << "changenumber:" << number;
     if (text == QString()) {
         text = number;
     } else if (numstart >= 0 && isNumber(text.at(numstart))) {
@@ -473,14 +474,19 @@ void InputEdit::handleTextChanged(const QString &text)
     m_ansVaild = /*m_ansLength > 10 &&*/ m_ansLength > 0 && (m_ansStartPos == 0 || !text[m_ansStartPos - 1].isDigit()) &&
                                          (ansEnd == text.length() || !text[ansEnd].isDigit());
     int oldPosition = this->cursorPosition();
-    QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
+    QString reformatStr = QString();
+    qDebug() << Settings::instance()->programmerBase;
+    if (Settings::instance()->programmerBase == 0)
+        reformatStr = Utils::reformatSeparators(QString(text).remove(','));
+    else
+        reformatStr = Utils::reformatSeparatorsPro(QString(text).remove(',').remove(" "), Settings::instance()->programmerBase);
     reformatStr = reformatStr.replace('+', QString::fromUtf8("＋"))
                   .replace('-', QString::fromUtf8("－"))
                   .replace("_", QString::fromUtf8("－"))
                   .replace('*', QString::fromUtf8("×"))
                   .replace(QString::fromUtf8("＊"), QString::fromUtf8("×"))
 //                  .replace('/', QString::fromUtf8("÷"))
-                  .replace('x', QString::fromUtf8("×"))
+//                  .replace('x', QString::fromUtf8("×"))
                   .replace('X', QString::fromUtf8("×"))
                   .replace(QString::fromUtf8("（"), "(")
                   .replace(QString::fromUtf8("）"), ")")
@@ -603,7 +609,7 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
         //e后非＋／－
         if (newText.length() > expPos + 1 && newText.at(expPos + 1) != QString::fromUtf8("－") && newText.at(expPos + 1) != QString::fromUtf8("＋")
                 && newText.at(expPos + 1) != "-" && newText.at(expPos + 1) != "+") {
-            while (newText.at(expPos + 1) == "(" || newText.at(expPos + 1) == ")") {
+            while (newText.length() > expPos + 1 && (newText.at(expPos + 1) == "(" || newText.at(expPos + 1) == ")")) {
                 newText.remove(expPos + 1, 1); //避免e后可输入()情况
             }
             return newText;
@@ -924,7 +930,7 @@ void InputEdit::getCurrentCursorPositionNumber(const int pos)
         currentnum = text.mid(numstart, numend - numstart);
     }
     emit cursorPositionNumberChanged(currentnum);
-    qDebug() << "currentnum" << currentnum;
+//    qDebug() << "currentnum" << currentnum;
 }
 
 bool InputEdit::isNumber(QChar a)

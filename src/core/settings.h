@@ -27,9 +27,10 @@
 #include <QtCore/QStringList>
 #include <QtCore/QList>
 
-class Settings {
+class Settings
+{
 public:
-    static Settings* instance();
+    static Settings *instance();
     static QString getConfigPath();
     static QString getDataPath();
     static QString getCachePath();
@@ -45,6 +46,7 @@ public:
     bool complexNumbers;
 
     char angleUnit; // 'r': radian; 'd': degree; 'g': gradian.
+    int programmerBase; //进制转换-2,8,10,16,非程序员计算器为0
 
     char resultFormat;
     int resultPrecision; // See HMath documentation.

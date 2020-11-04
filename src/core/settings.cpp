@@ -149,6 +149,9 @@ void Settings::load()
     else
         angleUnit = angleUnitStr.at(0).toLatin1();
 
+    //进制转换 add jingzhou 20201104，默认进制是10进制
+    programmerBase = settings->value(key + QLatin1String("ProgrammerBase"), 0).toInt();
+
     // Radix character special case.
     QString radixCharStr;
     radixCharStr = settings->value(key + QLatin1String("RadixCharacter"), "*").toString();
@@ -238,6 +241,7 @@ void Settings::save()
     settings->setValue(key + QLatin1String("ComplexNumbers"), complexNumbers);
 
     settings->setValue(key + QLatin1String("AngleMode"), QString(QChar(angleUnit)));
+    settings->setValue(key + QLatin1String("ProgrammerBase"), programmerBase);
 
     char c = 'C';
     if (s_radixCharacter != 0)

@@ -34,6 +34,7 @@
 #include "dthememanager.h"
 #include "dhidpihelper.h"
 #include "utils.h"
+#include "core/settings.h"
 
 DGUI_USE_NAMESPACE
 
@@ -125,6 +126,7 @@ void MainWindow::initModule()
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
 
     m_isinit = true;
+    Settings::instance()->programmerBase = 10;//默认程序员模式的基础进制是10
     switch (mode) {
     case 0:
         m_basicModule = new BasicModule(this);
@@ -160,6 +162,9 @@ void MainWindow::initModule()
 
 void MainWindow::switchToSimpleMode()
 {
+    if (Settings::instance()->programmerBase != 0)
+        programmerOldBase = Settings::instance()->programmerBase;
+    Settings::instance()->programmerBase = 0;
     if (!m_isStandInit) {
         m_basicModule = new BasicModule(this);
         m_mainLayout->addWidget(m_basicModule);
@@ -175,6 +180,9 @@ void MainWindow::switchToSimpleMode()
 
 void MainWindow::switchToScientificMode()
 {
+    if (Settings::instance()->programmerBase != 0)
+        programmerOldBase = Settings::instance()->programmerBase;
+    Settings::instance()->programmerBase = 0;
     if (!m_isSciInit) {
         m_scientificModule = new scientificModule(this);
         m_mainLayout->addWidget(m_scientificModule);
@@ -191,6 +199,7 @@ void MainWindow::switchToScientificMode()
 
 void MainWindow::switchToProgrammerMode()
 {
+    Settings::instance()->programmerBase = programmerOldBase;
     if (!m_isProgrammerInit) {
         m_programmerModule = new ProgramModule(this);
         m_mainLayout->addWidget(m_programmerModule);

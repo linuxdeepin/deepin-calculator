@@ -4,6 +4,7 @@
 #include <DPushButton>
 
 #include "widgets/probitwidget.h"
+#include "core/settings.h"
 
 const int EXPRESSIONBAR_HEIGHT = 95;
 
@@ -66,6 +67,8 @@ ProgramModule::ProgramModule(QWidget *parent)
     //位键盘与输入栏交互
     connect(m_proExpressionBar->getInputEdit(), &InputEdit::cursorPositionNumberChanged, m_proSystemKeypad, &ProSystemKeypad::setvalue);
     connect(m_proSystemKeypad, &ProSystemKeypad::valuechanged, m_proExpressionBar->getInputEdit(), &InputEdit::valueChangeFromProSyskeypad);
+
+
 }
 
 ProgramModule::~ProgramModule()
@@ -474,6 +477,23 @@ void ProgramModule::radixListChange(const QModelIndex &index, bool isspace)
     if (!isspace)
         m_proExpressionBar->getInputEdit()->setFocus();
     m_programmerKeypad->radixChanged(index.row());
+    switch (index.row()) {
+    case 0:
+        Settings::instance()->programmerBase = 16;
+        break;
+    case 1:
+        Settings::instance()->programmerBase = 10;
+        break;
+    case 2:
+        Settings::instance()->programmerBase = 8;
+        break;
+    case 3:
+        Settings::instance()->programmerBase = 2;
+        break;
+    default:
+        Settings::instance()->programmerBase = 10;
+        break;
+    }
 }
 
 void ProgramModule::initArrowRectangle()
