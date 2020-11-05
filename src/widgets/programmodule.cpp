@@ -329,9 +329,144 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
         break;
     case ProCheckBtnKeypad::Key_MS:
         break;
+    case ProgrammerKeypad::Key_0:
+        m_proExpressionBar->enterNumberEvent("0"); //按键0事件
+        break;
+    case ProgrammerKeypad::Key_1:
+        m_proExpressionBar->enterNumberEvent("1");
+        break;
+    case ProgrammerKeypad::Key_2:
+        m_proExpressionBar->enterNumberEvent("2");
+        break;
+    case ProgrammerKeypad::Key_3:
+        m_proExpressionBar->enterNumberEvent("3");
+        break;
+    case ProgrammerKeypad::Key_4:
+        m_proExpressionBar->enterNumberEvent("4");
+        break;
+    case ProgrammerKeypad::Key_5:
+        m_proExpressionBar->enterNumberEvent("5");
+        break;
+    case ProgrammerKeypad::Key_6:
+        m_proExpressionBar->enterNumberEvent("6");
+        break;
+    case ProgrammerKeypad::Key_7:
+        m_proExpressionBar->enterNumberEvent("7");
+        break;
+    case ProgrammerKeypad::Key_8:
+        m_proExpressionBar->enterNumberEvent("8");
+        break;
+    case ProgrammerKeypad::Key_9:
+        m_proExpressionBar->enterNumberEvent("9");
+        break;
+    case ProgrammerKeypad::Key_A:
+        m_proExpressionBar->enterNumberEvent("A");
+        break;
+    case ProgrammerKeypad::Key_B:
+        m_proExpressionBar->enterNumberEvent("B");
+        break;
+    case ProgrammerKeypad::Key_C:
+        m_proExpressionBar->enterNumberEvent("C");
+        break;
+    case ProgrammerKeypad::Key_D:
+        m_proExpressionBar->enterNumberEvent("D");
+        break;
+    case ProgrammerKeypad::Key_E:
+        m_proExpressionBar->enterNumberEvent("E");
+        break;
+    case ProgrammerKeypad::Key_F:
+        m_proExpressionBar->enterNumberEvent("F");
+        break;
+    case ProgrammerKeypad::Key_Plus:
+        m_proExpressionBar->enterSymbolEvent("+");
+        break;
+    case ProgrammerKeypad::Key_Min:
+        m_proExpressionBar->enterSymbolEvent("-");
+        break;
+    case ProgrammerKeypad::Key_Mult:
+        m_proExpressionBar->enterSymbolEvent("*");
+        break;
+    case ProgrammerKeypad::Key_Div:
+        m_proExpressionBar->enterSymbolEvent("/");
+        break;
+    case ProgrammerKeypad::Key_percent:
+        m_proExpressionBar->enterOperatorEvent("mod");
+        break;
+    case ProgrammerKeypad::Key_equal:
+        m_proExpressionBar->enterEqualEvent();
+        break;
+    case ProgrammerKeypad::Key_Clear:
+        m_proExpressionBar->enterClearEvent();
+        break;
+    case ProgrammerKeypad::Key_Backspace:
+        m_proExpressionBar->enterBackspaceEvent();
+        break;
+    case ProgrammerKeypad::Key_leftBracket:
+        m_proExpressionBar->enterLeftBracketsEvent();
+        break;
+    case ProgrammerKeypad::Key_rightBracket:
+        m_proExpressionBar->enterRightBracketsEvent();
+        break;
+    case ProgrammerKeypad::Key_AND:
+        m_proExpressionBar->enterOperatorEvent("and");
+        break;
+    case ProgrammerKeypad::Key_OR:
+        m_proExpressionBar->enterOperatorEvent("or");
+        break;
+    case ProgrammerKeypad::Key_NOT:
+        m_proExpressionBar->enterNotEvent();
+        break;
+    case ProgrammerKeypad::Key_XOR:
+        m_proExpressionBar->enterOperatorEvent("xor");
+        break;
+    case ProgrammerKeypad::Key_NAND:
+        m_proExpressionBar->enterOperatorEvent("nand");
+        break;
+    case ProgrammerKeypad::Key_NOR:
+        m_proExpressionBar->enterOperatorEvent("nor");
+        break;
+    case ProgrammerKeypad::Key_moveL:
+        switch (m_shiftArrowCurrentRow) {
+        case 0:
+            m_proExpressionBar->enterOperatorEvent("sal");
+            break;
+        case 1:
+            m_proExpressionBar->enterOperatorEvent("shl");
+            break;
+        case 2:
+            m_proExpressionBar->enterOperatorEvent("rol");
+            break;
+        case 3:
+            m_proExpressionBar->enterOperatorEvent("rcl");
+            break;
+        default:
+            m_proExpressionBar->enterOperatorEvent("sal");
+            break;
+        }
+        break;
+    case ProgrammerKeypad::Key_moveR:
+        switch (m_shiftArrowCurrentRow) {
+        case 0:
+            m_proExpressionBar->enterOperatorEvent("sar");
+            break;
+        case 1:
+            m_proExpressionBar->enterOperatorEvent("shr");
+            break;
+        case 2:
+            m_proExpressionBar->enterOperatorEvent("ror");
+            break;
+        case 3:
+            m_proExpressionBar->enterOperatorEvent("rcr");
+            break;
+        default:
+            m_proExpressionBar->enterOperatorEvent("sar");
+            break;
+        }
+        break;
     default:
         break;
     }
+    m_proExpressionBar->addUndo();
 }
 
 /**
