@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QKeyEvent>
 
 #include "widgets/inputedit.h"
 #include "views/simplelistview.h"
@@ -36,14 +37,12 @@ public slots:
     void enterEqualEvent();
 //    void enterModEvent();
     void enterNotEvent();
-//    void enterAndEvent();
-//    void enterOrEvent();
-//    void enterXorEvent();
-//    void enterNandEvent();
-//    void enterNorEvent();
     void enterOperatorEvent(const QString &text);
     void enterLeftBracketsEvent();
     void enterRightBracketsEvent();
+
+    void moveLeft();
+    void moveRight();
 
     void initTheme(int type);
     void revisionResults(const QModelIndex &index);

@@ -475,7 +475,6 @@ void InputEdit::handleTextChanged(const QString &text)
                                          (ansEnd == text.length() || !text[ansEnd].isDigit());
     int oldPosition = this->cursorPosition();
     QString reformatStr = QString();
-    qDebug() << Settings::instance()->programmerBase;
     if (Settings::instance()->programmerBase == 0)
         reformatStr = Utils::reformatSeparators(QString(text).remove(','));
     else

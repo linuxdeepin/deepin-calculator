@@ -17,6 +17,7 @@ ProExpressionBar::ProExpressionBar(QWidget *parent)
     m_listView = new SimpleListView(0, this);
     m_listDelegate = new SimpleListDelegate(0, this);
     m_listModel = new SimpleListModel(0, this);
+    m_inputEdit = new InputEdit(this);
     m_isContinue = true;
     m_isAllClear = false;
     m_isResult = false;
@@ -25,7 +26,6 @@ ProExpressionBar::ProExpressionBar(QWidget *parent)
 
     m_listView->setModel(m_listModel);
     m_listView->setItemDelegate(m_listDelegate);
-    m_inputEdit = new InputEdit(this);
     m_listView->setFixedHeight(LIST_HEIGHT);
     m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT);
     m_inputEdit->setAlignment(Qt::AlignRight);
@@ -580,6 +580,58 @@ void ProExpressionBar::enterRightBracketsEvent()
     }
 }
 
+void ProExpressionBar::moveLeft()
+{
+    QString sRegNum = "[a-z]";
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    int funpos = -1;
+    int i;
+    if (m_inputEdit->cursorPosition() > 0 && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1))) {
+        for (i = 0; i < m_funclist.size(); i++) {
+            funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], m_inputEdit->cursorPosition() - 1);
+            if (funpos != -1 && funpos + m_funclist[i].length() == m_inputEdit->cursorPosition())
+                break;
+            else
+                funpos = -1;
+        }
+        if (funpos != -1) {
+            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - m_funclist[i].length());
+        } else {
+            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
+        }
+    } else {
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
+    }
+    m_inputEdit->setFocus();
+}
+
+void ProExpressionBar::moveRight()
+{
+    QString sRegNum = "[a-z]";
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    int funpos = -1;
+    int i;
+    if (m_inputEdit->cursorPosition() > 0 && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1))) {
+        for (i = 0; i < m_funclist.size(); i++) {
+            funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], m_inputEdit->cursorPosition() - 1);
+            if (funpos != -1 && funpos + m_funclist[i].length() == m_inputEdit->cursorPosition())
+                break;
+            else
+                funpos = -1;
+        }
+        if (funpos != -1) {
+            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - m_funclist[i].length());
+        } else {
+            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
+        }
+    } else {
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
+    }
+    m_inputEdit->setFocus();
+}
+
 void ProExpressionBar::initTheme(int type)
 {
     m_listDelegate->setThemeType(type);
@@ -767,7 +819,7 @@ void ProExpressionBar::initConnect()
     connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, m_inputEdit,
             &InputEdit::hisexpression);
     connect(m_inputEdit, &InputEdit::textChanged, this, &ProExpressionBar::handleTextChanged);
-//    connect(m_inputEdit, &InputEdit::keyPress, this, &ProExpressionBar::keyPress);
+    connect(m_inputEdit, &InputEdit::keyPress, this, &ProExpressionBar::keyPress);
     connect(m_inputEdit, &InputEdit::equal, this, &ProExpressionBar::enterEqualEvent);
     connect(m_inputEdit, &InputEdit::cut, this, &ProExpressionBar::shear);
     connect(m_inputEdit, &InputEdit::copy, this, &ProExpressionBar::copyResultToClipboard);
