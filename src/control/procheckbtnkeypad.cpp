@@ -99,10 +99,14 @@ void ProCheckBtnKeypad::initButtons()
         connect(static_cast<MemoryButton *>(button), &MemoryButton::moveRight, this, &ProCheckBtnKeypad::moveRight);
         m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
     }
+    static_cast<IconButton *>(button(Key_GeneralKeypad))->setBtnHighlight(true);
 }
 
 /**
- * @brief 切换相应主题切图
+ * @brief ProCheckBtnKeypad::buttonThemeChanged
+ * @param type：主题类型
+ * @param index：当前需要高亮的图片 0-Key_GeneralKeypad 1-Key_BinaryKeypad
+ * 切换主题时切换相应的svg图片
  */
 void ProCheckBtnKeypad::buttonThemeChanged(int type)
 {
@@ -112,10 +116,11 @@ void ProCheckBtnKeypad::buttonThemeChanged(int type)
     else
         path = QString(":/assets/images/%1/").arg("light");
 
-    IconButton *btn = static_cast<IconButton *>(button(Key_GeneralKeypad));
-    btn->setIconUrl(path + "icon_generalkeyboard_normal.svg", path + "icon_generalkeyboard_hover.svg", path + "icon_generalkeyboard_hover.svg", 3);
+    IconButton *btn;
+    btn = static_cast<IconButton *>(button(Key_GeneralKeypad));
+    btn->setIconUrl(path + "icon_generalkeyboard_normal.svg", path + "icon_generalkeyboard_hover.svg", path + "icon_generalkeyboard_press.svg", 3);
     btn = static_cast<IconButton *>(button(Key_BinaryKeypad));
-    btn->setIconUrl(path + "icon_binarysystem_normal.svg", path + "icon_binarysystem_hover.svg", path + "icon_binarysystem_hover.svg", 3);
+    btn->setIconUrl(path + "icon_binarysystem_normal.svg", path + "icon_binarysystem_hover.svg", path + "icon_binarysystem_press.svg", 3);
     btn = static_cast<IconButton *>(button(Key_Option));
     btn->setIconUrl(path + "icon_as_normal.svg", path + "icon_as_hover.svg", path + "icon_as_hover.svg", 5);
 }

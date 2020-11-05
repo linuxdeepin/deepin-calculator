@@ -117,7 +117,9 @@ void ProgramModule::handleKeypadButtonPress(int key)
         static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_GeneralKeypad))->
         setIconUrl(path + "icon_generalkeyboard_press.svg", path + "icon_generalkeyboard_press.svg", path + "icon_generalkeyboard_press.svg", 3);
         static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_BinaryKeypad))->
-        setIconUrl(path + "icon_binarysystem_normal.svg", path + "icon_binarysystem_hover.svg", path + "icon_binarysystem_normal.svg", 3);
+        setIconUrl(path + "icon_binarysystem_normal.svg", path + "icon_binarysystem_hover.svg", path + "icon_binarysystem_press.svg", 3);
+        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_GeneralKeypad))->setBtnHighlight(true);
+        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_BinaryKeypad))->setBtnHighlight(false);
         m_stackWidget->setCurrentWidget(m_programmerKeypad);
         break;
     case ProCheckBtnKeypad::Key_BinaryKeypad:
@@ -125,7 +127,9 @@ void ProgramModule::handleKeypadButtonPress(int key)
         static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_BinaryKeypad))->
         setIconUrl(path + "icon_binarysystem_press.svg", path + "icon_binarysystem_press.svg", path + "icon_binarysystem_press.svg", 3);
         static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_GeneralKeypad))->
-        setIconUrl(path + "icon_generalkeyboard_normal.svg", path + "icon_generalkeyboard_hover.svg", path + "icon_generalkeyboard_normal.svg", 3);
+        setIconUrl(path + "icon_generalkeyboard_normal.svg", path + "icon_generalkeyboard_hover.svg", path + "icon_generalkeyboard_press.svg", 3);
+        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_GeneralKeypad))->setBtnHighlight(false);
+        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_BinaryKeypad))->setBtnHighlight(true);
         m_stackWidget->setCurrentWidget(m_proSystemKeypad);
         break;
     case ProCheckBtnKeypad::Key_System:
@@ -587,7 +591,7 @@ void ProgramModule::checkBtnKeypadThemeChange(int type)
     else
         path = QString(":/assets/images/%1/").arg("light");
     m_checkBtnKeypad->buttonThemeChanged(type);
-    //给m_checkBtnKeypad前两个按钮切图
+//    给m_checkBtnKeypad前两个按钮切图
     if (m_stackWidget->currentWidget() == m_programmerKeypad) {
         //设置Key_GeneralKeypad为点击状态
         static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_GeneralKeypad))->

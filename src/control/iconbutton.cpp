@@ -162,6 +162,17 @@ void IconButton::setBtnPressing(bool press)
 }
 
 /**
+ * @brief IconButton::setBtnHighlight
+ * @param light:是否高亮
+ * 设置全键盘/位键盘切换按钮高亮显示
+ */
+void IconButton::setBtnHighlight(bool light)
+{
+    m_highlight = light;
+    emit updateInterface();
+}
+
+/**
  * @brief 点击时改变标置位
  */
 void IconButton::mousePressEvent(QMouseEvent *e)
@@ -289,55 +300,6 @@ void IconButton::paintEvent(QPaintEvent *)
                 hoverbrush = QColor(60, 60, 60);
             }
         }
-//        if (m_isHistorybtn) { //打开历史记录按钮，当前取消此按钮
-//            if (type == 1) {
-//                pressBrush = QColor(0, 0, 0);
-//                pressBrush.setAlphaF(0.1);
-//                focus = actcolor;
-//                base = Qt::transparent;
-//                hoverbrush = QColor(255, 255, 255);
-//                hoverbrush.setAlphaF(0.6);
-//            } else {
-//                pressBrush = QColor(0, 0, 0);
-//                pressBrush.setAlphaF(0.5);
-//                focus = actcolor;
-//                base = QColor("#252525");
-//                hoverbrush = QColor(255, 255, 255);
-//                hoverbrush.setAlphaF(0.1);
-//            }
-//            if (hasFocus()) {
-//                if (m_isPress) {
-//                    painter.setBrush(QBrush(pressBrush));
-//                    QPen pen;
-//                    pen.setColor(pressBrush);
-//                    painter.setPen(pen);
-//                    painter.drawRect(rect);
-//                } else {
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(QBrush(base));
-//                    painter.drawRect(rect);
-//                    QPen pen;
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(Qt::NoBrush);
-//                    painter.drawRect(rect);
-//                }
-//            } else {
-//                if (m_isHover) {
-//                    QPen pen;
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(QBrush(hoverbrush));
-//                    painter.drawRect(rect);
-//                } else if (m_isPress) {
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(QBrush(pressBrush));
-//                    painter.drawRect(rect);
-//                } else {
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(QBrush(base));
-//                    painter.drawRect(rect);
-//                }
-//            }
-//        } else {
         if (hasFocus()) {
             if (m_isPress) {
                 painter.setBrush(QBrush(pressBrush));
@@ -389,7 +351,6 @@ void IconButton::paintEvent(QPaintEvent *)
                 this->setGraphicsEffect(m_effect);
             }
         }
-//        }
     } else {
         QRectF frameRect = this->rect();
         QRectF rect(frameRect.left() + 1, frameRect.top() + 1, frameRect.width() - 2, frameRect.height() - 2);
@@ -411,6 +372,7 @@ void IconButton::paintEvent(QPaintEvent *)
             painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
         }
     }
+
     drawCenterPixMap(painter);
 }
 
@@ -453,7 +415,7 @@ void IconButton::keyPressEvent(QKeyEvent *e)
  */
 void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval)
 {
-    if (m_mode != 1 && m_mode != 3/* && !m_isHistorybtn*/ && m_mode != 5) {
+    if ((m_mode != 1 && m_mode != 3 && m_mode != 5) || m_highlight) {
         if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
             elem.setAttribute(strattr, strattrval);
             if (m_buttonStatus == 0)
@@ -481,6 +443,12 @@ void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString stra
             }
         }
         if (m_mode == 6) {
+            if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
+                elem.setAttribute(strattr, strattrval);
+            }
+        }
+        if (m_highlight) {
+            strtagname = "path";
             if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
                 elem.setAttribute(strattr, strattrval);
             }
