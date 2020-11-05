@@ -199,20 +199,44 @@ void ProgrammerKeypad::getFocus(int direction)
     }
     switch (direction) {
     case 0:
-        if (i.key() / 6 > 0)
-            button(static_cast<Buttons>(i.key() - 6))->setFocus(); //根据上下左右信号重置焦点
+        if (i.key() / 6 > 0) {
+            for (int j = 1; i.key() >= 6 * j; j++) {
+                if (button(static_cast<Buttons>(i.key() - 6 * j))->isEnabled()) {
+                    button(static_cast<Buttons>(i.key() - 6 * j))->setFocus(); //根据上下左右信号重置焦点
+                    break;
+                }
+            }
+        }
         break;
     case 1:
-        if (i.key() / 6 < 5)
-            button(static_cast<Buttons>(i.key() + 6))->setFocus();
+        if (i.key() / 6 < 5) {
+            for (int j = 1; i.key() + 6 * j < 36; j++) {
+                if (button(static_cast<Buttons>(i.key() + 6 * j))->isEnabled()) {
+                    button(static_cast<Buttons>(i.key() + 6 * j))->setFocus(); //根据上下左右信号重置焦点
+                    break;
+                }
+            }
+        }
         break;
     case 2:
-        if (i.key() % 6 > 0)
-            button(static_cast<Buttons>(i.key() - 1))->setFocus();
+        if (i.key() % 6 > 0) {
+            for (int j = 1; (i.key() - j + 1) % 6 > 0; j++) {
+                if (button(static_cast<Buttons>(i.key() - j))->isEnabled()) {
+                    button(static_cast<Buttons>(i.key() - j))->setFocus(); //根据上下左右信号重置焦点
+                    break;
+                }
+            }
+        }
         break;
     case 3:
-        if (i.key() % 6 < 5)
-            button(static_cast<Buttons>(i.key() + 1))->setFocus();
+        if (i.key() % 6 < 5) {
+            for (int j = 1; (i.key() + j - 1) % 6 < 5; j++) {
+                if (button(static_cast<Buttons>(i.key() + j))->isEnabled()) {
+                    button(static_cast<Buttons>(i.key() + j))->setFocus(); //根据上下左右信号重置焦点
+                    break;
+                }
+            }
+        }
         break;
     default:
         break;
@@ -232,6 +256,7 @@ void ProgrammerKeypad::radixChanged(int row)
             if (!button->isEnabled())
                 button->setEnabled(true);
         }
+        m_currentBase = 16;
         break;
     case 1:
         foreach (TextButton *button, m_bindisable) {
@@ -242,6 +267,7 @@ void ProgrammerKeypad::radixChanged(int row)
             if (button->isEnabled())
                 button->setEnabled(false);
         }
+        m_currentBase = 10;
         break;
     case 2:
         foreach (TextButton *button, m_bindisable) {
@@ -252,11 +278,13 @@ void ProgrammerKeypad::radixChanged(int row)
             if (button->isEnabled())
                 button->setEnabled(false);
         }
+        m_currentBase = 8;
         break;
     case 3:
         foreach (TextButton *button, m_bindisable) {
             button->setEnabled(false);
         }
+        m_currentBase = 2;
         break;
     default:
         foreach (TextButton *button, m_bindisable) {
@@ -267,6 +295,7 @@ void ProgrammerKeypad::radixChanged(int row)
             if (button->isEnabled())
                 button->setEnabled(false);
         }
+        m_currentBase = 10;
         break;
     }
 }

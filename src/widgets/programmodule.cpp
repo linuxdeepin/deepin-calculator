@@ -1074,8 +1074,19 @@ void ProgramModule::handleEditKeyPress(QKeyEvent *e)
     default:
         break;
     }
-//    if (!m_basicKeypad->buttonHasFocus() && !m_memoryKeypad->buttonHasFocus())
-//        m_expressionBar->getInputEdit()->setFocus(); //edit 20200417 for bug--21146
+    switch (m_stackWidget->currentIndex()) {
+    case 0:
+        if (!m_programmerKeypad->buttonHasFocus() && !m_checkBtnKeypad->buttonHasFocus())
+            m_proExpressionBar->getInputEdit()->setFocus();
+        break;
+    case 1:
+        if (!m_proSystemKeypad->buttonHasFocus() && !m_checkBtnKeypad->buttonHasFocus())
+            m_proExpressionBar->getInputEdit()->setFocus();
+        break;
+    default:
+        m_proExpressionBar->getInputEdit()->setFocus();
+        break;
+    }
 }
 
 /**

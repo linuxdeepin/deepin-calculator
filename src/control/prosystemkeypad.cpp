@@ -100,7 +100,19 @@ void ProSystemKeypad::setSystem(int system, int oldsystem)
             emit valuechanged(m_binaryValue);
         }
     }
-//    qDebug() << m_binaryValue;
+    //    qDebug() << m_binaryValue;
+}
+
+bool ProSystemKeypad::buttonHasFocus()
+{
+    QHashIterator<int, BitButton *> i(m_buttons);
+    while (i.hasNext()) {
+        i.next();
+        if (i.value()->hasFocus()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void ProSystemKeypad::mouseMoveEvent(QMouseEvent *event)
@@ -184,11 +196,11 @@ void ProSystemKeypad::initconnects()
         }); //获取上下左右键
         connect(m_buttons.value(i), &BitButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
         connect(m_buttons.value(i), &BitButton::space, this, [ = ]() {
-            changeBinaryValue(i);
-            if (m_buttons.value(i)->text() == "0")
+            if (m_buttons.value(i)->text() == QString("0"))
                 m_buttons.value(i)->setButtonState(true);
             else
                 m_buttons.value(i)->setButtonState(false);
+            changeBinaryValue(i);
         });
     }
 }

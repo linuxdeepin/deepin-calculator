@@ -69,6 +69,7 @@ private:
     QList<TextButton *> m_decdisable; //十进制置灰按钮
     QList<TextButton *> m_octdisable; //八进制置灰按钮
     QList<TextButton *> m_bindisable; //二进制置灰按钮
+    int m_currentBase = 10;//当前进制
 };
 
 #endif // PROGRAMMERKEYPAD_H
