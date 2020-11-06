@@ -10,6 +10,7 @@ ProSystemKeypad::ProSystemKeypad(QWidget *parent)
     : DWidget(parent),
       m_layout(new QGridLayout(this))
 {
+    this->setFocusPolicy(Qt::ClickFocus);
     this->setFixedSize(SYSTEMKEYPADSIZE);
     m_layout->setContentsMargins(LEFT_MARGIN, 0, 0, BOTTOM_MARGIN);
     initUI();
@@ -189,6 +190,7 @@ void ProSystemKeypad::initconnects()
 {
     for (int i = 0; i < 64; i++) {
         connect(m_buttons.value(i), &DPushButton::clicked, this, [ = ]() {
+            emit bitbuttonclicked();
             changeBinaryValue(i);
         });
         connect(m_buttons.value(i), &BitButton::focus, this, [ = ](int direction) {

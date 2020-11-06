@@ -60,6 +60,10 @@ ProgramModule::ProgramModule(QWidget *parent)
     connect(m_programmerKeypad, &ProgrammerKeypad::buttonPressed, this, &ProgramModule::handleKeypadButtonPress);
     connect(m_programmerKeypad, &ProgrammerKeypad::buttonPressedbySpace, this, &ProgramModule::handleKeypadButtonPressByspace);
     connect(m_proExpressionBar, &ProExpressionBar::keyPress, this, &ProgramModule::handleEditKeyPress);
+    connect(m_proSystemKeypad, &ProSystemKeypad::bitbuttonclicked, this, [ = ]() {
+        m_proExpressionBar->getInputEdit()->setFocus();
+    });
+
 
     //进制列表点击事件
     connect(m_proListView, &ProListView::obtainingHistorical, this, &ProgramModule::radixListChange);

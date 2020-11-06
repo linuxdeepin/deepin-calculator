@@ -27,6 +27,7 @@ public:
 
 signals:
     void valuechanged(QString num);
+    void bitbuttonclicked();
 
 public slots:
     void getFocus(int dir, int key);
