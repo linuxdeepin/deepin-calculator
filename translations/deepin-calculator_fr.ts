@@ -10,7 +10,7 @@
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>Nettoyer toute la mémoire</translation>
+        <translation>Effacer toute la mémoire</translation>
     </message>
     <message>
         <source>Clear history</source>
@@ -79,19 +79,19 @@
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Nettoyer l&apos;item de mémoire</translation>
+        <translation>Effacer l&apos;élément de la mémoire</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>Nettoyer toute la mémoire</translation>
+        <translation>Effacer toute la mémoire</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Rappel de mémoire</translation>
+        <translation>Rappel de la mémoire</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Ajouter à l&apos;item de mémoire</translation>
+        <translation>Ajouter l&apos;élément à la mémoire</translation>
     </message>
     <message>
         <source>Memory add</source>
@@ -99,15 +99,15 @@
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Soustraire de l&apos;item de mémoire</translation>
+        <translation>Soustraire l&apos;élément de la mémoire</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Soustraction de mémoire</translation>
+        <translation>Soustraire de la mémoire</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Stockage de mémoire</translation>
+        <translation>Mémoire de stockage</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -122,22 +122,22 @@
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Nettoyer l&apos;item de mémoire</translation>
+        <translation>Effacer l&apos;élément de la mémoire</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Ajouter à l&apos;item de mémoire</translation>
+        <translation>Ajouter l&apos;élément à la mémoire</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Soustraire de l&apos;item de mémoire</translation>
+        <translation>Soustraire l&apos;élément de la mémoire</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>Rien de sauvegardé en mémoire</translation>
+        <translation>Ne rien sauvegarder en mémoire</translation>
     </message>
 </context>
 <context>

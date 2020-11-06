@@ -1,193 +1,193 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_HK" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="vi" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>運算式錯誤</translation>
+        <translation>Lỗi ngoại lệ</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>清除所有內存</translation>
+        <translation>Xóa bộ nhớ</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation>清除歷史記錄</translation>
+        <translation>Xóa lịch sử</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>Delete</source>
-        <translation>刪除</translation>
+        <translation>Xóa</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>全選</translation>
+        <translation>Chọn tất cả</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation>撤銷</translation>
+        <translation>Hoàn tác</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation>恢復</translation>
+        <translation>Làm lại</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>剪切</translation>
+        <translation>Cắt</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>複製</translation>
+        <translation>Sao chép</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>黏貼</translation>
+        <translation>Dán</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>計數機</translation>
+        <translation>Máy tính</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>計數機是一款簡單易用的桌面計算器，支持標準型和科學型模式。</translation>
+        <translation>Máy tính là một máy tính để bàn dễ sử dụng, hỗ trợ các chế độ tiêu chuẩn và khoa học.</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>標準</translation>
+        <translation>Tiêu chuẩn</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>科學</translation>
+        <translation>Khoa học</translation>
     </message>
     <message>
         <source>History</source>
-        <translation>歷史記錄</translation>
+        <translation>Lịch sử</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>模式</translation>
+        <translation>Chế độ</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>清除內存項</translation>
+        <translation>Xóa bộ nhớ</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>清除所有內存</translation>
+        <translation>Xóa bộ nhớ</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>內存重新調用</translation>
+        <translation>Kiểm tra lại bộ nhớ</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>添加到內存項</translation>
+        <translation>Thêm vào bộ nhớ</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>內存增加</translation>
+        <translation>Thêm bộ nhớ</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>從內存項中減掉</translation>
+        <translation>Trừ mục bộ nhớ</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>內存減少</translation>
+        <translation>Trừ bộ nhớ</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>內存存儲</translation>
+        <translation>Cửa hàng bộ nhớ</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>內存</translation>
+        <translation>Bộ nhớ</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation>複製</translation>
+        <translation>Sao chép</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>清除內存項</translation>
+        <translation>Xóa bộ nhớ</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>添加到內存項</translation>
+        <translation>Thêm vào bộ nhớ</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>從內存項中減掉</translation>
+        <translation>Trừ mục bộ nhớ</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>內存中沒有數據</translation>
+        <translation>Chưa có gì trong bộ nhớ</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>計數機</translation>
+        <translation>Máy tính</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>運算式錯誤</translation>
+        <translation>Lỗi ngoại lệ</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>歷史記錄</translation>
+        <translation>Lịch sử</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>內存</translation>
+        <translation>Bộ nhớ</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>運算式錯誤</translation>
+        <translation>Lỗi ngoại lệ</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>無歷史記錄</translation>
+        <translation>Không có lịch sử</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation>複製</translation>
+        <translation>Sao chép</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>刪除</translation>
+        <translation>Xóa</translation>
     </message>
 </context>
 </TS>
