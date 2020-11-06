@@ -25,12 +25,15 @@ ProgramModule::ProgramModule(QWidget *parent)
     , m_shiftArrowListWidget(new MemoryListWidget(this, true))
     , m_shiftProgrammerArrowDelegate(new ProgrammerArrowDelegate(this))
 {
+    m_memoryPublic = MemoryPublic::instance(this);
+    m_memorylistwidget = m_memoryPublic->getwidget(MemoryPublic::programmerleft);
     m_proExpressionBar->setFixedHeight(EXPRESSIONBAR_HEIGHT);
     m_proListView->setModel(m_proListModel);
     m_proListView->setItemDelegate(m_proListDelegate);
     m_proListView->setCurrentIndex(m_proListModel->index(1, 0));
     m_stackWidget->addWidget(m_programmerKeypad);
-    m_stackWidget->addWidget(m_proSystemKeypad);  //此处可继续添加内存界面
+    m_stackWidget->addWidget(m_proSystemKeypad);
+    m_stackWidget->addWidget(m_memorylistwidget);
     m_stackWidget->setCurrentWidget(m_programmerKeypad);
     m_stackWidget->setFixedSize(451, 279);
 
@@ -45,6 +48,7 @@ ProgramModule::ProgramModule(QWidget *parent)
     vlay->setMargin(0);
     vlay->setContentsMargins(0, 0, 0, 0);
 
+    //主题变换事件
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             this, &ProgramModule::checkBtnKeypadThemeChange);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
@@ -53,6 +57,8 @@ ProgramModule::ProgramModule(QWidget *parent)
             m_proListDelegate, &ProListDelegate::setThemeType);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_proExpressionBar, &ProExpressionBar::initTheme);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+            m_memoryPublic, &MemoryPublic::setThemeType);
 
     //数字键盘事件--鼠标点击、键盘交互、键盘输入
     connect(m_checkBtnKeypad, &ProCheckBtnKeypad::buttonPressed, this, &ProgramModule::handleKeypadButtonPress);
@@ -72,6 +78,49 @@ ProgramModule::ProgramModule(QWidget *parent)
     connect(m_proExpressionBar->getInputEdit(), &InputEdit::cursorPositionNumberChanged, m_proSystemKeypad, &ProSystemKeypad::setvalue);
     connect(m_proSystemKeypad, &ProSystemKeypad::valuechanged, m_proExpressionBar->getInputEdit(), &InputEdit::valueChangeFromProSyskeypad);
 
+    //内存列表事件
+    if (!m_memoryPublic->isWidgetEmpty(2))
+        mAvailableEvent();
+    else
+        mUnAvailableEvent();
+    connect(m_memorylistwidget, &MemoryWidget::insidewidget, this, [ = ]() {
+        m_insidewidget = true;
+    });
+    connect(m_memorylistwidget, &MemoryWidget::mListUnavailable, this, &ProgramModule::mUnAvailableEvent);
+    connect(m_memorylistwidget, &MemoryWidget::mListAvailable, this, &ProgramModule::mAvailableEvent);
+    connect(m_memorylistwidget, &MemoryWidget::itemclick, this, [ = ](const QPair<QString, Quantity> p) {
+        QString str = p.first;
+        m_proExpressionBar->getInputEdit()->setAnswer(str.remove("\n"), p.second);
+        m_proExpressionBar->getInputEdit()->setFocus();
+        //点击item清除键状态改变
+        this->handleClearStateChanged(false);
+        if (m_stackWidget->currentIndex() == 1) {
+            m_stackWidget->setCurrentIndex(0);
+            setwidgetAttribute(false);
+            MemoryButton *btn = static_cast<MemoryButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_MS));
+            btn->setEnabled(true);
+            btn->setbuttongray(false);
+            MemoryButton *btn1 = static_cast<MemoryButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Mlist));
+            btn1->setEnabled(true);
+            btn1->setbtnlight(false);
+            m_memCalbtn = true;
+            m_isallgray = false;
+        }
+    });
+    connect(m_proExpressionBar->getInputEdit(), &InputEdit::emptyExpression, this, [ = ](bool b) {
+        if (b == false) {
+            MemoryButton *btn = static_cast<MemoryButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_MS));
+            btn->setEnabled(true);
+            m_memCalbtn = true;
+            m_memorylistwidget->expressionempty(b);
+        } else {
+            MemoryButton *btn = static_cast<MemoryButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_MS));
+            btn->setEnabled(false);
+            m_memCalbtn = false;
+            m_memorylistwidget->expressionempty(b);
+        }
+    });
+    connect(m_memorylistwidget, &MemoryWidget::hideWidget, this, &ProgramModule::closeListWidget);
 
 }
 
@@ -99,6 +148,7 @@ void ProgramModule::mousePressEvent(QMouseEvent *event)
     static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setBtnPressing(false);
     m_shiftArrowRectangle->setHidden(true);
     static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setBtnPressing(false);
+    closeListWidget();
     setwidgetAttribute(false);
     DWidget::mousePressEvent(event);
 }
@@ -151,6 +201,14 @@ void ProgramModule::handleKeypadButtonPress(int key)
         pagefocus = true;
         break;
     case ProCheckBtnKeypad::Key_Mlist:
+        showListWidget();
+        if (m_stackWidget->currentIndex() == 2) {
+            setwidgetAttribute(true);
+        } else {
+            setwidgetAttribute(false);
+        }
+        m_memorylistwidget->setFocus(Qt::MouseFocusReason);
+        pagefocus = true;
         break;
     case ProCheckBtnKeypad::Key_MS:
         break;
@@ -334,6 +392,13 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
         m_shiftArrowRectangle->setFocus(Qt::TabFocusReason);
         break;
     case ProCheckBtnKeypad::Key_Mlist:
+        showListWidget();
+        if (m_stackWidget->currentIndex() == 2) {
+            setwidgetAttribute(true);
+        } else {
+            setwidgetAttribute(false);
+        }
+        m_memorylistwidget->setFocus(Qt::TabFocusReason);
         break;
     case ProCheckBtnKeypad::Key_MS:
         break;
@@ -637,6 +702,64 @@ void ProgramModule::radixListChange(const QModelIndex &index, bool isspace)
         Settings::instance()->programmerBase = 10;
         break;
     }
+}
+
+/**
+ * @brief 向内存中存入数据时触发
+ */
+void ProgramModule::mAvailableEvent()
+{
+    m_avail = true;
+    MemoryButton *btn = static_cast<MemoryButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Mlist));
+    btn->setEnabled(true);
+}
+
+void ProgramModule::mUnAvailableEvent()
+{
+    m_avail = false;
+    if (m_stackWidget->currentIndex() < 2) {
+        MemoryButton *btn = static_cast<MemoryButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Mlist));
+        btn->setEnabled(false);
+    }
+}
+
+void ProgramModule::showListWidget()
+{
+    if (m_stackWidget->currentIndex() != 2) {
+        m_stackWidget->setCurrentIndex(2);
+        MemoryButton *btn = static_cast<MemoryButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_MS));
+        btn->setbuttongray(true);
+        btn->setEnabled(false);
+        MemoryButton *btn1 = static_cast<MemoryButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Mlist));
+        btn1->updateWhenBtnDisable();
+        btn1->setbtnlight(true);
+        btn1->setEnabled(false);
+        m_isallgray = true;
+    }
+}
+
+void ProgramModule::closeListWidget()
+{
+    //内存界面显示时，点击内存界面以外部分切换内存界面为键盘界面
+    if (m_stackWidget->currentIndex() == 2 && m_insidewidget == false) {
+        m_stackWidget->setCurrentIndex(0);
+        MemoryButton *btn = static_cast<MemoryButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_MS));
+        btn->setbuttongray(false);
+        btn->setEnabled(true);
+        MemoryButton *btn1 = static_cast<MemoryButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Mlist));
+        btn1->setbtnlight(false);
+        btn1->setEnabled(true);
+        m_isallgray = false;
+        setwidgetAttribute(false);
+        m_proExpressionBar->getInputEdit()->setFocus();
+    }
+
+    if (!m_avail) {
+        MemoryButton *btn2 = static_cast<MemoryButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Mlist));
+        btn2->setEnabled(false);
+    }
+    m_insidewidget = false;
+    m_proExpressionBar->getInputEdit()->isExpressionEmpty(); //确认输入栏是否有内容，发送信号M+,M-,MS是否置灰
 }
 
 void ProgramModule::initArrowRectangle()
@@ -1110,4 +1233,9 @@ void ProgramModule::setwidgetAttribute(bool b)
     m_proSystemKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, b);
     m_checkBtnKeypad->setAttribute(Qt::WA_TransparentForMouseEvents, b);
     m_proListView->setAttribute(Qt::WA_TransparentForMouseEvents, b);
+}
+
+void ProgramModule::handleClearStateChanged(bool isAllClear)
+{
+
 }

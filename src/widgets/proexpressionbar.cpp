@@ -613,21 +613,21 @@ void ProExpressionBar::moveRight()
     rx.setPattern(sRegNum);
     int funpos = -1;
     int i;
-    if (m_inputEdit->cursorPosition() > 0 && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1))) {
+    if (!cursorPosAtEnd() && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition()))) {
         for (i = 0; i < m_funclist.size(); i++) {
-            funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], m_inputEdit->cursorPosition() - 1);
-            if (funpos != -1 && funpos + m_funclist[i].length() == m_inputEdit->cursorPosition())
+            funpos = m_inputEdit->text().indexOf(m_funclist[i], m_inputEdit->cursorPosition());
+            if (funpos != -1 && funpos == m_inputEdit->cursorPosition())
                 break;
             else
                 funpos = -1;
         }
         if (funpos != -1) {
-            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - m_funclist[i].length());
+            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + m_funclist[i].length());
         } else {
-            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
+            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + 1);
         }
     } else {
-        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
+        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + 1);
     }
     m_inputEdit->setFocus();
 }

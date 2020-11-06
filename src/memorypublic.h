@@ -43,7 +43,8 @@ public:
      */
     enum memorymode {
         standardleft,  //标准模式
-        scientificright //科学模式
+        scientificright, //科学模式
+        programmerleft //程序员
     };
     static MemoryPublic *instance(QObject *p);
     static void deleteInstance();
@@ -58,10 +59,11 @@ public:
     void widgetminus(int row, Quantity answer);
     void widgetclean(int row, int mode, bool ismenu);
     void setThemeType(int type);
-    bool isWidgetEmpty(int mode); //0-标准 1-科学
+    bool isWidgetEmpty(int mode); //0-标准 1-科学 2-程序猿
 private:
     MemoryWidget *m_standard_l;
     MemoryWidget *m_scientific_r;
+    MemoryWidget *m_programmer_l;
 
 signals:
     void widgetplus(int row);

@@ -10,7 +10,7 @@
 #include <QVBoxLayout>
 #include <QStackedWidget>
 
-#include "views/memorylistwidget.h"
+#include "views/memorywidget.h"
 #include "views/programmerarrowdelegate.h"
 #include "views/programmeritemwidget.h"
 #include "views/prolistview.h"
@@ -22,6 +22,7 @@
 #include "control/prosystemkeypad.h"
 #include "widgets/proexpressionbar.h"
 #include "widgets/arrowrectangle.h"
+#include "memorypublic.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
@@ -51,10 +52,17 @@ private slots:
     void checkBtnKeypadThemeChange(int type);
     void radixListChange(const QModelIndex &index, bool isspace);
 
+public slots:
+    void mAvailableEvent();
+    void mUnAvailableEvent();
+    void showListWidget();
+    void closeListWidget();
+
 private:
     void initArrowRectangle();
     void handleEditKeyPress(QKeyEvent *);
     void setwidgetAttribute(bool b);
+    void handleClearStateChanged(bool isAllClear);
 
 private:
     ProExpressionBar *m_proExpressionBar;
@@ -65,6 +73,8 @@ private:
     ProgrammerKeypad *m_programmerKeypad;
     ProSystemKeypad *m_proSystemKeypad;
     QStackedWidget *m_stackWidget;
+    MemoryPublic *m_memoryPublic;
+    MemoryWidget *m_memorylistwidget;
 
     ArrowRectangle *m_byteArrowRectangle;
     MemoryListWidget *m_byteArrowListWidget;
@@ -76,6 +86,12 @@ private:
     //rectangle中当前选中的行数
     int m_shiftArrowCurrentRow = 0;
     int m_byteArrowCurrentRow = 0;
+
+    //内存相关
+    bool m_insidewidget = false;
+    bool m_avail = false; //内存中有数据
+    bool m_memCalbtn = false; //ms可用
+    bool m_isallgray = false; //内存按钮全部置灰;
 };
 
 #endif // PROGRAMMODULE_H

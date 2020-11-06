@@ -39,8 +39,9 @@
 const int GLOBALPREC = 78; //全局精度
 const int STANDARD_MWIDGET_HEIGHT = 260; //标准模式memorywidget高度
 const int SCIENTIFIC_MWIDGET_HEIGHT = 302; //科学模式memorywidget高度
+const int PROGRAMMER_MWIDGET_HEIGHT = 279; //程序猿模式memorywidget高度
 const int STANDARD_ITEM_WIDTH = 344; //标准模式宽度
-const int SCIENTIFIC_ITEM_WIDTH = 451; //科学模式最小宽度
+const int PRO_SCI_ITEM_WIDTH = 451; //科学-程序猿模式最小宽度
 const int STANDARD_FORMAT_PREC = 15; //标准模式科学计数位数
 const int SCIENTIFIC_FORMAT_PREC = 31; //科学模式科学计数位数
 const int MAXSIZE = 500; //内存保存最大数
@@ -67,9 +68,23 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     lay->addWidget(m_listwidget);
 
     m_listwidget->setFrameShape(QFrame::NoFrame); //设置边框类型，无边框
-    mode == 0 ? m_listwidget->setFixedHeight(STANDARD_MWIDGET_HEIGHT) : m_listwidget->setFixedHeight(SCIENTIFIC_MWIDGET_HEIGHT);
-    m_itemwidth = (mode == 0) ? STANDARD_ITEM_WIDTH : SCIENTIFIC_ITEM_WIDTH;
-    m_precision = (mode == 0) ? STANDARD_FORMAT_PREC : SCIENTIFIC_FORMAT_PREC;
+    switch (mode) {
+    case 0:
+        m_listwidget->setFixedHeight(STANDARD_MWIDGET_HEIGHT);
+        m_itemwidth = STANDARD_ITEM_WIDTH;
+        m_precision = STANDARD_FORMAT_PREC;
+        break;
+    case 1:
+        m_listwidget->setFixedHeight(SCIENTIFIC_MWIDGET_HEIGHT);
+        m_itemwidth = PRO_SCI_ITEM_WIDTH;
+        m_precision = SCIENTIFIC_FORMAT_PREC;
+        break;
+    default:
+        m_listwidget->setFixedHeight(PROGRAMMER_MWIDGET_HEIGHT);
+        m_itemwidth = PRO_SCI_ITEM_WIDTH;
+        m_precision = STANDARD_FORMAT_PREC;
+        break;
+    }
     m_listwidget->setVerticalScrollMode(QListView::ScrollPerPixel); //鼠标滚轮滚动一次一个像素
     m_listwidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn); //设置垂直滚条
     m_listwidget->setAutoScroll(false); //鼠标在视口边缘时是否自动滚动内容
@@ -157,7 +172,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     m_listwidget->installEventFilter(this);
     m_clearbutton->installEventFilter(this);
     this->installEventFilter(this);
-    if (m_calculatormode == 0)
+    if (m_calculatormode != 1)
         setTabOrder(m_listwidget, m_clearbutton);
 }
 
@@ -276,31 +291,17 @@ bool MemoryWidget::eventFilter(QObject *obj, QEvent *event)
             return true;
         }
     }
-    if (m_calculatormode == 0) {
+    if (m_calculatormode != 1) {
         if (event->type() == QEvent::FocusOut && !(m_listwidget->hasFocus() || m_clearbutton->hasFocus() || this->hasFocus())) {
             emit hideWidget();
         }
-//        if (obj == this && event->type() == QEvent::KeyPress) {
-//            QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
-//            if (key_event->key() == Qt::Key_Tab) {
-//                if (!m_isempty) {
-//                    m_listwidget->setCurrentRow(m_currentrow);
-//                    m_listwidget->setFocus();
-//                } else {
-//                    setFocus();
-//                }
-//                return true;
-//            }
-//        }
         if (obj == m_listwidget || obj == m_clearbutton) {
             if (event->type() == QEvent::KeyPress) {
                 QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
                 if (key_event->key() == Qt::Key_Tab) {
                     if (m_listwidget->hasFocus()) {
-//                        focusNextChild();//焦点移动
                         m_clearbutton->setFocus(Qt::TabFocusReason);
                     } else if (m_clearbutton->hasFocus()) {
-//                        focusNextChild();//焦点移动
                         m_listwidget->setFocus(Qt::TabFocusReason);
                     }
                     return true;
@@ -411,7 +412,7 @@ void MemoryWidget::memoryclean()
     QListWidgetItem *item1 = new QListWidgetItem(m_listwidget);
 
     m_listwidget->insertItem(0, item1);
-    if (m_calculatormode == 0)
+    if (m_calculatormode != 1)
         m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, m_listwidget->frameRect().height())); //标准模式
     else
         m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, NOMEMORYHEIGHT)); //科学模式
@@ -588,7 +589,7 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
     result.replace('-', "－").replace('+', "＋");
     int index = result.indexOf("E");
     m_line = 1;
-    if (m_calculatormode == 0) {
+    if (m_calculatormode == 0 || m_calculatormode == 2) { //20201106 暂时与标准一致
         if (index > 0 && result.left(index).length() > 13) {
             result.insert(index, "\n");
             m_line = 2;
