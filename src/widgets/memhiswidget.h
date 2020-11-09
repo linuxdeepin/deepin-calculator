@@ -71,6 +71,7 @@ signals:
 
 public slots:
     void themeChanged(int type);
+    void iconChanged(int type, int id);
 
 private:
     QStackedWidget *m_stackWidget;
@@ -85,6 +86,7 @@ private:
     IconButton *m_clearButton; //记录清除按钮
     bool m_isshowM = false; //内存中无内容为false
     bool m_isshowH = false;
+    int m_themeType = 0; //当前主题
 };
 
 #endif // MEMHISWIDGET_H

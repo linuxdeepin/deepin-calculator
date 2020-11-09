@@ -52,10 +52,8 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     m_buttonBox->setFocusPolicy(Qt::NoFocus);
     m_memoryBtn->setObjectName("mButtonBoxButton");
     m_memoryBtn->setFixedSize(30, 25);
-    m_memoryBtn->setIcon(QIcon(":/assets/images/icon_memory_checked.svg"));
     m_memoryBtn->setIconSize(QSize(30, 25));
     m_historyBtn->setFixedSize(30, 25);
-    m_historyBtn->setIcon(QIcon(":/assets/images/icon_history_normal.svg"));
     m_historyBtn->setIconSize(QSize(30, 25));
     m_memoryBtn->setFocusPolicy(Qt::TabFocus);
     QList<DButtonBoxButton *> listBtnBox;
@@ -64,6 +62,9 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     m_buttonBox->setId(m_memoryBtn, 0);
     m_buttonBox->setId(m_historyBtn, 1);
     m_buttonBox->button(0)->setChecked(true);
+//    m_memoryBtn->setIcon(QIcon(":/assets/images/icon_memory_checked.svg"));
+//    m_historyBtn->setIcon(QIcon(":/assets/images/icon_history_normal.svg"));
+    iconChanged(m_themeType, 0);
 
     QVBoxLayout *m_Vlayout = new QVBoxLayout(this);
     QWidget *hwidget = new QWidget(this);
@@ -110,8 +111,10 @@ MemHisWidget::MemHisWidget(QWidget *parent)
         m_stackWidget->setCurrentWidget(m_memoryWidget);
         m_clearButton->setHidden(!m_isshowM);
 
-        m_memoryBtn->setIcon(QIcon(":/assets/images/icon_memory_checked.svg"));
-        m_historyBtn->setIcon(QIcon(":/assets/images/icon_history_normal.svg"));
+//        m_memoryBtn->setIcon(QIcon(":/assets/images/icon_memory_checked.svg"));
+//        m_historyBtn->setIcon(QIcon(":/assets/images/icon_history_normal.svg"));
+        iconChanged(m_themeType, 0);
+
     });
     connect(m_buttonBox->button(1), &QAbstractButton::clicked, this, [ = ]() {
         if (!m_buttonBox->button(1)->hasFocus() && QApplication::focusWidget() != nullptr)
@@ -120,8 +123,9 @@ MemHisWidget::MemHisWidget(QWidget *parent)
         m_stackWidget->setCurrentWidget(m_listView);
         m_clearButton->setHidden(!m_isshowH);
 
-        m_memoryBtn->setIcon(QIcon(":/assets/images/icon_memory_normal.svg"));
-        m_historyBtn->setIcon(QIcon(":/assets/images/icon_history_checked.svg"));
+//        m_memoryBtn->setIcon(QIcon(":/assets/images/icon_memory_normal.svg"));
+//        m_historyBtn->setIcon(QIcon(":/assets/images/icon_history_checked.svg"));
+        iconChanged(m_themeType, 1);
     });
     connect(m_clearButton, &IconButton::clicked, this, [ = ]() {
         this->setFocus(); //让下次焦点在m_memoryBtn
@@ -348,6 +352,30 @@ void MemHisWidget::themeChanged(int type)
     m_clearButton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
     m_memoryPublic->setThemeType(typeIn);
     m_listDelegate->setThemeType(typeIn);
+    m_themeType = typeIn;
+    iconChanged(m_themeType, m_buttonBox->checkedId());
+}
+
+/**
+ * @brief MemHisWidget::iconChanged
+ * @param type:主题
+ * @param id:buttonbox的checkid
+ * buttonbox按键切换时，切换对应的切图
+ */
+void MemHisWidget::iconChanged(int type, int id)
+{
+    QString path;
+    if (type == 2)
+        path = QString(":/assets/images/%1/").arg("dark");
+    else
+        path = QString(":/assets/images/%1/").arg("light");
+    if (id == 0) {
+        m_memoryBtn->setIcon(QIcon(path + "icon_memory_checked.svg"));
+        m_historyBtn->setIcon(QIcon(path + "icon_history_normal.svg"));
+    } else {
+        m_memoryBtn->setIcon(QIcon(path + "icon_memory_normal.svg"));
+        m_historyBtn->setIcon(QIcon(path + "icon_history_checked.svg"));
+    }
 }
 
 /**
