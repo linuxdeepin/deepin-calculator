@@ -2021,28 +2021,83 @@ void SciExpressionBar::allElection()
 
 void SciExpressionBar::shear()
 {
-    QString text = m_inputEdit->text();
-    int selcurPos = m_inputEdit->cursorPosition();
+    QString sRegNum = "[a-z]"; //20200811去除大写字母，否则Ｅ将被看作函数
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    SSelection selection = m_inputEdit->getSelection();
     QString selectText = m_inputEdit->selectedText();
     selectText = selectText.replace(",", "");
     QApplication::clipboard()->setText(selectText);
-    int start = m_inputEdit->selectionStart();
-    int length = m_inputEdit->selectionLength();
-    text.remove(start, length);
-    m_inputEdit->setText(text);
-    addUndo();
-    m_isUndo = false;
-    //设置剪切后光标位置
-    if (text.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length() ==
-            m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length())
-        m_inputEdit->setCursorPosition(selcurPos);
-    else if (text.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length() >
-             m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length())
-        m_inputEdit->setCursorPosition(selcurPos + 1);
-    else
-        m_inputEdit->setCursorPosition(selcurPos - 1);
+    int selleftfunlen = 0; //选中左侧一部分函数长度
+    int removepos = 0; //被删除位置
+    QString text = m_inputEdit->text();
+    QString seloldtext = text;
+    //光标不在开头且光标左侧是字母或者光标右侧是字母
+    if ((selection.curpos > 0 &&
+            rx.exactMatch(m_inputEdit->text().at(selection.curpos - 1)))
+            || (selection.curpos + selection.selected.size() < m_inputEdit->text().size() && rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size())))) {
+        int funpos = -1;
+        int rightfunpos = -1;
+        int j;
+        for (int i = 0; i < m_funclist.size(); i++) {
+            //记录光标左侧离光标最近的函数位
+            funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], selection.curpos - 1);
+            if (funpos != -1 && (funpos <= selection.curpos) && (selection.curpos < funpos + m_funclist[i].length())) {
+                selleftfunlen = selection.curpos - funpos;
+                break; //光标在函数开头和函数结尾之间
+            } else
+                funpos = -1;
+        }
+        for (j = 0; j < m_funclist.size(); j++) {
+            //记录离光标最近的右侧函数位
+            rightfunpos = m_inputEdit->text().lastIndexOf(m_funclist[j], selection.curpos + selection.selected.size() - 1);
+            if (rightfunpos != -1 && (rightfunpos + m_funclist[j].length() > selection.curpos + selection.selected.size()))
+                break;
+            else
+                rightfunpos = -1;
+        }
+        if (funpos != -1 || rightfunpos != -1) {
+            if (funpos != -1 && rightfunpos == -1) {
+                removepos = funpos;
+                text.remove(funpos, selection.selected.size() + selleftfunlen); //仅左侧有函数
+            } else if (rightfunpos != -1 && funpos == -1) {
+                removepos = selection.curpos;
+                text.remove(selection.curpos, rightfunpos + m_funclist[j].length() - selection.curpos); //仅右侧有函数
+            } else {
+                removepos = funpos;
+                text.remove(funpos, rightfunpos + m_funclist[j].length() - funpos); //函数中或左右均有
+            }
+        } else {
+            removepos = selection.curpos;
+            text.remove(selection.curpos, selection.selected.size());
+        }
+    } else {
+        removepos = selection.curpos;
+        text.remove(selection.curpos, selection.selected.size());
+    }
 
-    //发送C/AC切换信号
+    m_inputEdit->setText(text); //输入栏删除被选中
+    // 20200401 symbolFaultTolerance
+    m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
+    // 20200316选中部分光标置位问题修复
+    if ((seloldtext.mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()E]")).length()) ==
+            m_inputEdit->text().mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()E]")).length())
+        m_inputEdit->setCursorPosition(removepos);
+    else if ((seloldtext.mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()E]")).length()) >
+             m_inputEdit->text().mid(0, removepos).remove(QRegExp("[＋－×÷/,.%()E]")).length())
+        m_inputEdit->setCursorPosition(removepos + 1);
+    else
+        m_inputEdit->setCursorPosition(removepos - 1);
+    // 20200401 选中部分左侧为分隔符按退格的光标处理
+    int curpos = m_inputEdit->cursorPosition();
+    if (pointFaultTolerance(m_inputEdit->text()) != m_inputEdit->text()) {
+        QTimer::singleShot(5000, this, [ = ] {
+            m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
+            m_inputEdit->setCursorPosition(curpos);
+        });
+    }
+    // end fix
+    m_isResult = false;
     if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
         emit clearStateChanged(true);
         m_isAllClear = true;
@@ -2050,6 +2105,9 @@ void SciExpressionBar::shear()
         emit clearStateChanged(false);
         m_isAllClear = false;
     }
+    m_isContinue = true;
+    m_isUndo = false;
+    addUndo();
 }
 
 /**
