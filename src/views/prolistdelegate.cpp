@@ -36,10 +36,10 @@ void ProListDelegate::currentfocusindex(QModelIndex index)
 
 void ProListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    drawFocusStatus(painter, option); //焦点边框
+    painter->setRenderHint(QPainter::HighQualityAntialiasing, true);
     const QString expression = index.data(ProListModel::ExpressionRole).toString();
     ProListView *listview = qobject_cast<ProListView *>(option.styleObject);
-    QRect selectrect(option.rect.x() + LEFT_MARGIN, option.rect.y() + 3, 3, option.rect.height() - 6);  //被选中行选中标记
+    QRect selectrect(option.rect.x() + LEFT_MARGIN, option.rect.y() + 2, 3, option.rect.height() - 4);  //被选中行选中标记
     QRect hoverrect(option.rect.x() + LEFT_MARGIN, option.rect.y() + 1, 427, option.rect.height() - 2);  //hover背景色
     QRect textrect(option.rect.x() + 80 + LEFT_MARGIN, option.rect.y(), 268, 24);  //textrect
     QRect systemrect(option.rect.x() + 10 + LEFT_MARGIN, option.rect.y(), 24, 24);  //进制字体框
@@ -67,7 +67,7 @@ void ProListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
     if (index == listview->currentIndex()) {
         painter->setPen(Qt::NoPen);
         painter->setBrush(QBrush(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color()));
-        painter->drawRect(selectrect);
+        painter->drawRoundedRect(selectrect, 2, 2);
     }
 
     //进制字体绘制
@@ -116,6 +116,7 @@ void ProListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
         }
     } else
         painter->drawText(textrect, expression, Qt::AlignLeft | Qt::AlignVCenter);
+    drawFocusStatus(painter, option); //焦点边框
 }
 
 QSize ProListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -146,7 +147,6 @@ void ProListDelegate::drawFocusStatus(QPainter *painter, const QStyleOptionViewI
 {
     ProListView *listview = qobject_cast<ProListView *>(option.styleObject);
     if (listview->hasFocus()) {
-        painter->setRenderHint(QPainter::Antialiasing, true);
         QRectF itemrect(listview->visualRect(m_focusindex));
         QRectF frame(itemrect.left() + 1, itemrect.top() + 1, itemrect.width() - 2, itemrect.height() - 2);
         QPen pen;
