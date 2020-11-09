@@ -87,8 +87,12 @@ void TextButton::init()
         m_font.setPixelSize(16);
     } else if (text() == "+/-") {
         m_font.setPixelSize(20);
-    } else if (text() == "QWORD" || text() == "DWORD" || text() == "WORD" || text() == "BYTE") {
+    } else if (text() == "QWORD" || text() == "DWORD" || text() == "WORD" || text() == "BYTE"
+               || text() == "AND" || text() == "OR" || text() == "NOT" || text() == "NAND" || text() == "NOR" || text() == "XOR") {
         m_font.setPixelSize(14);
+    } else if (text() == "A" || text() == "B" || text() == "C" || text() == "D"
+               || text() == "E" || text() == "F") {
+        m_font.setPixelSize(17);
     } else
         m_font.setPixelSize(18);
     m_font.setFamily("Noto Sans");
@@ -208,8 +212,12 @@ void TextButton::enterEvent(QEvent *e)
         m_font.setPixelSize(18);
     } else if (text() == "+/-") {
         m_font.setPixelSize(22);
-    } else if (text() == "QWORD" || text() == "DWORD" || text() == "WORD" || text() == "BYTE") {
+    } else if (text() == "QWORD" || text() == "DWORD" || text() == "WORD" || text() == "BYTE"
+               || text() == "AND" || text() == "OR" || text() == "NOT" || text() == "NAND" || text() == "NOR" || text() == "XOR") {
         m_font.setPixelSize(16);
+    } else if (text() == "A" || text() == "B" || text() == "C" || text() == "D"
+               || text() == "E" || text() == "F") {
+        m_font.setPixelSize(19);
     } else
         m_font.setPixelSize(20);
     m_font.setStyleName("");
@@ -241,8 +249,12 @@ void TextButton::leaveEvent(QEvent *e)
         m_font.setPixelSize(16);
     } else if (text() == "+/-") {
         m_font.setPixelSize(20);
-    } else if (text() == "QWORD" || text() == "DWORD" || text() == "WORD" || text() == "BYTE") {
+    } else if (text() == "QWORD" || text() == "DWORD" || text() == "WORD" || text() == "BYTE"
+               || text() == "AND" || text() == "OR" || text() == "NOT" || text() == "NAND" || text() == "NOR" || text() == "XOR") {
         m_font.setPixelSize(14);
+    } else if (text() == "A" || text() == "B" || text() == "C" || text() == "D"
+               || text() == "E" || text() == "F") {
+        m_font.setPixelSize(17);
     } else
         m_font.setPixelSize(18);
     m_font.setStyleName("Light");
