@@ -74,9 +74,11 @@ ProgramModule::ProgramModule(QWidget *parent)
     //进制列表点击事件
     connect(m_proListView, &ProListView::obtainingHistorical, this, &ProgramModule::radixListChange);
 
-    //位键盘与输入栏交互
+    //输入栏交互
     connect(m_proExpressionBar->getInputEdit(), &InputEdit::cursorPositionNumberChanged, m_proSystemKeypad, &ProSystemKeypad::setvalue);
     connect(m_proSystemKeypad, &ProSystemKeypad::valuechanged, m_proExpressionBar->getInputEdit(), &InputEdit::valueChangeFromProSyskeypad);
+    connect(m_proExpressionBar, &ProExpressionBar::clearStateChanged, this,
+            &ProgramModule::handleClearStateChanged);
 
     //内存列表事件
     if (!m_memoryPublic->isWidgetEmpty(2))
@@ -1237,5 +1239,11 @@ void ProgramModule::setwidgetAttribute(bool b)
 
 void ProgramModule::handleClearStateChanged(bool isAllClear)
 {
+    TextButton *btn = static_cast<TextButton *>(m_programmerKeypad->button(ProgrammerKeypad::Key_Clear));
 
+    if (isAllClear) {
+        btn->setText("AC");
+    } else {
+        btn->setText("C");
+    }
 }
