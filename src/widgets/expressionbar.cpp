@@ -607,9 +607,6 @@ void ExpressionBar::enterPointEvent()
  */
 void ExpressionBar::enterBackspaceEvent()
 {
-    //    if (m_isResult)
-    //        clearLinkageCache();
-    // m_inputEdit->backspace();
     SSelection selection = m_inputEdit->getSelection();
     int selcurPos = m_inputEdit->cursorPosition();
     if (selection.selected != "") {
@@ -631,59 +628,48 @@ void ExpressionBar::enterBackspaceEvent()
             m_inputEdit->setCursorPosition(selcurPos + 1);
         else
             m_inputEdit->setCursorPosition(selcurPos - 1);
-        // 20200401 选中部分左侧为分隔符按退格的光标处理
-        int curpos = m_inputEdit->cursorPosition();
-//        if (selection.curpos > 0 && text.at(selection.curpos - 1) == ",") {
-//            curpos = curpos - 1;
-//            m_inputEdit->setCursorPosition(curpos);
-//        }
-        // fix for pointfault tolerance 16022
-        QTimer::singleShot(5000, this, [ = ] {
-            m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
-            m_inputEdit->setCursorPosition(curpos);
-        });
-        // end fix
+
         m_isResult = false;
-        return;
-    }
-    QString text = m_inputEdit->text();
-    int cur = m_inputEdit->cursorPosition();
-    if (text.size() > 0 && cur > 0 && text[cur - 1] == ",") {
-        text.remove(cur - 2, 2);
-        m_inputEdit->setText(text);
-        // 20200401 symbolFaultTolerance
-        m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
-        m_inputEdit->setCursorPosition(cur - 2);
     } else {
-        int proNumber = text.count(",");
-        m_inputEdit->backspace();
-        int separator = proNumber - m_inputEdit->text().count(",");
-        // 20200401 symbolFaultTolerance
-        m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
-        int newPro = m_inputEdit->text().count(",");
-        if (cur > 0) {
-            QString sRegNum = "[0-9]+";
-            QRegExp rx;
-            rx.setPattern(sRegNum);
-            //退数字
-            if (rx.exactMatch(text.at(cur - 1)) && proNumber > newPro) {
-                if (text.mid(cur, text.length() - cur) == m_inputEdit->text().mid(m_inputEdit->text().length() - (text.length() - cur), text.length() - cur)) {
-                    m_inputEdit->setCursorPosition(cur - 2);
-                } else
-                    m_inputEdit->setCursorPosition(cur - 1);
-            } else {
-                if (separator < 0) {
-                    m_inputEdit->setCursorPosition(cur - 1 - separator);
+        QString text = m_inputEdit->text();
+        int cur = m_inputEdit->cursorPosition();
+        if (text.size() > 0 && cur > 0 && text[cur - 1] == ",") {
+            text.remove(cur - 2, 2);
+            m_inputEdit->setText(text);
+            // 20200401 symbolFaultTolerance
+            m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
+            m_inputEdit->setCursorPosition(cur - 2);
+        } else {
+            int proNumber = text.count(",");
+            m_inputEdit->backspace();
+            int separator = proNumber - m_inputEdit->text().count(",");
+            // 20200401 symbolFaultTolerance
+            m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
+            int newPro = m_inputEdit->text().count(",");
+            if (cur > 0) {
+                QString sRegNum = "[0-9]+";
+                QRegExp rx;
+                rx.setPattern(sRegNum);
+                //退数字
+                if (rx.exactMatch(text.at(cur - 1)) && proNumber > newPro) {
+                    if (text.mid(cur, text.length() - cur) == m_inputEdit->text().mid(m_inputEdit->text().length() - (text.length() - cur), text.length() - cur)) {
+                        m_inputEdit->setCursorPosition(cur - 2);
+                    } else
+                        m_inputEdit->setCursorPosition(cur - 1);
                 } else {
-                    m_inputEdit->setCursorPosition(cur - 1);
+                    if (separator < 0) {
+                        m_inputEdit->setCursorPosition(cur - 1 - separator);
+                    } else {
+                        m_inputEdit->setCursorPosition(cur - 1);
+                    }
                 }
-            }
-            //退小数点
-            if (text.at(cur - 1) == ".") {
-                if (text.mid(0, cur).count(",") != m_inputEdit->text().mid(0, cur).count(","))
-                    m_inputEdit->setCursorPosition(cur);
-                else
-                    m_inputEdit->setCursorPosition(cur - 1);
+                //退小数点
+                if (text.at(cur - 1) == ".") {
+                    if (text.mid(0, cur).count(",") != m_inputEdit->text().mid(0, cur).count(","))
+                        m_inputEdit->setCursorPosition(cur);
+                    else
+                        m_inputEdit->setCursorPosition(cur - 1);
+                }
             }
         }
     }
