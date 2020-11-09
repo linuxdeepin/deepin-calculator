@@ -25,6 +25,7 @@
 #include <QApplication>
 #include <QFile>
 #include <QDir>
+#include <QDebug>
 
 const static QString ATOE = "ABCDEF";
 Utils::Utils()
@@ -146,13 +147,13 @@ QString Utils::formatThousandsSeparatorsPro(const QString &str, const int Base)
 {
     QString result = str;
     int startPos = result.indexOf(QRegularExpression("[0-9]"));
-    int startPosHex = result.indexOf(QRegularExpression("[A-Z0-9]"));
+    int startPosHex = result.indexOf(QRegularExpression("[A-F0-9]"));
     switch (Base) {
     case 16:
     case 2:
         if (startPosHex >= 0) {
             int endPos = result.length();
-            for (int i = endPos - 4; i >= startPos + 1; i -= 4) {
+            for (int i = endPos - 4; i >= startPosHex + 1; i -= 4) {
                 result.insert(i, " ");
             }
         }

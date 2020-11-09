@@ -22,6 +22,7 @@ public:
     void mouseMoveEvent(QMouseEvent *event);
     InputEdit *getInputEdit();
     bool isnumber(QChar a);
+    bool judgeinput();
 
 signals:
 //    void keyPress(QKeyEvent *);
