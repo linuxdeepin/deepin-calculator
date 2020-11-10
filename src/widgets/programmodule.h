@@ -44,10 +44,12 @@ private slots:
     void handleKeypadButtonPressByspace(int key);
 
     //arrowrectangle处理
-    void shiftArrowListWidgetItemClicked(int row);
+    void shiftArrowListWidgetItemClicked(int row, bool isselect);
     void shiftArrowListWidgetItemSpace();
-    void byteArrowListWidgetItemClicked(int row);
+    void shiftArrowListWidgetItemPressed(int row);
+    void byteArrowListWidgetItemClicked(int row, bool isselect);
     void byteArrowListWidgetItemSpace();
+    void byteArrowListWidgetItemPressed(int row);
 
     void checkBtnKeypadThemeChange(int type);
     void radixListChange(const QModelIndex &index, bool isspace);
@@ -86,6 +88,10 @@ private:
     //rectangle中当前选中的行数
     int m_shiftArrowCurrentRow = 0;
     int m_byteArrowCurrentRow = 0;
+
+    //rectangle中当前点击的行数
+    int m_shiftArrowPressRow = -1;
+    int m_byteArrowPressRow = -1;
 
     //内存相关
     bool m_insidewidget = false;

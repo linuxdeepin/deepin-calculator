@@ -110,8 +110,8 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     lay->addLayout(layH);
     lay->addSpacing(6);
     this->setLayout(lay);
-    connect(m_listwidget, &MemoryListWidget::itemselected, this, [ = ](int row) {
-        if (!m_isempty) {
+    connect(m_listwidget, &MemoryListWidget::itemselected, this, [ = ](int row, bool isselect) {
+        if (!m_isempty && isselect) {
             QPair<QString, Quantity> p;
             MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
             //        p.first = m_listwidget->item(row)->data(Qt::DisplayRole).toString();

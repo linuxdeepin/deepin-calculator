@@ -48,13 +48,13 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     m_stackWidget->addWidget(m_listView);
     m_stackWidget->setCurrentWidget(m_memoryWidget);
     m_stackWidget->setFixedSize(451, 302);
-    m_buttonBox->setFixedSize(60, 25);
+    m_buttonBox->setFixedSize(60, 26);
     m_buttonBox->setFocusPolicy(Qt::NoFocus);
     m_memoryBtn->setObjectName("mButtonBoxButton");
-    m_memoryBtn->setFixedSize(30, 25);
-    m_memoryBtn->setIconSize(QSize(30, 25));
-    m_historyBtn->setFixedSize(30, 25);
-    m_historyBtn->setIconSize(QSize(30, 25));
+    m_memoryBtn->setFixedSize(30, 26);
+    m_memoryBtn->setIconSize(QSize(30, 26));
+    m_historyBtn->setFixedSize(30, 26);
+    m_historyBtn->setIconSize(QSize(30, 26));
     m_memoryBtn->setFocusPolicy(Qt::TabFocus);
     QList<DButtonBoxButton *> listBtnBox;
     listBtnBox << m_memoryBtn << m_historyBtn;

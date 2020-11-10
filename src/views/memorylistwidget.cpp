@@ -59,6 +59,7 @@ void MemoryListWidget::mousePressEvent(QMouseEvent *event)
         if (this->itemAt(m_mousepoint)) {
             m_clickrow = this->row(this->itemAt(m_mousepoint));
 //            this->itemAt(mousepoint)->setBackground(QBrush(QColor(0, 0, 0)));
+            emit itempressed(m_clickrow);
         }
     }
 
@@ -71,7 +72,9 @@ void MemoryListWidget::mousePressEvent(QMouseEvent *event)
 void MemoryListWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (this->itemAt(event->pos()) && this->row(this->itemAt(event->pos())) == m_clickrow) {
-        emit itemselected(m_clickrow);
+        emit itemselected(m_clickrow, true);
+    } else {
+        emit itemselected(m_clickrow, false);
     }
     m_clickrow = -1;
     QListWidget::mouseReleaseEvent(event);

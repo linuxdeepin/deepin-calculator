@@ -146,6 +146,8 @@ void IconButton::setBtnPressing(bool press)
         m_currentUrl = m_pressUrl;
         if (m_mode == 5)
             m_mode = 6;
+        if (m_mode == 3)
+            m_mode = 4;
         m_isPress = true;
         m_buttonStatus = 2;
         m_isHover = false; //20200722删除foucus状态
@@ -154,6 +156,8 @@ void IconButton::setBtnPressing(bool press)
         m_currentUrl = m_normalUrl;
         if (m_mode == 6)
             m_mode = 5;
+        if (m_mode == 4)
+            m_mode = 3;
         m_isPress = false;
         m_buttonStatus = 0;
         m_isPressing = false;

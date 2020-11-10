@@ -157,6 +157,10 @@
         <file>assets/images/light/icon_ls_normal.svg</file>
         <file>assets/images/light/icon_ro_hover.svg</file>
         <file>assets/images/light/icon_ro_normal.svg</file>
+        <file>assets/images/light/icon_as_menuhover.svg</file>
+        <file>assets/images/light/icon_ls_menuhover.svg</file>
+        <file>assets/images/light/icon_ro_menuhover.svg</file>
+        <file>assets/images/light/icon_rc_menuhover.svg</file>
         <file>assets/images/dark/icon_as_hover.svg</file>
         <file>assets/images/dark/icon_as_normal.svg</file>
         <file>assets/images/dark/icon_ls_hover.svg</file>
@@ -167,5 +171,21 @@
         <file>assets/images/light/icon_generalkeyboard_press.svg</file>
         <file>assets/images/dark/icon_binarysystem_press.svg</file>
         <file>assets/images/dark/icon_generalkeyboard_press.svg</file>
+        <file>assets/images/light/icon_as_iconhover.svg</file>
+        <file>assets/images/light/icon_ls_iconhover.svg</file>
+        <file>assets/images/light/icon_ro_iconhover.svg</file>
+        <file>assets/images/light/icon_rc_iconhover.svg</file>
+        <file>assets/images/light/icon_as_iconnormal.svg</file>
+        <file>assets/images/light/icon_ls_iconnormal.svg</file>
+        <file>assets/images/light/icon_ro_iconnormal.svg</file>
+        <file>assets/images/light/icon_rc_iconnormal.svg</file>
+        <file>assets/images/dark/icon_as_iconhover.svg</file>
+        <file>assets/images/dark/icon_ls_iconhover.svg</file>
+        <file>assets/images/dark/icon_ro_iconhover.svg</file>
+        <file>assets/images/dark/icon_rc_iconhover.svg</file>
+        <file>assets/images/dark/icon_as_iconnormal.svg</file>
+        <file>assets/images/dark/icon_ls_iconnormal.svg</file>
+        <file>assets/images/dark/icon_ro_iconnormal.svg</file>
+        <file>assets/images/dark/icon_rc_iconnormal.svg</file>
     </qresource>
 </RCC>

@@ -547,40 +547,46 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
 /**
  * @brief 算法悬浮框点击事件
  */
-void ProgramModule::shiftArrowListWidgetItemClicked(int row)
+void ProgramModule::shiftArrowListWidgetItemClicked(int row, bool isselect)
 {
     QString path;
     if (DGuiApplicationHelper::instance()->themeType() == 2)
         path = QString(":/assets/images/%1/").arg("dark");
     else
         path = QString(":/assets/images/%1/").arg("light");
-    m_shiftArrowListWidget->setCurrentRow(row);
-    static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->currentItem()))->findChild<DIconButton *>("markBtn")->setHidden(false);
-    static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->item(m_shiftArrowCurrentRow)))->findChild<DIconButton *>("markBtn")->setHidden(true);
-    m_shiftArrowRectangle->setHidden(true);
-    static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setBtnPressing(false);
-    setwidgetAttribute(false);
+    //松开时与点击的不是同一行，则需要隐藏掉刚刚点击行的勾的显示
+    if (!isselect && m_shiftArrowPressRow > -1) {
+        if (m_shiftArrowPressRow != m_shiftArrowCurrentRow)
+            static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->item(m_shiftArrowPressRow)))->isMarkHide(true);
+    } else {
+        m_shiftArrowListWidget->setCurrentRow(row);
+        static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->item(m_shiftArrowCurrentRow)))->isMarkHide(true);
+        static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->currentItem()))->isMarkHide(false);
+        m_shiftArrowRectangle->setHidden(true);
+        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setBtnPressing(false);
+        setwidgetAttribute(false);
 
-    //计算方式选项按钮图标跟随选项改变
-    switch (m_shiftArrowListWidget->currentRow()) {
-    case 0:
-        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->
-        setIconUrl(path + "icon_as_normal.svg", path + "icon_as_hover.svg", path + "icon_as_normal.svg", 3);
-        break;
-    case 1:
-        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->
-        setIconUrl(path + "icon_ls_normal.svg", path + "icon_ls_hover.svg", path + "icon_ls_normal.svg", 3);
-        break;
-    case 2:
-        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->
-        setIconUrl(path + "icon_ro_normal.svg", path + "icon_ro_hover.svg", path + "icon_ro_normal.svg", 3);
-        break;
-    case 3:
-        static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->
-        setIconUrl(path + "icon_rc_normal.svg", path + "icon_rc_hover.svg", path + "icon_rc_normal.svg", 3);
-        break;
+        //计算方式选项按钮图标跟随选项改变
+        switch (m_shiftArrowListWidget->currentRow()) {
+        case 0:
+            static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->
+            setIconUrl(path + "icon_as_iconnormal.svg", path + "icon_as_iconhover.svg", path + "icon_as_iconnormal.svg", 5);
+            break;
+        case 1:
+            static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->
+            setIconUrl(path + "icon_ls_iconnormal.svg", path + "icon_ls_iconhover.svg", path + "icon_ls_iconnormal.svg", 3);
+            break;
+        case 2:
+            static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->
+            setIconUrl(path + "icon_ro_iconnormal.svg", path + "icon_ro_iconhover.svg", path + "icon_ro_iconnormal.svg", 5);
+            break;
+        case 3:
+            static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->
+            setIconUrl(path + "icon_rc_iconnormal.svg", path + "icon_rc_iconhover.svg", path + "icon_rc_iconnormal.svg", 3);
+            break;
+        }
+        m_shiftArrowCurrentRow = row;
     }
-    m_shiftArrowCurrentRow = row;
 }
 
 /**
@@ -589,57 +595,73 @@ void ProgramModule::shiftArrowListWidgetItemClicked(int row)
  */
 void ProgramModule::shiftArrowListWidgetItemSpace()
 {
-    shiftArrowListWidgetItemClicked(m_shiftArrowListWidget->currentRow());
+    shiftArrowListWidgetItemClicked(m_shiftArrowListWidget->currentRow(), true);
+}
+
+/**
+ * @brief ProgramModule::shiftArrowListWidgetItemPressed
+ * 移位运算列表press事件
+ */
+void ProgramModule::shiftArrowListWidgetItemPressed(int row)
+{
+    static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->item(row)))->isMarkHide(false);
+    m_shiftArrowPressRow = row;
 }
 
 /**
  * @brief 位数悬浮框点击事件
  */
-void ProgramModule::byteArrowListWidgetItemClicked(int row)
+void ProgramModule::byteArrowListWidgetItemClicked(int row, bool isselect)
 {
-    m_byteArrowListWidget->setCurrentRow(row);
-    static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->currentItem()))->findChild<DIconButton *>("markBtn")->setHidden(false);
-    static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->item(m_byteArrowCurrentRow)))->findChild<DIconButton *>("markBtn")->setHidden(true);
-    QString str = static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->currentItem()))->findChild<QLabel *>()->text();
-    static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setText(str);
-    m_byteArrowRectangle->setHidden(true);
-    static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setBtnPressing(false);
-    setwidgetAttribute(false);
+    //松开时与点击的不是同一行，则需要隐藏掉刚刚点击行的勾的显示
+    if (!isselect && m_byteArrowPressRow > -1) {
+        if (m_byteArrowPressRow != m_byteArrowCurrentRow)
+            static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->item(m_byteArrowPressRow)))->isMarkHide(true);
+    } else {
+        m_byteArrowListWidget->setCurrentRow(row);
+        static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->item(m_byteArrowCurrentRow)))->isMarkHide(true);
+        static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->currentItem()))->isMarkHide(false);
+        QString str = static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->currentItem()))->findChild<QLabel *>()->text();
+        static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setText(str);
+        m_byteArrowRectangle->setHidden(true);
+        static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setBtnPressing(false);
+        setwidgetAttribute(false);
 
-    int oldsystem;
-    switch (m_byteArrowCurrentRow) {
-    case 0:
-        oldsystem = 64;
-        break;
-    case 1:
-        oldsystem = 32;
-        break;
-    case 2:
-        oldsystem = 16;
-        break;
-    case 3:
-        oldsystem = 8;
-        break;
-    default:
-        oldsystem = 64;
-        break;
+        int oldsystem;
+        switch (m_byteArrowCurrentRow) {
+        case 0:
+            oldsystem = 64;
+            break;
+        case 1:
+            oldsystem = 32;
+            break;
+        case 2:
+            oldsystem = 16;
+            break;
+        case 3:
+            oldsystem = 8;
+            break;
+        default:
+            oldsystem = 64;
+            break;
+        }
+        //改变m_proSystemKeypad按钮状态
+        switch (m_byteArrowListWidget->currentRow()) {
+        case 0:
+            m_proSystemKeypad->setSystem(64, oldsystem);
+            break;
+        case 1:
+            m_proSystemKeypad->setSystem(32, oldsystem);
+            break;
+        case 2:
+            m_proSystemKeypad->setSystem(16, oldsystem);
+            break;
+        case 3:
+            m_proSystemKeypad->setSystem(8, oldsystem);
+            break;
+        }
+        m_byteArrowCurrentRow = row;
     }
-    //改变m_proSystemKeypad按钮状态
-    switch (m_byteArrowListWidget->currentRow()) {
-    case 0:
-        m_proSystemKeypad->setSystem(64, oldsystem);
-        break;
-    case 1:
-        m_proSystemKeypad->setSystem(32, oldsystem);
-        break;
-    case 2:
-        m_proSystemKeypad->setSystem(16, oldsystem);
-        break;
-    case 3:
-        m_proSystemKeypad->setSystem(8, oldsystem);
-        break;
-    }
-    m_byteArrowCurrentRow = row;
 }
 
 /**
@@ -648,7 +670,18 @@ void ProgramModule::byteArrowListWidgetItemClicked(int row)
  */
 void ProgramModule::byteArrowListWidgetItemSpace()
 {
-    byteArrowListWidgetItemClicked(m_byteArrowListWidget->currentRow());
+    byteArrowListWidgetItemClicked(m_byteArrowListWidget->currentRow(), true);
+}
+
+/**
+ * @brief ProgramModule::byteArrowListWidgetItemPressed
+ * @param row:行号
+ * 数据长度列表点击事件
+ */
+void ProgramModule::byteArrowListWidgetItemPressed(int row)
+{
+    static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->item(row)))->isMarkHide(false);
+    m_byteArrowPressRow = row;
 }
 
 /**
@@ -776,25 +809,25 @@ void ProgramModule::initArrowRectangle()
     m_shiftArrowListWidget->setFrameShape(QFrame::NoFrame); //设置边框类型，无边框
     m_shiftArrowListWidget->setAttribute(Qt::WA_TranslucentBackground, true);
     QListWidgetItem *item1 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget1 = new ProgrammerItemWidget("算数移位", QIcon::fromTheme(path + "icon_as_hover.svg"));
+    ProgrammerItemWidget *itemwidget1 = new ProgrammerItemWidget("算数移位", QIcon::fromTheme(path + "icon_as_normal.svg"));
     item1->setFlags(Qt::NoItemFlags);
     item1->setSizeHint(QSize(250, 34));
     m_shiftArrowListWidget->insertItem(0, item1);
     m_shiftArrowListWidget->setItemWidget(item1, itemwidget1);
     QListWidgetItem *item2 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget2 = new ProgrammerItemWidget("逻辑移位", QIcon::fromTheme(path + "icon_ls_hover.svg"));
+    ProgrammerItemWidget *itemwidget2 = new ProgrammerItemWidget("逻辑移位", QIcon::fromTheme(path + "icon_ls_normal.svg"));
     item2->setFlags(Qt::NoItemFlags);
     item2->setSizeHint(QSize(250, 34));
     m_shiftArrowListWidget->insertItem(1, item2);
     m_shiftArrowListWidget->setItemWidget(item2, itemwidget2);
     QListWidgetItem *item3 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget3 = new ProgrammerItemWidget("旋转循环移位", QIcon::fromTheme(path + "icon_ro_hover.svg"));
+    ProgrammerItemWidget *itemwidget3 = new ProgrammerItemWidget("旋转循环移位", QIcon::fromTheme(path + "icon_ro_normal.svg"));
     item3->setFlags(Qt::NoItemFlags);
     item3->setSizeHint(QSize(250, 34));
     m_shiftArrowListWidget->insertItem(2, item3);
     m_shiftArrowListWidget->setItemWidget(item3, itemwidget3);
     QListWidgetItem *item4 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget4 = new ProgrammerItemWidget("循环移位旋转", QIcon::fromTheme(path + "icon_rc_hover.svg"));
+    ProgrammerItemWidget *itemwidget4 = new ProgrammerItemWidget("循环移位旋转", QIcon::fromTheme(path + "icon_rc_normal.svg"));
     item4->setFlags(Qt::NoItemFlags);
     item4->setSizeHint(QSize(250, 34));
     m_shiftArrowListWidget->insertItem(3, item4);
@@ -803,7 +836,7 @@ void ProgramModule::initArrowRectangle()
     //默认计算方式为算术移位
     m_shiftArrowListWidget->setCurrentItem(m_shiftArrowListWidget->item(0));
     static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->currentItem()))
-    ->findChild<DIconButton *>("markBtn")->setHidden(false);
+    ->isMarkHide(false);
 
     m_shiftArrowListWidget->setFixedSize(QSize(250, 136));
 //    m_shiftArrowRectangle->setWindowFlag(Qt::Popup);
@@ -854,7 +887,7 @@ void ProgramModule::initArrowRectangle()
     //默认位数64位
     m_byteArrowListWidget->setCurrentItem(m_byteArrowListWidget->item(0));
     static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->currentItem()))
-    ->findChild<DIconButton *>("markBtn")->setHidden(false);
+    ->isMarkHide(false);
 
     m_byteArrowListWidget->setFixedSize(QSize(250, 136));
     m_byteArrowRectangle->setRadius(15);
@@ -874,17 +907,15 @@ void ProgramModule::initArrowRectangle()
     m_byteArrowRectangle->setHidden(true);
 
     //信号槽
+    //点击press & 选中select事件
     connect(m_byteArrowListWidget, &MemoryListWidget::itemselected, this, &ProgramModule::byteArrowListWidgetItemClicked);
     connect(m_byteArrowListWidget, &MemoryListWidget::space, this, &ProgramModule::byteArrowListWidgetItemSpace);
-//    connect(m_byteArrowListWidget, &QListWidget::currentItemChanged, [ = ](QListWidgetItem * current, QListWidgetItem * previous) {
-//        static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(current))->findChild<DIconButton *>("markBtn")->setHidden(false);
-//        if (m_byteArrowListWidget->row(previous) != -1) {
-//            static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(previous))->findChild<DIconButton *>("markBtn")->setHidden(true);
-//        }
-//    });
+    connect(m_byteArrowListWidget, &MemoryListWidget::itempressed, this, &ProgramModule::byteArrowListWidgetItemPressed);
     connect(m_shiftArrowListWidget, &MemoryListWidget::itemselected, this, &ProgramModule::shiftArrowListWidgetItemClicked);
     connect(m_shiftArrowListWidget, &MemoryListWidget::space, this, &ProgramModule::shiftArrowListWidgetItemSpace);
+    connect(m_shiftArrowListWidget, &MemoryListWidget::itempressed, this, &ProgramModule::shiftArrowListWidgetItemPressed);
 
+    //隐藏rectangle
     connect(m_byteArrowRectangle, &ArrowRectangle::hidearrowrectangle, this, [ = ](bool isesc) {
         m_byteArrowRectangle->setHidden(true);
         static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setBtnPressing(false);
@@ -902,6 +933,7 @@ void ProgramModule::initArrowRectangle()
             static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setFocus(Qt::TabFocusReason);
     });
 
+    //focus事件
     connect(m_byteArrowListWidget, &MemoryListWidget::focus, this, [ = ](int direction) {
         switch (direction) { //只有listwidget在focus状态才会触发keypress,所以此处未进行hasfocus判断
         case 0:
@@ -938,6 +970,7 @@ void ProgramModule::initArrowRectangle()
             break;
         }
     });
+    //鼠标移动时清除focus状态
     connect(m_byteArrowListWidget, &MemoryListWidget::mousemoving, m_byteArrowRectangle, &ArrowRectangle::mouseMoveToClearFocus);
     connect(m_shiftArrowListWidget, &MemoryListWidget::mousemoving, m_shiftArrowRectangle, &ArrowRectangle::mouseMoveToClearFocus);
 }

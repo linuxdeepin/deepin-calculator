@@ -10,6 +10,7 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <DGuiApplicationHelper>
+#include <QSvgRenderer>
 
 DWIDGET_USE_NAMESPACE
 
@@ -27,16 +28,33 @@ public:
     void paintEvent(QPaintEvent *e);
     bool eventFilter(QObject *obj, QEvent *event);
     void cleanHoverState();
+    void isMarkHide(bool ishide);
+
 public slots:
     void themetypechanged(int type);
+    void setHover();
 
 private:
-    DIconButton *m_markbtn;
+    void drawMark(QPainter *painter) const;
+    void initMark();
+    void iconChanged(QPainter *painter) const;
+    void setIconDark(QPainter *painter, QString path) const;
+
+private:
     DIconButton *m_iconbtn;
     QLabel *m_label;
     bool m_ispress = false;
     bool m_ishover = false;
     int m_themetype = 1;
+    QSvgRenderer *m_iconRenderer;
+
+    //画一个勾
+    QPoint m_markstart;
+    QPoint m_markmid;
+    QPoint m_markend;
+    QVector<QPoint> m_pointVec;
+    QPen m_markPen;
+    bool m_isMarkHide = true;
 };
 
 #endif // PROGRAMMERITEMWIDGET_H

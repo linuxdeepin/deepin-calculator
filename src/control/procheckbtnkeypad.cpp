@@ -122,7 +122,7 @@ void ProCheckBtnKeypad::buttonThemeChanged(int type)
     btn = static_cast<IconButton *>(button(Key_BinaryKeypad));
     btn->setIconUrl(path + "icon_binarysystem_normal.svg", path + "icon_binarysystem_hover.svg", path + "icon_binarysystem_press.svg", 3);
     btn = static_cast<IconButton *>(button(Key_Option));
-    btn->setIconUrl(path + "icon_as_normal.svg", path + "icon_as_hover.svg", path + "icon_as_hover.svg", 5);
+    btn->setIconUrl(path + "icon_as_iconnormal.svg", path + "icon_as_iconhover.svg", path + "icon_as_iconhover.svg", 5);
 }
 
 /**
