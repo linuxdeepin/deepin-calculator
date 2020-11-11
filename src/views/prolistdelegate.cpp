@@ -96,7 +96,7 @@ void ProListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
     if (option.state & QStyle::State_MouseOver) {
         painter->setBrush(hoverbackground);
         painter->setPen(Qt::NoPen);
-        painter->drawRect(hoverrect);
+        painter->drawRoundedRect(hoverrect, 4, 4);
     }
 
     //结果字体绘制
