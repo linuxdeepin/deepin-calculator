@@ -1,6 +1,6 @@
 #include "programmerkeypad.h"
 
-const int KEYPAD_HEIGHT = 277; //键盘界面高度
+const int KEYPAD_HEIGHT = 279; //键盘界面高度
 const int KEYPAD_SPACING = 3; //键盘按键间距,按钮比ui大2pix,此处小2pix
 const int LEFT_MARGIN = 10; //键盘左边距,按钮比ui大2pix,此处小2pix
 const int RIGHT_MARGIN = 10; //键盘右边距,按钮比ui大2pix,此处小2pix
@@ -141,7 +141,10 @@ void ProgrammerKeypad::initButtons()
             m_bindisable << static_cast<TextButton *>(button);
         }
 
-        button->setFixedSize(STANDARD_TEXTBTNSIZE);
+        if (desc->text == "=")
+            button->setFixedSize(69, 43);
+        else
+            button->setFixedSize(STANDARD_TEXTBTNSIZE);
         m_layout->addWidget(button, desc->row, desc->column, Qt::AlignHCenter | Qt::AlignVCenter);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
