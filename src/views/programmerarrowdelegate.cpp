@@ -31,8 +31,6 @@ void ProgrammerArrowDelegate::paint(QPainter *painter, const QStyleOptionViewIte
     }
     if (dragWidget->hasFocus()) {
         QRectF itemrect(dragWidget->visualItemRect(dragWidget->currentItem()));
-        dragWidget->oneItemFocused();
-        static_cast<ProgrammerItemWidget *>(dragWidget->itemWidget(dragWidget->currentItem()))->setHover();
         QColor color(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name());
         painter->setBrush(color);
         painter->drawRect(itemrect); //背景填充

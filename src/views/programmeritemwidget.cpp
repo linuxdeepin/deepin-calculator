@@ -3,7 +3,7 @@
 #include <QPen>
 #include <QDomElement>
 
-ProgrammerItemWidget::ProgrammerItemWidget(QString label, const QIcon &icon, QWidget *parent)
+ProgrammerItemWidget::ProgrammerItemWidget(QString label, const QString path, QWidget *parent)
     : QWidget(parent)
     , m_iconbtn(new DIconButton(this))
     , m_label(new QLabel(label))
@@ -14,7 +14,7 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, const QIcon &icon, QWi
     m_iconbtn->setFocusPolicy(Qt::NoFocus);
     setFixedSize(QSize(250, 34));
     setAttribute(Qt::WA_TranslucentBackground, true);
-    m_iconbtn->setIcon(icon);
+    m_currentUrl = path;
     m_iconbtn->setFlat(true);
     m_iconbtn->setIconSize(QSize(34, 34)); //图片有边框，不能与ui图大小一致ui(20, 20)
     m_iconbtn->setAttribute(Qt::WA_TransparentForMouseEvents, true);
@@ -39,6 +39,7 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, const QIcon &icon, QWi
     markWidget->installEventFilter(this);
     markWidget->setMouseTracking(true);
     initMark();
+    m_isshift = true;
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             this, &ProgrammerItemWidget::themetypechanged);
@@ -68,6 +69,7 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, QWidget *parent)
     markWidget->installEventFilter(this);
     markWidget->setMouseTracking(true);
     initMark();
+    m_isshift = false;
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             this, &ProgrammerItemWidget::themetypechanged);
@@ -106,7 +108,10 @@ void ProgrammerItemWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)
         return;
-//    clearFocus();
+
+    if (m_ispress == true && this->rect().contains(event->pos())) {
+        m_ishover = true;
+    }
     m_ispress = false;
 
     update();
@@ -138,7 +143,8 @@ void ProgrammerItemWidget::paintEvent(QPaintEvent *e)
         pl1.setColor(DPalette::Text, text);
         pl1.setColor(DPalette::HighlightedText, text);
         m_label->setPalette(pl1);
-    } else if (m_ishover) {
+        m_currentUrl = m_pressUrl;
+    } else if (m_ishover || m_isfocus) {
         painter.setPen(Qt::NoPen);
         painter.setBrush(press);
         painter.drawRect(rect); //press状态下对item进行颜色填充
@@ -147,6 +153,7 @@ void ProgrammerItemWidget::paintEvent(QPaintEvent *e)
         pl1.setColor(DPalette::Text, text);
         pl1.setColor(DPalette::HighlightedText, text);
         m_label->setPalette(pl1);
+        m_currentUrl = m_hoverUrl;
     } else {
         DPalette pl1 = this->palette(); //按下时给label字体设置颜色
         if (m_themetype == 1) {
@@ -157,16 +164,21 @@ void ProgrammerItemWidget::paintEvent(QPaintEvent *e)
             pl1.setColor(DPalette::HighlightedText, QColor("#FFFFFF"));
         }
         m_label->setPalette(pl1);
+        m_currentUrl = m_normalUrl;
     }
     drawMark(&painter);
-    iconChanged(&painter);
+    if (m_isshift) {
+        m_pixmap.load(m_currentUrl);
+        drawIcon(&painter);
+    }
 }
 
 bool ProgrammerItemWidget::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::MouseMove) {
-        if (!m_ispress)
+        if (!m_ispress) {
             m_ishover = true;
+        }
         return false;
     }
     return QWidget::eventFilter(obj, event);
@@ -175,6 +187,16 @@ bool ProgrammerItemWidget::eventFilter(QObject *obj, QEvent *event)
 void ProgrammerItemWidget::cleanHoverState()
 {
     m_ishover = false;
+    update();
+}
+
+/**
+ * @brief ProgrammerItemWidget::cleanFocusState
+ * 取消focus状态
+ */
+void ProgrammerItemWidget::cleanFocusState()
+{
+    m_isfocus = false;
     update();
 }
 
@@ -196,7 +218,7 @@ void ProgrammerItemWidget::drawMark(QPainter *painter) const
         if (m_ispress) {
             color = QColor("#FFFFFF");
             color.setAlphaF(0.5);
-        } else if (m_ishover) {
+        } else if (m_ishover || m_isfocus) {
             color = QColor("#FFFFFF");
         } else {
             if (m_themetype == 1) {
@@ -231,84 +253,11 @@ void ProgrammerItemWidget::initMark()
  * @param status:0-normal 1-hover 2-press
  * 根据不同鼠标事件修改icon图片
  */
-void ProgrammerItemWidget::iconChanged(QPainter *painter) const
-{
-    QString path;
-    if (DGuiApplicationHelper::instance()->themeType() == 2) {
-        path = QString(":/assets/images/%1/").arg("dark");
-        if (m_ispress) {
-            if (m_label->text() == "算数移位") {
-                setIconDark(painter, path + "icon_as_hover.svg");
-            } else if (m_label->text() == "逻辑移位") {
-                setIconDark(painter, path + "icon_ls_hover.svg");
-            } else if (m_label->text() == "旋转循环移位") {
-                setIconDark(painter, path + "icon_ro_hover.svg");
-            } else if (m_label->text() == "循环移位旋转") {
-                setIconDark(painter, path + "icon_rc_hover.svg");
-            }
-        } else if (m_ishover) {
-            if (m_label->text() == "算数移位")
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_as_hover.svg"));
-            else if (m_label->text() == "逻辑移位") {
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_ls_hover.svg"));
-            } else if (m_label->text() == "旋转循环移位") {
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_ro_hover.svg"));
-            } else if (m_label->text() == "循环移位旋转") {
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_rc_hover.svg"));
-            }
-        } else {
-            if (m_label->text() == "算数移位")
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_as_normal.svg"));
-            else if (m_label->text() == "逻辑移位") {
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_ls_normal.svg"));
-            } else if (m_label->text() == "旋转循环移位") {
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_ro_normal.svg"));
-            } else if (m_label->text() == "循环移位旋转") {
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_rc_normal.svg"));
-            }
-        }
-    } else {
-        path = QString(":/assets/images/%1/").arg("light");
-        if (m_ispress) {
-            if (m_label->text() == "算数移位") {
-                setIconDark(painter, path + "icon_as_menuhover.svg");
-            } else if (m_label->text() == "逻辑移位") {
-                setIconDark(painter, path + "icon_ls_menuhover.svg");
-            } else if (m_label->text() == "旋转循环移位") {
-                setIconDark(painter, path + "icon_ro_menuhover.svg");
-            } else if (m_label->text() == "循环移位旋转") {
-                setIconDark(painter, path + "icon_rc_menuhover.svg");
-            }
-        } else if (m_ishover) {
-            if (m_label->text() == "算数移位")
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_as_menuhover.svg"));
-            else if (m_label->text() == "逻辑移位") {
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_ls_menuhover.svg"));
-            } else if (m_label->text() == "旋转循环移位") {
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_ro_menuhover.svg"));
-            } else if (m_label->text() == "循环移位旋转") {
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_rc_menuhover.svg"));
-            }
-        } else {
-            if (m_label->text() == "算数移位")
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_as_normal.svg"));
-            else if (m_label->text() == "逻辑移位") {
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_ls_normal.svg"));
-            } else if (m_label->text() == "旋转循环移位") {
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_ro_normal.svg"));
-            } else if (m_label->text() == "循环移位旋转") {
-                m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_rc_normal.svg"));
-            }
-        }
-    }
-
-}
-
-void ProgrammerItemWidget::setIconDark(QPainter *painter, QString path) const
+void ProgrammerItemWidget::drawIcon(QPainter *painter) const
 {
     painter->save();
 
-    QFile file(path);
+    QFile file(m_currentUrl);
     file.open(QIODevice::ReadOnly);
     QByteArray baData = file.readAll();
 
@@ -317,13 +266,12 @@ void ProgrammerItemWidget::setIconDark(QPainter *painter, QString path) const
 
     file.close();
 
-    //将svg文件中的fill颜色设置改为当前活动色
-    doc.documentElement().setAttribute("fill-opacity", 0.5);
+    if (m_ispress)
+        doc.documentElement().setAttribute("fill-opacity", 0.5);
     QRectF frameRect = m_iconbtn->rect();
     frameRect.moveTo(200, 0);
     m_iconRenderer->load(doc.toByteArray());
     m_iconRenderer->render(painter, frameRect);
-    m_iconbtn->setIcon(QIcon());
     painter->restore();
 }
 
@@ -335,14 +283,23 @@ void ProgrammerItemWidget::themetypechanged(int type)
         path = QString(":/assets/images/%1/").arg("dark");
     else
         path = QString(":/assets/images/%1/").arg("light");
-    if (m_label->text() == "算数移位")
-        m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_as_normal.svg"));
-    else if (m_label->text() == "逻辑移位") {
-        m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_ls_normal.svg"));
+
+    if (m_label->text() == "算数移位") {
+        m_normalUrl = path + "icon_as_normal.svg";
+        m_hoverUrl = path + "icon_as_menuhover.svg";
+        m_pressUrl = path + "icon_as_menuhover.svg";
+    } else if (m_label->text() == "逻辑移位") {
+        m_normalUrl = path + "icon_ls_normal.svg";
+        m_hoverUrl = path + "icon_ls_menuhover.svg";
+        m_pressUrl = path + "icon_ls_menuhover.svg";
     } else if (m_label->text() == "旋转循环移位") {
-        m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_ro_normal.svg"));
+        m_normalUrl = path + "icon_ro_normal.svg";
+        m_hoverUrl = path + "icon_ro_menuhover.svg";
+        m_pressUrl = path + "icon_ro_menuhover.svg";
     } else if (m_label->text() == "循环移位旋转") {
-        m_iconbtn->setIcon(QIcon::fromTheme(path + "icon_rc_normal.svg"));
+        m_normalUrl = path + "icon_rc_normal.svg";
+        m_hoverUrl = path + "icon_rc_menuhover.svg";
+        m_pressUrl = path + "icon_rc_menuhover.svg";
     }
 
     m_themetype = type;
@@ -357,8 +314,8 @@ void ProgrammerItemWidget::themetypechanged(int type)
     m_label->setPalette(pl1);
 }
 
-void ProgrammerItemWidget::setHover()
+void ProgrammerItemWidget::setFocus()
 {
-    m_ishover = true;
+    m_isfocus = true;
     update();
 }

@@ -42,6 +42,7 @@ MemoryListWidget::MemoryListWidget(QWidget *parent, bool isarrowlist)
 //    pal.setColor(DPalette::Light, QColor(248, 248, 248));
 //    this->setPalette(pal);
     setFocusPolicy(Qt::NoFocus); //防止内存无内容时被focus
+    m_isarrowlist = isarrowlist;
     if (isarrowlist) {
         setMouseTracking(true);
         installEventFilter(this);
@@ -61,6 +62,11 @@ void MemoryListWidget::mousePressEvent(QMouseEvent *event)
 //            this->itemAt(mousepoint)->setBackground(QBrush(QColor(0, 0, 0)));
             emit itempressed(m_clickrow);
         }
+    }
+
+    if (m_isarrowlist) {
+        static_cast<ProgrammerItemWidget *>(itemWidget(currentItem()))->cleanFocusState();
+        emit mousemoving();
     }
 
     QListWidget::mousePressEvent(event);
@@ -125,23 +131,47 @@ void MemoryListWidget::focusInEvent(QFocusEvent *event)
 //    if (currentRow() == -1)
 //        setCurrentRow(0);
     scrollToItem(this->item(currentRow()));
+    if (m_isarrowlist) {
+        cleanState();
+        static_cast<ProgrammerItemWidget *>(itemWidget(currentItem()))->setFocus();
+    }
     QWidget::focusInEvent(event);
+}
+
+void MemoryListWidget::focusOutEvent(QFocusEvent *event)
+{
+    if (m_isarrowlist) {
+        cleanState(true);
+    }
+    QListWidget::focusOutEvent(event);
 }
 
 bool MemoryListWidget::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::MouseMove) {
-        if (this->hasFocus())
+        if (this->hasFocus()) {
+            static_cast<ProgrammerItemWidget *>(itemWidget(currentItem()))->cleanFocusState();
             emit mousemoving();
+        }
         return true;
     }
     return QListWidget::eventFilter(obj, event);
 }
 
-void MemoryListWidget::oneItemFocused()
+/**
+ * @brief MemoryListWidget::cleanState
+ * @param isfocus:是否清除的是focus状态
+ * 用于arrowrectangle中的listwidget，清除所有行的当前状态
+ */
+void MemoryListWidget::cleanState(bool isfocus)
 {
-    for (int i = 0; i < 4; i++) {
-        static_cast<ProgrammerItemWidget *>(itemWidget(item(i)))->cleanHoverState();
+    if (m_isarrowlist) {
+        for (int i = 0; i < 4; i++) {
+            if (isfocus)
+                static_cast<ProgrammerItemWidget *>(itemWidget(item(i)))->cleanFocusState();
+            else
+                static_cast<ProgrammerItemWidget *>(itemWidget(item(i)))->cleanHoverState();
+        }
     }
 }
 

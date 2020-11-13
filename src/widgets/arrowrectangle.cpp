@@ -33,8 +33,8 @@ bool ArrowRectangle::eventFilter(QObject *obj, QEvent *event)
             return true;
         } else if (key_event->key() == Qt::Key_Tab && getContent()) {
             if (obj == this) {
+                static_cast<MemoryListWidget *>(getContent())->cleanState();
                 static_cast<MemoryListWidget *>(getContent())->setFocus(Qt::TabFocusReason);
-                static_cast<MemoryListWidget *>(getContent())->oneItemFocused();
                 return true;
             } else {
                 this->setFocus(Qt::TabFocusReason);
@@ -48,19 +48,23 @@ bool ArrowRectangle::eventFilter(QObject *obj, QEvent *event)
 void ArrowRectangle::focusInEvent(QFocusEvent *event)
 {
     if (event->reason() == Qt::TabFocusReason) {
+        static_cast<MemoryListWidget *>(getContent())->cleanState();
         static_cast<MemoryListWidget *>(getContent())->setFocus();
-        static_cast<MemoryListWidget *>(getContent())->oneItemFocused();
     }
     DArrowRectangle::focusInEvent(event);
+}
+
+/**
+ * @brief ArrowRectangle::keyPressEvent
+ * 防止按其他键时焦点移到输入栏
+ */
+void ArrowRectangle::keyPressEvent(QKeyEvent *event)
+{
+    Q_UNUSED(event);
+    return;
 }
 
 void ArrowRectangle::mouseMoveToClearFocus()
 {
     this->setFocus();
 }
-
-//void ArrowRectangle::mouseMoveEvent(QMouseEvent *event)
-//{
-//    this->setFocus();
-//    QWidget::mouseMoveEvent(event);
-//}

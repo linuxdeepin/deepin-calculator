@@ -192,14 +192,14 @@ void ProgramModule::handleKeypadButtonPress(int key)
         static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setBtnPressing(true);
         m_byteArrowRectangle->setHidden(false);
         setwidgetAttribute(true);
-        m_byteArrowRectangle->setFocus();
+        m_byteArrowRectangle->setFocus(Qt::MouseFocusReason);
         pagefocus = true;
         break;
     case ProCheckBtnKeypad::Key_Option:
         static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setBtnPressing(true);
         m_shiftArrowRectangle->setHidden(false);
         setwidgetAttribute(true);
-        m_shiftArrowRectangle->setFocus();
+        m_shiftArrowRectangle->setFocus(Qt::MouseFocusReason);
         pagefocus = true;
         break;
     case ProCheckBtnKeypad::Key_Mlist:
@@ -809,25 +809,25 @@ void ProgramModule::initArrowRectangle()
     m_shiftArrowListWidget->setFrameShape(QFrame::NoFrame); //设置边框类型，无边框
     m_shiftArrowListWidget->setAttribute(Qt::WA_TranslucentBackground, true);
     QListWidgetItem *item1 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget1 = new ProgrammerItemWidget("算数移位", QIcon::fromTheme(path + "icon_as_normal.svg"));
+    ProgrammerItemWidget *itemwidget1 = new ProgrammerItemWidget("算数移位", path + "icon_as_normal.svg");
     item1->setFlags(Qt::NoItemFlags);
     item1->setSizeHint(QSize(250, 34));
     m_shiftArrowListWidget->insertItem(0, item1);
     m_shiftArrowListWidget->setItemWidget(item1, itemwidget1);
     QListWidgetItem *item2 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget2 = new ProgrammerItemWidget("逻辑移位", QIcon::fromTheme(path + "icon_ls_normal.svg"));
+    ProgrammerItemWidget *itemwidget2 = new ProgrammerItemWidget("逻辑移位", path + "icon_ls_normal.svg");
     item2->setFlags(Qt::NoItemFlags);
     item2->setSizeHint(QSize(250, 34));
     m_shiftArrowListWidget->insertItem(1, item2);
     m_shiftArrowListWidget->setItemWidget(item2, itemwidget2);
     QListWidgetItem *item3 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget3 = new ProgrammerItemWidget("旋转循环移位", QIcon::fromTheme(path + "icon_ro_normal.svg"));
+    ProgrammerItemWidget *itemwidget3 = new ProgrammerItemWidget("旋转循环移位", path + "icon_ro_normal.svg");
     item3->setFlags(Qt::NoItemFlags);
     item3->setSizeHint(QSize(250, 34));
     m_shiftArrowListWidget->insertItem(2, item3);
     m_shiftArrowListWidget->setItemWidget(item3, itemwidget3);
     QListWidgetItem *item4 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget4 = new ProgrammerItemWidget("循环移位旋转", QIcon::fromTheme(path + "icon_rc_normal.svg"));
+    ProgrammerItemWidget *itemwidget4 = new ProgrammerItemWidget("循环移位旋转", path + "icon_rc_normal.svg");
     item4->setFlags(Qt::NoItemFlags);
     item4->setSizeHint(QSize(250, 34));
     m_shiftArrowListWidget->insertItem(3, item4);
@@ -951,6 +951,8 @@ void ProgramModule::initArrowRectangle()
         default:
             break;
         }
+        m_byteArrowListWidget->cleanState(true);
+        static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->currentItem()))->setFocus();
     });
     connect(m_shiftArrowListWidget, &MemoryListWidget::focus, this, [ = ](int direction) {
         switch (direction) { //只有listwidget在focus状态才会触发keypress,所以此处未进行hasfocus判断
@@ -969,6 +971,8 @@ void ProgramModule::initArrowRectangle()
         default:
             break;
         }
+        m_shiftArrowListWidget->cleanState(true);
+        static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->currentItem()))->setFocus();
     });
     //鼠标移动时清除focus状态
     connect(m_byteArrowListWidget, &MemoryListWidget::mousemoving, m_byteArrowRectangle, &ArrowRectangle::mouseMoveToClearFocus);

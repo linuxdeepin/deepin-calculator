@@ -18,7 +18,7 @@ class ProgrammerItemWidget : public QWidget
 {
     Q_OBJECT
 public:
-    ProgrammerItemWidget(QString label, const QIcon &icon, QWidget *parent = nullptr);
+    ProgrammerItemWidget(QString label, const QString path, QWidget *parent = nullptr);
     ProgrammerItemWidget(QString label, QWidget *parent = nullptr);
     ~ProgrammerItemWidget();
     void enterEvent(QEvent *event);
@@ -28,25 +28,27 @@ public:
     void paintEvent(QPaintEvent *e);
     bool eventFilter(QObject *obj, QEvent *event);
     void cleanHoverState();
+    void cleanFocusState();
     void isMarkHide(bool ishide);
 
 public slots:
     void themetypechanged(int type);
-    void setHover();
+    void setFocus();
 
 private:
     void drawMark(QPainter *painter) const;
     void initMark();
-    void iconChanged(QPainter *painter) const;
-    void setIconDark(QPainter *painter, QString path) const;
+    void drawIcon(QPainter *painter) const;
 
 private:
     DIconButton *m_iconbtn;
     QLabel *m_label;
     bool m_ispress = false;
     bool m_ishover = false;
+    bool m_isfocus = false;
     int m_themetype = 1;
     QSvgRenderer *m_iconRenderer;
+    bool m_isshift = false; //判断是数据的列表还是移位的列表
 
     //画一个勾
     QPoint m_markstart;
@@ -55,6 +57,13 @@ private:
     QVector<QPoint> m_pointVec;
     QPen m_markPen;
     bool m_isMarkHide = true;
+
+    //画一张图
+    QPixmap m_pixmap;
+    QString m_normalUrl = QString();
+    QString m_hoverUrl;
+    QString m_pressUrl;
+    QString m_currentUrl = QString();
 };
 
 #endif // PROGRAMMERITEMWIDGET_H

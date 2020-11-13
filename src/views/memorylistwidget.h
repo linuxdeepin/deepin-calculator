@@ -39,8 +39,9 @@ public:
     void mouseReleaseEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *e);
     void focusInEvent(QFocusEvent *event);
+    void focusOutEvent(QFocusEvent *event);
     bool eventFilter(QObject *obj, QEvent *event);
-    void oneItemFocused();
+    void cleanState(bool isfocus = false);
 
 signals:
     void itempressed(int row);
@@ -54,6 +55,7 @@ private:
     QPoint m_mousepoint;
     QPoint m_mousemovepoint;//鼠标的实时全局位置
     int m_clickrow = -1;
+    bool m_isarrowlist = false;
 
 public slots:
 //    void on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
