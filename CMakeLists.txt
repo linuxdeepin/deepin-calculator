@@ -13,7 +13,7 @@ add_subdirectory(src)
 #开关默认UT测试关闭
 #QT左侧栏项目中找到USE_TEST键值，点击打开即可测试
 #若无法点击开关，尝试工具-选项-环境-Theme切换至dark
-option(USE_TEST "UT" no)
-if (USE_TEST)
+#option(USE_TEST "UT" no)
+#if (USE_TEST)
 add_subdirectory(tests)  #tests为ut测试文件夹名
-endif(USE_TEST)
+#endif(USE_TEST)

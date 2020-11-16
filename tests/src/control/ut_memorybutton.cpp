@@ -20,9 +20,14 @@ TEST_F(Ut_MemoryButton, initanimate)
 TEST_F(Ut_MemoryButton, setbtnlight)
 {
     MemoryButton *m_memorybutton = new MemoryButton;
+    DSettingsAlt *m_dsetting = new DSettingsAlt;
     m_memorybutton->setbtnlight(true);
     m_memorybutton->setbtnlight(false);
-    ASSERT_EQ(m_memorybutton->text(), "M˅");
+    if (m_dsetting->getOption("mode") == 1)
+        ASSERT_EQ(m_memorybutton->text(), "MH˅");
+    else
+        ASSERT_EQ(m_memorybutton->text(), "M˅");
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_MemoryButton, setbuttongray)
