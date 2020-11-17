@@ -953,6 +953,57 @@ QString InputEdit::formatBinaryNumber(const QString num)
             return str;
         }
     }
+    return "0";
+}
+
+/**
+ * @brief InputEdit::formatExpression
+ * @param text:格式化前的内容
+ * @return 格式化后的text
+ * 用于进制转换时和计算时插入进制标志
+ */
+QString InputEdit::formatExpression(const QString &text)
+{
+    QString formattext = text;
+    formattext.replace(QString::fromUtf8("＋"), "+")
+    .replace(QString::fromUtf8("－"), "-")
+    .replace(QString::fromUtf8("×"), "*")
+    .replace(QString::fromUtf8("÷"), "/")
+    .replace(QString::fromUtf8(","), "")
+    .replace(QString::fromUtf8(" "), "");
+
+    QString base = QString();
+    switch (Settings::instance()->programmerBase) {
+    case 16:
+        base = "0x";
+        break;
+    case 8:
+        base = "0o";
+        break;
+    case 2:
+        base = "0b";
+        break;
+    default:
+        break;
+    }
+    if (base != QString()) {
+        for (int i = 0; i < formattext.length();) {
+            if ((i == 0) && isNumber(formattext.at(i))) {
+                formattext.insert(i, base);
+                i += 3;
+                qDebug() << "1" << i << formattext;
+                continue;
+            } else if (!isNumber(formattext.at(i)) && isNumber(formattext.at(i + 1))) {
+                formattext.insert(i + 1, base);
+                i += 3;
+                qDebug() << "2" << i << formattext;
+                continue;
+            }
+            i++;
+            qDebug() << "3" << i << formattext;
+        }
+    }
+    return formattext;
 }
 
 void InputEdit::focusInEvent(QFocusEvent *event)

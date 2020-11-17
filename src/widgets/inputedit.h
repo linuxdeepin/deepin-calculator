@@ -47,18 +47,16 @@ public:
     ~InputEdit();
 
     QString expressionText();
-//    QString expressionPercent(QString &str); // edit for bug-19653,当对超过17位的数进行百分号处理时，保留超过精度的部分。
     void setAnswer(const QString &str, const Quantity &ans);
     void clear();
     SSelection getSelection() { return m_selected; }
     void setSelection(SSelection select) { m_selected = select; }
-//    void setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans,
-//                          const int &Pos); //str1-完整表达式 str2, ans-百分比计算结果 Pos-光标位置
     QPair<bool, Quantity> getMemoryAnswer(); //edit 20200507,获取上一次计算的全精度结果，用于数字内存。
     QString symbolComplement(const QString exp);
     void getCurrentCursorPositionNumber(const int pos);//获取当前光标所在位置对应的数字
-    bool isNumber(QChar a);//判断是否为数字(分隔符)
+    static bool isNumber(QChar a);//判断是否为数字(分隔符)
     QString formatBinaryNumber(const QString num);//清除二进制前多余的0
+    static QString formatExpression(const QString &text);
     void focusInEvent(QFocusEvent *event);
 
 public slots:
@@ -94,10 +92,6 @@ protected:
 
 private slots:
     void initAction();
-//    bool isSymbolCategoryChanged(int pos1, int pos2);
-//    int findWordBeginPosition(int pos);
-//    int findWordEndPosition(int pos);
-//    void handleTextChanged(const QString &text);
     void handleCursorPositionChanged(int oldPos, int newPos);
     void BracketCompletion(QKeyEvent *e);
     QString pointFaultTolerance(const QString &text);

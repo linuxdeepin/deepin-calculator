@@ -373,7 +373,7 @@ void ProExpressionBar::enterEqualEvent()
     if (m_inputEdit->text().isEmpty()) {
         return;
     }
-    const QString expression = formatExpression(m_inputEdit->expressionText());
+    const QString expression = InputEdit::formatExpression(m_inputEdit->text());
     QString exp1 = symbolComplement(expression);
     m_evaluator->setExpression(exp1);
     Quantity ans = m_evaluator->evalUpdateAns();
@@ -389,7 +389,20 @@ void ProExpressionBar::enterEqualEvent()
         }
         //edit 20200413 for bug--19653
         QString result;
-        result = DMath::format(ans, Quantity::Format::General());
+        switch (Settings::instance()->programmerBase) {
+        case 16:
+            result = DMath::format(ans, Quantity::Format::Fixed() + Quantity::Format::Hexadecimal()).remove("0x");
+            break;
+        case 8:
+            result = DMath::format(ans, Quantity::Format::Fixed() + Quantity::Format::Octal()).remove("0o");
+            break;
+        case 2:
+            result = DMath::format(ans, Quantity::Format::Fixed() + Quantity::Format::Binary()).remove("0b");
+            break;
+        default:
+            result = DMath::format(ans, Quantity::Format::Fixed());
+            break;
+        }
         QString formatResult = Utils::formatThousandsSeparators(result);
         formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                        .replace(QString::fromUtf8("－"), "-")
@@ -1103,16 +1116,6 @@ void ProExpressionBar::expressionCheck()
     }
     m_inputEdit->setText(exp);
     m_inputEdit->setCursorPosition(cur + separator);
-}
-
-QString ProExpressionBar::formatExpression(const QString &text)
-{
-    return QString(text)
-           .replace(QString::fromUtf8("＋"), "+")
-           .replace(QString::fromUtf8("－"), "-")
-           .replace(QString::fromUtf8("×"), "*")
-           .replace(QString::fromUtf8("÷"), "/")
-           .replace(QString::fromUtf8(","), "");
 }
 
 /**
