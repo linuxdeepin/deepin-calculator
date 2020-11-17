@@ -526,6 +526,7 @@ void InputEdit::radixChanged(int base)
     m_opvec.clear();
     m_textorder = QString();
     QString oldtext = this->text();
+    oldtext.remove("，").remove(" ");
     for (int i = 0; i < oldtext.length();) {
         if (isNumber(oldtext.at(i))) {
             for (int j = 0; j < oldtext.length() - i; j++) {
