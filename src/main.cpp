@@ -103,7 +103,6 @@ int main(int argc, char *argv[])
     g_appPath = QDir::homePath() + QDir::separator() + "." + qApp->applicationName();
     QDir t_appDir;
     t_appDir.mkpath(g_appPath);
-    app->loadTranslator();
     app->setOrganizationName("deepin");
     app->setApplicationName("deepin-calculator");
     app->setApplicationAcknowledgementPage(
@@ -117,6 +116,7 @@ int main(int argc, char *argv[])
     app->setApplicationVersion(VERSION);
     app->setQuitOnLastWindowClosed(true);
     app->setApplicationDisplayName(QObject::tr("Calculator"));
+    app->loadTranslator();
     // app.setStyle("chameleon");
 
     QDBusConnection dbus = QDBusConnection::sessionBus();
