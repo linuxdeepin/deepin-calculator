@@ -68,8 +68,8 @@ InputEdit::InputEdit(QWidget *parent)
 
     connect(this, &QLineEdit::textChanged, this, &InputEdit::isExpressionEmpty);
 
-    m_funclist = {"arcsin", "arccos", "arctan", "arccot", "sin", "cos", "tan", "cot"
-                  , "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π"
+    m_funclist = {"and",  "not", "xor", "nand", "nor", "mod", "or",
+                  "shl", "shr", "sal", "sar", "rol", "ror", "rcl", "rcr"
                  };
 }
 
@@ -423,7 +423,6 @@ void InputEdit::valueChangeFromProSyskeypad(const QString num)
         while (numend < text.length() && isNumber(text.at(numend))) {
             numend++;
         }
-//        currentnum = text.mid(numstart, numend - numstart);
         text.remove(numstart, numend - numstart).insert(numstart, number);
     }
     this->setText(text);
@@ -515,6 +514,86 @@ void InputEdit::handleTextChanged(const QString &text)
     m_selected.oldText = this->text(); //选中输入情况下清空被选部分
     m_selected.selected = selectedText();
     m_selected.curpos = selectionStart() < selectionEnd() ? selectionStart() : selectionEnd();
+}
+
+/**
+ * @brief InputEdit::radixChanged
+ * 当进制表切换时，输入栏中对应的值需要同步切换
+ */
+void InputEdit::radixChanged(int base)
+{
+    m_numvec.clear();
+    m_opvec.clear();
+    m_textorder = QString();
+    QString oldtext = this->text();
+    for (int i = 0; i < oldtext.length();) {
+        if (isNumber(oldtext.at(i))) {
+            for (int j = 0; j < oldtext.length() - i; j++) {
+                if (i + j == oldtext.length() - 1) {
+                    m_numvec.append(oldtext.mid(i, j - i));
+                    m_textorder += "0";
+                    i += j + 1;
+                    break;
+                }
+                if (!isNumber(oldtext.at(i + j))) {
+                    m_numvec.append(oldtext.mid(i, j));
+                    m_textorder += "0";
+                    i += j;
+                    break;
+                }
+            }
+        } else {
+            if (oldtext.at(i).isLower()) {
+                if (oldtext.at(i) == 'n' && oldtext.at(i + 1) == 'a') {
+                    m_opvec.append(oldtext.mid(i, 4));
+                    m_textorder += "1";
+                    i += 4;
+                } else if (oldtext.at(i) == 'o') {
+                    m_opvec.append(oldtext.mid(i, 2));
+                    m_textorder += "1";
+                    i += 2;
+                } else {
+                    m_opvec.append(oldtext.mid(i, 3));
+                    m_textorder += "1";
+                    i += 3;
+                }
+            } else {
+                m_opvec.append(oldtext.at(i));
+                m_textorder += "1";
+                i++;
+            }
+        }
+    }
+    for (int i = 0; i < m_numvec.size(); i++) {
+        QString num = formatExpression(base, m_numvec.at(i));
+        Quantity ans(HNumber(num.toLatin1().data()));
+        switch (Settings::instance()->programmerBase) {
+        case 16:
+            num = DMath::format(ans, Quantity::Format::Fixed() + Quantity::Format::Hexadecimal()).remove("0x");
+            break;
+        case 8:
+            num = DMath::format(ans, Quantity::Format::Fixed() + Quantity::Format::Octal()).remove("0o");
+            break;
+        case 2:
+            num = DMath::format(ans, Quantity::Format::Fixed() + Quantity::Format::Binary()).remove("0b");
+            break;
+        default:
+            num = DMath::format(ans, Quantity::Format::Fixed());
+            break;
+        }
+        m_numvec.replace(i, num);
+    }
+    QString newtext = QString();
+    for (int i = 0; i < m_textorder.length(); i++) {
+        if (m_textorder.at(i) == "0") {
+            newtext.append(m_numvec.first());
+            m_numvec.pop_front();
+        } else {
+            newtext.append(m_opvec.first());
+            m_opvec.pop_front();
+        }
+    }
+    this->setText(newtext);
 }
 
 /**
@@ -962,7 +1041,7 @@ QString InputEdit::formatBinaryNumber(const QString num)
  * @return 格式化后的text
  * 用于进制转换时和计算时插入进制标志
  */
-QString InputEdit::formatExpression(const QString &text)
+QString InputEdit::formatExpression(const int &probase, const QString &text)
 {
     QString formattext = text;
     formattext.replace(QString::fromUtf8("＋"), "+")
@@ -973,7 +1052,7 @@ QString InputEdit::formatExpression(const QString &text)
     .replace(QString::fromUtf8(" "), "");
 
     QString base = QString();
-    switch (Settings::instance()->programmerBase) {
+    switch (probase) {
     case 16:
         base = "0x";
         break;
@@ -991,16 +1070,13 @@ QString InputEdit::formatExpression(const QString &text)
             if ((i == 0) && isNumber(formattext.at(i))) {
                 formattext.insert(i, base);
                 i += 3;
-                qDebug() << "1" << i << formattext;
                 continue;
             } else if (!isNumber(formattext.at(i)) && isNumber(formattext.at(i + 1))) {
                 formattext.insert(i + 1, base);
                 i += 3;
-                qDebug() << "2" << i << formattext;
                 continue;
             }
             i++;
-            qDebug() << "3" << i << formattext;
         }
     }
     return formattext;

@@ -373,7 +373,7 @@ void ProExpressionBar::enterEqualEvent()
     if (m_inputEdit->text().isEmpty()) {
         return;
     }
-    const QString expression = InputEdit::formatExpression(m_inputEdit->text());
+    const QString expression = InputEdit::formatExpression(Settings::instance()->programmerBase, m_inputEdit->text());
     QString exp1 = symbolComplement(expression);
     m_evaluator->setExpression(exp1);
     Quantity ans = m_evaluator->evalUpdateAns();

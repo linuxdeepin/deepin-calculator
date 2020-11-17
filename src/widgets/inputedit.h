@@ -56,7 +56,7 @@ public:
     void getCurrentCursorPositionNumber(const int pos);//获取当前光标所在位置对应的数字
     static bool isNumber(QChar a);//判断是否为数字(分隔符)
     QString formatBinaryNumber(const QString num);//清除二进制前多余的0
-    static QString formatExpression(const QString &text);
+    static QString formatExpression(const int &probase, const QString &text);
     void focusInEvent(QFocusEvent *event);
 
 public slots:
@@ -69,6 +69,7 @@ public slots:
     void themetypechanged(int type);
     void valueChangeFromProSyskeypad(const QString num);
     void handleTextChanged(const QString &text);
+    void radixChanged(int base);
 
 Q_SIGNALS:
     void keyPress(QKeyEvent *);
@@ -128,6 +129,10 @@ private:
     //支持的功能列表
     QList<QString> m_funclist; //科学模式下函数名列表
     QString m_strans;
+    //进制切换时用于替换所有数字
+    QVector<QString> m_numvec;
+    QVector<QString> m_opvec;
+    QString m_textorder;
 };
 
 #endif

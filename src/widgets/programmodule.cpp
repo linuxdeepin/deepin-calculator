@@ -720,6 +720,7 @@ void ProgramModule::radixListChange(const QModelIndex &index, bool isspace)
     if (!isspace)
         m_proExpressionBar->getInputEdit()->setFocus();
     m_programmerKeypad->radixChanged(index.row());
+    int oldbase = Settings::instance()->programmerBase;
     switch (index.row()) {
     case 0:
         Settings::instance()->programmerBase = 16;
@@ -737,6 +738,7 @@ void ProgramModule::radixListChange(const QModelIndex &index, bool isspace)
         Settings::instance()->programmerBase = 10;
         break;
     }
+    m_proExpressionBar->getInputEdit()->radixChanged(oldbase);
 }
 
 /**
