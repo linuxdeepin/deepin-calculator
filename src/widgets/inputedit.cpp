@@ -531,7 +531,7 @@ void InputEdit::radixChanged(int base)
         if (isNumber(oldtext.at(i))) {
             for (int j = 0; j < oldtext.length() - i; j++) {
                 if (i + j == oldtext.length() - 1) {
-                    m_numvec.append(oldtext.mid(i, j - i));
+                    m_numvec.append(oldtext.mid(i, j + 1));
                     m_textorder += "0";
                     i += j + 1;
                     break;
@@ -557,6 +557,22 @@ void InputEdit::radixChanged(int base)
                     m_opvec.append(oldtext.mid(i, 3));
                     m_textorder += "1";
                     i += 3;
+                }
+            } else if (i == 0 && oldtext.at(i) == QString::fromUtf8("－") && oldtext.length() > 1 && isNumber(oldtext.at(i + 1))) {
+                i++;
+                for (int j = 0; j < oldtext.length() - i; j++) {
+                    if (i + j == oldtext.length() - 1) {
+                        m_numvec.append(oldtext.mid(i - 1, j + 2));
+                        m_textorder += "0";
+                        i += j + 1;
+                        break;
+                    }
+                    if (!isNumber(oldtext.at(i + j))) {
+                        m_numvec.append(oldtext.mid(i - 1, j + 1));
+                        m_textorder += "0";
+                        i += j;
+                        break;
+                    }
                 }
             } else {
                 m_opvec.append(oldtext.at(i));
