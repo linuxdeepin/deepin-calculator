@@ -99,7 +99,7 @@ public:
     struct Format {
         enum class Base { Null, Binary, Decimal, Octal, Hexadecimal };
         enum class RadixChar { Null, Point, Comma };
-        enum class Mode { Null, General, Fixed, Scientific, Engineering };
+        enum class Mode { Null, General, Fixed, Scientific, Engineering, Complement};
 
         Base base;
         RadixChar radixChar;
@@ -125,6 +125,7 @@ public:
         static Format Fixed();
         static Format Scientific();
         static Format Engineering();
+        static Format Complement();
     };
 };
 

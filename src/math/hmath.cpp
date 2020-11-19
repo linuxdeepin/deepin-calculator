@@ -730,6 +730,13 @@ HNumber::Format HNumber::Format::Engineering()
     return result;
 }
 
+HNumber::Format HNumber::Format::Complement()
+{
+    Format result;
+    result.mode = Mode::Complement;
+    return result;
+}
+
 namespace {
 
 char *_doFormat(cfloatnum x, signed char base, signed char expbase, char outmode, int prec,
@@ -863,6 +870,22 @@ char *formatGeneral(cfloatnum x, int prec, int base = 10)
     return str;
 }
 
+/**
+ add jingzhou 20201118,增加补码方式的格式化
+ */
+char *formatComplement(cfloatnum x, int prec, int base = 10)
+{
+    unsigned flags = IO_FLAG_SUPPRESS_PLUS + IO_FLAG_SUPPRESS_DOT + IO_FLAG_SUPPRESS_EXPZERO;
+    if (base != 10)
+        flags += IO_FLAG_SHOW_BASE + IO_FLAG_SHOW_EXPBASE;
+    if (prec < 0) {
+        flags |= IO_FLAG_SUPPRESS_TRL_ZERO;
+        prec = HMATH_MAX_SHOWN;
+    }
+    char *result = _doFormat(x, base, base, IO_MODE_COMPLEMENT, prec, flags);
+    return result;
+}
+
 } /* unnamed namespace */
 
 /**
@@ -902,6 +925,9 @@ QString HMath::format(const HNumber &hn, HNumber::Format format)
         break;
     case HNumber::Format::Mode::Engineering:
         rs = formatEngineering(&hn.d->fnum, format.precision, base);
+        break;
+    case HNumber::Format::Mode::Complement:
+        rs = formatComplement(&hn.d->fnum, format.precision, base);
         break;
     case HNumber::Format::Mode::General:
     default:

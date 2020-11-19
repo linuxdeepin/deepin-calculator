@@ -586,13 +586,13 @@ void InputEdit::radixChanged(int base)
         Quantity ans(HNumber(num.toLatin1().data()));
         switch (Settings::instance()->programmerBase) {
         case 16:
-            num = DMath::format(ans, Quantity::Format::Fixed() + Quantity::Format::Hexadecimal()).remove("0x");
+            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("sF").remove("0x");
             break;
         case 8:
-            num = DMath::format(ans, Quantity::Format::Fixed() + Quantity::Format::Octal()).remove("0o");
+            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Octal()).remove("s7").remove("0o");
             break;
         case 2:
-            num = DMath::format(ans, Quantity::Format::Fixed() + Quantity::Format::Binary()).remove("0b");
+            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("s1").remove("0b");
             break;
         default:
             num = DMath::format(ans, Quantity::Format::Fixed());
