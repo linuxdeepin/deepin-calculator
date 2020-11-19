@@ -1091,6 +1091,10 @@ int cattokensbin(char *buf, int bufsz, p_otokens tokens, signed char expbase, un
     ioparams = getioparams(base);
     basetag = _decodebase(base);
     comlength = bitlength - strlen(tokens->intpart.buf);
+    if(comlength <=0)
+    {
+        comlength = 65;
+    }
     char cmpltag[comlength];
     if(comlength >=0)
     {
@@ -1103,7 +1107,7 @@ int cattokensbin(char *buf, int bufsz, p_otokens tokens, signed char expbase, un
     if ((flags & IO_FLAG_SHOW_BASE) != 0)
       printbasetag = 1;
     printcmpl = tokens->sign == IO_SIGN_COMPLEMENT
-                    && (flags & IO_FLAG_SUPPRESS_CMPL) == 0;
+                    && (flags & IO_FLAG_SUPPRESS_CMPL) == 0 && (comlength < 65);
     printsign = !printcmpl
                 && tokens->sign != IO_SIGN_NONE
                 && (tokens->sign != IO_SIGN_PLUS
@@ -1145,7 +1149,7 @@ int cattokensbin(char *buf, int bufsz, p_otokens tokens, signed char expbase, un
       sz += 1;
     if (printbasetag)
       sz += strlen(basetag);
-    if (printcmpl && comlength >= 0)
+    if (printcmpl)
     {
       for (int i = 0;i < comlength;i++) {
           strcat(cmpltag, "1");
