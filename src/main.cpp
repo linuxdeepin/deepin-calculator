@@ -107,6 +107,7 @@ int main(int argc, char *argv[])
     app->setApplicationName("deepin-calculator");
     app->setApplicationAcknowledgementPage(
         "https://www.deepin.org/acknowledgments/deepin-calculator");
+    app->loadTranslator();
     QIcon t_icon = QIcon::fromTheme("deepin-calculator");
     app->setProductIcon(t_icon);
     app->setProductName(DApplication::translate("MainWindow", "Calculator"));
@@ -116,7 +117,6 @@ int main(int argc, char *argv[])
     app->setApplicationVersion(VERSION);
     app->setQuitOnLastWindowClosed(true);
     app->setApplicationDisplayName(QObject::tr("Calculator"));
-    app->loadTranslator();
     // app.setStyle("chameleon");
 
     QDBusConnection dbus = QDBusConnection::sessionBus();
