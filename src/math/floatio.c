@@ -1043,3 +1043,159 @@ cattokens(
   }
   return sz;
 }
+
+int cattokensbin(char *buf, int bufsz, p_otokens tokens, signed char expbase, unsigned flags, int bitlength)
+{
+    int sz;
+    int fraclg;
+    int comlength = 0;
+    p_ioparams ioparams;
+    char* expbegin;
+    char* expend;
+//    char* cmpltag = "";
+    char* basetag;
+    char* expbasetag;
+    signed char base;
+    char dot;
+    char cbuf[2];
+    char printsign;
+    char printbasetag;
+    char printcmpl;
+    char printleading0;
+    char printdot;
+    char printexp;
+    char printexpsign = 0;
+    char printexpbase = 0;
+    char printexpbegin;
+    char printexpend;
+    char exp[BITS_IN_BINEXP+2];
+    t_buffer expBuf;
+
+    expBuf.sz = sizeof(exp);
+    expBuf.buf = exp;
+    cbuf[1] = '\0';
+    fraclg = 0;
+    if (!_isempty(tokens->fracpart.buf))
+    {
+      fraclg = strlen(tokens->fracpart.buf) - 1;
+      if ((flags & IO_FLAG_SUPPRESS_TRL_ZERO) != 0)
+        while (fraclg >= 0 && tokens->fracpart.buf[fraclg] == '0')
+          --fraclg;
+      ++fraclg;
+    }
+    ioparams = getioparams(IO_BASE_DEFAULT);
+    base = tokens->base;
+    printbasetag = !_isspecial(base)
+                   && (flags & IO_FLAG_SUPPRESS_BASETAG) == 0
+                   && (ioparams == NULL || ioparams->base != base);
+    ioparams = getioparams(base);
+    basetag = _decodebase(base);
+    comlength = bitlength - strlen(tokens->intpart.buf);
+    char cmpltag[comlength];
+    if(comlength >=0)
+    {
+        memset(cmpltag,0,comlength);
+    }
+//    cmpltag = _decodecomplement(tokens->sign, base);
+    expbasetag = NULL;
+    if (base == IO_BASE_DEFAULT)
+      flags |= IO_FLAG_SUPPRESS_DOT | IO_FLAG_SUPPRESS_LDG_ZERO;
+    if ((flags & IO_FLAG_SHOW_BASE) != 0)
+      printbasetag = 1;
+    printcmpl = tokens->sign == IO_SIGN_COMPLEMENT
+                    && (flags & IO_FLAG_SUPPRESS_CMPL) == 0;
+    printsign = !printcmpl
+                && tokens->sign != IO_SIGN_NONE
+                && (tokens->sign != IO_SIGN_PLUS
+                    || (flags & IO_FLAG_SUPPRESS_PLUS) == 0);
+    printleading0 = _isempty(tokens->intpart.buf)
+                    && (flags & IO_FLAG_SUPPRESS_LDG_ZERO) == 0;
+    printdot = fraclg > 0 || (flags & IO_FLAG_SUPPRESS_DOT) == 0;
+    printexp = base != IO_BASE_NAN && base != IO_BASE_ZERO
+               && ((flags & IO_FLAG_SUPPRESS_EXPZERO) == 0
+                    || tokens->exp != 0);
+    if (printexp)
+    {
+      if (expbase < 2)
+        expbase = ioparams->expbase;
+      expbasetag = _decodebase(expbase);
+  //    printexpsign = tokens->exp > 0 || tokens->exp < 0
+  //                   || (flags & IO_FLAG_SUPPRESS_EXPPLUS) == 0;   // edit for bug-18136,add exp > 0
+      printexpsign = 1; //edit for bug-39849,0需要显示为+0
+      printexpbase = expbasetag != NULL
+                     && (flags & IO_FLAG_SUPPRESS_EXPBASE) == 0
+                     && (_isempty(basetag)
+                         || strcmp(basetag, expbasetag) != 0);
+      if ((flags & IO_FLAG_SHOW_EXPBASE) != 0)
+        printexpbase = 1;
+    }
+    dot = '.';
+    expbegin = "(";
+    expend = ")";
+    if (ioparams != NULL)
+    {
+      dot = ioparams->dot;
+      expbegin = ioparams->expbegin;
+      expend = ioparams->expend;
+    }
+    printexpbegin = *expbegin != '\0';
+    printexpend = *expend != '\0' && *expend != ' ';
+    sz = 1;
+    if (printsign)
+      sz += 1;
+    if (printbasetag)
+      sz += strlen(basetag);
+    if (printcmpl && comlength >= 0)
+    {
+      for (int i = 0;i < comlength;i++) {
+          strcat(cmpltag, "1");
+      }
+      sz += comlength;
+    }
+    if (printleading0)
+      ++sz;
+    if (!_isempty(tokens->intpart.buf))
+      sz += strlen(tokens->intpart.buf);
+    if (printdot)
+      sz += 1;
+    sz += fraclg;
+    if (printexp)
+    {
+      exp2str(&expBuf, tokens->exp, expbase);
+      if (printexpbegin)
+        ++sz;
+      if (printexpsign)
+        sz += 1;
+      if (printexpbase)
+        sz += strlen(expbasetag);
+      sz += strlen(expBuf.buf);
+      if (printexpend)
+        ++sz;
+    }
+    if (sz <= bufsz)
+    {
+      *buf = '\0';
+      cbuf[0] = _decodesign(tokens->sign);
+      _cattoken(buf, cbuf, printsign);
+      _cattoken(buf, basetag, printbasetag);
+      _cattoken(buf, cmpltag, printcmpl);
+      _cattoken(buf, "0", printleading0);
+      _cattoken(buf, tokens->intpart.buf, 1);
+      cbuf[0] = dot;
+      _cattoken(buf, cbuf, printdot);
+      if (fraclg > 0)
+        strncat(buf, tokens->fracpart.buf, fraclg);
+      if (printexp)
+      {
+        cbuf[0] = *expbegin;
+        _cattoken(buf, cbuf, printexpbegin);
+        cbuf[0] = _decodesign(tokens->exp < 0? -1:1);
+        _cattoken(buf, cbuf, printexpsign);
+        _cattoken(buf, expbasetag, printexpbase);
+        strcat(buf, expBuf.buf);
+        cbuf[0] = *expend;
+        _cattoken(buf, cbuf, printexpend);
+      }
+    }
+    return sz;
+}

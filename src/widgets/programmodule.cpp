@@ -649,15 +649,19 @@ void ProgramModule::byteArrowListWidgetItemClicked(int row, bool isselect)
         switch (m_byteArrowListWidget->currentRow()) {
         case 0:
             m_proSystemKeypad->setSystem(64, oldsystem);
+            Settings::instance()->proBitLength = 64;
             break;
         case 1:
             m_proSystemKeypad->setSystem(32, oldsystem);
+            Settings::instance()->proBitLength = 32;
             break;
         case 2:
             m_proSystemKeypad->setSystem(16, oldsystem);
+            Settings::instance()->proBitLength = 16;
             break;
         case 3:
             m_proSystemKeypad->setSystem(8, oldsystem);
+            Settings::instance()->proBitLength = 8;
             break;
         }
         m_byteArrowCurrentRow = row;

@@ -47,6 +47,7 @@ public:
 
     char angleUnit; // 'r': radian; 'd': degree; 'g': gradian.
     int programmerBase; //进制转换-2,8,10,16,非程序员计算器为0
+    int proBitLength; //数据的长度byte-8 word-16 Dword-32 Qword-64
 
     char resultFormat;
     int resultPrecision; // See HMath documentation.

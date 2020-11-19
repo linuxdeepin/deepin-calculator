@@ -151,6 +151,8 @@ void Settings::load()
 
     //进制转换 add jingzhou 20201104，默认进制是10进制
     programmerBase = settings->value(key + QLatin1String("ProgrammerBase"), 0).toInt();
+    //改变数据类型 add jingzhou 20201119,默认为QWORD
+    proBitLength = settings->value(key + QLatin1String("proBitLength"), 64).toInt();
 
     // Radix character special case.
     QString radixCharStr;
@@ -242,6 +244,7 @@ void Settings::save()
 
     settings->setValue(key + QLatin1String("AngleMode"), QString(QChar(angleUnit)));
     settings->setValue(key + QLatin1String("ProgrammerBase"), programmerBase);
+    settings->setValue(key + QLatin1String("proBitLength"), proBitLength);
 
     char c = 'C';
     if (s_radixCharacter != 0)

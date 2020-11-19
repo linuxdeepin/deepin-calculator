@@ -25,6 +25,7 @@
 #include "floatconvert.h"
 #include "floathmath.h"
 #include "rational.h"
+#include "core/settings.h"
 
 #include <QMap>
 #include <QString>
@@ -770,9 +771,15 @@ char *_doFormat(cfloatnum x, signed char base, signed char expbase, char outmode
     float_create(&tmp);
     float_copy(&tmp, x, DECPRECISION + 2);
     if (float_out(&tokens, &tmp, prec, base, outmode) == Success) {
-        sz = cattokens(nullptr, -1, &tokens, expbase, flags);
-        str = (char *)malloc(sz);
-        cattokens(str, sz, &tokens, expbase, flags);
+        if (base == 2) {
+            sz = cattokensbin(nullptr, -1, &tokens, expbase, flags, Settings::instance()->proBitLength);
+            str = (char *)malloc(sz);
+            cattokensbin(str, sz, &tokens, expbase, flags, Settings::instance()->proBitLength);
+        } else {
+            sz = cattokens(nullptr, -1, &tokens, expbase, flags);
+            str = (char *)malloc(sz);
+            cattokens(str, sz, &tokens, expbase, flags);
+        }
     }
     float_free(&tmp);
     return str;
@@ -927,7 +934,13 @@ QString HMath::format(const HNumber &hn, HNumber::Format format)
         rs = formatEngineering(&hn.d->fnum, format.precision, base);
         break;
     case HNumber::Format::Mode::Complement:
-        rs = formatComplement(&hn.d->fnum, format.precision, base);
+        if (base == 8 || base == 16) {
+            rs = formatComplement(&hn.d->fnum, format.precision, 2);
+            HNumber x(rs);
+            rs = formatFixed(&x.d->fnum, format.precision, base);
+        } else {
+            rs = formatComplement(&hn.d->fnum, format.precision, base);
+        }
         break;
     case HNumber::Format::Mode::General:
     default:
