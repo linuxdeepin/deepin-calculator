@@ -1,8 +1,7 @@
 #include <QPalette>
 #include "ut_basicmodul.h"
-#define private public
+
 #include "../../src/widgets/basicmodule.h"
-#undef private
 
 Ut_BasicModul::Ut_BasicModul()
 {

@@ -1,7 +1,6 @@
 #include "ut_sciexpressionbar.h"
-#define private public
+
 #include "../../src/widgets/sciexpressionbar.h"
-#undef private
 
 Ut_SciexpressionBar::Ut_SciexpressionBar()
 {

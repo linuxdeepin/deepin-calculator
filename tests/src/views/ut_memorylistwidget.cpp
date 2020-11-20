@@ -1,7 +1,5 @@
 #include "ut_memorylistwidget.h"
-#define private public
 #include "../../src/views/memorylistwidget.h"
-#undef private
 #include "../../src/dsettings.h"
 #include "../../src/memorypublic.h"
 

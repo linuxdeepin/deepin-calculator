@@ -1,9 +1,6 @@
 #include "ut_inputedit.h"
-#define private public
-#define protected public
+
 #include "../../src/widgets/inputedit.h"
-#undef protected
-#undef private
 
 Ut_InputEdit::Ut_InputEdit()
 {

@@ -1,7 +1,5 @@
 #include "ut_memorykeypad.h"
-#define private public
 #include "../../src/control/memorykeypad.h"
-#undef private
 
 Ut_MemoryKeypad::Ut_MemoryKeypad()
 {

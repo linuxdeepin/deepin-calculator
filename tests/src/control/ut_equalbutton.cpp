@@ -1,7 +1,5 @@
 #include "ut_equalbutton.h"
-#define private public
 #include "../../src/control/equalbutton.h"
-#undef private
 
 Ut_EqualButton::Ut_EqualButton()
 {

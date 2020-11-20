@@ -1,7 +1,5 @@
 #include "ut_memorywidget.h"
-#define private public
 #include "../../src/views/memorywidget.h"
-#undef private
 #include "../../src/memorypublic.h"
 
 Ut_MemoryWidget::Ut_MemoryWidget()

@@ -1,7 +1,6 @@
 #include "ut_utils.h"
-#define private public
+
 #include "../../src/utils.h"
-#undef private
 
 Ut_Utils::Ut_Utils()
 {

@@ -1,10 +1,8 @@
 #include "ut_scientificmodule.h"
-#define private public
-#define protected public
+
 #include "../../src/widgets/scientificmodule.h"
 #include "../../src/views/memoryitemwidget.h"
-#undef private
-#undef protected
+
 #include "../../src/memorypublic.h"
 
 Ut_ScientificModule::Ut_ScientificModule()

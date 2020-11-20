@@ -1,9 +1,6 @@
 #include "ut_expressionbar.h"
-#define private public
-#define protected public
+
 #include "../../src/widgets/expressionbar.h"
-#undef private
-#undef protected
 
 Ut_ExpressionBar::Ut_ExpressionBar()
 {

@@ -1,7 +1,5 @@
 #include "ut_memoryitemdelegate.h"
-#define protected public
 #include "../../src/views/memoryitemdelegate.h"
-#undef protected
 
 #include "../../src/dsettings.h"
 #include "../../src/memorypublic.h"

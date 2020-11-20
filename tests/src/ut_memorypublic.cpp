@@ -1,7 +1,6 @@
 #include "ut_memorypublic.h"
-#define private public
+
 #include "../../src/memorypublic.h"
-#undef private
 
 Ut_MemoryPublic::Ut_MemoryPublic()
 {

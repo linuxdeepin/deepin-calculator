@@ -1,9 +1,5 @@
 #include "ut_iconbutton.h"
-#define private public
-#define protected public
 #include "../../src/control/iconbutton.h"
-#undef protected
-#undef private
 
 Ut_IconButton::Ut_IconButton()
 {

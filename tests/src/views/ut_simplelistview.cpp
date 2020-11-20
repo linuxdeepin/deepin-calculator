@@ -1,9 +1,6 @@
 #include "ut_simplelistview.h"
-#define private public
-#define protected public
+
 #include "../../src/views/simplelistview.h"
-#undef private
-#undef protected
 
 Ut_SimpleListView::Ut_SimpleListView()
 {

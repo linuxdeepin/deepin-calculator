@@ -1,10 +1,7 @@
 #include "ut_simplelistdelegate.h"
-#define private public
-#define protected public
+
 #include "../../src/views/simplelistdelegate.h"
 #include "../../src/views/simplelistmodel.h"
-#undef private
-#undef protected
 
 Ut_SimpleListDelegate::Ut_SimpleListDelegate()
 {

@@ -1,9 +1,7 @@
 #include "ut_mainwindow.h"
-#define private public
-#define protected public
+
 #include "../../src/mainwindow.h"
-#undef private
-#undef protected
+
 #include <QPalette>
 
 TestCala::TestCala()

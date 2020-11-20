@@ -1,8 +1,6 @@
 #include "ut_scientifickeypad.h"
-#define private public
 #include "../../src/control/scientifickeypad.h"
 #include "../../src/memorypublic.h"
-#undef private
 
 Ut_ScientificKeypad::Ut_ScientificKeypad()
 {

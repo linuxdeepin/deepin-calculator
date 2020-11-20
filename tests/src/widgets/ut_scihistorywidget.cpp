@@ -1,10 +1,8 @@
 #include "ut_scihistorywidget.h"
-#define private public
+
 #include "../../src/widgets/scihistorywidget.h"
-#undef private
-#define private public
 #include "../../src/memorypublic.h"
-#undef private
+
 
 Ut_SciHistoryWidget::Ut_SciHistoryWidget()
 {

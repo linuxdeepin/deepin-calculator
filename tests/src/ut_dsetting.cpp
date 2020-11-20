@@ -1,7 +1,6 @@
 #include "ut_dsetting.h"
-#define private public
+
 #include "../../src/dsettings.h"
-#undef private
 
 Ut_DSetting::Ut_DSetting()
 {

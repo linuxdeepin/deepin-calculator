@@ -1,7 +1,6 @@
 #include "ut_simplelistmodel.h"
-#define private public
+
 #include "../../src/views/simplelistmodel.h"
-#undef private
 
 Ut_SimpleListModel::Ut_SimpleListModel()
 {

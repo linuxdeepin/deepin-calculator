@@ -1,8 +1,6 @@
 #include "ut_basickeypad.h"
-#define private public
 #include "../../src/control/basickeypad.h"
 #include "../../src/memorypublic.h"
-#undef private
 
 Ut_BasicKeypad::Ut_BasicKeypad()
 {
