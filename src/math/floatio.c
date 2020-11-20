@@ -1113,7 +1113,7 @@ int cattokensbin(char *buf, int bufsz, p_otokens tokens, signed char expbase, un
                 && (tokens->sign != IO_SIGN_PLUS
                     || (flags & IO_FLAG_SUPPRESS_PLUS) == 0);
     printleading0 = _isempty(tokens->intpart.buf)
-                    && (flags & IO_FLAG_SUPPRESS_LDG_ZERO) == 0;
+                    && (flags & IO_FLAG_SUPPRESS_LDG_ZERO) == 0 && (comlength != bitlength);
     printdot = fraclg > 0 || (flags & IO_FLAG_SUPPRESS_DOT) == 0;
     printexp = base != IO_BASE_NAN && base != IO_BASE_ZERO
                && ((flags & IO_FLAG_SUPPRESS_EXPZERO) == 0
