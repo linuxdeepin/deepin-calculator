@@ -742,7 +742,7 @@ void ProgramModule::radixListChange(const QModelIndex &index, bool isspace)
         Settings::instance()->programmerBase = 10;
         break;
     }
-    m_proExpressionBar->getInputEdit()->radixChanged(oldbase);
+    m_proExpressionBar->getInputEdit()->radixChanged(oldbase, Settings::instance()->programmerBase);
 }
 
 /**

@@ -520,7 +520,7 @@ void InputEdit::handleTextChanged(const QString &text)
  * @brief InputEdit::radixChanged
  * 当进制表切换时，输入栏中对应的值需要同步切换
  */
-void InputEdit::radixChanged(int base)
+void InputEdit::radixChanged(int baseori, int basedest)
 {
     m_numvec.clear();
     m_opvec.clear();
@@ -582,9 +582,9 @@ void InputEdit::radixChanged(int base)
         }
     }
     for (int i = 0; i < m_numvec.size(); i++) {
-        QString num = formatExpression(base, m_numvec.at(i));
+        QString num = formatExpression(baseori, m_numvec.at(i));
         Quantity ans(HNumber(num.toLatin1().data()));
-        switch (Settings::instance()->programmerBase) {
+        switch (basedest) {
         case 16:
             num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
             break;

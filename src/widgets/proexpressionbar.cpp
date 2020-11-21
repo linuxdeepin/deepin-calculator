@@ -373,7 +373,13 @@ void ProExpressionBar::enterEqualEvent()
     if (m_inputEdit->text().isEmpty()) {
         return;
     }
-    const QString expression = InputEdit::formatExpression(Settings::instance()->programmerBase, m_inputEdit->text());
+    QString expression = QString();
+    if (Settings::instance()->programmerBase == 8 || Settings::instance()->programmerBase == 16) {
+        m_inputEdit->radixChanged(Settings::instance()->programmerBase, 2);
+        expression = InputEdit::formatExpression(2, m_inputEdit->text());
+    } else {
+        expression = InputEdit::formatExpression(Settings::instance()->programmerBase, m_inputEdit->text());
+    }
     QString exp1 = symbolComplement(expression);
     m_evaluator->setExpression(exp1);
     Quantity ans = m_evaluator->evalUpdateAns();
@@ -391,13 +397,13 @@ void ProExpressionBar::enterEqualEvent()
         QString result;
         switch (Settings::instance()->programmerBase) {
         case 16:
-            result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("sF").remove("0x");
+            result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
             break;
         case 8:
-            result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Octal()).remove("s7").remove("0o");
+            result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Octal()).remove("0o");
             break;
         case 2:
-            result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("s1").remove("0b");
+            result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
             break;
         default:
             result = DMath::format(ans, Quantity::Format::Fixed());

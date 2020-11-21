@@ -69,7 +69,7 @@ public slots:
     void themetypechanged(int type);
     void valueChangeFromProSyskeypad(const QString num);
     void handleTextChanged(const QString &text);
-    void radixChanged(int base);
+    void radixChanged(int baseori, int basedest);
 
 Q_SIGNALS:
     void keyPress(QKeyEvent *);
