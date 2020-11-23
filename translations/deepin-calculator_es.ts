@@ -55,10 +55,6 @@
         <translation>Calculadora</translation>
     </message>
     <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Calculadora de Deepin es fácil de usar, soporta los modos estándar y científico.</translation>
-    </message>
-    <message>
         <source>Standard</source>
         <translation>Estándar</translation>
     </message>
@@ -67,12 +63,16 @@
         <translation>Científica</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Historial</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Modo</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -138,6 +138,39 @@
     <message>
         <source>Nothing saved in memory</source>
         <translation>No hay nada guardado en la memoria</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Error de expresión</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Copiar</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

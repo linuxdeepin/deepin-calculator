@@ -55,10 +55,6 @@
         <translation>Калкулатор</translation>
     </message>
     <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Калкулатор је једноставан за употребу рачунарски калкулатор. Подржава стандардни и научни режим.</translation>
-    </message>
-    <message>
         <source>Standard</source>
         <translation>Стандардни</translation>
     </message>
@@ -67,12 +63,16 @@
         <translation>Научни</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Историја</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Режим</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -141,6 +141,39 @@
     </message>
 </context>
 <context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Грешка израза</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Копирај</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
@@ -187,7 +220,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation> Обриши</translation>
+        <translation>Обриши</translation>
     </message>
 </context>
 </TS>

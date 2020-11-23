@@ -55,10 +55,6 @@
         <translation>Calculator </translation>
     </message>
     <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Calculatorul - este o aplicație simplă și ușoară ce facilitează utilizarea calculatorului desktop, având două setări de bază: calculator standard și calculator științific.</translation>
-    </message>
-    <message>
         <source>Standard</source>
         <translation>Standard</translation>
     </message>
@@ -67,12 +63,16 @@
         <translation>Științific</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Istoria</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Mod</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -138,6 +138,39 @@
     <message>
         <source>Nothing saved in memory</source>
         <translation>Nimic salvat în memorie</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Eroare expresie</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Copiere</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

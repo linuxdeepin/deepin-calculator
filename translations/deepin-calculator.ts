@@ -57,10 +57,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Standard</source>
         <translation type="unfinished"></translation>
     </message>
@@ -69,11 +65,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>History</source>
+        <source>Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Mode</source>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Programmer</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -139,6 +139,39 @@
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

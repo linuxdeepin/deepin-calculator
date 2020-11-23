@@ -55,10 +55,6 @@
         <translation>Laskin</translation>
     </message>
     <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Laskin on helppokäyttöinen työpöytälaskin, joka tukee vakio- ja tieteellisiä tiloja.</translation>
-    </message>
-    <message>
         <source>Standard</source>
         <translation>Vakio</translation>
     </message>
@@ -67,12 +63,16 @@
         <translation>Tieteellinen</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Historia</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Moodi</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -138,6 +138,39 @@
     <message>
         <source>Nothing saved in memory</source>
         <translation>Ei mitään muistissa</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Lausekkeen virhe</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Kopioi</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

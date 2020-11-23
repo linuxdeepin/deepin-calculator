@@ -55,10 +55,6 @@
         <translation>Llogaritës</translation>
     </message>
     <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Llogaritësi është një makinë llogaritëse për desktop, i lehtë për t’u përdorur, që mbulon mënyrat standardte dhe shkencore.</translation>
-    </message>
-    <message>
         <source>Standard</source>
         <translation>Standarde</translation>
     </message>
@@ -67,12 +63,16 @@
         <translation>Shkencore</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Historik</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Mënyrë</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -138,6 +138,39 @@
     <message>
         <source>Nothing saved in memory</source>
         <translation>S’u ruajt gjë në kujtesë</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Gabim shprehjeje</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Kopjoje</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

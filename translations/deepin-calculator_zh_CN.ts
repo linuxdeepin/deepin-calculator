@@ -55,10 +55,6 @@
         <translation>计算器</translation>
     </message>
     <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>计算器是一款简单易用的桌面计算器，支持标准型和科学型模式。</translation>
-    </message>
-    <message>
         <source>Standard</source>
         <translation>标准</translation>
     </message>
@@ -67,12 +63,16 @@
         <translation>科学</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>历史记录</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>模式</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation>计算器是一款简单易用的桌面计算器，支持标准型、科学型、程序员型模式。</translation>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation>程序员</translation>
     </message>
 </context>
 <context>
@@ -138,6 +138,39 @@
     <message>
         <source>Nothing saved in memory</source>
         <translation>内存中没有数据</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>表达式错误</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>复制</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>算数移位</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>逻辑移位</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>循环移位</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>带进位循环移位</translation>
     </message>
 </context>
 <context>

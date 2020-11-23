@@ -55,10 +55,6 @@
         <translation>རྩིས་ཆས།</translation>
     </message>
     <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>རྩིས་ཆས་ནི་སྤྱོད་བདེ་བའི་ཅོག་ངོས་རྩིས་ཆས་ཞིག་ཡིན་པ་དང་།རྒྱུན་ལྡན་དཔེ་རྣམ་དང་ཚན་རིག་དཔེ་རྣམ་ལ་རྒྱབ་སྐྱོར་ཐུབ།</translation>
-    </message>
-    <message>
         <source>Standard</source>
         <translation>ཚད་གཞི།</translation>
     </message>
@@ -67,12 +63,16 @@
         <translation>ཚན་རིག</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>ལོ་རྒྱུས།</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>དཔེ་རྣམ།</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -138,6 +138,39 @@
     <message>
         <source>Nothing saved in memory</source>
         <translation>ནང་གསོག་ནང་གཞི་གྲངས་མེད་པ།</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>མཚོན་ཚུལ་ནོར་བ།</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>འདྲ་བཤུས།</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

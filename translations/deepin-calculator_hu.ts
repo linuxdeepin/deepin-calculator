@@ -55,10 +55,6 @@
         <translation>Számológép</translation>
     </message>
     <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>A Számológép egy könnyen használható asztali számológép, amely támogatja a szabványos és tudományos módokat.</translation>
-    </message>
-    <message>
         <source>Standard</source>
         <translation>Hagyományos</translation>
     </message>
@@ -67,19 +63,23 @@
         <translation>Tudományos</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Előzmény</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Mód</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Elem törlése a memóriából</translation>
+        <translation>Memória elem törlése</translation>
     </message>
     <message>
         <source>Clear all memory</source>
@@ -107,7 +107,7 @@
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Tárolás a memóriában</translation>
+        <translation>Memóriatár</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -122,7 +122,7 @@
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Elem törlése a memóriából</translation>
+        <translation>Memória elem törlése</translation>
     </message>
     <message>
         <source>Add to memory item</source>
@@ -137,7 +137,40 @@
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>Üres a memória</translation>
+        <translation>A memória üres</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Kifejezési hiba</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Másolás</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

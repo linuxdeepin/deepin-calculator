@@ -868,25 +868,25 @@ void ProgramModule::initArrowRectangle()
     QListWidgetItem *item5 = new QListWidgetItem();
     ProgrammerItemWidget *itemwidget5 = new ProgrammerItemWidget("QWORD");
     item5->setFlags(Qt::NoItemFlags);
-    item5->setSizeHint(QSize(250, 34));
+    item5->setSizeHint(QSize(182, 34));
     m_byteArrowListWidget->insertItem(0, item5);
     m_byteArrowListWidget->setItemWidget(item5, itemwidget5);
     QListWidgetItem *item6 = new QListWidgetItem();
     ProgrammerItemWidget *itemwidget6 = new ProgrammerItemWidget("DWORD");
     item6->setFlags(Qt::NoItemFlags);
-    item6->setSizeHint(QSize(250, 34));
+    item6->setSizeHint(QSize(182, 34));
     m_byteArrowListWidget->insertItem(1, item6);
     m_byteArrowListWidget->setItemWidget(item6, itemwidget6);
     QListWidgetItem *item7 = new QListWidgetItem();
     ProgrammerItemWidget *itemwidget7 = new ProgrammerItemWidget("WORD");
     item7->setFlags(Qt::NoItemFlags);
-    item7->setSizeHint(QSize(250, 34));
+    item7->setSizeHint(QSize(182, 34));
     m_byteArrowListWidget->insertItem(2, item7);
     m_byteArrowListWidget->setItemWidget(item7, itemwidget7);
     QListWidgetItem *item8 = new QListWidgetItem();
     ProgrammerItemWidget *itemwidget8 = new ProgrammerItemWidget("BYTE");
     item8->setFlags(Qt::NoItemFlags);
-    item8->setSizeHint(QSize(250, 34));
+    item8->setSizeHint(QSize(182, 34));
     m_byteArrowListWidget->insertItem(3, item8);
     m_byteArrowListWidget->setItemWidget(item8, itemwidget8);
 
@@ -895,7 +895,7 @@ void ProgramModule::initArrowRectangle()
     static_cast<ProgrammerItemWidget *>(m_byteArrowListWidget->itemWidget(m_byteArrowListWidget->currentItem()))
     ->isMarkHide(false);
 
-    m_byteArrowListWidget->setFixedSize(QSize(250, 136));
+    m_byteArrowListWidget->setFixedSize(QSize(182, 136));
     m_byteArrowRectangle->setRadius(15);
     m_byteArrowRectangle->setArrowWidth(48);
     m_byteArrowRectangle->setArrowHeight(21);
@@ -905,7 +905,7 @@ void ProgramModule::initArrowRectangle()
     m_byteArrowListWidget->move(m_byteArrowRectangle->rect().x(),
                                 m_byteArrowRectangle->rect().y() + m_byteArrowRectangle->arrowHeight() + 11);
 
-    m_byteArrowRectangle->setWidth(250);
+    m_byteArrowRectangle->setWidth(182);
     m_byteArrowRectangle->setShadowXOffset(0);
     m_byteArrowRectangle->setShadowYOffset(0);
     m_byteArrowRectangle->setShadowBlurRadius(0);

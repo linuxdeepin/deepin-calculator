@@ -1,70 +1,70 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="et" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Erreur d&apos;expression</translation>
+        <translation>Võrrandi viga</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>Effacer toute la mémoire</translation>
+        <translation>Tühjenda kogu mälu</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation>Effacer l&apos;historique</translation>
+        <translation>Tühjenda ajalugu</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>Delete</source>
-        <translation>Effacer</translation>
+        <translation>Kustuta</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Tout sélectionner</translation>
+        <translation>Vali kõik</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation>Annuler</translation>
+        <translation>Võta tagasi</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation>Rétablir</translation>
+        <translation>Korda</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>Couper</translation>
+        <translation>Lõika</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copier</translation>
+        <translation>Kopeeri</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Coller</translation>
+        <translation>Aseta</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>Calculatrice</translation>
+        <translation>Kalkulaator</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>Standard</translation>
+        <translation>Tavaline</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>Scientifique</translation>
+        <translation>Teaduslik</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>Mode</translation>
+        <translation>Režiim</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
@@ -79,79 +79,79 @@
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Effacer l&apos;élément de la mémoire</translation>
+        <translation>Tühjenda mälu</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>Effacer toute la mémoire</translation>
+        <translation>Tühjenda kogu mälu</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Rappel de la mémoire</translation>
+        <translation>Näita mälu</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Ajouter l&apos;élément à la mémoire</translation>
+        <translation>Lisa mällu</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Ajouter une mémoire</translation>
+        <translation>Mälu lisamine</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Soustraire l&apos;élément de la mémoire</translation>
+        <translation>Lahuta mälust</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Soustraire de la mémoire</translation>
+        <translation>Mälu lahutamine</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Mémoire de stockage</translation>
+        <translation>Mällu salvestamine</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Mémoire</translation>
+        <translation>Mälu</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation>Copier</translation>
+        <translation>Kopeeri</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Effacer l&apos;élément de la mémoire</translation>
+        <translation>Tühjenda mälu</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Ajouter l&apos;élément à la mémoire</translation>
+        <translation>Lisa mällu</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Soustraire l&apos;élément de la mémoire</translation>
+        <translation>Lahuta mälust</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>Ne rien sauvegarder en mémoire</translation>
+        <translation>Mällu pole midagi salvestatud</translation>
     </message>
 </context>
 <context>
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Erreur d&apos;expression</translation>
+        <translation>Võrrandi viga</translation>
     </message>
 </context>
 <context>
     <name>ProListView</name>
     <message>
         <source>Copy</source>
-        <translation>Copier</translation>
+        <translation>Kopeeri</translation>
     </message>
 </context>
 <context>
@@ -177,50 +177,50 @@
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>Calculatrice</translation>
+        <translation>Kalkulaator</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Erreur d&apos;expression</translation>
+        <translation>Võrrandi viga</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Historique</translation>
+        <translation>Ajalugu</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Mémoire</translation>
+        <translation>Mälu</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>Erreur d&apos;expression</translation>
+        <translation>Võrrandi viga</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>Pas d&apos;historique</translation>
+        <translation>Ajalugu pole</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation>Copier</translation>
+        <translation>Kopeeri</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Effacer</translation>
+        <translation>Kustuta</translation>
     </message>
 </context>
 </TS>

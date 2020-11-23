@@ -55,11 +55,6 @@
         <translation>Calculatrice</translation>
     </message>
     <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Calcolatrice è una calcolatrice desktop semplice e facile da usare. Supporta il calcolo base e quello scientifico.
-Localizzazione italiana a cura di Massimo A. Carofano.</translation>
-    </message>
-    <message>
         <source>Standard</source>
         <translation>Standard</translation>
     </message>
@@ -68,12 +63,16 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
         <translation>Scientifica</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Cronologia</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Modalità</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -139,6 +138,39 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>Nothing saved in memory</source>
         <translation>Nessun elemento in memoria</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Errore espressione</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Copia</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
