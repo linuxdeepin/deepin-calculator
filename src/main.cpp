@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
     app.setProductName(DApplication::translate("MainWindow", "Calculator"));
     app.setApplicationDescription(
         DApplication::translate("MainWindow",
-                                "Calculator is an easy to use desktop calculator, supporting standard and scientific modes."));
+                                "Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes."));
     app.setApplicationVersion(VERSION);
     app.setQuitOnLastWindowClosed(true);
     app.setApplicationDisplayName(QObject::tr("Calculator"));

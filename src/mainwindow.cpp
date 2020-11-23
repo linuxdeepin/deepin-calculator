@@ -55,7 +55,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_simpleAction = new QAction(tr("Standard"), this);
     m_scAction = new QAction(tr("Scientific"), this);
-    //缺翻译
     m_programmerAction = new QAction(tr("Programmer"), this);
 
     m_pActionGroup = new QActionGroup(this); //实现互斥checked

@@ -275,7 +275,7 @@ void ProgramModule::handleKeypadButtonPress(int key)
         m_proExpressionBar->enterSymbolEvent("/");
         break;
     case ProgrammerKeypad::Key_percent:
-        m_proExpressionBar->enterOperatorEvent("mod");
+        m_proExpressionBar->enterOperatorEvent("%");
         break;
     case ProgrammerKeypad::Key_equal:
         m_proExpressionBar->enterEqualEvent();
@@ -465,7 +465,7 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
         m_proExpressionBar->enterSymbolEvent("/");
         break;
     case ProgrammerKeypad::Key_percent:
-        m_proExpressionBar->enterOperatorEvent("mod");
+        m_proExpressionBar->enterOperatorEvent("%");
         break;
     case ProgrammerKeypad::Key_equal:
         m_proExpressionBar->enterEqualEvent();
@@ -815,25 +815,25 @@ void ProgramModule::initArrowRectangle()
     m_shiftArrowListWidget->setFrameShape(QFrame::NoFrame); //设置边框类型，无边框
     m_shiftArrowListWidget->setAttribute(Qt::WA_TranslucentBackground, true);
     QListWidgetItem *item1 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget1 = new ProgrammerItemWidget("算数移位", path + "icon_as_normal.svg");
+    ProgrammerItemWidget *itemwidget1 = new ProgrammerItemWidget(tr("Arithmetic shift"), path + "icon_as_normal.svg");
     item1->setFlags(Qt::NoItemFlags);
     item1->setSizeHint(QSize(250, 34));
     m_shiftArrowListWidget->insertItem(0, item1);
     m_shiftArrowListWidget->setItemWidget(item1, itemwidget1);
     QListWidgetItem *item2 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget2 = new ProgrammerItemWidget("逻辑移位", path + "icon_ls_normal.svg");
+    ProgrammerItemWidget *itemwidget2 = new ProgrammerItemWidget(tr("Logical shift"), path + "icon_ls_normal.svg");
     item2->setFlags(Qt::NoItemFlags);
     item2->setSizeHint(QSize(250, 34));
     m_shiftArrowListWidget->insertItem(1, item2);
     m_shiftArrowListWidget->setItemWidget(item2, itemwidget2);
     QListWidgetItem *item3 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget3 = new ProgrammerItemWidget("旋转循环移位", path + "icon_ro_normal.svg");
+    ProgrammerItemWidget *itemwidget3 = new ProgrammerItemWidget(tr("Circular shift"), path + "icon_ro_normal.svg");
     item3->setFlags(Qt::NoItemFlags);
     item3->setSizeHint(QSize(250, 34));
     m_shiftArrowListWidget->insertItem(2, item3);
     m_shiftArrowListWidget->setItemWidget(item3, itemwidget3);
     QListWidgetItem *item4 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget4 = new ProgrammerItemWidget("循环移位旋转", path + "icon_rc_normal.svg");
+    ProgrammerItemWidget *itemwidget4 = new ProgrammerItemWidget(tr("Rotate through carry circular shift"), path + "icon_rc_normal.svg");
     item4->setFlags(Qt::NoItemFlags);
     item4->setSizeHint(QSize(250, 34));
     m_shiftArrowListWidget->insertItem(3, item4);
@@ -1161,7 +1161,7 @@ void ProgramModule::handleEditKeyPress(QKeyEvent *e)
         m_proExpressionBar->addUndo();
         break;
     case Qt::Key_Percent:
-        m_proExpressionBar->enterOperatorEvent("mod");
+        m_proExpressionBar->enterOperatorEvent("%");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_percent);
         m_proExpressionBar->addUndo();
         break;

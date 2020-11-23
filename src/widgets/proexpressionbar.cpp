@@ -38,7 +38,7 @@ ProExpressionBar::ProExpressionBar(QWidget *parent)
     layout->setSpacing(0);
     initConnect();
 
-    m_funclist = {"and",  "not", "xor", "nand", "nor", "mod", "or",
+    m_funclist = {"and",  "not", "xor", "nand", "nor", "or",
                   "shl", "shr", "sal", "sar", "rol", "ror", "rcl", "rcr"
                  };
 }
@@ -573,7 +573,7 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
      * 前一位运算符时，则补（0
      */
     int diff = 0; //补数字后光标位移的距离
-    QString sRegNum = "[＋－×÷(]";
+    QString sRegNum = "[＋－×÷(%]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curpos == 0 || rx.exactMatch(exp.at(curpos - 1))) {
@@ -764,16 +764,16 @@ void ProExpressionBar::copyClipboard2Result()
     //根据不同进制，对应不同的筛选规则
     switch (Settings::instance()->programmerBase) {
     case 16:
-        list = text.split(QRegExp("[A-F0-9＋－×÷()\\s]"));
+        list = text.split(QRegExp("[A-F0-9＋－×÷()%\\s]"));
         break;
     case 8:
-        list = text.split(QRegExp("[0-7＋－×÷()\\s]"));
+        list = text.split(QRegExp("[0-7＋－×÷()%\\s]"));
         break;
     case 2:
-        list = text.split(QRegExp("[0-1＋－×÷()\\s]"));
+        list = text.split(QRegExp("[0-1＋－×÷()%\\s]"));
         break;
     default:
-        list = text.split(QRegExp("[0-9＋－×÷(),\\s]"));
+        list = text.split(QRegExp("[0-9＋－×÷(),%\\s]"));
         break;
     }
     for (int i = 0; i < list.size(); i++) {

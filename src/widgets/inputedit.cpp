@@ -1066,7 +1066,8 @@ QString InputEdit::formatExpression(const int &probase, const QString &text)
     .replace(QString::fromUtf8("×"), "*")
     .replace(QString::fromUtf8("÷"), "/")
     .replace(QString::fromUtf8(","), "")
-    .replace(QString::fromUtf8(" "), "");
+    .replace(QString::fromUtf8(" "), "")
+    .replace("%", "mod");
 
     QString base = QString();
     switch (probase) {
