@@ -79,6 +79,13 @@ ProgramModule::ProgramModule(QWidget *parent)
     connect(m_proSystemKeypad, &ProSystemKeypad::valuechanged, m_proExpressionBar->getInputEdit(), &InputEdit::valueChangeFromProSyskeypad);
     connect(m_proExpressionBar, &ProExpressionBar::clearStateChanged, this,
             &ProgramModule::handleClearStateChanged);
+    connect(m_proExpressionBar->getInputEdit(), &InputEdit::prolistAns, this, [ = ](QPair<bool, Quantity> pair) {
+        if (pair.first) {
+            m_proListModel->updataList(pair.second);
+        } else {
+            m_proListModel->clearItems();
+        }
+    });
 
     //内存列表事件
     if (!m_memoryPublic->isWidgetEmpty(2))

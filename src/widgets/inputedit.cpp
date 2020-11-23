@@ -67,6 +67,7 @@ InputEdit::InputEdit(QWidget *parent)
     });
 
     connect(this, &QLineEdit::textChanged, this, &InputEdit::isExpressionEmpty);
+    connect(this, &QLineEdit::textChanged, this, &InputEdit::getCurrentAns);
 
     m_funclist = {"and",  "not", "xor", "nand", "nor", "mod", "or",
                   "shl", "shr", "sal", "sar", "rol", "ror", "rcl", "rcr"
@@ -522,6 +523,11 @@ void InputEdit::handleTextChanged(const QString &text)
  */
 void InputEdit::radixChanged(int baseori, int basedest)
 {
+    this->setText(scanAndExec(baseori, basedest));
+}
+
+QString InputEdit::scanAndExec(int baseori, int basedest)
+{
     m_numvec.clear();
     m_opvec.clear();
     m_textorder = QString();
@@ -531,9 +537,15 @@ void InputEdit::radixChanged(int baseori, int basedest)
         if (isNumber(oldtext.at(i))) {
             for (int j = 0; j < oldtext.length() - i; j++) {
                 if (i + j == oldtext.length() - 1) {
-                    m_numvec.append(oldtext.mid(i, j + 1));
-                    m_textorder += "0";
-                    i += j + 1;
+                    if (isNumber(oldtext.at(i + j))) {
+                        m_numvec.append(oldtext.mid(i, j + 1));
+                        m_textorder += "0";
+                        i += j + 1;
+                    } else {
+                        m_numvec.append(oldtext.mid(i, j));
+                        m_textorder += "0";
+                        i += j;
+                    }
                     break;
                 }
                 if (!isNumber(oldtext.at(i + j))) {
@@ -610,7 +622,7 @@ void InputEdit::radixChanged(int baseori, int basedest)
             m_opvec.pop_front();
         }
     }
-    this->setText(newtext);
+    return newtext;
 }
 
 /**
@@ -913,6 +925,38 @@ void InputEdit::showTextEditMenuByAltM()
 }
 
 /**
+ * @brief InputEdit::getCurrentAns
+ * 输入时获取当前输入栏中的结果
+ */
+void InputEdit::getCurrentAns()
+{
+    QPair<bool, Quantity> pair;
+    QString expression;
+    if (Settings::instance()->programmerBase == 8 || Settings::instance()->programmerBase == 16) {
+        expression = InputEdit::formatExpression(2, scanAndExec(Settings::instance()->programmerBase, 2));
+    } else {
+        expression = InputEdit::formatExpression(Settings::instance()->programmerBase, text());
+    }
+    QString exp1 = symbolComplement(expression);
+    m_evaluator->setExpression(exp1);
+    Quantity ans = m_evaluator->evalUpdateAns();
+
+    if (m_evaluator->error().isEmpty()) {
+        if (ans.isNan() && !m_evaluator->isUserFunctionAssign()) {
+            pair.first = false;
+            pair.second = Quantity(0);
+        } else {
+            pair.first = true;
+            pair.second = ans;
+        }
+    } else {
+        pair.first = false;
+        pair.second = Quantity(0);
+    }
+    emit prolistAns(pair);
+}
+
+/**
  * @brief 选中改变的槽
  */
 void InputEdit::selectionChangedSlot()
@@ -1089,7 +1133,7 @@ QString InputEdit::formatExpression(const int &probase, const QString &text)
                 formattext.insert(i, base);
                 i += 3;
                 continue;
-            } else if (!isNumber(formattext.at(i)) && isNumber(formattext.at(i + 1))) {
+            } else if ((i < formattext.length() - 1) && !isNumber(formattext.at(i)) && isNumber(formattext.at(i + 1))) {
                 formattext.insert(i + 1, base);
                 i += 3;
                 continue;

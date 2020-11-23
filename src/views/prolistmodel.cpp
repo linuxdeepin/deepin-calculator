@@ -1,6 +1,7 @@
 #include <QDebug>
 
 #include "prolistmodel.h"
+#include "utils.h"
 
 ProListModel::ProListModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -46,20 +47,18 @@ QVariant ProListModel::data(const QModelIndex &index, int role) const
  */
 void ProListModel::clearItems()
 {
-    beginRemoveRows(QModelIndex(), 0, m_expressionList.size());
     m_expressionList.clear();
-    endRemoveRows();
     beginInsertRows(QModelIndex(), 0, 0);
-    m_expressionList << "0";
+    m_expressionList << "";
     endInsertRows();
     beginInsertRows(QModelIndex(), 1, 1);
-    m_expressionList << "1";
+    m_expressionList << "";
     endInsertRows();
     beginInsertRows(QModelIndex(), 2, 2);
-    m_expressionList << "2";
+    m_expressionList << "";
     endInsertRows();
     beginInsertRows(QModelIndex(), 3, 3);
-    m_expressionList << "0010 2000 3000 4000 5000 6000 7000 8000 0010 2000 3000 4000 5000 6000 7000 8000";
+    m_expressionList << "";
     endInsertRows();
 }
 
@@ -69,41 +68,27 @@ void ProListModel::clearItems()
  * @param index　当前选中行
  * 由当前选中行结果计算出其他行结果，同时更新四行数据
  */
-void ProListModel::updataList(const QString &text, const int index)
+void ProListModel::updataList(const Quantity ans)
 {
-    beginRemoveRows(QModelIndex(), 0, m_expressionList.size());
     m_expressionList.clear();
-    endRemoveRows();
 
     QString hex, dec, otc, bin;
-    switch (index) {
-    case 0:
-        hex = text;
-        dec = text;
-        otc = text;
-        bin = text;
-        break;
-    case 1:
-        hex = text;
-        dec = text;
-        otc = text;
-        bin = text;
-        break;
-    case 2:
-        hex = text;
-        dec = text;
-        otc = text;
-        bin = text;
-        break;
-    case 3:
-        hex = text;
-        dec = text;
-        otc = text;
-        bin = text;
-        break;
-    default:
-        break;
+
+    hex = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
+    otc = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Octal()).remove("0o");
+    bin = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
+    dec = DMath::format(ans, Quantity::Format::Fixed());
+
+    int i = bin.length() % 4;
+    while (i != 4 && i != 0) {
+        bin.insert(0, "0");
+        i++;
     }
+
+    hex = Utils::reformatSeparatorsPro(hex, 16);
+    otc = Utils::reformatSeparatorsPro(otc, 8);
+    bin = Utils::reformatSeparatorsPro(bin, 2);
+    dec = Utils::reformatSeparatorsPro(dec, 10);
 
     //十六进制行
     beginInsertRows(QModelIndex(), 0, 0);

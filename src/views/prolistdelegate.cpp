@@ -112,7 +112,7 @@ void ProListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
             painter->drawText(QRect(option.rect.x() + 80 + LEFT_MARGIN, option.rect.y() + 14, 280, 14),
                               expression.mid(40, -1), Qt::AlignLeft | Qt::AlignVCenter);
         } else {
-            painter->drawText(QRect(option.rect.x() + 80 + LEFT_MARGIN, option.rect.y(), 268, 28), expression, Qt::AlignLeft | Qt::AlignVCenter);
+            painter->drawText(QRect(option.rect.x() + 80 + LEFT_MARGIN, option.rect.y(), 280, 28), expression, Qt::AlignLeft | Qt::AlignVCenter);
         }
     } else
         painter->drawText(textrect, expression, Qt::AlignLeft | Qt::AlignVCenter);

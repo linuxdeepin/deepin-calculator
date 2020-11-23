@@ -57,6 +57,7 @@ public:
     static bool isNumber(QChar a);//判断是否为数字(分隔符)
     QString formatBinaryNumber(const QString num);//清除二进制前多余的0
     static QString formatExpression(const int &probase, const QString &text);
+    void getCurrentAns();
     void focusInEvent(QFocusEvent *event);
 
 public slots:
@@ -70,6 +71,7 @@ public slots:
     void valueChangeFromProSyskeypad(const QString num);
     void handleTextChanged(const QString &text);
     void radixChanged(int baseori, int basedest);
+    QString scanAndExec(int baseori, int basedest);
 
 Q_SIGNALS:
     void keyPress(QKeyEvent *);
@@ -84,6 +86,7 @@ Q_SIGNALS:
     void setResult();
     void emptyExpression(bool b);
     void cursorPositionNumberChanged(QString num);
+    void prolistAns(QPair<bool, Quantity> pair);
 
 protected:
     void keyPressEvent(QKeyEvent *);

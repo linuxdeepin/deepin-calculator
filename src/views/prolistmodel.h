@@ -27,7 +27,7 @@ public:
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
     void clearItems();
-    void updataList(const QString &text, const int index);
+    void updataList(const Quantity ans);
     void copyToClipboard(const int index);
 
 private:
