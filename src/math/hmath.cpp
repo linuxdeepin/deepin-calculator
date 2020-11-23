@@ -270,7 +270,7 @@ HNumber::HNumber(const char *str)
     t_itokens tokens;
 
     if ((d->error = parse(&tokens, &str)) == Success && *str == 0)
-        d->error = float_in(&d->fnum, &tokens);
+        d->error = float_in(&d->fnum, &tokens, Settings::instance()->proBitLength, 1);
     float_geterror();
 }
 
@@ -278,6 +278,20 @@ HNumber::HNumber(const QJsonObject &json)
     : d(new HNumberPrivate)
 {
     *this = deSerialize(json);
+}
+
+HNumber::HNumber(const char *str, bool b)
+    : d(new HNumberPrivate)
+{
+    t_itokens tokens;
+
+    if ((d->error = parse(&tokens, &str)) == Success && *str == 0) {
+        if (b)
+            d->error = float_in(&d->fnum, &tokens, Settings::instance()->proBitLength, -1);
+        else
+            d->error = float_in(&d->fnum, &tokens, Settings::instance()->proBitLength, 1);
+    }
+    float_geterror();
 }
 
 /**
@@ -936,7 +950,7 @@ QString HMath::format(const HNumber &hn, HNumber::Format format)
     case HNumber::Format::Mode::Complement:
         if (base == 8 || base == 16) {
             rs = formatComplement(&hn.d->fnum, format.precision, 2);
-            HNumber x(rs);
+            HNumber x(rs, true);
             rs = formatFixed(&x.d->fnum, format.precision, base);
         } else {
             rs = formatComplement(&hn.d->fnum, format.precision, base);
@@ -2185,7 +2199,7 @@ HNumber HMath::parse_str(const char *str_in, const char **str_out)
 
     x.d = new HNumberPrivate;
     if ((x.d->error = parse(&tokens, &str)) == Success)
-        x.d->error = float_in(&x.d->fnum, &tokens);
+        x.d->error = float_in(&x.d->fnum, &tokens, Settings::instance()->proBitLength, 1);
     float_geterror();
 
     /* Store remaining of the string */

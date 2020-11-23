@@ -54,6 +54,7 @@ public:
     HNumber(int);
     HNumber(const char *);
     HNumber(const QJsonObject &);
+    HNumber(const char *, bool);
     ~HNumber();
 
     bool isNan() const;

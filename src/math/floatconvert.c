@@ -308,10 +308,80 @@ _packbin2int(
     return Success;
 }
 
+static char
+_signextendbin(
+  t_longint* longint,
+        int bitlength)
+{
+  unsigned mask;
+  signed char sign;
+  int maxidx =  ((bitlength-1) / BITS_IN_UNSIGNED);
+  int signbit = (bitlength - 1 - maxidx * BITS_IN_UNSIGNED);
+
+  sign = (longint->value[maxidx] & (1 << signbit)) != 0? -1:1;
+  mask = (~0) << signbit;
+  if (sign < 0)
+    longint->value[maxidx] |= mask;
+  else
+    longint->value[maxidx] &= ~mask;
+  return sign;
+}
+
+static void
+_negbin(
+  t_longint* longint,
+        int bitlength)
+{
+  int idx = -1;
+  const int maxidx = ((bitlength-1) / BITS_IN_UNSIGNED);
+  while (++idx <= maxidx && longint->value[idx] == 0);
+  if (idx <= maxidx)
+    longint->value[idx] = - longint->value[idx];
+  while (++idx <= maxidx)
+    longint->value[idx] = ~longint->value[idx];
+}
+
+static Error
+_packsignedbin2int(
+    floatnum x,
+    p_ext_seq_desc n,
+        int bitlength)
+{
+    t_longint l;
+    Error result;
+
+    for (int i = 0;i<5;i++) {
+        l.value[i] = 0;
+    }
+
+    float_setnan(x);
+    if ((result = _pack2longint(&l, n)) != Success)
+        return result;
+    int idx;
+    signed char sign;
+
+    sign = _signextendbin(&l,bitlength);
+    if (sign < 0)
+      _negbin(&l,bitlength);
+    idx = (bitlength-1) / BITS_IN_UNSIGNED;
+    while (idx >= 0 && l.value[idx] == 0)
+      --idx;
+    if (idx < 0)
+      l.length = 0;
+    else
+      l.length = idx + 1;
+
+    _longint2floatnum(x, &l);
+    float_setsign(x, sign);
+    return Success;
+}
+
 static Error
 _pack2int(
     floatnum x,
-    p_ext_seq_desc n)
+    p_ext_seq_desc n,
+    int bitlength,
+    signed char b)
 {
     switch (n->seq.base) {
     case IO_BASE_NAN:
@@ -323,6 +393,10 @@ _pack2int(
     case 10:
         return _packdec2int(x, n);
     default:
+        if(b > 0)
+        {
+            return _packsignedbin2int(x, n, bitlength);
+        }
         return _packbin2int(x, n);
     }
     return Success;
@@ -332,7 +406,9 @@ static Error
 _pack2frac(
     floatnum x,
     p_ext_seq_desc n,
-    int digits)
+    int digits,
+    int bitlength,
+    signed char b)
 {
     floatstruct tmp;
     int exp;
@@ -348,7 +424,7 @@ _pack2frac(
         float_setzero(x);
         break;
     default:
-        if ((result = _pack2int(x, n)) != Success)
+        if ((result = _pack2int(x, n, bitlength, b)) != Success)
             return result;
         float_create(&tmp);
         float_setinteger(&tmp, n->seq.base);
@@ -364,7 +440,9 @@ _pack2frac(
 Error
 pack2floatnum(
     floatnum x,
-    p_number_desc n)
+    p_number_desc n,
+    int bitlength,
+    signed char b)
 {
     floatstruct tmp;
     int digits;
@@ -373,7 +451,7 @@ pack2floatnum(
     Error result;
     signed char base;
 
-    if ((result = _pack2int(x, &n->intpart)) != Success)
+    if ((result = _pack2int(x, &n->intpart, bitlength, b)) != Success)
         return result;
     if (float_isnan(x))
         return Success;
@@ -384,7 +462,7 @@ pack2floatnum(
     float_setzero(x);
     digits = DECPRECISION - float_getexponent(&tmp);
     if (digits <= 0
-            || (result = _pack2frac(x, &n->fracpart, digits)) == Success)
+            || (result = _pack2frac(x, &n->fracpart, digits, bitlength, b)) == Success)
         float_add(x, x, &tmp, DECPRECISION);
     if (result != Success)
         return result;
@@ -744,16 +822,21 @@ Error float_out(
     }
 }
 
+/**
+ * 新增入参 bitlength:数据长度 8,16,32,64
+ * 新增入参 b：当2进制转换8,16进制时不考虑符号位
+ */
 Error
-float_in(
-    floatnum x,
-    p_itokens tokens)
+float_in(floatnum x,
+    p_itokens tokens,
+         int bitlength,
+         signed char b)
 {
     t_number_desc n;
     Error result;
 
     if ((result = str2desc(&n, tokens)) == Success)
-        result = pack2floatnum(x, &n);
+        result = pack2floatnum(x, &n, bitlength, b);
     if (result != Success) {
         _seterror(x, BadLiteral);
         float_setnan(x);

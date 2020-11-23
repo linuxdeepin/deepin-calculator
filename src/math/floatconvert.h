@@ -46,9 +46,9 @@ extern "C" {
 
 /* converts the integer part of f to a binary coded bigint. Returns
    IOConversionOverflow, if the bigint overflows */
-Error _floatnum2longint(t_longint* longint, floatnum f);
+Error _floatnum2longint(t_longint *longint, floatnum f);
 /* converts a binary coded bigint into a floatnum */
-void _longint2floatnum(floatnum f, t_longint* longint);
+void _longint2floatnum(floatnum f, t_longint *longint);
 
 /* the output process destroys x
    'digits' are the number of digits after the dot.
@@ -69,7 +69,7 @@ Error float_out(p_otokens tokens, floatnum x, int digits,
                 signed char base, char outmode);
 /* returns Success or one of the IO... codes
    Errors: BadLiteral, set in addition to the returned result */
-Error float_in(floatnum x, p_itokens tokens);
+Error float_in(floatnum x, p_itokens tokens, int bitlength, signed char b);
 
 #ifdef __cplusplus
 }
