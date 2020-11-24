@@ -243,7 +243,10 @@ static Token::Operator matchOperator(const QString &text)
             break;
         case 0x00F7: // ÷ DIVISION SIGN
         case '/':
-            result = Token::Division;
+            if (Settings::instance()->programmerBase != 0)
+                result = Token::IntegerDivision;
+            else
+                result = Token::Division;
             break;
         case '%':
             result = Token::Percent;
@@ -320,9 +323,9 @@ static int opPrecedence(Token::Operator op)
     case Token::Modulo:
     case Token::Multiplication:
     case Token::Division:
+    case Token::IntegerDivision:
         prec = 500;
         break;
-    case Token::IntegerDivision:
     //add jingzhou 20200720
     case Token::Yroot:
     case Token::Log:
