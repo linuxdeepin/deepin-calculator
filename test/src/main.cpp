@@ -7,6 +7,7 @@
 #include <QTest>
 int main(int argc, char *argv[])
 {
+    qputenv("QT_QPA_PLATFORM", "offscreen");
     QApplication app(argc, argv);
 
     ::testing::InitGoogleTest(&argc, argv);
