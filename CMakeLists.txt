@@ -15,5 +15,5 @@ add_subdirectory(src)
 #若无法点击开关，尝试工具-选项-环境-Theme切换至dark
 #option(USE_TEST "UT" no)
 #if (USE_TEST)
-add_subdirectory(tests)  #tests为ut测试文件夹名
+add_subdirectory(test)  #tests为ut测试文件夹名
 #endif(USE_TEST)

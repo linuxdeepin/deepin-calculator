@@ -89,6 +89,7 @@ DGuiApplicationHelper::ColorType getThemeTypeSetting()
 int main(int argc, char *argv[])
 {
     // DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    qputenv("QT_QPA_PLATFORM", "offscreen");
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     DApplication app(argc, argv);
     app.setAttribute(Qt::AA_UseHighDpiPixmaps);

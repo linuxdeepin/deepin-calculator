@@ -522,9 +522,9 @@ void MemoryWidget::widgetplusslot(int row, Quantity answer)
         } else {
             QString exp = QString(DMath::format(m_list.value(row), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "+(" + formatResultmem + ")");
             m_evaluator->setExpression(formatExpression(exp));
-            Quantity ans = m_evaluator->evalUpdateAns();
+            ans = m_evaluator->evalUpdateAns();
             const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
-            QString formatResult = Utils::formatThousandsSeparators(result);
+            formatResult = Utils::formatThousandsSeparators(result);
         }
         formatResult = setitemwordwrap(formatResult, row);
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
@@ -608,9 +608,11 @@ QString MemoryWidget::programmerResult(Quantity answer, bool basetag)
  */
 void MemoryWidget::resetAllLabelByBase()
 {
+    QString text;
     if (m_calculatormode == 2 && !m_isempty) {
         for (int i = 0; i < m_listwidget->count(); i++) {
-            static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->setTextLabel(programmerResult(m_list.at(i), true));
+            text = programmerResult(m_list.at(i), true).replace('-', "－").replace('+', "＋");
+            static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->setTextLabel(text);
         }
     }
 }

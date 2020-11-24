@@ -135,17 +135,18 @@ install(FILES ${CMAKE_CURRENT_LIST_DIR}/../src/assets/images/deepin-calculator.s
 
 
 #------------------------------ 创建'make test'指令---------------------------------------
-#add_custom_target(test
-#    COMMAND mkdir -p tests/coverageResult
-#    WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_custom_target(test
+#    COMMAND mkdir -p test/coverageResult
+#    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
 
-#add_custom_command(TARGET test
-#    COMMAND echo " =================== CREAT LCOV REPROT BEGIN ==================== "
+add_custom_command(TARGET test
+    COMMAND echo " =================== CREAT LCOV REPROT BEGIN ==================== "
 
     #1.清理原先的gcov信息
 #    COMMAND lcov --directory ./tests/CMakeFiles/${PROJECT_NAME_TEST}.dir --zerocounters
 #    COMMAND lcov --directory ./tests/CMakeFiles/${PROJECT_NAME}.dir --zerocounters
-#    COMMAND ./tests/${PROJECT_NAME_TEST}
+    COMMAND ./test/${PROJECT_NAME_TEST}
 
 
     #2.收集gcov信息到.info文件中
@@ -161,15 +162,15 @@ install(FILES ${CMAKE_CURRENT_LIST_DIR}/../src/assets/images/deepin-calculator.s
     #3.将.info信息生成报告到reprot文件夹中
 #    COMMAND genhtml -o ./tests/coverageResult/report ./coverageResult/${PROJECT_NAME}_Coverage.info
 
-#    COMMAND echo " =================== CREAT LCOV REPROT END ==================== "
+    COMMAND echo " =================== CREAT LCOV REPROT END ==================== "
 
 #    COMMAND echo " Coverage files have been output to ${CMAKE_BINARY_DIR}/coverageResult/report "
 
 #    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-#    )
+    )
 
 #'make test'命令依赖与我们的测试程序
-#add_dependencies(test ${PROJECT_NAME_TEST})
+add_dependencies(test ${PROJECT_NAME_TEST})
 
 # 设置添加gocv相关信息的输出
 #set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
