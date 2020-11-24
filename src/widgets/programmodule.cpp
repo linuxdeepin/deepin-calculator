@@ -88,6 +88,16 @@ ProgramModule::ProgramModule(QWidget *parent)
     });
 
     //内存列表事件
+    connect(m_memorylistwidget, &MemoryWidget::widgetplus, this, [ = ](int row) {
+        m_proExpressionBar->enterEqualEvent();
+        if (m_proExpressionBar->getInputEdit()->getCurrentAns().first)
+            m_memoryPublic->widgetplus(row, m_proExpressionBar->getInputEdit()->getCurrentAns().second);
+    });
+    connect(m_memorylistwidget, &MemoryWidget::widgetminus, this, [ = ](int row) {
+        m_proExpressionBar->enterEqualEvent();
+        if (m_proExpressionBar->getInputEdit()->getCurrentAns().first)
+            m_memoryPublic->widgetminus(row, m_proExpressionBar->getInputEdit()->getCurrentAns().second);
+    });
     if (!m_memoryPublic->isWidgetEmpty(2))
         mAvailableEvent();
     else
@@ -220,6 +230,9 @@ void ProgramModule::handleKeypadButtonPress(int key)
         pagefocus = true;
         break;
     case ProCheckBtnKeypad::Key_MS:
+        m_proExpressionBar->enterEqualEvent();
+        if (m_proExpressionBar->getInputEdit()->getCurrentAns().first)
+            m_memoryPublic->generateData(m_proExpressionBar->getInputEdit()->getCurrentAns().second);
         break;
     case ProgrammerKeypad::Key_0:
         m_proExpressionBar->enterNumberEvent("0"); //按键0事件
@@ -371,6 +384,11 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
     else
         path = QString(":/assets/images/%1/").arg("light");
     m_checkBtnKeypad->update();
+    m_programmerKeypad->update();
+    if (key > 35 && key < 42)
+        m_checkBtnKeypad->animate(ProCheckBtnKeypad::Buttons(key), true);
+    else if (key <= 35)
+        m_programmerKeypad->animate(ProgrammerKeypad::Buttons(key), true);
     switch (key) {
     case ProCheckBtnKeypad::Key_GeneralKeypad:
         //点击后设置Key_GeneralKeypad为点击状态，Key_BinaryKeypad为普通状态
@@ -410,6 +428,9 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
         m_memorylistwidget->setFocus(Qt::TabFocusReason);
         break;
     case ProCheckBtnKeypad::Key_MS:
+        m_proExpressionBar->enterEqualEvent();
+        if (m_proExpressionBar->getInputEdit()->getCurrentAns().first)
+            m_memoryPublic->generateData(m_proExpressionBar->getInputEdit()->getCurrentAns().second);
         break;
     case ProgrammerKeypad::Key_0:
         m_proExpressionBar->enterNumberEvent("0"); //按键0事件
@@ -784,6 +805,7 @@ void ProgramModule::showListWidget()
         btn1->setbtnlight(true);
         btn1->setEnabled(false);
         m_isallgray = true;
+        m_memorylistwidget->resetAllLabelByBase();
     }
 }
 
@@ -1091,12 +1113,12 @@ void ProgramModule::handleEditKeyPress(QKeyEvent *e)
         m_proExpressionBar->addUndo();
         break;
     case Qt::Key_M:
-//        if (isPressCtrl && m_memCalbtn && !m_isallgray) {
-//            m_memoryKeypad->animate(MemoryKeypad::Key_MS);
-//            m_expressionBar->settingLinkage();
-//            if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
-//                m_memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
-//        }
+        if (isPressCtrl && m_memCalbtn && !m_isallgray) {
+            m_checkBtnKeypad->animate(ProCheckBtnKeypad::Key_MS);
+            m_proExpressionBar->enterEqualEvent();
+            if (m_proExpressionBar->getInputEdit()->getCurrentAns().first)
+                m_memoryPublic->generateData(m_proExpressionBar->getInputEdit()->getCurrentAns().second);
+        }
         break;
     case Qt::Key_V:
         if (isPressCtrl) {

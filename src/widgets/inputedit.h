@@ -57,7 +57,7 @@ public:
     static bool isNumber(QChar a);//判断是否为数字(分隔符)
     QString formatBinaryNumber(const QString num);//清除二进制前多余的0
     static QString formatExpression(const int &probase, const QString &text);
-    void getCurrentAns();
+    QPair<bool, Quantity> getCurrentAns();
     void focusInEvent(QFocusEvent *event);
 
 public slots:

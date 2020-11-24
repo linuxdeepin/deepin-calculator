@@ -953,7 +953,7 @@ QString InputEdit::formatAns(const QString &text)
  * @brief InputEdit::getCurrentAns
  * 输入时获取当前输入栏中的结果
  */
-void InputEdit::getCurrentAns()
+QPair<bool, Quantity> InputEdit::getCurrentAns()
 {
     QPair<bool, Quantity> pair;
     QString expression;
@@ -979,6 +979,7 @@ void InputEdit::getCurrentAns()
         pair.second = Quantity(0);
     }
     emit prolistAns(pair);
+    return pair;
 }
 
 /**

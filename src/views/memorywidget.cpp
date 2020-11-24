@@ -35,6 +35,7 @@
 #include <DGuiApplicationHelper>
 
 #include "utils.h"
+#include "core/settings.h"
 
 const int GLOBALPREC = 78; //全局精度
 const int STANDARD_MWIDGET_HEIGHT = 260; //标准模式memorywidget高度
@@ -211,8 +212,14 @@ void MemoryWidget::generateData(Quantity answer)
     if (answer == Quantity(0)) {
         widget->setTextLabel("0");
     } else {
-        const QString result = DMath::format(answer, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
-        QString formatResult = Utils::formatThousandsSeparators(result);
+        QString formatResult = QString();
+        if (m_calculatormode == 2) {
+            const QString result = programmerResult(answer, true);
+            formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
+        } else {
+            const QString result = DMath::format(answer, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
+            formatResult = Utils::formatThousandsSeparators(result);
+        }
         formatResult = setitemwordwrap(formatResult);
         widget->setTextLabel(formatResult);
     }
@@ -348,11 +355,21 @@ void MemoryWidget::memoryplus(Quantity answer)
     formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
     if (m_isempty == false) {
         //内存中不为空时在第一条内存中加输入框数字；否则内存为空，添加一条内存数据
-        QString exp = QString(DMath::format(m_list.value(0), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "+(" + formatResultmem + ")");
-        m_evaluator->setExpression(formatExpression(exp));
-        Quantity ans = m_evaluator->evalUpdateAns();
-        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
-        QString formatResult = Utils::formatThousandsSeparators(result);
+        QString formatResult = QString();
+        Quantity ans;
+        if (m_calculatormode == 2) {
+            QString exp = QString(programmerResult(m_list.value(0), false) + "+(" + formatResultmem + ")");
+            m_evaluator->setExpression(formatExpression(exp));
+            ans = m_evaluator->evalUpdateAns();
+            const QString result = programmerResult(ans, true);
+            formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
+        } else {
+            QString exp = QString(DMath::format(m_list.value(0), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "+(" + formatResultmem + ")");
+            m_evaluator->setExpression(formatExpression(exp));
+            ans = m_evaluator->evalUpdateAns();
+            const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
+            formatResult = Utils::formatThousandsSeparators(result);
+        }
         formatResult = setitemwordwrap(formatResult);
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
         w1->setTextLabel(formatResult);
@@ -372,27 +389,44 @@ void MemoryWidget::memoryminus(Quantity answer)
     QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
     formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
     if (m_isempty == false) {
-//        QString exp = QString(m_listwidget->item(0)->data(Qt::EditRole).toString() + "-(" + formatResultmem + ")");
-        QString exp = QString(DMath::format(m_list.value(0), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "-(" + formatResultmem + ")");
-        m_evaluator->setExpression(formatExpression(exp));
-        Quantity ans = m_evaluator->evalUpdateAns();
-        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
-        QString formatResult = Utils::formatThousandsSeparators(result);
+        Quantity ans;
+        QString formatResult = QString();
+        if (m_calculatormode == 2) {
+            QString exp = QString(programmerResult(m_list.value(0), false) + "-(" + formatResultmem + ")");
+            m_evaluator->setExpression(formatExpression(exp));
+            ans = m_evaluator->evalUpdateAns();
+            const QString result = programmerResult(ans, true);
+            formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
+        } else {
+            QString exp = QString(DMath::format(m_list.value(0), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "-(" + formatResultmem + ")");
+            m_evaluator->setExpression(formatExpression(exp));
+            ans = m_evaluator->evalUpdateAns();
+            const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
+            formatResult = Utils::formatThousandsSeparators(result);
+        }
         formatResult = setitemwordwrap(formatResult);
-//        m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
         w1->setTextLabel(formatResult);
         m_list.replace(0, ans);
     } else {
         m_listwidget->clear();
         generateData(Quantity(0));
-        QString exp = QString("0-(" + formatResultmem + ")");
-        m_evaluator->setExpression(formatExpression(exp));
-        Quantity ans = m_evaluator->evalUpdateAns();
-        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
-        QString formatResult = Utils::formatThousandsSeparators(result);
+        Quantity ans;
+        QString formatResult = QString();
+        if (m_calculatormode == 2) {
+            QString exp = QString("0-(" + formatResultmem + ")");
+            m_evaluator->setExpression(formatExpression(exp));
+            ans = m_evaluator->evalUpdateAns();
+            const QString result = programmerResult(ans, true);
+            formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
+        } else {
+            QString exp = QString("0-(" + formatResultmem + ")");
+            m_evaluator->setExpression(formatExpression(exp));
+            ans = m_evaluator->evalUpdateAns();
+            const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
+            formatResult = Utils::formatThousandsSeparators(result);
+        }
         formatResult = setitemwordwrap(formatResult);
-//        m_listwidget->item(0)->setData(Qt::DisplayRole, formatResult);
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
         w1->setTextLabel(formatResult);
         m_list.replace(0, ans);
@@ -477,14 +511,22 @@ void MemoryWidget::widgetplusslot(int row, Quantity answer)
     if (answer == Quantity(0)) {
 //        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole));
     } else {
-//        QString exp = QString(m_listwidget->item(row)->data(Qt::EditRole).toString() + "+(" + formatResultmem + ")");
-        QString exp = QString(DMath::format(m_list.value(row), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "+(" + formatResultmem + ")");
-        m_evaluator->setExpression(formatExpression(exp));
-        Quantity ans = m_evaluator->evalUpdateAns();
-        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
-        QString formatResult = Utils::formatThousandsSeparators(result);
+        Quantity ans;
+        QString formatResult = QString();
+        if (m_calculatormode == 2) {
+            QString exp = QString(programmerResult(m_list.value(row), false) + "+(" + formatResultmem + ")");
+            m_evaluator->setExpression(formatExpression(exp));
+            ans = m_evaluator->evalUpdateAns();
+            const QString result = programmerResult(ans, true);
+            formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
+        } else {
+            QString exp = QString(DMath::format(m_list.value(row), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "+(" + formatResultmem + ")");
+            m_evaluator->setExpression(formatExpression(exp));
+            Quantity ans = m_evaluator->evalUpdateAns();
+            const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
+            QString formatResult = Utils::formatThousandsSeparators(result);
+        }
         formatResult = setitemwordwrap(formatResult, row);
-//        m_listwidget->item(row)->setData(Qt::DisplayRole, formatResult);
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
         w1->setTextLabel(formatResult);
         m_list.replace(row, ans);
@@ -502,12 +544,21 @@ void MemoryWidget::widgetminusslot(int row, Quantity answer)
     if (answer == Quantity(0)) {
         //        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole));
     } else {
-//        QString exp = QString(m_listwidget->item(row)->data(Qt::EditRole).toString() + "-(" + formatResultmem + ")");
-        QString exp = QString(DMath::format(m_list.value(row), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "-(" + formatResultmem + ")");
-        m_evaluator->setExpression(formatExpression(exp));
-        Quantity ans = m_evaluator->evalUpdateAns();
-        const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
-        QString formatResult = Utils::formatThousandsSeparators(result);
+        Quantity ans;
+        QString formatResult = QString();
+        if (m_calculatormode == 2) {
+            QString exp = QString(programmerResult(m_list.value(row), false) + "-(" + formatResultmem + ")");
+            m_evaluator->setExpression(formatExpression(exp));
+            ans = m_evaluator->evalUpdateAns();
+            const QString result = programmerResult(ans, true);
+            formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
+        } else {
+            QString exp = QString(DMath::format(m_list.value(row), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "-(" + formatResultmem + ")");
+            m_evaluator->setExpression(formatExpression(exp));
+            ans = m_evaluator->evalUpdateAns();
+            const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
+            formatResult = Utils::formatThousandsSeparators(result);
+        }
         formatResult = setitemwordwrap(formatResult, row);
 //        m_listwidget->item(row)->setData(Qt::DisplayRole, formatResult);
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
@@ -524,6 +575,44 @@ bool MemoryWidget::isWidgetEmpty()
 MemoryListWidget *MemoryWidget::getMemoryWidget()
 {
     return m_listwidget;
+}
+
+/**
+ * @brief MemoryWidget::programmerResult
+ * 根据当前进制显示相应的内存结果
+ */
+QString MemoryWidget::programmerResult(Quantity answer, bool basetag)
+{
+    QString result;
+    switch (Settings::instance()->programmerBase) {
+    case 16:
+        if (basetag)
+            return result = DMath::format(answer, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
+        return result = DMath::format(answer, Quantity::Format::Complement() + Quantity::Format::Hexadecimal());
+    case 8:
+        if (basetag)
+            return result = DMath::format(answer, Quantity::Format::Complement() + Quantity::Format::Octal()).remove("0o");
+        return result = DMath::format(answer, Quantity::Format::Complement() + Quantity::Format::Octal());
+    case 2:
+        if (basetag)
+            return result = DMath::format(answer, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
+        return result = DMath::format(answer, Quantity::Format::Complement() + Quantity::Format::Binary());
+    default:
+        return result = DMath::format(answer, Quantity::Format::Fixed());
+    }
+}
+
+/**
+ * @brief MemoryWidget::resetAllLabelByBase
+ * 打开内存列表时，根据当前进制刷新显示
+ */
+void MemoryWidget::resetAllLabelByBase()
+{
+    if (m_calculatormode == 2 && !m_isempty) {
+        for (int i = 0; i < m_listwidget->count(); i++) {
+            static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->setTextLabel(programmerResult(m_list.at(i), true));
+        }
+    }
 }
 
 /**

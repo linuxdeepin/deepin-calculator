@@ -63,6 +63,8 @@ public:
     void widgetminusslot(int row, Quantity answer);
     bool isWidgetEmpty(); //内存列表是否为空
     MemoryListWidget *getMemoryWidget();
+    QString programmerResult(Quantity answer, bool basetag);
+    void resetAllLabelByBase();
 
 signals:
     void widgetplus(int row);
