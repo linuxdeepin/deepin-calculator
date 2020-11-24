@@ -925,6 +925,31 @@ void InputEdit::showTextEditMenuByAltM()
 }
 
 /**
+ * @brief InputEdit::formatAns
+ * 按进制返回计算结果
+ */
+QString InputEdit::formatAns(const QString &text)
+{
+    QString num = formatExpression(2, text);
+    Quantity ans(HNumber(num.toLatin1().data()));
+    switch (Settings::instance()->programmerBase) {
+    case 16:
+        num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
+        break;
+    case 8:
+        num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Octal()).remove("0o");
+        break;
+    case 2:
+        num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
+        break;
+    default:
+        num = DMath::format(ans, Quantity::Format::Fixed());
+        break;
+    }
+    return num;
+}
+
+/**
  * @brief InputEdit::getCurrentAns
  * 输入时获取当前输入栏中的结果
  */
@@ -1057,6 +1082,10 @@ QString InputEdit::symbolComplement(const QString exp)
 void InputEdit::getCurrentCursorPositionNumber(const int pos)
 {
     QString text = this->text();
+    if (text.isEmpty()) {
+        emit cursorPositionNumberChanged("0");
+        return;
+    }
     QString currentnum = QString();
     int numstart = pos - 1, numend = pos - 1;
     if (numstart >= 0 && isNumber(text.at(numstart))) {
@@ -1068,6 +1097,9 @@ void InputEdit::getCurrentCursorPositionNumber(const int pos)
         }
         currentnum = text.mid(numstart, numend - numstart);
     }
+    currentnum = formatExpression(Settings::instance()->programmerBase, currentnum);
+    Quantity ans(HNumber(currentnum.toLatin1().data()));
+    currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
     emit cursorPositionNumberChanged(currentnum);
 //    qDebug() << "currentnum" << currentnum;
 }
@@ -1086,6 +1118,7 @@ QString InputEdit::formatBinaryNumber(const QString num)
     for (int i = 0; i < num.length(); i++) {
         if (num.at(i) == '1') {
             str = num.right(num.length() - i);
+            str = formatAns(str);
             return str;
         }
         if (i == num.length() - 1 && num.at(num.length() - 1) != '1') {

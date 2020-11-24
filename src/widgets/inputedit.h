@@ -105,6 +105,7 @@ private slots:
     void showTextEditMenu();
     void selectionChangedSlot();
     void showTextEditMenuByAltM();
+    QString formatAns(const QString &text);
 
 private:
     Quantity m_ans;
