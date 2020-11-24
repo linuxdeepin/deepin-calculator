@@ -23,6 +23,10 @@
 #include <QClipboard>
 #include <QApplication>
 
+#include "utils.h"
+
+const QString AtoF = "ABCDEF";
+
 SimpleListModel::SimpleListModel(int mode, QObject *parent)
     : QAbstractListModel(parent)
 {
@@ -218,4 +222,162 @@ Quantity SimpleListModel::getAnswer(const int index)
     if (m_answerlist.count() > index)
         return m_answerlist.at(index);
     return Quantity();
+}
+
+void SimpleListModel::radixChanged(int baseori, int basedest)
+{
+    if (m_expressionList.count() <= 0)
+        return;
+    m_numvec.clear();
+    m_opvec.clear();
+    m_textorder = QString();
+    QString oldtext = m_expressionList.at(0);
+    oldtext.remove("，").remove(" ");
+    for (int i = 0; i < oldtext.length();) {
+        if (isNumber(oldtext.at(i))) {
+            for (int j = 0; j < oldtext.length() - i; j++) {
+                if (i + j == oldtext.length() - 1) {
+                    if (isNumber(oldtext.at(i + j))) {
+                        m_numvec.append(oldtext.mid(i, j + 1));
+                        m_textorder += "0";
+                        i += j + 1;
+                    } else {
+                        m_numvec.append(oldtext.mid(i, j));
+                        m_textorder += "0";
+                        i += j;
+                    }
+                    break;
+                }
+                if (!isNumber(oldtext.at(i + j))) {
+                    m_numvec.append(oldtext.mid(i, j));
+                    m_textorder += "0";
+                    i += j;
+                    break;
+                }
+            }
+        } else {
+            if (oldtext.at(i).isLower()) {
+                if (oldtext.at(i) == 'n' && oldtext.at(i + 1) == 'a') {
+                    m_opvec.append(oldtext.mid(i, 4));
+                    m_textorder += "1";
+                    i += 4;
+                } else if (oldtext.at(i) == 'o') {
+                    m_opvec.append(oldtext.mid(i, 2));
+                    m_textorder += "1";
+                    i += 2;
+                } else {
+                    m_opvec.append(oldtext.mid(i, 3));
+                    m_textorder += "1";
+                    i += 3;
+                }
+            } else if (i == 0 && oldtext.at(i) == QString::fromUtf8("－") && oldtext.length() > 1 && isNumber(oldtext.at(i + 1))) {
+                i++;
+                for (int j = 0; j < oldtext.length() - i; j++) {
+                    if (i + j == oldtext.length() - 1) {
+                        m_numvec.append(oldtext.mid(i - 1, j + 2));
+                        m_textorder += "0";
+                        i += j + 1;
+                        break;
+                    }
+                    if (!isNumber(oldtext.at(i + j))) {
+                        m_numvec.append(oldtext.mid(i - 1, j + 1));
+                        m_textorder += "0";
+                        i += j;
+                        break;
+                    }
+                }
+            } else {
+                m_opvec.append(oldtext.at(i));
+                m_textorder += "1";
+                i++;
+            }
+        }
+    }
+    for (int i = 0; i < m_numvec.size(); i++) {
+        QString num = formatExpression(baseori, m_numvec.at(i));
+        Quantity ans(HNumber(num.toLatin1().data()));
+        switch (basedest) {
+        case 16:
+            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
+            break;
+        case 8:
+            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Octal()).remove("0o");
+            break;
+        case 2:
+            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
+            break;
+        default:
+            num = DMath::format(ans, Quantity::Format::Fixed());
+            break;
+        }
+        m_numvec.replace(i, num);
+    }
+    QString newtext = QString();
+    for (int i = 0; i < m_textorder.length(); i++) {
+        if (m_textorder.at(i) == "0") {
+            newtext.append(m_numvec.first());
+            m_numvec.pop_front();
+        } else {
+            newtext.append(m_opvec.first());
+            m_opvec.pop_front();
+        }
+    }
+    newtext = Utils::reformatSeparatorsPro(newtext, basedest).replace('+', QString::fromUtf8("＋"))
+              .replace('-', QString::fromUtf8("－"))
+              .replace('*', QString::fromUtf8("×"))
+              .replace('/', QString::fromUtf8("÷"));
+    m_expressionList.clear();
+    beginInsertRows(QModelIndex(), 0, 0);
+    m_expressionList << newtext;
+    endInsertRows();
+}
+
+bool SimpleListModel::isNumber(QChar a)
+{
+    if (a.isDigit() || a == " " || a == "," || AtoF.contains(a))
+        return true;
+    else
+        return false;
+}
+
+QString SimpleListModel::formatExpression(const int &probase, const QString &text)
+{
+    QString formattext = text;
+    formattext.replace(QString::fromUtf8("＋"), "+")
+    .replace(QString::fromUtf8("－"), "-")
+    .replace(QString::fromUtf8("×"), "*")
+    .replace(QString::fromUtf8("÷"), "/")
+    .replace(QString::fromUtf8(","), "")
+    .replace(QString::fromUtf8(" "), "")
+    .replace("%", "mod");
+
+    QString base = QString();
+    switch (probase) {
+    case 16:
+        base = "0x";
+        break;
+    case 8:
+        base = "0o";
+        break;
+    case 2:
+        base = "0b";
+        break;
+    default:
+        break;
+    }
+    if (base != QString()) {
+        for (int i = 0; i < formattext.length();) {
+            if ((i == 0) && isNumber(formattext.at(i))) {
+                formattext.insert(i, base);
+                i += 3;
+                continue;
+            } else if ((i < formattext.length() - 1) && !isNumber(formattext.at(i)) && isNumber(formattext.at(i + 1))) {
+                formattext.insert(i + 1, base);
+                i += 3;
+                continue;
+            }
+            i++;
+        }
+    }
+    return formattext;
 }

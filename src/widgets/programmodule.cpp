@@ -750,6 +750,7 @@ void ProgramModule::radixListChange(const QModelIndex &index, bool isspace)
         break;
     }
     m_proExpressionBar->getInputEdit()->radixChanged(oldbase, Settings::instance()->programmerBase);
+    m_proExpressionBar->findChild<SimpleListModel *>()->radixChanged(oldbase, Settings::instance()->programmerBase);
 }
 
 /**

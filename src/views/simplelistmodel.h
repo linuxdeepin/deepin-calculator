@@ -51,6 +51,10 @@ public:
     void deleteItem(const int index);
     void copyToClipboard(const int index);
     Quantity getAnswer(const int index);
+    //进制切换
+    void radixChanged(int baseori, int basedest);
+    bool isNumber(QChar a);//判断是否为数字(分隔符)
+    QString formatExpression(const int &probase, const QString &text);
 
 signals:
     void hisbtnhidden();
@@ -60,6 +64,11 @@ private:
     bool m_selectedStatus;
     int m_mode = 0; //0-标准模式 1-科学模式
     QList<Quantity> m_answerlist; //对应历史记录的answer
+
+    //进制切换时用于替换所有数字
+    QVector<QString> m_numvec;
+    QVector<QString> m_opvec;
+    QString m_textorder;
 };
 
 #endif
