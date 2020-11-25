@@ -1,6 +1,7 @@
 #include "prosystemkeypad.h"
 
 #include <QDebug>
+#include "core/settings.h"
 
 const QSize SYSTEMKEYPADSIZE = QSize(451, 279);
 const int LEFT_MARGIN = 10; //键盘左边距
@@ -166,14 +167,29 @@ void ProSystemKeypad::setvalue(QString num)
 {
     num.remove(" ").remove(",");
     int length = num.length();
-    m_binaryValue.fill('0', 64).replace(64 - length, length, num);
+    if (length > Settings::instance()->proBitLength) {
+        num = num.right(Settings::instance()->proBitLength);
+        qDebug() << num;
+        m_binaryValue.fill('0', 64).replace(64 - length, length, num);
+        emit valuechanged(m_binaryValue);
+        longBitCut(num);
+    } else
+        m_binaryValue.fill('0', 64).replace(64 - length, length, num);
 //    qDebug() << m_binaryValue;
-    for (int i = 0; i < 64; i++) {
-        if (m_binaryValue.at(i) == '1') {
-            m_buttons.value(63 - i)->setButtonState(true);
+    for (int i = 0; i < Settings::instance()->proBitLength; i++) {
+        if (m_binaryValue.at(63 - i) == '1') {
+            m_buttons.value(i)->setButtonState(true);
         } else
-            m_buttons.value(63 - i)->setButtonState(false);
+            m_buttons.value(i)->setButtonState(false);
     }
+}
+
+void ProSystemKeypad::longBitCut(const QString &num)
+{
+    QString number = "0b" + num;
+    Quantity ans(HNumber(number.toLatin1().data()));
+    if (!ans.isNan())
+        emit longbitcut(ans);
 }
 
 void ProSystemKeypad::initUI()

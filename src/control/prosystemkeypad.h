@@ -6,7 +6,7 @@
 #include <QGridLayout>
 
 #include "widgets/probitwidget.h"
-//#include "control/bitbutton.h"
+#include "core/evaluator.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -28,10 +28,12 @@ public:
 signals:
     void valuechanged(QString num);
     void bitbuttonclicked();
+    void longbitcut(Quantity ans);
 
 public slots:
     void getFocus(int dir, int key);
     void setvalue(QString num);
+    void longBitCut(const QString &num);
 
 private:
     void initUI();

@@ -176,6 +176,25 @@
     </message>
 </context>
 <context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>

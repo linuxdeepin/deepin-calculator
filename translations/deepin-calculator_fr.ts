@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>Calculator est une calculatrice de bureau facile à utiliser, prenant en charge les modes standard, scientifique et programmeur.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>Programmeur</translation>
     </message>
 </context>
 <context>
@@ -158,19 +158,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Décalage arithmétique</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Changement logique</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Décalage circulaire</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Rotation par déplacement circulaire</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Décalage arithmétique</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Changement logique</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Décalage circulaire</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Rotation par déplacement circulaire</translation>
     </message>
 </context>
 <context>

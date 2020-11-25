@@ -21,7 +21,7 @@
     <name>InputEdit</name>
     <message>
         <source>Delete</source>
-        <translation> Обриши</translation>
+        <translation>Обриши</translation>
     </message>
     <message>
         <source>Select All</source>
@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>Калкулатор је једноставан за употребу рачунарски калкулатор. Подржава стандардни, научни и програмерски режим.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>Програмер</translation>
     </message>
 </context>
 <context>
@@ -156,6 +156,25 @@
 </context>
 <context>
     <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
         <translation type="unfinished"/>

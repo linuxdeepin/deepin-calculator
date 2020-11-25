@@ -611,10 +611,10 @@ QString InputEdit::scanAndExec(int baseori, int basedest)
             num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Octal()).remove("0o");
             break;
         case 2:
-            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
+            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
             break;
         default:
-            num = DMath::format(ans, Quantity::Format::Fixed());
+            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
             break;
         }
         m_numvec.replace(i, num);
@@ -944,13 +944,13 @@ QString InputEdit::formatAns(const QString &text)
         num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
         break;
     case 8:
-        num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Octal()).remove("0o");
+        num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o");
         break;
     case 2:
-        num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
+        num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
         break;
     default:
-        num = DMath::format(ans, Quantity::Format::Fixed());
+        num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
         break;
     }
     return num;
@@ -1083,16 +1083,17 @@ QString InputEdit::symbolComplement(const QString exp)
 }
 
 /**
- * @brief InputEdit::getCurrentCursorPositionNumber
- * @param pos:当前光标位置
- * 获取当前光标所在位置对应的数字，用于修改位键盘
+ * @brief InputEdit::CurrentCursorPositionNumber
+ * 用于修改位键盘
  */
-void InputEdit::getCurrentCursorPositionNumber(const int pos)
+QString InputEdit::CurrentCursorPositionNumber(const int pos, const int base)
 {
     QString text = this->text();
     if (text.isEmpty()) {
-        emit cursorPositionNumberChanged("0");
-        return;
+        return "";
+    }
+    if (pos == 0 || !isNumber(text.at(pos - 1))) {
+        return "";
     }
     QString currentnum = QString();
     int numstart = pos - 1, numend = pos - 1;
@@ -1109,8 +1110,81 @@ void InputEdit::getCurrentCursorPositionNumber(const int pos)
     }
     currentnum = formatExpression(Settings::instance()->programmerBase, currentnum);
     Quantity ans(HNumber(currentnum.toLatin1().data()));
-    currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
-    emit cursorPositionNumberChanged(currentnum);
+    if (ans.isNan())
+        return "";
+    switch (base) {
+    case 16:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
+        break;
+    case 8:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o");
+        break;
+    case 2:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
+        break;
+    default:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
+        break;
+    }
+    return currentnum;
+}
+
+/**
+ * @brief InputEdit::CurrentCursorPositionNumber
+ * 获取当前光标前后的整个数字，光标前是符号则返回后面的数字
+ */
+QString InputEdit::CurrentCursorPositionNumber(const int pos)
+{
+    QString text = this->text();
+    if (text.isEmpty()) {
+        return "";
+    }
+    QString currentnum = QString();
+    int numstart = pos - 1, numend = pos - 1;
+    if (numstart >= 0 && isNumber(text.at(numstart))) {
+        while (numstart > 0 && (isNumber(text.at(numstart - 1)) ||
+                                ((numstart == 1) && isNumber(text.at(1)) && text.at(0) == QString::fromUtf8("－")))) {
+            numstart--;
+        }
+        while (numend < text.length() && isNumber(text.at(numend))) {
+            numend++;
+        }
+        currentnum = text.mid(numstart, numend - numstart);
+    }
+    currentnum = formatExpression(Settings::instance()->programmerBase, currentnum);
+    Quantity ans(HNumber(currentnum.toLatin1().data()));
+    if (ans.isNan())
+        return "";
+    switch (Settings::instance()->programmerBase) {
+    case 16:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
+        break;
+    case 8:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o");
+        break;
+    case 2:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
+        break;
+    default:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
+        break;
+    }
+    return currentnum;
+}
+
+/**
+ * @brief InputEdit::getCurrentCursorPositionNumber
+ * @param pos:当前光标位置
+ * 获取当前光标所在位置对应的数字，用于修改位键盘
+ */
+void InputEdit::getCurrentCursorPositionNumber(const int pos)
+{
+    QString currentnum = CurrentCursorPositionNumber(pos, 2);
+    if (currentnum == "") {
+        emit cursorPositionNumberChanged("0");
+    } else {
+        emit cursorPositionNumberChanged(currentnum);
+    }
 //    qDebug() << "currentnum" << currentnum;
 }
 

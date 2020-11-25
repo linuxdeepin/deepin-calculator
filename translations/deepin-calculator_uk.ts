@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>«Калькулятор» є простим у користуванні комп&apos;ютерним калькулятором. Передбачено підтримку стандартного, наукового та програмістського режимів.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>Програмістський</translation>
     </message>
 </context>
 <context>
@@ -158,19 +158,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Арифметичний зсув</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Логічний зсув</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Циклічний зсув</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Циклічний зсув, обертання з перенесенням</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Арифметичний зсув</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Логічний зсув</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Циклічний зсув</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Циклічний зсув, обертання з перенесенням</translation>
     </message>
 </context>
 <context>

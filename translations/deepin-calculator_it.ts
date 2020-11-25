@@ -68,11 +68,12 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>Calcolatrice è una calcolatrice desktop semplice e facile da usare. Supporta il calcolo base e quello scientifico.
+Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>Programmazione</translation>
     </message>
 </context>
 <context>
@@ -158,19 +159,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Spostamento aritmetico</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Spostamento logico</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Spostamento circolare</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Ruota attraverso lo spostamento circolare</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Spostamento aritmetico</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Spostamento logico</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Spostamento circolare</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Ruota attraverso lo spostamento circolare</translation>
     </message>
 </context>
 <context>

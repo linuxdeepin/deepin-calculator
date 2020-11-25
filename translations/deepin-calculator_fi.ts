@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>Laskin on helppokäyttöinen laskin, joka tukee tavallista, tieteellistä ja ohjelmointi tilaa.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>Ohjelmoija</translation>
     </message>
 </context>
 <context>
@@ -158,19 +158,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Aritmeettinen</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Looginen</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Ympyrä</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Pyöritä pyöreän siirron läpi</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Aritmeettinen</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Looginen</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Ympyrä</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Pyöritä pyöreän siirron läpi</translation>
     </message>
 </context>
 <context>

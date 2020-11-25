@@ -56,11 +56,11 @@
     </message>
     <message>
         <source>Standard</source>
-        <translation>Hagyományos</translation>
+        <translation>Hagyományos mód</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>Tudományos</translation>
+        <translation>Tudományos mód</translation>
     </message>
     <message>
         <source>Mode</source>
@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>A Számológép egy könnyen használható asztali számológép alkalmazás, amely támogatja a hagyományos, tudományos és programozói módokat.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>Programozói mód</translation>
     </message>
 </context>
 <context>
@@ -158,19 +158,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Számtani eltolás</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Logikai eltolás</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Körkörös eltolás</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Forgassa végig a körkörös eltolást</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Számtani eltolás</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Logikai eltolás</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Körkörös eltolás</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Forgassa végig a körkörös eltolást</translation>
     </message>
 </context>
 <context>

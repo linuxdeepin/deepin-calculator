@@ -284,19 +284,19 @@ void ProgrammerItemWidget::themetypechanged(int type)
     else
         path = QString(":/assets/images/%1/").arg("light");
 
-    if (m_label->text() == "Arithmetic shift") {
+    if (m_label->text() == tr("Arithmetic shift")) {
         m_normalUrl = path + "icon_as_normal.svg";
         m_hoverUrl = path + "icon_as_menuhover.svg";
         m_pressUrl = path + "icon_as_menuhover.svg";
-    } else if (m_label->text() == "Logical shift") {
+    } else if (m_label->text() == tr("Logical shift")) {
         m_normalUrl = path + "icon_ls_normal.svg";
         m_hoverUrl = path + "icon_ls_menuhover.svg";
         m_pressUrl = path + "icon_ls_menuhover.svg";
-    } else if (m_label->text() == "Circular shift") {
+    } else if (m_label->text() == tr("Circular shift")) {
         m_normalUrl = path + "icon_ro_normal.svg";
         m_hoverUrl = path + "icon_ro_menuhover.svg";
         m_pressUrl = path + "icon_ro_menuhover.svg";
-    } else if (m_label->text() == "Rotate through carry circular shift") {
+    } else if (m_label->text() == tr("Rotate through carry circular shift")) {
         m_normalUrl = path + "icon_rc_normal.svg";
         m_hoverUrl = path + "icon_rc_menuhover.svg";
         m_pressUrl = path + "icon_rc_menuhover.svg";

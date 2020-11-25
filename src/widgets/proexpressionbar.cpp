@@ -133,13 +133,21 @@ void ProExpressionBar::enterNumberEvent(const QString &text)
     m_inputNumber = false;
     m_isUndo = false;
 
+    //超过输入范围的不允许输入
+    QString oldtext = m_inputEdit->text();
+    int oldcurpos = m_inputEdit->cursorPosition();
     // 20200401 修改symbolFaultTolerance执行位置
-    replaceSelection(m_inputEdit->text());
-    m_inputEdit->insert(text);
-    int nowcur = m_inputEdit->cursorPosition();
-    m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
-//    m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
-    m_inputEdit->setCursorPosition(nowcur);
+    if (isNumberOutOfRange(text)) {
+        m_inputEdit->setText(oldtext);
+        m_inputEdit->setCursorPosition(oldcurpos);
+    } else {
+        replaceSelection(m_inputEdit->text());
+        m_inputEdit->insert(text);
+        int nowcur = m_inputEdit->cursorPosition();
+        m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
+        //    m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
+        m_inputEdit->setCursorPosition(nowcur);
+    }
     emit clearStateChanged(false);
 }
 
@@ -400,13 +408,13 @@ void ProExpressionBar::enterEqualEvent()
             result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
             break;
         case 8:
-            result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Octal()).remove("0o");
+            result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o");
             break;
         case 2:
-            result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
+            result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
             break;
         default:
-            result = DMath::format(ans, Quantity::Format::Fixed());
+            result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
             break;
         }
         QString formatResult = Utils::formatThousandsSeparators(result);
@@ -449,6 +457,7 @@ void ProExpressionBar::enterEqualEvent()
     }
     m_isResult = true;
     m_isUndo = false;
+    m_inputEdit->getCurrentCursorPositionNumber(m_inputEdit->cursorPosition());
 }
 
 void ProExpressionBar::enterNotEvent()
@@ -1175,6 +1184,78 @@ bool ProExpressionBar::isSymbol(const QString &text)
         return true;
     else
         return false;
+}
+
+bool ProExpressionBar::isNumberOutOfRange(const QString &text)
+{
+    QString curtext = m_inputEdit->text();
+    int pos = m_inputEdit->cursorPosition();
+    SSelection selection = m_inputEdit->getSelection();
+    if (selection.selected != "") {
+        curtext.remove(selection.curpos, selection.selected.size());
+        pos = selection.curpos;
+    }
+    QString currentnum = QString();
+    curtext.insert(pos, text);
+    int numstart = pos - 1, numend = pos - 1;
+    if (numstart >= 0 &&
+            (isnumber(curtext.at(numstart)) ||
+             ((numstart == 0) && curtext.at(numstart) == QString::fromUtf8("－")))) {
+        while (numstart > 0 && (isnumber(curtext.at(numstart - 1)) ||
+                                ((numstart == 1) && isnumber(curtext.at(1)) && curtext.at(0) == QString::fromUtf8("－")))) {
+            numstart--;
+        }
+        while (numend < curtext.length() - 1 && isnumber(curtext.at(numend + 1))) {
+            numend++;
+        }
+        currentnum = curtext.mid(numstart, numend + 1 - numstart);
+        currentnum = InputEdit::formatExpression(Settings::instance()->programmerBase, currentnum);
+    } else {
+        currentnum = InputEdit::formatExpression(Settings::instance()->programmerBase, text);
+    }
+    Quantity ans(HNumber(currentnum.toLatin1().data(), true));
+    if (ans.isNan())
+        return true;
+    currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
+    if (Settings::instance()->programmerBase == 10) {
+        Quantity posans;
+        Quantity negans;
+        switch (Settings::instance()->proBitLength) {
+        case 8:
+            posans = ans - Quantity(128);
+            negans = ans + Quantity(129);
+            if (!posans.isNegative() || !negans.isPositive())
+                return true;
+            else
+                break;
+        case 16:
+            posans = ans - Quantity(32768);
+            negans = ans + Quantity(32769);
+            if (!posans.isNegative() || !negans.isPositive())
+                return true;
+            else
+                break;
+        case 32:
+            posans = ans - Quantity(HNumber("2147483648"));
+            negans = ans + Quantity(HNumber("2147483649"));
+            if (!posans.isNegative() || !negans.isPositive())
+                return true;
+            else
+                break;
+        case 64:
+            posans = ans - Quantity(HNumber("9223372036854775808"));
+            negans = ans + Quantity(HNumber("9223372036854775809"));
+            if (!posans.isNegative() || !negans.isPositive())
+                return true;
+            else
+                break;
+        }
+    } else {
+        if (currentnum.length() > Settings::instance()->proBitLength)
+            return true;
+    }
+
+    return false;
 }
 
 void ProExpressionBar::handleTextChanged()

@@ -813,7 +813,7 @@ char *formatFixed(cfloatnum x, int prec, int base = 10)
         prec = HMATH_MAX_SHOWN;
     }
     //add 20200603 不需要为精度补0
-    if (prec == 15 || prec == 31) {
+    if (prec == 15 || prec == 31 || prec == 65) {
         flags |= IO_FLAG_SUPPRESS_TRL_ZERO;
     }
     char *result = _doFormat(x, base, base, IO_MODE_FIXPOINT, prec, flags);
@@ -903,6 +903,7 @@ char *formatComplement(cfloatnum x, int prec, int base = 10)
         flags |= IO_FLAG_SUPPRESS_TRL_ZERO;
         prec = HMATH_MAX_SHOWN;
     }
+    flags |= IO_FLAG_SUPPRESS_TRL_ZERO;
     char *result = _doFormat(x, base, base, IO_MODE_COMPLEMENT, prec, flags);
     return result;
 }
@@ -951,6 +952,10 @@ QString HMath::format(const HNumber &hn, HNumber::Format format)
         if (base == 8 || base == 16) {
             rs = formatComplement(&hn.d->fnum, format.precision, 2);
             HNumber x(rs, true);
+            rs = formatFixed(&x.d->fnum, format.precision, base);
+        } else if (base == 10) {
+            rs = formatComplement(&hn.d->fnum, format.precision, 2);
+            HNumber x(rs);
             rs = formatFixed(&x.d->fnum, format.precision, base);
         } else {
             rs = formatComplement(&hn.d->fnum, format.precision, base);

@@ -584,21 +584,22 @@ MemoryListWidget *MemoryWidget::getMemoryWidget()
 QString MemoryWidget::programmerResult(Quantity answer, bool basetag)
 {
     QString result;
+    Quantity ans = DMath::integer(answer);
     switch (Settings::instance()->programmerBase) {
     case 16:
         if (basetag)
-            return result = DMath::format(answer, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
-        return result = DMath::format(answer, Quantity::Format::Complement() + Quantity::Format::Hexadecimal());
+            return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
+        return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal());
     case 8:
         if (basetag)
-            return result = DMath::format(answer, Quantity::Format::Complement() + Quantity::Format::Octal()).remove("0o");
-        return result = DMath::format(answer, Quantity::Format::Complement() + Quantity::Format::Octal());
+            return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o");
+        return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal());
     case 2:
         if (basetag)
-            return result = DMath::format(answer, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
-        return result = DMath::format(answer, Quantity::Format::Complement() + Quantity::Format::Binary());
+            return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
+        return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary());
     default:
-        return result = DMath::format(answer, Quantity::Format::Fixed());
+        return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
     }
 }
 

@@ -55,6 +55,7 @@ public:
     void radixChanged(int baseori, int basedest);
     bool isNumber(QChar a);//判断是否为数字(分隔符)
     QString formatExpression(const int &probase, const QString &text);
+    void answerOutOfRange(Quantity ans);
 
 signals:
     void hisbtnhidden();

@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>Llogaritësi është një makinë llogaritëse për desktop, e lehtë për t’u përdorur, që mbulon mënyrat standard, shkencore dhe programues.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>Programues</translation>
     </message>
 </context>
 <context>
@@ -156,6 +156,25 @@
 </context>
 <context>
     <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
         <translation type="unfinished"/>

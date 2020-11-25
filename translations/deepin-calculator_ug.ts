@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>ئۈستەل يۈزى ھېسابلىغۇچنى ئىشلىتىش ئاسان ، ئۆلچەملىك ، ئىلمىي ۋە پروگراممېر ھالىتىنى قوللايدۇ.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>پروگراممېر</translation>
     </message>
 </context>
 <context>
@@ -158,19 +158,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>ئارفىمېتكىلىق يۆتكىلىش</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>لوگىكىلىق يۆتكىلىش</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>ئايلانما يۆتكىلىش</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>ئايلانما يۆتكىلىش ئارقىلىق ئايلىنىش</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>ئارفىمېتكىلىق يۆتكىلىش</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>لوگىكىلىق يۆتكىلىش</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>ئايلانما يۆتكىلىش</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>ئايلانما يۆتكىلىش ئارقىلىق ئايلىنىش</translation>
     </message>
 </context>
 <context>

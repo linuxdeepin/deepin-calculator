@@ -24,6 +24,7 @@
 #include <QApplication>
 
 #include "utils.h"
+#include "core/settings.h"
 
 const QString AtoF = "ABCDEF";
 
@@ -301,13 +302,13 @@ void SimpleListModel::radixChanged(int baseori, int basedest)
             num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
             break;
         case 8:
-            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Octal()).remove("0o");
+            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o");
             break;
         case 2:
-            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
+            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
             break;
         default:
-            num = DMath::format(ans, Quantity::Format::Fixed());
+            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
             break;
         }
         m_numvec.replace(i, num);
@@ -380,4 +381,35 @@ QString SimpleListModel::formatExpression(const int &probase, const QString &tex
         }
     }
     return formattext;
+}
+
+void SimpleListModel::answerOutOfRange(Quantity ans)
+{
+    QString resultnum;
+    switch (Settings::instance()->programmerBase) {
+    case 16:
+        resultnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
+        break;
+    case 8:
+        resultnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o");
+        break;
+    case 2:
+        resultnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
+        break;
+    default:
+        resultnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
+        break;
+    }
+    if (m_expressionList.count() > 0) {
+        QString expression = m_expressionList.at(0);
+        expression =  Utils::reformatSeparatorsPro((expression.left(expression.indexOf("＝") + 1) + resultnum), Settings::instance()->programmerBase)
+                      .replace('+', QString::fromUtf8("＋"))
+                      .replace('-', QString::fromUtf8("－"))
+                      .replace('*', QString::fromUtf8("×"))
+                      .replace('/', QString::fromUtf8("÷"));;
+        m_expressionList.clear();
+        beginInsertRows(QModelIndex(), 0, 0);
+        m_expressionList << expression;
+        endInsertRows();
+    }
 }

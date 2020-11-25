@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>Rekenmachine is een makkelijk te gebruiken rekenmachine met ondersteuning voor standaard- en wetenschappelijke functies.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>Programmeren</translation>
     </message>
 </context>
 <context>
@@ -158,19 +158,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Rekenkundige verschuiving</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Logische verschuiving</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Circulaire verschuiving</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Draaien door cirkelvormige verschuiving te dragen</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Rekenkundige verschuiving</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Logische verschuiving</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Circulaire verschuiving</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Draaien door cirkelvormige verschuiving te dragen</translation>
     </message>
 </context>
 <context>

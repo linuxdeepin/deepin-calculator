@@ -75,9 +75,9 @@ void ProListModel::updataList(const Quantity ans)
     QString hex, dec, otc, bin;
 
     hex = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
-    otc = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Octal()).remove("0o");
-    bin = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
-    dec = DMath::format(ans, Quantity::Format::Fixed());
+    otc = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o");
+    bin = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
+    dec = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
 
     int i = bin.length() % 4;
     while (i != 4 && i != 0) {

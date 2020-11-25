@@ -77,6 +77,9 @@ ProgramModule::ProgramModule(QWidget *parent)
     //输入栏交互
     connect(m_proExpressionBar->getInputEdit(), &InputEdit::cursorPositionNumberChanged, m_proSystemKeypad, &ProSystemKeypad::setvalue);
     connect(m_proSystemKeypad, &ProSystemKeypad::valuechanged, m_proExpressionBar->getInputEdit(), &InputEdit::valueChangeFromProSyskeypad);
+    connect(m_proSystemKeypad, &ProSystemKeypad::longbitcut, [ = ](Quantity ans) {
+        m_proExpressionBar->findChild<SimpleListModel *>()->answerOutOfRange(ans);
+    });
     connect(m_proExpressionBar, &ProExpressionBar::clearStateChanged, this,
             &ProgramModule::handleClearStateChanged);
     connect(m_proExpressionBar->getInputEdit(), &InputEdit::prolistAns, this, [ = ](QPair<bool, Quantity> pair) {

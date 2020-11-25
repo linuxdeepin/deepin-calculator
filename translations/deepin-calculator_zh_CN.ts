@@ -174,6 +174,25 @@
     </message>
 </context>
 <context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>算数移位</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>逻辑移位</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>循环移位</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>带进位循环移位</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>

@@ -66,6 +66,7 @@ private:
     void expressionCheck();
     QString symbolFaultTolerance(const QString &text);
     bool isSymbol(const QString &text);
+    bool isNumberOutOfRange(const QString &text);
 
 private slots:
     void handleTextChanged();
