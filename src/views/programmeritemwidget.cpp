@@ -25,6 +25,12 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, const QString path, QW
     hlayout->addWidget(markWidget);
     hlayout->addSpacing(8);
     hlayout->addWidget(m_label);
+    m_label->setFixedWidth(180);
+    m_label->setWordWrap(true);
+    QFont font;
+    font.setWeight(2);
+    font.setPixelSize(14);
+    m_label->setFont(font);
     hlayout->addStretch();
     hlayout->addWidget(m_iconbtn);
     hlayout->setMargin(0);
@@ -59,6 +65,10 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, QWidget *parent)
     hlayout->addWidget(markWidget);
     hlayout->addSpacing(8);
     hlayout->addWidget(m_label);
+    QFont font;
+    font.setWeight(2);
+    font.setPixelSize(14);
+    m_label->setFont(font);
     hlayout->setMargin(0);
     hlayout->setContentsMargins(0, 0, 21, 0);
     setLayout(hlayout);
