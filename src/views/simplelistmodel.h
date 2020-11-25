@@ -56,6 +56,7 @@ public:
     bool isNumber(QChar a);//判断是否为数字(分隔符)
     QString formatExpression(const int &probase, const QString &text);
     void answerOutOfRange(Quantity ans);
+    void expOutofRange();
 
 signals:
     void hisbtnhidden();
@@ -70,6 +71,7 @@ private:
     QVector<QString> m_numvec;
     QVector<QString> m_opvec;
     QString m_textorder;
+    bool m_numchanged = false;
 };
 
 #endif

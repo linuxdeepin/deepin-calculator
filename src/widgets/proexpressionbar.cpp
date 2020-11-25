@@ -754,9 +754,11 @@ void ProExpressionBar::copyClipboard2Result()
         return;
     QString oldText = m_inputEdit->text(); //未粘贴操作的text
     int curpos = m_inputEdit->cursorPosition(); //未粘贴操作的光标位
+    QString text = QApplication::clipboard()->text();
+    if (isNumberOutOfRange(text))
+        return;
     replaceSelection(oldText);
     QString exp = m_inputEdit->text();
-    QString text = QApplication::clipboard()->text();
     text = text.replace('+', QString::fromUtf8("＋"))
            .replace('-', QString::fromUtf8("－"))
            .replace("_", QString::fromUtf8("－"))
@@ -1209,6 +1211,12 @@ bool ProExpressionBar::isNumberOutOfRange(const QString &text)
             numend++;
         }
         currentnum = curtext.mid(numstart, numend + 1 - numstart);
+        currentnum = InputEdit::formatExpression(Settings::instance()->programmerBase, currentnum);
+    } else if (numstart == -1 && !curtext.isEmpty() && isnumber(curtext.at(0))) {
+        while (numend < curtext.length() - 1 && isnumber(curtext.at(numend + 1))) {
+            numend++;
+        }
+        currentnum = curtext.mid(0, numend + 1);
         currentnum = InputEdit::formatExpression(Settings::instance()->programmerBase, currentnum);
     } else {
         currentnum = InputEdit::formatExpression(Settings::instance()->programmerBase, text);

@@ -232,6 +232,7 @@ void SimpleListModel::radixChanged(int baseori, int basedest)
     m_numvec.clear();
     m_opvec.clear();
     m_textorder = QString();
+    m_numchanged = false;
     QString oldtext = m_expressionList.at(0);
     oldtext.remove("，").remove(" ");
     for (int i = 0; i < oldtext.length();) {
@@ -311,6 +312,8 @@ void SimpleListModel::radixChanged(int baseori, int basedest)
             num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
             break;
         }
+        if (m_numvec.at(i) != num)
+            m_numchanged = true;
         m_numvec.replace(i, num);
     }
     QString newtext = QString();
@@ -412,4 +415,9 @@ void SimpleListModel::answerOutOfRange(Quantity ans)
         m_expressionList << expression;
         endInsertRows();
     }
+}
+
+void SimpleListModel::expOutofRange()
+{
+    radixChanged(Settings::instance()->programmerBase, Settings::instance()->programmerBase);
 }

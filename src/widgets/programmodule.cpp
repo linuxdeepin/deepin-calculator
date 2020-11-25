@@ -679,23 +679,24 @@ void ProgramModule::byteArrowListWidgetItemClicked(int row, bool isselect)
         //改变m_proSystemKeypad按钮状态
         switch (m_byteArrowListWidget->currentRow()) {
         case 0:
-            m_proSystemKeypad->setSystem(64, oldsystem);
             Settings::instance()->proBitLength = 64;
+            m_proSystemKeypad->setSystem(64, oldsystem);
             break;
         case 1:
-            m_proSystemKeypad->setSystem(32, oldsystem);
             Settings::instance()->proBitLength = 32;
+            m_proSystemKeypad->setSystem(32, oldsystem);
             break;
         case 2:
-            m_proSystemKeypad->setSystem(16, oldsystem);
             Settings::instance()->proBitLength = 16;
+            m_proSystemKeypad->setSystem(16, oldsystem);
             break;
         case 3:
-            m_proSystemKeypad->setSystem(8, oldsystem);
             Settings::instance()->proBitLength = 8;
+            m_proSystemKeypad->setSystem(8, oldsystem);
             break;
         }
         m_byteArrowCurrentRow = row;
+        m_proExpressionBar->findChild<SimpleListModel *>()->expOutofRange();
     }
 }
 
