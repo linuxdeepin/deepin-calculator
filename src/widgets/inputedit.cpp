@@ -417,19 +417,26 @@ void InputEdit::valueChangeFromProSyskeypad(const QString num)
 //    qDebug() << "changenumber:" << number;
     if (text == QString()) {
         text = number;
-    } else if (numstart >= 0 && isNumber(text.at(numstart))) {
-        while (numstart != 0 && isNumber(text.at(numstart - 1))) {
+    } else if (numstart >= 0 && (isNumber(text.at(numstart)) ||
+                                 (text.length() > (numstart + 1) && isNumber(text.at(numstart + 1)) && text.at(numstart) == QString::fromUtf8("－")))) {
+        while (numstart != 0 && (isNumber(text.at(numstart - 1)) ||
+                                 ((numstart == 1) && isNumber(text.at(1)) && text.at(0) == QString::fromUtf8("－")))) {
             numstart--;
         }
         while (numend < text.length() && isNumber(text.at(numend))) {
             numend++;
         }
-        text.remove(numstart, numend - numstart).insert(numstart, number);
+        if (numstart > 0 && !isNumber(text.at(numstart - 1)) && number.at(0) == "-") {
+            text.remove(numstart, numend - numstart).insert(numstart, "(" + number);
+            numstart += 2;
+        } else
+            text.remove(numstart, numend - numstart).insert(numstart, number);
     }
     this->setText(text);
     //重新找到numend
     numend = numstart < 0 ? 0 : numstart;
-    while (numend < this->text().length() && isNumber(this->text().at(numend))) {
+    while (numend < this->text().length() && (isNumber(this->text().at(numend)) ||
+                                              ((numend == 0) && isNumber(text.at(1)) && text.at(0) == "-"))) {
         numend++;
     }
     this->setCursorPosition(numend);
@@ -1089,8 +1096,10 @@ void InputEdit::getCurrentCursorPositionNumber(const int pos)
     }
     QString currentnum = QString();
     int numstart = pos - 1, numend = pos - 1;
-    if (numstart >= 0 && isNumber(text.at(numstart))) {
-        while (numstart != 0 && isNumber(text.at(numstart - 1))) {
+    if (numstart >= 0 && (isNumber(text.at(numstart)) ||
+                          (text.length() > (numstart + 1) && isNumber(text.at(numstart + 1)) && text.at(numstart) == QString::fromUtf8("－")))) {
+        while (numstart != 0 && (isNumber(text.at(numstart - 1)) ||
+                                 ((numstart == 1) && isNumber(text.at(1)) && text.at(0) == QString::fromUtf8("－")))) {
             numstart--;
         }
         while (numend < text.length() && isNumber(text.at(numend))) {
