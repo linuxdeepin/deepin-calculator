@@ -80,9 +80,11 @@ void ProListModel::updataList(const Quantity ans)
     dec = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
 
     int i = bin.length() % 4;
-    while (i != 4 && i != 0) {
-        bin.insert(0, "0");
-        i++;
+    if (bin != "0") {
+        while (i != 4 && i != 0) {
+            bin.insert(0, "0");
+            i++;
+        }
     }
 
     hex = Utils::reformatSeparatorsPro(hex, 16);
