@@ -233,8 +233,10 @@ void SimpleListModel::radixChanged(int baseori, int basedest)
     m_opvec.clear();
     m_textorder = QString();
     m_numchanged = false;
-    QString oldtext = m_expressionList.at(0);
+    QString oldtext = m_expressionList.at(0).left(m_expressionList.at(0).indexOf("＝") + 1);
+    QString resultnum = m_expressionList.at(0).split("＝").last();
     oldtext.remove("，").remove(" ");
+    resultnum.remove("，").remove(" ");
     for (int i = 0; i < oldtext.length();) {
         if (isNumber(oldtext.at(i))) {
             for (int j = 0; j < oldtext.length() - i; j++) {
@@ -316,6 +318,22 @@ void SimpleListModel::radixChanged(int baseori, int basedest)
             m_numchanged = true;
         m_numvec.replace(i, num);
     }
+    QString result = formatExpression(baseori, resultnum);
+    Quantity ans(HNumber(result.toLatin1().data()));
+    switch (basedest) {
+    case 16:
+        result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
+        break;
+    case 8:
+        result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o");
+        break;
+    case 2:
+        result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
+        break;
+    default:
+        result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
+        break;
+    }
     QString newtext = QString();
     for (int i = 0; i < m_textorder.length(); i++) {
         if (m_textorder.at(i) == "0") {
@@ -326,6 +344,7 @@ void SimpleListModel::radixChanged(int baseori, int basedest)
             m_opvec.pop_front();
         }
     }
+    newtext = newtext + result;
     newtext = Utils::reformatSeparatorsPro(newtext, basedest).replace('+', QString::fromUtf8("＋"))
               .replace('-', QString::fromUtf8("－"))
               .replace('*', QString::fromUtf8("×"))
