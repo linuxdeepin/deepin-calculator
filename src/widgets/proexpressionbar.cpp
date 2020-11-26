@@ -383,8 +383,7 @@ void ProExpressionBar::enterEqualEvent()
     }
     QString expression = QString();
     if (Settings::instance()->programmerBase == 8 || Settings::instance()->programmerBase == 16) {
-        m_inputEdit->radixChanged(Settings::instance()->programmerBase, 2);
-        expression = InputEdit::formatExpression(2, m_inputEdit->text());
+        expression = InputEdit::formatExpression(2, m_inputEdit->scanAndExec(Settings::instance()->programmerBase, 2));
     } else {
         expression = InputEdit::formatExpression(Settings::instance()->programmerBase, m_inputEdit->text());
     }
