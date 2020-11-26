@@ -755,10 +755,7 @@ void ProExpressionBar::copyClipboard2Result()
     QString oldText = m_inputEdit->text(); //未粘贴操作的text
     int curpos = m_inputEdit->cursorPosition(); //未粘贴操作的光标位
     QString text = QApplication::clipboard()->text();
-    if (isNumberOutOfRange(text))
-        return;
-    replaceSelection(oldText);
-    QString exp = m_inputEdit->text();
+
     text = text.replace('+', QString::fromUtf8("＋"))
            .replace('-', QString::fromUtf8("－"))
            .replace("_", QString::fromUtf8("－"))
@@ -799,6 +796,10 @@ void ProExpressionBar::copyClipboard2Result()
         }
         text.replace(list[i], item);
     }
+    if (isNumberOutOfRange(text))
+        return;
+    replaceSelection(oldText);
+    QString exp = m_inputEdit->text();
     m_inputEdit->insert(text);
 
     QString faulttolerance = symbolFaultTolerance(m_inputEdit->text());
@@ -1197,72 +1198,101 @@ bool ProExpressionBar::isNumberOutOfRange(const QString &text)
         curtext.remove(selection.curpos, selection.selected.size());
         pos = selection.curpos;
     }
-    QString currentnum = QString();
     curtext.insert(pos, text);
-    int numstart = pos - 1, numend = pos - 1;
-    if (numstart >= 0 &&
-            (isnumber(curtext.at(numstart)) ||
-             ((numstart == 0) && curtext.at(numstart) == QString::fromUtf8("－")))) {
-        while (numstart > 0 && (isnumber(curtext.at(numstart - 1)) ||
-                                ((numstart == 1) && isnumber(curtext.at(1)) && curtext.at(0) == QString::fromUtf8("－")))) {
-            numstart--;
-        }
-        while (numend < curtext.length() - 1 && isnumber(curtext.at(numend + 1))) {
-            numend++;
-        }
-        currentnum = curtext.mid(numstart, numend + 1 - numstart);
-        currentnum = InputEdit::formatExpression(Settings::instance()->programmerBase, currentnum);
-    } else if (numstart == -1 && !curtext.isEmpty() && isnumber(curtext.at(0))) {
-        while (numend < curtext.length() - 1 && isnumber(curtext.at(numend + 1))) {
-            numend++;
-        }
-        currentnum = curtext.mid(0, numend + 1);
-        currentnum = InputEdit::formatExpression(Settings::instance()->programmerBase, currentnum);
-    } else {
-        currentnum = InputEdit::formatExpression(Settings::instance()->programmerBase, text);
-    }
-    Quantity ans(HNumber(currentnum.toLatin1().data(), true));
-    if (ans.isNan())
-        return true;
-    currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
-    if (Settings::instance()->programmerBase == 10) {
-        Quantity posans;
-        Quantity negans;
-        switch (Settings::instance()->proBitLength) {
-        case 8:
-            posans = ans - Quantity(128);
-            negans = ans + Quantity(129);
-            if (!posans.isNegative() || !negans.isPositive())
-                return true;
-            else
-                break;
-        case 16:
-            posans = ans - Quantity(32768);
-            negans = ans + Quantity(32769);
-            if (!posans.isNegative() || !negans.isPositive())
-                return true;
-            else
-                break;
-        case 32:
-            posans = ans - Quantity(HNumber("2147483648"));
-            negans = ans + Quantity(HNumber("2147483649"));
-            if (!posans.isNegative() || !negans.isPositive())
-                return true;
-            else
-                break;
-        case 64:
-            posans = ans - Quantity(HNumber("9223372036854775808"));
-            negans = ans + Quantity(HNumber("9223372036854775809"));
-            if (!posans.isNegative() || !negans.isPositive())
-                return true;
-            else
-                break;
-        }
-    } else {
-        if (currentnum.length() > Settings::instance()->proBitLength)
-            return true;
-    }
 
+    m_numvec.clear();
+    curtext.remove("，").remove(" ");
+    for (int i = 0; i < curtext.length();) {
+        if (isnumber(curtext.at(i))) {
+            for (int j = 0; j < curtext.length() - i; j++) {
+                if (i + j == curtext.length() - 1) {
+                    if (isnumber(curtext.at(i + j))) {
+                        m_numvec.append(curtext.mid(i, j + 1));
+                        i += j + 1;
+                    } else {
+                        m_numvec.append(curtext.mid(i, j));
+                        i += j;
+                    }
+                    break;
+                }
+                if (!isnumber(curtext.at(i + j))) {
+                    m_numvec.append(curtext.mid(i, j));
+                    i += j;
+                    break;
+                }
+            }
+        } else {
+            if (curtext.at(i).isLower()) {
+                if (curtext.at(i) == 'n' && curtext.at(i + 1) == 'a') {
+                    i += 4;
+                } else if (curtext.at(i) == 'o') {
+                    i += 2;
+                } else {
+                    i += 3;
+                }
+            } else if (i == 0 && curtext.at(i) == QString::fromUtf8("－") && curtext.length() > 1 && isnumber(curtext.at(i + 1))) {
+                i++;
+                for (int j = 0; j < curtext.length() - i; j++) {
+                    if (i + j == curtext.length() - 1) {
+                        m_numvec.append(curtext.mid(i - 1, j + 2));
+                        i += j + 1;
+                        break;
+                    }
+                    if (!isnumber(curtext.at(i + j))) {
+                        m_numvec.append(curtext.mid(i - 1, j + 1));
+                        i += j;
+                        break;
+                    }
+                }
+            } else {
+                i++;
+            }
+        }
+    }
+    for (int i = 0; i < m_numvec.size(); i++) {
+        QString num = InputEdit::formatExpression(Settings::instance()->programmerBase, m_numvec.at(i));
+        Quantity ans(HNumber(num.toLatin1().data(), true));
+        if (ans.isNan())
+            return true;
+        num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
+        if (Settings::instance()->programmerBase == 10) {
+            Quantity posans;
+            Quantity negans;
+            switch (Settings::instance()->proBitLength) {
+            case 8:
+                posans = ans - Quantity(128);
+                negans = ans + Quantity(129);
+                if (!posans.isNegative() || !negans.isPositive())
+                    return true;
+                else
+                    break;
+            case 16:
+                posans = ans - Quantity(32768);
+                negans = ans + Quantity(32769);
+                if (!posans.isNegative() || !negans.isPositive())
+                    return true;
+                else
+                    break;
+            case 32:
+                posans = ans - Quantity(HNumber("2147483648"));
+                negans = ans + Quantity(HNumber("2147483649"));
+                if (!posans.isNegative() || !negans.isPositive())
+                    return true;
+                else
+                    break;
+            case 64:
+                posans = ans - Quantity(HNumber("9223372036854775808"));
+                negans = ans + Quantity(HNumber("9223372036854775809"));
+                if (!posans.isNegative() || !negans.isPositive())
+                    return true;
+                else
+                    break;
+            }
+        } else {
+            if (num.length() > Settings::instance()->proBitLength)
+                return true;
+        }
+    }
     return false;
 }
 

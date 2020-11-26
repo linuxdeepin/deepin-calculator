@@ -87,6 +87,8 @@ private:
     QVector<QString> m_redo;
     QList<QString> m_funclist; //支持的函数
     QString m_expression = QString();
+
+    QVector<QString> m_numvec;
 };
 
 #endif // PROEXPRESSIONBAR_H
