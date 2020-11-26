@@ -344,7 +344,7 @@ void SimpleListModel::radixChanged(int baseori, int basedest)
             m_opvec.pop_front();
         }
     }
-    newtext = newtext + result;
+    newtext = newtext + (ans.isNan() ? m_expressionList.at(0).split("＝").last() : result);
     newtext = Utils::reformatSeparatorsPro(newtext, basedest).replace('+', QString::fromUtf8("＋"))
               .replace('-', QString::fromUtf8("－"))
               .replace('*', QString::fromUtf8("×"))
