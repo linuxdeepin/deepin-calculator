@@ -772,12 +772,15 @@ void ProExpressionBar::copyClipboard2Result()
     //根据不同进制，对应不同的筛选规则
     switch (Settings::instance()->programmerBase) {
     case 16:
+        text.remove(QRegExp("[G-Z]"));
         list = text.split(QRegExp("[A-F0-9＋－×÷()%\\s]"));
         break;
     case 8:
+        text.remove(QRegExp("[8-9]"));
         list = text.split(QRegExp("[0-7＋－×÷()%\\s]"));
         break;
     case 2:
+        text.remove(QRegExp("[2-9]"));
         list = text.split(QRegExp("[0-1＋－×÷()%\\s]"));
         break;
     default:
@@ -791,8 +794,9 @@ void ProExpressionBar::copyClipboard2Result()
                 item.replace(item, m_funclist[j]); //包含函数名的取出;item中若存在两个函数名，只可以替代最前面的函数名
                 break;
             }
-            if (j == m_funclist.size() - 1)
+            if (j == m_funclist.size() - 1) {
                 item.replace(item, QString());
+            }
         }
         text.replace(list[i], item);
     }
