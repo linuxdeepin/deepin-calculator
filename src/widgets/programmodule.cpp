@@ -848,28 +848,34 @@ void ProgramModule::initArrowRectangle()
     m_shiftArrowListWidget->setItemDelegate(m_shiftProgrammerArrowDelegate);
     m_shiftArrowListWidget->setFrameShape(QFrame::NoFrame); //设置边框类型，无边框
     m_shiftArrowListWidget->setAttribute(Qt::WA_TranslucentBackground, true);
+    QFont font;
+    font.setPixelSize(14);
+    font.setWeight(2);
+    QFontMetrics fm(font);
+    int width = fm.boundingRect(tr("Rotate through carry circular shift")).width();
+    int itemwidth = width > 170 ? (width + 80) : 250;
     QListWidgetItem *item1 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget1 = new ProgrammerItemWidget(tr("Arithmetic shift"), path + "icon_as_normal.svg");
+    ProgrammerItemWidget *itemwidget1 = new ProgrammerItemWidget(tr("Arithmetic shift"), itemwidth, path + "icon_as_normal.svg");
     item1->setFlags(Qt::NoItemFlags);
-    item1->setSizeHint(QSize(250, 34));
+    item1->setSizeHint(QSize(itemwidth, 34));
     m_shiftArrowListWidget->insertItem(0, item1);
     m_shiftArrowListWidget->setItemWidget(item1, itemwidget1);
     QListWidgetItem *item2 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget2 = new ProgrammerItemWidget(tr("Logical shift"), path + "icon_ls_normal.svg");
+    ProgrammerItemWidget *itemwidget2 = new ProgrammerItemWidget(tr("Logical shift"), itemwidth, path + "icon_ls_normal.svg");
     item2->setFlags(Qt::NoItemFlags);
-    item2->setSizeHint(QSize(250, 34));
+    item2->setSizeHint(QSize(itemwidth, 34));
     m_shiftArrowListWidget->insertItem(1, item2);
     m_shiftArrowListWidget->setItemWidget(item2, itemwidget2);
     QListWidgetItem *item3 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget3 = new ProgrammerItemWidget(tr("Circular shift"), path + "icon_ro_normal.svg");
+    ProgrammerItemWidget *itemwidget3 = new ProgrammerItemWidget(tr("Circular shift"), itemwidth, path + "icon_ro_normal.svg");
     item3->setFlags(Qt::NoItemFlags);
-    item3->setSizeHint(QSize(250, 34));
+    item3->setSizeHint(QSize(itemwidth, 34));
     m_shiftArrowListWidget->insertItem(2, item3);
     m_shiftArrowListWidget->setItemWidget(item3, itemwidget3);
     QListWidgetItem *item4 = new QListWidgetItem();
-    ProgrammerItemWidget *itemwidget4 = new ProgrammerItemWidget(tr("Rotate through carry circular shift"), path + "icon_rc_normal.svg");
+    ProgrammerItemWidget *itemwidget4 = new ProgrammerItemWidget(tr("Rotate through carry circular shift"), itemwidth, path + "icon_rc_normal.svg");
     item4->setFlags(Qt::NoItemFlags);
-    item4->setSizeHint(QSize(250, 34));
+    item4->setSizeHint(QSize(itemwidth, 34));
     m_shiftArrowListWidget->insertItem(3, item4);
     m_shiftArrowListWidget->setItemWidget(item4, itemwidget4);
 
@@ -878,7 +884,7 @@ void ProgramModule::initArrowRectangle()
     static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->currentItem()))
     ->isMarkHide(false);
 
-    m_shiftArrowListWidget->setFixedSize(QSize(250, 136));
+    m_shiftArrowListWidget->setFixedSize(QSize(itemwidth, 136));
 //    m_shiftArrowRectangle->setWindowFlag(Qt::Popup);
     m_shiftArrowRectangle->setRadius(15);
     m_shiftArrowRectangle->setArrowWidth(48);
@@ -889,7 +895,7 @@ void ProgramModule::initArrowRectangle()
     m_shiftArrowListWidget->move(m_shiftArrowRectangle->rect().x(),
                                  m_shiftArrowRectangle->rect().y() + m_shiftArrowRectangle->arrowHeight() + 11);
 
-    m_shiftArrowRectangle->setWidth(250);
+    m_shiftArrowRectangle->setWidth(itemwidth);
     m_shiftArrowRectangle->setShadowXOffset(0);
     m_shiftArrowRectangle->setShadowYOffset(0);
     m_shiftArrowRectangle->setShadowBlurRadius(0);

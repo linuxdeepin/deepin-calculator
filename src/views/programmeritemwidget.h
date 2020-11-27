@@ -18,7 +18,7 @@ class ProgrammerItemWidget : public QWidget
 {
     Q_OBJECT
 public:
-    ProgrammerItemWidget(QString label, const QString path, QWidget *parent = nullptr);
+    ProgrammerItemWidget(QString label, const int width, const QString path, QWidget *parent = nullptr);
     ProgrammerItemWidget(QString label, QWidget *parent = nullptr);
     ~ProgrammerItemWidget();
     void enterEvent(QEvent *event);
@@ -49,6 +49,7 @@ private:
     int m_themetype = 1;
     QSvgRenderer *m_iconRenderer;
     bool m_isshift = false; //判断是数据的列表还是移位的列表
+    int m_width = 0;//宽度
 
     //画一个勾
     QPoint m_markstart;

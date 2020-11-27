@@ -3,16 +3,17 @@
 #include <QPen>
 #include <QDomElement>
 
-ProgrammerItemWidget::ProgrammerItemWidget(QString label, const QString path, QWidget *parent)
+ProgrammerItemWidget::ProgrammerItemWidget(QString label, const int width, const QString path, QWidget *parent)
     : QWidget(parent)
     , m_iconbtn(new DIconButton(this))
     , m_label(new QLabel(label))
     , m_iconRenderer(new QSvgRenderer(this))
 {
+    m_width = width;
     setMouseTracking(true);
     setFocusPolicy(Qt::NoFocus);
     m_iconbtn->setFocusPolicy(Qt::NoFocus);
-    setFixedSize(QSize(250, 34));
+    setFixedSize(QSize(width, 34));
     setAttribute(Qt::WA_TranslucentBackground, true);
     m_currentUrl = path;
     m_iconbtn->setFlat(true);
@@ -25,8 +26,7 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, const QString path, QW
     hlayout->addWidget(markWidget);
     hlayout->addSpacing(8);
     hlayout->addWidget(m_label);
-    m_label->setFixedWidth(180);
-    m_label->setWordWrap(true);
+    m_label->setFixedWidth(width - 80);
     QFont font;
     font.setWeight(2);
     font.setPixelSize(14);
@@ -279,7 +279,7 @@ void ProgrammerItemWidget::drawIcon(QPainter *painter) const
     if (m_ispress)
         doc.documentElement().setAttribute("fill-opacity", 0.5);
     QRectF frameRect = m_iconbtn->rect();
-    frameRect.moveTo(200, 0);
+    frameRect.moveTo(m_width - 50, 0);
     m_iconRenderer->load(doc.toByteArray());
     m_iconRenderer->render(painter, frameRect);
     painter->restore();
