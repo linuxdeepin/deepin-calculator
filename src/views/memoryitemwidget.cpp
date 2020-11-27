@@ -55,7 +55,7 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     layV->addWidget(m_label);
     layV->addStretch();
     QFont font;
-    font.setPixelSize(30);
+    font.setPixelSize(29);
     m_label->setFont(font);
     m_label->setAttribute(Qt::WA_TranslucentBackground); //label窗体透明
 

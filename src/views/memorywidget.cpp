@@ -40,7 +40,7 @@
 const int GLOBALPREC = 78; //全局精度
 const int STANDARD_MWIDGET_HEIGHT = 260; //标准模式memorywidget高度
 const int SCIENTIFIC_MWIDGET_HEIGHT = 302; //科学模式memorywidget高度
-const int PROGRAMMER_MWIDGET_HEIGHT = 279; //程序猿模式memorywidget高度
+const int PROGRAMMER_MWIDGET_HEIGHT = 230; //程序猿模式memorywidget高度
 const int STANDARD_ITEM_WIDTH = 344; //标准模式宽度
 const int PRO_SCI_ITEM_WIDTH = 451; //科学-程序猿模式最小宽度
 const int STANDARD_FORMAT_PREC = 15; //标准模式科学计数位数
@@ -612,7 +612,8 @@ void MemoryWidget::resetAllLabelByBase()
     QString text;
     if (m_calculatormode == 2 && !m_isempty) {
         for (int i = 0; i < m_listwidget->count(); i++) {
-            text = programmerResult(m_list.at(i), true).replace('-', "－").replace('+', "＋");
+            text = Utils::reformatSeparatorsPro(programmerResult(m_list.at(i), true), Settings::instance()->programmerBase);
+            text = setitemwordwrap(text, i);
             static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->setTextLabel(text);
         }
     }
@@ -681,7 +682,7 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
     result.replace('-', "－").replace('+', "＋");
     int index = result.indexOf("E");
     m_line = 1;
-    if (m_calculatormode == 0 || m_calculatormode == 2) { //20201106 暂时与标准一致
+    if (m_calculatormode == 0) {
         if (index > 0 && result.left(index).length() > 13) {
             result.insert(index, "\n");
             m_line = 2;
@@ -694,7 +695,7 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
             m_clearbutton->updateWhenBtnDisable();
             m_clearbutton->showtooltip(true);
         }
-    } else {
+    } else if (m_calculatormode == 1) {
         if (index > 15) {
             result.insert(index, "\n");
             m_line = 2;
@@ -706,6 +707,20 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
         } else if (index <= 0 && result.length() > 21) {
             result.insert(20, "\n");
             m_line = 2;
+        }
+    } else {
+        if (result.length() > 29 && result.length() <= 60) {
+            result.insert(29, "\n");
+            m_line = 2;
+        } else if (result.length() > 60) {
+            result.insert(29, "\n");
+            result.insert(60, "\n");
+            m_line = 3;
+        }
+        if (m_clearbutton->isHidden() == true) {
+            m_clearbutton->show();
+            m_clearbutton->updateWhenBtnDisable();
+            m_clearbutton->showtooltip(true);
         }
     }
     if (m_listwidget->item(row)) {
