@@ -51,10 +51,10 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     m_buttonBox->setFixedSize(60, 26);
     m_buttonBox->setFocusPolicy(Qt::NoFocus);
     m_memoryBtn->setObjectName("mButtonBoxButton");
-    m_memoryBtn->setFixedSize(30, 26);
+    m_memoryBtn->setFixedSize(31, 27);
     m_memoryBtn->setIconSize(QSize(30, 26));
-    m_historyBtn->setFixedSize(30, 26);
-    m_historyBtn->setIconSize(QSize(30, 26));
+    m_historyBtn->setFixedSize(28, 26);
+    m_historyBtn->setIconSize(QSize(32, 26));
     m_memoryBtn->setFocusPolicy(Qt::TabFocus);
     QList<DButtonBoxButton *> listBtnBox;
     listBtnBox << m_memoryBtn << m_historyBtn;
