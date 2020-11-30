@@ -891,15 +891,16 @@ void ProgramModule::initArrowRectangle()
     m_shiftArrowRectangle->setArrowHeight(21);
     m_shiftArrowRectangle->setContent(m_shiftArrowListWidget);
     m_shiftArrowListWidget->installEventFilter(m_shiftArrowRectangle);
-    m_shiftArrowRectangle->move(this->rect().x() + 288, this->rect().y() + 238);//在module的138，238位置，x多出150原因未找出
-    m_shiftArrowListWidget->move(m_shiftArrowRectangle->rect().x(),
+    m_shiftArrowRectangle->move(this->rect().x() + 273, this->rect().y() + 238);//在module的138，238位置，x多出150原因未找出
+    m_shiftArrowListWidget->move(m_shiftArrowRectangle->rect().x() + 15,
                                  m_shiftArrowRectangle->rect().y() + m_shiftArrowRectangle->arrowHeight() + 11);
 
-    m_shiftArrowRectangle->setWidth(itemwidth);
+    m_shiftArrowRectangle->setFixedWidth(itemwidth + 30);
     m_shiftArrowRectangle->setShadowXOffset(0);
     m_shiftArrowRectangle->setShadowYOffset(0);
-    m_shiftArrowRectangle->setShadowBlurRadius(0);
-    m_shiftArrowRectangle->setHeight(181);
+    m_shiftArrowRectangle->setShadowBlurRadius(15);
+
+    m_shiftArrowRectangle->setHeight(191);
     m_shiftArrowRectangle->setHidden(true);
 
     m_byteArrowListWidget->setItemDelegate(m_byteProgrammerArrowDelegate);
@@ -941,15 +942,15 @@ void ProgramModule::initArrowRectangle()
     m_byteArrowRectangle->setArrowHeight(21);
     m_byteArrowRectangle->setContent(m_byteArrowListWidget);
     m_byteArrowListWidget->installEventFilter(m_byteArrowRectangle);
-    m_byteArrowRectangle->move(this->rect().x() + 215, this->rect().y() + 238);//在module的138，238位置，x多出150原因未找出
-    m_byteArrowListWidget->move(m_byteArrowRectangle->rect().x(),
+    m_byteArrowRectangle->move(this->rect().x() + 200, this->rect().y() + 238);//在module的138，238位置，x多出150原因未找出
+    m_byteArrowListWidget->move(m_byteArrowRectangle->rect().x() + 15,
                                 m_byteArrowRectangle->rect().y() + m_byteArrowRectangle->arrowHeight() + 11);
 
-    m_byteArrowRectangle->setWidth(182);
+    m_byteArrowRectangle->setWidth(212);
     m_byteArrowRectangle->setShadowXOffset(0);
     m_byteArrowRectangle->setShadowYOffset(0);
-    m_byteArrowRectangle->setShadowBlurRadius(0);
-    m_byteArrowRectangle->setHeight(181);
+    m_byteArrowRectangle->setShadowBlurRadius(15);
+    m_byteArrowRectangle->setHeight(191);
     m_byteArrowRectangle->setHidden(true);
 
     //信号槽
