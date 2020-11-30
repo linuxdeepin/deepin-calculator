@@ -173,4 +173,4 @@ add_custom_command(TARGET test
 add_dependencies(test ${PROJECT_NAME_TEST})
 
 # 设置添加gocv相关信息的输出
-#set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
