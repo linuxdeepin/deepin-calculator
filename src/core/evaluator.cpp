@@ -303,6 +303,22 @@ static Token::Operator matchOperator(const QString &text)
             result = Token::BitwiseLogicalNOR;
         if (text == "and")
             result = Token::BitwiseLogicalAND;
+        if (text == "shl")
+            result = Token::ArithmeticLeftShift;
+        if (text == "shr")
+            result = Token::ArithmeticRightShift;
+        if (text == "sal")
+            result = Token::ArithmeticLeftShift;
+        if (text == "sar")
+            result = Token::ArithmeticRightShift;
+        if (text == "rol")
+            result = Token::BitwiseLogicalAND;
+        if (text == "ror")
+            result = Token::BitwiseLogicalAND;
+        if (text == "rcl")
+            result = Token::BitwiseLogicalAND;
+        if (text == "rcr")
+            result = Token::BitwiseLogicalAND;
     } else if (text.length() == 4) {
         if (text == "nand")
             result = Token::BitwiseLogicalNAND;
@@ -991,7 +1007,9 @@ Tokens Evaluator::scan(const QString &expr) const
             //edit jingzhou 20200720 mod直接作为%取余使用，yroot,log处理方式同上
             if (isIdentifier(ch) ||
                     (ch.isDigit() && tokenText != "mod" && tokenText != "yroot" && tokenText != "log"
-                     && tokenText != "and" && tokenText != "or" && tokenText != "xor" && tokenText != "nand" && tokenText != "nor"))
+                     && tokenText != "and" && tokenText != "or" && tokenText != "xor" && tokenText != "nand" && tokenText != "nor"
+                     && tokenText != "shl" && tokenText != "shr" && tokenText != "sal" && tokenText != "sar"
+                     && tokenText != "rol" && tokenText != "ror" && tokenText != "rcl" && tokenText != "rcr"))
                 tokenText.append(ex.at(i++));
             else { // We're done with identifier.
                 int tokenSize = i - tokenStart;
@@ -1525,10 +1543,10 @@ void Evaluator::compile(const Tokens &tokens)
                         m_codes.append(Opcode::IntDiv);
                         break;
                     case Token::ArithmeticLeftShift:
-                        m_codes.append(Opcode::LSh);
+                        m_codes.append(Opcode::Sal);
                         break;
                     case Token::ArithmeticRightShift:
-                        m_codes.append(Opcode::RSh);
+                        m_codes.append(Opcode::Sar);
                         break;
                     case Token::BitwiseLogicalAND:
                         m_codes.append(Opcode::BAnd);
@@ -1936,25 +1954,33 @@ Quantity Evaluator::exec(const QVector<Opcode> &opcodes,
             stack.push(DMath::integer(val2));
             break;
 
-        case Opcode::LSh:
+        case Opcode::Sal:
             if (stack.count() < 2) {
                 m_error = /*tr*/("invalid expression");
                 return DMath::nan();
             }
             val1 = stack.pop();
             val2 = stack.pop();
-            val2 = val2 << val1;
+            if (val1.isNegative()) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val2 = checkOperatorResult(DMath::ashr(val2, -val1));
             stack.push(val2);
             break;
 
-        case Opcode::RSh:
+        case Opcode::Sar:
             if (stack.count() < 2) {
                 m_error = /*tr*/("invalid expression");
                 return DMath::nan();
             }
             val1 = stack.pop();
             val2 = stack.pop();
-            val2 = val2 >> val1;
+            if (val1.isNegative()) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val2 = checkOperatorResult(DMath::ashr(val2, val1));
             stack.push(val2);
             break;
 
@@ -2574,10 +2600,10 @@ QString Evaluator::dump()
         case Opcode::Fact:
             code = "Fact";
             break;
-        case Opcode::LSh:
+        case Opcode::Sal:
             code = "LSh";
             break;
-        case Opcode::RSh:
+        case Opcode::Sar:
             code = "RSh";
             break;
         case Opcode::BAnd:

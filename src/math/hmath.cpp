@@ -2042,7 +2042,7 @@ HNumber HMath::sgnext(const HNumber &val, const HNumber &bits)
  */
 HNumber HMath::ashr(const HNumber &val, const HNumber &bits)
 {
-    if (val.isNan() || bits <= -LOGICRANGE || bits >= LOGICRANGE || !bits.isInteger())
+    if (val.isNan() || bits <= -Settings::instance()->proBitLength || bits >= Settings::instance()->proBitLength || !bits.isInteger())
         return HMath::nan();
     if (bits >= 0)
         return val >> bits;
