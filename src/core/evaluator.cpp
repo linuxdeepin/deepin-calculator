@@ -281,7 +281,6 @@ static Token::Operator matchOperator(const QString &text)
         default:
             result = Token::Invalid;
         }
-
     } else if (text.length() == 2) {
         if (text == "**")
             result = Token::Exponentiation;
@@ -291,11 +290,22 @@ static Token::Operator matchOperator(const QString &text)
             result = Token::ArithmeticRightShift;
         else if (text == "->" || text == "in")
             result = Token::UnitConversion;
+        else if (text == "or")
+            result = Token::BitwiseLogicalOR;
     } else if (text.length() == 3) {               //edit jingzhou 20200720 增加mod、yroot、log
         if (text == "mod")
             result = Token::Modulo;
         if (text == "log")
             result = Token::Log;
+        if (text == "xor")
+            result = Token::BitwiseLogicalXOR;
+        if (text == "nor")
+            result = Token::BitwiseLogicalNOR;
+        if (text == "and")
+            result = Token::BitwiseLogicalAND;
+    } else if (text.length() == 4) {
+        if (text == "nand")
+            result = Token::BitwiseLogicalNAND;
     } else if (text.length() == 5) {
         if (text == "yroot")
             result = Token::Yroot;
@@ -342,10 +352,16 @@ static int opPrecedence(Token::Operator op)
     case Token::ArithmeticRightShift:
         prec = 200;
         break;
+    //逻辑运算优先级：&与 > ^异或 > |或
     case Token::BitwiseLogicalAND:
+    case Token::BitwiseLogicalNAND:
         prec = 100;
         break;
+    case Token::BitwiseLogicalXOR:
+        prec = 75;
+        break;
     case Token::BitwiseLogicalOR:
+    case Token::BitwiseLogicalNOR:
         prec = 50;
         break;
     case Token::UnitConversion:
@@ -973,7 +989,9 @@ Tokens Evaluator::scan(const QString &expr) const
         case InIdentifier:
             // Consume as long as alpha, dollar sign, underscore, or digit.
             //edit jingzhou 20200720 mod直接作为%取余使用，yroot,log处理方式同上
-            if (isIdentifier(ch) || (ch.isDigit() && tokenText != "mod" && tokenText != "yroot" && tokenText != "log"))
+            if (isIdentifier(ch) ||
+                    (ch.isDigit() && tokenText != "mod" && tokenText != "yroot" && tokenText != "log"
+                     && tokenText != "and" && tokenText != "or" && tokenText != "xor" && tokenText != "nand" && tokenText != "nor"))
                 tokenText.append(ex.at(i++));
             else { // We're done with identifier.
                 int tokenSize = i - tokenStart;
@@ -1518,6 +1536,16 @@ void Evaluator::compile(const Tokens &tokens)
                     case Token::BitwiseLogicalOR:
                         m_codes.append(Opcode::BOr);
                         break;
+                    //add jingzhou 20201201 增加逻辑运算nand，nor，xor
+                    case Token::BitwiseLogicalNAND:
+                        m_codes.append(Opcode::BNand);
+                        break;
+                    case Token::BitwiseLogicalNOR:
+                        m_codes.append(Opcode::BNor);
+                        break;
+                    case Token::BitwiseLogicalXOR:
+                        m_codes.append(Opcode::BXor);
+                        break;
                     case Token::UnitConversion: {
                         static const QRegExp unitNameNumberRE(
                             "(^[0-9e\\+\\-\\.,]|[0-9e\\.,]$)",
@@ -1949,6 +1977,41 @@ Quantity Evaluator::exec(const QVector<Opcode> &opcodes,
             val1 = stack.pop();
             val2 = stack.pop();
             val2 |= val1;
+            stack.push(val2);
+            break;
+
+        case Opcode::BNand:
+            if (stack.count() < 2) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val1 = stack.pop();
+            val2 = stack.pop();
+            val2 &= val1;
+            val2 = ~ val2;
+            stack.push(val2);
+            break;
+
+        case Opcode::BNor:
+            if (stack.count() < 2) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val1 = stack.pop();
+            val2 = stack.pop();
+            val2 |= val1;
+            val2 = ~ val2;
+            stack.push(val2);
+            break;
+
+        case Opcode::BXor:
+            if (stack.count() < 2) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val1 = stack.pop();
+            val2 = stack.pop();
+            val2 ^= val1;
             stack.push(val2);
             break;
 
