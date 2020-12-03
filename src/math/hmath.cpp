@@ -646,6 +646,7 @@ HNumber::Format::Format()
     : base(Base::Null)
     , radixChar(RadixChar::Null)
     , mode(Mode::Null)
+    , cut(AutoCut::Null)
     , precision(PrecisionNull)
 {
 }
@@ -654,6 +655,7 @@ HNumber::Format::Format(const HNumber::Format &other)
     : base(other.base)
     , radixChar(other.radixChar)
     , mode(other.mode)
+    , cut(other.cut)
     , precision(other.precision)
 {
 }
@@ -664,6 +666,7 @@ HNumber::Format HNumber::Format::operator+(const HNumber::Format &other) const
     result.base = (this->base != Base::Null) ? this->base : other.base;
     result.radixChar = (this->radixChar != RadixChar::Null) ? this->radixChar : other.radixChar;
     result.mode = (this->mode != Mode::Null) ? this->mode : other.mode;
+    result.cut = (this->cut != AutoCut::Null) ? this->cut : other.cut;
     result.precision = (this->precision != PrecisionNull) ? this->precision : other.precision;
     return result;
 }
@@ -752,10 +755,17 @@ HNumber::Format HNumber::Format::Complement()
     return result;
 }
 
+HNumber::Format HNumber::Format::NCut()
+{
+    Format result;
+    result.cut = AutoCut::Ncut;
+    return result;
+}
+
 namespace {
 
 char *_doFormat(cfloatnum x, signed char base, signed char expbase, char outmode, int prec,
-                unsigned flags)
+                unsigned flags, bool iscut = true)
 {
     t_otokens tokens;
     char intbuf[BINPRECISION + 1];
@@ -786,9 +796,9 @@ char *_doFormat(cfloatnum x, signed char base, signed char expbase, char outmode
     float_copy(&tmp, x, DECPRECISION + 2);
     if (float_out(&tokens, &tmp, prec, base, outmode) == Success) {
         if (base == 2) {
-            sz = cattokensbin(nullptr, -1, &tokens, expbase, flags, Settings::instance()->proBitLength);
+            sz = cattokensbin(nullptr, -1, &tokens, expbase, flags, Settings::instance()->proBitLength, iscut ? 1 : -1);
             str = (char *)malloc(sz);
-            cattokensbin(str, sz, &tokens, expbase, flags, Settings::instance()->proBitLength);
+            cattokensbin(str, sz, &tokens, expbase, flags, Settings::instance()->proBitLength, iscut ? 1 : -1);
         } else {
             sz = cattokens(nullptr, -1, &tokens, expbase, flags);
             str = (char *)malloc(sz);
@@ -894,7 +904,7 @@ char *formatGeneral(cfloatnum x, int prec, int base = 10)
 /**
  add jingzhou 20201118,增加补码方式的格式化
  */
-char *formatComplement(cfloatnum x, int prec, int base = 10)
+char *formatComplement(cfloatnum x, int prec, int base = 10, bool iscut = true)
 {
     unsigned flags = IO_FLAG_SUPPRESS_PLUS + IO_FLAG_SUPPRESS_DOT + IO_FLAG_SUPPRESS_EXPZERO;
     if (base != 10)
@@ -904,7 +914,7 @@ char *formatComplement(cfloatnum x, int prec, int base = 10)
         prec = HMATH_MAX_SHOWN;
     }
     flags |= IO_FLAG_SUPPRESS_TRL_ZERO;
-    char *result = _doFormat(x, base, base, IO_MODE_COMPLEMENT, prec, flags);
+    char *result = _doFormat(x, base, base, IO_MODE_COMPLEMENT, prec, flags, iscut);
     return result;
 }
 
@@ -938,6 +948,10 @@ QString HMath::format(const HNumber &hn, HNumber::Format format)
         break;
     }
 
+    bool isautocut = true;
+    if (format.cut == HNumber::Format::AutoCut::Ncut)
+        isautocut = false;
+
     switch (format.mode) {
     case HNumber::Format::Mode::Fixed:
         rs = formatFixed(&hn.d->fnum, format.precision, base);
@@ -950,15 +964,15 @@ QString HMath::format(const HNumber &hn, HNumber::Format format)
         break;
     case HNumber::Format::Mode::Complement:
         if (base == 8 || base == 16) {
-            rs = formatComplement(&hn.d->fnum, format.precision, 2);
+            rs = formatComplement(&hn.d->fnum, format.precision, 2, isautocut);
             HNumber x(rs, true);
             rs = formatFixed(&x.d->fnum, format.precision, base);
         } else if (base == 10) {
-            rs = formatComplement(&hn.d->fnum, format.precision, 2);
+            rs = formatComplement(&hn.d->fnum, format.precision, 2, isautocut);
             HNumber x(rs);
             rs = formatFixed(&x.d->fnum, format.precision, base);
         } else {
-            rs = formatComplement(&hn.d->fnum, format.precision, base);
+            rs = formatComplement(&hn.d->fnum, format.precision, base, isautocut);
         }
         break;
     case HNumber::Format::Mode::General:

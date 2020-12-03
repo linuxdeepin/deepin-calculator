@@ -177,7 +177,7 @@ Error parse(p_itokens tokens, const char **buf);
 int cattokens(char *buf, int bufsz, p_otokens tokens,
               signed char expbase, unsigned flags);
 int cattokensbin(char *buf, int bufsz, p_otokens tokens,
-                 signed char expbase, unsigned flags, int bitlength);
+                 signed char expbase, unsigned flags, int bitlength, signed char iscut);
 void float_stdconvert();
 char setioparams(p_ioparams params);
 char delioparams(signed char base);

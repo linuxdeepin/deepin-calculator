@@ -101,10 +101,12 @@ public:
         enum class Base { Null, Binary, Decimal, Octal, Hexadecimal };
         enum class RadixChar { Null, Point, Comma };
         enum class Mode { Null, General, Fixed, Scientific, Engineering, Complement};
+        enum class AutoCut {Null, Ncut};
 
         Base base;
         RadixChar radixChar;
         Mode mode;
+        AutoCut cut;
         int precision;  // -1 means 'auto'
         static const int PrecisionNull = -1000;
 
@@ -127,6 +129,8 @@ public:
         static Format Scientific();
         static Format Engineering();
         static Format Complement();
+
+        static Format NCut();
     };
 };
 

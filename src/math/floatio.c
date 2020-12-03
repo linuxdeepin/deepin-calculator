@@ -1044,7 +1044,7 @@ cattokens(
   return sz;
 }
 
-int cattokensbin(char *buf, int bufsz, p_otokens tokens, signed char expbase, unsigned flags, int bitlength)
+int cattokensbin(char *buf, int bufsz, p_otokens tokens, signed char expbase, unsigned flags, int bitlength, signed char iscut)
 {
     int sz;
     int fraclg;
@@ -1158,8 +1158,22 @@ int cattokensbin(char *buf, int bufsz, p_otokens tokens, signed char expbase, un
     }
     if (printleading0)
       ++sz;
+    char cutnum[bitlength];
+    memset(cmpltag,0,bitlength);
+    int cut = 0;
     if (!_isempty(tokens->intpart.buf))
-      sz += strlen(tokens->intpart.buf);
+    {
+      if(bitlength < strlen(tokens->intpart.buf) && iscut > 0)
+      {
+          cut = 1;
+          strncpy(cutnum,tokens->intpart.buf + (strlen(tokens->intpart.buf) - bitlength),bitlength);
+          sz += bitlength;
+      }
+      else
+      {
+          sz += strlen(tokens->intpart.buf);
+      }
+    }
     if (printdot)
       sz += 1;
     sz += fraclg;
@@ -1184,7 +1198,10 @@ int cattokensbin(char *buf, int bufsz, p_otokens tokens, signed char expbase, un
       _cattoken(buf, basetag, printbasetag);
       _cattoken(buf, cmpltag, printcmpl);
       _cattoken(buf, "0", printleading0);
-      _cattoken(buf, tokens->intpart.buf, 1);
+      if(cut == 0)
+          _cattoken(buf, tokens->intpart.buf, 1);
+      else
+          strncat(buf, cutnum, bitlength);
       cbuf[0] = dot;
       _cattoken(buf, cbuf, printdot);
       if (fraclg > 0)

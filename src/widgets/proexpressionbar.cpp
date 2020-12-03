@@ -1257,7 +1257,7 @@ bool ProExpressionBar::isNumberOutOfRange(const QString &text)
         Quantity ans(HNumber(num.toLatin1().data(), true));
         if (ans.isNan())
             return true;
-        num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
+        num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary() + Quantity::Format::NCut()).remove("0b");
         if (Settings::instance()->programmerBase == 10) {
             Quantity posans;
             Quantity negans;
