@@ -1159,7 +1159,7 @@ int cattokensbin(char *buf, int bufsz, p_otokens tokens, signed char expbase, un
     if (printleading0)
       ++sz;
     char cutnum[bitlength];
-    memset(cmpltag,0,bitlength);
+    memset(cutnum,0,bitlength);
     int cut = 0;
     if (!_isempty(tokens->intpart.buf))
     {
@@ -1196,7 +1196,8 @@ int cattokensbin(char *buf, int bufsz, p_otokens tokens, signed char expbase, un
       cbuf[0] = _decodesign(tokens->sign);
       _cattoken(buf, cbuf, printsign);
       _cattoken(buf, basetag, printbasetag);
-      _cattoken(buf, cmpltag, printcmpl);
+      if(printcmpl > 0)
+           strncat(buf, cmpltag, comlength);
       _cattoken(buf, "0", printleading0);
       if(cut == 0)
           _cattoken(buf, tokens->intpart.buf, 1);
