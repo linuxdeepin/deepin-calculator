@@ -412,15 +412,14 @@ void InputEdit::valueChangeFromProSyskeypad(const QString num)
 //    qDebug() << "change";
     QString text = this->text();
     int pos = this->cursorPosition();
-    int numstart = pos - 1, numend = pos - 1;
+    int numstart = pos, numend = pos;
     QString number = formatBinaryNumber(num);
 //    qDebug() << "changenumber:" << number;
     if (text == QString()) {
         text = number;
-    } else if (numstart >= 0 && (isNumber(text.at(numstart)) ||
-                                 (text.length() > (numstart + 1) && isNumber(text.at(numstart + 1)) && text.at(numstart) == QString::fromUtf8("－")))) {
+    } else {
         while (numstart != 0 && (isNumber(text.at(numstart - 1)) ||
-                                 ((numstart == 1) && isNumber(text.at(1)) && text.at(0) == QString::fromUtf8("－")))) {
+                                 (text.length() > 1 && numstart == 1 && isNumber(text.at(1)) && text.at(0) == QString::fromUtf8("－")))) {
             numstart--;
         }
         while (numend < text.length() && isNumber(text.at(numend))) {
@@ -1092,22 +1091,16 @@ QString InputEdit::CurrentCursorPositionNumber(const int pos, const int base)
     if (text.isEmpty()) {
         return "";
     }
-    if (pos == 0 || !isNumber(text.at(pos - 1))) {
-        return "";
-    }
     QString currentnum = QString();
-    int numstart = pos - 1, numend = pos - 1;
-    if (numstart >= 0 && (isNumber(text.at(numstart)) ||
-                          (text.length() > (numstart + 1) && isNumber(text.at(numstart + 1)) && text.at(numstart) == QString::fromUtf8("－")))) {
-        while (numstart != 0 && (isNumber(text.at(numstart - 1)) ||
-                                 ((numstart == 1) && isNumber(text.at(1)) && text.at(0) == QString::fromUtf8("－")))) {
-            numstart--;
-        }
-        while (numend < text.length() && isNumber(text.at(numend))) {
-            numend++;
-        }
-        currentnum = text.mid(numstart, numend - numstart);
+    int numstart = pos, numend = pos;
+    while (numstart != 0 && (isNumber(text.at(numstart - 1)) ||
+                             (text.length() > 1 && numstart == 1 && isNumber(text.at(1)) && text.at(0) == QString::fromUtf8("－")))) {
+        numstart--;
     }
+    while (numend < text.length() && isNumber(text.at(numend))) {
+        numend++;
+    }
+    currentnum = text.mid(numstart, numend - numstart);
     currentnum = formatExpression(Settings::instance()->programmerBase, currentnum);
     Quantity ans(HNumber(currentnum.toLatin1().data()));
     if (ans.isNan())
