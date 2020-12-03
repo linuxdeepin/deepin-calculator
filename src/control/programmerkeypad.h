@@ -52,6 +52,7 @@ public slots:
     void buttonThemeChanged(int type);
     void getFocus(int);
     void radixChanged(int row);
+    void bracketsNum(int direction, QString num); //direction 0-左括号 1-右括号
 signals:
     void buttonPressed(int);
     void buttonPressedbySpace(int);
@@ -70,6 +71,10 @@ private:
     QList<TextButton *> m_octdisable; //八进制置灰按钮
     QList<TextButton *> m_bindisable; //二进制置灰按钮
     int m_currentBase = 10;//当前进制
+
+    DLabel *m_leftBracket; //存放左括号不匹配数
+    DLabel *m_rightBracket; //存放右括号不匹配数
+    int m_themetype;
 };
 
 #endif // PROGRAMMERKEYPAD_H

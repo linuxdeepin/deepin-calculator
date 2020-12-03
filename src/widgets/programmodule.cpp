@@ -377,6 +377,21 @@ void ProgramModule::handleKeypadButtonPress(int key)
     m_proExpressionBar->addUndo();
     if (!pagefocus)
         m_proExpressionBar->getInputEdit()->setFocus();
+    int left = 0;
+    int right = 0;
+    QString text = m_proExpressionBar->getInputEdit()->text();
+    for (int i = 0; i < text.length(); i++) {
+        if (text[i] == "(")
+            left ++;
+        else if (text[i] == ")") {
+            if (left > 0)
+                left--;
+            else
+                right++;
+        }
+    }
+    m_programmerKeypad->bracketsNum(0, QString::number(left)); //写入左右括号不匹配数
+    m_programmerKeypad->bracketsNum(1, QString::number(right));
 }
 
 void ProgramModule::handleKeypadButtonPressByspace(int key)
@@ -573,6 +588,21 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
         break;
     }
     m_proExpressionBar->addUndo();
+    int left = 0;
+    int right = 0;
+    QString text = m_proExpressionBar->getInputEdit()->text();
+    for (int i = 0; i < text.length(); i++) {
+        if (text[i] == "(")
+            left ++;
+        else if (text[i] == ")") {
+            if (left > 0)
+                left--;
+            else
+                right++;
+        }
+    }
+    m_programmerKeypad->bracketsNum(0, QString::number(left)); //写入左右括号不匹配数
+    m_programmerKeypad->bracketsNum(1, QString::number(right));
 }
 
 /**
@@ -1304,6 +1334,21 @@ void ProgramModule::handleEditKeyPress(QKeyEvent *e)
         m_proExpressionBar->getInputEdit()->setFocus();
         break;
     }
+    int left = 0;
+    int right = 0;
+    QString text = m_proExpressionBar->getInputEdit()->text();
+    for (int i = 0; i < text.length(); i++) {
+        if (text[i] == "(")
+            left ++;
+        else if (text[i] == ")") {
+            if (left > 0)
+                left--;
+            else
+                right++;
+        }
+    }
+    m_programmerKeypad->bracketsNum(0, QString::number(left)); //写入左右括号不匹配数
+    m_programmerKeypad->bracketsNum(1, QString::number(right));
 }
 
 /**

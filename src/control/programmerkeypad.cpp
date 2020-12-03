@@ -30,13 +30,17 @@ const ProgrammerKeypad::KeyDescription ProgrammerKeypad::keyDescriptions[] = {
 ProgrammerKeypad::ProgrammerKeypad(QWidget *parent)
     : DWidget(parent),
       m_layout(new QGridLayout(this)),
-      m_mapper(new QSignalMapper(this))
+      m_mapper(new QSignalMapper(this)),
+      m_leftBracket(new DLabel(this)),
+      m_rightBracket(new DLabel(this))
 {
     this->setFixedHeight(KEYPAD_HEIGHT);
     m_layout->setMargin(0);
     m_layout->setSpacing(KEYPAD_SPACING);
     m_layout->setContentsMargins(0, 0, 0, 0);
 //    setFocusPolicy(Qt::StrongFocus);
+    m_leftBracket->setFixedSize(24, 14);
+    m_rightBracket->setFixedSize(24, 14);
 
     installEventFilter(this);
 
@@ -169,6 +173,7 @@ void ProgrammerKeypad::initButtons()
  */
 void ProgrammerKeypad::buttonThemeChanged(int type)
 {
+    m_themetype = type;
     QString path;
     if (type == 2)
         path = QString(":/assets/images/%1/").arg("dark");
@@ -303,8 +308,54 @@ void ProgrammerKeypad::radixChanged(int row)
     }
 }
 
+void ProgrammerKeypad::bracketsNum(int direction, QString num)
+{
+    if (num == "0")
+        num = "";
+
+    if (direction == 0)
+        m_leftBracket->setText(num);
+    else if (direction == 1)
+        m_rightBracket->setText(num);
+}
+
 void ProgrammerKeypad::initUI()
 {
+    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+
+    while (i.hasNext()) {
+        i.next();
+        if (i.key() == Key_leftBracket) {
+            m_leftBracket->setParent(i.value().first);
+            m_leftBracket->move(i.value().first->rect().x() + 37, i.value().first->rect().y() + 22);
+            connect(i.value().first, &DPushButton::pressed, [ = ]() {
+                m_leftBracket->setStyleSheet(QString("font-family:Noto Sans;color:%1;font-size:14px;")
+                                             .arg(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name()));
+            });
+            connect(static_cast<TextButton *>(i.value().first), &TextButton::mouseRelease, [ = ]() {
+                //考虑focus状态，在鼠标松开时再更改label字体颜色
+                if (m_themetype == 1)
+                    m_leftBracket->setStyleSheet(QString("font-family:Noto Sans;color:black;font-size:14px;"));
+                else
+                    m_leftBracket->setStyleSheet(QString("font-family:Noto Sans;color:white;font-size:14px;"));
+            });
+        }
+        if (i.key() == Key_rightBracket) {
+            m_rightBracket->setParent(i.value().first);
+            m_rightBracket->move(i.value().first->rect().x() + 37, i.value().first->rect().y() + 22);
+            connect(i.value().first, &DPushButton::pressed, [ = ]() {
+                m_rightBracket->setStyleSheet(QString("font-family:Noto Sans;color:%1;font-size:14px;")
+                                              .arg(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name()));
+            });
+            connect(static_cast<TextButton *>(i.value().first), &TextButton::mouseRelease, [ = ]() {
+                if (m_themetype == 1)
+                    m_rightBracket->setStyleSheet(QString("font-family:Noto Sans;color:black;font-size:14px;"));
+                else
+                    m_rightBracket->setStyleSheet(QString("font-family:Noto Sans;color:white;font-size:14px;"));
+            });
+        }
+    }
+
     button(Key_Div)->setObjectName("SymbolButton");
     button(Key_Mult)->setObjectName("SymbolButton");
     button(Key_Min)->setObjectName("SymbolButton");
