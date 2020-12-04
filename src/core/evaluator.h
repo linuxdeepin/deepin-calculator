@@ -54,7 +54,8 @@ public:
         UnitConversion,
         Function, // For managing shift/reduce conflicts.
         Yroot, Log,//add jingzhou 20200720
-        BitwiseLogicalXOR, BitwiseLogicalNAND, BitwiseLogicalNOR//add jingzhou 20201201
+        BitwiseLogicalXOR, BitwiseLogicalNAND, BitwiseLogicalNOR,//add jingzhou 20201201
+        LogicalLeftShift, LogicalRightShift // add 20201204
     };
     enum Type {
         stxUnknown, stxNumber, stxIdentifier, stxAbstract, // isOperand

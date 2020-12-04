@@ -217,6 +217,7 @@ public:
     static HNumber mask(const HNumber &, const HNumber &bits);
     static HNumber sgnext(const HNumber &, const HNumber &bits);
     static HNumber ashr(const HNumber &, const HNumber &bits);
+    static HNumber lshr(const HNumber &, const HNumber &bits);
     // IEEE-754 CONVERSION
     static HNumber decodeIeee754(const HNumber &, const HNumber &exp_bits,
                                  const HNumber &significand_bits);

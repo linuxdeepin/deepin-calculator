@@ -831,6 +831,7 @@ WRAPPER_DMATH_1(poissonVariance)
 WRAPPER_DMATH_2(mask)
 WRAPPER_DMATH_2(sgnext)
 WRAPPER_DMATH_2(ashr)
+WRAPPER_DMATH_2(lshr)
 
 
 WRAPPER_DMATH_3(decodeIeee754)

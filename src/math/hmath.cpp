@@ -2064,6 +2064,30 @@ HNumber HMath::ashr(const HNumber &val, const HNumber &bits)
 }
 
 /**
+ * 逻辑移位
+ */
+HNumber HMath::lshr(const HNumber &val, const HNumber &bits)
+{
+    if (val.isNan() || bits <= -Settings::instance()->proBitLength || bits >= Settings::instance()->proBitLength || !bits.isInteger())
+        return HMath::nan();
+    int shift = 0;
+    QString str = format(val, HNumber::Format::Complement() + HNumber::Format::Precision(65) + HNumber::Format::Binary()).remove("0b");
+    shift = bits.toInt();
+    qDebug() << str << shift;
+    if (shift < 0) {
+        return val << -bits;
+    } else {
+        if (str.length() <= shift) {
+            str = "0";
+        } else {
+            str = "0b" + str.left(str.length() - shift);
+        }
+        HNumber result(str.toLatin1().data());
+        return result;
+    }
+}
+
+/**
  * Decode an IEEE-754 bit pattern with the default exponent bias
  */
 HNumber HMath::decodeIeee754(const HNumber &val, const HNumber &exp_bits,

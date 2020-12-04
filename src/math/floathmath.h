@@ -252,7 +252,7 @@ char float_cosminus1(floatnum x, int digits);
            NaNOperand
            InvalidPrecision (digits > maxprecision-14) */
 char float_raisei(floatnum power, cfloatnum base,
-                 int exponent, int digits);
+                  int exponent, int digits);
 
 /* evaluates base^exponent
    In case of an error, x is set to NaN and 0 is returned.

@@ -44,7 +44,7 @@ CNumber::CNumber()
 /**
  * Creates a new complex number from one real number
  */
-CNumber::CNumber(const HNumber& hn) :
+CNumber::CNumber(const HNumber &hn) :
     real(hn),
     imag(0)
 {
@@ -53,7 +53,7 @@ CNumber::CNumber(const HNumber& hn) :
 /**
  * Creates a new complex number from the real and imaginary parts
  */
-CNumber::CNumber(const HNumber& x, const HNumber& y)
+CNumber::CNumber(const HNumber &x, const HNumber &y)
     : real(x)
     , imag(y)
 {
@@ -62,7 +62,7 @@ CNumber::CNumber(const HNumber& x, const HNumber& y)
 /**
  * Copies from another complex number.
  */
-CNumber::CNumber(const CNumber& cn)
+CNumber::CNumber(const CNumber &cn)
     : real(cn.real)
     , imag(cn.imag)
 {
@@ -80,13 +80,13 @@ CNumber::CNumber(int i)
 /**
  * Creates a new number from a string.
  */
-CNumber::CNumber(const char* str)
+CNumber::CNumber(const char *str)
 {
     CNumberParser parser(str);
     parser.parse(this); // FIXME: Exception management.
 }
 
-CNumber::CNumber(const QJsonObject& json)
+CNumber::CNumber(const QJsonObject &json)
 {
     *this = deSerialize(json);
 }
@@ -155,12 +155,12 @@ bool CNumber::isNearReal() const
     return imag.isNearZero();
 }
 
-void CNumber::serialize(QJsonObject& json) const
+void CNumber::serialize(QJsonObject &json) const
 {
     json["value"] = CMath::format(*this, CNumber::Format::Fixed() + CNumber::Format::Precision(DECPRECISION));
 }
 
-CNumber CNumber::deSerialize(const QJsonObject& json)
+CNumber CNumber::deSerialize(const QJsonObject &json)
 {
     CNumber result;
     if (json.contains("value")) {
@@ -196,7 +196,7 @@ Error CNumber::error() const
 /**
  * Assigns from another complex number.
  */
-CNumber& CNumber::operator=(const CNumber& cn)
+CNumber &CNumber::operator=(const CNumber &cn)
 {
     real = cn.real;
     imag = cn.imag;
@@ -206,7 +206,7 @@ CNumber& CNumber::operator=(const CNumber& cn)
 /**
  * Adds another complex number.
  */
-CNumber CNumber::operator+(const CNumber& num) const
+CNumber CNumber::operator+(const CNumber &num) const
 {
     CNumber result;
     result.real = real + num.real;
@@ -217,7 +217,7 @@ CNumber CNumber::operator+(const CNumber& num) const
 /**
  * Adds another complex number.
  */
-CNumber& CNumber::operator+=(const CNumber& num)
+CNumber &CNumber::operator+=(const CNumber &num)
 {
     return operator=(*this + num);
 }
@@ -225,7 +225,7 @@ CNumber& CNumber::operator+=(const CNumber& num)
 /**
  * Subtract from another complex number.
  */
-CNumber operator-(const CNumber& n1, const CNumber& n2)
+CNumber operator-(const CNumber &n1, const CNumber &n2)
 {
     CNumber result;
     result.real = n1.real - n2.real;
@@ -236,7 +236,7 @@ CNumber operator-(const CNumber& n1, const CNumber& n2)
 /**
  * Subtract from another complex number.
  */
-CNumber& CNumber::operator-=(const CNumber& num)
+CNumber &CNumber::operator-=(const CNumber &num)
 {
     return operator=(*this - num);
 }
@@ -244,29 +244,29 @@ CNumber& CNumber::operator-=(const CNumber& num)
 /**
  * Multiplies with another complex number.
  */
-CNumber CNumber::operator*(const CNumber& num) const
+CNumber CNumber::operator*(const CNumber &num) const
 {
     CNumber result;
-    result.real = real*num.real - imag*num.imag;
-    result.imag = imag*num.real + real*num.imag;
+    result.real = real * num.real - imag * num.imag;
+    result.imag = imag * num.real + real * num.imag;
     return result;
 }
 
 /**
  * Multiplies with another REAL number.
  */
-CNumber CNumber::operator*(const HNumber& num) const
+CNumber CNumber::operator*(const HNumber &num) const
 {
     CNumber result;
-    result.real = real*num;
-    result.imag = imag*num;
+    result.real = real * num;
+    result.imag = imag * num;
     return result;
 }
 
 /**
  * Multiplies with another number.
  */
-CNumber& CNumber::operator*=(const CNumber& num)
+CNumber &CNumber::operator*=(const CNumber &num)
 {
     return operator=(*this * num);
 }
@@ -274,15 +274,15 @@ CNumber& CNumber::operator*=(const CNumber& num)
 /**
  * Divides with another complex number.
  */
-CNumber CNumber::operator/(const CNumber& num) const
+CNumber CNumber::operator/(const CNumber &num) const
 {
     if (num.isZero())
         return CMath::nan(ZeroDivide);
     else {
         CNumber result;
-        HNumber divider = num.real*num.real + num.imag*num.imag;
-        result.real = (real*num.real + imag*num.imag) / divider;
-        result.imag = (imag*num.real - real*num.imag) / divider;
+        HNumber divider = num.real * num.real + num.imag * num.imag;
+        result.real = (real * num.real + imag * num.imag) / divider;
+        result.imag = (imag * num.real - real * num.imag) / divider;
         return result;
     }
 }
@@ -290,7 +290,7 @@ CNumber CNumber::operator/(const CNumber& num) const
 /**
  * Divides with another REAL number.
  */
-CNumber CNumber::operator/(const HNumber& num) const
+CNumber CNumber::operator/(const HNumber &num) const
 {
     if (num.isZero())
         return CMath::nan(ZeroDivide);
@@ -301,7 +301,7 @@ CNumber CNumber::operator/(const HNumber& num) const
 /**
  * Divides with another number.
  */
-CNumber& CNumber::operator/=(const CNumber& num)
+CNumber &CNumber::operator/=(const CNumber &num)
 {
     return operator=(*this / num);
 }
@@ -310,7 +310,7 @@ CNumber& CNumber::operator/=(const CNumber& num)
  * Returns -1, 0, 1 if n1 is less than, equal to, or more than n2.
  * Only valid for real numbers, since complex ones are not an ordered field.
  */
-int CNumber::compare(const CNumber& other) const
+int CNumber::compare(const CNumber &other) const
 {
     if (isReal() && other.isReal())
         return real.compare(other.real);
@@ -321,7 +321,7 @@ int CNumber::compare(const CNumber& other) const
 /**
  * Returns true if l is greater than r.
  */
-bool operator>(const CNumber& l, const CNumber& r)
+bool operator>(const CNumber &l, const CNumber &r)
 {
     return l.compare(r) > 0;
 }
@@ -329,7 +329,7 @@ bool operator>(const CNumber& l, const CNumber& r)
 /**
  * Returns true if l is less than r.
  */
-bool operator<(const CNumber& l, const CNumber& r)
+bool operator<(const CNumber &l, const CNumber &r)
 {
     return l.compare(r) < 0;
 }
@@ -337,7 +337,7 @@ bool operator<(const CNumber& l, const CNumber& r)
 /**
  * Returns true if l is greater than or equal to r.
  */
-bool operator>=(const CNumber& l, const CNumber& r)
+bool operator>=(const CNumber &l, const CNumber &r)
 {
     return l.compare(r) >= 0;
 }
@@ -345,7 +345,7 @@ bool operator>=(const CNumber& l, const CNumber& r)
 /**
  * Returns true if l is less than or equal to r.
  */
-bool operator<=(const CNumber& l, const CNumber& r)
+bool operator<=(const CNumber &l, const CNumber &r)
 {
     return l.compare(r) <= 0;
 }
@@ -353,7 +353,7 @@ bool operator<=(const CNumber& l, const CNumber& r)
 /**
  * Returns true if l is equal to r.
  */
-bool operator==(const CNumber& l, const CNumber& r)
+bool operator==(const CNumber &l, const CNumber &r)
 {
     return l.compare(r) == 0;
 }
@@ -361,7 +361,7 @@ bool operator==(const CNumber& l, const CNumber& r)
 /**
  * Returns true if l is not equal to r.
  */
-bool operator!=(const CNumber& l, const CNumber& r)
+bool operator!=(const CNumber &l, const CNumber &r)
 {
     return l.compare(r) != 0;
 }
@@ -369,7 +369,7 @@ bool operator!=(const CNumber& l, const CNumber& r)
 /**
  * Changes the sign.
  */
-CNumber operator-(const CNumber& x)
+CNumber operator-(const CNumber &x)
 {
     return CNumber(-x.real, -x.imag);
 }
@@ -380,21 +380,21 @@ CNumber::Format::Format()
 {
 }
 
-CNumber::Format::Format(const Format& other)
-    : HNumber::Format(static_cast<const HNumber::Format&>(other))
+CNumber::Format::Format(const Format &other)
+    : HNumber::Format(static_cast<const HNumber::Format &>(other))
     , notation(other.notation)
 {
 }
 
-CNumber::Format::Format(const HNumber::Format& other)
+CNumber::Format::Format(const HNumber::Format &other)
     : HNumber::Format(other)
     , notation(Notation::Null)
 {
 }
 
-CNumber::Format CNumber::Format::operator+(const CNumber::Format& other) const
+CNumber::Format CNumber::Format::operator+(const CNumber::Format &other) const
 {
-    Format result(HNumber::Format::operator+(static_cast<const HNumber::Format&>(other)));
+    Format result(HNumber::Format::operator+(static_cast<const HNumber::Format &>(other)));
     result.notation = (this->notation != Notation::Null) ? this->notation : other.notation;
     return result;
 }
@@ -450,7 +450,7 @@ CNumber CMath::i()
 /**
  * Formats the given number as string.
  */
-QString CMath::format(const CNumber& cn, CNumber::Format format)
+QString CMath::format(const CNumber &cn, CNumber::Format format)
 {
     if (cn.isNan())
         return "NaN";
@@ -464,14 +464,14 @@ QString CMath::format(const CNumber& cn, CNumber::Format format)
         QString strPhase = HMath::format(phase, format);
         return QString("%1 * exp(j*%2)").arg(strRadius, strPhase);
     } else {
-        QString real_part = cn.real.isZero()? "" : HMath::format(cn.real, format);
+        QString real_part = cn.real.isZero() ? "" : HMath::format(cn.real, format);
         QString imag_part = "";
         QString separator = "";
         QString prefix    = ""; // TODO: Insert two modes, one for a+jb and one for a+bj.
         QString postfix   = "j"; // TODO: Insert two modes, one for a+bi and one for a+bj.
 
         if (cn.imag.isPositive()) {
-            separator = cn.real.isZero() ? "": "+";
+            separator = cn.real.isZero() ? "" : "+";
             imag_part = HMath::format(cn.imag, format);
         } else {
             separator = "-";
@@ -484,7 +484,7 @@ QString CMath::format(const CNumber& cn, CNumber::Format format)
 /**
  * Returns the norm of n.
  */
-CNumber CMath::abs(const CNumber& n)
+CNumber CMath::abs(const CNumber &n)
 {
     return HMath::sqrt(n.real * n.real + n.imag * n.imag);
 }
@@ -492,7 +492,7 @@ CNumber CMath::abs(const CNumber& n)
 /*
  * Returns the complex conjugate of n
  */
-CNumber CMath::conj(const CNumber& n)
+CNumber CMath::conj(const CNumber &n)
 {
     return CNumber(n.real, -n.imag);
 }
@@ -500,7 +500,7 @@ CNumber CMath::conj(const CNumber& n)
 /**
  * Returns the square root of n.
  */
-CNumber CMath::sqrt(const CNumber& n)
+CNumber CMath::sqrt(const CNumber &n)
 {
     CNumber result;
     HNumber s = (n.imag.isPositive() || n.imag.isZero()) ? 1 : -1;
@@ -515,7 +515,7 @@ CNumber CMath::sqrt(const CNumber& n)
 /**
  * Raises n1 to an integer n.
  */
-CNumber CMath::raise(const CNumber& n1, int n)
+CNumber CMath::raise(const CNumber &n1, int n)
 {
     return CMath::exp(CMath::ln(n1) * n);
 }
@@ -523,26 +523,26 @@ CNumber CMath::raise(const CNumber& n1, int n)
 /**
  * Raises n1 to n2.
  */
-CNumber CMath::raise(const CNumber& n1, const CNumber& n2)
+CNumber CMath::raise(const CNumber &n1, const CNumber &n2)
 {
     if (n1.isZero() && (n2.real > 0))
-      return CNumber(0);
+        return CNumber(0);
     return CMath::exp(CMath::ln(n1) * n2);
 }
 
 /**
  * Returns e raised to x.
  */
-CNumber CMath::exp(const CNumber& x)
+CNumber CMath::exp(const CNumber &x)
 {
     HNumber abs = HMath::exp(x.real);
-    return CNumber(abs*HMath::cos(x.imag), abs*HMath::sin(x.imag));
+    return CNumber(abs * HMath::cos(x.imag), abs * HMath::sin(x.imag));
 }
 
 /**
  * Returns the complex natural logarithm of x.
  */
-CNumber CMath::ln(const CNumber& x)
+CNumber CMath::ln(const CNumber &x)
 {
     HNumber abs = CMath::abs(x).real;
     CNumber result;
@@ -557,7 +557,7 @@ CNumber CMath::ln(const CNumber& x)
 /**
  * Returns the common logarithm of x.
  */
-CNumber CMath::lg(const CNumber& x)
+CNumber CMath::lg(const CNumber &x)
 {
     return CMath::ln(x) / HMath::ln(10);
 }
@@ -565,7 +565,7 @@ CNumber CMath::lg(const CNumber& x)
 /**
  * Returns the binary logarithm of x.
  */
-CNumber CMath::lb(const CNumber& x)
+CNumber CMath::lb(const CNumber &x)
 {
     return CMath::ln(x) / HMath::ln(2);
 }
@@ -574,7 +574,7 @@ CNumber CMath::lb(const CNumber& x)
  * Returns the logarithm of x to base.
  * If x is non positive, returns NaN.
  */
-CNumber CMath::log(const CNumber& base, const CNumber& x)
+CNumber CMath::log(const CNumber &base, const CNumber &x)
 {
     return CMath::ln(x) / CMath::ln(base);
 }
@@ -582,7 +582,7 @@ CNumber CMath::log(const CNumber& base, const CNumber& x)
 /**
  * Returns the complex sine of x. Note that x must be in radians.
  */
-CNumber CMath::sin(const CNumber& x)
+CNumber CMath::sin(const CNumber &x)
 {
     // cf. https://en.wikipedia.org/wiki/Sine#Sine_with_a_complex_argument.
     return CNumber(HMath::sin(x.real) * HMath::cosh(x.imag), HMath::cos(x.real) * HMath::sinh(x.imag));
@@ -591,7 +591,7 @@ CNumber CMath::sin(const CNumber& x)
 /**
  * Returns the cosine of x. Note that x must be in radians.
  */
-CNumber CMath::cos(const CNumber& x)
+CNumber CMath::cos(const CNumber &x)
 {
     // Expanded using Wolfram Mathematica 9.0.
     return CNumber(HMath::cos(x.real) * HMath::cosh(x.imag), -HMath::sin(x.real) * HMath::sinh(x.imag));
@@ -600,7 +600,7 @@ CNumber CMath::cos(const CNumber& x)
 /**
  * Returns the tangent of x. Note that x must be in radians.
  */
-CNumber CMath::tan(const CNumber& x)
+CNumber CMath::tan(const CNumber &x)
 {
     return CMath::sin(x) / CMath::cos(x);
 }
@@ -608,7 +608,7 @@ CNumber CMath::tan(const CNumber& x)
 /**
  * Returns the hyperbolic sine of x.
  */
-CNumber CMath::sinh(const CNumber& x)
+CNumber CMath::sinh(const CNumber &x)
 {
     return (exp(x) - exp(-x)) / HNumber(2);
 }
@@ -616,7 +616,7 @@ CNumber CMath::sinh(const CNumber& x)
 /**
  * Returns the hyperbolic cosine of x.
  */
-CNumber CMath::cosh(const CNumber& x)
+CNumber CMath::cosh(const CNumber &x)
 {
     return (exp(x) + exp(-x)) / HNumber(2);
 }
@@ -624,7 +624,7 @@ CNumber CMath::cosh(const CNumber& x)
 /**
  * Returns the hyperbolic tangent of x.
  */
-CNumber CMath::tanh(const CNumber& x)
+CNumber CMath::tanh(const CNumber &x)
 {
     return sinh(x) / cosh(x);
 }
@@ -632,7 +632,7 @@ CNumber CMath::tanh(const CNumber& x)
 /**
  * Returns the cotangent of x. Note that x must be in radians.
  */
-CNumber CMath::cot(const CNumber& x)
+CNumber CMath::cot(const CNumber &x)
 {
     return cos(x) / sin(x);
 }
@@ -640,7 +640,7 @@ CNumber CMath::cot(const CNumber& x)
 /**
  * Returns the secant of x. Note that x must be in radians.
  */
-CNumber CMath::sec(const CNumber& x)
+CNumber CMath::sec(const CNumber &x)
 {
     return CNumber(1) / cos(x);
 }
@@ -648,7 +648,7 @@ CNumber CMath::sec(const CNumber& x)
 /**
  * Returns the cosecant of x. Note that x must be in radians.
  */
-CNumber CMath::csc(const CNumber& x)
+CNumber CMath::csc(const CNumber &x)
 {
     return CNumber(1) / sin(x);
 }
@@ -656,7 +656,7 @@ CNumber CMath::csc(const CNumber& x)
 /**
  * Returns the area hyperbolic sine of x.
  */
-CNumber CMath::arsinh(const CNumber& x)
+CNumber CMath::arsinh(const CNumber &x)
 {
     return CMath::ln(x + CMath::sqrt(x * x + CNumber(1)));
 }
@@ -664,7 +664,7 @@ CNumber CMath::arsinh(const CNumber& x)
 /**
  * Returns the area hyperbolic cosine of x.
  */
-CNumber CMath::arcosh(const CNumber& x)
+CNumber CMath::arcosh(const CNumber &x)
 {
     return CMath::ln(x + CMath::sqrt(x + CNumber(1)) * CMath::sqrt(x - CNumber(1)));
 }
@@ -672,7 +672,7 @@ CNumber CMath::arcosh(const CNumber& x)
 /**
  * Returns the area hyperbolic tangent of x.
  */
-CNumber CMath::artanh(const CNumber& x)
+CNumber CMath::artanh(const CNumber &x)
 {
     return (CNumber("0.5") * CMath::ln(CNumber(1) + x)) - (CNumber("0.5") * CMath::ln(CNumber(1) - x));
 }
@@ -680,7 +680,7 @@ CNumber CMath::artanh(const CNumber& x)
 /**
  * Returns the phase of x.
  */
-CNumber CMath::phase(const CNumber& x)
+CNumber CMath::phase(const CNumber &x)
 {
     return HMath::arctan2(x.real, x.imag);
 }
@@ -688,7 +688,7 @@ CNumber CMath::phase(const CNumber& x)
 /**
  * Returns the arc tangent of x.
  */
-CNumber CMath::arctan(const CNumber& x)
+CNumber CMath::arctan(const CNumber &x)
 {
     return CMath::i() * (CMath::ln(CNumber(1) - CMath::i() * x) - CMath::ln(CNumber(1) + CMath::i() * x)) / 2;
 }
@@ -696,7 +696,7 @@ CNumber CMath::arctan(const CNumber& x)
 /**
  * Returns the arc sine of x.
  */
-CNumber CMath::arcsin(const CNumber& x)
+CNumber CMath::arcsin(const CNumber &x)
 {
     return -CMath::i() * CMath::ln(CMath::i() * x + sqrt(CNumber(1) - x * x));
 }
@@ -704,7 +704,7 @@ CNumber CMath::arcsin(const CNumber& x)
 /**
  * Returns the arc cosine of x.
  */
-CNumber CMath::arccos(const CNumber& x)
+CNumber CMath::arccos(const CNumber &x)
 {
     return -CMath::i() * CMath::ln(x + sqrt(x * x - CNumber(1)));
 }
@@ -713,7 +713,7 @@ CNumber CMath::arccos(const CNumber& x)
  * Converts an angle from radians to degrees.
  * Also accepts complex arguments.
  */
-CNumber CMath::rad2deg(const CNumber& x)
+CNumber CMath::rad2deg(const CNumber &x)
 {
     return CNumber(HMath::rad2deg(x.real), HMath::rad2deg(x.imag));
 }
@@ -722,7 +722,7 @@ CNumber CMath::rad2deg(const CNumber& x)
  * Converts an angle from degrees to radians.
  * Also accepts complex arguments.
  */
-CNumber CMath::deg2rad(const CNumber& x)
+CNumber CMath::deg2rad(const CNumber &x)
 {
     return CNumber(HMath::deg2rad(x.real), HMath::deg2rad(x.imag));
 }
@@ -731,7 +731,7 @@ CNumber CMath::deg2rad(const CNumber& x)
  * Converts an angle from radians to gons.
  * Also accepts complex arguments.
  */
-CNumber CMath::rad2gon(const CNumber& x)
+CNumber CMath::rad2gon(const CNumber &x)
 {
     return CNumber(HMath::rad2gon(x.real), HMath::rad2gon(x.imag));
 }
@@ -740,7 +740,7 @@ CNumber CMath::rad2gon(const CNumber& x)
  * Converts an angle from gons to radians.
  * Also accepts complex arguments.
  */
-CNumber CMath::gon2rad(const CNumber& x)
+CNumber CMath::gon2rad(const CNumber &x)
 {
     return CNumber(HMath::gon2rad(x.real), HMath::gon2rad(x.imag));
 }
@@ -756,8 +756,8 @@ CNumber CMath::gon2rad(const CNumber& x)
 #define REAL_WRAPPER_CNUMBER_1(fct, error) \
     CNumber CNumber::fct() const \
     { \
-    ENSURE_REAL(*this, error); \
-    return CNumber(this->real.fct()); \
+        ENSURE_REAL(*this, error); \
+        return CNumber(this->real.fct()); \
     }
 
 #define REAL_WRAPPER_CNUMBER_2(fct, error) \
@@ -781,7 +781,7 @@ CNumber CMath::gon2rad(const CNumber& x)
         } \
         this->real.fct(x.real); \
         return *this; \
-  }
+    }
 
 #define REAL_WRAPPER_CNUMBER_4(fct, error) \
     int CNumber::fct() const \
@@ -884,13 +884,14 @@ REAL_WRAPPER_CMATH_NUM(poissonVariance, OutOfDomain)
 REAL_WRAPPER_CMATH_NUM_NUM(mask, OutOfLogicRange)
 REAL_WRAPPER_CMATH_NUM_NUM(sgnext, OutOfLogicRange)
 REAL_WRAPPER_CMATH_NUM_NUM(ashr, OutOfLogicRange)
+REAL_WRAPPER_CMATH_NUM_NUM(lshr, OutOfLogicRange)
 
 // CMath IEEE-754 CONVERSION
 REAL_WRAPPER_CMATH_NUM_NUM_NUM(decodeIeee754, OutOfDomain)
 REAL_WRAPPER_CMATH_NUM_NUM_NUM_NUM(decodeIeee754, OutOfDomain)
 
-CNumber CMath::encodeIeee754(const CNumber& val, const CNumber& exp_bits, const CNumber& significand_bits,
-                             const CNumber& exp_bias)
+CNumber CMath::encodeIeee754(const CNumber &val, const CNumber &exp_bits, const CNumber &significand_bits,
+                             const CNumber &exp_bias)
 {
     ENSURE_REAL(exp_bits, OutOfDomain);
     ENSURE_REAL(significand_bits, OutOfDomain);
@@ -900,7 +901,7 @@ CNumber CMath::encodeIeee754(const CNumber& val, const CNumber& exp_bits, const 
     return CNumber(HMath::encodeIeee754(val.real, exp_bits.real, significand_bits.real, exp_bias.real));
 }
 
-CNumber CMath::encodeIeee754(const CNumber& val, const CNumber& exp_bits, const CNumber& significand_bits)
+CNumber CMath::encodeIeee754(const CNumber &val, const CNumber &exp_bits, const CNumber &significand_bits)
 {
     ENSURE_REAL(exp_bits, OutOfDomain);
     ENSURE_REAL(significand_bits, OutOfDomain);

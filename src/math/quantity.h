@@ -226,6 +226,7 @@ public:
     static Quantity mask(const Quantity &, const Quantity &bits);
     static Quantity sgnext(const Quantity &, const Quantity &bits);
     static Quantity ashr(const Quantity &, const Quantity &bits);
+    static Quantity lshr(const Quantity &, const Quantity &bits); //逻辑移位
     // IEEE-754 CONVERSION
     static Quantity decodeIeee754(const Quantity &, const Quantity &exp_bits, const Quantity &significand_bits);
     static Quantity decodeIeee754(const Quantity &, const Quantity &exp_bits, const Quantity &significand_bits,

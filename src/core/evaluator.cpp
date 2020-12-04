@@ -304,9 +304,9 @@ static Token::Operator matchOperator(const QString &text)
         if (text == "and")
             result = Token::BitwiseLogicalAND;
         if (text == "shl")
-            result = Token::ArithmeticLeftShift;
+            result = Token::LogicalLeftShift;
         if (text == "shr")
-            result = Token::ArithmeticRightShift;
+            result = Token::LogicalRightShift;
         if (text == "sal")
             result = Token::ArithmeticLeftShift;
         if (text == "sar")
@@ -366,6 +366,8 @@ static int opPrecedence(Token::Operator op)
         break;
     case Token::ArithmeticLeftShift:
     case Token::ArithmeticRightShift:
+    case Token::LogicalLeftShift:
+    case Token::LogicalRightShift:
         prec = 200;
         break;
     //逻辑运算优先级：&与 > ^异或 > |或
@@ -1548,6 +1550,12 @@ void Evaluator::compile(const Tokens &tokens)
                     case Token::ArithmeticRightShift:
                         m_codes.append(Opcode::Sar);
                         break;
+                    case Token::LogicalLeftShift:
+                        m_codes.append(Opcode::Shl);
+                        break;
+                    case Token::LogicalRightShift:
+                        m_codes.append(Opcode::Shr);
+                        break;
                     case Token::BitwiseLogicalAND:
                         m_codes.append(Opcode::BAnd);
                         break;
@@ -1981,6 +1989,36 @@ Quantity Evaluator::exec(const QVector<Opcode> &opcodes,
                 return DMath::nan();
             }
             val2 = checkOperatorResult(DMath::ashr(val2, val1));
+            stack.push(val2);
+            break;
+
+        case Opcode::Shl:
+            if (stack.count() < 2) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val1 = stack.pop();
+            val2 = stack.pop();
+            if (val1.isNegative()) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val2 = checkOperatorResult(DMath::lshr(val2, -val1));
+            stack.push(val2);
+            break;
+
+        case Opcode::Shr:
+            if (stack.count() < 2) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val1 = stack.pop();
+            val2 = stack.pop();
+            if (val1.isNegative()) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val2 = checkOperatorResult(DMath::lshr(val2, val1));
             stack.push(val2);
             break;
 
