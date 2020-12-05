@@ -416,6 +416,9 @@ void ProExpressionBar::enterEqualEvent()
             result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
             break;
         }
+        while (result.startsWith('0') && result.length() > 1) {
+            result.remove(0, 1);
+        }
         QString formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
         formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
                        .replace(QString::fromUtf8("－"), "-")

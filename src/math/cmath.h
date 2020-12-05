@@ -203,6 +203,7 @@ public:
     static CNumber sgnext(const CNumber &, const CNumber &bits);
     static CNumber ashr(const CNumber &, const CNumber &bits);
     static CNumber lshr(const CNumber &, const CNumber &bits);
+    static CNumber rosh(const CNumber &, const CNumber &bits);
     // IEEE-754 CONVERSION
     static CNumber decodeIeee754(const CNumber &, const CNumber &exp_bits, const CNumber &significand_bits);
     static CNumber decodeIeee754(const CNumber &, const CNumber &exp_bits, const CNumber &significand_bits,

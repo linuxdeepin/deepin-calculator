@@ -312,13 +312,13 @@ static Token::Operator matchOperator(const QString &text)
         if (text == "sar")
             result = Token::ArithmeticRightShift;
         if (text == "rol")
-            result = Token::BitwiseLogicalAND;
+            result = Token::CircularLeftShift;
         if (text == "ror")
-            result = Token::BitwiseLogicalAND;
+            result = Token::CircularRightShift;
         if (text == "rcl")
-            result = Token::BitwiseLogicalAND;
+            result = Token::RotateCarryLeftShift;
         if (text == "rcr")
-            result = Token::BitwiseLogicalAND;
+            result = Token::RotateCarryRightShift;
     } else if (text.length() == 4) {
         if (text == "nand")
             result = Token::BitwiseLogicalNAND;
@@ -368,6 +368,10 @@ static int opPrecedence(Token::Operator op)
     case Token::ArithmeticRightShift:
     case Token::LogicalLeftShift:
     case Token::LogicalRightShift:
+    case Token::CircularLeftShift:
+    case Token::CircularRightShift:
+    case Token::RotateCarryLeftShift:
+    case Token::RotateCarryRightShift:
         prec = 200;
         break;
     //逻辑运算优先级：&与 > ^异或 > |或
@@ -1556,6 +1560,18 @@ void Evaluator::compile(const Tokens &tokens)
                     case Token::LogicalRightShift:
                         m_codes.append(Opcode::Shr);
                         break;
+                    case Token::CircularLeftShift:
+                        m_codes.append(Opcode::Rol);
+                        break;
+                    case Token::CircularRightShift:
+                        m_codes.append(Opcode::Ror);
+                        break;
+                    case Token::RotateCarryLeftShift:
+                        m_codes.append(Opcode::Rcl);
+                        break;
+                    case Token::RotateCarryRightShift:
+                        m_codes.append(Opcode::Rcr);
+                        break;
                     case Token::BitwiseLogicalAND:
                         m_codes.append(Opcode::BAnd);
                         break;
@@ -2019,6 +2035,36 @@ Quantity Evaluator::exec(const QVector<Opcode> &opcodes,
                 return DMath::nan();
             }
             val2 = checkOperatorResult(DMath::lshr(val2, val1));
+            stack.push(val2);
+            break;
+
+        case Opcode::Rol:
+            if (stack.count() < 2) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val1 = stack.pop();
+            val2 = stack.pop();
+            if (val1.isNegative()) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val2 = checkOperatorResult(DMath::rosh(val2, -val1));
+            stack.push(val2);
+            break;
+
+        case Opcode::Ror:
+            if (stack.count() < 2) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val1 = stack.pop();
+            val2 = stack.pop();
+            if (val1.isNegative()) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val2 = checkOperatorResult(DMath::rosh(val2, val1));
             stack.push(val2);
             break;
 

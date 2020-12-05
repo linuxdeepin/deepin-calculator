@@ -2073,7 +2073,6 @@ HNumber HMath::lshr(const HNumber &val, const HNumber &bits)
     int shift = 0;
     QString str = format(val, HNumber::Format::Complement() + HNumber::Format::Precision(65) + HNumber::Format::Binary()).remove("0b");
     shift = bits.toInt();
-    qDebug() << str << shift;
     if (shift < 0) {
         return val << -bits;
     } else {
@@ -2082,6 +2081,36 @@ HNumber HMath::lshr(const HNumber &val, const HNumber &bits)
         } else {
             str = "0b" + str.left(str.length() - shift);
         }
+        HNumber result(str.toLatin1().data());
+        return result;
+    }
+}
+
+/**
+ * 循环移位
+ */
+HNumber HMath::rosh(const HNumber &val, const HNumber &bits)
+{
+    if (val.isNan() || !bits.isInteger())
+        return HMath::nan();
+    int shift = 0;
+    HNumber bitlen(Settings::instance()->proBitLength);
+    QString str = format(val, HNumber::Format::Complement() + HNumber::Format::Precision(65) + HNumber::Format::Binary()).remove("0b");
+    shift = (bits % bitlen).toInt();
+    while (str.length() < Settings::instance()->proBitLength) {
+        str.push_front("0");
+    }
+    if (shift <= 0) {
+        shift = -shift;
+        str = "0b" + str.right(str.length() - shift) + str.left(shift);
+        HNumber result(str.toLatin1().data());
+        return result;
+    } else {
+        while (shift-- > 0) {
+            str.push_front(str.back());
+            str.chop(1);
+        }
+        str = "0b" + str;
         HNumber result(str.toLatin1().data());
         return result;
     }

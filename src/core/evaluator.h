@@ -55,7 +55,8 @@ public:
         Function, // For managing shift/reduce conflicts.
         Yroot, Log,//add jingzhou 20200720
         BitwiseLogicalXOR, BitwiseLogicalNAND, BitwiseLogicalNOR,//add jingzhou 20201201
-        LogicalLeftShift, LogicalRightShift // add 20201204
+        LogicalLeftShift, LogicalRightShift, // add 20201204
+        CircularLeftShift, CircularRightShift, RotateCarryLeftShift, RotateCarryRightShift//add 20201205
     };
     enum Type {
         stxUnknown, stxNumber, stxIdentifier, stxAbstract, // isOperand
