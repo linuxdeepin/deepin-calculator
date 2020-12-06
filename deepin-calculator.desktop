@@ -1,5 +1,6 @@
 [Desktop Entry]
 Categories=Utility;Calculator;
+Keywords=calculator;scientific;maths;numbers;deepin;dde;
 Comment=Calculator
 Exec=deepin-calculator
 GenericName=Calculator
