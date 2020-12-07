@@ -2,38 +2,192 @@
 <context>
     <name>ExpressionBar</name>
     <message>
-        <source>Expression Error</source>
-        <translation>Chyba výrazu</translation>
+        <source>Expression error</source>
+        <translation>Chyba ve výrazu</translation>
+    </message>
+</context>
+<context>
+    <name>IconButton</name>
+    <message>
+        <source>Clear all memory</source>
+        <translation>Vymazat celou paměť kalkulačky</translation>
+    </message>
+    <message>
+        <source>Clear history</source>
+        <translation>Vymazat historii</translation>
+    </message>
+</context>
+<context>
+    <name>InputEdit</name>
+    <message>
+        <source>Delete</source>
+        <translation>Smazat</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation>Vybrat vše</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>Zpět</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Znovu</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Vyjmout</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Zkopírovat</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Vložit</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Dark theme</source>
-        <translation>Tmavý vzhled</translation>
-    </message>
-    <message>
-        <source>Simple mode</source>
-        <translation>Jednoduchý režim</translation>
-    </message>
-    <message>
-        <source>Scientific mode</source>
-        <translation>Vědecký režim</translation>
-    </message>
-    <message>
-        <source>Deepin Calculator</source>
+        <source>Calculator</source>
         <translation>Kalkulačka</translation>
     </message>
     <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>Kalkulačka je jednoduchá a snadno použitelná. Podporuje sčítání, odečítání, násobení a dělení.</translation>
+        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
+        <translation>Kalkulačka je jednoduchá a snadno použitelná. Podporuje standardní a vědecké režimy.</translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation>Standardní</translation>
+    </message>
+    <message>
+        <source>Scientific</source>
+        <translation>Vědecký</translation>
+    </message>
+    <message>
+        <source>History</source>
+        <translation>Historie</translation>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation>Režim</translation>
+    </message>
+</context>
+<context>
+    <name>MemoryButton</name>
+    <message>
+        <source>Clear memory item</source>
+        <translation>Vymazat položku v paměti kalkulačky</translation>
+    </message>
+    <message>
+        <source>Clear all memory</source>
+        <translation>Vymazat paměť kalkulačky</translation>
+    </message>
+    <message>
+        <source>Memory recall</source>
+        <translation>Vyvolání obsahu paměti kalkulačky</translation>
+    </message>
+    <message>
+        <source>Add to memory item</source>
+        <translation>Přidat položku do paměti kalkulačky</translation>
+    </message>
+    <message>
+        <source>Memory add</source>
+        <translation>Přidat do paměti kalkulačky</translation>
+    </message>
+    <message>
+        <source>Subtract from memory item</source>
+        <translation>Odečíst od položky v paměti kalkulačky</translation>
+    </message>
+    <message>
+        <source>Memory subtract</source>
+        <translation>Odečíst obsah paměti kalkulačky</translation>
+    </message>
+    <message>
+        <source>Memory store</source>
+        <translation>Uložení paměti kalkulačky</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation>Paměť kalkulačky</translation>
+    </message>
+</context>
+<context>
+    <name>MemoryItemWidget</name>
+    <message>
+        <source>Copy</source>
+        <translation>Zkopírovat</translation>
+    </message>
+    <message>
+        <source>Clear memory item</source>
+        <translation>Vymazat položku v paměti kalkulačky</translation>
+    </message>
+    <message>
+        <source>Add to memory item</source>
+        <translation>Přidat položku do paměti</translation>
+    </message>
+    <message>
+        <source>Subtract from memory item</source>
+        <translation>Odečíst od položky v paměti kalkulačky</translation>
+    </message>
+</context>
+<context>
+    <name>MemoryWidget</name>
+    <message>
+        <source>Nothing saved in memory</source>
+        <translation>V paměti kalkulačky není nic uloženo</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Calculator</source>
+        <translation>Kalkulačka</translation>
+    </message>
+</context>
+<context>
+    <name>SciExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Chyba ve výrazu</translation>
+    </message>
+</context>
+<context>
+    <name>SciHistoryWidget</name>
+    <message>
+        <source>History</source>
+        <translation>Historie</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation>Paměť kalkulačky</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
-        <source>Expression Error</source>
-        <translation>Chyba výrazu</translation>
+        <source>Expression error</source>
+        <translation>Chyba ve výrazu</translation>
+    </message>
+</context>
+<context>
+    <name>SimpleListModel</name>
+    <message>
+        <source>No history</source>
+        <translation>Žádná historie</translation>
+    </message>
+</context>
+<context>
+    <name>SimpleListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Zkopírovat</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Smazat</translation>
     </message>
 </context>
 </TS>

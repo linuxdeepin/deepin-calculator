@@ -2,38 +2,192 @@
 <context>
     <name>ExpressionBar</name>
     <message>
-        <source>Expression Error</source>
-        <translation>Kifejezés hiba</translation>
+        <source>Expression error</source>
+        <translation>Kifejezési hiba</translation>
+    </message>
+</context>
+<context>
+    <name>IconButton</name>
+    <message>
+        <source>Clear all memory</source>
+        <translation>Memória teljes törlése</translation>
+    </message>
+    <message>
+        <source>Clear history</source>
+        <translation>Előzmény törlése</translation>
+    </message>
+</context>
+<context>
+    <name>InputEdit</name>
+    <message>
+        <source>Delete</source>
+        <translation>Törlés</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation>Összes kijelölése</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>Vissza</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Előre</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Kivágás</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Másolás</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Beillesztés</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Dark theme</source>
-        <translation type="unfinished"/>
+        <source>Calculator</source>
+        <translation>Számológép</translation>
     </message>
     <message>
-        <source>Simple mode</source>
-        <translation>Egyszerű mód</translation>
+        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
+        <translation>A Számológép egy könnyen használható asztali számológép, amely támogatja a hagyományos és tudományos módokat.</translation>
     </message>
     <message>
-        <source>Scientific mode</source>
-        <translation>Tudományos mód</translation>
+        <source>Standard</source>
+        <translation>Hagyományos</translation>
     </message>
     <message>
-        <source>Deepin Calculator</source>
-        <translation>Deepin Számológép</translation>
+        <source>Scientific</source>
+        <translation>Tudományos</translation>
     </message>
     <message>
-        <source>Deepin Calculator is a simple and easy to use desktop calculator. It supports addition, subtraction, multiplication and division.</source>
-        <translation>A Deepin Számológép egy letisztult és könnyen használható alkalmazás. Támogatja az összeadást, kivonást, szorzást és az osztást.</translation>
+        <source>History</source>
+        <translation>Előzmény</translation>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation>Mód</translation>
+    </message>
+</context>
+<context>
+    <name>MemoryButton</name>
+    <message>
+        <source>Clear memory item</source>
+        <translation>Memória elem törlése</translation>
+    </message>
+    <message>
+        <source>Clear all memory</source>
+        <translation>Memória teljes törlése</translation>
+    </message>
+    <message>
+        <source>Memory recall</source>
+        <translation>Memória előhívása</translation>
+    </message>
+    <message>
+        <source>Add to memory item</source>
+        <translation>Elem hozzáadása a memóriához</translation>
+    </message>
+    <message>
+        <source>Memory add</source>
+        <translation>Memóriához adás</translation>
+    </message>
+    <message>
+        <source>Subtract from memory item</source>
+        <translation>Kivonás a memóriában lévő elemből</translation>
+    </message>
+    <message>
+        <source>Memory subtract</source>
+        <translation>Memória kivonása</translation>
+    </message>
+    <message>
+        <source>Memory store</source>
+        <translation>Memóriatár</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation>Memória</translation>
+    </message>
+</context>
+<context>
+    <name>MemoryItemWidget</name>
+    <message>
+        <source>Copy</source>
+        <translation>Másolás</translation>
+    </message>
+    <message>
+        <source>Clear memory item</source>
+        <translation>Memória elem törlése</translation>
+    </message>
+    <message>
+        <source>Add to memory item</source>
+        <translation>Elem hozzáadása a memóriához</translation>
+    </message>
+    <message>
+        <source>Subtract from memory item</source>
+        <translation>Kivonás a memóriában lévő elemből</translation>
+    </message>
+</context>
+<context>
+    <name>MemoryWidget</name>
+    <message>
+        <source>Nothing saved in memory</source>
+        <translation>A memória üres</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Calculator</source>
+        <translation>Számológép</translation>
+    </message>
+</context>
+<context>
+    <name>SciExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Kifejezési hiba</translation>
+    </message>
+</context>
+<context>
+    <name>SciHistoryWidget</name>
+    <message>
+        <source>History</source>
+        <translation>Előzmény</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation>Memória</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
-        <source>Expression Error</source>
-        <translation>Kifejezés hiba</translation>
+        <source>Expression error</source>
+        <translation>Kifejezési hiba</translation>
+    </message>
+</context>
+<context>
+    <name>SimpleListModel</name>
+    <message>
+        <source>No history</source>
+        <translation>Nincs előzmény</translation>
+    </message>
+</context>
+<context>
+    <name>SimpleListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Másolás</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Törlés</translation>
     </message>
 </context>
 </TS>
