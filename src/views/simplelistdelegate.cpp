@@ -423,8 +423,11 @@ bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
     Q_UNUSED(model);
     Q_UNUSED(option);
     m_selected = true;
-    if (m_mode == 0)
+    qDebug() << "delegatepress";
+    if (m_mode == 0) {
+        qDebug() << "delegatepress" << "mode0";
         emit obtainingHistorical(index);
+    }
     return true;
 }
 

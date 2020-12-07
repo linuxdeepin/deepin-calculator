@@ -163,6 +163,7 @@ void SimpleListView::adjustScrollbarMargins()
  */
 void SimpleListView::mousePressEvent(QMouseEvent *event)
 {
+    qDebug() << "viewpress";
     static_cast<SimpleListModel *>(model())->refrushModel();
     if (m_mode == 1 && event->buttons() & Qt::LeftButton) {
         if (indexAt(event->pos()).row() > -1) {
@@ -180,6 +181,7 @@ void SimpleListView::mousePressEvent(QMouseEvent *event)
  */
 void SimpleListView::mouseReleaseEvent(QMouseEvent *event)
 {
+    qDebug() << "viewrelease";
     if (m_mode == 1) {
         static_cast<SimpleListModel *>(model())->refrushModel();
         if (m_currentrow == indexAt(event->pos()).row() && m_currentrow >= 0) {
