@@ -371,6 +371,9 @@ void ProgramModule::handleKeypadButtonPress(int key)
             break;
         }
         break;
+    case ProgrammerKeypad::Key_opposite:
+        m_proExpressionBar->enterOppositeEvent();
+        break;
     default:
         break;
     }
@@ -583,6 +586,9 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
             m_proExpressionBar->enterOperatorEvent("sar");
             break;
         }
+        break;
+    case ProgrammerKeypad::Key_opposite:
+        m_proExpressionBar->enterOppositeEvent();
         break;
     default:
         break;

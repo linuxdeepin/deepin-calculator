@@ -39,6 +39,7 @@ public slots:
 //    void enterModEvent();
     void enterNotEvent();
     void enterOperatorEvent(const QString &text);
+    void enterOppositeEvent();
     void enterLeftBracketsEvent();
     void enterRightBracketsEvent();
 

@@ -560,7 +560,6 @@ void ProExpressionBar::enterNotEvent()
             m_inputEdit->insert(")");
         }
     }
-    rx.setPattern("sRegNum1");
 }
 
 /**
@@ -609,6 +608,102 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
         }
     } else {
         m_inputEdit->setCursorPosition(curpos + length + diff);
+    }
+}
+
+void ProExpressionBar::enterOppositeEvent()
+{
+    if (m_inputEdit->text().isEmpty()) {
+        return;
+    }
+    m_isResult = false;
+    m_isUndo = false;
+    bool hasselect = (m_inputEdit->getSelection().selected != "");
+    QString oldText = m_inputEdit->text();
+    QString exp = m_inputEdit->text();
+    // 20200316百分号选中部分格式替代
+    replaceSelection(m_inputEdit->text());
+    int curPos = m_inputEdit->cursorPosition();
+    if (m_inputEdit->text() == QString()) {
+        m_inputEdit->setText("(-");
+        return;
+    }
+    QString sRegNum = "[A-F0-9,\\s]";
+    QRegExp rx;
+    rx.setPattern(sRegNum);
+    if (curPos == 0 && hasselect == false) {
+        return;
+    }
+    if ((curPos == 0 && hasselect == true) ||
+            (m_inputEdit->text().length() > curPos && rx.exactMatch(m_inputEdit->text().at(curPos)))) {
+        return;
+    }
+    // start edit for task-13519
+    //        QString sRegNum1 = "[^0-9,.×÷)]";
+    QString sRegNum1 = "[^A-F^0-9,\\s)]";
+    QRegExp rx1;
+    rx1.setPattern(sRegNum1);
+    if (rx1.exactMatch(exp.at(curPos - 1)))
+        m_inputEdit->setText(oldText);
+    else {
+        QString newtext = m_inputEdit->text();
+        int percentpos = m_inputEdit->cursorPosition();
+        int operatorpos =
+            newtext.lastIndexOf(QRegularExpression(QStringLiteral("[^A-F^0-9,\\s]")), percentpos - 1);
+
+        bool nooperator = false;
+        if (operatorpos < 0) {
+            operatorpos++;
+            nooperator = true;
+        }
+        QString exptext;  //表达式
+        if (newtext.at(percentpos - 1) == ')') {
+            if (operatorpos > 0 && newtext.at(operatorpos - 1) == '(') {
+                m_inputEdit->setText(oldText);
+                m_inputEdit->setCursorPosition(percentpos);
+                return;
+            }
+            do {
+                operatorpos = newtext.lastIndexOf('(', operatorpos - 1);
+                if (operatorpos <= 0) {
+                    break;
+                }
+            } while (newtext.mid(operatorpos, newtext.size() - operatorpos).count('(') !=
+                     newtext.mid(operatorpos, percentpos - operatorpos).count(')'));
+
+            //匹配到的(不在开头且(左侧是字母
+            QString sRegNum2 = "[a-z]";
+            QRegExp latterrx;
+            latterrx.setPattern(sRegNum2);
+            int funpos = -1; //记录函数位
+            if (operatorpos > 0 && latterrx.exactMatch(m_inputEdit->text().at(operatorpos - 1))) {
+                int i;
+                for (i = 0; i < m_funclist.size(); i++) {
+                    //记录(左侧离(最近的函数位
+                    funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], operatorpos - 1);
+                    if (funpos != -1 && (funpos + m_funclist[i].length() == operatorpos))
+                        break; //(在函数结尾
+                    else
+                        funpos = -1;
+                }
+                if (funpos != -1)
+                    operatorpos = operatorpos - m_funclist[i].length(); //截取函数
+            }
+
+            exptext = newtext.mid(operatorpos,
+                                  percentpos - operatorpos);  //截取表达式
+        } else {
+            exptext = newtext.mid(operatorpos + (nooperator == true ? 0 : 1),
+                                  percentpos - operatorpos + (nooperator == true ? 1 : 0) - 1);
+            //截取表达式
+        }
+        if (exptext.count("(") == exptext.count(")")) {
+            m_inputEdit->setCursorPosition(curPos - exptext.length());
+            m_inputEdit->insert("(-");
+            int afterinsertpos = m_inputEdit->cursorPosition();
+            m_inputEdit->setCursorPosition(afterinsertpos + exptext.length());
+            m_inputEdit->insert(")");
+        }
     }
 }
 
