@@ -1333,17 +1333,18 @@ bool ProExpressionBar::isNumberOutOfRange(const QString &text)
                 } else {
                     i += 3;
                 }
-            } else if (i == 0 && curtext.at(i) == QString::fromUtf8("－") && curtext.length() > 1 && isnumber(curtext.at(i + 1))) {
+            } else if ((i == 0 || !isnumber(curtext.at(i - 1))) && curtext.at(i) == QString::fromUtf8("－")
+                       && curtext.length() > 1 && isnumber(curtext.at(i + 1))) {
                 i++;
                 for (int j = 0; j < curtext.length() - i; j++) {
-                    if (i + j == curtext.length() - 1) {
-                        m_numvec.append(curtext.mid(i - 1, j + 2));
-                        i += j + 1;
-                        break;
-                    }
                     if (!isnumber(curtext.at(i + j))) {
                         m_numvec.append(curtext.mid(i - 1, j + 1));
                         i += j;
+                        break;
+                    }
+                    if (i + j == curtext.length() - 1) {
+                        m_numvec.append(curtext.mid(i - 1, j + 2));
+                        i += j + 1;
                         break;
                     }
                 }

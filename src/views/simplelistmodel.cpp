@@ -274,19 +274,20 @@ void SimpleListModel::radixChanged(int baseori, int basedest)
                     m_textorder += "1";
                     i += 3;
                 }
-            } else if (i == 0 && oldtext.at(i) == QString::fromUtf8("－") && oldtext.length() > 1 && isNumber(oldtext.at(i + 1))) {
+            } else if ((i == 0 || !isNumber(oldtext.at(i - 1))) && oldtext.at(i) == QString::fromUtf8("－")
+                       && oldtext.length() > 1 && isNumber(oldtext.at(i + 1))) {
                 i++;
                 for (int j = 0; j < oldtext.length() - i; j++) {
-                    if (i + j == oldtext.length() - 1) {
-                        m_numvec.append(oldtext.mid(i - 1, j + 2));
-                        m_textorder += "0";
-                        i += j + 1;
-                        break;
-                    }
                     if (!isNumber(oldtext.at(i + j))) {
                         m_numvec.append(oldtext.mid(i - 1, j + 1));
                         m_textorder += "0";
                         i += j;
+                        break;
+                    }
+                    if (i + j == oldtext.length() - 1) {
+                        m_numvec.append(oldtext.mid(i - 1, j + 2));
+                        m_textorder += "0";
+                        i += j + 1;
                         break;
                     }
                 }
