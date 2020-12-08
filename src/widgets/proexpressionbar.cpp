@@ -355,6 +355,7 @@ void ProExpressionBar::enterBackspaceEvent()
 
 void ProExpressionBar::enterClearEvent()
 {
+    Settings::instance()->proRotateCarry = "00";
     if (m_isAllClear) {
         m_listModel->clearItems();
         m_listView->reset();
@@ -390,6 +391,7 @@ void ProExpressionBar::enterEqualEvent()
     QString exp1 = symbolComplement(expression);
     m_evaluator->setExpression(exp1);
     Quantity ans = m_evaluator->evalUpdateAns();
+    Settings::instance()->proRotateCarry.replace(1, 1, Settings::instance()->proRotateCarry.front());
     // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
     // 20200407 超过16位小数未科学计数
     qDebug() << "m_evaluator->error()" << m_evaluator->error();

@@ -153,6 +153,8 @@ void Settings::load()
     programmerBase = settings->value(key + QLatin1String("ProgrammerBase"), 0).toInt();
     //改变数据类型 add jingzhou 20201119,默认为QWORD
     proBitLength = settings->value(key + QLatin1String("proBitLength"), 64).toInt();
+    //带进位循环移位标志位 add jingzhou 20201205,默认为0
+    proRotateCarry = settings->value(key + QLatin1String("proRotateCarry"), "00").toString();
 
     // Radix character special case.
     QString radixCharStr;
@@ -245,6 +247,7 @@ void Settings::save()
     settings->setValue(key + QLatin1String("AngleMode"), QString(QChar(angleUnit)));
     settings->setValue(key + QLatin1String("ProgrammerBase"), programmerBase);
     settings->setValue(key + QLatin1String("proBitLength"), proBitLength);
+    settings->setValue(key + QLatin1String("proRotateCarry"), proRotateCarry);
 
     char c = 'C';
     if (s_radixCharacter != 0)

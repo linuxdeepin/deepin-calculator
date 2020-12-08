@@ -2117,6 +2117,42 @@ HNumber HMath::rosh(const HNumber &val, const HNumber &bits)
 }
 
 /**
+ * 带进位循环移位
+ */
+HNumber HMath::rcsh(const HNumber &val, const HNumber &bits)
+{
+    if (val.isNan() || !bits.isInteger())
+        return HMath::nan();
+    int shift = 0;
+    HNumber bitlen(Settings::instance()->proBitLength + 1);
+    QString str = format(val, HNumber::Format::Complement() + HNumber::Format::Precision(65) + HNumber::Format::Binary()).remove("0b");
+    shift = (bits % bitlen).toInt();
+    while (str.length() < Settings::instance()->proBitLength) {
+        str.push_front("0");
+    }
+    str.push_front(Settings::instance()->proRotateCarry.front());
+    qDebug() << Settings::instance()->proRotateCarry.front();
+    if (shift <= 0) {
+        shift = -shift;
+        str = str.right(str.length() - shift) + str.left(shift);
+        qDebug() << str;
+        Settings::instance()->proRotateCarry.front() = str.front();
+        str = "0b" + str.right(Settings::instance()->proBitLength);
+        HNumber result(str.toLatin1().data());
+        return result;
+    } else {
+        while (shift-- > 0) {
+            str.push_front(str.back());
+            str.chop(1);
+        }
+        Settings::instance()->proRotateCarry.front() = str.front();
+        str = "0b" + str.right(Settings::instance()->proBitLength);
+        HNumber result(str.toLatin1().data());
+        return result;
+    }
+}
+
+/**
  * Decode an IEEE-754 bit pattern with the default exponent bias
  */
 HNumber HMath::decodeIeee754(const HNumber &val, const HNumber &exp_bits,

@@ -2068,6 +2068,36 @@ Quantity Evaluator::exec(const QVector<Opcode> &opcodes,
             stack.push(val2);
             break;
 
+        case Opcode::Rcl:
+            if (stack.count() < 2) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val1 = stack.pop();
+            val2 = stack.pop();
+            if (val1.isNegative()) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val2 = checkOperatorResult(DMath::rcsh(val2, -val1));
+            stack.push(val2);
+            break;
+
+        case Opcode::Rcr:
+            if (stack.count() < 2) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val1 = stack.pop();
+            val2 = stack.pop();
+            if (val1.isNegative()) {
+                m_error = /*tr*/("invalid expression");
+                return DMath::nan();
+            }
+            val2 = checkOperatorResult(DMath::rcsh(val2, val1));
+            stack.push(val2);
+            break;
+
         case Opcode::BAnd:
             if (stack.count() < 2) {
                 m_error = /*tr*/("invalid expression");
@@ -2411,6 +2441,7 @@ Quantity Evaluator::eval()
 
 Quantity Evaluator::evalUpdateAns()
 {
+    Settings::instance()->proRotateCarry.front() = Settings::instance()->proRotateCarry.at(1);
     auto result = eval();
     if (m_error.isEmpty() && !m_assignFunc)
         setVariable(QLatin1String("ans"), result, Variable::BuiltIn);

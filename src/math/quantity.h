@@ -228,6 +228,7 @@ public:
     static Quantity ashr(const Quantity &, const Quantity &bits);
     static Quantity lshr(const Quantity &, const Quantity &bits); //逻辑移位
     static Quantity rosh(const Quantity &, const Quantity &bits); //循环移位
+    static Quantity rcsh(const Quantity &, const Quantity &bits); //带进位循环移位
     // IEEE-754 CONVERSION
     static Quantity decodeIeee754(const Quantity &, const Quantity &exp_bits, const Quantity &significand_bits);
     static Quantity decodeIeee754(const Quantity &, const Quantity &exp_bits, const Quantity &significand_bits,
