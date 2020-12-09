@@ -1440,9 +1440,9 @@ void ExpressionBar::settingLinkage()
 
 void ExpressionBar::initConnect()
 {
-    connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this,
+    connect(m_listView, &SimpleListView::obtainingHistoricalSimple, this,
             &ExpressionBar::revisionResults);
-    connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, m_inputEdit,
+    connect(m_listView, &SimpleListView::obtainingHistoricalSimple, m_inputEdit,
             &InputEdit::hisexpression);
     connect(m_inputEdit, &InputEdit::textChanged, this, &ExpressionBar::handleTextChanged);
     connect(m_inputEdit, &InputEdit::keyPress, this, &ExpressionBar::keyPress);

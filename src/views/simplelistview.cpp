@@ -163,12 +163,12 @@ void SimpleListView::adjustScrollbarMargins()
  */
 void SimpleListView::mousePressEvent(QMouseEvent *event)
 {
-    qDebug() << "viewpress";
     static_cast<SimpleListModel *>(model())->refrushModel();
-    if (m_mode == 1 && event->buttons() & Qt::LeftButton) {
+    if (event->buttons() & Qt::LeftButton) {
         if (indexAt(event->pos()).row() > -1) {
             m_presspoint = event->pos();
-            static_cast<SimpleListDelegate *>(itemDelegate(indexAt(m_presspoint)))->paintback(indexAt(m_presspoint), 2);
+            if (m_mode == 1)
+                static_cast<SimpleListDelegate *>(itemDelegate(indexAt(m_presspoint)))->paintback(indexAt(m_presspoint), 2);
             m_currentrow = indexAt(m_presspoint).row();
             m_ispressed = true;
         }
@@ -181,7 +181,6 @@ void SimpleListView::mousePressEvent(QMouseEvent *event)
  */
 void SimpleListView::mouseReleaseEvent(QMouseEvent *event)
 {
-    qDebug() << "viewrelease";
     if (m_mode == 1) {
         static_cast<SimpleListModel *>(model())->refrushModel();
         if (m_currentrow == indexAt(event->pos()).row() && m_currentrow >= 0) {
@@ -193,9 +192,13 @@ void SimpleListView::mouseReleaseEvent(QMouseEvent *event)
             } else
                 static_cast<SimpleListDelegate *>(itemDelegate(indexAt(m_presspoint)))->paintback(indexAt(m_presspoint), 0);
         }
-        m_ispressed = false;
-        m_presspoint = QPoint();
+    } else if (m_mode == 0) {
+        if (m_currentrow == indexAt(event->pos()).row() && m_currentrow >= 0) {
+            emit obtainingHistoricalSimple(indexAt(event->pos()));
+        }
     }
+    m_ispressed = false;
+    m_presspoint = QPoint();
     DListView::mouseReleaseEvent(event);
 }
 
