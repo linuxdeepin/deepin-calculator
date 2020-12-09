@@ -10,6 +10,14 @@
 const int LIST_HEIGHT = 35; //输入栏上方表达式的高度
 const int INPUTEDIT_HEIGHT = 55;
 
+#define BASE_TAG(basetag) \
+    if (Settings::instance()->programmerBase == 16) \
+        basetag = "0x"; \
+    else if (Settings::instance()->programmerBase == 8) \
+        basetag = "0o"; \
+    else if (Settings::instance()->programmerBase == 2) \
+        basetag = "0b"; \
+
 ProExpressionBar::ProExpressionBar(QWidget *parent)
     : DWidget(parent)
 {
@@ -699,10 +707,44 @@ void ProExpressionBar::enterOppositeEvent()
         }
         if (exptext.count("(") == exptext.count(")")) {
             m_inputEdit->setCursorPosition(curPos - exptext.length());
-            m_inputEdit->insert("(-");
-            int afterinsertpos = m_inputEdit->cursorPosition();
-            m_inputEdit->setCursorPosition(afterinsertpos + exptext.length());
-            m_inputEdit->insert(")");
+            if (Settings::instance()->programmerBase == 10) {
+                m_inputEdit->insert("(-");
+                int afterinsertpos = m_inputEdit->cursorPosition();
+                m_inputEdit->setCursorPosition(afterinsertpos + exptext.length());
+                m_inputEdit->insert(")");
+            } else {
+                QString basetag = QString();
+                BASE_TAG(basetag);
+                m_evaluator->setExpression("0-" + basetag + exptext);
+                Quantity ans = m_evaluator->evalUpdateAns();
+                if (m_evaluator->error().isEmpty()) {
+                    if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
+                        return;
+                    //edit 20200413 for bug--19653
+                    QString result;
+                    switch (Settings::instance()->programmerBase) {
+                    case 16:
+                        result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
+                        break;
+                    case 8:
+                        result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o");
+                        break;
+                    case 2:
+                        result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
+                        break;
+                    default:
+                        return;
+                    }
+                    result = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
+                    QString text = m_inputEdit->text();
+                    text.remove(curPos - exptext.length(), exptext.length());
+                    text.insert(curPos - exptext.length(), result);
+                    m_inputEdit->setText(text);
+                    m_inputEdit->setCursorPosition(curPos - exptext.length() + result.length());
+                } else {
+                    return;
+                }
+            }
         }
     }
 }
@@ -1334,7 +1376,7 @@ bool ProExpressionBar::isNumberOutOfRange(const QString &text)
                     i += 3;
                 }
             } else if ((i == 0 || !isnumber(curtext.at(i - 1))) && curtext.at(i) == QString::fromUtf8("－")
-                       && curtext.length() > 1 && isnumber(curtext.at(i + 1))) {
+                       && curtext.length() > i + 1 && isnumber(curtext.at(i + 1))) {
                 i++;
                 for (int j = 0; j < curtext.length() - i; j++) {
                     if (!isnumber(curtext.at(i + j))) {

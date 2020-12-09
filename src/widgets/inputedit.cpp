@@ -577,7 +577,7 @@ QString InputEdit::scanAndExec(int baseori, int basedest)
                     i += 3;
                 }
             } else if ((i == 0 || !isNumber(oldtext.at(i - 1))) && oldtext.at(i) == QString::fromUtf8("－")
-                       && oldtext.length() > 1 && isNumber(oldtext.at(i + 1))) {
+                       && oldtext.length() > i + 1 && isNumber(oldtext.at(i + 1))) {
                 i++;
                 for (int j = 0; j < oldtext.length() - i; j++) {
                     if (!isNumber(oldtext.at(i + j))) {
