@@ -43,6 +43,7 @@ void ProListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
     QRect hoverrect(option.rect.x() + LEFT_MARGIN, option.rect.y() + 1, 427, option.rect.height() - 2);  //hover背景色
     QRect textrect(option.rect.x() + 80 + LEFT_MARGIN, option.rect.y(), 268, 24);  //textrect
     QRect systemrect(option.rect.x() + 10 + LEFT_MARGIN, option.rect.y(), 24, 24);  //进制字体框
+    QRect systemrectbin(option.rect.x() + 10 + LEFT_MARGIN, option.rect.y(), 24, 28); //BIN进制字体框
 
     QColor hoverbackground, fontColor, systemfontColor;
     if (m_themeType == 1) {
@@ -87,7 +88,7 @@ void ProListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
         painter->drawText(systemrect, "OCT", Qt::AlignHCenter | Qt::AlignVCenter);
         break;
     case 3:
-        painter->drawText(systemrect, "BIN", Qt::AlignHCenter | Qt::AlignVCenter);
+        painter->drawText(systemrectbin, "BIN", Qt::AlignHCenter | Qt::AlignVCenter);
         break;
 
     }
