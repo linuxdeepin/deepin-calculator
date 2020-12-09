@@ -289,27 +289,44 @@ void ProgrammerItemWidget::themetypechanged(int type)
 {
     //主题改变时切换悬浮框图片
     QString path;
-    if (DGuiApplicationHelper::instance()->themeType() == 2)
+    if (DGuiApplicationHelper::instance()->themeType() == 2) {
         path = QString(":/assets/images/%1/").arg("dark");
-    else
+        if (m_label->text() == tr("Arithmetic shift")) {
+            m_normalUrl = path + "icon_as_normal.svg";
+            m_hoverUrl = path + "icon_as_hover.svg";
+            m_pressUrl = path + "icon_as_hover.svg";
+        } else if (m_label->text() == tr("Logical shift")) {
+            m_normalUrl = path + "icon_ls_normal.svg";
+            m_hoverUrl = path + "icon_ls_hover.svg";
+            m_pressUrl = path + "icon_ls_hover.svg";
+        } else if (m_label->text() == tr("Circular shift")) {
+            m_normalUrl = path + "icon_ro_normal.svg";
+            m_hoverUrl = path + "icon_ro_hover.svg";
+            m_pressUrl = path + "icon_ro_hover.svg";
+        } else if (m_label->text() == tr("Rotate through carry circular shift")) {
+            m_normalUrl = path + "icon_rc_normal.svg";
+            m_hoverUrl = path + "icon_rc_hover.svg";
+            m_pressUrl = path + "icon_rc_hover.svg";
+        }
+    } else {
         path = QString(":/assets/images/%1/").arg("light");
-
-    if (m_label->text() == tr("Arithmetic shift")) {
-        m_normalUrl = path + "icon_as_normal.svg";
-        m_hoverUrl = path + "icon_as_menuhover.svg";
-        m_pressUrl = path + "icon_as_menuhover.svg";
-    } else if (m_label->text() == tr("Logical shift")) {
-        m_normalUrl = path + "icon_ls_normal.svg";
-        m_hoverUrl = path + "icon_ls_menuhover.svg";
-        m_pressUrl = path + "icon_ls_menuhover.svg";
-    } else if (m_label->text() == tr("Circular shift")) {
-        m_normalUrl = path + "icon_ro_normal.svg";
-        m_hoverUrl = path + "icon_ro_menuhover.svg";
-        m_pressUrl = path + "icon_ro_menuhover.svg";
-    } else if (m_label->text() == tr("Rotate through carry circular shift")) {
-        m_normalUrl = path + "icon_rc_normal.svg";
-        m_hoverUrl = path + "icon_rc_menuhover.svg";
-        m_pressUrl = path + "icon_rc_menuhover.svg";
+        if (m_label->text() == tr("Arithmetic shift")) {
+            m_normalUrl = path + "icon_as_normal.svg";
+            m_hoverUrl = path + "icon_as_menuhover.svg";
+            m_pressUrl = path + "icon_as_menuhover.svg";
+        } else if (m_label->text() == tr("Logical shift")) {
+            m_normalUrl = path + "icon_ls_normal.svg";
+            m_hoverUrl = path + "icon_ls_menuhover.svg";
+            m_pressUrl = path + "icon_ls_menuhover.svg";
+        } else if (m_label->text() == tr("Circular shift")) {
+            m_normalUrl = path + "icon_ro_normal.svg";
+            m_hoverUrl = path + "icon_ro_menuhover.svg";
+            m_pressUrl = path + "icon_ro_menuhover.svg";
+        } else if (m_label->text() == tr("Rotate through carry circular shift")) {
+            m_normalUrl = path + "icon_rc_normal.svg";
+            m_hoverUrl = path + "icon_rc_menuhover.svg";
+            m_pressUrl = path + "icon_rc_menuhover.svg";
+        }
     }
 
     m_themetype = type;
