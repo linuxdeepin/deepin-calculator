@@ -1,245 +1,245 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ca" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ms" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Error d&apos;expressió</translation>
+        <translation>Ralat ungkapan</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>Neteja&apos;n tota la memòria</translation>
+        <translation>Kosongkan semua ingatan</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation>Neteja l&apos;historial</translation>
+        <translation>Kosongkan sejarah</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>Delete</source>
-        <translation>Suprimeix</translation>
+        <translation>Padam</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Selecciona-ho tot</translation>
+        <translation>Pilih Semua</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation>Desfés</translation>
+        <translation>Buat asal</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation>Refés</translation>
+        <translation>Buat semula</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>Retalla</translation>
+        <translation>Potong</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copia</translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Enganxa</translation>
+        <translation>Tampal</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>Calculadora</translation>
+        <translation>Kalkulator</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>Estàndard</translation>
+        <translation>Piawai</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>Científic</translation>
+        <translation>Saintifik</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>Mode</translation>
+        <translation>Mod</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>La Calculadora és una calculadora d&apos;escriptori fàcil d&apos;usar. Admet els modes estàndard, científic i de programador.</translation>
+        <translation>Kalkulator ialah sebuah kalkulator atas meja yang ringkas dan mudah digunakan. Ia menyokong mod-mod piawai, saintifik dan pengatur cara</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation>Programador</translation>
+        <translation>Pengatur cara</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Neteja&apos;n aquest element</translation>
+        <translation>Kosongkan item ingatan</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>Neteja&apos;n tota la memòria</translation>
+        <translation>Kosongkan semua ingatan</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Recordatori de memòria</translation>
+        <translation>Ingat semula ingatan</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Afegeix a la memòria</translation>
+        <translation>Tambah ke item ingatan</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Addició a la memòria</translation>
+        <translation>Tambah ingatan</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Resta de la memòria</translation>
+        <translation>Buang daripada item ingatan</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Substracció de la memòria</translation>
+        <translation>Buang ingatan</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Desa a la memòria</translation>
+        <translation>Simpanan ingatan</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Memòria</translation>
+        <translation>Ingatan</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation>Copia</translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Neteja aquest element</translation>
+        <translation>Kosongkan item ingatan</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Afegeix a la memòria</translation>
+        <translation>Tambah ke item ingatan</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Resta de la memòria</translation>
+        <translation>Buang daripada item ingatan</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>No hi ha res desat a la memòria.</translation>
+        <translation>Tiada apa yang tersimpan dalam ingatan</translation>
     </message>
 </context>
 <context>
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Error d&apos;expressió</translation>
+        <translation>Ralat ungkapan</translation>
     </message>
 </context>
 <context>
     <name>ProListView</name>
     <message>
         <source>Copy</source>
-        <translation>Copia</translation>
+        <translation>Salin</translation>
     </message>
 </context>
 <context>
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>Desplaçament aritmètic</translation>
+        <translation>Anjak aritmatik</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>Desplaçament lògic</translation>
+        <translation>Anjak logikal</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Desplaçament circular</translation>
+        <translation>Anjak membulat</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Rotació del desplaçament circular del transport</translation>
+        <translation>Putar melalui anjak membulat</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>Desplaçament aritmètic</translation>
+        <translation>Anjak aritmatik</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>Desplaçament lògic</translation>
+        <translation>Anjak logikal</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Desplaçament circular</translation>
+        <translation>Anjak membulat</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Rotació del desplaçament circular del transport</translation>
+        <translation>Putar melalui anjak membulat</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>Calculadora</translation>
+        <translation>Kalkulator</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Error d&apos;expressió</translation>
+        <translation>Ralat ungkapan</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Historial</translation>
+        <translation>Sejarah</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Memòria</translation>
+        <translation>Ingatan</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>Error d&apos;expressió</translation>
+        <translation>Ralat ungkapan</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>Sense historial</translation>
+        <translation>Tiada sejarah</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation>Copia</translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Suprimeix</translation>
+        <translation>Padam</translation>
     </message>
 </context>
 </TS>

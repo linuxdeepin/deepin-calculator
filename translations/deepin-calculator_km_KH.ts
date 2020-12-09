@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>ម៉ាស៊ីនគិតលេខគឺងាយស្រួលប្រើម៉ាស៊ីនគិតកុំព្យូទ័រលើតុគាំទ្របែបស្តង់ដារនិងវិទ្យាសាស្ត្រ.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>អ្នកសរសេរកម្មវិធី</translation>
     </message>
 </context>
 <context>
@@ -158,19 +158,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>ការផ្លាស់ប្តូរនព្វន្ធ</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>ការផ្លាស់ប្តូរតក្ក</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>ការផ្លាស់ប្តូររង្វង់</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>បង្វិលឆ្លងកាត់ការផ្លាស់ប្ដូររង្វង់</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>ការផ្លាស់ប្តូរនព្វន្ធ</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>ការផ្លាស់ប្តូរតក្ក</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>ការផ្លាស់ប្តូររង្វង់</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>បង្វិលឆ្លងកាត់ការផ្លាស់ប្ដូររង្វង់</translation>
     </message>
 </context>
 <context>

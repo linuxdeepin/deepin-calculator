@@ -68,7 +68,7 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>Калкулатор је једноставан за употребу рачунарски калкулатор. Подржава стандардни, научни и програмерски режим.</translation>
+        <translation>Калкулатор је једноставан за употребу рачунарски прогам. Подржава стандардни, научни и програмерски режим.</translation>
     </message>
     <message>
         <source>Programmer</source>
@@ -158,15 +158,15 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Аритметички помак</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Логички помак</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Кружни помак</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
@@ -177,15 +177,15 @@
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Аритметички помак</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Аритметички помак</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Кружни помак</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>

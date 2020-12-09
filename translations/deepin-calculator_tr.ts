@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>Hesap Makinesi standart, bilimsel ve programcı kipleri destekleyen, kullanımı kolay masaüstü hesap makinesidir.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>Programcı</translation>
     </message>
 </context>
 <context>
@@ -158,19 +158,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Aritmetik kaydırma</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Mantıksal kaydırma</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Dairesel kaydırma</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Dairesel kaydırmayı taşıma boyunca döndür</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Aritmetik kaydırma</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Mantıksal kaydırma</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Dairesel kaydırma</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Dairesel kaydırmayı taşıma boyunca döndür</translation>
     </message>
 </context>
 <context>
