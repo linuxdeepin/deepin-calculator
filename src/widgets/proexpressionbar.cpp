@@ -120,6 +120,8 @@ bool ProExpressionBar::judgeinput()
 
 void ProExpressionBar::enterNumberEvent(const QString &text)
 {
+    if (!judgeinput())
+        return;
     if (m_inputNumber && m_isResult == true) {
         m_inputEdit->clear();
         m_isResult = false;
@@ -161,6 +163,8 @@ void ProExpressionBar::enterNumberEvent(const QString &text)
 
 void ProExpressionBar::enterSymbolEvent(const QString &text)
 {
+    if (!judgeinput())
+        return;
     QString oldText = m_inputEdit->text();
     QString symbol = text;
     symbol.replace('/', QString::fromUtf8("÷"));
@@ -474,6 +478,8 @@ void ProExpressionBar::enterEqualEvent()
 
 void ProExpressionBar::enterNotEvent()
 {
+    if (!judgeinput())
+        return;
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("not(0)");
         return;
@@ -577,6 +583,8 @@ void ProExpressionBar::enterNotEvent()
  */
 void ProExpressionBar::enterOperatorEvent(const QString &text)
 {
+    if (!judgeinput())
+        return;
     QString zerotext = "0" + text;
     int length = text.length();
     if (m_inputEdit->text().isEmpty()) {
@@ -621,6 +629,8 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
 
 void ProExpressionBar::enterOppositeEvent()
 {
+    if (!judgeinput())
+        return;
     if (m_inputEdit->text().isEmpty()) {
         return;
     }
@@ -751,6 +761,8 @@ void ProExpressionBar::enterOppositeEvent()
 
 void ProExpressionBar::enterLeftBracketsEvent()
 {
+    if (!judgeinput())
+        return;
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -774,6 +786,8 @@ void ProExpressionBar::enterLeftBracketsEvent()
 
 void ProExpressionBar::enterRightBracketsEvent()
 {
+    if (!judgeinput())
+        return;
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();

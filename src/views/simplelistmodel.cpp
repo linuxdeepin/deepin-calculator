@@ -142,7 +142,7 @@ void SimpleListModel::updataList(const QString &text, const int index, bool sci)
 //          .replace('/', QString::fromUtf8("÷"))
           //.replace('x', QString::fromUtf8("×"))
           .replace('X', QString::fromUtf8("×"));
-    if (exp.indexOf("x") != -1) {
+    if (exp.indexOf("x") != -1 && Settings::instance()->programmerBase == 0) {
         if (exp.at(exp.indexOf("x") - 1) != "E")
             exp = exp.replace('x', QString::fromUtf8("×"));
     }
@@ -180,7 +180,7 @@ void SimpleListModel::updataList(Quantity ans, const QString &text, const int in
 //          .replace('/', QString::fromUtf8("÷"))
           //.replace('x', QString::fromUtf8("×"))
           .replace('X', QString::fromUtf8("×"));
-    if (exp.indexOf("x") != -1) {
+    if (exp.indexOf("x") != -1 && Settings::instance()->programmerBase == 0) {
         if (exp.at(exp.indexOf("x") - 1) != "E")
             exp = exp.replace('x', QString::fromUtf8("×"));
     }
