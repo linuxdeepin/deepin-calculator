@@ -22,9 +22,9 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, const int width, const
     QWidget *markWidget = new QWidget(this);
     markWidget->setFixedSize(12, 10);
     QHBoxLayout *hlayout = new QHBoxLayout();
-    hlayout->addSpacing(12);
+    hlayout->addSpacing(10);
     hlayout->addWidget(markWidget);
-    hlayout->addSpacing(8);
+    hlayout->addSpacing(2);
     hlayout->addWidget(m_label);
     m_label->setFixedWidth(width - 80);
     QFont font;
@@ -61,9 +61,9 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, QWidget *parent)
     QWidget *markWidget = new QWidget(this);
     markWidget->setFixedSize(12, 10);
     QHBoxLayout *hlayout = new QHBoxLayout();
-    hlayout->addSpacing(12);
+    hlayout->addSpacing(10);
     hlayout->addWidget(markWidget);
-    hlayout->addSpacing(8);
+    hlayout->addSpacing(2);
     hlayout->addWidget(m_label);
     QFont font;
     font.setWeight(2);
@@ -250,9 +250,9 @@ void ProgrammerItemWidget::drawMark(QPainter *painter) const
  */
 void ProgrammerItemWidget::initMark()
 {
-    m_markstart = QPoint(this->rect().x() + 12, this->rect().y() + 18);
-    m_markmid = QPoint(this->rect().x() + 16, this->rect().y() + 22);
-    m_markend = QPoint(this->rect().x() + 24, this->rect().y() + 12);
+    m_markstart = QPoint(this->rect().x() + 10, this->rect().y() + 18);
+    m_markmid = QPoint(this->rect().x() + 14, this->rect().y() + 22);
+    m_markend = QPoint(this->rect().x() + 22, this->rect().y() + 12);
     m_pointVec << m_markstart;
     m_pointVec << m_markmid;
     m_pointVec << m_markend;
