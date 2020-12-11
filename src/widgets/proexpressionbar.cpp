@@ -179,10 +179,6 @@ void ProExpressionBar::enterSymbolEvent(const QString &text)
             m_inputEdit->insert(symbol);
         }
     } else {
-        // 20200316无效代码删除
-        //        if (m_inputEdit->text() == "－")
-        //            m_inputEdit->setText(oldText);
-        //        getSelection();
         int curPos = m_inputEdit->cursorPosition();
         QString exp = m_inputEdit->text();
         if (cursorPosAtEnd()) {
@@ -536,29 +532,38 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
-    int proNumber = m_inputEdit->text().count(",");
+    int proNumber = Settings::instance()->programmerBase == 10 ? m_inputEdit->text().count(",") : m_inputEdit->text().count(" ");
     /*
      * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
      * 前一位运算符时，则补（0
      */
     int diff = 0; //补数字后光标位移的距离
-    QString sRegNum = "[＋－×÷(%]";
+    QString sRegNum = "[＋－×÷(]";
     QRegExp rx;
     rx.setPattern(sRegNum);
     if (curpos == 0 || rx.exactMatch(exp.at(curpos - 1))) {
         m_inputEdit->insert(zerotext);
         diff = 1;
+    } else if (exp.at(curpos - 1).isLower()) {
+        while (diff <= curpos - 1 && exp.at(curpos - 1 - diff).isLower()) {
+            diff++;
+        }
+        exp.replace(curpos - diff, diff, text);
+        m_inputEdit->setText(exp);
+        m_inputEdit->setCursorPosition(curpos - diff + length);
+        m_isUndo = false;
+        return;
     } else
         m_inputEdit->insert(text);
 
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
-    int newPro = m_inputEdit->text().count(",");
+    int newPro = Settings::instance()->programmerBase == 10 ? m_inputEdit->text().count(",") : m_inputEdit->text().count(" ");
     m_isUndo = false;
 
     if (!isAtEnd) {
-        if (newPro < proNumber && exp.at(curpos) != ",") {
+        if (newPro < proNumber && exp.at(curpos) != "," && exp.at(curpos) != " ") {
             m_inputEdit->setCursorPosition(curpos + length - 1 + diff);
         } else {
             m_inputEdit->setCursorPosition(curpos + length + diff);
@@ -708,16 +713,16 @@ void ProExpressionBar::enterLeftBracketsEvent()
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
-    int proNumber = m_inputEdit->text().count(",");
+    int proNumber = Settings::instance()->programmerBase == 10 ? m_inputEdit->text().count(",") : m_inputEdit->text().count(" ");
     m_inputEdit->insert("(");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
-    int newPro = m_inputEdit->text().count(",");
+    int newPro = Settings::instance()->programmerBase == 10 ? m_inputEdit->text().count(",") : m_inputEdit->text().count(" ");
     m_isUndo = false;
 
     if (!isAtEnd) {
-        if (newPro < proNumber && exp.at(curpos) != ",") {
+        if (newPro < proNumber && exp.at(curpos) != "," && exp.at(curpos) != " ") {
             m_inputEdit->setCursorPosition(curpos);
         } else {
             m_inputEdit->setCursorPosition(curpos + 1);
@@ -733,16 +738,16 @@ void ProExpressionBar::enterRightBracketsEvent()
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
-    int proNumber = m_inputEdit->text().count(",");
+    int proNumber = Settings::instance()->programmerBase == 10 ? m_inputEdit->text().count(",") : m_inputEdit->text().count(" ");
     m_inputEdit->insert(")");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
-    int newPro = m_inputEdit->text().count(",");
+    int newPro = Settings::instance()->programmerBase == 10 ? m_inputEdit->text().count(",") : m_inputEdit->text().count(" ");
     m_isUndo = false;
 
     if (!isAtEnd) {
-        if (newPro < proNumber && exp.at(curpos) != ",") {
+        if (newPro < proNumber && exp.at(curpos) != "," && exp.at(curpos) != " ") {
             m_inputEdit->setCursorPosition(curpos);
         } else {
             m_inputEdit->setCursorPosition(curpos + 1);

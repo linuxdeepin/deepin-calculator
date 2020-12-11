@@ -1011,11 +1011,11 @@ Tokens Evaluator::scan(const QString &expr) const
         case InIdentifier:
             // Consume as long as alpha, dollar sign, underscore, or digit.
             //edit jingzhou 20200720 mod直接作为%取余使用，yroot,log处理方式同上
-            if (isIdentifier(ch) ||
-                    (ch.isDigit() && tokenText != "mod" && tokenText != "yroot" && tokenText != "log"
-                     && tokenText != "and" && tokenText != "or" && tokenText != "xor" && tokenText != "nand" && tokenText != "nor"
-                     && tokenText != "shl" && tokenText != "shr" && tokenText != "sal" && tokenText != "sar"
-                     && tokenText != "rol" && tokenText != "ror" && tokenText != "rcl" && tokenText != "rcr"))
+            if ((isIdentifier(ch) || ch.isDigit())
+                    && tokenText != "mod" && tokenText != "yroot" && tokenText != "log"
+                    && tokenText != "and" && tokenText != "or" && tokenText != "xor" && tokenText != "nand" && tokenText != "nor"
+                    && tokenText != "shl" && tokenText != "shr" && tokenText != "sal" && tokenText != "sar"
+                    && tokenText != "rol" && tokenText != "ror" && tokenText != "rcl" && tokenText != "rcr")
                 tokenText.append(ex.at(i++));
             else { // We're done with identifier.
                 int tokenSize = i - tokenStart;

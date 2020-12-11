@@ -28,6 +28,7 @@
 #include <QDebug>
 
 const static QString ATOE = "ABCDEF";
+
 Utils::Utils()
 {
 
@@ -178,8 +179,6 @@ QString Utils::formatThousandsSeparatorsPro(const QString &str, const int Base)
         break;
     }
 
-
-
     return result;
 }
 
@@ -261,7 +260,6 @@ QString Utils::reformatSeparatorsPro(const QString &exp, const int Base)
         if (stringIsDigitPro(item, Base)) {
             item = formatThousandsSeparatorsPro(item, Base);
         }
-
         formatStr.append(item);
     }
 
