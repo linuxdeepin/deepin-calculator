@@ -28,9 +28,6 @@
 #include <QDebug>
 
 const static QString ATOE = "ABCDEF";
-const static QList<QString> m_funclist = {"nand",  "not", "xor", "and", "nor", "or",
-                                          "shl", "shr", "sal", "sar", "rol", "ror", "rcl", "rcr"
-                                         };
 
 Utils::Utils()
 {
