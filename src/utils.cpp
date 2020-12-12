@@ -28,6 +28,9 @@
 #include <QDebug>
 
 const static QString ATOE = "ABCDEF";
+const static QList<QString> m_funclist = {"nand",  "not", "xor", "and", "nor", "or",
+                                          "shl", "shr", "sal", "sar", "rol", "ror", "rcl", "rcr"
+                                         };
 
 Utils::Utils()
 {
@@ -261,6 +264,27 @@ QString Utils::reformatSeparatorsPro(const QString &exp, const int Base)
             item = formatThousandsSeparatorsPro(item, Base);
         }
         formatStr.append(item);
+    }
+
+    for (int i = 0; i < formatStr.length();) {
+        if (formatStr.at(i).isLower()) {
+            if (formatStr.at(i) == 'n' && formatStr.at(i + 1) == 'a') {
+                i += 4;
+            } else if (formatStr.at(i) == 'o') {
+                i += 2;
+            } else {
+                i += 3;
+            }
+            if (i <= formatStr.length() - 1) {
+                formatStr.insert(i, " ");
+                i++;
+            }
+        } else if (i < formatStr.length() - 1 && formatStr.at(i + 1).isLower()) {
+            formatStr.insert(i + 1, " ");
+            i += 2;
+        } else {
+            i++;
+        }
     }
 
     return formatStr;

@@ -238,7 +238,8 @@ void ProExpressionBar::enterBackspaceEvent()
         int cur = m_inputEdit->cursorPosition();
         int funpos = -1;
         int i;
-        if (text.size() > 0 && cur > 0 && text[cur - 1] == ",") {
+        int Sepold = text.count(",") + text.count(" ");
+        if (text.size() > 0 && cur > 0 && (text[cur - 1] == "," || (text[cur - 1] == " " && !text[cur - 2].isLower()))) {
             text.remove(cur - 2, 2);
             m_inputEdit->setText(text);
             // 20200401 symbolFaultTolerance
@@ -259,17 +260,33 @@ void ProExpressionBar::enterBackspaceEvent()
                 }
                 if (funpos != -1) {
                     m_inputEdit->setText(m_inputEdit->text().remove(funpos, m_funclist[i].length()));
-                    m_inputEdit->setCursorPosition(funpos);
+                    int Sepnew = m_inputEdit->text().count(",") + m_inputEdit->text().count(" ");
+                    m_inputEdit->setCursorPosition(funpos + Sepnew - Sepold + 1);
+                }
+            } else if (m_inputEdit->cursorPosition() > 1 && (text[cur - 1] == " " && text[cur - 2].isLower())) {
+                for (i = 0; i < m_funclist.size(); i++) {
+                    //记录光标左侧离光标最近的函数位
+                    funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], m_inputEdit->cursorPosition() - 2);
+                    if (funpos != -1 && (funpos <= m_inputEdit->cursorPosition())
+                            && (m_inputEdit->cursorPosition() <= funpos + m_funclist[i].length() + 1))
+                        break; //光标在函数开头和函数结尾之间
+                    else
+                        funpos = -1;
+                }
+                if (funpos != -1) {
+                    m_inputEdit->setText(m_inputEdit->text().remove(funpos, m_funclist[i].length()));
+                    int Sepnew = m_inputEdit->text().count(",") + m_inputEdit->text().count(" ");
+                    m_inputEdit->setCursorPosition(funpos + Sepnew - Sepold + 1);
                 }
             } else {
-                int proNumber = text.count(",");
+                int proNumber = text.count(",") + text.count(" ");
                 m_inputEdit->backspace();
-                int separator = proNumber - m_inputEdit->text().count(",");
+                int separator = proNumber - m_inputEdit->text().count(",") - m_inputEdit->text().count(" ");
                 // 20200401 symbolFaultTolerance
                 m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
-                int newPro = m_inputEdit->text().count(",");
+                int newPro = m_inputEdit->text().count(",") + m_inputEdit->text().count(" ");
                 if (cur > 0) {
-                    QString sRegNum = "[0-9]+";
+                    QString sRegNum = "[0-9A-F]+";
                     QRegExp rx;
                     rx.setPattern(sRegNum);
                     //退数字
@@ -532,7 +549,7 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
-    int proNumber = Settings::instance()->programmerBase == 10 ? m_inputEdit->text().count(",") : m_inputEdit->text().count(" ");
+    int proNumber = m_inputEdit->text().count(",") + m_inputEdit->text().count(" ");
     /*
      * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
      * 前一位运算符时，则补（0
@@ -559,8 +576,9 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
-    int newPro = Settings::instance()->programmerBase == 10 ? m_inputEdit->text().count(",") : m_inputEdit->text().count(" ");
+    int newPro = m_inputEdit->text().count(",") + m_inputEdit->text().count(" ");
     m_isUndo = false;
+    diff += newPro - proNumber;
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != "," && exp.at(curpos) != " ") {
@@ -713,12 +731,12 @@ void ProExpressionBar::enterLeftBracketsEvent()
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
-    int proNumber = Settings::instance()->programmerBase == 10 ? m_inputEdit->text().count(",") : m_inputEdit->text().count(" ");
+    int proNumber = m_inputEdit->text().count(",") + m_inputEdit->text().count(" ");
     m_inputEdit->insert("(");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
-    int newPro = Settings::instance()->programmerBase == 10 ? m_inputEdit->text().count(",") : m_inputEdit->text().count(" ");
+    int newPro = m_inputEdit->text().count(",") + m_inputEdit->text().count(" ");
     m_isUndo = false;
 
     if (!isAtEnd) {
@@ -738,12 +756,12 @@ void ProExpressionBar::enterRightBracketsEvent()
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
-    int proNumber = Settings::instance()->programmerBase == 10 ? m_inputEdit->text().count(",") : m_inputEdit->text().count(" ");
+    int proNumber = m_inputEdit->text().count(",") + m_inputEdit->text().count(" ");
     m_inputEdit->insert(")");
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
-    int newPro = Settings::instance()->programmerBase == 10 ? m_inputEdit->text().count(",") : m_inputEdit->text().count(" ");
+    int newPro = m_inputEdit->text().count(",") + m_inputEdit->text().count(" ");
     m_isUndo = false;
 
     if (!isAtEnd) {
