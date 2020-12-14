@@ -437,18 +437,18 @@ void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString stra
         if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
             elem.setAttribute(strattr, strattrval);
             if (m_buttonStatus == 0)
-                elem.setAttribute("fill-opacity", 0.75); //在svg文件中添加透明度
+                elem.setAttribute("fill-opacity", QLatin1String("0.75")); //在svg文件中添加透明度
             if (m_buttonStatus == 1)
-                elem.setAttribute("fill-opacity", 0.65);
+                elem.setAttribute("fill-opacity", QLatin1String("0.65"));
             if (m_buttonStatus == 2)
                 elem.setAttribute("fill-opacity", 1);
         }
         if (m_mode == 0) {
             elem.setAttribute(strattr, strattrval);
             if (m_buttonStatus == 0)
-                elem.setAttribute("fill-opacity", 0.75);
+                elem.setAttribute("fill-opacity", QLatin1String("0.75"));
             if (m_buttonStatus == 1)
-                elem.setAttribute("fill-opacity", 0.65);
+                elem.setAttribute("fill-opacity", QLatin1String("0.65"));
             if (m_buttonStatus == 2)
                 elem.setAttribute("fill-opacity", 1);
         }
