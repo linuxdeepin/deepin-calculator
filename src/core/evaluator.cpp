@@ -1060,19 +1060,19 @@ Tokens Evaluator::scan(const QString &expr) const
                 numberBase = 10;
                 state = InNumber;
                 ++i;
-            } else if (ch.toUpper() == 'X' && tokenText == "0") {
+            } else if (ch.toUpper() == 'X' && tokenText == "0" && Settings::instance()->programmerBase != 10) {
                 // Hexadecimal number.
                 numberBase = 16;
                 tokenText.append('x');
                 ++i;
                 state = InNumber;
-            } else if (ch.toUpper() == 'B' && tokenText == "0") {
+            } else if (ch.toUpper() == 'B' && tokenText == "0" && Settings::instance()->programmerBase != 10) {
                 // Binary number.
                 numberBase = 2;
                 tokenText.append('b');
                 ++i;
                 state = InNumber;
-            } else if (ch.toUpper() == 'O' && tokenText == "0") {
+            } else if (ch.toUpper() == 'O' && tokenText == "0" && Settings::instance()->programmerBase != 10) {
                 // Octal number.
                 numberBase = 8;
                 tokenText.append('o');
