@@ -46,7 +46,16 @@ const int PRO_SCI_ITEM_WIDTH = 451; //科学-程序猿模式最小宽度
 const int STANDARD_FORMAT_PREC = 15; //标准模式科学计数位数
 const int SCIENTIFIC_FORMAT_PREC = 31; //科学模式科学计数位数
 const int MAXSIZE = 500; //内存保存最大数
-const int NOMEMORYHEIGHT = 302; //无内存时item高度
+//无内存时item高度
+#define NOMEMORYHEIGHT(mode,labelheight)\
+    {\
+        if(mode != 1){\
+            labelheight = m_listwidget->frameRect().height() + 30;\
+        }\
+        else {\
+            labelheight = 302;\
+        }\
+    }
 
 MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     : QWidget(parent)
@@ -163,7 +172,9 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
 
     m_label->setText(tr("Nothing saved in memory"));
     m_label->setAlignment(Qt::AlignCenter); //label字体居右，居上
-    m_label->setFixedSize(QSize(m_itemwidth, NOMEMORYHEIGHT));
+    int labelheight = 0;
+    NOMEMORYHEIGHT(m_calculatormode, labelheight);
+    m_label->setFixedSize(QSize(m_itemwidth, labelheight));
     m_label->setAttribute(Qt::WA_TranslucentBackground); //label窗体透明
     QFont font;
     font.setPixelSize(16);
@@ -449,7 +460,7 @@ void MemoryWidget::memoryclean()
     if (m_calculatormode != 1)
         m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, m_listwidget->frameRect().height())); //标准模式
     else
-        m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, NOMEMORYHEIGHT)); //科学模式
+        m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, SCIENTIFIC_MWIDGET_HEIGHT)); //科学模式
     m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
     emptymemoryfontcolor();
     m_isempty = true;
