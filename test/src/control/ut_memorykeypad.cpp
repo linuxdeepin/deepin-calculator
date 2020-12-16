@@ -6,7 +6,7 @@ Ut_MemoryKeypad::Ut_MemoryKeypad()
 
 }
 
-TEST_F(Ut_MemoryKeypad, buttonv)
+TEST_F(Ut_MemoryKeypad, button)
 {
     MemoryKeypad *m_memorykeypad = new MemoryKeypad;
     ASSERT_EQ(m_memorykeypad->button(MemoryKeypad::Buttons::Key_MC)->text(), "MC");

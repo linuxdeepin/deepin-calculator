@@ -98,6 +98,7 @@ private:
     bool m_avail = false; //内存中有数据
     bool m_memCalbtn = false; //ms可用
     bool m_isallgray = false; //内存按钮全部置灰;
+    int m_stackwidgetLastIndex = 0; //切换至内存前的页面
 };
 
 #endif // PROGRAMMODULE_H

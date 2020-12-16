@@ -1210,7 +1210,7 @@ QString ProExpressionBar::symbolFaultTolerance(const QString &text)
     QString newText;
     QStringList symbolList;
     for (int i = 0; i < exp.length(); ++i) {
-        if (!isSymbol(exp.at(i))) {
+        if (!isOperator(exp.at(i))) {
             if (!symbolList.isEmpty()) {
                 if (!newText.isEmpty())
                     newText.append(symbolList.last()); //保证数字中间的符号只有一个，去除多余符号
@@ -1233,20 +1233,6 @@ QString ProExpressionBar::symbolFaultTolerance(const QString &text)
         }
     }
     return newText;
-}
-
-bool ProExpressionBar::isSymbol(const QString &text)
-{
-    if (text == QString::fromUtf8("＋"))
-        return true;
-    else if (text == QString::fromUtf8("－"))
-        return true;
-    else if (text == QString::fromUtf8("×"))
-        return true;
-    else if (text == QString::fromUtf8("÷"))
-        return true;
-    else
-        return false;
 }
 
 bool ProExpressionBar::isNumberOutOfRange(const QString &text)

@@ -66,7 +66,6 @@ private:
     bool isOperator(const QString &text);
     void expressionCheck();
     QString symbolFaultTolerance(const QString &text);
-    bool isSymbol(const QString &text);
     bool isNumberOutOfRange(const QString &text);
     void selectedPartDelete(const QRegExp &rx);
 

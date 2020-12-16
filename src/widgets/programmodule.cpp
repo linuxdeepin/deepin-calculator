@@ -830,6 +830,7 @@ void ProgramModule::mUnAvailableEvent()
 void ProgramModule::showListWidget()
 {
     if (m_stackWidget->currentIndex() != 2) {
+        m_stackwidgetLastIndex = m_stackWidget->currentIndex();
         m_stackWidget->setCurrentIndex(2);
         MemoryButton *btn = static_cast<MemoryButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_MS));
         btn->setbuttongray(true);
@@ -847,7 +848,7 @@ void ProgramModule::closeListWidget()
 {
     //内存界面显示时，点击内存界面以外部分切换内存界面为键盘界面
     if (m_stackWidget->currentIndex() == 2 && m_insidewidget == false) {
-        m_stackWidget->setCurrentIndex(0);
+        m_stackWidget->setCurrentIndex(m_stackwidgetLastIndex);
         MemoryButton *btn = static_cast<MemoryButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_MS));
         btn->setbuttongray(false);
         btn->setEnabled(true);

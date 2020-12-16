@@ -276,8 +276,9 @@ void ProgrammerItemWidget::drawIcon(QPainter *painter) const
 
     file.close();
 
-    if (m_ispress)
-        doc.documentElement().setAttribute("fill-opacity", 0.5);
+    if (m_ispress) {
+        doc.documentElement().setAttribute("fill-opacity", QLatin1String("0.5"));
+    }
     QRectF frameRect = m_iconbtn->rect();
     frameRect.moveTo(m_width - 50, 0);
     m_iconRenderer->load(doc.toByteArray());
