@@ -1402,14 +1402,13 @@ void ProExpressionBar::selectedPartDelete(const QRegExp &rx)
     // 20200401 symbolFaultTolerance
     m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
     // 20200316选中部分光标置位问题修复
-    if ((seloldtext.mid(0, removepos).remove(QRegExp("[＋－×÷/,%()\\s]")).length()) ==
-            m_inputEdit->text().mid(0, removepos).remove(QRegExp("[＋－×÷/,%()\\s]")).length())
+    // 选中部分删除后重新设置光标位置，用删除前的光标位置左侧（分隔符新增的只会影响左侧的数字）的数字部分去除分隔符后减去删除后的光标位置左侧数字部分的长度，为光标位置的差。
+    int diff = (seloldtext.mid(0, removepos).remove(QRegExp("[＋－×÷/,%()\\s]")).length()) - m_inputEdit->text().mid(0, removepos).remove(QRegExp("[＋－×÷/,%()\\s]")).length();
+    if (0 == diff) {
         m_inputEdit->setCursorPosition(removepos);
-    else if ((seloldtext.mid(0, removepos).remove(QRegExp("[＋－×÷/,%()\\s]")).length()) >
-             m_inputEdit->text().mid(0, removepos).remove(QRegExp("[＋－×÷/,%()\\s]")).length())
-        m_inputEdit->setCursorPosition(removepos + 1);
-    else
-        m_inputEdit->setCursorPosition(removepos - 1);
+    } else {
+        m_inputEdit->setCursorPosition(removepos + diff);
+    }
 }
 
 void ProExpressionBar::handleTextChanged()
