@@ -1,10 +1,11 @@
 #ifndef BITBUTTON_H
 #define BITBUTTON_H
 
-#include <QDebug>
 #include <DPushButton>
 #include <DPalette>
 #include <DGuiApplicationHelper>
+
+#include <QDebug>
 #include <QTimer>
 #include <QPainter>
 #include <QMouseEvent>

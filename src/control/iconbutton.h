@@ -22,11 +22,12 @@
 
 #include "textbutton.h"
 
+#include <DLabel>
+#include <DGuiApplicationHelper>
+
 #include <QPaintEvent>
 #include <QDomElement>
 #include <QSvgRenderer>
-#include <DLabel>
-#include <DGuiApplicationHelper>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE

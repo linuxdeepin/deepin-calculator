@@ -22,19 +22,20 @@
 #ifndef MEMORYWIDGET_H
 #define MEMORYWIDGET_H
 
+#include "core/evaluator.h"
+#include "control/iconbutton.h"
+#include "memoryitemwidget.h"
+#include "memorylistwidget.h"
+#include "memoryitemdelegate.h"
+
+#include <DPushButton>
+
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QListWidget>
 #include <QList>
 #include <QObject>
-#include <DPushButton>
-
-#include "core/evaluator.h"
-#include "control/iconbutton.h"
-#include "memoryitemwidget.h"
-#include "memorylistwidget.h"
-#include "memoryitemdelegate.h"
 
 /**
  * @brief 标准模式内存界面
@@ -45,13 +46,13 @@ class MemoryWidget : public QWidget
 
 public:
     explicit MemoryWidget(int mode = 0, QWidget *parent = nullptr);
-    ~MemoryWidget();
+    ~MemoryWidget() override;
 
     void generateData(Quantity answer);
-    void mousePressEvent(QMouseEvent *event);
-    bool eventFilter(QObject *obj, QEvent *event);
-    void focusInEvent(QFocusEvent *event);
-    void keyPressEvent(QKeyEvent *event);
+    void mousePressEvent(QMouseEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
+    void focusInEvent(QFocusEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 //    bool event(QEvent *event);
 
     void memoryplus(Quantity answer);

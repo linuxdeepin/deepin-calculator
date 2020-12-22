@@ -33,14 +33,14 @@ class MemoryListWidget : public QListWidget
 
 public:
     explicit MemoryListWidget(QWidget *parent = nullptr, bool isarrowlist = false);
-    ~MemoryListWidget();
+    ~MemoryListWidget() override;
 
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void keyPressEvent(QKeyEvent *e);
-    void focusInEvent(QFocusEvent *event);
-    void focusOutEvent(QFocusEvent *event);
-    bool eventFilter(QObject *obj, QEvent *event);
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void keyPressEvent(QKeyEvent *e) override;
+    void focusInEvent(QFocusEvent *event) override;
+    void focusOutEvent(QFocusEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
     void cleanState(bool isfocus = false);
 
 signals:
