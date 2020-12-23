@@ -1,6 +1,8 @@
 #include "ut_inputedit.h"
 
 #include "../../src/widgets/inputedit.h"
+#include <QAction>
+#include "../../src/math/cmath.h"
 
 Ut_InputEdit::Ut_InputEdit()
 {
@@ -144,4 +146,109 @@ TEST_F(Ut_InputEdit, focusInEvent)
     InputEdit *m_inputEdit = new InputEdit;
     m_inputEdit->focusInEvent(new QFocusEvent(QEvent::Type::FocusIn, Qt::TabFocusReason));
     //无ASSERT
+}
+
+TEST_F(Ut_InputEdit, clear)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    m_inputEdit->clear();
+    ASSERT_EQ(m_inputEdit->m_ansLength, 0);
+}
+
+TEST_F(Ut_InputEdit, setUndoAction)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    m_inputEdit->setUndoAction(false);
+    ASSERT_FALSE(m_inputEdit->m_undo->isEnabled());
+}
+
+TEST_F(Ut_InputEdit, setRedoAction)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    m_inputEdit->setRedoAction(true);
+    ASSERT_TRUE(m_inputEdit->m_redo->isEnabled());
+}
+
+TEST_F(Ut_InputEdit, autoZoomFontSize)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    m_inputEdit->setText("0");
+    m_inputEdit->autoZoomFontSize();
+    ASSERT_EQ(m_inputEdit->font().pixelSize(), 30);
+}
+
+TEST_F(Ut_InputEdit, themetypechanged)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    m_inputEdit->themetypechanged(2);
+    m_inputEdit->themetypechanged(1);
+    ASSERT_EQ(m_inputEdit->palette().text(), QBrush("#303030"));
+}
+
+TEST_F(Ut_InputEdit, valueChangeFromProSyskeypad)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    m_inputEdit->setText("");
+    m_inputEdit->setCursorPosition(0);
+    m_inputEdit->valueChangeFromProSyskeypad("11100011");
+    ASSERT_EQ(m_inputEdit->cursorPosition(), 3);
+}
+
+TEST_F(Ut_InputEdit, radixChanged)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    m_inputEdit->setText("120+323+456");
+    m_inputEdit->radixChanged(10, 16);
+    ASSERT_EQ(m_inputEdit->text(), "78＋143＋1C8");
+}
+
+TEST_F(Ut_InputEdit, formatAns)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    QString ans = m_inputEdit->formatAns("11100101");
+    ASSERT_EQ(ans, "229");
+}
+
+TEST_F(Ut_InputEdit, getCurrentAns)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    m_inputEdit->setText("0x1C8");
+    QPair<bool, Quantity> pair = m_inputEdit->getCurrentAns();
+    int ans = pair.second.numericValue().toInt();
+    ASSERT_EQ(ans, 456);
+}
+
+TEST_F(Ut_InputEdit, CurrentCursorPositionNumber)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    m_inputEdit->setText("6666+2333");
+    m_inputEdit->setCursorPosition(9);
+    QString str = m_inputEdit->CurrentCursorPositionNumber(m_inputEdit->cursorPosition());
+    ASSERT_EQ(str, "2333");
+}
+
+TEST_F(Ut_InputEdit, isNumber)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    m_inputEdit->isNumber('a');
+    m_inputEdit->isNumber('A');
+    ASSERT_TRUE(m_inputEdit->isNumber('A'));
+}
+
+TEST_F(Ut_InputEdit, formatBinaryNumber)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    m_inputEdit->formatBinaryNumber("0000000000");
+    QString str = m_inputEdit->formatBinaryNumber("00000000111001");
+    ASSERT_EQ(str, "57");
+}
+
+TEST_F(Ut_InputEdit, formatExpression)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    m_inputEdit->formatExpression(16, "4435");
+    m_inputEdit->formatExpression(10, "4435");
+    m_inputEdit->formatExpression(2, "4435");
+    QString str = m_inputEdit->formatExpression(8, "4435");
+    ASSERT_EQ(str, "0o4435");
 }
