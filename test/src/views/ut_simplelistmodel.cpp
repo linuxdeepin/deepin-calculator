@@ -72,3 +72,32 @@ TEST_F(Ut_SimpleListModel, getAnswer)
     ASSERT_EQ(m_simpleListModel->getAnswer(0), Quantity(1));
     DSettingsAlt::deleteInstance();
 }
+
+TEST_F(Ut_SimpleListModel, radixChanged)
+{
+    SimpleListModel *m_simpleListModel = new SimpleListModel();
+    m_simpleListModel->m_expressionList.append("123＋321 ＝ 444");
+    m_simpleListModel->radixChanged(10, 2);
+    ASSERT_EQ(m_simpleListModel->m_expressionList.at(0), "111 1011＋1 0100 0001＝1 1011 1100");
+    DSettingsAlt::deleteInstance();
+}
+
+TEST_F(Ut_SimpleListModel, formatExpression)
+{
+    SimpleListModel *m_simpleListModel = new SimpleListModel();
+    m_simpleListModel->formatExpression(10, "321");
+    m_simpleListModel->formatExpression(8, "321");
+    m_simpleListModel->formatExpression(2, "321");
+    QString str = m_simpleListModel->formatExpression(16, "321");
+    ASSERT_EQ(str, "0x321");
+    DSettingsAlt::deleteInstance();
+}
+
+TEST_F(Ut_SimpleListModel, answerOutOfRange)
+{
+    SimpleListModel *m_simpleListModel = new SimpleListModel();
+    m_simpleListModel->m_expressionList.append("123＋321 ＝ 444");
+    m_simpleListModel->answerOutOfRange(Quantity(123));
+    ASSERT_EQ(m_simpleListModel->m_expressionList.at(0), "123＋321 ＝123");
+    DSettingsAlt::deleteInstance();
+}

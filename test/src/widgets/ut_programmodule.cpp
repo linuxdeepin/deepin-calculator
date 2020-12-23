@@ -199,6 +199,8 @@ TEST_F(Ut_ProgramModule, handleEditKeyPress)
 TEST_F(Ut_ProgramModule, handleKeypadButtonPress)
 {
     ProgramModule *m_programmodule = new ProgramModule;
+    m_programmodule->handleKeypadButtonPress(ProCheckBtnKeypad::Key_BinaryKeypad);
+    m_programmodule->handleKeypadButtonPress(ProCheckBtnKeypad::Key_GeneralKeypad);
     m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_0);
     m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_1);
     m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_2);
