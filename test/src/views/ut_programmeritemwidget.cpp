@@ -81,3 +81,22 @@ TEST_F(Ut_ProgrammerItemWidget, setFocus)
     DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
+
+TEST_F(Ut_ProgrammerItemWidget, paintEvent)
+{
+    ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
+    QPaintEvent *event = new QPaintEvent(m_programmerItemWidget->rect());
+    DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::UnknownType);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    m_programmerItemWidget->m_ispress = true;
+    m_programmerItemWidget->m_ishover = false;
+    m_programmerItemWidget->paintEvent(event);
+    m_programmerItemWidget->update();
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    m_programmerItemWidget->m_ispress = false;
+    m_programmerItemWidget->m_ishover = true;
+    m_programmerItemWidget->paintEvent(event);
+    m_programmerItemWidget->update();
+    DSettingsAlt::deleteInstance();
+    MemoryPublic::deleteInstance();
+}

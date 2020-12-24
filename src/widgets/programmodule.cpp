@@ -116,8 +116,8 @@ ProgramModule::ProgramModule(QWidget *parent)
         m_proExpressionBar->getInputEdit()->setFocus();
         //点击item清除键状态改变
         this->handleClearStateChanged(false);
-        if (m_stackWidget->currentIndex() == 1) {
-            m_stackWidget->setCurrentIndex(0);
+        if (m_stackWidget->currentIndex() == 2) {
+            m_stackWidget->setCurrentIndex(m_stackwidgetLastIndex);
             setwidgetAttribute(false);
             MemoryButton *btn = static_cast<MemoryButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_MS));
             btn->setEnabled(true);

@@ -3,6 +3,7 @@
 
 #include "../../src/widgets/programmodule.h"
 #include "../../src/core/settings.h"
+#include <QPair>
 
 Ut_ProgramModule::Ut_ProgramModule()
 {
@@ -15,6 +16,28 @@ void Ut_ProgramModule::SetUp()
 
 void Ut_ProgramModule::TearDown()
 {
+}
+
+TEST_F(Ut_ProgramModule, Signals)
+{
+    ProgramModule *m_programmodule = new ProgramModule;
+    m_programmodule->m_proExpressionBar->getInputEdit()->cursorPositionNumberChanged("1");
+    QPair<bool, Quantity> pair = {false, Quantity(1)};
+    m_programmodule->m_proExpressionBar->getInputEdit()->prolistAns(pair);
+    QPair<bool, Quantity> pair1 = {true, Quantity(1)};
+    m_programmodule->m_proExpressionBar->getInputEdit()->prolistAns(pair1);
+    m_programmodule->m_proExpressionBar->getInputEdit()->emptyExpression(true);
+    m_programmodule->m_proExpressionBar->getInputEdit()->emptyExpression(false);
+
+    m_programmodule->m_memorylistwidget->widgetplus(0);
+    m_programmodule->m_memorylistwidget->mListUnavailable();
+    m_programmodule->m_memorylistwidget->mListAvailable();
+    m_programmodule->m_stackWidget->setCurrentIndex(2);
+    QPair<QString, Quantity> pair2 = {"1", Quantity(1)};
+    m_programmodule->m_memorylistwidget->itemclick(pair2);
+    m_programmodule->m_memorylistwidget->hideWidget();
+    DSettingsAlt::deleteInstance();
+    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgramModule, setKeyPress)

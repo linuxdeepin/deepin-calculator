@@ -10,6 +10,57 @@ Ut_MemHisWidget::Ut_MemHisWidget()
 
 }
 
+TEST_F(Ut_MemHisWidget, space)
+{
+    MemHisWidget *m_memhiswidget = new MemHisWidget;
+    m_memhiswidget->m_historyBtn->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier));
+    m_memhiswidget->m_memoryBtn->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier));
+    m_memhiswidget->m_clearButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier));
+    //无ASSERT
+    MemoryPublic::deleteInstance();
+}
+
+TEST_F(Ut_MemHisWidget, filledMem)
+{
+    MemHisWidget *m_memhiswidget = new MemHisWidget;
+    MemoryPublic *m_mempublic = MemoryPublic::instance(m_memhiswidget);
+    m_memhiswidget->m_memoryWidget->generateData(Quantity(1));
+    m_mempublic->filledMem();
+    ASSERT_EQ(m_memhiswidget->m_isshowM, true);
+    //无ASSERT
+    MemoryPublic::deleteInstance();
+}
+
+TEST_F(Ut_MemHisWidget, emptyMem)
+{
+    MemHisWidget *m_memhiswidget = new MemHisWidget;
+    MemoryPublic *m_mempublic = MemoryPublic::instance(m_memhiswidget);
+    m_memhiswidget->m_memoryWidget->memoryclean();
+    m_mempublic->emptyMem();
+    ASSERT_EQ(m_memhiswidget->m_isshowM, false);
+    //无ASSERT
+    MemoryPublic::deleteInstance();
+}
+
+TEST_F(Ut_MemHisWidget, hisbtnhidden)
+{
+    MemHisWidget *m_memhiswidget = new MemHisWidget;
+    m_memhiswidget->m_listModel->hisbtnhidden();
+    ASSERT_EQ(m_memhiswidget->m_isshowH, false);
+    //无ASSERT
+    MemoryPublic::deleteInstance();
+}
+
+TEST_F(Ut_MemHisWidget, clicked)
+{
+    MemHisWidget *m_memhiswidget = new MemHisWidget;
+    m_memhiswidget->m_historyBtn->clicked();
+    m_memhiswidget->m_memoryBtn->clicked();
+    m_memhiswidget->m_clearButton->clicked();
+    //无ASSERT
+    MemoryPublic::deleteInstance();
+}
+
 TEST_F(Ut_MemHisWidget, focusOnButtonbox)
 {
     MemHisWidget *m_memhiswidget = new MemHisWidget;
