@@ -540,6 +540,7 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
     if (!judgeinput())
         return;
     QString zerotext = "0" + text;
+    bool isreplace = false;
     int length = text.length();
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText(zerotext);
@@ -549,7 +550,7 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
-    int proNumber = m_inputEdit->text().count(",") + m_inputEdit->text().count(" ");
+    int proNumber = m_inputEdit->text().left(curpos).count(",") + m_inputEdit->text().left(curpos).count(" ");
     /*
      * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
      * 前一位运算符时，则补（0
@@ -567,27 +568,44 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
         }
         exp.replace(curpos - diff, diff, text);
         m_inputEdit->setText(exp);
-        m_inputEdit->setCursorPosition(curpos - diff + length);
-        m_isUndo = false;
-        return;
+        isreplace = true;
+    } else if (curpos > 1 && exp.at(curpos - 1) == " " && exp.at(curpos - 2).isLower()) {
+        while (diff <= curpos - 2 && exp.at(curpos - 2 - diff).isLower()) {
+            diff++;
+        }
+        exp.replace(curpos - 1 - diff, diff, text);
+        m_inputEdit->setText(exp);
+        isreplace = true;
+    } else if (exp.at(curpos - 1) == "%") {
+        diff = 1;
+        exp.replace(curpos - diff, diff, text);
+        m_inputEdit->setText(exp);
+        isreplace = true;
     } else
         m_inputEdit->insert(text);
 
     // 20200401 symbolFaultTolerance
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
-    int newPro = m_inputEdit->text().count(",") + m_inputEdit->text().count(" ");
     m_isUndo = false;
-    diff += newPro - proNumber;
 
-    if (!isAtEnd) {
-        if (newPro < proNumber && exp.at(curpos) != "," && exp.at(curpos) != " ") {
-            m_inputEdit->setCursorPosition(curpos + length - 1 + diff);
+    //计算光标位移的距离，区别是否是替换前面的。只考虑左边的分隔符变化的情况，如果为替换的情况，需要减去替换带来的长度差。
+    if (isreplace) {
+        int newPro = m_inputEdit->text().left(curpos + length - diff).count(",") + m_inputEdit->text().left(curpos + length - diff).count(" ");
+        diff += proNumber - newPro;
+        m_inputEdit->setCursorPosition(curpos + length - diff);
+    } else {
+        int newPro = m_inputEdit->text().left(curpos + length).count(",") + m_inputEdit->text().left(curpos + length).count(" ");
+        diff += newPro - proNumber;
+        if (!isAtEnd) {
+            if (newPro < proNumber && exp.at(curpos) != "," && exp.at(curpos) != " ") {
+                m_inputEdit->setCursorPosition(curpos + length - 1 + diff);
+            } else {
+                m_inputEdit->setCursorPosition(curpos + length + diff);
+            }
         } else {
             m_inputEdit->setCursorPosition(curpos + length + diff);
         }
-    } else {
-        m_inputEdit->setCursorPosition(curpos + length + diff);
     }
 }
 
