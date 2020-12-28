@@ -147,6 +147,7 @@ void SciExpressionBar::enterNumberEvent(const QString &text)
     m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
     m_inputEdit->setCursorPosition(nowcur);
     emit clearStateChanged(false);
+    addUndo();
 }
 
 void SciExpressionBar::enterSymbolEvent(const QString &text)
@@ -212,6 +213,7 @@ void SciExpressionBar::enterSymbolEvent(const QString &text)
     }
     m_isContinue = true;
     expressionCheck();
+    addUndo();
 }
 
 void SciExpressionBar::enterPercentEvent()
@@ -244,6 +246,8 @@ void SciExpressionBar::enterPercentEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    m_isResult = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -291,6 +295,7 @@ void SciExpressionBar::enterPointEvent()
         m_inputEdit->setText(exp);
     m_isUndo = false;
     m_isResult = false;
+    addUndo();
 }
 
 void SciExpressionBar::enterBackspaceEvent()
@@ -442,6 +447,7 @@ void SciExpressionBar::enterBackspaceEvent()
     m_isResult = false;
     m_isContinue = true;
     m_isUndo = false;
+    addUndo();
 }
 
 void SciExpressionBar::enterClearEvent()
@@ -465,7 +471,6 @@ void SciExpressionBar::enterClearEvent()
     }
     m_isResult = false;
     m_isUndo = false;
-//    m_Selected = -1;
     addUndo();
     m_FEisdown = false;
     emit fEStateChanged(false);
@@ -544,6 +549,7 @@ void SciExpressionBar::enterEqualEvent()
     }
     m_isResult = true;
     m_isUndo = false;
+    addUndo();
 }
 
 void SciExpressionBar::enterLeftBracketsEvent()
@@ -559,6 +565,7 @@ void SciExpressionBar::enterLeftBracketsEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -582,6 +589,7 @@ void SciExpressionBar::enterRightBracketsEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -623,6 +631,7 @@ void SciExpressionBar::enterSinEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -684,6 +693,7 @@ void SciExpressionBar::enterPIEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -724,6 +734,7 @@ void SciExpressionBar::enterEulerEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -742,6 +753,9 @@ void SciExpressionBar::enterModEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("0mod");
+        m_isResult = false;
+        m_isUndo = false;
+        addUndo();
         return;
     }
     m_isResult = false;
@@ -776,6 +790,7 @@ void SciExpressionBar::enterModEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -796,6 +811,9 @@ void SciExpressionBar::enterx2Event()
 {
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("0^2");
+        m_isResult = false;
+        m_isUndo = false;
+        addUndo();
         return;
     }
     m_isResult = false;
@@ -844,6 +862,7 @@ void SciExpressionBar::enterx2Event()
             m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
         }
     }
+    addUndo();
 }
 
 /**
@@ -862,6 +881,9 @@ void SciExpressionBar::enterDerivativeEvent()
     int curPos = m_inputEdit->cursorPosition();
     if (m_inputEdit->text() == QString()) {
         m_inputEdit->setText("1/(");
+        m_isResult = false;
+        m_isUndo = false;
+        addUndo();
         return;
     }
     int epos = m_inputEdit->text().indexOf("E");
@@ -961,6 +983,9 @@ void SciExpressionBar::enterDerivativeEvent()
             m_inputEdit->insert(")");
         }
     }
+    m_isResult = false;
+    m_isUndo = false;
+    addUndo();
 }
 
 /**
@@ -970,6 +995,9 @@ void SciExpressionBar::enterFactorialsEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("0!");
+        m_isResult = false;
+        m_isUndo = false;
+        addUndo();
         return;
     }
     m_isResult = false;
@@ -995,6 +1023,7 @@ void SciExpressionBar::enterFactorialsEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1015,6 +1044,9 @@ void SciExpressionBar::enterExpEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("0.E＋");
+        m_isResult = false;
+        m_isUndo = false;
+        addUndo();
         return;
     }
 
@@ -1049,6 +1081,7 @@ void SciExpressionBar::enterExpEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1074,6 +1107,7 @@ void SciExpressionBar::enterCosEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1094,6 +1128,9 @@ void SciExpressionBar::enterx3Event()
 {
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("0^3");
+        m_isResult = false;
+        m_isUndo = false;
+        addUndo();
         return;
     }
 
@@ -1143,6 +1180,7 @@ void SciExpressionBar::enterx3Event()
             m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
         }
     }
+    addUndo();
 }
 
 void SciExpressionBar::enterTanEvent()
@@ -1158,6 +1196,7 @@ void SciExpressionBar::enterTanEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1178,6 +1217,9 @@ void SciExpressionBar::enterxyEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->insert("0^");
+        m_isResult = false;
+        m_isUndo = false;
+        addUndo();
         return;
     }
 
@@ -1213,6 +1255,7 @@ void SciExpressionBar::enterxyEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1238,6 +1281,7 @@ void SciExpressionBar::enterCotEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1273,6 +1317,7 @@ void SciExpressionBar::enter10xEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     rx.setPattern("[0-9eEπ,)]");
     if (!isAtEnd) {
@@ -1302,6 +1347,9 @@ void SciExpressionBar::enterModulusEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("abs(0)");
+        m_isResult = false;
+        m_isUndo = false;
+        addUndo();
         return;
     }
     bool hasselect = (m_inputEdit->getSelection().selected != "");
@@ -1402,7 +1450,9 @@ void SciExpressionBar::enterModulusEvent()
             m_inputEdit->insert(")");
         }
     }
-    rx.setPattern("sRegNum1");
+    m_isResult = false;
+    m_isUndo = false;
+    addUndo();
 }
 
 /**
@@ -1422,6 +1472,7 @@ void SciExpressionBar::enterLogEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1447,6 +1498,7 @@ void SciExpressionBar::enterRandEvent()
     str = "0." + str;
     m_isResult = false;
     m_inputEdit->setText(str);
+    addUndo();
 }
 
 /**
@@ -1466,6 +1518,7 @@ void SciExpressionBar::enterLnEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1491,6 +1544,7 @@ void SciExpressionBar::enterArcsinEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1520,6 +1574,7 @@ void SciExpressionBar::enterSqrtEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1545,6 +1600,7 @@ void SciExpressionBar::enterArccosEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1574,6 +1630,7 @@ void SciExpressionBar::enterCbrtEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1599,6 +1656,7 @@ void SciExpressionBar::enterArctanEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1619,6 +1677,9 @@ void SciExpressionBar::enterYrootEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("0yroot");
+        m_isResult = false;
+        m_isUndo = false;
+        addUndo();
         return;
     }
     m_isResult = false;
@@ -1653,6 +1714,7 @@ void SciExpressionBar::enterYrootEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1678,6 +1740,7 @@ void SciExpressionBar::enterArccotEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1713,6 +1776,7 @@ void SciExpressionBar::enter2xEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     rx.setPattern("[0-9eEπ,)]");
     if (!isAtEnd) {
@@ -1743,6 +1807,9 @@ void SciExpressionBar::enterlogyxEvent()
 {
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("0log");
+        m_isResult = false;
+        m_isUndo = false;
+        addUndo();
         return;
     }
     m_isResult = false;
@@ -1777,6 +1844,7 @@ void SciExpressionBar::enterlogyxEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1817,6 +1885,7 @@ void SciExpressionBar::enterexEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1845,6 +1914,9 @@ void SciExpressionBar::enterOppositeEvent()
     int curPos = m_inputEdit->cursorPosition();
     if (m_inputEdit->text() == QString()) {
         m_inputEdit->setText("(-");
+        m_isResult = false;
+        m_isUndo = false;
+        addUndo();
         return;
     }
     int epos = m_inputEdit->text().indexOf("E");
@@ -1936,7 +2008,6 @@ void SciExpressionBar::enterOppositeEvent()
                                   percentpos - operatorpos + (nooperator == true ? 1 : 0) - 1);
             //截取表达式
         }
-//        QString express = symbolComplement(exptext);
         if (exptext.count("(") == exptext.count(")")) {
             m_inputEdit->setCursorPosition(curPos - exptext.length());
             m_inputEdit->insert("(-");
@@ -1945,6 +2016,7 @@ void SciExpressionBar::enterOppositeEvent()
             m_inputEdit->insert(")");
         }
     }
+    addUndo();
 }
 
 void SciExpressionBar::copyResultToClipboard()

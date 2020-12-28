@@ -377,7 +377,6 @@ void ProgramModule::handleKeypadButtonPress(int key)
     default:
         break;
     }
-    m_proExpressionBar->addUndo();
     if (!pagefocus)
         m_proExpressionBar->getInputEdit()->setFocus();
     int left = 0;
@@ -597,7 +596,6 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
     default:
         break;
     }
-    m_proExpressionBar->addUndo();
     int left = 0;
     int right = 0;
     QString text = m_proExpressionBar->getInputEdit()->text();
@@ -1068,52 +1066,42 @@ void ProgramModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_0:
         m_proExpressionBar->enterNumberEvent("0"); //进入按键0事件
         m_programmerKeypad->animate(ProgrammerKeypad::Key_0); //按键0动画效果
-        m_proExpressionBar->addUndo(); //动作添加进撤销
         break;
     case Qt::Key_1:
         m_proExpressionBar->enterNumberEvent("1");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_1);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_2:
         m_proExpressionBar->enterNumberEvent("2");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_2);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_3:
         m_proExpressionBar->enterNumberEvent("3");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_3);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_4:
         m_proExpressionBar->enterNumberEvent("4");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_4);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_5:
         m_proExpressionBar->enterNumberEvent("5");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_5);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_6:
         m_proExpressionBar->enterNumberEvent("6");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_6);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_7:
         m_proExpressionBar->enterNumberEvent("7");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_7);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_8:
         m_proExpressionBar->enterNumberEvent("8");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_8);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_9:
         m_proExpressionBar->enterNumberEvent("9");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_9);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_A:
         if (isPressCtrl) {
@@ -1121,13 +1109,11 @@ void ProgramModule::handleEditKeyPress(QKeyEvent *e)
         } else {
             m_proExpressionBar->enterNumberEvent("A");
             m_programmerKeypad->animate(ProgrammerKeypad::Key_A);
-            m_proExpressionBar->addUndo();
         }
         break;
     case Qt::Key_B:
         m_proExpressionBar->enterNumberEvent("B");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_B);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_C:
         if (isPressCtrl) {
@@ -1136,23 +1122,19 @@ void ProgramModule::handleEditKeyPress(QKeyEvent *e)
         } else {
             m_proExpressionBar->enterNumberEvent("C");
             m_programmerKeypad->animate(ProgrammerKeypad::Key_C);
-            m_proExpressionBar->addUndo();
         }
         break;
     case Qt::Key_D:
         m_proExpressionBar->enterNumberEvent("D");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_D);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_E:
         m_proExpressionBar->enterNumberEvent("E");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_E);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_F:
         m_proExpressionBar->enterNumberEvent("F");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_F);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_M:
         if (isPressCtrl && m_memCalbtn && !m_isallgray) {
@@ -1174,7 +1156,6 @@ void ProgramModule::handleEditKeyPress(QKeyEvent *e)
         } else {
             m_proExpressionBar->enterSymbolEvent("*");
             m_programmerKeypad->animate(ProgrammerKeypad::Key_Mult);
-            m_proExpressionBar->addUndo();
         }
         break;
     case Qt::Key_Z:
@@ -1188,35 +1169,29 @@ void ProgramModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_Plus:
         m_proExpressionBar->enterSymbolEvent("+");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_Plus);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_Minus:
     case Qt::Key_Underscore:
         m_proExpressionBar->enterSymbolEvent("-");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_Min);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_Asterisk:
         m_proExpressionBar->enterSymbolEvent("*");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_Mult);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_Slash:
         m_proExpressionBar->enterSymbolEvent("/");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_Div);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_Enter:
     case Qt::Key_Return:
     case Qt::Key_Equal:
         m_programmerKeypad->animate(ProgrammerKeypad::Key_equal);
         m_proExpressionBar->enterEqualEvent();
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_Backspace:
         m_proExpressionBar->enterBackspaceEvent();
         m_programmerKeypad->animate(ProgrammerKeypad::Key_Backspace);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_Escape:
         m_proExpressionBar->enterClearEvent();
@@ -1225,17 +1200,14 @@ void ProgramModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_ParenLeft:
         m_programmerKeypad->animate(ProgrammerKeypad::Key_leftBracket);
         m_proExpressionBar->enterLeftBracketsEvent();
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_ParenRight:
         m_programmerKeypad->animate(ProgrammerKeypad::Key_rightBracket);
         m_proExpressionBar->enterRightBracketsEvent();
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_Percent:
         m_proExpressionBar->enterOperatorEvent("%");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_percent);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_Delete:
         m_proExpressionBar->enterClearEvent();
@@ -1250,32 +1222,26 @@ void ProgramModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_Ampersand:
         m_proExpressionBar->enterOperatorEvent("and");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_AND);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_AsciiTilde:
         m_proExpressionBar->enterNotEvent();
         m_programmerKeypad->animate(ProgrammerKeypad::Key_NOT);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_AsciiCircum:
         m_proExpressionBar->enterOperatorEvent("xor");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_XOR);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_Backslash:
         m_proExpressionBar->enterOperatorEvent("nor");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_NOR);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_Bar:
         m_proExpressionBar->enterOperatorEvent("or");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_OR);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_Period:
         m_proExpressionBar->enterOperatorEvent("nand");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_NAND);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_Less:
         switch (m_shiftArrowCurrentRow) {
@@ -1296,7 +1262,6 @@ void ProgramModule::handleEditKeyPress(QKeyEvent *e)
             break;
         }
         m_programmerKeypad->animate(ProgrammerKeypad::Key_moveL);
-        m_proExpressionBar->addUndo();
         break;
     case Qt::Key_Greater:
         switch (m_shiftArrowCurrentRow) {
@@ -1317,7 +1282,6 @@ void ProgramModule::handleEditKeyPress(QKeyEvent *e)
             break;
         }
         m_programmerKeypad->animate(ProgrammerKeypad::Key_moveR);
-        m_proExpressionBar->addUndo();
         break;
     default:
         break;

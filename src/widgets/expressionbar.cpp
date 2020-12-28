@@ -122,6 +122,7 @@ void ExpressionBar::enterNumberEvent(const QString &text)
     m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
     m_inputEdit->setCursorPosition(nowcur);
     emit clearStateChanged(false);
+    addUndo();
 }
 
 /**
@@ -222,6 +223,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
     }
     m_isContinue = true;
     expressionCheck();
+    addUndo();
 }
 
 /**
@@ -599,6 +601,7 @@ void ExpressionBar::enterPointEvent()
         m_inputEdit->setText(exp);
     m_isUndo = false;
     m_isResult = false;
+    addUndo();
 }
 
 /**
@@ -691,6 +694,7 @@ void ExpressionBar::enterBackspaceEvent()
     m_isContinue = true;
     m_isUndo = false;
     m_isResult = false;
+    addUndo();
 }
 
 /**
@@ -862,6 +866,7 @@ void ExpressionBar::enterEqualEvent()
     m_isLinked = false;
     m_isResult = true;
     m_isUndo = false;
+    addUndo();
 }
 
 /**
@@ -898,6 +903,7 @@ void ExpressionBar::enterPercentEvent()
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -958,6 +964,7 @@ void ExpressionBar::enterBracketsEvent()
     if (formatexp == oldText)
         m_inputEdit->setText(formatexp);
     m_isUndo = false;
+    addUndo();
 }
 
 /**
@@ -1005,6 +1012,7 @@ void ExpressionBar::enterLeftBracketsEvent()
     QString formatexp = m_inputEdit->symbolFaultTolerance(m_inputEdit->text());
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1058,6 +1066,7 @@ void ExpressionBar::enterRightBracketsEvent()
     QString formatexp = m_inputEdit->symbolFaultTolerance(m_inputEdit->text());
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != ",") {
@@ -1210,6 +1219,7 @@ void ExpressionBar::shear()
     int length = m_inputEdit->selectionLength();
     text.remove(start, length);
     m_inputEdit->setText(text);
+    m_isResult = false;
     addUndo();
     m_isUndo = false;
     //设置剪切后光标位置
@@ -1245,6 +1255,7 @@ void ExpressionBar::deleteText()
     m_inputEdit->setText(text);
     addUndo();
     m_isUndo = false;
+    m_isResult = false;
     //设置删除后光标位置
     if (text.mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length() ==
             m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[＋－×÷,.%()E]")).length())

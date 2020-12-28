@@ -185,91 +185,74 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_0:
         m_expressionBar->enterNumberEvent("0"); //进入按键0事件
         m_basicKeypad->animate(BasicKeypad::Key_0); //按键0动画效果
-        m_expressionBar->addUndo(); //动作添加进撤销
         break;
     case Qt::Key_1:
         m_expressionBar->enterNumberEvent("1");
         m_basicKeypad->animate(BasicKeypad::Key_1);
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_2:
         m_expressionBar->enterNumberEvent("2");
         m_basicKeypad->animate(BasicKeypad::Key_2);
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_3:
         m_expressionBar->enterNumberEvent("3");
         m_basicKeypad->animate(BasicKeypad::Key_3);
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_4:
         m_expressionBar->enterNumberEvent("4");
         m_basicKeypad->animate(BasicKeypad::Key_4);
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_5:
         m_expressionBar->enterNumberEvent("5");
         m_basicKeypad->animate(BasicKeypad::Key_5);
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_6:
         m_expressionBar->enterNumberEvent("6");
         m_basicKeypad->animate(BasicKeypad::Key_6);
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_7:
         m_expressionBar->enterNumberEvent("7");
         m_basicKeypad->animate(BasicKeypad::Key_7);
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_8:
         m_expressionBar->enterNumberEvent("8");
         m_basicKeypad->animate(BasicKeypad::Key_8);
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_9:
         m_expressionBar->enterNumberEvent("9");
         m_basicKeypad->animate(BasicKeypad::Key_9);
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_Plus:
         m_expressionBar->enterSymbolEvent("+");
         m_basicKeypad->animate(BasicKeypad::Key_Plus);
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_Minus:
     case Qt::Key_Underscore:
         m_expressionBar->enterSymbolEvent("-");
         m_basicKeypad->animate(BasicKeypad::Key_Min);
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_Asterisk:
         m_expressionBar->enterSymbolEvent("*");
         m_basicKeypad->animate(BasicKeypad::Key_Mult);
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_Slash:
         m_expressionBar->enterSymbolEvent("/");
         m_basicKeypad->animate(BasicKeypad::Key_Div);
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_Enter:
     case Qt::Key_Return:
     case Qt::Key_Equal:
         m_basicKeypad->animate(BasicKeypad::Key_Equals);
         m_expressionBar->settingLinkage();
-        m_expressionBar->addUndo();
 //        setFocus();
         break;
     case Qt::Key_Backspace:
         m_expressionBar->enterBackspaceEvent();
         m_basicKeypad->animate(BasicKeypad::Key_Backspace);
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_Period:
         m_basicKeypad->animate(BasicKeypad::Key_Point);
         m_expressionBar->enterPointEvent();
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_Escape:
         m_expressionBar->enterClearEvent();
@@ -278,12 +261,10 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_ParenLeft:
         m_basicKeypad->animate(BasicKeypad::Key_Brackets);
         m_expressionBar->enterLeftBracketsEvent();
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_ParenRight:
         m_basicKeypad->animate(BasicKeypad::Key_Brackets);
         m_expressionBar->enterRightBracketsEvent();
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_Percent:
         if (new_Func_Percent == 0)
@@ -291,7 +272,6 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         else
             m_expressionBar->enterPercentEventCommon();
         m_basicKeypad->animate(BasicKeypad::Key_Percent);
-        m_expressionBar->addUndo();
         break;
     case Qt::Key_C:
         if (isPressCtrl) {
@@ -315,7 +295,6 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         } else {
             m_expressionBar->enterSymbolEvent("*");
             m_basicKeypad->animate(BasicKeypad::Key_Mult);
-            m_expressionBar->addUndo();
         }
         break;
     case Qt::Key_Delete:
@@ -499,7 +478,6 @@ void BasicModule::handleKeypadButtonPress(int key)
     default:
         break;
     }
-    m_expressionBar->addUndo();
     if (!pagefocus)
         m_expressionBar->getInputEdit()->setFocus();
 }
@@ -647,7 +625,6 @@ void BasicModule::handleKeypadButtonPressByspace(int key)
     default:
         break;
     }
-    m_expressionBar->addUndo();
 }
 
 /**

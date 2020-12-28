@@ -158,6 +158,7 @@ void ProExpressionBar::enterNumberEvent(const QString &text)
         //    m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
         m_inputEdit->setCursorPosition(nowcur);
     }
+    addUndo();
     emit clearStateChanged(false);
 }
 
@@ -223,6 +224,7 @@ void ProExpressionBar::enterSymbolEvent(const QString &text)
     }
     m_isContinue = true;
     expressionCheck();
+    addUndo();
 }
 
 void ProExpressionBar::enterBackspaceEvent()
@@ -317,6 +319,7 @@ void ProExpressionBar::enterBackspaceEvent()
     m_isResult = false;
     m_isContinue = true;
     m_isUndo = false;
+    addUndo();
 }
 
 void ProExpressionBar::enterClearEvent()
@@ -428,6 +431,7 @@ void ProExpressionBar::enterEqualEvent()
     m_isResult = true;
     m_isUndo = false;
     m_inputEdit->getCurrentCursorPositionNumber(m_inputEdit->cursorPosition());
+    addUndo();
 }
 
 void ProExpressionBar::enterNotEvent()
@@ -436,6 +440,9 @@ void ProExpressionBar::enterNotEvent()
         return;
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("not(0)");
+        m_isResult = false;
+        m_isUndo = false;
+        addUndo();
         return;
     }
     bool hasselect = (m_inputEdit->getSelection().selected != "");
@@ -446,6 +453,9 @@ void ProExpressionBar::enterNotEvent()
     int curPos = m_inputEdit->cursorPosition();
     if (m_inputEdit->text() == QString()) {
         m_inputEdit->setText("not(");
+        m_isResult = false;
+        m_isUndo = false;
+        addUndo();
         return;
     }
     if (curPos == 0 && hasselect == false) {
@@ -524,6 +534,9 @@ void ProExpressionBar::enterNotEvent()
             m_inputEdit->insert(")");
         }
     }
+    m_isResult = false;
+    m_isUndo = false;
+    addUndo();
 }
 
 /**
@@ -540,6 +553,9 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
     int length = text.length();
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText(zerotext);
+        m_isResult = false;
+        m_isUndo = false;
+        addUndo();
         return;
     }
     m_isResult = false;
@@ -584,6 +600,8 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
     bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
     m_isUndo = false;
+    m_isResult = false;
+    addUndo();
 
     //计算光标位移的距离，区别是否是替换前面的。只考虑左边的分隔符变化的情况，如果为替换的情况，需要减去替换带来的长度差。
     if (isreplace) {
@@ -622,6 +640,9 @@ void ProExpressionBar::enterOppositeEvent()
     int curPos = m_inputEdit->cursorPosition();
     if (m_inputEdit->text() == QString()) {
         m_inputEdit->setText("(-");
+        m_isUndo = false;
+        m_isResult = false;
+        addUndo();
         return;
     }
     if (curPos == 0 && hasselect == false) {
@@ -737,6 +758,9 @@ void ProExpressionBar::enterOppositeEvent()
             }
         }
     }
+    m_isUndo = false;
+    m_isResult = false;
+    addUndo();
 }
 
 void ProExpressionBar::enterLeftBracketsEvent()
@@ -754,6 +778,8 @@ void ProExpressionBar::enterLeftBracketsEvent()
     m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",") + m_inputEdit->text().count(" ");
     m_isUndo = false;
+    m_isResult = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != "," && exp.at(curpos) != " ") {
@@ -779,6 +805,8 @@ void ProExpressionBar::enterRightBracketsEvent()
     m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",") + m_inputEdit->text().count(" ");
     m_isUndo = false;
+    m_isResult = false;
+    addUndo();
 
     if (!isAtEnd) {
         if (newPro < proNumber && exp.at(curpos) != "," && exp.at(curpos) != " ") {
