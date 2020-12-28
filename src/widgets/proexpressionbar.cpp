@@ -448,14 +448,10 @@ void ProExpressionBar::enterNotEvent()
         m_inputEdit->setText("not(");
         return;
     }
-    QString sRegNum = "[A-F0-9,\\s]";
-    QRegExp rx;
-    rx.setPattern(sRegNum);
     if (curPos == 0 && hasselect == false) {
         return;
     }
-    if ((curPos == 0 && hasselect == true) ||
-            (m_inputEdit->text().length() > curPos && rx.exactMatch(m_inputEdit->text().at(curPos)))) {
+    if ((curPos == 0 && hasselect == true) || curposInNumber(curPos)) {
         return;
     }
     // start edit for task-13519
@@ -628,14 +624,10 @@ void ProExpressionBar::enterOppositeEvent()
         m_inputEdit->setText("(-");
         return;
     }
-    QString sRegNum = "[A-F0-9,\\s]";
-    QRegExp rx;
-    rx.setPattern(sRegNum);
     if (curPos == 0 && hasselect == false) {
         return;
     }
-    if ((curPos == 0 && hasselect == true) ||
-            (m_inputEdit->text().length() > curPos && rx.exactMatch(m_inputEdit->text().at(curPos)))) {
+    if ((curPos == 0 && hasselect == true) || curposInNumber(curPos)) {
         return;
     }
     // start edit for task-13519
@@ -1427,6 +1419,27 @@ void ProExpressionBar::selectedPartDelete(const QRegExp &rx)
     } else {
         m_inputEdit->setCursorPosition(removepos + diff);
     }
+}
+
+/**
+ * @brief ProExpressionBar::curposInNumber
+ * @param curpos:当前光标
+ * 判断当前光标是否在数字前或数字内，用于输入not，+/-时禁止输入
+ */
+bool ProExpressionBar::curposInNumber(int curpos)
+{
+    if (m_inputEdit->text().length() <= curpos) {
+        return false;
+    }
+    if (isnumber(m_inputEdit->text().at(curpos))) {
+        if (curpos < m_inputEdit->text().length() - 1
+                && m_inputEdit->text().at(curpos) == " " && !isnumber(m_inputEdit->text().at(curpos + 1))) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    return false;
 }
 
 void ProExpressionBar::handleTextChanged()

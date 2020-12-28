@@ -68,6 +68,7 @@ private:
     QString symbolFaultTolerance(const QString &text);
     bool isNumberOutOfRange(const QString &text);
     void selectedPartDelete(const QRegExp &rx);
+    bool curposInNumber(int curpos);
 
 private slots:
     void handleTextChanged();
