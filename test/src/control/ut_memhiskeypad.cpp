@@ -13,6 +13,13 @@ TEST_F(Ut_MemHisKeypad, button)
     DSettingsAlt::deleteInstance();
 }
 
+TEST_F(Ut_MemHisKeypad, animate)
+{
+    MemHisKeypad *m_memhiskeypad = new MemHisKeypad;
+    m_memhiskeypad->animate(MemHisKeypad::Buttons::Key_MC, false);
+    DSettingsAlt::deleteInstance();
+}
+
 TEST_F(Ut_MemHisKeypad, buttonHasFocus)
 {
     MemHisKeypad *m_memhiskeypad = new MemHisKeypad;

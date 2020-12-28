@@ -27,6 +27,34 @@ TEST_F(Ut_ProgrammerItemWidget, leaveEvent)
     MemoryPublic::deleteInstance();
 }
 
+TEST_F(Ut_ProgrammerItemWidget, mousePressEvent)
+{
+    ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
+    m_programmerItemWidget->mousePressEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                                            m_programmerItemWidget->pos(), Qt::MouseButton::RightButton,
+                                                            Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    m_programmerItemWidget->mousePressEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                                            m_programmerItemWidget->pos(), Qt::MouseButton::LeftButton,
+                                                            Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    ASSERT_TRUE(m_programmerItemWidget->m_ispress);
+    DSettingsAlt::deleteInstance();
+    MemoryPublic::deleteInstance();
+}
+
+TEST_F(Ut_ProgrammerItemWidget, mouseReleaseEvent)
+{
+    ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
+    m_programmerItemWidget->mouseReleaseEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                                              m_programmerItemWidget->pos(), Qt::MouseButton::RightButton,
+                                                              Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    m_programmerItemWidget->mouseReleaseEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
+                                                              m_programmerItemWidget->pos(), Qt::MouseButton::LeftButton,
+                                                              Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    ASSERT_FALSE(m_programmerItemWidget->m_ispress);
+    DSettingsAlt::deleteInstance();
+    MemoryPublic::deleteInstance();
+}
+
 TEST_F(Ut_ProgrammerItemWidget, cleanHoverState)
 {
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");

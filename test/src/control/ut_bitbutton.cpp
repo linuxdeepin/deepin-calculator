@@ -25,6 +25,7 @@ TEST_F(Ut_BitButton, animate)
 TEST_F(Ut_BitButton, setButtonState)
 {
     BitButton *m_bitbutton = new BitButton;
+    m_bitbutton->setButtonState(false);
     m_bitbutton->setButtonState(true);
     ASSERT_EQ(m_bitbutton->text(), "1");
 }
@@ -72,5 +73,26 @@ TEST_F(Ut_BitButton, keyPressEvent)
     m_bitbutton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Enter, Qt::NoModifier));
     m_bitbutton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier));
     m_bitbutton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
+    //无ASSERT
+}
+
+TEST_F(Ut_BitButton, focusOutEvent)
+{
+    BitButton *m_bitbutton = new BitButton;
+    m_bitbutton->focusOutEvent(new QFocusEvent(QEvent::Type::FocusOut));
+}
+
+TEST_F(Ut_BitButton, paintEvent)
+{
+    BitButton *m_bitbutton = new BitButton;
+    QPaintEvent *event = new QPaintEvent(m_bitbutton->rect());
+    DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::UnknownType);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    m_bitbutton->m_isHover = true;
+    m_bitbutton->m_isPress = true;
+    m_bitbutton->paintEvent(event);
+    m_bitbutton->update();
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    m_bitbutton->paintEvent(event);
     //无ASSERT
 }

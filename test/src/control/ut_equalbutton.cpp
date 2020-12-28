@@ -6,6 +6,13 @@ Ut_EqualButton::Ut_EqualButton()
 
 }
 
+TEST_F(Ut_EqualButton, init)
+{
+    EqualButton *m_equalButton = new EqualButton;
+    m_equalButton->init();
+    ASSERT_EQ(m_equalButton->m_font.pixelSize(), 36);
+}
+
 TEST_F(Ut_EqualButton, mousePressEvent)
 {
     EqualButton *m_equalButton = new EqualButton;
@@ -45,11 +52,34 @@ TEST_F(Ut_EqualButton, paintEvent)
     DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_equalButton->m_isHover = true;
-    m_equalButton->m_isPress = true;
+    m_equalButton->m_isPress = false;
     m_equalButton->paintEvent(event);
     m_equalButton->update();
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
     m_equalButton->paintEvent(event);
+    m_equalButton->m_isHover = false;
+    m_equalButton->m_isPress = true;
+    m_equalButton->paintEvent(event);
+    m_equalButton->update();
+    m_equalButton->m_isHover = false;
+    m_equalButton->m_isPress = false;
+    m_equalButton->paintEvent(event);
+    m_equalButton->update();
+    m_equalButton->setFocus();
+    m_equalButton->m_isHover = false;
+    m_equalButton->m_isPress = false;
+    m_equalButton->paintEvent(event);
+    m_equalButton->update();
+    m_equalButton->setFocus();
+    m_equalButton->m_isHover = true;
+    m_equalButton->m_isPress = false;
+    m_equalButton->paintEvent(event);
+    m_equalButton->update();
+    m_equalButton->setFocus();
+    m_equalButton->m_isHover = false;
+    m_equalButton->m_isPress = true;
+    m_equalButton->paintEvent(event);
+    m_equalButton->update();
     //无ASSERT
 }
 

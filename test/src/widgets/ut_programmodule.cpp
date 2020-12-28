@@ -40,6 +40,19 @@ TEST_F(Ut_ProgramModule, Signals)
     MemoryPublic::deleteInstance();
 }
 
+TEST_F(Ut_ProgramModule, Signals1)
+{
+    ProgramModule *m_programmodule = new ProgramModule;
+    m_programmodule->m_checkBtnKeypad->buttonPressed(36);
+    m_programmodule->m_checkBtnKeypad->buttonPressedbySpace(36);
+    m_programmodule->m_programmerKeypad->buttonPressed(26);
+    m_programmodule->m_programmerKeypad->buttonPressedbySpace(26);
+    m_programmodule->m_proSystemKeypad->bitbuttonclicked();
+    ASSERT_EQ(m_programmodule->findChild<InputEdit *>()->text(), "11");
+    DSettingsAlt::deleteInstance();
+    MemoryPublic::deleteInstance();
+}
+
 TEST_F(Ut_ProgramModule, setKeyPress)
 {
     ProgramModule *m_programmodule = new ProgramModule;
@@ -386,4 +399,22 @@ TEST_F(Ut_ProgramModule, handleClearStateChanged)
     MemoryPublic::deleteInstance();
 }
 
+TEST_F(Ut_ProgramModule, mousePressEvent)
+{
+    ProgramModule *m_programmodule = new ProgramModule;
+    m_programmodule->mousePressEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                                     m_programmodule->pos(), Qt::MouseButton::LeftButton,
+                                                     Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier));
+    ASSERT_FALSE(m_programmodule->m_insidewidget);
+    DSettingsAlt::deleteInstance();
+    MemoryPublic::deleteInstance();
+}
 
+TEST_F(Ut_ProgramModule, setwidgetAttribute)
+{
+    ProgramModule *m_programmodule = new ProgramModule;
+    m_programmodule->setwidgetAttribute(false);
+    ASSERT_FALSE(m_programmodule->m_proExpressionBar->testAttribute(Qt::WA_TransparentForMouseEvents));
+    DSettingsAlt::deleteInstance();
+    MemoryPublic::deleteInstance();
+}

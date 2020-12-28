@@ -28,6 +28,24 @@ TEST_F(Ut_MemoryButton, setbtnlight)
     DSettingsAlt::deleteInstance();
 }
 
+TEST_F(Ut_MemoryButton, showtips)
+{
+    MemoryButton *m_memorybutton = new MemoryButton;
+    m_memorybutton->setText("M+");
+    m_memorybutton->showtips();
+    m_memorybutton->setText("MR");
+    m_memorybutton->showtips();
+    m_memorybutton->setText("M-");
+    m_memorybutton->showtips();
+    m_memorybutton->setText("MS");
+    m_memorybutton->showtips();
+    m_memorybutton->setText("MC");
+    m_memorybutton->m_widgetbtn = true;
+    m_memorybutton->showtips();
+    ASSERT_EQ(m_memorybutton->toolTip(), "Clear memory item");
+    DSettingsAlt::deleteInstance();
+}
+
 TEST_F(Ut_MemoryButton, setbuttongray)
 {
     MemoryButton *m_memorybutton = new MemoryButton;
@@ -80,8 +98,34 @@ TEST_F(Ut_MemoryButton, paintEvent)
     QPaintEvent *event = new QPaintEvent(m_memorybutton->rect());
     DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    m_memorybutton->setText("MH˅");
     m_memorybutton->m_isHover = true;
+    m_memorybutton->m_isPress = false;
+    m_memorybutton->paintEvent(event);
+    m_memorybutton->update();
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    m_memorybutton->m_isHover = false;
+    m_memorybutton->m_isPress = false;
+    m_memorybutton->m_isgray = true;
+    m_memorybutton->m_widgetbtn = true;
+    m_memorybutton->paintEvent(event);
+    m_memorybutton->m_isHover = false;
     m_memorybutton->m_isPress = true;
+    m_memorybutton->m_isgray = true;
+    m_memorybutton->m_widgetbtn = false;
+    m_memorybutton->paintEvent(event);
+    //无ASSERT
+}
+
+TEST_F(Ut_MemoryButton, paintEvent2)
+{
+    MemoryButton *m_memorybutton = new MemoryButton;
+    QPaintEvent *event = new QPaintEvent(m_memorybutton->rect());
+    DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::UnknownType);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    m_memorybutton->setText("MH˄");
+    m_memorybutton->m_isHover = true;
+    m_memorybutton->m_isPress = false;
     m_memorybutton->paintEvent(event);
     m_memorybutton->update();
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);

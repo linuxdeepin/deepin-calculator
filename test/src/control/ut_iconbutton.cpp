@@ -6,6 +6,43 @@ Ut_IconButton::Ut_IconButton()
 
 }
 
+TEST_F(Ut_IconButton, setIconUrl)
+{
+    IconButton *m_iconButton = new IconButton;
+    m_iconButton->setIconUrl("a", "b", "c", 2);
+    ASSERT_EQ(m_iconButton->m_mode, 2);
+}
+
+TEST_F(Ut_IconButton, showtooltip)
+{
+    IconButton *m_iconButton = new IconButton;
+    m_iconButton->showtooltip(false);
+    m_iconButton->showtooltip(true);
+    ASSERT_EQ(m_iconButton->m_cleartooltip, "Clear all memory");
+}
+
+TEST_F(Ut_IconButton, updateWhenBtnDisable)
+{
+    IconButton *m_iconButton = new IconButton;
+    m_iconButton->updateWhenBtnDisable();
+    ASSERT_FALSE(m_iconButton->m_isPress);
+}
+
+TEST_F(Ut_IconButton, setBtnPressing)
+{
+    IconButton *m_iconButton = new IconButton;
+    m_iconButton->setBtnPressing(false);
+    m_iconButton->setBtnPressing(true);
+    ASSERT_TRUE(m_iconButton->m_isPressing);
+}
+
+TEST_F(Ut_IconButton, setBtnHighlight)
+{
+    IconButton *m_iconButton = new IconButton;
+    m_iconButton->setBtnHighlight(false);
+    ASSERT_FALSE(m_iconButton->m_highlight);
+}
+
 TEST_F(Ut_IconButton, mousePressEvent)
 {
     IconButton *m_iconButton = new IconButton;

@@ -14,6 +14,15 @@ TEST_F(Ut_ProgrammerKeypad, button)
     DSettingsAlt::deleteInstance();
 }
 
+TEST_F(Ut_ProgrammerKeypad, animate)
+{
+    ProgrammerKeypad *m_programmerkeypad = new ProgrammerKeypad;
+    m_programmerkeypad->animate(ProgrammerKeypad::Buttons::Key_AND, false);
+    m_programmerkeypad->animate(ProgrammerKeypad::Buttons::Key_equal, false);
+    m_programmerkeypad->animate(ProgrammerKeypad::Buttons::Key_moveL, false);
+    DSettingsAlt::deleteInstance();
+}
+
 TEST_F(Ut_ProgrammerKeypad, buttonHasFocus)
 {
     ProgrammerKeypad *m_programmerkeypad = new ProgrammerKeypad;
@@ -26,6 +35,14 @@ TEST_F(Ut_ProgrammerKeypad, initButtons)
     ProgrammerKeypad *m_programmerkeypad = new ProgrammerKeypad;
     m_programmerkeypad->initButtons();
     ASSERT_EQ(m_programmerkeypad->m_keys.size(), 36);
+    DSettingsAlt::deleteInstance();
+}
+
+TEST_F(Ut_ProgrammerKeypad, buttonThemeChanged)
+{
+    ProgrammerKeypad *m_programmerkeypad = new ProgrammerKeypad;
+    m_programmerkeypad->buttonThemeChanged(1);
+    m_programmerkeypad->buttonThemeChanged(2);
     DSettingsAlt::deleteInstance();
 }
 
@@ -58,4 +75,13 @@ TEST_F(Ut_ProgrammerKeypad, bracketsNum)
     ASSERT_EQ(m_programmerkeypad->m_rightBracket->text(), "1");
     DSettingsAlt::deleteInstance();
 }
+
+//TEST_F(Ut_ProgrammerKeypad, initUI)
+//{
+//    ProgrammerKeypad *m_programmerkeypad = new ProgrammerKeypad;
+//    m_programmerkeypad->bracketsNum(0, "0");
+//    m_programmerkeypad->bracketsNum(1, "1");
+//    ASSERT_EQ(m_programmerkeypad->m_rightBracket->text(), "1");
+//    DSettingsAlt::deleteInstance();
+//}
 

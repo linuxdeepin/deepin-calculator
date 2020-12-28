@@ -25,6 +25,10 @@ TEST_F(Ut_ProSystemKeypad, getFocus)
 TEST_F(Ut_ProSystemKeypad, setSystem)
 {
     ProSystemKeypad *m_prosystemkeypad = new ProSystemKeypad;
+    m_prosystemkeypad->setSystem(32, 64);
+    m_prosystemkeypad->setSystem(64, 8);
+    m_prosystemkeypad->setSystem(8, 16);
+    m_prosystemkeypad->setSystem(16, 32);
     m_prosystemkeypad->setSystem(64, 32);
     m_prosystemkeypad->setSystem(32, 16);
     m_prosystemkeypad->setSystem(16, 8);

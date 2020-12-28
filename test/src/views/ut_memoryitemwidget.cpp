@@ -8,6 +8,16 @@ Ut_MemoryItemWidget::Ut_MemoryItemWidget()
 
 }
 
+TEST_F(Ut_MemoryItemWidget, connects)
+{
+    MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
+    m_memoryItemWidget->m_btnplus->clicked();
+    m_memoryItemWidget->m_btnminus->clicked();
+    m_memoryItemWidget->m_btnclean->clicked();
+    DSettingsAlt::deleteInstance();
+    MemoryPublic::deleteInstance();
+}
+
 TEST_F(Ut_MemoryItemWidget, enterEvent)
 {
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;

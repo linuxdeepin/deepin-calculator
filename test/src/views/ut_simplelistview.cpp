@@ -7,10 +7,34 @@ Ut_SimpleListView::Ut_SimpleListView()
 
 }
 
+TEST_F(Ut_SimpleListView, connect)
+{
+    SimpleListView *m_simpleListView = new SimpleListView();
+    m_simpleListView->verticalScrollBar()->rangeChanged(1, 1);
+    //无ASSERT
+    DSettingsAlt::deleteInstance();
+}
+
 TEST_F(Ut_SimpleListView, contextMenuEvent)
 {
     SimpleListView *m_simpleListView = new SimpleListView();
     m_simpleListView->contextMenuEvent(new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_simpleListView->pos(), m_simpleListView->pos(), Qt::KeyboardModifier::NoModifier));
+    //无ASSERT
+    DSettingsAlt::deleteInstance();
+}
+
+TEST_F(Ut_SimpleListView, listItemFill)
+{
+    SimpleListView *m_simpleListView = new SimpleListView();
+    m_simpleListView->listItemFill(true);
+    ASSERT_TRUE(m_simpleListView->m_itemfill);
+    DSettingsAlt::deleteInstance();
+}
+
+TEST_F(Ut_SimpleListView, showTextEditMenuByAltM)
+{
+    SimpleListView *m_simpleListView = new SimpleListView();
+    m_simpleListView->showTextEditMenuByAltM(QModelIndex());
     //无ASSERT
     DSettingsAlt::deleteInstance();
 }
@@ -39,6 +63,34 @@ TEST_F(Ut_SimpleListView, adjustScrollbarMargins)
     DSettingsAlt::deleteInstance();
 }
 
+TEST_F(Ut_SimpleListView, mousePressEvent)
+{
+    SimpleListView *m_simpleListView = new SimpleListView();
+    SimpleListModel *m_model = new SimpleListModel;
+    m_simpleListView->setModel(m_model);
+    m_model->appendText("1", true);
+    m_simpleListView->m_mode = 1;
+    m_simpleListView->mousePressEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                                      m_simpleListView->pos(), Qt::MouseButton::LeftButton,
+                                                      Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier));
+    ASSERT_TRUE(m_simpleListView->m_ispressed);
+    DSettingsAlt::deleteInstance();
+}
+
+TEST_F(Ut_SimpleListView, mouseReleaseEvent)
+{
+    SimpleListView *m_simpleListView = new SimpleListView();
+    SimpleListModel *m_model = new SimpleListModel;
+    m_simpleListView->setModel(m_model);
+    m_model->appendText("1", true);
+    m_simpleListView->m_mode = 1;
+    m_simpleListView->mouseReleaseEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                                        m_simpleListView->pos(), Qt::MouseButton::LeftButton,
+                                                        Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier));
+    ASSERT_FALSE(m_simpleListView->m_ispressed);
+    DSettingsAlt::deleteInstance();
+}
+
 TEST_F(Ut_SimpleListView, keyPressEvent)
 {
     SimpleListView *m_simpleListView = new SimpleListView();
@@ -55,3 +107,16 @@ TEST_F(Ut_SimpleListView, keyPressEvent)
     //无ASSERT
     DSettingsAlt::deleteInstance();
 }
+
+TEST_F(Ut_SimpleListView, focusInEvent)
+{
+    SimpleListView *m_simpleListView = new SimpleListView();
+    SimpleListModel *m_model = new SimpleListModel;
+    m_simpleListView->setModel(m_model);
+    m_model->appendText("1", true);
+    m_simpleListView->m_mode = 1;
+    m_simpleListView->focusInEvent(new QFocusEvent(QFocusEvent::Type::FocusIn));
+    ASSERT_EQ(m_simpleListView->currentIndex().row(), 0);
+    DSettingsAlt::deleteInstance();
+}
+
