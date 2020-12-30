@@ -92,10 +92,10 @@ file(GLOB_RECURSE CAL_CPP ${CMAKE_CURRENT_LIST_DIR}/../src/*.cpp)
 list(REMOVE_ITEM CAL_CPP "${CMAKE_CURRENT_LIST_DIR}/../src/main.cpp")
 file(GLOB_RECURSE CAL_TEST ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
 file(GLOB_RECURSE CAL_TESTH ${CMAKE_CURRENT_LIST_DIR}/src/*.h)
-include_directories(third_party)                           #一下三行添加包含以便测试用例代码的编写
-include_directories(third_party/googlemock/include)
-include_directories(third_party/googletest/include)
-add_subdirectory(third_party)                              #添加googletest库
+
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+
 
 set (DC_QRC_FILES
     ${CMAKE_CURRENT_LIST_DIR}/../src/deepin-calculator.qrc
@@ -108,7 +108,7 @@ set(PROJECT_NAME_TEST
 add_executable(${PROJECT_NAME_TEST} ${CAL_H} ${CAL_C} ${CAL_CPP} ${CAL_TEST} ${CAL_TESTH})
 
 # 生成测试可执行程序的依赖库
-target_link_libraries(${PROJECT_NAME_TEST} gmock gmock_main gtest gtest_main)
+target_link_libraries(${PROJECT_NAME_TEST} ${GTEST_LIBRARYS} ${GTEST_MAIN_LIBRARYS} gmock gmock_main gtest gtest_main pthread)
 
 target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${Qt5Widgets_LIBRARIES}
                                               ${Qt5DBus_LIBRARIES}
@@ -118,6 +118,7 @@ target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${Qt5Widgets_LIBRARIES}
                                               ${DtkCore_LIBRARIES}
                                               ${DtkGUI_INCLUDE_DIRS}
                                               ${DFrameworkDBus_INCLUDE_DIRS}
+                                              ${GTEST_INCLUDE_DIRS}
                                               ${HEAD})
 target_link_libraries (${PROJECT_NAME_TEST} ${LINK_LIBS})
 
@@ -130,6 +131,8 @@ install(FILES ${CMAKE_CURRENT_LIST_DIR}/../deepin-calculator.desktop
         DESTINATION share/applications/)
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/../src/assets/images/deepin-calculator.svg
             DESTINATION share/icons/hicolor/scalable/apps/)
+
+ADD_COMPILE_OPTIONS(-fno-access-control)
 
 #------------------------------ 创建'make test'指令---------------------------------------
 add_custom_target(test
