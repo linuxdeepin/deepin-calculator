@@ -101,4 +101,6 @@ install(FILES ${CMAKE_CURRENT_LIST_DIR}/../deepin-calculator.desktop
         DESTINATION share/applications/)
 install(FILES assets/images/deepin-calculator.svg
             DESTINATION share/icons/hicolor/scalable/apps/)
+install(DIRECTORY assets/deepin-calculator
+                DESTINATION /usr/share/deepin-manual/manual-assets/application/)
 
