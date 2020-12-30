@@ -1136,12 +1136,39 @@ void ProgramModule::handleEditKeyPress(QKeyEvent *e)
         m_proExpressionBar->enterNumberEvent("F");
         m_programmerKeypad->animate(ProgrammerKeypad::Key_F);
         break;
+    case Qt::Key_L:
+        if (isPressCtrl && m_avail && !m_isallgray) {
+            m_memoryPublic->memoryclean();
+        }
+        break;
+    case Qt::Key_R:
+        if (isPressCtrl && m_avail && !m_isallgray) {
+            m_memorylistwidget->resetAllLabelByBase();
+            m_proExpressionBar->getInputEdit()->setAnswer(m_memorylistwidget->getfirstnumber().first, m_memorylistwidget->getfirstnumber().second);
+            //点击item清除键状态改变
+            this->handleClearStateChanged(false);
+        }
+        break;
     case Qt::Key_M:
         if (isPressCtrl && m_memCalbtn && !m_isallgray) {
             m_checkBtnKeypad->animate(ProCheckBtnKeypad::Key_MS);
             m_proExpressionBar->enterEqualEvent();
             if (m_proExpressionBar->getInputEdit()->getCurrentAns().first)
                 m_memoryPublic->generateData(m_proExpressionBar->getInputEdit()->getCurrentAns().second);
+        }
+        break;
+    case Qt::Key_P:
+        if (isPressCtrl && m_memCalbtn && !m_isallgray) {
+            m_proExpressionBar->enterEqualEvent();
+            if (m_proExpressionBar->getInputEdit()->getCurrentAns().first) //如果输入栏中可计算出结果
+                m_memoryPublic->memoryplus(m_proExpressionBar->getInputEdit()->getCurrentAns().second);
+        }
+        break;
+    case Qt::Key_Q:
+        if (isPressCtrl && m_memCalbtn && !m_isallgray) {
+            m_proExpressionBar->enterEqualEvent();
+            if (m_proExpressionBar->getInputEdit()->getCurrentAns().first)
+                m_memoryPublic->memoryminus(m_proExpressionBar->getInputEdit()->getCurrentAns().second);
         }
         break;
     case Qt::Key_V:
