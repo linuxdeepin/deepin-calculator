@@ -95,11 +95,12 @@ int main(int argc, char *argv[])
     qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell");
 
     DApplication *app = nullptr;
-#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
+//#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
+//    app = new DApplication(argc, argv);
+//#else
+//    app = DApplication::globalApplication(argc, argv);
+//#endif
     app = new DApplication(argc, argv);
-#else
-    app = DApplication::globalApplication(argc, argv);
-#endif
     app->setAttribute(Qt::AA_UseHighDpiPixmaps);
     g_appPath = QDir::homePath() + QDir::separator() + "." + qApp->applicationName();
     QDir t_appDir;
