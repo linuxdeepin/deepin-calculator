@@ -94,31 +94,25 @@ int main(int argc, char *argv[])
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell");
 
-    DApplication *app = nullptr;
-//#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
-//    app = new DApplication(argc, argv);
-//#else
-//    app = DApplication::globalApplication(argc, argv);
-//#endif
-    app = new DApplication(argc, argv);
-    app->setAttribute(Qt::AA_UseHighDpiPixmaps);
+    DApplication app(argc, argv);
+    app.setAttribute(Qt::AA_UseHighDpiPixmaps);
     g_appPath = QDir::homePath() + QDir::separator() + "." + qApp->applicationName();
     QDir t_appDir;
     t_appDir.mkpath(g_appPath);
-    app->loadTranslator();
-    app->setOrganizationName("deepin");
-    app->setApplicationName("deepin-calculator");
-    app->setApplicationAcknowledgementPage(
+    app.loadTranslator();
+    app.setOrganizationName("deepin");
+    app.setApplicationName("deepin-calculator");
+    app.setApplicationAcknowledgementPage(
         "https://www.deepin.org/acknowledgments/deepin-calculator");
     QIcon t_icon = QIcon::fromTheme("deepin-calculator");
-    app->setProductIcon(t_icon);
-    app->setProductName(DApplication::translate("MainWindow", "Calculator"));
-    app->setApplicationDescription(
+    app.setProductIcon(t_icon);
+    app.setProductName(DApplication::translate("MainWindow", "Calculator"));
+    app.setApplicationDescription(
         DApplication::translate("MainWindow",
                                 "Calculator is an easy to use desktop calculator, supporting standard and scientific modes."));
-    app->setApplicationVersion(VERSION);
-    app->setQuitOnLastWindowClosed(true);
-    app->setApplicationDisplayName(QObject::tr("Calculator"));
+    app.setApplicationVersion(VERSION);
+    app.setQuitOnLastWindowClosed(true);
+    app.setApplicationDisplayName(QObject::tr("Calculator"));
     // app.setStyle("chameleon");
 
     QDBusConnection dbus = QDBusConnection::sessionBus();
@@ -130,12 +124,12 @@ int main(int argc, char *argv[])
     cmdParser.setApplicationDescription("deepin-calculator");
     cmdParser.addHelpOption();
     cmdParser.addVersionOption();
-    cmdParser.process(*app);
+    cmdParser.process(app);
 
 
     MainWindow window;
     DSettingsAlt *m_dsettings = DSettingsAlt::instance(&window);
-    if (app->setSingleInstance(app->applicationName(), DApplication::UserScope)) {
+    if (app.setSingleInstance(app.applicationName(), DApplication::UserScope)) {
         Dtk::Widget::moveToCenter(&window);
         m_dsettings->setOption("windowX", window.pos().x());
         m_dsettings->setOption("windowY", window.pos().y());
@@ -145,7 +139,7 @@ int main(int argc, char *argv[])
     window.setWindowFlag(Qt::WindowMaximizeButtonHint, false);
 
     DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
-    DApplicationSettings savetheme(app);
+    DApplicationSettings savetheme(&app);
     if (oldversion == true) {
         DGuiApplicationHelper::instance()->setPaletteType(oldpalette);
     }
@@ -170,5 +164,5 @@ int main(int argc, char *argv[])
     dbus.registerObject("/com/deepin/calculator", &window, QDBusConnection::ExportScriptableSlots);
     window.show();
     PerformanceMonitor::initializAppFinish();
-    return app->exec();
+    return app.exec();
 }
