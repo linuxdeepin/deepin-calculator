@@ -685,5 +685,4 @@ void BasicModuleTab::checkLineEmpty()
 {
     m_expressionBar->getInputEdit()->isExpressionEmpty();
     m_scihiswidget->resetFocus();
-    emit clearbtnShow(!m_memoryPublic->isWidgetEmpty(0));
 }
