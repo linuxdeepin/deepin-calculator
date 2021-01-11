@@ -26,6 +26,7 @@
 #include <QMouseEvent>
 #include <QStringList>
 #include <DMenu>
+#include <DGuiApplicationHelper>
 
 #include "math/floatconfig.h"
 #include "utils.h"
@@ -368,18 +369,32 @@ void InputEdit::autoZoomFontSize()
 {
     QFont font;
 
-    // the maximum font is 30, minimum font is 15.
-    for (int i = 30; i > 16; --i) {
-        font.setPixelSize(i);
+    //编译环境中DTK版本低，暂时固定走平板模式
+    if (/*DGuiApplicationHelper::instance()->isTabletEnvironment()*/1) {
+        // the maximum font is 30, minimum font is 15.
+        for (int i = 80; i > 61; --i) {
+            font.setPixelSize(i);
 
-        QFontMetrics fm(font);
-        int fontWidth = fm.width(text());
-        int editWidth = width() - 45;
+            QFontMetrics fm(font);
+            int fontWidth = fm.width(text());
+            int editWidth = width() - 65;
 
-        if (fontWidth < editWidth)
-            break;
+            if (fontWidth < editWidth)
+                break;
+        }
+    } else {
+        // the maximum font is 30, minimum font is 15.
+        for (int i = 30; i > 16; --i) {
+            font.setPixelSize(i);
+
+            QFontMetrics fm(font);
+            int fontWidth = fm.width(text());
+            int editWidth = width() - 45;
+
+            if (fontWidth < editWidth)
+                break;
+        }
     }
-
     setFont(font);
 }
 

@@ -130,6 +130,14 @@
         <file>assets/images/dark/rad_press.svg</file>
         <file>assets/images/dark/deg_hover.svg</file>
         <file>assets/images/dark/deg_normal.svg</file>
-        <file>assets/images/dark/deg_press.svg</file>
+        <file>assets/images/dark/deg_press.svg</file>      
+        <file>assets/images/light/icon_history_checked.svg</file>
+        <file>assets/images/light/icon_history_normal.svg</file>
+        <file>assets/images/light/icon_memory_checked.svg</file>
+        <file>assets/images/light/icon_memory_normal.svg</file>
+        <file>assets/images/dark/icon_history_checked.svg</file>
+        <file>assets/images/dark/icon_history_normal.svg</file>
+        <file>assets/images/dark/icon_memory_checked.svg</file>
+        <file>assets/images/dark/icon_memory_normal.svg</file>
     </qresource>
 </RCC>

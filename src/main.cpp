@@ -23,6 +23,7 @@
 #include <QDir>
 #include <QIcon>
 #include <QSettings>
+#include <QDesktopWidget>
 #include <DApplication>
 #include <DApplicationSettings>
 #include <DGuiApplicationHelper>
@@ -30,6 +31,7 @@
 #include <DWidgetUtil>
 #include <DWindowManagerHelper>
 
+#include "tablet/mainwindowtab.h"
 #include "mainwindow.h"
 #include "environments.h"
 #include "utils.h"
@@ -132,40 +134,45 @@ int main(int argc, char *argv[])
 
 
     MainWindow window;
-    DSettingsAlt *m_dsettings = DSettingsAlt::instance(&window);
-    if (app->setSingleInstance(app->applicationName(), DApplication::UserScope)) {
-        Dtk::Widget::moveToCenter(&window);
-        m_dsettings->setOption("windowX", window.pos().x());
-        m_dsettings->setOption("windowY", window.pos().y());
+    MainWindowTab windowtab;
+    //编译环境中DTK版本低，暂时固定走平板模式
+    if (/*DGuiApplicationHelper::isTabletEnvironment()*/1) {
+        if (!app->setSingleInstance(app->applicationName(), DApplication::UserScope)) {
+            return -1;
+        }
+        windowtab.setWindowFlag(Qt::WindowMinMaxButtonsHint, false);
+        windowtab.setWindowFlag(Qt::WindowCloseButtonHint, false);
+        windowtab.showMaximized();
+
+        DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
+        DApplicationSettings savetheme(app);
+        if (oldversion == true) {
+            DGuiApplicationHelper::instance()->setPaletteType(oldpalette);
+        }
+
+        // Register debus service.
+        dbus.registerObject("/com/deepin/calculator", &windowtab, QDBusConnection::ExportScriptableSlots);
+        windowtab.show();
     } else {
-        window.move(m_dsettings->getOption("windowX").toInt() + 10, m_dsettings->getOption("windowY").toInt() + 10);
+        DSettingsAlt *m_dsettings = DSettingsAlt::instance(&window);
+        if (app->setSingleInstance(app->applicationName(), DApplication::UserScope)) {
+            Dtk::Widget::moveToCenter(&window);
+            m_dsettings->setOption("windowX", window.pos().x());
+            m_dsettings->setOption("windowY", window.pos().y());
+        } else {
+            window.move(m_dsettings->getOption("windowX").toInt() + 10, m_dsettings->getOption("windowY").toInt() + 10);
+        }
+        DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
+        DApplicationSettings savetheme(app);
+        if (oldversion == true) {
+            DGuiApplicationHelper::instance()->setPaletteType(oldpalette);
+        }
+
+        // Register debus service.
+        dbus.registerObject("/com/deepin/calculator", &window, QDBusConnection::ExportScriptableSlots);
+        window.show();
     }
 
-    DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
-    DApplicationSettings savetheme(app);
-    if (oldversion == true) {
-        DGuiApplicationHelper::instance()->setPaletteType(oldpalette);
-    }
-
-
-    // 应用已保存的主题设置
-//    DGuiApplicationHelper::ColorType t_type = DGuiApplicationHelper::instance()->themeType();
-//    saveThemeTypeSetting(t_type);
-    //监听当前应用主题切换事件
-//    QObject::connect(DGuiApplicationHelper::instance(),
-//                     &DGuiApplicationHelper::paletteTypeChanged,
-//    [](DGuiApplicationHelper::ColorType type) {
-//        qDebug() << type;
-//        // 保存程序的主题设置  type : 0,系统主题， 1,浅色主题， 2,深色主题
-//        saveThemeTypeSetting(type);
-//        DGuiApplicationHelper::instance()->setPaletteType(type);
-//    });
-
-    // 20200330 主题记忆更改为规范代码
-//    DApplicationSettings savetheme(&app);
-    // Register debus service.
-    dbus.registerObject("/com/deepin/calculator", &window, QDBusConnection::ExportScriptableSlots);
-    window.show();
     PerformanceMonitor::initializAppFinish();
     return app->exec();
 }
