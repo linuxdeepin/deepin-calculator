@@ -105,7 +105,7 @@ void MainWindowTab::initTheme()
         titlePa.setColor(DPalette::Base, QColor(240, 240, 240));
         titlebar()->setPalette(titlePa);
         path = QString(":/assets/images/%1/").arg("light");
-        m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
+        m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_normal.svg", path + "empty_normal.svg", 1);
     } else {
         DPalette titlePa = titlebar()->palette();
         QColor normalbackground = QColor(0, 0, 0);
@@ -115,7 +115,7 @@ void MainWindowTab::initTheme()
         titlePa.setColor(DPalette::Base, normalbackground);
         titlebar()->setPalette(titlePa);
         path = QString(":/assets/images/%1/").arg("dark");
-        m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
+        m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_normal.svg", path + "empty_normal.svg", 1);
     }
 }
 

@@ -26,7 +26,7 @@
 
 #include "performancemonitor.h"
 
-const QSize HISTORY_WIDGET_CLEARBUTTONSIZE = QSize(51, 50); //历史记录区垃圾桶大小
+const QSize HISTORY_WIDGET_CLEARBUTTONSIZE = QSize(52, 51); //历史记录区垃圾桶大小
 const qreal BLURRADIUS = 12; //阴影模糊半径
 const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
 const qreal ROUND_YRADIUS = 8; //按钮圆角y轴半径
@@ -222,23 +222,24 @@ void IconButtonTab::paintEvent(QPaintEvent *)
     QPixmap pixmap(m_currentUrl);
     m_pixmap = pixmap; //保存以取图片rect,move到该按钮中间
     QPainter painter(this);
-    if (m_isEmptyBtn == false) {
-        QRectF frameRect = this->rect();
-        QRectF rect(frameRect.left() + 1, frameRect.top() + 1, frameRect.width() - 2, frameRect.height() - 2);
-        QRectF hover(frameRect.left() + 1, frameRect.top() + 1, frameRect.width() - 2, frameRect.height() - 2);
+
+    QRectF frameRect = this->rect();
+    QRectF rect(frameRect.left() + 1, frameRect.top() + 1, frameRect.width() - 2, frameRect.height() - 2);
+    QRectF hover(frameRect.left() + 1, frameRect.top() + 1, frameRect.width() - 2, frameRect.height() - 2);
 //        if (m_isHistorybtn)
 //            rect = hover = frameRect;
-        painter.setRenderHint(QPainter::Antialiasing, true);
-        painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-        //m_pixmap = m_pixmap.scaled(m_pixmap.size() * devicePixelRatioF());
-        QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();//活动色
-        QColor pressBrush, focus, hoverFrame, base, hoverbrush;
-        QColor hoverShadow, focusShadow;
-        hoverShadow = actcolor;
-        hoverShadow.setAlphaF(0.1);
-        focusShadow = QColor(0, 0, 0);
-        focusShadow.setAlphaF(0.05);
-        int type = DGuiApplicationHelper::instance()->paletteType();
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+    //m_pixmap = m_pixmap.scaled(m_pixmap.size() * devicePixelRatioF());
+    QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();//活动色
+    QColor pressBrush, focus, hoverFrame, base, hoverbrush;
+    QColor hoverShadow, focusShadow;
+    hoverShadow = actcolor;
+    hoverShadow.setAlphaF(0.1);
+    focusShadow = QColor(0, 0, 0);
+    focusShadow.setAlphaF(0.05);
+    int type = DGuiApplicationHelper::instance()->paletteType();
+    if (m_isEmptyBtn == false) {
         if (type == 0)
             type = DGuiApplicationHelper::instance()->themeType();
         if (type == 1) { //浅色主题设置
@@ -268,55 +269,6 @@ void IconButtonTab::paintEvent(QPaintEvent *)
                 hoverbrush = QColor(60, 60, 60);
             }
         }
-//        if (m_isHistorybtn) { //打开历史记录按钮，当前取消此按钮
-//            if (type == 1) {
-//                pressBrush = QColor(0, 0, 0);
-//                pressBrush.setAlphaF(0.1);
-//                focus = actcolor;
-//                base = Qt::transparent;
-//                hoverbrush = QColor(255, 255, 255);
-//                hoverbrush.setAlphaF(0.6);
-//            } else {
-//                pressBrush = QColor(0, 0, 0);
-//                pressBrush.setAlphaF(0.5);
-//                focus = actcolor;
-//                base = QColor("#252525");
-//                hoverbrush = QColor(255, 255, 255);
-//                hoverbrush.setAlphaF(0.1);
-//            }
-//            if (hasFocus()) {
-//                if (m_isPress) {
-//                    painter.setBrush(QBrush(pressBrush));
-//                    QPen pen;
-//                    pen.setColor(pressBrush);
-//                    painter.setPen(pen);
-//                    painter.drawRect(rect);
-//                } else {
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(QBrush(base));
-//                    painter.drawRect(rect);
-//                    QPen pen;
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(Qt::NoBrush);
-//                    painter.drawRect(rect);
-//                }
-//            } else {
-//                if (m_isHover) {
-//                    QPen pen;
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(QBrush(hoverbrush));
-//                    painter.drawRect(rect);
-//                } else if (m_isPress) {
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(QBrush(pressBrush));
-//                    painter.drawRect(rect);
-//                } else {
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(QBrush(base));
-//                    painter.drawRect(rect);
-//                }
-//            }
-//        } else {
         if (hasFocus()) {
             if (m_isPress) {
                 painter.setBrush(QBrush(pressBrush));
@@ -368,26 +320,54 @@ void IconButtonTab::paintEvent(QPaintEvent *)
                 this->setGraphicsEffect(m_effect);
             }
         }
-//        }
     } else {
-        QRectF frameRect = this->rect();
-        QRectF rect(frameRect.left() + 1, frameRect.top() + 1, frameRect.width() - 2, frameRect.height() - 2);
-        painter.setRenderHint(QPainter::Antialiasing, true);
-        painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-        QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();//活动色
-        QColor focus;
-        focus = actcolor;
-        if (hasFocus()) {
-            QPen pen;
-            pen.setColor(focus);
-            pen.setWidth(2);
-            painter.setPen(pen);
-            painter.setBrush(Qt::NoBrush);
-            painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //focus边框
+        if (type == 0)
+            type = DGuiApplicationHelper::instance()->themeType();
+        if (type == 1) {
+            pressBrush = QColor(230, 230, 230);
+//            pressBrush.setAlphaF(0.7);
+            focus = actcolor;
+            base = Qt::transparent;
+            hoverbrush = QColor(230, 230, 230);
+//            hoverbrush.setAlphaF(0.1);
         } else {
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(Qt::NoBrush);
-            painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
+            pressBrush = QColor(45, 45, 45);
+//            pressBrush.setAlphaF(0.2);
+            focus = actcolor;
+            base = Qt::transparent;
+            hoverbrush = pressBrush;
+        }
+        if (hasFocus()) {
+            if (m_isPress) {
+                painter.setBrush(QBrush(pressBrush));
+                QPen pen;
+                pen.setColor(pressBrush);
+                painter.setPen(pen);
+                painter.drawRect(rect);
+            } else {
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(QBrush(base));
+                painter.drawRect(rect);
+                QPen pen;
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(Qt::NoBrush);
+                painter.drawRect(rect);
+            }
+        } else {
+            if (m_isHover) {
+                QPen pen;
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(QBrush(hoverbrush));
+                painter.drawRect(rect);
+            } else if (m_isPress) {
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(QBrush(pressBrush));
+                painter.drawRect(rect);
+            } else {
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(QBrush(base));
+                painter.drawRect(rect);
+            }
         }
     }
     drawCenterPixMap(painter);

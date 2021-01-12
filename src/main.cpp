@@ -133,7 +133,6 @@ int main(int argc, char *argv[])
     cmdParser.process(*app);
 
 
-    MainWindow window;
     MainWindowTab windowtab;
     //编译环境中DTK版本低，暂时固定走平板模式
     if (/*DGuiApplicationHelper::isTabletEnvironment()*/1) {
@@ -143,17 +142,8 @@ int main(int argc, char *argv[])
         windowtab.setWindowFlag(Qt::WindowMinMaxButtonsHint, false);
         windowtab.setWindowFlag(Qt::WindowCloseButtonHint, false);
         windowtab.showMaximized();
-
-        DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
-        DApplicationSettings savetheme(app);
-        if (oldversion == true) {
-            DGuiApplicationHelper::instance()->setPaletteType(oldpalette);
-        }
-
-        // Register debus service.
-        dbus.registerObject("/com/deepin/calculator", &windowtab, QDBusConnection::ExportScriptableSlots);
-        windowtab.show();
     } else {
+        MainWindow window;
         DSettingsAlt *m_dsettings = DSettingsAlt::instance(&window);
         if (app->setSingleInstance(app->applicationName(), DApplication::UserScope)) {
             Dtk::Widget::moveToCenter(&window);
@@ -172,6 +162,15 @@ int main(int argc, char *argv[])
         dbus.registerObject("/com/deepin/calculator", &window, QDBusConnection::ExportScriptableSlots);
         window.show();
     }
+
+    DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
+    DApplicationSettings savetheme(app);
+    if (oldversion == true) {
+        DGuiApplicationHelper::instance()->setPaletteType(oldpalette);
+    }
+    // Register debus service.
+    dbus.registerObject("/com/deepin/calculator", &windowtab, QDBusConnection::ExportScriptableSlots);
+    windowtab.show();
 
     PerformanceMonitor::initializAppFinish();
     return app->exec();
