@@ -50,7 +50,7 @@ public:
     // void hideShadow();
     void animate(bool isspace = false, int msec = 100);
     void setbtnlight(bool light);
-    void showtips();
+//    void showtips();
 public slots:
     void setbuttongray(bool memorywidgetshow);
     void updateWhenBtnDisable();

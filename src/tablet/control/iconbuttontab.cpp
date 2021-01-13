@@ -113,21 +113,6 @@ void IconButtonTab::animate(bool isspace, int msec)
 }
 
 /**
- * @brief 设置垃圾桶tooltip
- * @param ismemory true-内存垃圾桶　false-历史记录垃圾桶
- */
-void IconButtonTab::showtooltip(bool ismemory)
-{
-    if (ismemory == true) {
-        m_cleartooltip = tr("Clear all memory");
-        this->setToolTip(m_cleartooltip);
-    } else {
-        m_cleartooltip = tr("Clear history");
-        this->setToolTip(m_cleartooltip);
-    }
-}
-
-/**
  * @brief IconButtonTab::updateWhenBtnDisable
  * 当拥有焦点时同时按下空格和鼠标后会导致问题，将其置回普通状态
  */

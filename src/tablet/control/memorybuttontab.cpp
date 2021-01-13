@@ -43,7 +43,7 @@ MemoryButtonTab::MemoryButtonTab(const QString &text, bool listwidgetbtn, QWidge
 
     init();
     m_isHover = m_isPress = false;
-    showtips();
+//    showtips();
     m_effect->setOffset(0, 4); //阴影偏移
     m_effect->setBlurRadius(BLURRADIUS); //阴影模糊半径
 }
@@ -99,32 +99,32 @@ void MemoryButtonTab::setbtnlight(bool light)
 /**
  * @brief 设置tooltip
  */
-void MemoryButtonTab::showtips()
-{
-    QString tooltext;
-    if (this->text() == "MC") {
-        if (m_widgetbtn)
-            tooltext = tr("Clear memory item");
-        else
-            tooltext = tr("Clear all memory");
-    } else if (this->text() == "MR")
-        tooltext = tr("Memory recall");
-    else if (this->text() == "M+") {
-        if (m_widgetbtn)
-            tooltext = tr("Add to memory item");
-        else
-            tooltext = tr("Memory add");
-    } else if (this->text() == "M-") {
-        if (m_widgetbtn)
-            tooltext = tr("Subtract from memory item");
-        else
-            tooltext = tr("Memory subtract");
-    } else if (this->text() == "MS")
-        tooltext = tr("Memory store");
-    else if (this->text() == "M˄" || this->text() == "M˅")
-        tooltext = tr("Memory");
-    this->setToolTip(tooltext);
-}
+//void MemoryButtonTab::showtips()
+//{
+//    QString tooltext;
+//    if (this->text() == "MC") {
+//        if (m_widgetbtn)
+//            tooltext = tr("Clear memory item");
+//        else
+//            tooltext = tr("Clear all memory");
+//    } else if (this->text() == "MR")
+//        tooltext = tr("Memory recall");
+//    else if (this->text() == "M+") {
+//        if (m_widgetbtn)
+//            tooltext = tr("Add to memory item");
+//        else
+//            tooltext = tr("Memory add");
+//    } else if (this->text() == "M-") {
+//        if (m_widgetbtn)
+//            tooltext = tr("Subtract from memory item");
+//        else
+//            tooltext = tr("Memory subtract");
+//    } else if (this->text() == "MS")
+//        tooltext = tr("Memory store");
+//    else if (this->text() == "M˄" || this->text() == "M˅")
+//        tooltext = tr("Memory");
+//    this->setToolTip(tooltext);
+//}
 
 /**
  * @brief MemoryButtonTab::setbuttongray
