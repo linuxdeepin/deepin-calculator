@@ -398,28 +398,34 @@ void TextButtonTab::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textR
     }
 
     if (m_btn == 1) {
-        vpadding = 2;
+        vpadding = -2;
         QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                               Qt::AlignCenter, "2ⁿ");
         painter.setFont(m_font);
         painter.drawText(textRect1, "2");
-        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2, int(rect.height() / 4 - vpadding),
-                                                              int(rect.width()) / 2, int(rect.height() / 2),
-                                                              Qt::AlignLeft, "nd");
+
         QFont a;
         a.setPixelSize(powersize);
         if (!hasFocus() && (m_isHover || m_isPress)) {
             a.setPixelSize(11);
+            vpadding = -1;
         }
+        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2, int(rect.height() / 4 - vpadding),
+                                                              int(rect.width()) / 2, int(rect.height() / 2),
+                                                              Qt::AlignLeft, "nd");
         a.setFamily("Noto Sans");
         painter.setFont(a);
         painter.drawText(textRect2, "nd");
     } else if (m_btn == 2) {
+        vpadding = -5;
+        if (!hasFocus() && (m_isHover || m_isPress)) {
+            vpadding = -4;
+        }
         QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                               Qt::AlignCenter, "xʸ");
         painter.setFont(m_font);
         painter.drawText(textRect1, "x");
-        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 2, int(rect.height() / 4),
+        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 2, int(rect.height() / 4 - vpadding),
                                                               int(rect.width()) / 2, int(rect.height() / 2),
                                                               Qt::AlignLeft, "y");
         QFont a;
@@ -428,13 +434,15 @@ void TextButtonTab::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textR
         painter.setFont(a);
         painter.drawText(textRect2, "y");
     } else if (m_btn == 3) {
-        if (!hasFocus() && (m_isHover || m_isPress))
-            vpadding = 1;
+        vpadding = -5;
+        if (!hasFocus() && (m_isHover || m_isPress)) {
+            vpadding = -4;
+        }
         QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                               Qt::AlignCenter, "10ˣ");
         painter.setFont(m_font);
         painter.drawText(textRect1, "10");
-        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 8, int(rect.height() / 4 - vpadding),
+        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - vpadding),
                                                               int(rect.width()) / 2, int(rect.height() / 2),
                                                               Qt::AlignLeft, "x");
         QFont a;
@@ -443,8 +451,10 @@ void TextButtonTab::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textR
         painter.setFont(a);
         painter.drawText(textRect2, "x");
     } else if (m_btn == 4) {
-        if (!hasFocus() && (m_isHover || m_isPress))
-            vpadding = 1;
+        vpadding = -5;
+        if (!hasFocus() && (m_isHover || m_isPress)) {
+            vpadding = -4;
+        }
         QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                               Qt::AlignCenter, "2ˣ");
         painter.setFont(m_font);
@@ -458,11 +468,15 @@ void TextButtonTab::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textR
         painter.setFont(a);
         painter.drawText(textRect2, "x");
     } else if (m_btn == 5) {
+        vpadding = -8;
+        if (!hasFocus() && (m_isHover || m_isPress)) {
+            vpadding = -7;
+        }
         QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                               Qt::AlignCenter, "eˣ");
         painter.setFont(m_font);
         painter.drawText(textRect1, "e");
-        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 2, int(rect.height() / 4),
+        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 2, int(rect.height() / 4 - vpadding),
                                                               int(rect.width()) / 2, int(rect.height() / 2),
                                                               Qt::AlignLeft, "x");
         QFont a;
@@ -471,16 +485,16 @@ void TextButtonTab::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textR
         painter.setFont(a);
         painter.drawText(textRect2, "x");
     } else if (m_btn == 6) {
-        if (!hasFocus() && (m_isHover || m_isPress))
-            vpadding = 4;
-        else
-            vpadding = 3;
+        vpadding = -5;
+        if (!hasFocus() && (m_isHover || m_isPress)) {
+            vpadding = -4;
+        }
         QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                               Qt::AlignCenter, "sinˣ");
         m_font.setPixelSize(trisize);
         painter.setFont(m_font);
         painter.drawText(textRect1, "sin");
-        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - vpadding),
+        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 9, int(rect.height() / 4 - vpadding),
                                                               int(rect.width()) / 2, int(rect.height() / 2),
                                                               Qt::AlignLeft, "-1");
         QFont a;
@@ -489,16 +503,16 @@ void TextButtonTab::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textR
         painter.setFont(a);
         painter.drawText(textRect2, "-1");
     } else if (m_btn == 7) {
-        if (!hasFocus() && (m_isHover || m_isPress))
-            vpadding = 4;
-        else
-            vpadding = 3;
+        vpadding = -5;
+        if (!hasFocus() && (m_isHover || m_isPress)) {
+            vpadding = -4;
+        }
         QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                               Qt::AlignCenter, "cosˣ");
         m_font.setPixelSize(trisize);
         painter.setFont(m_font);
         painter.drawText(textRect1, "cos");
-        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - vpadding),
+        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 9, int(rect.height() / 4 - vpadding),
                                                               int(rect.width()) / 2, int(rect.height() / 2),
                                                               Qt::AlignLeft, "-1");
         QFont a;
@@ -507,16 +521,16 @@ void TextButtonTab::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textR
         painter.setFont(a);
         painter.drawText(textRect2, "-1");
     } else if (m_btn == 8) {
-        if (!hasFocus() && (m_isHover || m_isPress))
-            vpadding = 4;
-        else
-            vpadding = 3;
+        vpadding = -5;
+        if (!hasFocus() && (m_isHover || m_isPress)) {
+            vpadding = -4;
+        }
         QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                               Qt::AlignCenter, "tanˣ");
         m_font.setPixelSize(trisize);
         painter.setFont(m_font);
         painter.drawText(textRect1, "tan");
-        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - vpadding),
+        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 9, int(rect.height() / 4 - vpadding),
                                                               int(rect.width()) / 2, int(rect.height() / 2),
                                                               Qt::AlignLeft, "-1");
         QFont a;
@@ -525,16 +539,16 @@ void TextButtonTab::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textR
         painter.setFont(a);
         painter.drawText(textRect2, "-1");
     } else if (m_btn == 9) {
-        if (!hasFocus() && (m_isHover || m_isPress))
-            vpadding = 4;
-        else
-            vpadding = 3;
+        vpadding = -5;
+        if (!hasFocus() && (m_isHover || m_isPress)) {
+            vpadding = -4;
+        }
         QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                               Qt::AlignCenter, "cotˣ");
         m_font.setPixelSize(trisize);
         painter.setFont(m_font);
         painter.drawText(textRect1, "cot");
-        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 7, int(rect.height() / 4 - vpadding),
+        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 9, int(rect.height() / 4 - vpadding),
                                                               int(rect.width()) / 2, int(rect.height() / 2),
                                                               Qt::AlignLeft, "-1");
         QFont a;
