@@ -332,7 +332,7 @@ void ScientificKeyPadTab::initUI()
         i.next();
         if (i.key() == Key_left) {
             m_leftBracket->setParent(i.value().first);
-            m_leftBracket->move(i.value().first->rect().x() + 37, i.value().first->rect().y() + 22);
+            m_leftBracket->move(i.value().first->rect().x() + 125, i.value().first->rect().y() + 45);
             connect(i.value().first, &DPushButton::pressed, [ = ]() {
                 m_leftBracket->setStyleSheet(QString("font-family:Noto Sans;color:%1;font-size:14px;")
                                              .arg(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name()));
@@ -347,7 +347,7 @@ void ScientificKeyPadTab::initUI()
         }
         if (i.key() == Key_right) {
             m_rightBracket->setParent(i.value().first);
-            m_rightBracket->move(i.value().first->rect().x() + 37, i.value().first->rect().y() + 22);
+            m_rightBracket->move(i.value().first->rect().x() + 125, i.value().first->rect().y() + 45);
             connect(i.value().first, &DPushButton::pressed, [ = ]() {
                 m_rightBracket->setStyleSheet(QString("font-family:Noto Sans;color:%1;font-size:14px;")
                                               .arg(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name()));
