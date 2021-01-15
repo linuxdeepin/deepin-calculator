@@ -1,16 +1,17 @@
 #ifndef MEMORYKEYPADTAB_H
 #define MEMORYKEYPADTAB_H
 
-#include <QWidget>
-#include <QGridLayout>
-#include <QSignalMapper>
-#include <DGuiApplicationHelper>
-#include <DSuggestButton>
-
 #include "textbuttontab.h"
 #include "iconbuttontab.h"
 #include "memorybuttontab.h"
 #include "equalbuttontab.h"
+
+#include <DGuiApplicationHelper>
+#include <DSuggestButton>
+
+#include <QWidget>
+#include <QGridLayout>
+#include <QSignalMapper>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE

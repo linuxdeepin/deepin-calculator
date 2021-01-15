@@ -20,15 +20,16 @@
 #ifndef TextButtonTab_H
 #define TextButtonTab_H
 
+#include <DPushButton>
+#include <DPalette>
+#include <DGuiApplicationHelper>
+
 #include <QGraphicsDropShadowEffect>
 #include <QDebug>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
 #include <QTimer>
-#include <DPushButton>
-#include <DPalette>
-#include <DGuiApplicationHelper>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE

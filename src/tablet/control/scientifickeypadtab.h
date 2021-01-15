@@ -21,6 +21,17 @@
 
 #pragma once
 
+#include "textbuttontab.h"
+#include "iconbuttontab.h"
+#include "equalbuttontab.h"
+#include "memorybuttontab.h"
+
+#include <DWidget>
+#include <DLabel>
+#include <DGuiApplicationHelper>
+#include <DSuggestButton>
+#include <com_deepin_daemon_appearance.h>
+
 #include <QWidget>
 #include <QGridLayout>
 #include <QVBoxLayout>
@@ -28,16 +39,6 @@
 #include <QSignalMapper>
 #include <QStackedWidget>
 #include <QDebug>
-#include <DWidget>
-#include <DLabel>
-#include <DGuiApplicationHelper>
-#include <DSuggestButton>
-#include <com_deepin_daemon_appearance.h>
-
-#include "textbuttontab.h"
-#include "iconbuttontab.h"
-#include "equalbuttontab.h"
-#include "memorybuttontab.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE

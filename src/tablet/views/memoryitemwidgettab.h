@@ -41,15 +41,15 @@ class MemoryItemWidgetTab : public QWidget
     Q_OBJECT
 public:
     explicit MemoryItemWidgetTab(QWidget *parent = nullptr);
-    ~MemoryItemWidgetTab();
-    void enterEvent(QEvent *event);
-    void leaveEvent(QEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void contextMenuEvent(QContextMenuEvent *event);
+    ~MemoryItemWidgetTab() Q_DECL_OVERRIDE;
+    void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
     void setTextLabel(QString s);
     QString textLabel();
-    void paintEvent(QPaintEvent *e);
+    void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
     void setLineHight(int line);
 signals:
     void plusbtnclicked();

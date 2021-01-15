@@ -20,13 +20,14 @@
 #ifndef EqualButtonTab_H
 #define EqualButtonTab_H
 
-#include <QDebug>
-#include <QGraphicsDropShadowEffect>
+#include "performancemonitor.h"
+
 #include <DPushButton>
 #include <DSuggestButton>
 #include <DPalette>
 
-#include "performancemonitor.h"
+#include <QDebug>
+#include <QGraphicsDropShadowEffect>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE

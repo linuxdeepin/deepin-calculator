@@ -45,13 +45,13 @@ class MemoryWidgetTab : public QWidget
 
 public:
     explicit MemoryWidgetTab(int mode = 0, QWidget *parent = nullptr);
-    ~MemoryWidgetTab();
+    ~MemoryWidgetTab() Q_DECL_OVERRIDE;
 
     void generateData(Quantity answer);
-    void mousePressEvent(QMouseEvent *event);
-    bool eventFilter(QObject *obj, QEvent *event);
-    void focusInEvent(QFocusEvent *event);
-    void keyPressEvent(QKeyEvent *event);
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
+    void focusInEvent(QFocusEvent *event) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 //    bool event(QEvent *event);
 
     void memoryplus(Quantity answer);

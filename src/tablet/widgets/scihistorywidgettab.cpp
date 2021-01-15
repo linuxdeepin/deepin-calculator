@@ -199,6 +199,10 @@ void SciHistoryWidgetTab::memoryFunctions(SciHistoryWidgetTab::memOperate operat
     }
 }
 
+/**
+ * @brief SciHistoryWidgetTab::resetFocus
+ * 切换界面时，重新设置focus的方式和标题栏中的删除按键的是否显示状态
+ */
 void SciHistoryWidgetTab::resetFocus()
 {
     if (m_mode == 1) {

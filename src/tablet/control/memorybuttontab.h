@@ -22,14 +22,15 @@
 #ifndef MemoryButtonTab_H
 #define MemoryButtonTab_H
 
+#include "textbuttontab.h"
+
+#include <DPalette>
+#include <DPushButton>
+
 #include <QDebug>
 #include <QGraphicsDropShadowEffect>
 #include <QHelpEvent>
 #include <QToolTip>
-#include <DPalette>
-#include <DPushButton>
-
-#include "textbuttontab.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
