@@ -94,10 +94,8 @@ MainWindowTab::~MainWindowTab()
 
 void MainWindowTab::initTheme()
 {
-    int type = DGuiApplicationHelper::instance()->paletteType();
+    int type = DGuiApplicationHelper::instance()->themeType();
     QString path;
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         DPalette titlePa = titlebar()->palette();
         titlePa.setColor(DPalette::Light, QColor(240, 240, 240));

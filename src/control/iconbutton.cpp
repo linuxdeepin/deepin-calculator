@@ -60,9 +60,7 @@ IconButton::~IconButton()
  */
 void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode)
 {
-    int type = DGuiApplicationHelper::instance()->paletteType();
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
+    int type = DGuiApplicationHelper::instance()->themeType();
     m_themetype = type;
     m_normalUrl = normalFileName;
     m_hoverUrl = hoverFileName;
@@ -239,9 +237,7 @@ void IconButton::paintEvent(QPaintEvent *)
         hoverShadow.setAlphaF(0.1);
         focusShadow = QColor(0, 0, 0);
         focusShadow.setAlphaF(0.05);
-        int type = DGuiApplicationHelper::instance()->paletteType();
-        if (type == 0)
-            type = DGuiApplicationHelper::instance()->themeType();
+        int type = DGuiApplicationHelper::instance()->themeType();
         if (type == 1) { //浅色主题设置
             pressBrush = QColor(0, 0, 0);
             pressBrush.setAlphaF(0.1);

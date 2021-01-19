@@ -201,9 +201,7 @@ void MemoryItemWidgetTab::paintEvent(QPaintEvent *e)
     painter.setRenderHint(QPainter::Antialiasing, true); //防走样
     painter.setPen(Qt::NoPen);
     QColor press, hover;
-    int type = DGuiApplicationHelper::instance()->paletteType();
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType(); //获取当前主题类型
+    int type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         press = QColor(0, 0, 0);
         press.setAlphaF(0.2);

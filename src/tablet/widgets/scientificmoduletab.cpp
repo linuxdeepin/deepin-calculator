@@ -69,7 +69,7 @@ scientificModuleTab::scientificModuleTab(QWidget *parent)
     connect(m_scihiswidget->m_listView, &SimpleListViewTab::obtainingHistorical, this, [ = ](const QModelIndex & index) {
         m_sciexpressionBar->hisRevisionResults(index, m_scihiswidget->m_listModel->getAnswer(index.row()));
     }); //点击右侧历史记录
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this,
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this,
             &scientificModuleTab::initTheme);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_scikeypadwidget, &ScientificKeyPadTab::buttonThemeChanged);

@@ -226,9 +226,7 @@ void MemoryButtonTab::paintEvent(QPaintEvent *e)
     hoverShadow.setAlphaF(0.1);
     focusShadow = QColor(0, 0, 0);
     focusShadow.setAlphaF(0.05);
-    int type = DGuiApplicationHelper::instance()->paletteType();
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
+    int type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         pressBrush = QColor(0, 0, 0);
         pressBrush.setAlphaF(0.1);

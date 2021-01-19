@@ -155,7 +155,7 @@ int main(int argc, char *argv[])
         DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
         DApplicationSettings savetheme(app);
         if (oldversion == true) {
-            DGuiApplicationHelper::instance()->setPaletteType(oldpalette);
+            DGuiApplicationHelper::instance()->setThemeType(oldpalette);
         }
 
         // Register debus service.
@@ -166,7 +166,7 @@ int main(int argc, char *argv[])
     DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
     DApplicationSettings savetheme(app);
     if (oldversion == true) {
-        DGuiApplicationHelper::instance()->setPaletteType(oldpalette);
+        DGuiApplicationHelper::instance()->setThemeType(oldpalette);
     }
     // Register debus service.
     dbus.registerObject("/com/deepin/calculator", &windowtab, QDBusConnection::ExportScriptableSlots);
