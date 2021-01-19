@@ -98,7 +98,7 @@ TEST_F(Ut_SciHistoryWidget, keyPressEvent)
 TEST_F(Ut_SciHistoryWidget, themeChanged)
 {
     SciHistoryWidget *m_scihistorywidget = new SciHistoryWidget;
-    DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::UnknownType);
+//    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
     m_scihistorywidget->themeChanged(0);
     m_scihistorywidget->themeChanged(1);

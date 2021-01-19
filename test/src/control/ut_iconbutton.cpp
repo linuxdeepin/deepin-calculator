@@ -81,7 +81,7 @@ TEST_F(Ut_IconButton, paintEvent)
 {
     IconButton *m_iconButton = new IconButton;
     QPaintEvent *event = new QPaintEvent(m_iconButton->rect());
-    DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::UnknownType);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_iconButton->m_isHover = true;
     m_iconButton->m_isPress = true;

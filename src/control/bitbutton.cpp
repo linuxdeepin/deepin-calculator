@@ -106,9 +106,7 @@ void BitButton::paintEvent(QPaintEvent *e)
     QPainter painter(this);
     QPen pen;
     QRect focusrect(rect().left(), rect().top(), rect().width() - 1, rect().height() - 1);
-    int type = DGuiApplicationHelper::instance()->paletteType();
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
+    int type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) { //浅色主题设置
         text = QColor("#303030");
         disabletext = QColor("#555555");

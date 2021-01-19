@@ -114,7 +114,7 @@ TEST_F(Ut_ProgrammerItemWidget, paintEvent)
 {
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
     QPaintEvent *event = new QPaintEvent(m_programmerItemWidget->rect());
-    DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::UnknownType);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_programmerItemWidget->m_ispress = true;
     m_programmerItemWidget->m_ishover = false;

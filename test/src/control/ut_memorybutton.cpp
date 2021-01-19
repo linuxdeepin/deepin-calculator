@@ -96,7 +96,7 @@ TEST_F(Ut_MemoryButton, paintEvent)
 {
     MemoryButton *m_memorybutton = new MemoryButton;
     QPaintEvent *event = new QPaintEvent(m_memorybutton->rect());
-    DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::UnknownType);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_memorybutton->setText("MH˅");
     m_memorybutton->m_isHover = true;
@@ -121,7 +121,7 @@ TEST_F(Ut_MemoryButton, paintEvent2)
 {
     MemoryButton *m_memorybutton = new MemoryButton;
     QPaintEvent *event = new QPaintEvent(m_memorybutton->rect());
-    DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::UnknownType);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_memorybutton->setText("MH˄");
     m_memorybutton->m_isHover = true;

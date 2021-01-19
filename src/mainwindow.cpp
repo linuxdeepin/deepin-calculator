@@ -91,9 +91,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::initTheme()
 {
-    int type = DGuiApplicationHelper::instance()->paletteType();
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
+    int type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         DPalette titlePa = titlebar()->palette();
         titlePa.setColor(DPalette::Light, QColor(240, 240, 240));

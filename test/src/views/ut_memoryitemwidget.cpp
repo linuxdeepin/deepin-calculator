@@ -38,7 +38,7 @@ TEST_F(Ut_MemoryItemWidget, leaveEvent)
 
 TEST_F(Ut_MemoryItemWidget, mousePressEvent)
 {
-    DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::LightType);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
     m_memoryItemWidget->mousePressEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
                                                         m_memoryItemWidget->pos(), Qt::MouseButton::RightButton,
@@ -53,7 +53,7 @@ TEST_F(Ut_MemoryItemWidget, mousePressEvent)
 
 TEST_F(Ut_MemoryItemWidget, mouseReleaseEvent)
 {
-    DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::LightType);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
     m_memoryItemWidget->mouseReleaseEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
                                                           m_memoryItemWidget->pos(), Qt::MouseButton::RightButton,
@@ -81,7 +81,7 @@ TEST_F(Ut_MemoryItemWidget, paintEvent)
 {
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
     QPaintEvent *event = new QPaintEvent(m_memoryItemWidget->rect());
-    DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::UnknownType);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_memoryItemWidget->m_ishover = true;
     m_memoryItemWidget->m_ispress = true;

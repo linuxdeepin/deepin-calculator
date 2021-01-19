@@ -65,7 +65,7 @@ scientificModule::scientificModule(QWidget *parent)
             m_sciexpressionBar, &SciExpressionBar::initTheme);
 
     connect(m_memhiswidget->findChild<SimpleListView *>(), &SimpleListView::obtainingHistorical, this, &scientificModule::clickListView); //点击切换界面的历史记录
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, this,
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this,
             &scientificModule::initTheme);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_scikeypadwidget, &ScientificKeyPad::buttonThemeChanged);

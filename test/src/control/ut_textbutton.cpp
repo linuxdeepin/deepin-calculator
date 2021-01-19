@@ -110,7 +110,7 @@ TEST_F(Ut_TextButton, paintEvent)
 {
     TextButton *m_textbutton = new TextButton;
     QPaintEvent *event = new QPaintEvent(m_textbutton->rect());
-    DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::UnknownType);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_textbutton->m_isHover = true;
     m_textbutton->m_isPress = true;

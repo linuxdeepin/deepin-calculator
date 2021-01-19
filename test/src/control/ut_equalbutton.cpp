@@ -49,7 +49,7 @@ TEST_F(Ut_EqualButton, paintEvent)
 {
     EqualButton *m_equalButton = new EqualButton;
     QPaintEvent *event = new QPaintEvent(m_equalButton->rect());
-    DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::UnknownType);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_equalButton->m_isHover = true;
     m_equalButton->m_isPress = false;

@@ -86,7 +86,7 @@ TEST_F(Ut_BitButton, paintEvent)
 {
     BitButton *m_bitbutton = new BitButton;
     QPaintEvent *event = new QPaintEvent(m_bitbutton->rect());
-    DGuiApplicationHelper::instance()->setPaletteType(DGuiApplicationHelper::ColorType::UnknownType);
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_bitbutton->m_isHover = true;
     m_bitbutton->m_isPress = true;

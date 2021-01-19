@@ -17,9 +17,7 @@ void ProgrammerArrowDelegate::paint(QPainter *painter, const QStyleOptionViewIte
     MemoryListWidget *dragWidget = qobject_cast<MemoryListWidget *>(option.styleObject);
     QRectF rect = dragWidget->rect(); //获取memorylistwidget.rect绘制背景色
     painter->setRenderHint(QPainter::Antialiasing, true);
-    int type = DGuiApplicationHelper::instance()->paletteType();
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
+    int type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         painter->setPen(Qt::NoPen);
         painter->setBrush(QColor("#F8F8F8"));
