@@ -7,6 +7,11 @@ Ut_ProListView::Ut_ProListView()
 
 }
 
+void Ut_ProListView::forstub(QPoint q)
+{
+
+}
+
 TEST_F(Ut_ProListView, keyPressEvent)
 {
     ProListView *m_proListView = new ProListView();
@@ -33,5 +38,35 @@ TEST_F(Ut_ProListView, focusIndex)
     m_proListView->focusIndex();
     ASSERT_EQ(m_proListView->focusIndex(), m_proListView->model()->index(m_proListView->m_focusrow, 0));
     //无ASSERT
+    DSettingsAlt::deleteInstance();
+}
+
+QAction *stub_exec_pro(const QPoint &pos, QAction *at = nullptr)
+{
+    Q_UNUSED(pos)
+    Q_UNUSED(at)
+
+    return nullptr;
+}
+
+TEST_F(Ut_ProListView, contextMenuEvent)
+{
+    ProListView *m_proListView = new ProListView;
+    Stub stub;
+    stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec_pro);
+    QContextMenuEvent *e = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_proListView->pos());
+    m_proListView->contextMenuEvent(new QContextMenuEvent(QContextMenuEvent::Reason::Mouse,
+                                                          m_proListView->pos(), m_proListView->pos(),
+                                                          Qt::KeyboardModifier::NoModifier));
+    DSettingsAlt::deleteInstance();
+}
+
+TEST_F(Ut_ProListView, showTextEditMenuByAltM)
+{
+    ProListView *m_proListView = new ProListView;
+    Stub stub;
+    stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec_pro);
+    QContextMenuEvent *e = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_proListView->pos());
+    m_proListView->showTextEditMenuByAltM(QModelIndex());
     DSettingsAlt::deleteInstance();
 }

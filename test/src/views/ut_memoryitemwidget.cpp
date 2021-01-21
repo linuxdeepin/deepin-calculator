@@ -8,6 +8,11 @@ Ut_MemoryItemWidget::Ut_MemoryItemWidget()
 
 }
 
+void Ut_MemoryItemWidget::forstub(QPoint q)
+{
+
+}
+
 TEST_F(Ut_MemoryItemWidget, connects)
 {
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
@@ -66,16 +71,54 @@ TEST_F(Ut_MemoryItemWidget, mouseReleaseEvent)
     MemoryPublic::deleteInstance();
 }
 
-//TEST_F(Ut_MemoryItemWidget, contextMenuEvent)
-//{
-//    MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
-//    m_memoryItemWidget->contextMenuEvent(new QContextMenuEvent(QContextMenuEvent::Reason::Mouse,
-//                                                               QPoint(0, 0), QPoint(0, 0),
-//                                                               Qt::KeyboardModifier::NoModifier));
-//    ASSERT_FALSE(m_memoryItemWidget->m_ispress);
-//    DSettingsAlt::deleteInstance();
-//    MemoryPublic::deleteInstance();
-//}
+QAction *stub_exec(const QPoint &pos, QAction *at = nullptr)
+{
+    Q_UNUSED(pos)
+    Q_UNUSED(at)
+
+    return nullptr;
+}
+
+TEST_F(Ut_MemoryItemWidget, contextMenuEvent)
+{
+    MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
+    Stub stub;
+    stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec);
+    QContextMenuEvent *e = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_memoryItemWidget->pos());
+    m_memoryItemWidget->m_isExpressionEmpty = true;
+    m_memoryItemWidget->contextMenuEvent(new QContextMenuEvent(QContextMenuEvent::Reason::Mouse,
+                                                               m_memoryItemWidget->pos(), m_memoryItemWidget->pos(),
+                                                               Qt::KeyboardModifier::NoModifier));
+    stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec);
+    QContextMenuEvent *e1 = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_memoryItemWidget->pos());
+    m_memoryItemWidget->m_isExpressionEmpty = false;
+    m_memoryItemWidget->contextMenuEvent(new QContextMenuEvent(QContextMenuEvent::Reason::Mouse,
+                                                               m_memoryItemWidget->pos(), m_memoryItemWidget->pos(),
+                                                               Qt::KeyboardModifier::NoModifier));
+
+    ASSERT_FALSE(m_memoryItemWidget->m_ispress);
+    DSettingsAlt::deleteInstance();
+    MemoryPublic::deleteInstance();
+}
+
+TEST_F(Ut_MemoryItemWidget, showTextEditMenuByAltM)
+{
+    MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
+    Stub stub;
+    stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec);
+    QContextMenuEvent *e = new QContextMenuEvent(QContextMenuEvent::Reason::Keyboard, m_memoryItemWidget->pos());
+    m_memoryItemWidget->m_isExpressionEmpty = true;
+    m_memoryItemWidget->showTextEditMenuByAltM();
+
+    stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec);
+    QContextMenuEvent *e1 = new QContextMenuEvent(QContextMenuEvent::Reason::Keyboard, m_memoryItemWidget->pos());
+    m_memoryItemWidget->m_isExpressionEmpty = false;
+    m_memoryItemWidget->showTextEditMenuByAltM();
+
+    ASSERT_FALSE(m_memoryItemWidget->m_ispress);
+    DSettingsAlt::deleteInstance();
+    MemoryPublic::deleteInstance();
+}
 
 TEST_F(Ut_MemoryItemWidget, paintEvent)
 {
