@@ -92,27 +92,45 @@ TEST_F(Ut_MemoryButton, focusOutEvent)
     //无ASSERT
 }
 
+bool stub_focus_memory()
+{
+    return true;
+}
+
 TEST_F(Ut_MemoryButton, paintEvent)
 {
     MemoryButton *m_memorybutton = new MemoryButton;
     QPaintEvent *event = new QPaintEvent(m_memorybutton->rect());
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_memorybutton->setText("MH˅");
+    m_memorybutton->setEnabled(true);
     m_memorybutton->m_isHover = true;
     m_memorybutton->m_isPress = false;
     m_memorybutton->paintEvent(event);
     m_memorybutton->update();
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    m_memorybutton->setEnabled(false);
     m_memorybutton->m_isHover = false;
     m_memorybutton->m_isPress = false;
     m_memorybutton->m_isgray = true;
-    m_memorybutton->m_widgetbtn = true;
     m_memorybutton->paintEvent(event);
+    m_memorybutton->update();
+    m_memorybutton->setEnabled(true);
     m_memorybutton->m_isHover = false;
     m_memorybutton->m_isPress = true;
-    m_memorybutton->m_isgray = true;
-    m_memorybutton->m_widgetbtn = false;
+    m_memorybutton->paintEvent(event);
+
+    //focus状态
+    Stub stub;
+    stub.set(ADDR(MemoryButton, hasFocus), stub_focus_memory);
+    m_memorybutton->setEnabled(true);
+    m_memorybutton->m_isHover = true;
+    m_memorybutton->m_isPress = false;
+    m_memorybutton->paintEvent(event);
+    m_memorybutton->update();
+    m_memorybutton->setEnabled(true);
+    m_memorybutton->m_isHover = false;
+    m_memorybutton->m_isPress = true;
     m_memorybutton->paintEvent(event);
     //无ASSERT
 }
@@ -121,23 +139,73 @@ TEST_F(Ut_MemoryButton, paintEvent2)
 {
     MemoryButton *m_memorybutton = new MemoryButton;
     QPaintEvent *event = new QPaintEvent(m_memorybutton->rect());
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_memorybutton->setText("MH˄");
+    m_memorybutton->setEnabled(true);
     m_memorybutton->m_isHover = true;
     m_memorybutton->m_isPress = false;
     m_memorybutton->paintEvent(event);
     m_memorybutton->update();
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    m_memorybutton->setEnabled(false);
     m_memorybutton->m_isHover = false;
     m_memorybutton->m_isPress = false;
     m_memorybutton->m_isgray = true;
-    m_memorybutton->m_widgetbtn = true;
     m_memorybutton->paintEvent(event);
+    m_memorybutton->update();
+    m_memorybutton->setEnabled(true);
     m_memorybutton->m_isHover = false;
     m_memorybutton->m_isPress = true;
+    m_memorybutton->paintEvent(event);
+
+    //focus状态
+    Stub stub;
+    stub.set(ADDR(MemoryButton, hasFocus), stub_focus_memory);
+    m_memorybutton->setEnabled(true);
+    m_memorybutton->m_isHover = true;
+    m_memorybutton->m_isPress = false;
+    m_memorybutton->paintEvent(event);
+    m_memorybutton->update();
+    m_memorybutton->setEnabled(true);
+    m_memorybutton->m_isHover = false;
+    m_memorybutton->m_isPress = true;
+    m_memorybutton->paintEvent(event);
+    //无ASSERT
+}
+
+TEST_F(Ut_MemoryButton, paintEvent3)
+{
+    MemoryButton *m_memorybutton = new MemoryButton(QString("M+"), true);
+    QPaintEvent *event = new QPaintEvent(m_memorybutton->rect());
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    m_memorybutton->setEnabled(true);
+    m_memorybutton->m_isHover = true;
+    m_memorybutton->m_isPress = false;
+    m_memorybutton->paintEvent(event);
+    m_memorybutton->update();
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    m_memorybutton->setEnabled(false);
+    m_memorybutton->m_isHover = false;
+    m_memorybutton->m_isPress = false;
     m_memorybutton->m_isgray = true;
-    m_memorybutton->m_widgetbtn = false;
+    m_memorybutton->paintEvent(event);
+    m_memorybutton->update();
+    m_memorybutton->setEnabled(true);
+    m_memorybutton->m_isHover = false;
+    m_memorybutton->m_isPress = true;
+    m_memorybutton->paintEvent(event);
+
+    //focus状态
+    Stub stub;
+    stub.set(ADDR(MemoryButton, hasFocus), stub_focus_memory);
+    m_memorybutton->setEnabled(true);
+    m_memorybutton->m_isHover = true;
+    m_memorybutton->m_isPress = false;
+    m_memorybutton->paintEvent(event);
+    m_memorybutton->update();
+    m_memorybutton->setEnabled(true);
+    m_memorybutton->m_isHover = false;
+    m_memorybutton->m_isPress = true;
     m_memorybutton->paintEvent(event);
     //无ASSERT
 }

@@ -77,6 +77,11 @@ TEST_F(Ut_IconButton, leaveEvent)
     ASSERT_FALSE(m_iconButton->m_isHover);
 }
 
+bool stub_focus_icon()
+{
+    return true;
+}
+
 TEST_F(Ut_IconButton, paintEvent)
 {
     IconButton *m_iconButton = new IconButton;
@@ -84,13 +89,56 @@ TEST_F(Ut_IconButton, paintEvent)
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_iconButton->m_isHover = true;
-    m_iconButton->m_isPress = true;
+    m_iconButton->m_isPress = false;
     m_iconButton->m_isEmptyBtn = false;
     m_iconButton->paintEvent(event);
     m_iconButton->update();
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    m_iconButton->m_isHover = false;
+    m_iconButton->m_isPress = true;
+    m_iconButton->m_isEmptyBtn = false;
     m_iconButton->paintEvent(event);
     m_iconButton->update();
+    m_iconButton->m_isHover = false;
+    m_iconButton->m_isPress = false;
+    m_iconButton->m_isEmptyBtn = true;
+    m_iconButton->paintEvent(event);
+
+    //SetAttrRecur
+    m_iconButton->m_mode = 2;
+    m_iconButton->m_buttonStatus = 2;
+    m_iconButton->m_currentUrl = ":/assets/images/light/clear_press.svg";
+    m_iconButton->paintEvent(event);
+    m_iconButton->m_mode = 0;
+    m_iconButton->m_buttonStatus = 0;
+    m_iconButton->m_currentUrl = ":/assets/images/light/+_press.svg";
+    m_iconButton->paintEvent(event);
+    m_iconButton->m_buttonStatus = 1;
+    m_iconButton->paintEvent(event);
+    m_iconButton->m_mode = 4;
+    m_iconButton->m_buttonStatus = 2;
+    m_iconButton->m_currentUrl = ":/assets/images/light/squareroot_press.svg";
+    m_iconButton->paintEvent(event);
+    m_iconButton->m_mode = 6;
+    m_iconButton->m_currentUrl = ":/assets/images/light/deg_press.svg";
+    m_iconButton->paintEvent(event);
+
+    //focus状态
+    Stub stub;
+    stub.set(ADDR(IconButton, hasFocus), stub_focus_icon);
+    m_iconButton->setEnabled(true);
+    m_iconButton->m_isHover = true;
+    m_iconButton->m_isPress = false;
+    m_iconButton->paintEvent(event);
+    m_iconButton->update();
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    m_iconButton->m_isHover = false;
+    m_iconButton->m_isPress = true;
+    m_iconButton->m_isEmptyBtn = false;
+    m_iconButton->paintEvent(event);
+    m_iconButton->update();
+    m_iconButton->m_isHover = false;
+    m_iconButton->m_isPress = false;
     m_iconButton->m_isEmptyBtn = true;
     m_iconButton->paintEvent(event);
 

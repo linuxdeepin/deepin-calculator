@@ -45,12 +45,17 @@ TEST_F(Ut_EqualButton, leaveEvent)
     ASSERT_FALSE(m_equalButton->m_isHover);
 }
 
+bool stub_focus_equal()
+{
+    return true;
+}
+
 TEST_F(Ut_EqualButton, paintEvent)
 {
-    EqualButton *m_equalButton = new EqualButton;
+    EqualButton *m_equalButton = new EqualButton();
     QPaintEvent *event = new QPaintEvent(m_equalButton->rect());
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    m_equalButton->setEnabled(true);
     m_equalButton->m_isHover = true;
     m_equalButton->m_isPress = false;
     m_equalButton->paintEvent(event);
@@ -65,19 +70,21 @@ TEST_F(Ut_EqualButton, paintEvent)
     m_equalButton->m_isPress = false;
     m_equalButton->paintEvent(event);
     m_equalButton->update();
-    m_equalButton->setFocus();
-    m_equalButton->m_isHover = false;
-    m_equalButton->m_isPress = false;
-    m_equalButton->paintEvent(event);
-    m_equalButton->update();
-    m_equalButton->setFocus();
+
+    //focus状态
+    Stub stub;
+    stub.set(ADDR(EqualButton, hasFocus), stub_focus_equal);
     m_equalButton->m_isHover = true;
     m_equalButton->m_isPress = false;
     m_equalButton->paintEvent(event);
     m_equalButton->update();
-    m_equalButton->setFocus();
+    m_equalButton->paintEvent(event);
     m_equalButton->m_isHover = false;
     m_equalButton->m_isPress = true;
+    m_equalButton->paintEvent(event);
+    m_equalButton->update();
+    m_equalButton->m_isHover = false;
+    m_equalButton->m_isPress = false;
     m_equalButton->paintEvent(event);
     m_equalButton->update();
     //无ASSERT

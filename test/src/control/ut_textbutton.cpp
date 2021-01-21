@@ -106,17 +106,43 @@ TEST_F(Ut_TextButton, leaveEvent)
     ASSERT_FALSE(m_textbutton->m_isHover);
 }
 
+bool stub_focus_text()
+{
+    return true;
+}
+
 TEST_F(Ut_TextButton, paintEvent)
 {
-    TextButton *m_textbutton = new TextButton;
+    TextButton *m_textbutton = new TextButton("1");
     QPaintEvent *event = new QPaintEvent(m_textbutton->rect());
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_textbutton->m_isHover = true;
-    m_textbutton->m_isPress = true;
+    m_textbutton->m_isPress = false;
     m_textbutton->paintEvent(event);
     m_textbutton->update();
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    m_textbutton->m_isHover = false;
+    m_textbutton->m_isPress = true;
+    m_textbutton->paintEvent(event);
+    m_textbutton->update();
+    m_textbutton->m_isHover = false;
+    m_textbutton->m_isPress = false;
+    m_textbutton->paintEvent(event);
+    m_textbutton->update();
+
+    //focus状态
+    Stub stub;
+    stub.set(ADDR(TextButton, hasFocus), stub_focus_text);
+    m_textbutton->setEnabled(true);
+    m_textbutton->m_isHover = true;
+    m_textbutton->m_isPress = false;
+    m_textbutton->paintEvent(event);
+    m_textbutton->update();
+    m_textbutton->setEnabled(true);
+    m_textbutton->m_isHover = false;
+    m_textbutton->m_isPress = true;
+    m_textbutton->paintEvent(event);
+    m_textbutton->update();
     m_textbutton->m_isHover = false;
     m_textbutton->m_isPress = false;
     m_textbutton->paintEvent(event);

@@ -7,6 +7,8 @@
 
 #include <DGuiApplicationHelper>
 
+#include"../stub.h"
+
 class Ut_EqualButton : public ::testing::Test
 {
 public:
