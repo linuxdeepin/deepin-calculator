@@ -5,6 +5,7 @@ include /usr/share/dpkg/default.mk
 
 DEB_BUILD_ARCH ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
 DH_AUTO_ARGS = --parallel --buildsystem=cmake
+DEB_BUILD_MAINT_OPTIONS = hardening=+bindnow
 
 # Uncomment this to turn on verbose mode.
 export DH_VERBOSE=1
