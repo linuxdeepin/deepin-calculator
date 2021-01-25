@@ -174,13 +174,13 @@
         <location filename="src/views/memoryitemwidget.cpp" line="148"/>
         <location filename="src/views/memoryitemwidget.cpp" line="240"/>
         <source>Copy</source>
-        <translation>Copiază</translation>
+        <translation>Copiere</translation>
     </message>
     <message>
         <location filename="src/views/memoryitemwidget.cpp" line="149"/>
         <location filename="src/views/memoryitemwidget.cpp" line="241"/>
         <source>Clear memory item</source>
-        <translation>Ștergeți elementul din memorie</translation>
+        <translation>Golește memoria</translation>
     </message>
     <message>
         <location filename="src/views/memoryitemwidget.cpp" line="150"/>
@@ -243,7 +243,7 @@
     <message>
         <location filename="src/main.cpp" line="121"/>
         <source>Calculator</source>
-        <translation>Calculator</translation>
+        <translation>Calculator </translation>
     </message>
 </context>
 <context>
@@ -309,7 +309,7 @@
         <location filename="src/views/simplelistview.cpp" line="71"/>
         <location filename="src/views/simplelistview.cpp" line="99"/>
         <source>Copy</source>
-        <translation>Copiază</translation>
+        <translation>Copiere</translation>
     </message>
     <message>
         <location filename="src/views/simplelistview.cpp" line="72"/>

@@ -252,7 +252,7 @@
         <location filename="src/widgets/sciexpressionbar.cpp" line="494"/>
         <location filename="src/widgets/sciexpressionbar.cpp" line="540"/>
         <source>Expression error</source>
-        <translation>Błąd wyrażenia</translation>
+        <translation>Nieprawidłowe wyrażenie</translation>
     </message>
 </context>
 <context>
@@ -283,7 +283,7 @@
         <location filename="src/views/simplelistdelegate.cpp" line="194"/>
         <location filename="src/views/simplelistdelegate.cpp" line="338"/>
         <source>Expression error</source>
-        <translation>Błąd wyrażenia</translation>
+        <translation>Nieprawidłowe wyrażenie</translation>
     </message>
 </context>
 <context>

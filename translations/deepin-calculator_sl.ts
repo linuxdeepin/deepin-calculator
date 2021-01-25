@@ -22,7 +22,7 @@
     <message>
         <location filename="src/control/iconbutton.cpp" line="123"/>
         <source>Clear all memory</source>
-        <translation>Počisti ves pomnilnik</translation>
+        <translation>Počisti ves pomnilnikI</translation>
     </message>
     <message>
         <location filename="src/control/iconbutton.cpp" line="126"/>
@@ -186,13 +186,13 @@
         <location filename="src/views/memoryitemwidget.cpp" line="150"/>
         <location filename="src/views/memoryitemwidget.cpp" line="242"/>
         <source>Add to memory item</source>
-        <translation>Dodaj predmetu pomnilnika</translation>
+        <translation>Prištej predmetu v pomnilniku</translation>
     </message>
     <message>
         <location filename="src/views/memoryitemwidget.cpp" line="151"/>
         <location filename="src/views/memoryitemwidget.cpp" line="243"/>
         <source>Subtract from memory item</source>
-        <translation>Odštej od predata v pomnilniku</translation>
+        <translation>Odštej od predmeta v pomnilniku</translation>
     </message>
 </context>
 <context>

@@ -180,13 +180,13 @@
         <location filename="src/views/memoryitemwidget.cpp" line="149"/>
         <location filename="src/views/memoryitemwidget.cpp" line="241"/>
         <source>Clear memory item</source>
-        <translation>خاتېرە تۈرلىرىنى ئۆچۈرۈش</translation>
+        <translation>ساقلانما تۈرلىرىنى ئۆچۈرۈش</translation>
     </message>
     <message>
         <location filename="src/views/memoryitemwidget.cpp" line="150"/>
         <location filename="src/views/memoryitemwidget.cpp" line="242"/>
         <source>Add to memory item</source>
-        <translation>خاتېرە تۈرى قوشۇش</translation>
+        <translation>ساقلانما تۈرى قوشۇش</translation>
     </message>
     <message>
         <location filename="src/views/memoryitemwidget.cpp" line="151"/>
@@ -252,7 +252,7 @@
         <location filename="src/widgets/sciexpressionbar.cpp" line="494"/>
         <location filename="src/widgets/sciexpressionbar.cpp" line="540"/>
         <source>Expression error</source>
-        <translation>ئىپادىلەش خاتا</translation>
+        <translation>ئىپادە خاتا</translation>
     </message>
 </context>
 <context>
@@ -283,7 +283,7 @@
         <location filename="src/views/simplelistdelegate.cpp" line="194"/>
         <location filename="src/views/simplelistdelegate.cpp" line="338"/>
         <source>Expression error</source>
-        <translation>ئىپادىلەش خاتا</translation>
+        <translation>ئىپادە خاتا</translation>
     </message>
 </context>
 <context>

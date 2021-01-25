@@ -130,7 +130,7 @@
     <message>
         <location filename="src/control/memorybutton.cpp" line="109"/>
         <source>Clear all memory</source>
-        <translation>Vymazat paměť kalkulačky</translation>
+        <translation>Vymazat celou paměť kalkulačky</translation>
     </message>
     <message>
         <location filename="src/control/memorybutton.cpp" line="111"/>
@@ -186,7 +186,7 @@
         <location filename="src/views/memoryitemwidget.cpp" line="150"/>
         <location filename="src/views/memoryitemwidget.cpp" line="242"/>
         <source>Add to memory item</source>
-        <translation>Přidat položku do paměti</translation>
+        <translation>Přidat položku do paměti kalkulačky</translation>
     </message>
     <message>
         <location filename="src/views/memoryitemwidget.cpp" line="151"/>

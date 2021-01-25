@@ -180,7 +180,7 @@
         <location filename="src/views/memoryitemwidget.cpp" line="149"/>
         <location filename="src/views/memoryitemwidget.cpp" line="241"/>
         <source>Clear memory item</source>
-        <translation>Neteja aquest element</translation>
+        <translation>Neteja&apos;n aquest element</translation>
     </message>
     <message>
         <location filename="src/views/memoryitemwidget.cpp" line="150"/>

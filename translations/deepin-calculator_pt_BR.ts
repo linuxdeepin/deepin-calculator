@@ -125,7 +125,7 @@
     <message>
         <location filename="src/control/memorybutton.cpp" line="107"/>
         <source>Clear memory item</source>
-        <translation>Limpar item da memória</translation>
+        <translation>Limpar da memória</translation>
     </message>
     <message>
         <location filename="src/control/memorybutton.cpp" line="109"/>
@@ -140,7 +140,7 @@
     <message>
         <location filename="src/control/memorybutton.cpp" line="114"/>
         <source>Add to memory item</source>
-        <translation>Adicionar item à memória</translation>
+        <translation>Adicionar à memória</translation>
     </message>
     <message>
         <location filename="src/control/memorybutton.cpp" line="116"/>
@@ -150,7 +150,7 @@
     <message>
         <location filename="src/control/memorybutton.cpp" line="119"/>
         <source>Subtract from memory item</source>
-        <translation>Subtrair item da memória</translation>
+        <translation>Remover da memória</translation>
     </message>
     <message>
         <location filename="src/control/memorybutton.cpp" line="121"/>
@@ -180,19 +180,19 @@
         <location filename="src/views/memoryitemwidget.cpp" line="149"/>
         <location filename="src/views/memoryitemwidget.cpp" line="241"/>
         <source>Clear memory item</source>
-        <translation>Limpar item da memória</translation>
+        <translation>Limpar da memória</translation>
     </message>
     <message>
         <location filename="src/views/memoryitemwidget.cpp" line="150"/>
         <location filename="src/views/memoryitemwidget.cpp" line="242"/>
         <source>Add to memory item</source>
-        <translation>Adicionar item à memória</translation>
+        <translation>Adicionar à memória</translation>
     </message>
     <message>
         <location filename="src/views/memoryitemwidget.cpp" line="151"/>
         <location filename="src/views/memoryitemwidget.cpp" line="243"/>
         <source>Subtract from memory item</source>
-        <translation>Subtrair item da memória</translation>
+        <translation>Remover da memória</translation>
     </message>
 </context>
 <context>
@@ -227,7 +227,7 @@
     <message>
         <location filename="src/views/memorywidget.cpp" line="148"/>
         <source>Nothing saved in memory</source>
-        <translation>Nada gravado na memória</translation>
+        <translation>Não há nada salvo na memória</translation>
     </message>
 </context>
 <context>

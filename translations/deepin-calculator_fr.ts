@@ -5,7 +5,7 @@
         <location filename="src/widgets/expressionbar.cpp" line="786"/>
         <location filename="src/widgets/expressionbar.cpp" line="1392"/>
         <source>Expression error</source>
-        <translation>Erreur d&apos;expression</translation>
+        <translation>Formule erronée </translation>
     </message>
 </context>
 <context>
@@ -252,7 +252,7 @@
         <location filename="src/widgets/sciexpressionbar.cpp" line="494"/>
         <location filename="src/widgets/sciexpressionbar.cpp" line="540"/>
         <source>Expression error</source>
-        <translation>Erreur d&apos;expression</translation>
+        <translation>Formule erronée </translation>
     </message>
 </context>
 <context>
@@ -283,7 +283,7 @@
         <location filename="src/views/simplelistdelegate.cpp" line="194"/>
         <location filename="src/views/simplelistdelegate.cpp" line="338"/>
         <source>Expression error</source>
-        <translation>Erreur d&apos;expression</translation>
+        <translation>Formule erronée </translation>
     </message>
 </context>
 <context>

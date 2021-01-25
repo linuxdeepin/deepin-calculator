@@ -186,7 +186,7 @@
         <location filename="src/views/memoryitemwidget.cpp" line="150"/>
         <location filename="src/views/memoryitemwidget.cpp" line="242"/>
         <source>Add to memory item</source>
-        <translation>Bellek ögesine ekle</translation>
+        <translation>Ögeyi belleğe ekle</translation>
     </message>
     <message>
         <location filename="src/views/memoryitemwidget.cpp" line="151"/>

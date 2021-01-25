@@ -125,7 +125,7 @@
     <message>
         <location filename="src/control/memorybutton.cpp" line="107"/>
         <source>Clear memory item</source>
-        <translation>Удалить элемент из памяти</translation>
+        <translation>Удалить элемент из  памяти</translation>
     </message>
     <message>
         <location filename="src/control/memorybutton.cpp" line="109"/>
