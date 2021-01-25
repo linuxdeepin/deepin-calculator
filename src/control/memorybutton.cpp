@@ -91,12 +91,12 @@ void MemoryButton::animate(bool isspace, int msec)
 void MemoryButton::setbtnlight(bool light)
 {
     int mode = m_settings->getOption("mode").toInt();
-    if (mode == 0) {
+    if (mode != 1) {
         if (light == true)
             setText("M˄");
         else
             setText("M˅");
-    } else if (mode == 1) {
+    } else {
         if (light == true)
             setText("MH˄");
         else
