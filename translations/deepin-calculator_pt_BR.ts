@@ -207,19 +207,19 @@
         <location filename="src/tablet/views/memoryitemwidgettab.cpp" line="149"/>
         <location filename="src/tablet/views/memoryitemwidgettab.cpp" line="242"/>
         <source>Clear memory item</source>
-        <translation>Limpar item da memória</translation>
+        <translation>Limpar da memória</translation>
     </message>
     <message>
         <location filename="src/tablet/views/memoryitemwidgettab.cpp" line="150"/>
         <location filename="src/tablet/views/memoryitemwidgettab.cpp" line="243"/>
         <source>Add to memory item</source>
-        <translation>Adicionar item à memória</translation>
+        <translation>Adicionar à memória</translation>
     </message>
     <message>
         <location filename="src/tablet/views/memoryitemwidgettab.cpp" line="151"/>
         <location filename="src/tablet/views/memoryitemwidgettab.cpp" line="244"/>
         <source>Subtract from memory item</source>
-        <translation>Subtrair item da memória</translation>
+        <translation>Remover da memória</translation>
     </message>
 </context>
 <context>
@@ -235,7 +235,7 @@
     <message>
         <location filename="src/tablet/views/memorywidgettab.cpp" line="130"/>
         <source>Nothing saved in memory</source>
-        <translation>Nada gravado na memória</translation>
+        <translation>Não há nada salvo na memória</translation>
     </message>
 </context>
 <context>

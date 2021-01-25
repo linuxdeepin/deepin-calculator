@@ -14,7 +14,7 @@
         <location filename="src/tablet/widgets/expressionbartab.cpp" line="788"/>
         <location filename="src/tablet/widgets/expressionbartab.cpp" line="1394"/>
         <source>Expression error</source>
-        <translation>Erreur d&apos;expression</translation>
+        <translation>Formule erronée </translation>
     </message>
 </context>
 <context>
@@ -261,7 +261,7 @@
         <location filename="src/tablet/widgets/sciexpressionbartab.cpp" line="495"/>
         <location filename="src/tablet/widgets/sciexpressionbartab.cpp" line="541"/>
         <source>Expression error</source>
-        <translation>Erreur d&apos;expression</translation>
+        <translation>Formule erronée </translation>
     </message>
 </context>
 <context>
@@ -292,7 +292,7 @@
         <location filename="src/tablet/views/simplelistdelegatetab.cpp" line="194"/>
         <location filename="src/tablet/views/simplelistdelegatetab.cpp" line="338"/>
         <source>Expression error</source>
-        <translation>Erreur d&apos;expression</translation>
+        <translation>Formule erronée </translation>
     </message>
 </context>
 <context>
