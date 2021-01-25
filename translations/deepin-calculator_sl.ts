@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulator je enostaven namizni kalkulator, ki podpira standardni, znanstveni in progrmerski način delovanja.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>Programer</translation>
     </message>
 </context>
 <context>
@@ -158,19 +158,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Aritmetični pomik</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Logični pomik</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Krožni pomik</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Kroži po krožnem pomiku nosilca</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Aritmetični pomik</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Logični pomik</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Krožni pomik</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Kroži po krožnem pomiku nosilca</translation>
     </message>
 </context>
 <context>

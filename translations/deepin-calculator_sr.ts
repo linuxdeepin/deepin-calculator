@@ -170,7 +170,7 @@
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Роптирај кроз носиоца кружног помака</translation>
     </message>
 </context>
 <context>
@@ -181,7 +181,7 @@
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>Аритметички помак</translation>
+        <translation>Логички помак</translation>
     </message>
     <message>
         <source>Circular shift</source>
@@ -189,7 +189,7 @@
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Роптирај кроз носиоца кружног помака</translation>
     </message>
 </context>
 <context>

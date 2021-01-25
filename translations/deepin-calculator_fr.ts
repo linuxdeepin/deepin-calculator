@@ -144,7 +144,7 @@
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Erreur d&apos;expression</translation>
+        <translation>Formule erronée </translation>
     </message>
 </context>
 <context>

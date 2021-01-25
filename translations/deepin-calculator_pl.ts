@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Błąd wyrażenia</translation>
+        <translation>Nieprawidłowe wyrażenie</translation>
     </message>
 </context>
 <context>
@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulator jest łatwym w użyciu kalkulatorem desktopowym, wspierającym trzy tryby: standardowy, naukowy i programisty.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>Programista</translation>
     </message>
 </context>
 <context>
@@ -144,7 +144,7 @@
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Błąd wyrażenia</translation>
+        <translation>Nieprawidłowe wyrażenie</translation>
     </message>
 </context>
 <context>
@@ -158,19 +158,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Przesunięcie arytmetyczne</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Przesunięcie logiczne</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Przesunięcie cykliczne</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Zastosuj przesunięcie cykliczne</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Przesunięcie arytmetyczne</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Przesunięcie logiczne</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Przesunięcie cykliczne</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Zastosuj przesunięcie cykliczne</translation>
     </message>
 </context>
 <context>

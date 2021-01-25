@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>Calculator este un calculator desktop ușor de utilizat, care acceptă moduri standard, științifice și de programare.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>Programator</translation>
     </message>
 </context>
 <context>
@@ -158,19 +158,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Schimbare aritmetică</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Schimbare logică</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Schimbare circulară</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Rotiți prin deplasare circulară de transport</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Schimbare aritmetică</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Schimbare logică</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Schimbare circulară</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Rotiți prin deplasare circulară de transport</translation>
     </message>
 </context>
 <context>
