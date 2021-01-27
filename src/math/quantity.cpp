@@ -591,6 +591,9 @@ void Quantity::Format::serialize(QJsonObject &json) const
     case Mode::Engineering:
         json["mode"] = QStringLiteral("Engineering");
         break;
+    case Mode::Complement:
+        json["mode"] = QStringLiteral("Complement");
+        break;
     case Mode::Null:
         break;
     }

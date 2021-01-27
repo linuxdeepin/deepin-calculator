@@ -29,7 +29,7 @@ class SimpleListDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool m_selected WRITE setSelect)
+    Q_PROPERTY(bool m_selected READ isSelected WRITE setSelect)
 public:
     SimpleListDelegate(int mode, QObject *parent = nullptr);//mode:0-标准模式 1-科学模式
     ~SimpleListDelegate();
@@ -59,6 +59,7 @@ signals:
     void historicalLinkage(const QModelIndex &index);
 
 private:
+    bool isSelected() const {return m_selected;}
     void setSelect(bool isSelect) { m_selected = isSelect; }
     void cutApart(const QString text, QString &linkNum, QString &expStr);
 

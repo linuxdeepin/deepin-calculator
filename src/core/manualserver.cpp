@@ -30,10 +30,12 @@
 
 //#define FALLBACK_LANG "en_US"
 
-//#define COPY_OVERWRITE(source, dest) \
-//    if (QFile::exists(dest)) \
-//        QFile::remove(dest); \
-//    QFile::copy(source, dest);
+/*
+ * #define COPY_OVERWRITE(source, dest) \
+    if (QFile::exists(dest)) \
+        QFile::remove(dest); \
+    QFile::copy(source, dest);
+*/
 
 //#define QHC_NAME(lang) ("manual-" + QString(lang) + ".qhc")
 //#define QCH_NAME(lang) ("manual-" + QString(lang) + ".qch")
