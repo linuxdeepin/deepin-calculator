@@ -208,8 +208,8 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
         if (m_selected) {
             //edit for bug--21508
-            QRect resultRect(rect.topRight().x() - resultWidth - PADDING - 2, rect.y() + 3, resultWidth + 7,
-                             rect.height() - 6);
+            QRectF resultRect(rect.topRight().x() - resultWidth - PADDING - 2, rect.y() + 4.8, resultWidth + 7,
+                              rect.height() - 9.6);
             QPainterPath path;
             path.addRoundedRect(resultRect, 4, 4);
 
