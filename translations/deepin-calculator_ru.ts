@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>Калькулятор - это простой в использовании настольный калькулятор, поддерживающий стандартный, научный и программистский режимы.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>Программистский</translation>
     </message>
 </context>
 <context>
@@ -144,7 +144,7 @@
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Ошибка Выражения</translation>
+        <translation>Ошибка выражения</translation>
     </message>
 </context>
 <context>
@@ -158,19 +158,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Арифметический сдвиг</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Логический сдвиг</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Циклический сдвиг</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Вращать циклический сдвиг посредством переноса</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Арифметический сдвиг</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Логический сдвиг</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Циклический сдвиг</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Вращать посредством переноса циклический сдвиг</translation>
     </message>
 </context>
 <context>

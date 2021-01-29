@@ -68,11 +68,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>རྩིས་ཆས་ནི་སྤྱོད་བདེ་བའི་ཅོག་ངོས་རྩིས་ཆས་ཞིག་ཡིན་པ་དང་། ཚད་ལྡན་རྣམ་པ་དང་ཚན་རིག་དང་མཐུན་པའི་རྣམ་པ། བྱ་རིམ་པའི་དཔེ་རྣམ་བཅས་ལ་རྒྱབ་སྐྱོར་བྱེད་པ་ཡིན།</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>བྱ་རིམ་པ།</translation>
     </message>
 </context>
 <context>
@@ -158,19 +158,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>ཨང་རྩིས་གནས་སྤོ།</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>གཏན་ཚིགས་གནས་སྤོ།</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>རེས་འཁོར་གནས་སྤོ།</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>གནས་འགྲིལ་འཁོར་སྐྱོད་གནས་སྤོ།</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>ཨང་རྩིས་གནས་སྤོ།</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>གཏན་ཚིགས་གནས་སྤོ།</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>རེས་འཁོར་གནས་སྤོ།</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>གནས་འགྲིལ་འཁོར་སྐྱོད་གནས་སྤོ།</translation>
     </message>
 </context>
 <context>
