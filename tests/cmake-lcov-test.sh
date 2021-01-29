@@ -15,14 +15,14 @@ pathname=$(find . -name obj*)
 
 echo $pathname
 
-cd $pathname/test
+cd $pathname/tests
 
 mkdir -p coverage
 
 lcov --directory ../ --capture --output-file ./coverage/coverage.info
 
 #以下几行是过滤一些我们不感兴趣的文件的覆盖率信息
-lcov --remove ./coverage/coverage.info '*/${project_name}_test_autogen/*' '*/${project_name}_autogen/*' '*/usr/include/*'  '*/test/*' '*/src/bak/*' '*/src/core/*' '*/src/views/*delegate*' '*/src/math/*' '*/build-*/*' -o ./coverage/coverage.info
+lcov --remove ./coverage/coverage.info '*/${project_name}_test_autogen/*' '*/${project_name}_autogen/*' '*/usr/include/*'  '*/tests/*' '*/src/bak/*' '*/src/core/*' '*/src/views/*delegate*' '*/src/math/*' '*/build-*/*' -o ./coverage/coverage.info
 
 mkdir ../report
 genhtml -o ../report ./coverage/coverage.info

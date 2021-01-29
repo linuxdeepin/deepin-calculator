@@ -136,7 +136,7 @@ install(FILES ${CMAKE_CURRENT_LIST_DIR}/../src/assets/images/deepin-calculator.s
 
 #------------------------------ 创建'make test'指令---------------------------------------
 add_custom_target(test
-#    COMMAND mkdir -p test/coverageResult
+#    COMMAND mkdir -p tests/coverageResult
 #    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 
@@ -146,7 +146,7 @@ add_custom_command(TARGET test
     #1.清理原先的gcov信息
 #    COMMAND lcov --directory ./tests/CMakeFiles/${PROJECT_NAME_TEST}.dir --zerocounters
 #    COMMAND lcov --directory ./tests/CMakeFiles/${PROJECT_NAME}.dir --zerocounters
-    COMMAND ${CMAKE_BINARY_DIR}/test/${PROJECT_NAME_TEST}
+    COMMAND ${CMAKE_BINARY_DIR}/tests/${PROJECT_NAME_TEST}
 
 
     #2.收集gcov信息到.info文件中
