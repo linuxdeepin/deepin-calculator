@@ -95,19 +95,13 @@ Calculator supports keyboard operation and fault-tolerant computing of special s
 
 ### Expression
 
-- Historical Expression
 
-  - Click  =  in the current expression input area or press the **Enter** key on the keyboard to perform calculation and display the calculated result in the current input box. The expression becomes historical expression. There is no limit on the number of historical expressions.
-  - Reedit: Click a single expression to reedit. The expression is displayed in the expression input area. After editing, press the **Enter** key or = on the keyboard or click = in the expression input area to modify the result of historical expression and linkage expression.
-  - Expression error: If the expression input is incorrect, it is unavailable to perform calculation and "Expression error" is displayed.
+- Click  =  in the current expression input area or press the **Enter** key on the keyboard to perform calculation and display the calculated result in the current input box. The expression becomes historical expression. There is no limit on the number of historical expressions.
+- Reedit: Click a single expression to reedit. The expression is displayed in the expression input area. After editing, press the **Enter** key or = on the keyboard or click = in the expression input area to modify the result of historical expression and linkage expression.
+- Expression error: If the expression input is incorrect, it is unavailable to perform calculation and "Expression error" is displayed.
 
-- Input Expression
-
-  - Large characters show the expression currently being entered in the area.
-
-  - Press **Ctrl + C** on the keyboard to copy the calculation result of the current expression to the system clipboard. If there is expression error, the current expression will be copied to the system clipboard.
   
-- Scientific Notation
+### Scientific Notation
 
   When the calculation result is more than 16 digits / 32 digits respectively, it will be displayed in scientific notation, that is, taking the first 16 digits / 32 digits multiplied by 10 to the power of plus or minus n.
 
