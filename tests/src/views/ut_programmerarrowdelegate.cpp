@@ -1,43 +1,34 @@
-#include "ut_memoryitemdelegate.h"
-#include "../../src/views/memoryitemdelegate.h"
+#include "ut_programmerarrowdelegate.h"
 
+#include "../../src/views/programmerarrowdelegate.h"
+#include "../../src/views/programmeritemwidget.h"
 #include "../../src/views/memorylistwidget.h"
 #include <QPainter>
 
-Ut_MemoryItemDelegate::Ut_MemoryItemDelegate()
+Ut_ProgrammerArrowDelegate::Ut_ProgrammerArrowDelegate()
 {
 
 }
 
-void Ut_MemoryItemDelegate::SetUp()
-{
-
-}
-
-void Ut_MemoryItemDelegate::TearDown()
-{
-
-}
-
-bool stub_focus_memdelegateT()
+bool stub_focus_proarrowdelegateT()
 {
     return true;
 }
 
-bool stub_focus_memdelegateF()
+bool stub_focus_proarrowdelegateF()
 {
     return false;
 }
 
-TEST_F(Ut_MemoryItemDelegate, paint)
+TEST_F(Ut_ProgrammerArrowDelegate, paint)
 {
-    MemoryItemDelegate *m_memoryItemDelegate = new MemoryItemDelegate;
+    ProgrammerArrowDelegate *m_memoryItemDelegate = new ProgrammerArrowDelegate;
     MemoryListWidget *listwidget = new MemoryListWidget;
     listwidget->setItemDelegate(m_memoryItemDelegate);
 
     QListWidgetItem *item = new QListWidgetItem();
     item->setSizeHint(QSize(20, 20));
-    MemoryItemWidget *widget = new MemoryItemWidget();
+    ProgrammerItemWidget *widget = new ProgrammerItemWidget("WORD");
     widget->setFixedSize(QSize(20, 20));
 
     listwidget->insertItem(0, item);
@@ -48,25 +39,17 @@ TEST_F(Ut_MemoryItemDelegate, paint)
     option.styleObject = listwidget;
     QModelIndex index;
     Stub stub;
-    stub.set(ADDR(MemoryListWidget, hasFocus), stub_focus_memdelegateF);
+    stub.set(ADDR(MemoryListWidget, hasFocus), stub_focus_proarrowdelegateF);
 //    Stub stub1;
 //    stub1.set(ADDR(MemoryListWidget, rect), stub_rect_memdelegate);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
     m_memoryItemDelegate->paint(painter, option, index);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_memoryItemDelegate->paint(painter, option, index);
-//    listwidget->update();
-//    qDebug() << listwidget->palette().color(QPalette::ColorGroup::Current, QPalette::ColorRole::Window).name();
-//    QPalette pal = m_memorywidget->palette();
-//    QBrush brush = pal.background();
-//    m_memorywidget->update();
-//    m_memoryItemDelegate->paint()
-//    qDebug() << m_memorywidget->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Base);
-//    ASSERT_EQ(brush.color().name(), "#252525");
 }
 
-TEST_F(Ut_MemoryItemDelegate, updateEditorGeometry)
+TEST_F(Ut_ProgrammerArrowDelegate, updateEditorGeometry)
 {
-    MemoryItemDelegate *m_memoryItemDelegate = new MemoryItemDelegate;
+    ProgrammerArrowDelegate *m_memoryItemDelegate = new ProgrammerArrowDelegate;
     m_memoryItemDelegate->updateEditorGeometry(new QWidget(), QStyleOptionViewItem(), QModelIndex());
 }

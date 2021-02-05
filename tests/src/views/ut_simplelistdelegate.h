@@ -5,7 +5,7 @@
 #include <gmock/gmock-matchers.h>
 #include <QTest>
 
-#include "../../src/dsettings.h"
+#include"../stub.h"
 
 class Ut_SimpleListDelegate : public ::testing::Test
 {

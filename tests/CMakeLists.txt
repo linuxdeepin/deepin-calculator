@@ -20,7 +20,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wl,--as-needed -fPIE")
 set(QT_MINIMUM_VERSION "5.7.1")
 set(CMAKE_EXE_LINKER_FLAGS "-pie")
 
-add_definitions(-DQT_NO_DEBUG_OUTPUT)
+#add_definitions(-DQT_NO_DEBUG_OUTPUT)
 
 if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "sw_64")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mieee")

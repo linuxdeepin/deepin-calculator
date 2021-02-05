@@ -5,6 +5,7 @@
 #include <gmock/gmock-matchers.h>
 #include <QTest>
 #include <DApplicationHelper>
+#include"../stub.h"
 
 class Ut_MemoryItemDelegate : public ::testing::Test
 {
