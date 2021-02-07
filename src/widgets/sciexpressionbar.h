@@ -137,16 +137,12 @@ private slots:
 private:
     bool cursorPosAtEnd();
     QString formatExpression(const QString &text);
-//    QString completedBracketsCalculation(QString &text);
     bool isOperator(const QString &text);
-//    bool cancelLink(int index);
-//    void judgeLinkageAgain();
     void initConnect();
     QString symbolComplement(const QString exp);
-//    QString pasteFaultTolerance(QString exp);
     QString pointFaultTolerance(const QString &text);
-//    void clearSelectSymbol();
     void expressionCheck();
+    bool isnumber(QChar a);
 
 private:
     Evaluator *m_evaluator;

@@ -884,6 +884,7 @@ void ExpressionBar::enterPercentEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     /*
      * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
      * 前一位运算符时，则补（0
@@ -899,7 +900,6 @@ void ExpressionBar::enterPercentEvent()
     } else
         m_inputEdit->insert("%");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1006,9 +1006,9 @@ void ExpressionBar::enterLeftBracketsEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert("(");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     QString formatexp = m_inputEdit->symbolFaultTolerance(m_inputEdit->text());
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1060,9 +1060,9 @@ void ExpressionBar::enterRightBracketsEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert(")");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     QString formatexp = m_inputEdit->symbolFaultTolerance(m_inputEdit->text());
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
