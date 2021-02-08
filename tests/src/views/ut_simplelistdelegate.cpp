@@ -130,10 +130,10 @@ TEST_F(Ut_SimpleListDelegate, setSelect)
     ASSERT_TRUE(m_simpleListDelegate->m_selected);
 }
 
-bool stub_focus_simpledelegateT()
-{
-    return true;
-}
+//bool stub_focus_simpledelegateT()
+//{
+//    return true;
+//}
 
 bool stub_focus_simpledelegateF()
 {

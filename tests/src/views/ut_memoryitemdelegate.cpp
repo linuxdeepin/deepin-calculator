@@ -9,20 +9,10 @@ Ut_MemoryItemDelegate::Ut_MemoryItemDelegate()
 
 }
 
-void Ut_MemoryItemDelegate::SetUp()
-{
-
-}
-
-void Ut_MemoryItemDelegate::TearDown()
-{
-
-}
-
-bool stub_focus_memdelegateT()
-{
-    return true;
-}
+//bool stub_focus_memdelegateT()
+//{
+//    return true;
+//}
 
 bool stub_focus_memdelegateF()
 {

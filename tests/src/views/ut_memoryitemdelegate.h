@@ -11,11 +11,6 @@ class Ut_MemoryItemDelegate : public ::testing::Test
 {
 public:
     Ut_MemoryItemDelegate();
-
-public:
-    virtual void SetUp();
-
-    virtual void TearDown();
 };
 
 #endif // UT_MEMORYITEMDELEGATE_H

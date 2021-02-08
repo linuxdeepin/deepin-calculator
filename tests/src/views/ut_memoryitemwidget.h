@@ -11,7 +11,6 @@ class Ut_MemoryItemWidget : public ::testing::Test
 {
 public:
     Ut_MemoryItemWidget();
-    void forstub(QPoint q);
 };
 
 #endif // UT_MEMORYITEMWIDGET_H

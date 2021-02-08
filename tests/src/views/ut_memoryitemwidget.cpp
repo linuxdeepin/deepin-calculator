@@ -8,11 +8,6 @@ Ut_MemoryItemWidget::Ut_MemoryItemWidget()
 
 }
 
-void Ut_MemoryItemWidget::forstub(QPoint q)
-{
-
-}
-
 TEST_F(Ut_MemoryItemWidget, connects)
 {
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;

@@ -10,10 +10,10 @@ Ut_ProgrammerArrowDelegate::Ut_ProgrammerArrowDelegate()
 
 }
 
-bool stub_focus_proarrowdelegateT()
-{
-    return true;
-}
+//bool stub_focus_proarrowdelegateT()
+//{
+//    return true;
+//}
 
 bool stub_focus_proarrowdelegateF()
 {

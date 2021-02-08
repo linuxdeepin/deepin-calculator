@@ -35,10 +35,10 @@ TEST_F(Ut_ProListDelegate, editorEvent)
     ASSERT_TRUE(m_proListDelegate->editorEvent(new QEvent(QEvent::Type::None), model, item, model->index(0, 0)));
 }
 
-bool stub_focus_prolistdelegateT()
-{
-    return true;
-}
+//bool stub_focus_prolistdelegateT()
+//{
+//    return true;
+//}
 
 bool stub_focus_prolistdelegateF()
 {
