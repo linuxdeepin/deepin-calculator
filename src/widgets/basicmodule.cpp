@@ -29,8 +29,6 @@
 #include "utils.h"
 #include "math/quantity.h"
 
-const int new_Func_Percent = 0; //0-旧的百分号方法 1-新
-
 BasicModule::BasicModule(QWidget *parent)
     : DWidget(parent)
 {
@@ -267,10 +265,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         m_expressionBar->enterRightBracketsEvent();
         break;
     case Qt::Key_Percent:
-        if (new_Func_Percent == 0)
-            m_expressionBar->enterPercentEvent();
-        else
-            m_expressionBar->enterPercentEventCommon();
+        m_expressionBar->enterPercentEvent();
         m_basicKeypad->animate(BasicKeypad::Key_Percent);
         break;
     case Qt::Key_C:
@@ -415,10 +410,7 @@ void BasicModule::handleKeypadButtonPress(int key)
         m_expressionBar->enterSymbolEvent("/");
         break;
     case BasicKeypad::Key_Percent:
-        if (new_Func_Percent == 0)
-            m_expressionBar->enterPercentEvent();
-        else
-            m_expressionBar->enterPercentEventCommon();
+        m_expressionBar->enterPercentEvent();
         break;
     case BasicKeypad::Key_Equals:
         m_expressionBar->settingLinkage();
@@ -551,10 +543,7 @@ void BasicModule::handleKeypadButtonPressByspace(int key)
         m_basicKeypad->animate(BasicKeypad::Key_Div, true);
         break;
     case BasicKeypad::Key_Percent:
-        if (new_Func_Percent == 0)
-            m_expressionBar->enterPercentEvent();
-        else
-            m_expressionBar->enterPercentEventCommon();
+        m_expressionBar->enterPercentEvent();
         m_basicKeypad->animate(BasicKeypad::Key_Percent, true);
         break;
     case BasicKeypad::Key_Equals:

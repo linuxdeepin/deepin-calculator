@@ -17,7 +17,7 @@ class ProExpressionBar : public DWidget
     Q_OBJECT
 
 public:
-    ProExpressionBar(QWidget *parent = nullptr);
+    explicit ProExpressionBar(QWidget *parent = nullptr);
     ~ProExpressionBar();
     void mouseMoveEvent(QMouseEvent *event);
     InputEdit *getInputEdit();

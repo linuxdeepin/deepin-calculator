@@ -7,14 +7,6 @@ Ut_ArrowRectangle::Ut_ArrowRectangle()
 
 }
 
-void Ut_ArrowRectangle::SetUp()
-{
-}
-
-void Ut_ArrowRectangle::TearDown()
-{
-}
-
 TEST_F(Ut_ArrowRectangle, eventFilter)
 {
     ArrowRectangle *arrowrectangle = new ArrowRectangle(DArrowRectangle::ArrowTop, DArrowRectangle::FloatWidget);

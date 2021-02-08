@@ -67,7 +67,7 @@ private:
     QVector<int> m_linkItem;
     QVector<int> m_linkedIten;
     bool m_selected;
-    int m_type;
+    int m_type = 0;
     int m_mode = 0;
     int m_row = -1;
     int m_state = 0;

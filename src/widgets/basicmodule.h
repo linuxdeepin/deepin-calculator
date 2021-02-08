@@ -43,7 +43,7 @@ class BasicModule : public DWidget
     Q_OBJECT
 
 public:
-    BasicModule(QWidget *parent = nullptr);
+    explicit BasicModule(QWidget *parent = nullptr);
     ~BasicModule();
 
     void setKeyPress(QKeyEvent *e);

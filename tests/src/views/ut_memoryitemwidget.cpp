@@ -79,13 +79,13 @@ TEST_F(Ut_MemoryItemWidget, contextMenuEvent)
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
     Stub stub;
     stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec);
-    QContextMenuEvent *e = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_memoryItemWidget->pos());
+//    QContextMenuEvent *e = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_memoryItemWidget->pos());
     m_memoryItemWidget->m_isExpressionEmpty = true;
     m_memoryItemWidget->contextMenuEvent(new QContextMenuEvent(QContextMenuEvent::Reason::Mouse,
                                                                m_memoryItemWidget->pos(), m_memoryItemWidget->pos(),
                                                                Qt::KeyboardModifier::NoModifier));
     stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec);
-    QContextMenuEvent *e1 = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_memoryItemWidget->pos());
+//    QContextMenuEvent *e1 = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_memoryItemWidget->pos());
     m_memoryItemWidget->m_isExpressionEmpty = false;
     m_memoryItemWidget->contextMenuEvent(new QContextMenuEvent(QContextMenuEvent::Reason::Mouse,
                                                                m_memoryItemWidget->pos(), m_memoryItemWidget->pos(),
@@ -101,12 +101,12 @@ TEST_F(Ut_MemoryItemWidget, showTextEditMenuByAltM)
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
     Stub stub;
     stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec);
-    QContextMenuEvent *e = new QContextMenuEvent(QContextMenuEvent::Reason::Keyboard, m_memoryItemWidget->pos());
+//    QContextMenuEvent *e = new QContextMenuEvent(QContextMenuEvent::Reason::Keyboard, m_memoryItemWidget->pos());
     m_memoryItemWidget->m_isExpressionEmpty = true;
     m_memoryItemWidget->showTextEditMenuByAltM();
 
     stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec);
-    QContextMenuEvent *e1 = new QContextMenuEvent(QContextMenuEvent::Reason::Keyboard, m_memoryItemWidget->pos());
+//    QContextMenuEvent *e1 = new QContextMenuEvent(QContextMenuEvent::Reason::Keyboard, m_memoryItemWidget->pos());
     m_memoryItemWidget->m_isExpressionEmpty = false;
     m_memoryItemWidget->showTextEditMenuByAltM();
 

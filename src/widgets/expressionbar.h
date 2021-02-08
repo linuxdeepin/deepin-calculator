@@ -65,7 +65,7 @@ class ExpressionBar : public DWidget
     Q_OBJECT
 
 public:
-    ExpressionBar(QWidget *parent = nullptr);
+    explicit ExpressionBar(QWidget *parent = nullptr);
     ~ExpressionBar();
 
     void mouseMoveEvent(QMouseEvent *e);
@@ -86,7 +86,7 @@ public slots:
     void enterEqualEvent();
     void enterPercentEvent();
 //    void enterPercentEventBak();
-    void enterPercentEventCommon();
+//    void enterPercentEventCommon();
     void enterBracketsEvent();
     void enterLeftBracketsEvent();
     void enterRightBracketsEvent();

@@ -70,8 +70,6 @@ private:
 //    DSvgRenderer *m_iconRenderer;
     QSvgRenderer *m_iconRenderer; //改用QSvgRenderer
 
-    int m_normalSize;
-    int m_hoverSize;
     bool m_isHover;
     bool m_isPress;
     QPixmap m_pixmap;

@@ -8,14 +8,6 @@ Ut_BasicModul::Ut_BasicModul()
 
 }
 
-void Ut_BasicModul::SetUp()
-{
-}
-
-void Ut_BasicModul::TearDown()
-{
-}
-
 TEST_F(Ut_BasicModul, setKeyPress)
 {
     BasicModule *m_basicmodul = new BasicModule;

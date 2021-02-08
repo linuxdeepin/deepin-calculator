@@ -47,7 +47,7 @@ class SciExpressionBar : public DWidget
     Q_OBJECT
 
 public:
-    SciExpressionBar(QWidget *parent = nullptr);
+    explicit SciExpressionBar(QWidget *parent = nullptr);
     ~SciExpressionBar();
 
     void mouseMoveEvent(QMouseEvent *e);

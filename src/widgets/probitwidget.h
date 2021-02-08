@@ -18,7 +18,7 @@ class ProBitWidget : public DWidget
     Q_OBJECT
 
 public:
-    ProBitWidget(QWidget *parent = nullptr);
+    explicit ProBitWidget(QWidget *parent = nullptr);
     ~ProBitWidget();
     void setButtonEnabled(bool enabled);
     BitButton *getbutton(int i);

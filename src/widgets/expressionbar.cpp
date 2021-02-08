@@ -406,8 +406,8 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
 /**
  * @brief ExpressionBar::点击百分号后直接出结果，计算方法为当前所使用的（暂不使用）
  */
-void ExpressionBar::enterPercentEventCommon()
-{
+//void ExpressionBar::enterPercentEventCommon()
+//{
 //    if (m_inputEdit->text().isEmpty()) {
 //        m_inputEdit->setText("0");
 //        return;
@@ -556,7 +556,7 @@ void ExpressionBar::enterPercentEventCommon()
 //    m_isContinue = true;
 //    m_isUndo = false;
 //    m_isResult = false;
-}
+//}
 
 /**
  * @brief ExpressionBar::enterPointEvent
@@ -1593,8 +1593,6 @@ void ExpressionBar::expressionCheck()
     int cur = m_inputEdit->cursorPosition();
     int n = m_inputEdit->cursorPosition();
     int length = exp.length() - n;//原表达式光标右长度
-    //光标前的分隔符
-    int separator = 0;
     int sum = 0;
 
     for (int i = 0; i < exp.size(); ++i) {
@@ -1602,7 +1600,6 @@ void ExpressionBar::expressionCheck()
             exp.remove(i, 1);
             --i;
             if (i + 1 < cur) {
-                ++separator;
                 --cur;
             }
         }

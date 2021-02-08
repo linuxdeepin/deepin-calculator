@@ -13,11 +13,6 @@ class Ut_BasicModul : public ::testing::Test
 public:
     Ut_BasicModul();
 
-public:
-    virtual void SetUp();
-
-    virtual void TearDown();
-
 protected:
 };
 

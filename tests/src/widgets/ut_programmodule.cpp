@@ -10,14 +10,6 @@ Ut_ProgramModule::Ut_ProgramModule()
 
 }
 
-void Ut_ProgramModule::SetUp()
-{
-}
-
-void Ut_ProgramModule::TearDown()
-{
-}
-
 TEST_F(Ut_ProgramModule, Signals)
 {
     ProgramModule *m_programmodule = new ProgramModule;

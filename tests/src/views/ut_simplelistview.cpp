@@ -7,11 +7,6 @@ Ut_SimpleListView::Ut_SimpleListView()
 
 }
 
-void Ut_SimpleListView::forstub(QPoint q)
-{
-
-}
-
 TEST_F(Ut_SimpleListView, connect)
 {
     SimpleListView *m_simpleListView = new SimpleListView();
@@ -36,7 +31,7 @@ TEST_F(Ut_SimpleListView, contextMenuEvent)
     m_model->appendText("1", true);
     Stub stub;
     stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec_simple);
-    QContextMenuEvent *e = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_simpleListView->pos());
+//    QContextMenuEvent *e = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_simpleListView->pos());
     m_simpleListView->listItemFill(true);
     m_simpleListView->contextMenuEvent(new QContextMenuEvent(QContextMenuEvent::Reason::Mouse,
                                                              m_simpleListView->pos(), m_simpleListView->pos(),
@@ -61,7 +56,7 @@ TEST_F(Ut_SimpleListView, showTextEditMenuByAltM)
     m_model->appendText("1", true);
     Stub stub;
     stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec_simple);
-    QContextMenuEvent *e = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_simpleListView->pos());
+//    QContextMenuEvent *e = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_simpleListView->pos());
     m_simpleListView->listItemFill(true);
     m_simpleListView->showTextEditMenuByAltM(QModelIndex());
     //无ASSERT

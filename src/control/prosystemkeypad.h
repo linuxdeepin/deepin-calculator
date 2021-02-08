@@ -19,7 +19,7 @@ class ProSystemKeypad : public DWidget
     Q_OBJECT
 
 public:
-    ProSystemKeypad(QWidget *parent = nullptr);
+    explicit ProSystemKeypad(QWidget *parent = nullptr);
     ~ProSystemKeypad();
     void setSystem(int system, int oldsystem); //system-64, 32, 16, 8 oldsystem-转换前的位数
     bool buttonHasFocus();

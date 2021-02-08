@@ -50,7 +50,7 @@ public:
      */
     enum Buttons {Key_FE = 52, Key_MC, Key_MR, Key_Mplus, Key_Mmin, Key_MS, Key_MHlist}; //FE, MC, MR, M+, M-, MS, MH^
 
-    MemHisKeypad(QWidget *parent = nullptr);
+    explicit MemHisKeypad(QWidget *parent = nullptr);
     ~MemHisKeypad();
 
     void mouseMoveEvent(QMouseEvent *e);

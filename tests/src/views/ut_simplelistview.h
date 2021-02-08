@@ -13,7 +13,6 @@ class Ut_SimpleListView : public ::testing::Test
 {
 public:
     Ut_SimpleListView();
-    void forstub(QPoint q);
 };
 
 #endif // UT_SIMPLELISTVIEW_H

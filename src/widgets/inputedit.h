@@ -43,7 +43,7 @@ class InputEdit : public QLineEdit
     Q_OBJECT
 
 public:
-    InputEdit(QWidget *parent = nullptr);
+    explicit InputEdit(QWidget *parent = nullptr);
     ~InputEdit();
 
     QString expressionText();

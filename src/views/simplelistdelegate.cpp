@@ -438,7 +438,6 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
 {
     QString exp = text;
     QStringList list;
-    int index = 0;
     list = exp.split(QRegExp("[＋－×÷/()]"), QString::SkipEmptyParts);
     if (list.isEmpty() || list.size() == 1) {
         linkNum = "";
@@ -446,6 +445,7 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
         return;
     }
     if (exp.at(0) != "－") {
+        int index = 0;
         while (exp.at(index) == "(") {
             ++index;
             linkNum.append("(");

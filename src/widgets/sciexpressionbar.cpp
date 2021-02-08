@@ -312,15 +312,15 @@ void SciExpressionBar::enterBackspaceEvent()
     QRegExp rx;
     rx.setPattern(sRegNum);
     SSelection selection = m_inputEdit->getSelection();
-    int selleftfunlen = 0; //选中左侧一部分函数长度
-    int removepos = 0; //被删除位置
     if (selection.selected != "") {
         QString text = m_inputEdit->text();
         QString seloldtext = text;
+        int removepos = 0; //被删除位置
         //光标不在开头且光标左侧是字母或者光标右侧是字母
         if ((selection.curpos > 0 &&
                 rx.exactMatch(m_inputEdit->text().at(selection.curpos - 1)))
                 || (selection.curpos + selection.selected.size() < m_inputEdit->text().size() && rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size())))) {
+            int selleftfunlen = 0; //选中左侧一部分函数长度
             int funpos = -1;
             int rightfunpos = -1;
             int j;
@@ -409,11 +409,11 @@ void SciExpressionBar::enterBackspaceEvent()
                 m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
                 int newPro = m_inputEdit->text().count(",");
                 if (cur > 0) {
-                    QString sRegNum = "[0-9]+";
-                    QRegExp rx;
-                    rx.setPattern(sRegNum);
+                    QString sRegNum1 = "[0-9]+";
+                    QRegExp rx1;
+                    rx1.setPattern(sRegNum1);
                     //退数字
-                    if (rx.exactMatch(text.at(cur - 1)) && proNumber > newPro) {
+                    if (rx1.exactMatch(text.at(cur - 1)) && proNumber > newPro) {
                         if (text.mid(cur, text.length() - cur) == m_inputEdit->text().mid(m_inputEdit->text().length() - (text.length() - cur), text.length() - cur)) {
                             m_inputEdit->setCursorPosition(cur - 2);
                         } else
@@ -971,8 +971,8 @@ void SciExpressionBar::enterDerivativeEvent()
             QString sRegNum2 = "[A-Za-z]";
             QRegExp latterrx;
             latterrx.setPattern(sRegNum2);
-            int funpos = -1; //记录函数位
             if (operatorpos > 0 && latterrx.exactMatch(m_inputEdit->text().at(operatorpos - 1))) {
+                int funpos = -1; //记录函数位
                 int i;
                 for (i = 0; i < m_funclist.size(); i++) {
                     //记录(左侧离(最近的函数位
@@ -1459,8 +1459,8 @@ void SciExpressionBar::enterModulusEvent()
             QString sRegNum2 = "[A-Za-z]";
             QRegExp latterrx;
             latterrx.setPattern(sRegNum2);
-            int funpos = -1; //记录函数位
             if (operatorpos > 0 && latterrx.exactMatch(m_inputEdit->text().at(operatorpos - 1))) {
+                int funpos = -1; //记录函数位
                 int i;
                 for (i = 0; i < m_funclist.size(); i++) {
                     //记录(左侧离(最近的函数位
@@ -2049,11 +2049,11 @@ void SciExpressionBar::enterOppositeEvent()
                      newtext.mid(operatorpos, percentpos - operatorpos).count(')'));
 
             //匹配到的(不在开头且(左侧是字母
-            QString sRegNum2 = "[A-Za-z]";
+            QString sRegNum3 = "[A-Za-z]";
             QRegExp latterrx;
-            latterrx.setPattern(sRegNum2);
-            int funpos = -1; //记录函数位
+            latterrx.setPattern(sRegNum3);
             if (operatorpos > 0 && latterrx.exactMatch(m_inputEdit->text().at(operatorpos - 1))) {
+                int funpos = -1; //记录函数位
                 int i;
                 for (i = 0; i < m_funclist.size(); i++) {
                     //记录(左侧离(最近的函数位
@@ -2168,7 +2168,6 @@ void SciExpressionBar::shear()
     QString selectText = m_inputEdit->selectedText();
     selectText = selectText.replace(",", "");
     QApplication::clipboard()->setText(selectText);
-    int selleftfunlen = 0; //选中左侧一部分函数长度
     int removepos = 0; //被删除位置
     QString text = m_inputEdit->text();
     QString seloldtext = text;
@@ -2176,6 +2175,7 @@ void SciExpressionBar::shear()
     if ((selection.curpos > 0 &&
             rx.exactMatch(m_inputEdit->text().at(selection.curpos - 1)))
             || (selection.curpos + selection.selected.size() < m_inputEdit->text().size() && rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size())))) {
+        int selleftfunlen = 0; //选中左侧一部分函数长度
         int funpos = -1;
         int rightfunpos = -1;
         int j;
@@ -2259,7 +2259,6 @@ void SciExpressionBar::deleteText()
     QRegExp rx;
     rx.setPattern(sRegNum);
     SSelection selection = m_inputEdit->getSelection();
-    int selleftfunlen = 0; //选中左侧一部分函数长度
     int removepos = 0; //被删除位置
     QString text = m_inputEdit->text();
     QString seloldtext = text;
@@ -2267,6 +2266,7 @@ void SciExpressionBar::deleteText()
     if ((selection.curpos > 0 &&
             rx.exactMatch(m_inputEdit->text().at(selection.curpos - 1)))
             || (selection.curpos + selection.selected.size() < m_inputEdit->text().size() && rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size())))) {
+        int selleftfunlen = 0; //选中左侧一部分函数长度
         int funpos = -1;
         int rightfunpos = -1;
         int j;
@@ -2847,9 +2847,9 @@ void SciExpressionBar::moveLeft()
     QString sRegNum = "[A-Za-z]";
     QRegExp rx;
     rx.setPattern(sRegNum);
-    int funpos = -1;
-    int i;
     if (m_inputEdit->cursorPosition() > 0 && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1))) {
+        int funpos = -1;
+        int i;
         for (i = 0; i < m_funclist.size(); i++) {
             funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], m_inputEdit->cursorPosition() - 1);
             if (funpos != -1 && funpos + m_funclist[i].length() == m_inputEdit->cursorPosition())
@@ -2873,9 +2873,9 @@ void SciExpressionBar::moveRight()
     QString sRegNum = "[A-Za-z]";
     QRegExp rx;
     rx.setPattern(sRegNum);
-    int funpos = -1;
-    int i;
     if (!cursorPosAtEnd() && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition()))) {
+        int funpos = -1;
+        int i;
         for (i = 0; i < m_funclist.size(); i++) {
             funpos = m_inputEdit->text().indexOf(m_funclist[i], m_inputEdit->cursorPosition());
             if (funpos != -1 && funpos == m_inputEdit->cursorPosition())

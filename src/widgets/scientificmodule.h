@@ -48,7 +48,7 @@ class scientificModule : public DWidget
     Q_OBJECT
 
 public:
-    scientificModule(QWidget *parent = nullptr);
+    explicit scientificModule(QWidget *parent = nullptr);
     ~scientificModule();
     void setKeyPress(QKeyEvent *e);
     void checkLineEmpty();

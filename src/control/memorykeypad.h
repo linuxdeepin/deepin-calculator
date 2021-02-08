@@ -49,7 +49,7 @@ public:
      */
     enum Buttons {Key_MC = 20, Key_MR, Key_Mplus, Key_Mminus, Key_MS, Key_Mlist}; //MC, MR, M+, M-, MS, M^
 
-    MemoryKeypad(QWidget *parent = nullptr);
+    explicit MemoryKeypad(QWidget *parent = nullptr);
     ~MemoryKeypad();
 
     void mouseMoveEvent(QMouseEvent *e);

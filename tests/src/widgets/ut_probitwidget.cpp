@@ -7,16 +7,6 @@ Ut_ProBitWidget::Ut_ProBitWidget()
 
 }
 
-void Ut_ProBitWidget::SetUp()
-{
-
-}
-
-void Ut_ProBitWidget::TearDown()
-{
-
-}
-
 TEST_F(Ut_ProBitWidget, setButtonEnabled)
 {
     ProBitWidget *m_probitwidget = new ProBitWidget;

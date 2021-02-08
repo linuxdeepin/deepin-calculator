@@ -12,7 +12,7 @@ class ProListDelegate : public QStyledItemDelegate
     Q_OBJECT
 
 public:
-    ProListDelegate(QObject *parent = nullptr);
+    explicit ProListDelegate(QObject *parent = nullptr);
     ~ProListDelegate();
 
 public slots:
@@ -31,7 +31,7 @@ signals:
     void obtainingHistorical(const QModelIndex &index);
 
 private:
-    int m_themeType;
+    int m_themeType = 0;
     QModelIndex m_focusindex;
 };
 

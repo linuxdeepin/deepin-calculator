@@ -20,7 +20,7 @@ class BitButton : public DPushButton
 {
     Q_OBJECT
 public:
-    BitButton(QWidget *parent = nullptr);
+    explicit BitButton(QWidget *parent = nullptr);
     ~BitButton();
 
     void init();

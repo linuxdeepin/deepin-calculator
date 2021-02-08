@@ -32,7 +32,7 @@ public:
         Key_XOR, Key_F, Key_opposite, Key_0, Key_point, Key_equal //XOR, F, +/-, 0, ., =
     };
 
-    ProgrammerKeypad(QWidget *parent = nullptr);
+    explicit ProgrammerKeypad(QWidget *parent = nullptr);
     ~ProgrammerKeypad();
 
     void mouseMoveEvent(QMouseEvent *e);

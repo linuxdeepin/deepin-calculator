@@ -36,9 +36,9 @@ void ProSystemKeypad::setSystem(int system, int oldsystem)
             i.value()->setButtonEnabled(true);
         }
         if (oldsystem < system && m_binaryValue.at(64 - oldsystem) == '1') {
-            for (int i = 63; i >= oldsystem; i--) {
-                m_buttons.value(i)->setButtonState(true);
-                m_binaryValue.replace(63 - i, 1, "1");
+            for (int j = 63; j >= oldsystem; j--) {
+                m_buttons.value(j)->setButtonState(true);
+                m_binaryValue.replace(63 - j, 1, "1");
             }
             emit valuechanged(m_binaryValue);
         }
@@ -51,17 +51,17 @@ void ProSystemKeypad::setSystem(int system, int oldsystem)
                 i.value()->setButtonEnabled(true);
         }
         if (oldsystem < system && m_binaryValue.at(64 - oldsystem) == '1') {
-            for (int i = 31; i >= oldsystem; i--) {
-                m_buttons.value(i)->setButtonState(true);
-                m_binaryValue.replace(63 - i, 1, "1");
+            for (int j = 31; j >= oldsystem; j--) {
+                m_buttons.value(j)->setButtonState(true);
+                m_binaryValue.replace(63 - j, 1, "1");
             }
             emit valuechanged(m_binaryValue);
         }
         if (oldsystem > system) {
             bool isdiff = m_binaryValue.contains("1");
-            for (int i = oldsystem - 1; i > 31; i--) {
-                m_buttons.value(i)->setButtonState(false);
-                m_binaryValue.replace(63 - i, 1, "0");
+            for (int j = oldsystem - 1; j > 31; j--) {
+                m_buttons.value(j)->setButtonState(false);
+                m_binaryValue.replace(63 - j, 1, "0");
             }
             if (isdiff)
                 emit valuechanged(m_binaryValue);
@@ -75,17 +75,17 @@ void ProSystemKeypad::setSystem(int system, int oldsystem)
                 i.value()->setButtonEnabled(true);
         }
         if (oldsystem < system && m_binaryValue.at(64 - oldsystem) == '1') {
-            for (int i = 15; i >= oldsystem; i--) {
-                m_buttons.value(i)->setButtonState(true);
-                m_binaryValue.replace(63 - i, 1, "1");
+            for (int j = 15; j >= oldsystem; j--) {
+                m_buttons.value(j)->setButtonState(true);
+                m_binaryValue.replace(63 - j, 1, "1");
             }
             emit valuechanged(m_binaryValue);
         }
         if (oldsystem > system) {
             bool isdiff = m_binaryValue.contains("1");
-            for (int i = oldsystem - 1; i > 15; i--) {
-                m_buttons.value(i)->setButtonState(false);
-                m_binaryValue.replace(63 - i, 1, "0");
+            for (int j = oldsystem - 1; j > 15; j--) {
+                m_buttons.value(j)->setButtonState(false);
+                m_binaryValue.replace(63 - j, 1, "0");
             }
             if (isdiff)
                 emit valuechanged(m_binaryValue);
@@ -100,9 +100,9 @@ void ProSystemKeypad::setSystem(int system, int oldsystem)
         }
         if (oldsystem > system) {
             bool isdiff = m_binaryValue.contains("1");
-            for (int i = oldsystem - 1; i > 7; i--) {
-                m_buttons.value(i)->setButtonState(false);
-                m_binaryValue.replace(63 - i, 1, "0");
+            for (int j = oldsystem - 1; j > 7; j--) {
+                m_buttons.value(j)->setButtonState(false);
+                m_binaryValue.replace(63 - j, 1, "0");
             }
             if (isdiff)
                 emit valuechanged(m_binaryValue);

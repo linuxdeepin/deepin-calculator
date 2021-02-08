@@ -7,14 +7,6 @@ Ut_ExpressionBar::Ut_ExpressionBar()
 
 }
 
-void Ut_ExpressionBar::SetUp()
-{
-}
-
-void Ut_ExpressionBar::TearDown()
-{
-}
-
 TEST_F(Ut_ExpressionBar, mouseMoveEvent)
 {
     ExpressionBar *m_expressionBar = new ExpressionBar;

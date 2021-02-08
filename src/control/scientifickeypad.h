@@ -65,7 +65,7 @@ public:
         Key_sqrt2, Key_sqrt3, Key_ysqrtx, Key_2x, Key_logyx, Key_ex //√x, ³√x, ʸ√x, 2ˣ, logᵧx, eˣ
     };
 
-    ScientificKeyPad(QWidget *parent = nullptr);
+    explicit ScientificKeyPad(QWidget *parent = nullptr);
     ~ScientificKeyPad();
 
     void mouseMoveEvent(QMouseEvent *e);

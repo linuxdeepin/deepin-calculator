@@ -51,7 +51,7 @@ public:
         Key_0, Key_Point, Key_Brackets, Key_Equals //0, ., (), =
     };
 
-    BasicKeypad(QWidget *parent = nullptr);
+    explicit BasicKeypad(QWidget *parent = nullptr);
     ~BasicKeypad();
 
     void mouseMoveEvent(QMouseEvent *e);

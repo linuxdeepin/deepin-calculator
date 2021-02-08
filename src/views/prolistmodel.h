@@ -12,7 +12,7 @@ class ProListModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    ProListModel(QObject *parent = nullptr);
+    explicit ProListModel(QObject *parent = nullptr);
     ~ProListModel();
     void refrushModel();
 

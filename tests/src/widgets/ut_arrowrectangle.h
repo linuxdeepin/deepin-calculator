@@ -10,11 +10,6 @@ class Ut_ArrowRectangle : public ::testing::Test
 public:
     Ut_ArrowRectangle();
 
-public:
-    virtual void SetUp();
-
-    virtual void TearDown();
-
 protected:
 };
 

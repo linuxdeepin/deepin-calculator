@@ -60,7 +60,6 @@ void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverF
     m_normalUrl = normalFileName;
     m_hoverUrl = hoverFileName;
     m_pressUrl = pressFileName;
-    m_currentUrl = normalFileName;
 
     m_currentUrl = m_normalUrl;
     m_buttonStatus = 0; //0-normal 1-hover 2-press

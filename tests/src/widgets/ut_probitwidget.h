@@ -10,11 +10,6 @@ class Ut_ProBitWidget : public ::testing::Test
 public:
     Ut_ProBitWidget();
 
-public:
-    virtual void SetUp();
-
-    virtual void TearDown();
-
 protected:
 };
 

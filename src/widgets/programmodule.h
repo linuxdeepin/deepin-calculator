@@ -32,7 +32,7 @@ class ProgramModule : public DWidget
     Q_OBJECT
 
 public:
-    ProgramModule(QWidget *parent = nullptr);
+    explicit ProgramModule(QWidget *parent = nullptr);
     ~ProgramModule();
     void setKeyPress(QKeyEvent *e);
     void mouseMoveEvent(QMouseEvent *event);

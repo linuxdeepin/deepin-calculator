@@ -36,7 +36,7 @@ class MemoryItemDelegate : public QStyledItemDelegate
     Q_OBJECT
 
 public:
-    MemoryItemDelegate(QObject *parent = nullptr);
+    explicit MemoryItemDelegate(QObject *parent = nullptr);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;

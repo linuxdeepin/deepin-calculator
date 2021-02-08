@@ -53,7 +53,7 @@ public:
         generateData, memoryplus, memoryminus, memoryclean, //MS, M+, M-, MC
         widgetplus, widgetminus //内存中的M+, M-
     };
-    MemHisWidget(QWidget *parent = nullptr);
+    explicit MemHisWidget(QWidget *parent = nullptr);
     ~MemHisWidget();
     void focusOnButtonbox(Qt::FocusReason Reason);
     void memoryFunctions(memOperate operate = generateData, Quantity answer = Quantity(), int row = -1);

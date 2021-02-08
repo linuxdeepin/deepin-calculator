@@ -57,7 +57,7 @@ public:
         generateData, memoryplus, memoryminus, memoryclean, //MS, M+, M-, MC
         widgetplus, widgetminus //内存中的M+, M-
     };
-    SciHistoryWidget(QWidget *parent = nullptr);
+    explicit SciHistoryWidget(QWidget *parent = nullptr);
     ~SciHistoryWidget();
 //    void paintEvent(QPaintEvent *event);
     void focusOnButtonbox();

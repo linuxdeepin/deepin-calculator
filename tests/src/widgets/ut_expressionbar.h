@@ -11,11 +11,6 @@ class Ut_ExpressionBar : public ::testing::Test
 {
 public:
     Ut_ExpressionBar();
-
-public:
-    virtual void SetUp();
-
-    virtual void TearDown();
 };
 
 #endif // UT_EXPRESSIONBAR_H

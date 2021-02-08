@@ -1078,9 +1078,9 @@ void scientificModule::hideMemHisWidget()
         MemoryButton *btn = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MC));
         btn->setbuttongray(false);
         btn->setEnabled(true);
-        MemoryButton *btn4 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MR));
-        btn4->setbuttongray(false);
-        btn4->setEnabled(true);
+        MemoryButton *btn7 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MR));
+        btn7->setbuttongray(false);
+        btn7->setEnabled(true);
         m_memRCbtn = true;
     } else {
         MemoryButton *btn = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MC));
@@ -1090,8 +1090,8 @@ void scientificModule::hideMemHisWidget()
         btn->setbuttongray(true);
         btn1->setEnabled(false);
         if (m_havail == false) {
-            MemoryButton *btn5 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MHlist));
-            btn5->setEnabled(false);
+            MemoryButton *btn8 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MHlist));
+            btn8->setEnabled(false);
         }
         m_memRCbtn = false;
     }
