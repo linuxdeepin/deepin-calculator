@@ -228,6 +228,7 @@ void SciExpressionBarTab::enterPercentEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     /*
      * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
      * 前一位运算符时，则补（0
@@ -243,7 +244,6 @@ void SciExpressionBarTab::enterPercentEvent()
     } else
         m_inputEdit->insert("%");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -560,9 +560,9 @@ void SciExpressionBarTab::enterLeftBracketsEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert("(");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -584,9 +584,9 @@ void SciExpressionBarTab::enterRightBracketsEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert(")");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -626,9 +626,9 @@ void SciExpressionBarTab::enterSinEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert("sin()");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -677,6 +677,7 @@ void SciExpressionBarTab::enterPIEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     /* add 20200722
      * 当e和pi前面是数字类型的字符时，在前面补乘号防止直接出现表达式错误
      */
@@ -690,7 +691,6 @@ void SciExpressionBarTab::enterPIEvent()
     } else
         m_inputEdit->insert(QString::fromUtf8("π"));
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -718,6 +718,7 @@ void SciExpressionBarTab::enterEulerEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     /* add 20200722
      * 当e和pi前面是数字类型的字符时，在前面补乘号防止直接出现表达式错误
      */
@@ -731,7 +732,6 @@ void SciExpressionBarTab::enterEulerEvent()
     } else
         m_inputEdit->insert(QString::fromUtf8("e"));
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -764,6 +764,7 @@ void SciExpressionBarTab::enterModEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     /*
      * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
      * 前一位运算符时，则补（0
@@ -787,7 +788,6 @@ void SciExpressionBarTab::enterModEvent()
         m_inputEdit->insert("mod");
 
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -822,6 +822,7 @@ void SciExpressionBarTab::enterx2Event()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     /*
      * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
      * 前一位运算符时，则补（0
@@ -844,7 +845,6 @@ void SciExpressionBarTab::enterx2Event()
     } else
         m_inputEdit->insert("^2");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -858,7 +858,7 @@ void SciExpressionBarTab::enterx2Event()
         m_inputEdit->setCursorPosition(curpos + 2 + diff);
     }
     if (!cursorPosAtEnd()) {
-        if (m_inputEdit->text().at(m_inputEdit->cursorPosition()).isNumber()) {
+        if (isnumber(m_inputEdit->text().at(m_inputEdit->cursorPosition()))) {
             m_inputEdit->insert("×");
             m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
         }
@@ -1006,6 +1006,7 @@ void SciExpressionBarTab::enterFactorialsEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     /*
      * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
      * 前一位运算符时，则补（0
@@ -1020,7 +1021,6 @@ void SciExpressionBarTab::enterFactorialsEvent()
     } else
         m_inputEdit->insert("!");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1056,6 +1056,7 @@ void SciExpressionBarTab::enterExpEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     /*
      * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
      * 前一位运算符时，则补（0
@@ -1078,7 +1079,6 @@ void SciExpressionBarTab::enterExpEvent()
     } else
         m_inputEdit->insert(".E＋");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1102,9 +1102,9 @@ void SciExpressionBarTab::enterCosEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert("cos()");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1140,6 +1140,7 @@ void SciExpressionBarTab::enterx3Event()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     /*
      * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
      * 前一位运算符时，则补（0
@@ -1162,7 +1163,6 @@ void SciExpressionBarTab::enterx3Event()
     } else
         m_inputEdit->insert("^3");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1176,7 +1176,7 @@ void SciExpressionBarTab::enterx3Event()
         m_inputEdit->setCursorPosition(curpos + 2 + diff);
     }
     if (!cursorPosAtEnd()) {
-        if (m_inputEdit->text().at(m_inputEdit->cursorPosition()).isNumber()) {
+        if (isnumber(m_inputEdit->text().at(m_inputEdit->cursorPosition()))) {
             m_inputEdit->insert("×");
             m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
         }
@@ -1191,9 +1191,9 @@ void SciExpressionBarTab::enterTanEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert("tan()");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1229,6 +1229,7 @@ void SciExpressionBarTab::enterxyEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     /*
      * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
      * 前一位运算符时，则补（0
@@ -1252,7 +1253,6 @@ void SciExpressionBarTab::enterxyEvent()
         m_inputEdit->insert("^");
 
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1276,9 +1276,9 @@ void SciExpressionBarTab::enterCotEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert("cot()");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1306,6 +1306,7 @@ void SciExpressionBarTab::enter10xEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     QString sRegNum = "[0-9eEπ,.]";
     QRegExp rx;
     rx.setPattern(sRegNum);
@@ -1314,7 +1315,6 @@ void SciExpressionBarTab::enter10xEvent()
     } else
         m_inputEdit->insert("10^");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1467,9 +1467,9 @@ void SciExpressionBarTab::enterLogEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert("lg()");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1513,9 +1513,9 @@ void SciExpressionBarTab::enterLnEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert("ln()");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1539,9 +1539,9 @@ void SciExpressionBarTab::enterArcsinEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert("arcsin()");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1569,9 +1569,9 @@ void SciExpressionBarTab::enterSqrtEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert("sqrt()");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1595,9 +1595,9 @@ void SciExpressionBarTab::enterArccosEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert("arccos()");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1625,9 +1625,9 @@ void SciExpressionBarTab::enterCbrtEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert("cbrt()");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1651,9 +1651,9 @@ void SciExpressionBarTab::enterArctanEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert("arctan()");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1688,6 +1688,7 @@ void SciExpressionBarTab::enterYrootEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     /*
      * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
      * 前一位运算符时，则补（0
@@ -1711,7 +1712,6 @@ void SciExpressionBarTab::enterYrootEvent()
         m_inputEdit->insert("yroot");
 
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1735,9 +1735,9 @@ void SciExpressionBarTab::enterArccotEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->insert("arccot()");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1765,6 +1765,7 @@ void SciExpressionBarTab::enter2xEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     QString sRegNum = "[0-9eEπ,.]";
     QRegExp rx;
     rx.setPattern(sRegNum);
@@ -1773,7 +1774,6 @@ void SciExpressionBarTab::enter2xEvent()
     } else
         m_inputEdit->insert("2^");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1818,6 +1818,7 @@ void SciExpressionBarTab::enterlogyxEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     /*
      * 当光标位置的前一位是运算符时，在函数方法前面补0,当函数的运算优先级小于等于
      * 前一位运算符时，则补（0
@@ -1841,7 +1842,6 @@ void SciExpressionBarTab::enterlogyxEvent()
         m_inputEdit->insert("log");
 
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -1869,6 +1869,7 @@ void SciExpressionBarTab::enterexEvent()
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
     int proNumber = m_inputEdit->text().count(",");
+    bool isAtEnd = cursorPosAtEnd();
     /* add 20200722
      * 当e和pi前面是数字类型的字符时，在前面补乘号防止直接出现表达式错误
      */
@@ -1882,7 +1883,6 @@ void SciExpressionBarTab::enterexEvent()
     } else
         m_inputEdit->insert("e^");
     // 20200401 symbolFaultTolerance
-    bool isAtEnd = cursorPosAtEnd();
     m_inputEdit->setText(m_inputEdit->symbolFaultTolerance(m_inputEdit->text()));
     int newPro = m_inputEdit->text().count(",");
     m_isUndo = false;
@@ -2620,6 +2620,14 @@ void SciExpressionBarTab::expressionCheck()
     }
     m_inputEdit->setText(exp);
     m_inputEdit->setCursorPosition(cur + separator);
+}
+
+bool SciExpressionBarTab::isnumber(QChar a)
+{
+    if (a.isDigit() || a == "." || a == "," || a == QString::fromUtf8("π") || a == QString::fromUtf8("e"))
+        return true;
+    else
+        return false;
 }
 
 void SciExpressionBarTab::Undo()
