@@ -1,12 +1,12 @@
 #ifndef PROSYSTEMKEYPAD_H
 #define PROSYSTEMKEYPAD_H
 
+#include "../../3rdparty/core/evaluator.h"
+#include "../widgets/probitwidget.h"
+
 #include <DWidget>
 #include <DGuiApplicationHelper>
 #include <QGridLayout>
-
-#include "widgets/probitwidget.h"
-#include "core/evaluator.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE

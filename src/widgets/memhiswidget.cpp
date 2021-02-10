@@ -25,8 +25,8 @@
 #include <QHBoxLayout>
 
 #include "dthememanager.h"
-#include "utils.h"
-#include "math/quantity.h"
+#include "../utils.h"
+#include "../../3rdparty/math/quantity.h"
 
 MemHisWidget::MemHisWidget(QWidget *parent)
     : DWidget(parent)

@@ -7,7 +7,7 @@
 
 #include "prolistmodel.h"
 #include "prolistview.h"
-#include "utils.h"
+#include "../utils.h"
 
 DWIDGET_USE_NAMESPACE
 

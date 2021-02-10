@@ -25,7 +25,7 @@
 #include "floatconvert.h"
 #include "floathmath.h"
 #include "rational.h"
-#include "core/settings.h"
+#include "../core/settings.h"
 
 #include <QMap>
 #include <QString>

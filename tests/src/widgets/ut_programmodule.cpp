@@ -2,7 +2,7 @@
 #include "ut_programmodule.h"
 
 #include "../../src/widgets/programmodule.h"
-#include "../../src/core/settings.h"
+#include "../../3rdparty/core/settings.h"
 #include <QPair>
 
 Ut_ProgramModule::Ut_ProgramModule()

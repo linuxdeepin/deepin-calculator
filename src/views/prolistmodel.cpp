@@ -1,7 +1,7 @@
 #include <QDebug>
 
 #include "prolistmodel.h"
-#include "utils.h"
+#include "../utils.h"
 
 ProListModel::ProListModel(QObject *parent)
     : QAbstractListModel(parent)

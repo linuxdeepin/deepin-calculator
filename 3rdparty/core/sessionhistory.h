@@ -1,5 +1,4 @@
 // This file is part of the SpeedCrunch project
-// Copyright (C) 2013 @heldercorreia
 // Copyright (C) 2015 Pol Welter <polwelter@gmail.com>
 //
 // This program is free software; you can redistribute it and/or
@@ -17,17 +16,36 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#ifndef CORE_NUMBERFORMATTER_H
-#define CORE_NUMBERFORMATTER_H
 
-#include "math/quantity.h"
+#ifndef CORE_SESSIONHISTORY_H
+#define CORE_SESSIONHISTORY_H
 
-#include <QtCore/QString>
+#include <QJsonArray>
+#include <QString>
+#include <QList>
 
-struct NumberFormatter {
-    static QString format(HNumber &num) { return format(Quantity(num)); }
-    static QString format(CNumber &num) { return format(Quantity(num)); }
-    static QString format(Quantity);
+#include "../math/quantity.h"
+
+
+class HistoryEntry
+{
+private:
+    QString m_expr;
+    Quantity m_result;
+public:
+    HistoryEntry() : m_expr(""), m_result(0) {}
+    HistoryEntry(const QJsonObject &json);
+    HistoryEntry(const QString &expr, const Quantity &num) : m_expr(expr), m_result(num) {}
+    HistoryEntry(const HistoryEntry &other) :  m_expr(other.m_expr), m_result(other.m_result) {}
+
+    void setExpr(const QString &e);
+    void setResult(const Quantity &n);
+
+    QString expr() const;
+    Quantity result() const;
+
+    void serialize(QJsonObject &json) const;
+    void deSerialize(const QJsonObject &json);
 };
 
-#endif
+#endif // CORE_SESSIONHISTORY_H

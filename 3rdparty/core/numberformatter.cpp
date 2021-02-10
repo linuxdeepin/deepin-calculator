@@ -17,10 +17,10 @@
 // the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#include "core/numberformatter.h"
+#include "numberformatter.h"
 
-#include "core/settings.h"
-#include "math/quantity.h"
+#include "settings.h"
+#include "../math/quantity.h"
 
 QString NumberFormatter::format(Quantity q)
 {

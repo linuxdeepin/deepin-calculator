@@ -1,7 +1,7 @@
 #include "prosystemkeypad.h"
 
 #include <QDebug>
-#include "core/settings.h"
+#include "../../3rdparty/core/settings.h"
 
 const QSize SYSTEMKEYPADSIZE = QSize(451, 279);
 const int LEFT_MARGIN = 10; //键盘左边距

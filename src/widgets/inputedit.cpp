@@ -27,9 +27,9 @@
 #include <QStringList>
 #include <DMenu>
 
-#include "core/settings.h"
-#include "math/floatconfig.h"
-#include "utils.h"
+#include "../../3rdparty/core/settings.h"
+#include "../../3rdparty/math/floatconfig.h"
+#include "../utils.h"
 
 const QString AtoF = "ABCDEF";
 

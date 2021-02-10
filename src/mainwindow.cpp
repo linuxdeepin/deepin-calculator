@@ -34,7 +34,8 @@
 #include "dthememanager.h"
 #include "dhidpihelper.h"
 #include "utils.h"
-#include "core/settings.h"
+#include "../3rdparty/core/settings.h"
+
 
 DGUI_USE_NAMESPACE
 

@@ -1,7 +1,7 @@
 #include "ut_prolistmodel.h"
 
 #include "../../src/views/prolistmodel.h"
-#include "../../src/math/quantity.h"
+#include "../../3rdparty/math/quantity.h"
 
 Ut_ProListModel::Ut_ProListModel()
 {

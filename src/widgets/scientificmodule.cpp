@@ -29,8 +29,8 @@
 #include <QHBoxLayout>
 
 #include "dthememanager.h"
-#include "utils.h"
-#include "math/quantity.h"
+#include "../utils.h"
+#include "../../3rdparty/math/quantity.h"
 
 const int EXPRESSIONBAR_HEIGHT = 100;
 

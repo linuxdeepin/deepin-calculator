@@ -3,8 +3,8 @@
 #include <DLabel>
 #include <DPushButton>
 
-#include "widgets/probitwidget.h"
-#include "core/settings.h"
+#include "probitwidget.h"
+#include "../../3rdparty/core/settings.h"
 
 const int EXPRESSIONBAR_HEIGHT = 95;
 

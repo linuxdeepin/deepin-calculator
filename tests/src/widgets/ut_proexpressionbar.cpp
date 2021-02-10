@@ -1,7 +1,7 @@
 #include "ut_proexpressionbar.h"
 
 #include "../../src/widgets/proexpressionbar.h"
-#include "../../src/core/settings.h"
+#include "../../3rdparty/core/settings.h"
 #include "../../src/mainwindow.h"
 #include <QDir>
 #include <QLocale>

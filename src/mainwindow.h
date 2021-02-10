@@ -20,15 +20,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QStackedLayout>
-#include <QMenu>
-#include <DMainWindow>
-
+#include "dsettings.h"
+#include "control/iconbutton.h"
 #include "widgets/basicmodule.h"
 #include "widgets/scientificmodule.h"
 #include "widgets/programmodule.h"
 #include "control/iconbutton.h"
-#include "dsettings.h"
+
+#include <QStackedLayout>
+#include <QMenu>
+#include <DMainWindow>
 
 #define ENABLE_SCIENTIFIC 1
 

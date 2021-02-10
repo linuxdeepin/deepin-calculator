@@ -23,8 +23,8 @@
 #include <QClipboard>
 #include <QApplication>
 
-#include "utils.h"
-#include "core/settings.h"
+#include "../utils.h"
+#include "../../3rdparty/core/settings.h"
 
 const QString AtoF = "ABCDEF";
 

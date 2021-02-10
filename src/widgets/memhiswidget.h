@@ -29,12 +29,12 @@
 #include <DWidget>
 #include <DGuiApplicationHelper>
 
-#include "control/iconbutton.h"
-#include "views/memorywidget.h"
-#include "views/simplelistdelegate.h"
-#include "views/simplelistmodel.h"
-#include "views/simplelistview.h"
-#include "memorypublic.h"
+#include "../control/iconbutton.h"
+#include "../views/memorywidget.h"
+#include "../views/simplelistdelegate.h"
+#include "../views/simplelistmodel.h"
+#include "../views/simplelistview.h"
+#include "../memorypublic.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE

@@ -29,7 +29,7 @@
 #include "dthememanager.h"
 #include "simplelistmodel.h"
 #include "simplelistview.h"
-#include "utils.h"
+#include "../utils.h"
 
 DWIDGET_USE_NAMESPACE
 

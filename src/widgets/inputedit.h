@@ -23,8 +23,8 @@
 #include <DLineEdit>
 #include <DPalette>
 
-#include "math/quantity.h"
-#include "core/evaluator.h"
+#include "../../3rdparty/math/quantity.h"
+#include "../../3rdparty/core/evaluator.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE

@@ -80,18 +80,20 @@ set(LINK_LIBS
 SET(HEAD ${CMAKE_CURRENT_LIST_DIR}/../src
          ${CMAKE_CURRENT_LIST_DIR}/../src/bak
          ${CMAKE_CURRENT_LIST_DIR}/../src/control
-         ${CMAKE_CURRENT_LIST_DIR}/../src/core
-         ${CMAKE_CURRENT_LIST_DIR}/../src/math
+         ${CMAKE_CURRENT_LIST_DIR}/../3rdparty/core
+         ${CMAKE_CURRENT_LIST_DIR}/../3rdparty/math
          ${CMAKE_CURRENT_LIST_DIR}/../src/views
          ${CMAKE_CURRENT_LIST_DIR}/../src/widgets
          )
 
 file(GLOB_RECURSE CAL_H ${CMAKE_CURRENT_LIST_DIR}/../src/*.h)
-
 file(GLOB_RECURSE CAL_C ${CMAKE_CURRENT_LIST_DIR}/../src/*.c)
-
 file(GLOB_RECURSE CAL_CPP ${CMAKE_CURRENT_LIST_DIR}/../src/*.cpp)
+file(GLOB_RECURSE CAL_3rdH ${CMAKE_CURRENT_LIST_DIR}/../3rdparty/*.h)
+file(GLOB_RECURSE CAL_3rdC ${CMAKE_CURRENT_LIST_DIR}/../3rdparty/*.c)
+file(GLOB_RECURSE CAL_3rdCPP ${CMAKE_CURRENT_LIST_DIR}/../3rdparty/*.cpp)
 list(REMOVE_ITEM CAL_CPP "${CMAKE_CURRENT_LIST_DIR}/../src/main.cpp")
+
 file(GLOB_RECURSE CAL_TEST ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
 file(GLOB_RECURSE CAL_TESTH ${CMAKE_CURRENT_LIST_DIR}/src/*.h)
 
@@ -106,7 +108,7 @@ set(PROJECT_NAME_TEST
     ${PROJECT_NAME}_test)
 
 # 生成测试可执行程序
-add_executable(${PROJECT_NAME_TEST} ${CAL_H} ${CAL_C} ${CAL_CPP} ${CAL_TEST} ${CAL_TESTH})
+add_executable(${PROJECT_NAME_TEST} ${CAL_H} ${CAL_C} ${CAL_CPP} ${CAL_3rdH} ${CAL_3rdC} ${CAL_3rdCPP} ${CAL_TEST} ${CAL_TESTH})
 
 # 生成测试可执行程序的依赖库
 target_link_libraries(${PROJECT_NAME_TEST} ${GTEST_LIBRARYS} ${GTEST_MAIN_LIBRARYS} gmock gmock_main gtest gtest_main pthread)

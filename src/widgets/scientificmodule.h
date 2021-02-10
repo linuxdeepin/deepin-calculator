@@ -27,15 +27,15 @@
 #include <DWidget>
 #include <DGuiApplicationHelper>
 
-#include "control/textbutton.h"
-#include "control/iconbutton.h"
-#include "control/scientifickeypad.h"
-#include "control/memhiskeypad.h"
+#include "../control/textbutton.h"
+#include "../control/iconbutton.h"
+#include "../control/scientifickeypad.h"
+#include "../control/memhiskeypad.h"
 #include "memhiswidget.h"
 #include "scihistorywidget.h"
 #include "sciexpressionbar.h"
-#include "views/memorywidget.h"
-#include "memorypublic.h"
+#include "../views/memorywidget.h"
+#include "../memorypublic.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE

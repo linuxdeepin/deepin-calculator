@@ -25,7 +25,7 @@
 #include <QTimer>
 #include <DGuiApplicationHelper>
 
-#include "utils.h"
+#include "../utils.h"
 
 const int STANDPREC = 15;
 const int WIDGET_FIXHEIGHT = 147;

@@ -31,11 +31,11 @@
 
 #include <DWidget>
 
-#include "core/evaluator.h"
-#include "widgets/inputedit.h"
-#include "views/simplelistdelegate.h"
-#include "views/simplelistmodel.h"
-#include "views/simplelistview.h"
+#include "../../3rdparty/core/evaluator.h"
+#include "inputedit.h"
+#include "../views/simplelistdelegate.h"
+#include "../views/simplelistmodel.h"
+#include "../views/simplelistview.h"
 
 DWIDGET_USE_NAMESPACE
 

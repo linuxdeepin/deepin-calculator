@@ -22,8 +22,8 @@
 #ifndef MEMORYWIDGET_H
 #define MEMORYWIDGET_H
 
-#include "core/evaluator.h"
-#include "control/iconbutton.h"
+#include "../../3rdparty/core/evaluator.h"
+#include "../control/iconbutton.h"
 #include "memoryitemwidget.h"
 #include "memorylistwidget.h"
 #include "memoryitemdelegate.h"

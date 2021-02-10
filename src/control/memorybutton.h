@@ -30,7 +30,7 @@
 #include <DPushButton>
 
 #include "textbutton.h"
-#include "../src/dsettings.h"
+#include "../dsettings.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE

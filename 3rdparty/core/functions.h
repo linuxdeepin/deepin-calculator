@@ -20,8 +20,8 @@
 #ifndef CORE_FUNCTION_H
 #define CORE_FUNCTION_H
 
-#include "core/errors.h"
-#include "math/quantity.h"
+#include "errors.h"
+#include "../math/quantity.h"
 
 #include <QHash>
 #include <QObject>

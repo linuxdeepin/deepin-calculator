@@ -10,19 +10,19 @@
 #include <QVBoxLayout>
 #include <QStackedWidget>
 
-#include "views/memorywidget.h"
-#include "views/programmerarrowdelegate.h"
-#include "views/programmeritemwidget.h"
-#include "views/prolistview.h"
-#include "views/prolistmodel.h"
-#include "views/prolistdelegate.h"
-#include "control/bitbutton.h"
-#include "control/programmerkeypad.h"
-#include "control/procheckbtnkeypad.h"
-#include "control/prosystemkeypad.h"
-#include "widgets/proexpressionbar.h"
-#include "widgets/arrowrectangle.h"
-#include "memorypublic.h"
+#include "../views/memorywidget.h"
+#include "../views/programmerarrowdelegate.h"
+#include "../views/programmeritemwidget.h"
+#include "../views/prolistview.h"
+#include "../views/prolistmodel.h"
+#include "../views/prolistdelegate.h"
+#include "../control/bitbutton.h"
+#include "../control/programmerkeypad.h"
+#include "../control/procheckbtnkeypad.h"
+#include "../control/prosystemkeypad.h"
+#include "proexpressionbar.h"
+#include "arrowrectangle.h"
+#include "../memorypublic.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE

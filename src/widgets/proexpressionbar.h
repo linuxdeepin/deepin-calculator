@@ -5,10 +5,10 @@
 #include <QClipboard>
 #include <QKeyEvent>
 
-#include "widgets/inputedit.h"
-#include "views/simplelistview.h"
-#include "views/simplelistmodel.h"
-#include "views/simplelistdelegate.h"
+#include "inputedit.h"
+#include "../views/simplelistview.h"
+#include "../views/simplelistmodel.h"
+#include "../views/simplelistdelegate.h"
 
 DWIDGET_USE_NAMESPACE
 

@@ -2,7 +2,7 @@
 
 #include "../../src/widgets/inputedit.h"
 #include <QAction>
-#include "../../src/math/cmath.h"
+#include "../../3rdparty/math/cmath.h"
 
 Ut_InputEdit::Ut_InputEdit()
 {

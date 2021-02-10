@@ -25,7 +25,7 @@
 
 #include "cmath.h"
 #include "hmath.h"
-#include "core/errors.h"
+#include "../core/errors.h"
 
 #include <QMap>
 

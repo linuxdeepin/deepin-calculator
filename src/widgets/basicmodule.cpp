@@ -26,8 +26,8 @@
 #include <QVBoxLayout>
 
 #include "dthememanager.h"
-#include "utils.h"
-#include "math/quantity.h"
+#include "../utils.h"
+#include "../../3rdparty/math/quantity.h"
 
 BasicModule::BasicModule(QWidget *parent)
     : DWidget(parent)

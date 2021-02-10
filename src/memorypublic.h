@@ -25,8 +25,8 @@
 #include <QObject>
 #include <QList>
 
+#include "../3rdparty/core/evaluator.h"
 #include "views/memorywidget.h"
-#include "core/evaluator.h"
 
 /**
  * @brief 同步处理数字内存

@@ -17,8 +17,8 @@
 // Boston, MA 02110-1301, USA.
 
 #include "rational.h"
-#include "math/hmath.h"
-#include "core/numberformatter.h"
+#include "hmath.h"
+#include "../core/numberformatter.h"
 
 #include <cmath>
 #include <QString>
