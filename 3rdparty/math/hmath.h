@@ -90,7 +90,6 @@ public:
     HNumber operator<<(const HNumber &) const;
 
     int realNumberlength() const;
-    QString m_procarrytemp = "0";
 
 private:
     HNumberPrivate *d;
