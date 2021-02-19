@@ -129,28 +129,24 @@ void MainWindow::initModule()
     case 0:
         m_basicModule = new BasicModule(this);
         m_mainLayout->addWidget(m_basicModule);
-        m_isStandInit = true;
         m_simpleAction->setChecked(true);
         switchToSimpleMode();
         break;
     case 1:
         m_scientificModule = new scientificModule(this);
         m_mainLayout->addWidget(m_scientificModule);
-        m_isSciInit = true;
         m_scAction->setChecked(true);
         switchToScientificMode();
         break;
     case 2:
         m_programmerModule = new ProgramModule(this);
         m_mainLayout->addWidget(m_programmerModule);
-        m_isProgrammerInit = true;
         m_programmerAction->setChecked(true);
         switchToProgrammerMode();
         break;
     default:
         m_basicModule = new BasicModule(this);
         m_mainLayout->addWidget(m_basicModule);
-        m_isStandInit = true;
         m_simpleAction->setChecked(true);
         switchToSimpleMode();
         break;
@@ -163,10 +159,9 @@ void MainWindow::switchToSimpleMode()
     if (Settings::instance()->programmerBase != 0)
         programmerOldBase = Settings::instance()->programmerBase;
     Settings::instance()->programmerBase = 0;
-    if (!m_isStandInit) {
+    if (!m_basicModule) {
         m_basicModule = new BasicModule(this);
         m_mainLayout->addWidget(m_basicModule);
-        m_isStandInit = true;
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
     }
     if (m_settings->getOption("mode") != 0 || m_isinit) {
@@ -181,10 +176,9 @@ void MainWindow::switchToScientificMode()
     if (Settings::instance()->programmerBase != 0)
         programmerOldBase = Settings::instance()->programmerBase;
     Settings::instance()->programmerBase = 0;
-    if (!m_isSciInit) {
+    if (!m_scientificModule) {
         m_scientificModule = new scientificModule(this);
         m_mainLayout->addWidget(m_scientificModule);
-        m_isSciInit = true;
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
     }
     if (m_settings->getOption("mode") != 1 || m_isinit) {
@@ -198,10 +192,9 @@ void MainWindow::switchToScientificMode()
 void MainWindow::switchToProgrammerMode()
 {
     Settings::instance()->programmerBase = programmerOldBase;
-    if (!m_isProgrammerInit) {
+    if (!m_programmerModule) {
         m_programmerModule = new ProgramModule(this);
         m_mainLayout->addWidget(m_programmerModule);
-        m_isProgrammerInit = true;
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
     }
     if (m_settings->getOption("mode") != 2 || m_isinit) {

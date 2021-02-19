@@ -65,14 +65,11 @@ private:
     QAction *m_programmerAction;
     QActionGroup *m_pActionGroup;
 
-    BasicModule *m_basicModule;
-    scientificModule *m_scientificModule;
-    ProgramModule *m_programmerModule;
+    BasicModule *m_basicModule = nullptr;
+    scientificModule *m_scientificModule = nullptr;
+    ProgramModule *m_programmerModule = nullptr;
 
     bool m_isinit = true;//初始化
-    bool m_isStandInit = false; //标准是否初始化
-    bool m_isSciInit = false; //科学是否初始化
-    bool m_isProgrammerInit = false; //科学是否初始化
     int programmerOldBase = 10;//切换前程序员计算器的进制
 };
 
