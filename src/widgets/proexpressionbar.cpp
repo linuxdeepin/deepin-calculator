@@ -46,8 +46,8 @@ ProExpressionBar::ProExpressionBar(QWidget *parent)
     layout->setSpacing(0);
     initConnect();
 
-    m_funclist = {"nand",  "not", "xor", "and", "nor", "or",
-                  "shl", "shr", "sal", "sar", "rol", "ror", "rcl", "rcr"
+    m_funclist = {"nand",  "not", "xor", "and", "nor", "ror", "or",
+                  "shl", "shr", "sal", "sar", "rol", "rcl", "rcr"
                  };
 }
 
