@@ -2124,9 +2124,9 @@ HNumber HMath::rosh(const HNumber &val, const HNumber &bits)
         return val;
     if (shift < 0) {
         shift = - shift;
-        return (val >> (bitlen - shift)) | (val << shift);
+        return lshr(val, bitlen - shift) | (val << shift);
     }
-    return (val << (bitlen - shift)) | (val >> shift);
+    return (val << (bitlen - shift)) | lshr(val, shift);
 }
 
 /**
