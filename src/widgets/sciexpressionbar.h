@@ -71,39 +71,17 @@ public slots:
     void enterClearEvent();
     void enterEqualEvent();
     void enterPercentEvent();
-    void enterLeftBracketsEvent();
-    void enterRightBracketsEvent();
     void enterDegEvent(int mod);
-    void enterSinEvent();
     void enterFEEvent(bool isdown);
-    void enterPIEvent();
-    void enterEulerEvent(); //无理数e
-    void enterModEvent();
-    void enterx2Event();
-    void enterDerivativeEvent(); //导数
-    void enterFactorialsEvent(); //阶乘
-    void enterExpEvent();
-    void enterCosEvent();
-    void enterx3Event();
-    void enterTanEvent();
-    void enterxyEvent();
-    void enterCotEvent();
-    void enter10xEvent();
-    void enterModulusEvent(); //模(绝对值)
-    void enterLogEvent();
     void enterRandEvent();
-    void enterLnEvent();
-    void enterArcsinEvent();
-    void enterSqrtEvent();
-    void enterArccosEvent();
-    void enterCbrtEvent();
-    void enterArctanEvent();
-    void enterYrootEvent();
-    void enterArccotEvent();
-    void enter2xEvent();
-    void enterlogyxEvent();
-    void enterexEvent();
-    void enterOppositeEvent(); //相反数
+
+    //replace
+    void enterOperatorEvent(const QString &text); //运算符类：x A y;
+    void enterFunctionEvent(const QString &text); //函数类：A(x),A(x,y);
+    void enterConstantEvent(const QString &text); //常数类：e,pi,aˣ
+    void enterBracketEvent(const int &type); //括号:0-(),1-(,2-)
+    void enterSpecialFuncEvent(const QString &text); //倒数、绝对值、相反数
+
     void moveLeft();
     void moveRight();
     void copyResultToClipboard();
@@ -111,18 +89,10 @@ public slots:
     void allElection();
     void shear();
     void deleteText();
-//    void computationalResults(const QString &expression, QString &result);
-//    void historicalLinkage(int index, QString newValue);
-//    void clearLinkageCache(const QString &text, bool isequal);
-//    void setLinkState(const QModelIndex index);
-//    void settingLinkage(const QModelIndex &index);
-//    void settingLinkage();
     void Undo();
     void addUndo();
     void Redo();
     void initTheme(int type);
-//    void setSelection();
-//    void getSelection();
     void setResultFalse();
     void replaceSelection(QString text);
     InputEdit *getInputEdit();
@@ -143,6 +113,7 @@ private:
     QString pointFaultTolerance(const QString &text);
     void expressionCheck();
     bool isnumber(QChar a);
+    bool expressionInFunc(QString &text);
 
 private:
     Evaluator *m_evaluator;

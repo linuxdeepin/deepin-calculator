@@ -6,6 +6,7 @@
 #include <QTest>
 
 #include "../../src/dsettings.h"
+#include"../stub.h"
 
 class Ut_ScientificModule : public ::testing::Test
 {

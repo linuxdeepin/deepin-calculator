@@ -112,10 +112,10 @@ TEST_F(Ut_SciexpressionBar, enterBackspaceEvent)
     m_expressionBar->enterBackspaceEvent();
     m_expressionBar->enterBackspaceEvent();
     m_expressionBar->findChild<InputEdit *>()->clear();
-    m_expressionBar->enterSinEvent();
+    m_expressionBar->enterFunctionEvent("sin");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
     m_expressionBar->enterBackspaceEvent();
-    m_expressionBar->enterSinEvent();
+    m_expressionBar->enterFunctionEvent("sin");
     SSelection select;
     select.curpos = 1;
     select.oldText = "sin()";
@@ -165,12 +165,12 @@ TEST_F(Ut_SciexpressionBar, enterLeftBracketsEvent)
     SciExpressionBar *m_expressionBar = new SciExpressionBar;
     m_expressionBar->findChild<InputEdit *>()->setText("3");
     m_expressionBar->m_isUndo = true;
-    m_expressionBar->enterLeftBracketsEvent();
+    m_expressionBar->enterBracketEvent(1);
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
-    m_expressionBar->enterLeftBracketsEvent();
+    m_expressionBar->enterBracketEvent(1);
     m_expressionBar->findChild<InputEdit *>()->setText("1111");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterLeftBracketsEvent();
+    m_expressionBar->enterBracketEvent(1);
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1(111");
     DSettingsAlt::deleteInstance();
 }
@@ -180,23 +180,13 @@ TEST_F(Ut_SciexpressionBar, enterRightBracketsEvent)
     SciExpressionBar *m_expressionBar = new SciExpressionBar;
     m_expressionBar->findChild<InputEdit *>()->setText("3");
     m_expressionBar->m_isUndo = true;
-    m_expressionBar->enterRightBracketsEvent();
+    m_expressionBar->enterBracketEvent(2);
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
-    m_expressionBar->enterRightBracketsEvent();
+    m_expressionBar->enterBracketEvent(2);
     m_expressionBar->findChild<InputEdit *>()->setText("1111");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterRightBracketsEvent();
+    m_expressionBar->enterBracketEvent(2);
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1)111");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterSinEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterSinEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1sin()111");
     DSettingsAlt::deleteInstance();
 }
 
@@ -208,45 +198,21 @@ TEST_F(Ut_SciexpressionBar, enterFEEvent)
     DSettingsAlt::deleteInstance();
 }
 
-TEST_F(Ut_SciexpressionBar, enterPIEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->m_isResult = true;
-    m_expressionBar->enterPIEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterPIEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1×π111");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterEulerEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->m_isResult = true;
-    m_expressionBar->enterEulerEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterEulerEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1×e111");
-    DSettingsAlt::deleteInstance();
-}
-
 TEST_F(Ut_SciexpressionBar, enterModEvent)
 {
     SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->enterModEvent();
+    m_expressionBar->enterOperatorEvent("mod");
     m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
-    m_expressionBar->enterModEvent();
+    m_expressionBar->enterOperatorEvent("mod");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(6);
-    m_expressionBar->enterModEvent();
+    m_expressionBar->enterOperatorEvent("mod");
     m_expressionBar->findChild<InputEdit *>()->setText("1^2");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterModEvent();
+    m_expressionBar->enterOperatorEvent("mod");
     m_expressionBar->findChild<InputEdit *>()->setText("1111");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterModEvent();
+    m_expressionBar->enterOperatorEvent("mod");
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1mod111");
     DSettingsAlt::deleteInstance();
 }
@@ -254,18 +220,18 @@ TEST_F(Ut_SciexpressionBar, enterModEvent)
 TEST_F(Ut_SciexpressionBar, enterx2Event)
 {
     SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->enterx2Event();
+    m_expressionBar->enterOperatorEvent("^2");
     m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
-    m_expressionBar->enterx2Event();
+    m_expressionBar->enterOperatorEvent("^2");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(6);
-    m_expressionBar->enterx2Event();
+    m_expressionBar->enterOperatorEvent("^2");
     m_expressionBar->findChild<InputEdit *>()->setText("1^2");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterx2Event();
+    m_expressionBar->enterOperatorEvent("^2");
     m_expressionBar->findChild<InputEdit *>()->setText("1111");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterx2Event();
+    m_expressionBar->enterOperatorEvent("^2");
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1^2×111");
     DSettingsAlt::deleteInstance();
 }
@@ -273,67 +239,35 @@ TEST_F(Ut_SciexpressionBar, enterx2Event)
 TEST_F(Ut_SciexpressionBar, enterDerivativeEvent)
 {
     SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->enterDerivativeEvent();
+    m_expressionBar->enterSpecialFuncEvent("1/(");
     m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
     m_expressionBar->allElection();
-    m_expressionBar->enterDerivativeEvent();
+    m_expressionBar->enterSpecialFuncEvent("1/(");
     m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
-    m_expressionBar->enterDerivativeEvent();
+    m_expressionBar->enterSpecialFuncEvent("1/(");
     SSelection select;
     select.curpos = 0;
     select.oldText = "1＋1";
     select.selected = "1";
     m_expressionBar->findChild<InputEdit *>()->setSelection(select);
-    m_expressionBar->enterDerivativeEvent();
+    m_expressionBar->enterSpecialFuncEvent("1/(");
     m_expressionBar->findChild<InputEdit *>()->setText("1E-2");
-    m_expressionBar->enterDerivativeEvent();
+    m_expressionBar->enterSpecialFuncEvent("1/(");
     m_expressionBar->findChild<InputEdit *>()->setText("－");
-    m_expressionBar->enterDerivativeEvent();
+    m_expressionBar->enterSpecialFuncEvent("1/(");
     m_expressionBar->findChild<InputEdit *>()->setText("()");
-    m_expressionBar->enterDerivativeEvent();
+    m_expressionBar->enterSpecialFuncEvent("1/(");
     m_expressionBar->findChild<InputEdit *>()->setText("((1))");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(4);
-    m_expressionBar->enterDerivativeEvent();
+    m_expressionBar->enterSpecialFuncEvent("1/(");
     m_expressionBar->findChild<InputEdit *>()->setText("sin(2)");
-    m_expressionBar->enterDerivativeEvent();
+    m_expressionBar->enterSpecialFuncEvent("1/(");
     m_expressionBar->findChild<InputEdit *>()->setText("1/(2)");
-    m_expressionBar->enterDerivativeEvent();
+    m_expressionBar->enterSpecialFuncEvent("1/(");
     m_expressionBar->findChild<InputEdit *>()->setText("2(2)");
-    m_expressionBar->enterDerivativeEvent();
+    m_expressionBar->enterSpecialFuncEvent("1/(");
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "2×1/((2))");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterFactorialsEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->enterFactorialsEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1");
-    m_expressionBar->enterFactorialsEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterFactorialsEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1!111");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterExpEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->enterExpEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
-    m_expressionBar->enterExpEvent();
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(6);
-    m_expressionBar->enterExpEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1^2");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterExpEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterExpEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1.E＋111");
     DSettingsAlt::deleteInstance();
 }
 
@@ -342,69 +276,8 @@ TEST_F(Ut_SciexpressionBar, enterCosEvent)
     SciExpressionBar *m_expressionBar = new SciExpressionBar;
     m_expressionBar->findChild<InputEdit *>()->setText("1111");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterCosEvent();
+    m_expressionBar->enterFunctionEvent("cos");
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1cos()111");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterx3Event)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->enterx3Event();
-    m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
-    m_expressionBar->enterx3Event();
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(6);
-    m_expressionBar->enterx3Event();
-    m_expressionBar->findChild<InputEdit *>()->setText("1^2");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterx3Event();
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterx3Event();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1^3×111");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterTanEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->findChild<InputEdit *>()->setText("1");
-    m_expressionBar->enterTanEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterTanEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1tan()111");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterxyEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
-    m_expressionBar->enterxyEvent();
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(6);
-    m_expressionBar->enterxyEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1^2");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterx3Event();
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterx3Event();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1^3×111");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterCotEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->findChild<InputEdit *>()->setText("1");
-    m_expressionBar->enterCotEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterCotEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1cot()111");
     DSettingsAlt::deleteInstance();
 }
 
@@ -412,15 +285,15 @@ TEST_F(Ut_SciexpressionBar, enter10xEvent)
 {
     SciExpressionBar *m_expressionBar = new SciExpressionBar;
     m_expressionBar->findChild<InputEdit *>()->setText("1");
-    m_expressionBar->enter10xEvent();
+    m_expressionBar->enterConstantEvent("10^");
     m_expressionBar->findChild<InputEdit *>()->setText("11");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(1);
-    m_expressionBar->enter10xEvent();
+    m_expressionBar->enterConstantEvent("10^");
     m_expressionBar->findChild<InputEdit *>()->setText("1111");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enter10xEvent();
+    m_expressionBar->enterConstantEvent("10^");
     m_expressionBar->findChild<InputEdit *>()->setText("1＋");
-    m_expressionBar->enter10xEvent();
+    m_expressionBar->enterConstantEvent("10^");
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1＋10^");
     DSettingsAlt::deleteInstance();
 }
@@ -428,241 +301,37 @@ TEST_F(Ut_SciexpressionBar, enter10xEvent)
 TEST_F(Ut_SciexpressionBar, enterModulusEvent)
 {
     SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->enterModulusEvent();
+    m_expressionBar->enterSpecialFuncEvent("abs(");
     m_expressionBar->findChild<InputEdit *>()->setText("E");
-    m_expressionBar->enterModulusEvent();
+    m_expressionBar->enterSpecialFuncEvent("abs(");
     m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
     m_expressionBar->allElection();
-    m_expressionBar->enterModulusEvent();
+    m_expressionBar->enterSpecialFuncEvent("abs(");
     m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
-    m_expressionBar->enterModulusEvent();
+    m_expressionBar->enterSpecialFuncEvent("abs(");
     SSelection select;
     select.curpos = 0;
     select.oldText = "1＋1";
     select.selected = "1";
     m_expressionBar->findChild<InputEdit *>()->setSelection(select);
-    m_expressionBar->enterModulusEvent();
+    m_expressionBar->enterSpecialFuncEvent("abs(");
     m_expressionBar->findChild<InputEdit *>()->setText("1E-2");
-    m_expressionBar->enterModulusEvent();
+    m_expressionBar->enterSpecialFuncEvent("abs(");
     m_expressionBar->findChild<InputEdit *>()->setText("－");
-    m_expressionBar->enterModulusEvent();
+    m_expressionBar->enterSpecialFuncEvent("abs(");
     m_expressionBar->findChild<InputEdit *>()->setText("()");
-    m_expressionBar->enterModulusEvent();
+    m_expressionBar->enterSpecialFuncEvent("abs(");
     m_expressionBar->findChild<InputEdit *>()->setText("((1))");
     m_expressionBar->findChild<InputEdit *>()->setCursorPosition(4);
-    m_expressionBar->enterModulusEvent();
+    m_expressionBar->enterSpecialFuncEvent("abs(");
     m_expressionBar->findChild<InputEdit *>()->setText("sin(2)");
-    m_expressionBar->enterModulusEvent();
+    m_expressionBar->enterSpecialFuncEvent("abs(");
     m_expressionBar->findChild<InputEdit *>()->setText("1/(2)");
-    m_expressionBar->enterModulusEvent();
+    m_expressionBar->enterSpecialFuncEvent("abs(");
     m_expressionBar->findChild<InputEdit *>()->setText("2(2)");
-    m_expressionBar->enterModulusEvent();
+    m_expressionBar->enterSpecialFuncEvent("abs(");
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "2abs((2))");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterLogEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterLogEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("11");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(1);
-    m_expressionBar->enterLogEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1lg()1");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterLnEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterLnEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("11");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(1);
-    m_expressionBar->enterLnEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1ln()1");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterArcsinEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterArcsinEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1arcsin()111");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterSqrtEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterSqrtEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1");
-    m_expressionBar->enterSqrtEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1sqrt()");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterArccosEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterArccosEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1");
-    m_expressionBar->enterArccosEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1arccos()");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterCbrtEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterCbrtEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1");
-    m_expressionBar->enterCbrtEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1cbrt()");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterArctanEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterArctanEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1");
-    m_expressionBar->enterArctanEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1arctan()");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterYrootEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->enterYrootEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
-    m_expressionBar->enterYrootEvent();
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(8);
-    m_expressionBar->enterYrootEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1^2");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterYrootEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterYrootEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1");
-    m_expressionBar->enterYrootEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1yroot");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterArccotEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterArccotEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1");
-    m_expressionBar->enterArccotEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1arccot()");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enter2xEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->findChild<InputEdit *>()->setText("1");
-    m_expressionBar->enter2xEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("11");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(1);
-    m_expressionBar->enter2xEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enter2xEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1＋");
-    m_expressionBar->enter2xEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1＋2^");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterlogyxEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->enterlogyxEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
-    m_expressionBar->enterlogyxEvent();
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(6);
-    m_expressionBar->enterlogyxEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1^2");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterlogyxEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterlogyxEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1");
-    m_expressionBar->enterlogyxEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1log");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterexEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->findChild<InputEdit *>()->setText("1111");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(2);
-    m_expressionBar->enterexEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1×e^111");
-    DSettingsAlt::deleteInstance();
-}
-
-TEST_F(Ut_SciexpressionBar, enterOppositeEvent)
-{
-    SciExpressionBar *m_expressionBar = new SciExpressionBar;
-    m_expressionBar->enterOppositeEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
-    m_expressionBar->allElection();
-    m_expressionBar->enterOppositeEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
-    m_expressionBar->enterOppositeEvent();
-    SSelection select;
-    select.curpos = 0;
-    select.oldText = "1＋1";
-    select.selected = "1";
-    m_expressionBar->findChild<InputEdit *>()->setSelection(select);
-    m_expressionBar->enterOppositeEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("E");
-    m_expressionBar->enterOppositeEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1＋0");
-    m_expressionBar->enterOppositeEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1E-2");
-    m_expressionBar->enterOppositeEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("－");
-    m_expressionBar->enterOppositeEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("()");
-    m_expressionBar->enterOppositeEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("((1))");
-    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(4);
-    m_expressionBar->enterOppositeEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("sin(2)");
-    m_expressionBar->enterOppositeEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("1/(2)");
-    m_expressionBar->enterOppositeEvent();
-    m_expressionBar->findChild<InputEdit *>()->setText("2(2)");
-    m_expressionBar->enterOppositeEvent();
-    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "2(－(2))");
     DSettingsAlt::deleteInstance();
 }
 
@@ -869,5 +538,15 @@ TEST_F(Ut_SciexpressionBar, moveRight)
     m_expressionBar->moveRight();
     m_expressionBar->moveRight();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->cursorPosition(), 4);
+    DSettingsAlt::deleteInstance();
+}
+
+TEST_F(Ut_SciexpressionBar, deleteText)
+{
+    SciExpressionBar *m_expressionBar = new SciExpressionBar;
+    m_expressionBar->findChild<InputEdit *>()->setText("1＋2");
+    m_expressionBar->allElection();
+    m_expressionBar->deleteText();
+    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "");
     DSettingsAlt::deleteInstance();
 }

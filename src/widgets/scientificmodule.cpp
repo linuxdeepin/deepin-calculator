@@ -273,11 +273,11 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         break;
     case Qt::Key_ParenLeft:
         m_scikeypadwidget->animate(ScientificKeyPad::Key_left);
-        m_sciexpressionBar->enterLeftBracketsEvent();
+        m_sciexpressionBar->enterBracketEvent(1);
         break;
     case Qt::Key_ParenRight:
         m_scikeypadwidget->animate(ScientificKeyPad::Key_right);
-        m_sciexpressionBar->enterRightBracketsEvent();
+        m_sciexpressionBar->enterBracketEvent(2);
         break;
     case Qt::Key_Percent:
         m_scikeypadwidget->animate(ScientificKeyPad::Key_Percent);
@@ -285,7 +285,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         break;
     case Qt::Key_AsciiCircum:
         m_scikeypadwidget->animate(ScientificKeyPad::Key_xy);
-        m_sciexpressionBar->enterxyEvent();
+        m_sciexpressionBar->enterOperatorEvent("^");
         break;
     case Qt::Key_C:
         if (isPressCtrl) {
@@ -333,7 +333,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_sciexpressionBar->Redo();
         else {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_xy);
-            m_sciexpressionBar->enterxyEvent();
+            m_sciexpressionBar->enterOperatorEvent("^");
         }
         break;
     case Qt::Key_L:
@@ -345,10 +345,10 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         } else if (!isPressCtrl) {
             if (isPressShift) {
                 m_scikeypadwidget->animate(ScientificKeyPad::Key_logyx);
-                m_sciexpressionBar->enterlogyxEvent();
+                m_sciexpressionBar->enterOperatorEvent("log");
             } else {
                 m_scikeypadwidget->animate(ScientificKeyPad::Key_log);
-                m_sciexpressionBar->enterLogEvent();
+                m_sciexpressionBar->enterFunctionEvent("lg");
             }
         }
         break;
@@ -365,7 +365,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
                 m_sciexpressionBar->enterRandEvent();
             } else {
                 m_scikeypadwidget->animate(ScientificKeyPad::Key_Derivative);
-                m_sciexpressionBar->enterDerivativeEvent();
+                m_sciexpressionBar->enterSpecialFuncEvent("1/(");
             }
         }
         break;
@@ -377,7 +377,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
                 m_memhiswidget->memoryFunctions(MemHisWidget::memoryplus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
         } else if (!isPressCtrl) {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_PI);
-            m_sciexpressionBar->enterPIEvent();
+            m_sciexpressionBar->enterConstantEvent(QString::fromUtf8("π"));
         }
         break;
     case Qt::Key_Q:
@@ -388,7 +388,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
                 m_memhiswidget->memoryFunctions(MemHisWidget::memoryminus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
         } else if (!isPressCtrl) {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_x2);
-            m_sciexpressionBar->enterx2Event();
+            m_sciexpressionBar->enterOperatorEvent("^2");
         }
         break;
     case Qt::Key_M:
@@ -399,82 +399,82 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
                 m_memhiswidget->memoryFunctions(MemHisWidget::generateData, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
         } else if (!isPressCtrl) {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_Mod);
-            m_sciexpressionBar->enterModEvent();
+            m_sciexpressionBar->enterOperatorEvent("mod");
         }
         break;
     case Qt::Key_NumberSign: //#
         m_scikeypadwidget->animate(ScientificKeyPad::Key_x3);
-        m_sciexpressionBar->enterx3Event();
+        m_sciexpressionBar->enterOperatorEvent("^3");
         break;
     case Qt::Key_N:
         if (isPressCtrl) {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_ex);
-            m_sciexpressionBar->enterexEvent();
+            m_sciexpressionBar->enterConstantEvent("e^");
         } else {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_ln);
-            m_sciexpressionBar->enterLnEvent();
+            m_sciexpressionBar->enterFunctionEvent("ln");
         }
         break;
     case Qt::Key_At: //@
         m_scikeypadwidget->animate(ScientificKeyPad::Key_sqrt2);
-        m_sciexpressionBar->enterSqrtEvent();
+        m_sciexpressionBar->enterFunctionEvent("sqrt");
         break;
     case Qt::Key_B:
         m_scikeypadwidget->animate(ScientificKeyPad::Key_sqrt3);
-        m_sciexpressionBar->enterCbrtEvent();
+        m_sciexpressionBar->enterFunctionEvent("cbrt");
         break;
     case Qt::Key_Bar: //|,shift+'\'
         m_scikeypadwidget->animate(ScientificKeyPad::Key_Modulus);
-        m_sciexpressionBar->enterModulusEvent();
+        m_sciexpressionBar->enterSpecialFuncEvent("abs(");
         break;
     case Qt::Key_E:
         if (isPressShift) {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_e);
-            m_sciexpressionBar->enterEulerEvent();
+            m_sciexpressionBar->enterConstantEvent(QString::fromUtf8("e"));
         } else {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_exp);
-            m_sciexpressionBar->enterExpEvent();
+            m_sciexpressionBar->enterOperatorEvent(".E＋");
         }
         break;
     case Qt::Key_S:
         if (isPressShift) {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_arcsin);
-            m_sciexpressionBar->enterArcsinEvent();
+            m_sciexpressionBar->enterFunctionEvent("arcsin");
         } else {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_sin);
-            m_sciexpressionBar->enterSinEvent();
+            m_sciexpressionBar->enterFunctionEvent("sin");
         }
         break;
     case Qt::Key_O:
         if (isPressShift) {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_arccos);
-            m_sciexpressionBar->enterArccosEvent();
+            m_sciexpressionBar->enterFunctionEvent("arccos");
         } else {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_cos);
-            m_sciexpressionBar->enterCosEvent();
+            m_sciexpressionBar->enterFunctionEvent("cos");
         }
         break;
     case Qt::Key_T:
         if (isPressShift) {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_arctan);
-            m_sciexpressionBar->enterArctanEvent();
+            m_sciexpressionBar->enterFunctionEvent("arctan");
         } else {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_tan);
-            m_sciexpressionBar->enterTanEvent();
+            m_sciexpressionBar->enterFunctionEvent("tan");
         }
         break;
     case Qt::Key_J:
         if (isPressShift) {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_arccot);
-            m_sciexpressionBar->enterArccotEvent();
+            m_sciexpressionBar->enterFunctionEvent("arccot");
         } else {
             m_scikeypadwidget->animate(ScientificKeyPad::Key_cot);
-            m_sciexpressionBar->enterCotEvent();
+            m_sciexpressionBar->enterFunctionEvent("cot");
         }
         break;
     case Qt::Key_Exclam: //'!'
         m_scikeypadwidget->animate(ScientificKeyPad::Key_Factorials);
-        m_sciexpressionBar->enterFactorialsEvent();
+        m_sciexpressionBar->enterOperatorEvent("!");
         break;
     default:
         break;
@@ -570,10 +570,10 @@ void scientificModule::handleKeypadButtonPress(int key)
         m_sciexpressionBar->enterPointEvent();
         break;
     case ScientificKeyPad::Key_left:
-        m_sciexpressionBar->enterLeftBracketsEvent();
+        m_sciexpressionBar->enterBracketEvent(1);
         break;
     case ScientificKeyPad::Key_right:
-        m_sciexpressionBar->enterRightBracketsEvent();
+        m_sciexpressionBar->enterBracketEvent(2);
         break;
     case MemHisKeypad::Key_MS:
         m_sciexpressionBar->enterEqualEvent();
@@ -610,7 +610,7 @@ void scientificModule::handleKeypadButtonPress(int key)
         m_sciexpressionBar->enterDegEvent(m_deg);
         break;
     case ScientificKeyPad::Key_sin:
-        m_sciexpressionBar->enterSinEvent();
+        m_sciexpressionBar->enterFunctionEvent("sin");
         break;
     case MemHisKeypad::Key_FE:
         m_sciexpressionBar->enterFEEvent(m_FEisdown);
@@ -619,88 +619,88 @@ void scientificModule::handleKeypadButtonPress(int key)
         handlePageStateChanged();
         break;
     case ScientificKeyPad::Key_PI:
-        m_sciexpressionBar->enterPIEvent();
+        m_sciexpressionBar->enterConstantEvent(QString::fromUtf8("π"));
         break;
     case ScientificKeyPad::Key_e:
-        m_sciexpressionBar->enterEulerEvent();
+        m_sciexpressionBar->enterConstantEvent(QString::fromUtf8("e"));
         break;
     case ScientificKeyPad::Key_Mod:
-        m_sciexpressionBar->enterModEvent();
+        m_sciexpressionBar->enterOperatorEvent("mod");
         break;
     case ScientificKeyPad::Key_x2:
-        m_sciexpressionBar->enterx2Event();
+        m_sciexpressionBar->enterOperatorEvent("^2");
         break;
     case ScientificKeyPad::Key_Derivative:
-        m_sciexpressionBar->enterDerivativeEvent();
+        m_sciexpressionBar->enterSpecialFuncEvent("1/(");
         break;
     case ScientificKeyPad::Key_Factorials:
-        m_sciexpressionBar->enterFactorialsEvent();
+        m_sciexpressionBar->enterOperatorEvent("!");
         break;
     case ScientificKeyPad::Key_exp:
-        m_sciexpressionBar->enterExpEvent();
+        m_sciexpressionBar->enterOperatorEvent(".E＋");
         break;
     case ScientificKeyPad::Key_cos:
-        m_sciexpressionBar->enterCosEvent();
+        m_sciexpressionBar->enterFunctionEvent("cos");
         break;
     case ScientificKeyPad::Key_x3:
-        m_sciexpressionBar->enterx3Event();
+        m_sciexpressionBar->enterOperatorEvent("^3");
         break;
     case ScientificKeyPad::Key_tan:
-        m_sciexpressionBar->enterTanEvent();
+        m_sciexpressionBar->enterFunctionEvent("tan");
         break;
     case ScientificKeyPad::Key_xy:
-        m_sciexpressionBar->enterxyEvent();
+        m_sciexpressionBar->enterOperatorEvent("^");
         break;
     case ScientificKeyPad::Key_cot:
-        m_sciexpressionBar->enterCotEvent();
+        m_sciexpressionBar->enterFunctionEvent("cot");
         break;
     case ScientificKeyPad::Key_10x:
-        m_sciexpressionBar->enter10xEvent();
+        m_sciexpressionBar->enterConstantEvent("10^");
         break;
     case ScientificKeyPad::Key_Modulus:
-        m_sciexpressionBar->enterModulusEvent();
+        m_sciexpressionBar->enterSpecialFuncEvent("abs(");
         break;
     case ScientificKeyPad::Key_log:
-        m_sciexpressionBar->enterLogEvent();
+        m_sciexpressionBar->enterFunctionEvent("lg");
         break;
     case ScientificKeyPad::Key_Rand:
         m_sciexpressionBar->enterRandEvent();
         break;
     case ScientificKeyPad::Key_ln:
-        m_sciexpressionBar->enterLnEvent();
+        m_sciexpressionBar->enterFunctionEvent("ln");
         break;
     case ScientificKeyPad::Key_arcsin:
-        m_sciexpressionBar->enterArcsinEvent();
+        m_sciexpressionBar->enterFunctionEvent("arcsin");
         break;
     case ScientificKeyPad::Key_sqrt2:
-        m_sciexpressionBar->enterSqrtEvent();
+        m_sciexpressionBar->enterFunctionEvent("sqrt");
         break;
     case ScientificKeyPad::Key_arccos:
-        m_sciexpressionBar->enterArccosEvent();
+        m_sciexpressionBar->enterFunctionEvent("arccos");
         break;
     case ScientificKeyPad::Key_sqrt3:
-        m_sciexpressionBar->enterCbrtEvent();
+        m_sciexpressionBar->enterFunctionEvent("cbrt");
         break;
     case ScientificKeyPad::Key_arctan:
-        m_sciexpressionBar->enterArctanEvent();
+        m_sciexpressionBar->enterFunctionEvent("arctan");
         break;
     case ScientificKeyPad::Key_ysqrtx:
-        m_sciexpressionBar->enterYrootEvent();
+        m_sciexpressionBar->enterOperatorEvent("yroot");
         break;
     case ScientificKeyPad::Key_arccot:
-        m_sciexpressionBar->enterArccotEvent();
+        m_sciexpressionBar->enterFunctionEvent("arccot");
         break;
     case ScientificKeyPad::Key_2x:
-        m_sciexpressionBar->enter2xEvent();
+        m_sciexpressionBar->enterConstantEvent("2^");
         break;
     case ScientificKeyPad::Key_logyx:
-        m_sciexpressionBar->enterlogyxEvent();
+        m_sciexpressionBar->enterOperatorEvent("log");
         break;
     case ScientificKeyPad::Key_ex:
-        m_sciexpressionBar->enterexEvent();
+        m_sciexpressionBar->enterConstantEvent("e^");
         break;
     case ScientificKeyPad::Key_opposite:
-        m_sciexpressionBar->enterOppositeEvent();
+        m_sciexpressionBar->enterSpecialFuncEvent("(-");
         break;
     default:
         break;
@@ -802,10 +802,10 @@ void scientificModule::handleKeypadButtonPressByspace(int key)
         m_sciexpressionBar->enterPointEvent();
         break;
     case ScientificKeyPad::Key_left:
-        m_sciexpressionBar->enterLeftBracketsEvent();
+        m_sciexpressionBar->enterBracketEvent(1);
         break;
     case ScientificKeyPad::Key_right:
-        m_sciexpressionBar->enterRightBracketsEvent();
+        m_sciexpressionBar->enterBracketEvent(2);
         break;
     case MemHisKeypad::Key_MS:
         m_sciexpressionBar->enterEqualEvent();
@@ -842,7 +842,7 @@ void scientificModule::handleKeypadButtonPressByspace(int key)
         m_sciexpressionBar->enterDegEvent(m_deg);
         break;
     case ScientificKeyPad::Key_sin:
-        m_sciexpressionBar->enterSinEvent();
+        m_sciexpressionBar->enterFunctionEvent("sin");
         break;
     case MemHisKeypad::Key_FE:
         m_sciexpressionBar->enterFEEvent(m_FEisdown);
@@ -851,88 +851,88 @@ void scientificModule::handleKeypadButtonPressByspace(int key)
         handlePageStateChanged();
         break;
     case ScientificKeyPad::Key_PI:
-        m_sciexpressionBar->enterPIEvent();
+        m_sciexpressionBar->enterConstantEvent(QString::fromUtf8("π"));
         break;
     case ScientificKeyPad::Key_e:
-        m_sciexpressionBar->enterEulerEvent();
+        m_sciexpressionBar->enterConstantEvent(QString::fromUtf8("e"));
         break;
     case ScientificKeyPad::Key_Mod:
-        m_sciexpressionBar->enterModEvent();
+        m_sciexpressionBar->enterOperatorEvent("mod");
         break;
     case ScientificKeyPad::Key_x2:
-        m_sciexpressionBar->enterx2Event();
+        m_sciexpressionBar->enterOperatorEvent("^2");
         break;
     case ScientificKeyPad::Key_Derivative:
-        m_sciexpressionBar->enterDerivativeEvent();
+        m_sciexpressionBar->enterSpecialFuncEvent("1/(");
         break;
     case ScientificKeyPad::Key_Factorials:
-        m_sciexpressionBar->enterFactorialsEvent();
+        m_sciexpressionBar->enterOperatorEvent("!");
         break;
     case ScientificKeyPad::Key_exp:
-        m_sciexpressionBar->enterExpEvent();
+        m_sciexpressionBar->enterOperatorEvent(".E＋");
         break;
     case ScientificKeyPad::Key_cos:
-        m_sciexpressionBar->enterCosEvent();
+        m_sciexpressionBar->enterFunctionEvent("cos");
         break;
     case ScientificKeyPad::Key_x3:
-        m_sciexpressionBar->enterx3Event();
+        m_sciexpressionBar->enterOperatorEvent("^3");
         break;
     case ScientificKeyPad::Key_tan:
-        m_sciexpressionBar->enterTanEvent();
+        m_sciexpressionBar->enterFunctionEvent("tan");
         break;
     case ScientificKeyPad::Key_xy:
-        m_sciexpressionBar->enterxyEvent();
+        m_sciexpressionBar->enterOperatorEvent("^");
         break;
     case ScientificKeyPad::Key_cot:
-        m_sciexpressionBar->enterCotEvent();
+        m_sciexpressionBar->enterFunctionEvent("cot");
         break;
     case ScientificKeyPad::Key_10x:
-        m_sciexpressionBar->enter10xEvent();
+        m_sciexpressionBar->enterConstantEvent("10^");
         break;
     case ScientificKeyPad::Key_Modulus:
-        m_sciexpressionBar->enterModulusEvent();
+        m_sciexpressionBar->enterSpecialFuncEvent("abs(");
         break;
     case ScientificKeyPad::Key_log:
-        m_sciexpressionBar->enterLogEvent();
+        m_sciexpressionBar->enterFunctionEvent("lg");
         break;
     case ScientificKeyPad::Key_Rand:
         m_sciexpressionBar->enterRandEvent();
         break;
     case ScientificKeyPad::Key_ln:
-        m_sciexpressionBar->enterLnEvent();
+        m_sciexpressionBar->enterFunctionEvent("ln");
         break;
     case ScientificKeyPad::Key_arcsin:
-        m_sciexpressionBar->enterArcsinEvent();
+        m_sciexpressionBar->enterFunctionEvent("arcsin");
         break;
     case ScientificKeyPad::Key_sqrt2:
-        m_sciexpressionBar->enterSqrtEvent();
+        m_sciexpressionBar->enterFunctionEvent("sqrt");
         break;
     case ScientificKeyPad::Key_arccos:
-        m_sciexpressionBar->enterArccosEvent();
+        m_sciexpressionBar->enterFunctionEvent("arccos");
         break;
     case ScientificKeyPad::Key_sqrt3:
-        m_sciexpressionBar->enterCbrtEvent();
+        m_sciexpressionBar->enterFunctionEvent("cbrt");
         break;
     case ScientificKeyPad::Key_arctan:
-        m_sciexpressionBar->enterArctanEvent();
+        m_sciexpressionBar->enterFunctionEvent("arctan");
         break;
     case ScientificKeyPad::Key_ysqrtx:
-        m_sciexpressionBar->enterYrootEvent();
+        m_sciexpressionBar->enterOperatorEvent("yroot");
         break;
     case ScientificKeyPad::Key_arccot:
-        m_sciexpressionBar->enterArccotEvent();
+        m_sciexpressionBar->enterFunctionEvent("arccot");
         break;
     case ScientificKeyPad::Key_2x:
-        m_sciexpressionBar->enter2xEvent();
+        m_sciexpressionBar->enterConstantEvent("2^");
         break;
     case ScientificKeyPad::Key_logyx:
-        m_sciexpressionBar->enterlogyxEvent();
+        m_sciexpressionBar->enterOperatorEvent("log");
         break;
     case ScientificKeyPad::Key_ex:
-        m_sciexpressionBar->enterexEvent();
+        m_sciexpressionBar->enterConstantEvent("e^");
         break;
     case ScientificKeyPad::Key_opposite:
-        m_sciexpressionBar->enterOppositeEvent();
+        m_sciexpressionBar->enterSpecialFuncEvent("(-");
         break;
     default:
         break;
