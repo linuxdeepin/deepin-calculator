@@ -544,13 +544,32 @@ CNumber CMath::exp(const CNumber &x)
  */
 CNumber CMath::ln(const CNumber &x)
 {
-    HNumber abs = CMath::abs(x).real;
     CNumber result;
-    result.real = HMath::ln(abs);
-    // Principal Value logarithm
-    // https://en.wikipedia.org/wiki/Complex_logarithm#Definition_of_principal_value
-    auto imag = HMath::arccos(x.real / abs);
-    result.imag = (x.imag.isPositive() || x.imag.isZero()) ? imag : -imag;
+    // If real number
+    if (x.imag.isZero()) {
+        // If zero number, out of domain
+        if (x.real.isZero())
+            return CMath::nan(OutOfDomain);
+        // Here, non-zero number
+        // Real part
+        result.real = HMath::ln(HMath::abs(x.real));
+        // If NaN, ensures NaN and same error in both imag and real parts
+        if (result.real.isNan()) {
+            result.imag = result.real;
+            return result;
+        }
+        // Imag part according to sign of real part
+        result.imag = x.real.isPositive() ? 0 : HMath::pi();
+    }
+    // Else, complex number
+    else {
+        HNumber abs = CMath::abs(x).real;
+        result.real = HMath::ln(abs);
+        // Principal Value logarithm
+        // https://en.wikipedia.org/wiki/Complex_logarithm#Definition_of_principal_value
+        auto imag = HMath::arccos(x.real / abs);
+        result.imag = (x.imag.isPositive() || x.imag.isZero()) ? imag : -imag;
+    }
     return result;
 }
 
