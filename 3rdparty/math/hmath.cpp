@@ -1347,10 +1347,12 @@ HNumber HMath::raise(const HNumber &n1, const HNumber &n2)
         if (abs(exp.toHNumber() - n2) >= RATIONAL_TOL ||
                 (n1.isNegative() && exp.denominator() % 2 == 0))
             return HMath::nan(OutOfDomain);
-        if (n1.isNegative() && !n2.isInteger()) {
-            temp = -temp;
-            change_sgn = true;
-        }
+//        if (n1.isNegative() && !n2.isInteger()) {
+//            temp = -temp;
+//            change_sgn = true;
+//        }
+        temp = -temp;
+        change_sgn = (exp.numerator() % 2 != 0);
     }
 
     call2Args(result.d, temp.d, n2.d, float_raise);
