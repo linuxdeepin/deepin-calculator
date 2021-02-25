@@ -193,6 +193,11 @@ bool Quantity::isInteger() const
     return (!this->hasDimension() && !this->hasUnit()) && m_numericValue.isInteger();
 }
 
+bool Quantity::isEven() const
+{
+    return this->isInteger() && (m_numericValue % CNumber(2) == 0);
+}
+
 bool Quantity::hasUnit() const
 {
     return this->m_unit != NULL;

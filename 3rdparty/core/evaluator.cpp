@@ -1908,6 +1908,15 @@ Quantity Evaluator::exec(const QVector<Opcode> &opcodes,
             }
             val1 = stack.pop();
             val2 = stack.pop();
+            //对于 A^(X/Y)类型的表达式，当X为偶数时，将A变为正数
+            if ((pc + 1) < opcodes.count() && opcodes.at(pc + 1).type == Opcode::Pow) {
+                if (val2.isEven()) {
+                    Quantity temp = stack.pop();
+                    temp *= temp.isNegative() ? -1 : 1;
+                    stack.push(temp);
+                }
+            }
+
             val2 = checkOperatorResult(val2 / val1);
             stack.push(val2);
             break;
