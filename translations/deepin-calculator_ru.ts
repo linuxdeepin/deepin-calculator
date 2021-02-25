@@ -5,7 +5,7 @@
         <location filename="src/widgets/expressionbar.cpp" line="786"/>
         <location filename="src/widgets/expressionbar.cpp" line="1392"/>
         <source>Expression error</source>
-        <translation>Ошибка Выражения</translation>
+        <translation>Ошибка выражения</translation>
     </message>
 </context>
 <context>
@@ -14,7 +14,7 @@
         <location filename="src/tablet/widgets/expressionbartab.cpp" line="788"/>
         <location filename="src/tablet/widgets/expressionbartab.cpp" line="1394"/>
         <source>Expression error</source>
-        <translation>Ошибка Выражения</translation>
+        <translation>Ошибка выражения</translation>
     </message>
 </context>
 <context>
@@ -252,7 +252,7 @@
         <location filename="src/widgets/sciexpressionbar.cpp" line="494"/>
         <location filename="src/widgets/sciexpressionbar.cpp" line="540"/>
         <source>Expression error</source>
-        <translation>Ошибка Выражения</translation>
+        <translation>Ошибка выражения</translation>
     </message>
 </context>
 <context>
@@ -261,7 +261,7 @@
         <location filename="src/tablet/widgets/sciexpressionbartab.cpp" line="495"/>
         <location filename="src/tablet/widgets/sciexpressionbartab.cpp" line="541"/>
         <source>Expression error</source>
-        <translation>Ошибка Выражения</translation>
+        <translation>Ошибка выражения</translation>
     </message>
 </context>
 <context>
@@ -283,7 +283,7 @@
         <location filename="src/views/simplelistdelegate.cpp" line="194"/>
         <location filename="src/views/simplelistdelegate.cpp" line="338"/>
         <source>Expression error</source>
-        <translation>Ошибка Выражения</translation>
+        <translation>Ошибка выражения</translation>
     </message>
 </context>
 <context>
@@ -292,7 +292,7 @@
         <location filename="src/tablet/views/simplelistdelegatetab.cpp" line="194"/>
         <location filename="src/tablet/views/simplelistdelegatetab.cpp" line="338"/>
         <source>Expression error</source>
-        <translation>Ошибка Выражения</translation>
+        <translation>Ошибка выражения</translation>
     </message>
 </context>
 <context>
@@ -300,7 +300,7 @@
     <message>
         <location filename="src/views/simplelistmodel.cpp" line="108"/>
         <source>No history</source>
-        <translation>История не сохранилась</translation>
+        <translation>Нет истории</translation>
     </message>
 </context>
 <context>

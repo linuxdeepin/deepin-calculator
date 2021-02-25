@@ -174,7 +174,7 @@
         <location filename="src/views/memoryitemwidget.cpp" line="148"/>
         <location filename="src/views/memoryitemwidget.cpp" line="240"/>
         <source>Copy</source>
-        <translation>कॉपी करें</translation>
+        <translation>कॉपी</translation>
     </message>
     <message>
         <location filename="src/views/memoryitemwidget.cpp" line="149"/>
@@ -309,7 +309,7 @@
         <location filename="src/views/simplelistview.cpp" line="71"/>
         <location filename="src/views/simplelistview.cpp" line="99"/>
         <source>Copy</source>
-        <translation>कॉपी करें</translation>
+        <translation>कॉपी</translation>
     </message>
     <message>
         <location filename="src/views/simplelistview.cpp" line="72"/>
