@@ -169,8 +169,8 @@ void IconButtonTab::mouseReleaseEvent(QMouseEvent *e)
     if (this->rect().contains(e->pos())) {
         m_isacting = true;
         m_isHover = true;
-        if (this->objectName() == "clearbtn")
-            PerformanceMonitor::startOperate();
+//        if (this->objectName() == "clearbtn")
+//            PerformanceMonitor::startOperate();
     } else
         m_isacting = false;
 

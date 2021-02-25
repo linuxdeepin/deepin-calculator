@@ -89,7 +89,7 @@ MainWindowTab::MainWindowTab(QWidget *parent)
 
 MainWindowTab::~MainWindowTab()
 {
-    PerformanceMonitor::closeAPPFinish();
+//    PerformanceMonitor::closeAPPFinish();
 }
 
 void MainWindowTab::initTheme()
@@ -232,7 +232,7 @@ void MainWindowTab::resizeEvent(QResizeEvent *event)
 
 void MainWindowTab::closeEvent(QCloseEvent *event)
 {
-    PerformanceMonitor::closeAppStart();
+//    PerformanceMonitor::closeAppStart();
     DMainWindow::closeEvent(event);
 }
 

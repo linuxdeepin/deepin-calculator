@@ -879,23 +879,23 @@ void scientificModuleTab::handleKeypadButtonPress(int key)
     }
     m_scikeypadwidget->bracketsNum(0, QString::number(left)); //写入左右括号不匹配数
     m_scikeypadwidget->bracketsNum(1, QString::number(right));
-    switch (presskind) {
-    case 0:
+//    switch (presskind) {
+//    case 0:
 //        PerformanceMonitor::finishOperate("数字键盘点击");
-        break;
-    case 1:
-        PerformanceMonitor::finishOperate("运算");
-        break;
-    case 2:
+//        break;
+//    case 1:
+//        PerformanceMonitor::finishOperate("运算");
+//        break;
+//    case 2:
 //        PerformanceMonitor::finishOperate("内存操作");
-        break;
-    case 3:
+//        break;
+//    case 3:
 //        PerformanceMonitor::finishOperate("内存清空");
-        break;
-    default:
+//        break;
+//    default:
 //        PerformanceMonitor::finishOperate("数字键盘点击");
-        break;
-    }
+//        break;
+//    }
 }
 
 void scientificModuleTab::handleKeypadButtonPressByspace(int key)

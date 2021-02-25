@@ -91,7 +91,7 @@ DGuiApplicationHelper::ColorType getThemeTypeSetting()
 
 int main(int argc, char *argv[])
 {
-    PerformanceMonitor::initializeAppStart();
+//    PerformanceMonitor::initializeAppStart();
     // DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
@@ -172,6 +172,6 @@ int main(int argc, char *argv[])
     dbus.registerObject("/com/deepin/calculator", &windowtab, QDBusConnection::ExportScriptableSlots);
     windowtab.show();
 
-    PerformanceMonitor::initializAppFinish();
+//    PerformanceMonitor::initializAppFinish();
     return app->exec();
 }
