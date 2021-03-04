@@ -133,14 +133,7 @@ void SimpleListModel::updataList(const QString &text, const int index, bool sci)
     QString exp = text;
     exp = exp.replace('+', QString::fromUtf8("＋"))
           .replace('-', QString::fromUtf8("－"))
-          .replace('*', QString::fromUtf8("×"))
-//          .replace('/', QString::fromUtf8("÷"))
-          //.replace('x', QString::fromUtf8("×"))
-          .replace('X', QString::fromUtf8("×"));
-    if (exp.indexOf("x") != -1) {
-        if (exp.at(exp.indexOf("x") - 1) != "E")
-            exp = exp.replace('x', QString::fromUtf8("×"));
-    }
+          .replace('*', QString::fromUtf8("×"));
 
     if (index == -1) {
         appendText(exp, sci); //科学模式上方历史记录区
@@ -171,14 +164,7 @@ void SimpleListModel::updataList(Quantity ans, const QString &text, const int in
     QString exp = text;
     exp = exp.replace('+', QString::fromUtf8("＋"))
           .replace('-', QString::fromUtf8("－"))
-          .replace('*', QString::fromUtf8("×"))
-//          .replace('/', QString::fromUtf8("÷"))
-          //.replace('x', QString::fromUtf8("×"))
-          .replace('X', QString::fromUtf8("×"));
-    if (exp.indexOf("x") != -1) {
-        if (exp.at(exp.indexOf("x") - 1) != "E")
-            exp = exp.replace('x', QString::fromUtf8("×"));
-    }
+          .replace('*', QString::fromUtf8("×"));
     beginInsertRows(QModelIndex(), index, index);
     m_expressionList.insert(index, exp);
     endInsertRows();
