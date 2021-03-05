@@ -1,4 +1,4 @@
-# 計算器|../common/deepin_calculator_96.svg|
+# 計算器|deepin-calculator|
 
 ## 概述
 
