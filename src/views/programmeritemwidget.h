@@ -53,6 +53,7 @@ public:
 public slots:
     void themetypechanged(int type);
     void setFocus();
+    void resetWidth(const int width); // 重设宽度，用于字体改变的时候
 
 private:
     void drawMark(QPainter *painter) const;

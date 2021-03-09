@@ -366,3 +366,11 @@ void ProgrammerItemWidget::setFocus()
     m_isfocus = true;
     update();
 }
+
+void ProgrammerItemWidget::resetWidth(const int width)
+{
+    m_width = width;
+    setFixedSize(QSize(width, 34));
+    m_label->setFixedWidth(width - 80);
+    update();
+}

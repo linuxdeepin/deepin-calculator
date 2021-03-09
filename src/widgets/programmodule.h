@@ -84,6 +84,7 @@ private:
     void handleEditKeyPress(QKeyEvent *);
     void setwidgetAttribute(bool b);
     void handleClearStateChanged(bool isAllClear);
+    void resetArrowWidth();
 
 private:
     ProExpressionBar *m_proExpressionBar;

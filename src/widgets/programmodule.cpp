@@ -236,6 +236,7 @@ void ProgramModule::handleKeypadButtonPress(int key)
         break;
     case ProCheckBtnKeypad::Key_Option:
         static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setBtnPressing(true);
+        resetArrowWidth();
         m_shiftArrowRectangle->setHidden(false);
         setwidgetAttribute(true);
         m_shiftArrowRectangle->setFocus(Qt::MouseFocusReason);
@@ -457,6 +458,7 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
         break;
     case ProCheckBtnKeypad::Key_Option:
         static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setBtnPressing(true);
+        resetArrowWidth();
         m_shiftArrowRectangle->setHidden(false);
         setwidgetAttribute(true);
         m_shiftArrowRectangle->setFocus(Qt::TabFocusReason);
@@ -1386,4 +1388,24 @@ void ProgramModule::handleClearStateChanged(bool isAllClear)
     } else {
         btn->setText("C");
     }
+}
+
+/**
+ * 重设rectangle的宽度，用于字体发生变化的时候
+ */
+void ProgramModule::resetArrowWidth()
+{
+    QFont font;
+    font.setPixelSize(14);
+    font.setWeight(2);
+    QFontMetrics fm(font);
+    int width = fm.boundingRect(tr("Rotate through carry circular shift")).width();
+    int itemwidth = width > 170 ? (width + 80) : 250;
+    for (int i = 0; i < 4; i++) {
+        m_shiftArrowListWidget->item(i)->setSizeHint(QSize(itemwidth, 34));
+        static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->item(i)))->resetWidth(itemwidth);
+    }
+
+    m_shiftArrowListWidget->setFixedSize(QSize(itemwidth, 136));
+    m_shiftArrowRectangle->setFixedWidth(itemwidth + 30);
 }
