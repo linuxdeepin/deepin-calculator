@@ -786,6 +786,8 @@ void ProExpressionBar::enterLeftBracketsEvent()
 {
     if (!judgeinput())
         return;
+    if (m_inputEdit->text().count("(") >= 100)
+        return;
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -812,6 +814,8 @@ void ProExpressionBar::enterLeftBracketsEvent()
 void ProExpressionBar::enterRightBracketsEvent()
 {
     if (!judgeinput())
+        return;
+    if (m_inputEdit->text().count(")") >= 100)
         return;
     m_isResult = false;
     replaceSelection(m_inputEdit->text());

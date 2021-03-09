@@ -747,6 +747,10 @@ void SciExpressionBar::enterBracketEvent(const int &type)
 {
     if (!judgeinput())
         return;
+    if (m_inputEdit->text().count("(") >= 100 && type == 1)
+        return;
+    if (m_inputEdit->text().count(")") >= 100 && type == 2)
+        return;
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
