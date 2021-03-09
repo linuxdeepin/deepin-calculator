@@ -42,6 +42,7 @@ MemoryListWidget::MemoryListWidget(QWidget *parent, bool isarrowlist)
 //    pal.setColor(DPalette::Light, QColor(248, 248, 248));
 //    this->setPalette(pal);
     setFocusPolicy(Qt::NoFocus); //防止内存无内容时被focus
+    setVerticalScrollMode(ScrollPerPixel); //鼠标滚轮滚动一次一个像素
     m_isarrowlist = isarrowlist;
     if (isarrowlist) {
         setMouseTracking(true);
@@ -148,7 +149,7 @@ void MemoryListWidget::focusOutEvent(QFocusEvent *event)
 
 bool MemoryListWidget::eventFilter(QObject *obj, QEvent *event)
 {
-    if (event->type() == QEvent::MouseMove) {
+    if (event->type() == QEvent::MouseMove && m_isarrowlist) {
         if (this->hasFocus()) {
             static_cast<ProgrammerItemWidget *>(itemWidget(currentItem()))->cleanFocusState();
             emit mousemoving();
