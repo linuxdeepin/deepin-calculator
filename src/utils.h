@@ -41,6 +41,9 @@ public:
     static bool stringIsDigitPro(const QString &str, const int Base);
     static QString reformatSeparatorsPro(const QString &exp, const int Base);
 
+    //全角转半角符号
+    static QString toHalfWidth(const QString &str);
+
 private:
     static bool isAtoE(const QChar &num);
 };

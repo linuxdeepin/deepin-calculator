@@ -843,7 +843,7 @@ void SciExpressionBar::copyClipboard2Result()
     int curpos = m_inputEdit->cursorPosition(); //未粘贴操作的光标位
     replaceSelection(oldText);
     QString exp = m_inputEdit->text();
-    QString text = QApplication::clipboard()->text();
+    QString text = Utils::toHalfWidth(QApplication::clipboard()->text());
     text = text.replace('+', QString::fromUtf8("＋"))
            .replace('-', QString::fromUtf8("－"))
            .replace("_", QString::fromUtf8("－"))

@@ -287,6 +287,22 @@ QString Utils::reformatSeparatorsPro(const QString &exp, const int Base)
     return formatStr;
 }
 
+QString Utils::toHalfWidth(const QString &str)
+{
+    QString result = str;
+    if (str.length() <= 0)
+        return QString();
+    for (int i = 0; i < result.length(); i++) {
+        int charIntValue = result.at(i).unicode();
+        if (charIntValue >= 65281 && charIntValue <= 65374) {
+            result.replace(i, 1, QChar(charIntValue - 65248));
+        } else if (charIntValue == 12288) {
+            result.replace(i, 1, QChar(32));
+        }
+    }
+    return result;
+}
+
 bool Utils::isAtoE(const QChar &num)
 {
     return ATOE.contains(num);
