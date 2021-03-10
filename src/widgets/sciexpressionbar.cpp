@@ -872,10 +872,19 @@ void SciExpressionBar::copyClipboard2Result()
         }
         text.replace(list[i], item);
     }
+
+    while (exp.count("(") + text.count("(") > 100) {
+        text.remove(text.lastIndexOf("("), 1);
+    }
+    while (exp.count(")") + text.count(")") > 100) {
+        text.remove(text.lastIndexOf(")"), 1);
+    }
+
     m_inputEdit->insert(text);
 
     QString faulttolerance = pointFaultTolerance(m_inputEdit->text());
     faulttolerance = m_inputEdit->symbolFaultTolerance(faulttolerance);
+
     if (faulttolerance != m_inputEdit->text())
         m_inputEdit->setText(faulttolerance); //如果经过容错处理的表达式有改变，重新设置表达式，不设置光标
     if (m_inputEdit->text() == exp) {
@@ -883,6 +892,7 @@ void SciExpressionBar::copyClipboard2Result()
         m_inputEdit->setCursorPosition(curpos);
         qDebug() << "Invalid content"; //提示是否复制了无效内容,复制的内容全是字母等
     }
+
     if (!m_inputEdit->text().isEmpty())
         emit clearStateChanged(false);
     m_isResult = false;

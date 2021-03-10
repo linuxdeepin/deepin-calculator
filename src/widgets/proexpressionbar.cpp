@@ -990,6 +990,13 @@ void ProExpressionBar::copyClipboard2Result()
         return;
     replaceSelection(oldText);
     QString exp = m_inputEdit->text();
+
+    while (exp.count("(") + text.count("(") > 100) {
+        text.remove(text.lastIndexOf("("), 1);
+    }
+    while (exp.count(")") + text.count(")") > 100) {
+        text.remove(text.lastIndexOf(")"), 1);
+    }
     m_inputEdit->insert(text);
 
     QString faulttolerance = symbolFaultTolerance(m_inputEdit->text());
