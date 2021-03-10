@@ -934,18 +934,18 @@ void ProgramModule::initArrowRectangle()
     static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->currentItem()))
     ->isMarkHide(false);
 
-    m_shiftArrowListWidget->setFixedSize(QSize(itemwidth, 136));
+//    m_shiftArrowListWidget->setFixedSize(QSize(itemwidth, 136));
 //    m_shiftArrowRectangle->setWindowFlag(Qt::Popup);
     m_shiftArrowRectangle->setRadius(15);
     m_shiftArrowRectangle->setArrowWidth(48);
     m_shiftArrowRectangle->setArrowHeight(21);
     m_shiftArrowRectangle->setContent(m_shiftArrowListWidget);
     m_shiftArrowListWidget->installEventFilter(m_shiftArrowRectangle);
-    m_shiftArrowRectangle->move(this->rect().x() + 273, this->rect().y() + 238);//在module的138，238位置，x多出150原因未找出
-    m_shiftArrowListWidget->move(m_shiftArrowRectangle->rect().x() + 15,
-                                 m_shiftArrowRectangle->rect().y() + m_shiftArrowRectangle->arrowHeight() + 11);
+//    m_shiftArrowRectangle->move(this->rect().x() + 273, this->rect().y() + 238);//在module的138，238位置，x多出150原因未找出
+//    m_shiftArrowListWidget->move(m_shiftArrowRectangle->rect().x() + 15,
+//                                 m_shiftArrowRectangle->rect().y() + m_shiftArrowRectangle->arrowHeight() + 11);
 
-    m_shiftArrowRectangle->setFixedWidth(itemwidth + 30);
+//    m_shiftArrowRectangle->setFixedWidth(itemwidth + 30);
     m_shiftArrowRectangle->setShadowXOffset(0);
     m_shiftArrowRectangle->setShadowYOffset(0);
     m_shiftArrowRectangle->setShadowBlurRadius(15);
@@ -1400,12 +1400,16 @@ void ProgramModule::resetArrowWidth()
     font.setWeight(2);
     QFontMetrics fm(font);
     int width = fm.boundingRect(tr("Rotate through carry circular shift")).width();
-    int itemwidth = width > 170 ? (width + 80) : 250;
+    int itemwidth = width > 170 ? (width + 90) : 250;
     for (int i = 0; i < 4; i++) {
         m_shiftArrowListWidget->item(i)->setSizeHint(QSize(itemwidth, 34));
         static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->item(i)))->resetWidth(itemwidth);
     }
 
+    qInfo() << itemwidth;
     m_shiftArrowListWidget->setFixedSize(QSize(itemwidth, 136));
     m_shiftArrowRectangle->setFixedWidth(itemwidth + 30);
+    m_shiftArrowRectangle->move(this->rect().x() + 263, this->rect().y() + 238); //在module的138，238位置，x多出150原因未找出
+    m_shiftArrowListWidget->move(m_shiftArrowRectangle->rect().x() + 15,
+                                 m_shiftArrowRectangle->rect().y() + m_shiftArrowRectangle->arrowHeight() + 11);
 }

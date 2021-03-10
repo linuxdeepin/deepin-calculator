@@ -45,7 +45,7 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, const int width, const
     hlayout->addWidget(markWidget);
     hlayout->addSpacing(2);
     hlayout->addWidget(m_label);
-    m_label->setFixedWidth(width - 80);
+    m_label->setFixedWidth(width - 70);
     QFont font;
     font.setWeight(2);
     font.setPixelSize(14);
