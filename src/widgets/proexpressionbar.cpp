@@ -1126,9 +1126,9 @@ void ProExpressionBar::setResultFalse()
 
 void ProExpressionBar::initConnect()
 {
-    connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this,
+    connect(m_listView, &SimpleListView::obtainingHistoricalSimple, this,
             &ProExpressionBar::revisionResults);
-    connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, m_inputEdit,
+    connect(m_listView, &SimpleListView::obtainingHistoricalSimple, m_inputEdit,
             &InputEdit::hisexpression);
     connect(m_inputEdit, &InputEdit::textChanged, this, &ProExpressionBar::handleTextChanged);
     connect(m_inputEdit, &InputEdit::keyPress, this, &ProExpressionBar::keyPress);

@@ -1240,9 +1240,9 @@ bool SciExpressionBar::judgeinput()
 
 void SciExpressionBar::initConnect()
 {
-    connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, this,
+    connect(m_listView, &SimpleListView::obtainingHistoricalSimple, this,
             &SciExpressionBar::revisionResults);
-    connect(m_listDelegate, &SimpleListDelegate::obtainingHistorical, m_inputEdit,
+    connect(m_listView, &SimpleListView::obtainingHistoricalSimple, m_inputEdit,
             &InputEdit::hisexpression);
     connect(m_inputEdit, &InputEdit::textChanged, this, &SciExpressionBar::handleTextChanged);
     connect(m_inputEdit, &InputEdit::keyPress, this, &SciExpressionBar::keyPress);

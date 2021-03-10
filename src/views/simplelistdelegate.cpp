@@ -206,7 +206,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                              splitList.first(), Qt::ElideLeft, rect.width() - resultWidth - PADDING * 2 - equalStrWidth);
         // QString expStr = splitList.first();
 
-        if (m_selected) {
+        if (m_state == 2 && m_row == index.row()) {
             //edit for bug--21508
             QRectF resultRect(rect.topRight().x() - resultWidth - PADDING - 2, rect.y() + 4.8, resultWidth + 7,
                               rect.height() - 9.6);
@@ -230,7 +230,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
             }
 
             painter->setPen(QPen(QColor(Qt::white)));
-            m_simpleListDelegate->setSelect(false);
+//            m_simpleListDelegate->setSelect(false);
         }
 
         if (splitList.size() == 1) {
@@ -416,17 +416,17 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
         return QSize(-1, 33);
 }
 
-bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
-                                     const QStyleOptionViewItem &option, const QModelIndex &index)
-{
-    Q_UNUSED(event);
-    Q_UNUSED(model);
-    Q_UNUSED(option);
-    m_selected = true;
-    if (m_mode == 0)
-        emit obtainingHistorical(index);
-    return true;
-}
+//bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
+//                                     const QStyleOptionViewItem &option, const QModelIndex &index)
+//{
+//    Q_UNUSED(event);
+//    Q_UNUSED(model);
+//    Q_UNUSED(option);
+//    m_selected = true;
+//    if (m_mode == 0)
+//        emit obtainingHistorical(index);
+//    return true;
+//}
 
 /**
  * @brief 将等于号左侧表达式中被联动项与剩余部分分开

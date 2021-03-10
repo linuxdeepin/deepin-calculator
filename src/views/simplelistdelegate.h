@@ -40,6 +40,8 @@ public:
     void removeHisLink();
     void removeAllLink();
     void removeHisLinked();  // add 20200318 for fix cleanlinkcache
+    bool isSelected() const {return m_selected;}
+    void setSelect(bool isSelect) { m_selected = isSelect; }
 
 public slots:
     void setThemeType(int type);
@@ -51,16 +53,14 @@ protected:
                const QModelIndex &index) const;
     void drawFocusStatus(QPainter *painter, const QStyleOptionViewItem &option) const;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option,
-                     const QModelIndex &index);
+//    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option,
+//                     const QModelIndex &index);
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 signals:
     void obtainingHistorical(const QModelIndex &index);
     void historicalLinkage(const QModelIndex &index);
 
 private:
-    bool isSelected() const {return m_selected;}
-    void setSelect(bool isSelect) { m_selected = isSelect; }
     void cutApart(const QString text, QString &linkNum, QString &expStr);
 
     SimpleListDelegate *m_simpleListDelegate;

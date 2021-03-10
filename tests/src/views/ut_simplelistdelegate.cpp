@@ -99,14 +99,14 @@ TEST_F(Ut_SimpleListDelegate, sizeHint)
     ASSERT_EQ(m_simpleListDelegate->sizeHint(QStyleOptionViewItem(), model->index(0, 0)).width(), 451);
 }
 
-TEST_F(Ut_SimpleListDelegate, editorEvent)
-{
-    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
-    m_simpleListDelegate->m_mode = 0;
-    SimpleListModel *model = new SimpleListModel();
-    QStyleOptionViewItem item;
-    ASSERT_TRUE(m_simpleListDelegate->editorEvent(new QEvent(QEvent::Type::None), model, item, model->index(0, 0)));
-}
+//TEST_F(Ut_SimpleListDelegate, editorEvent)
+//{
+//    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
+//    m_simpleListDelegate->m_mode = 0;
+//    SimpleListModel *model = new SimpleListModel();
+//    QStyleOptionViewItem item;
+//    ASSERT_TRUE(m_simpleListDelegate->editorEvent(new QEvent(QEvent::Type::None), model, item, model->index(0, 0)));
+//}
 
 TEST_F(Ut_SimpleListDelegate, cutApart)
 {

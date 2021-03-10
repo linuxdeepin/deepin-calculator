@@ -73,6 +73,9 @@ TEST_F(Ut_SimpleListView, mouseMoveEvent)
     m_simpleListView->m_ispressed = false;
     m_simpleListView->mouseMoveEvent(new QMouseEvent(QMouseEvent::Type::MouseMove, m_simpleListView->pos(), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
     m_simpleListView->m_mode = 0;
+    SimpleListModel *m_model = new SimpleListModel;
+    m_simpleListView->setModel(m_model);
+    m_model->appendText("1", true);
     m_simpleListView->mouseMoveEvent(new QMouseEvent(QMouseEvent::Type::MouseMove, m_simpleListView->pos(), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
     m_simpleListView->mouseMoveEvent(new QMouseEvent(QMouseEvent::Type::MouseMove, QPoint(m_simpleListView->pos().x() + 640, m_simpleListView->pos().y()), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
     //无ASSERT
