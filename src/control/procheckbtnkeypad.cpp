@@ -141,7 +141,13 @@ void ProCheckBtnKeypad::buttonThemeChanged(int type)
     btn = static_cast<IconButton *>(button(Key_BinaryKeypad));
     btn->setIconUrl(path + "icon_binarysystem_normal.svg", path + "icon_binarysystem_hover.svg", path + "icon_binarysystem_press.svg", 3);
     btn = static_cast<IconButton *>(button(Key_Option));
-    btn->setIconUrl(path + "icon_as_iconnormal.svg", path + "icon_as_iconhover.svg", path + "icon_as_iconhover.svg", 5);
+    if (btn->getIconUrl().at(0) != "icon_as_iconnormal.svg" && btn->getIconUrl().at(0) != QString()) {
+        btn->setIconUrl(path + btn->getIconUrl().at(0),
+                        path + btn->getIconUrl().at(1),
+                        path + btn->getIconUrl().at(2), 5);
+    } else {
+        btn->setIconUrl(path + "icon_as_iconnormal.svg", path + "icon_as_iconhover.svg", path + "icon_as_iconhover.svg", 5);
+    }
 }
 
 /**

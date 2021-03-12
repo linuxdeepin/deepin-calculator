@@ -1405,8 +1405,6 @@ void ProgramModule::resetArrowWidth()
         m_shiftArrowListWidget->item(i)->setSizeHint(QSize(itemwidth, 34));
         static_cast<ProgrammerItemWidget *>(m_shiftArrowListWidget->itemWidget(m_shiftArrowListWidget->item(i)))->resetWidth(itemwidth);
     }
-
-    qInfo() << itemwidth;
     m_shiftArrowListWidget->setFixedSize(QSize(itemwidth, 136));
     m_shiftArrowRectangle->setFixedWidth(itemwidth + 30);
     m_shiftArrowRectangle->move(this->rect().x() + 263, this->rect().y() + 238); //在module的138，238位置，x多出150原因未找出

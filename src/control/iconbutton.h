@@ -47,6 +47,7 @@ public:
     ~IconButton();
 
     void setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode = 0);
+    QStringList getIconUrl() const;
     void animate(bool isspace = false, int msec = 100);
     void showtooltip(bool ismemory); //ismemory-true-内存区垃圾桶 false-历史区垃圾桶
     void updateWhenBtnDisable();
@@ -73,7 +74,7 @@ private:
     bool m_isHover;
     bool m_isPress;
     QPixmap m_pixmap;
-    QString m_normalUrl;
+    QString m_normalUrl = QString();
     QString m_hoverUrl;
     QString m_pressUrl;
     int m_mode = 0; //0-四则运算符 1-退格符 2-退格符press 3-根号 4-根号press 5-deg 6-degpress

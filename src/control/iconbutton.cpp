@@ -68,6 +68,15 @@ void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverF
     m_mode = mode;
 }
 
+QStringList IconButton::getIconUrl() const
+{
+    QStringList list;
+    list << m_normalUrl.right(m_normalUrl.length() - m_normalUrl.indexOf("icon"))
+         << m_hoverUrl.right(m_hoverUrl.length() - m_hoverUrl.indexOf("icon"))
+         << m_pressUrl.right(m_pressUrl.length() - m_pressUrl.indexOf("icon"));
+    return list;
+}
+
 /**
  * @brief iconbutton物理键盘点击动画效果
  * @param msec 100ms
