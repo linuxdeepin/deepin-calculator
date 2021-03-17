@@ -1436,6 +1436,14 @@ bool SciExpressionBar::expressionInFunc(QString &text)
             operatorpos =
                 newtext.mid(0, operatorpos - 1)
                 .lastIndexOf(QRegularExpression(QStringLiteral("[^0-9,.eπE]")), percentpos - 1);
+        /*出现以下情况：
+         * 1. 负号在表达式的开头，如-1,-120等，视为一个整体的负数
+         * 2. 负号在左括号的后一位，如(-1, (-121等，也视为一个整体的负数
+         * 其中，当出现(-12)时，光标在右括号右侧时则会优先取到 ")",只有在右括号左侧才满足条件2*/
+        if ((operatorpos == 0 && newtext.at(0) == "－")
+                || (operatorpos > 0 && newtext.at(operatorpos) == "－" && newtext.at(operatorpos - 1) == "("))
+            operatorpos--;
+
         if (operatorpos < 0) {
             operatorpos++;
             nooperator = true;
