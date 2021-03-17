@@ -79,6 +79,8 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     m_clearButton->showtooltip(true); //设置内存垃圾桶tooltip
     if (m_memoryWidget->isWidgetEmpty())  //防止在其他模式下初始化有内存切换至科学模式清除按钮隐藏
         m_clearButton->setHidden(true);
+    else
+        m_isshowM = true;
     m_Hlayout->addWidget(clearwidget);
     m_Hlayout->addSpacing(10);
     m_Hlayout->setMargin(0);
@@ -111,8 +113,6 @@ MemHisWidget::MemHisWidget(QWidget *parent)
         m_stackWidget->setCurrentWidget(m_memoryWidget);
         m_clearButton->setHidden(!m_isshowM);
 
-//        m_memoryBtn->setIcon(QIcon(":/assets/images/icon_memory_checked.svg"));
-//        m_historyBtn->setIcon(QIcon(":/assets/images/icon_history_normal.svg"));
         iconChanged(m_themeType, 0);
 
     });
@@ -123,8 +123,6 @@ MemHisWidget::MemHisWidget(QWidget *parent)
         m_stackWidget->setCurrentWidget(m_listView);
         m_clearButton->setHidden(!m_isshowH);
 
-//        m_memoryBtn->setIcon(QIcon(":/assets/images/icon_memory_normal.svg"));
-//        m_historyBtn->setIcon(QIcon(":/assets/images/icon_history_checked.svg"));
         iconChanged(m_themeType, 1);
     });
     connect(m_clearButton, &IconButton::clicked, this, [ = ]() {
