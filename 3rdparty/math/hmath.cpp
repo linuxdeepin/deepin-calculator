@@ -965,12 +965,20 @@ QString HMath::format(const HNumber &hn, HNumber::Format format)
     case HNumber::Format::Mode::Complement:
         if (base == 8 || base == 16) {
             rs = formatComplement(&hn.d->fnum, format.precision, 2, isautocut);
-            HNumber x(rs, true);
-            rs = formatFixed(&x.d->fnum, format.precision, base);
+            const HNumber x(rs, true);
+            free(rs);
+            char *fixh = formatFixed(&x.d->fnum, format.precision, base);
+            QString result(fixh);
+            free(fixh);
+            return result;
         } else if (base == 10) {
             rs = formatComplement(&hn.d->fnum, format.precision, 2, isautocut);
-            HNumber x(rs);
-            rs = formatFixed(&x.d->fnum, format.precision, base);
+            const HNumber x(rs);
+            free(rs);
+            char *fixd = formatFixed(&x.d->fnum, format.precision, base);
+            QString result(fixd);
+            free(fixd);
+            return result;
         } else {
             rs = formatComplement(&hn.d->fnum, format.precision, base, isautocut);
         }
