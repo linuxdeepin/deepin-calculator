@@ -130,12 +130,22 @@ void SimpleListViewTab::mouseMoveEvent(QMouseEvent *e)
             static_cast<SimpleListDelegateTab *>(itemDelegate(indexAt(e->pos())))->paintback(indexAt(e->pos()), 0);
             QWidget::mouseMoveEvent(e);
         }
-    } else {
-        if (e->x() < width() - 12) {
-            QWidget::mouseMoveEvent(e);
-        } else {
+    } else if (m_mode == 0 && this->count() > 0) {
+        if (m_ispressed == true) {
+            if (indexAt(m_presspoint) != indexAt(e->pos()))
+                m_presschanged = true;
+            else
+                m_presschanged = false;
             QListView::mouseMoveEvent(e);
+        } else {
+            static_cast<SimpleListDelegateTab *>(itemDelegate(indexAt(e->pos())))->paintback(indexAt(e->pos()), 0);
+            QWidget::mouseMoveEvent(e);
         }
+        //        if (e->x() < width() - 12) {
+        //            QWidget::mouseMoveEvent(e);
+        //        } else {
+        //            DListView::mouseMoveEvent(e);
+        //        }
     }
 }
 
@@ -162,8 +172,9 @@ void SimpleListViewTab::adjustScrollbarMargins()
  */
 void SimpleListViewTab::mousePressEvent(QMouseEvent *event)
 {
+    DListView::mousePressEvent(event);
     static_cast<SimpleListModel *>(model())->refrushModel();
-    if (m_mode == 1 && event->buttons() & Qt::LeftButton) {
+    if (event->buttons() & Qt::LeftButton) {
         if (indexAt(event->pos()).row() > -1) {
             m_presspoint = event->pos();
             static_cast<SimpleListDelegateTab *>(itemDelegate(indexAt(m_presspoint)))->paintback(indexAt(m_presspoint), 2);
@@ -171,7 +182,6 @@ void SimpleListViewTab::mousePressEvent(QMouseEvent *event)
             m_ispressed = true;
         }
     }
-//    DListView::mousePressEvent(event);
 }
 
 /**
@@ -179,20 +189,22 @@ void SimpleListViewTab::mousePressEvent(QMouseEvent *event)
  */
 void SimpleListViewTab::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (m_mode == 1) {
-        static_cast<SimpleListModel *>(model())->refrushModel();
-        if (m_currentrow == indexAt(event->pos()).row() && m_currentrow >= 0) {
+    static_cast<SimpleListModel *>(model())->refrushModel();
+    if (m_currentrow == indexAt(event->pos()).row() && m_currentrow >= 0) {
+        if (m_mode == 1)
             emit obtainingHistorical(indexAt(event->pos()));
-            static_cast<SimpleListDelegateTab *>(itemDelegate(indexAt(m_presspoint)))->paintback(indexAt(m_presspoint), 1);
-        } else {
-            if (m_presschanged == true) {
-                static_cast<SimpleListDelegateTab *>(itemDelegate(indexAt(event->pos())))->paintback(indexAt(event->pos()), 1);
-            } else
-                static_cast<SimpleListDelegateTab *>(itemDelegate(indexAt(m_presspoint)))->paintback(indexAt(m_presspoint), 0);
-        }
-        m_ispressed = false;
-        m_presspoint = QPoint();
+        else
+            emit obtainingHistoricalSimple(indexAt(event->pos()));
+        static_cast<SimpleListDelegateTab *>(itemDelegate(indexAt(m_presspoint)))->paintback(indexAt(m_presspoint), 1);
+    } else {
+        if (m_presschanged == true) {
+            static_cast<SimpleListDelegateTab *>(itemDelegate(indexAt(event->pos())))->paintback(indexAt(event->pos()), 1);
+        } else
+            static_cast<SimpleListDelegateTab *>(itemDelegate(indexAt(m_presspoint)))->paintback(indexAt(m_presspoint), 0);
     }
+    m_ispressed = false;
+    m_presspoint = QPoint();
+
     DListView::mouseReleaseEvent(event);
 }
 

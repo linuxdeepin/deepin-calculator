@@ -49,6 +49,7 @@ protected:
 Q_SIGNALS:
     void clickrow(QString str);
     void obtainingHistorical(const QModelIndex &index);
+    void obtainingHistoricalSimple(const QModelIndex &index);
 
 private:
     int m_mode = 0;

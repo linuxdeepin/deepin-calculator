@@ -2417,9 +2417,9 @@ bool SciExpressionBarTab::judgeinput()
 
 void SciExpressionBarTab::initConnect()
 {
-    connect(m_listDelegate, &SimpleListDelegateTab::obtainingHistorical, this,
+    connect(m_listView, &SimpleListViewTab::obtainingHistoricalSimple, this,
             &SciExpressionBarTab::revisionResults);
-    connect(m_listDelegate, &SimpleListDelegateTab::obtainingHistorical, m_inputEdit,
+    connect(m_listView, &SimpleListViewTab::obtainingHistoricalSimple, m_inputEdit,
             &InputEdit::hisexpression);
     connect(m_inputEdit, &InputEdit::textChanged, this, &SciExpressionBarTab::handleTextChanged);
     connect(m_inputEdit, &InputEdit::keyPress, this, &SciExpressionBarTab::keyPress);
