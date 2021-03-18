@@ -70,6 +70,7 @@ private:
 
     bool m_standShow = false; //标准显示清除按钮
     bool m_sciShow = false; //科学显示清除按钮
+    QSize m_windowsize = QSize();
 };
 
 #endif

@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
         }
         windowtab.setWindowFlag(Qt::WindowMinMaxButtonsHint, false);
         windowtab.setWindowFlag(Qt::WindowCloseButtonHint, false);
-        windowtab.showMaximized();
+//        windowtab.show();
     } else {
         MainWindow window;
         DSettingsAlt *m_dsettings = DSettingsAlt::instance(&window);
@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
     }
     // Register debus service.
     dbus.registerObject("/com/deepin/calculator", &windowtab, QDBusConnection::ExportScriptableSlots);
-    windowtab.show();
+    windowtab.showMaximized();
 
 //    PerformanceMonitor::initializAppFinish();
     return app->exec();

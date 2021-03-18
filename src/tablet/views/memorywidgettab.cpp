@@ -355,7 +355,7 @@ void MemoryWidgetTab::memoryclean()
     if (m_calculatormode == 0)
         m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, m_listwidget->frameRect().height())); //标准模式
     else
-        m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, NOMEMORYHEIGHT)); //科学模式
+        m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, SCIENTIFIC_MWIDGET_HEIGHT)); //科学模式
     m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
     emptymemoryfontcolor();
     m_isempty = true;
@@ -499,6 +499,20 @@ void MemoryWidgetTab::widgetcleanslot(int row, int mode, bool ismenu)
     } else {
         if (row + 1 < m_listwidget->count() && !ismenu)
             static_cast<MemoryItemWidgetTab *>(m_listwidget->itemWidget(m_listwidget->item(row + 1)))->setNextItemHover();
+    }
+}
+
+void MemoryWidgetTab::resetWidgetSize(QSize size)
+{
+    m_itemwidth = ITEM_WIDTH * size.width() / 1920;
+    m_label->setFixedSize(QSize(m_itemwidth, NOMEMORYHEIGHT));
+    if (!m_isempty) {
+        for (int i = 0; i < m_listwidget->count(); i++) {
+            m_listwidget->item(i)->setSizeHint(QSize(m_itemwidth, 70 + 60 * m_line));
+            static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->setFixedSize(QSize(m_itemwidth, 70 + 60 * m_line));
+        }
+    } else {
+        memoryclean();
     }
 }
 

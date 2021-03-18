@@ -73,6 +73,7 @@ public slots:
     void initButtons();
     void buttonThemeChanged(int type);
     void getFocus(int);
+    void resetWidgetSize(QSize size);
 signals:
     void buttonPressed(int);
     void buttonPressedbySpace(int);

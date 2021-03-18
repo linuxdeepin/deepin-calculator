@@ -103,6 +103,7 @@ public slots:
     void getdeg(int deg);
     void bracketsNum(int direction, QString num); //direction 0-左括号 1-右括号
     void getFocus(int);
+    void resetWidgetSize(QSize size);
 signals:
     void buttonPressed(int);
     void buttonPressedbySpace(int);

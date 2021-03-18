@@ -83,6 +83,7 @@ public slots:
     void historyfilled();
     void iconChanged(int type, int id);
     void cleanButtonEvent();
+    void resetWidgetSize(QSize size);
 
 private:
     QStackedWidget *m_stacklayout;

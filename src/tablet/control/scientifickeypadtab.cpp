@@ -636,3 +636,21 @@ void ScientificKeyPadTab::getFocus(int direction)
         }
     }
 }
+
+void ScientificKeyPadTab::resetWidgetSize(QSize size)
+{
+    this->setFixedHeight(KEYPADHEIGHT * size.height() / 1055);
+    QSize btnsize;
+    btnsize.setWidth(231 * size.width() / 1920);
+    btnsize.setHeight(80 * size.height() / 1055);
+    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+    while (i.hasNext()) {
+        i.next();
+        i.value().first->setFixedSize(btnsize);
+    }
+    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription1 *>> i1(m_keys1);
+    while (i1.hasNext()) {
+        i1.next();
+        i1.value().first->setFixedSize(btnsize);
+    }
+}

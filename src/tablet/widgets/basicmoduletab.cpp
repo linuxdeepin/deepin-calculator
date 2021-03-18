@@ -650,6 +650,13 @@ void BasicModuleTab::titleBarClean()
     m_expressionBar->getInputEdit()->setFocus();
 }
 
+void BasicModuleTab::resetWindowSize(QSize size)
+{
+    m_basicKeypad->resetWidgetSize(size);
+    m_memoryKeypad->resetWidgetSize(size);
+    m_scihiswidget->resetWidgetSize(size);
+}
+
 void BasicModuleTab::mouseMoveEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);

@@ -1375,6 +1375,12 @@ void scientificModuleTab::titleBarClean()
     m_sciexpressionBar->getInputEdit()->setFocus();
 }
 
+void scientificModuleTab::resetWindowSize(QSize size)
+{
+    m_scikeypadwidget->resetWidgetSize(size);
+    m_scihiswidget->resetWidgetSize(size);
+}
+
 /**
  * @brief 切到标准模式时在初始化进行判断m+,m-,ms是否可用
  */

@@ -127,3 +127,16 @@ void MemoryKeypadTab::getFocus(int direction)
         break;
     }
 }
+
+void MemoryKeypadTab::resetWidgetSize(QSize size)
+{
+    this->setFixedHeight(95 * size.height() / 1055);
+    QSize btnsize;
+    btnsize.setWidth(279 * size.width() / 1920);
+    btnsize.setHeight(87 * size.height() / 1055);
+    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+    while (i.hasNext()) {
+        i.next();
+        i.value().first->setFixedSize(btnsize);
+    }
+}

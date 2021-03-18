@@ -103,6 +103,7 @@ public slots:
     void setThemeType(int type);
     void expressionempty(bool b);
     void widgetcleanslot(int row, int mode, bool ismenu);
+    void resetWidgetSize(QSize size);
 };
 
 

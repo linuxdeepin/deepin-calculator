@@ -65,6 +65,7 @@ public slots:
     void mAvailableEvent();
     void mUnAvailableEvent();
     void titleBarClean();
+    void resetWindowSize(QSize size);
 private slots:
     void initTheme(int type);
 private:
