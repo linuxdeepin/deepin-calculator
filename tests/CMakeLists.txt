@@ -105,7 +105,7 @@ set (DC_QRC_FILES
 )
 
 set(PROJECT_NAME_TEST
-    ${PROJECT_NAME}_test)
+    ${PROJECT_NAME}-test)
 
 # 生成测试可执行程序
 add_executable(${PROJECT_NAME_TEST} ${CAL_H} ${CAL_C} ${CAL_CPP} ${CAL_3rdH} ${CAL_3rdC} ${CAL_3rdCPP} ${CAL_TEST} ${CAL_TESTH})
