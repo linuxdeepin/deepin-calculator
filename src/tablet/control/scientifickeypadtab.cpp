@@ -653,4 +653,14 @@ void ScientificKeyPadTab::resetWidgetSize(QSize size)
         i1.next();
         i1.value().first->setFixedSize(btnsize);
     }
+    m_arcsinwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+    m_arccoswidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+    m_arctanwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+    m_arccotwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+    m_sqrtwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+    m_cbrtwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+    m_yrootwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+    m_2xwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+    m_logyxwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+    m_exwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
 }

@@ -1379,6 +1379,7 @@ void scientificModuleTab::resetWindowSize(QSize size)
 {
     m_scikeypadwidget->resetWidgetSize(size);
     m_scihiswidget->resetWidgetSize(size);
+    m_sciexpressionBar->setFixedHeight(EXPRESSIONBAR_HEIGHT * size.height() / 1055);
     m_sciexpressionBar->resetWidgetSize(size);
 }
 
