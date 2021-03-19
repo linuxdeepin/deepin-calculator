@@ -68,13 +68,13 @@ SciExpressionBarTab::SciExpressionBarTab(QWidget *parent)
 //    pl.setColor(DPalette::Base, QColor(0, 0, 0, 0));
 //    this->setPalette(pl);
 
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->addSpacing(46);//平板模式上面增加一点空白
-    layout->addWidget(m_listView);
-    layout->addSpacing(10);
-    layout->addWidget(m_inputEdit);
-    layout->setMargin(0);
-    layout->setSpacing(0);
+    m_layout = new QVBoxLayout(this);
+//    m_layout->addSpacing(46);//平板模式上面增加一点空白
+    m_layout->addWidget(m_listView);
+    m_layout->addSpacing(10);
+    m_layout->addWidget(m_inputEdit);
+    m_layout->setMargin(0);
+    m_layout->setSpacing(0);
 
 //    setFixedHeight(100);
     initConnect();
@@ -2372,6 +2372,13 @@ bool SciExpressionBarTab::judgeinput()
         }
         return true;
     }
+}
+
+void SciExpressionBarTab::resetWidgetSize(QSize size)
+{
+    m_listView->setFixedHeight(LIST_HEIGHT * size.height() / 1055);
+    m_inputEdit->setMinimumHeight(INPUTEDIT_HEIGHT * size.height() / 1055);
+    m_layout->insertSpacing(0, 46 * size.height() / 1055);
 }
 
 //void SciExpressionBarTab::computationalResults(const QString &expression, QString &result)

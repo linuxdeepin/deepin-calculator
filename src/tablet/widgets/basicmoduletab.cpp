@@ -655,6 +655,7 @@ void BasicModuleTab::resetWindowSize(QSize size)
     m_basicKeypad->resetWidgetSize(size);
     m_memoryKeypad->resetWidgetSize(size);
     m_scihiswidget->resetWidgetSize(size);
+    m_expressionBar->resetWidgetSize(size);
 }
 
 void BasicModuleTab::mouseMoveEvent(QMouseEvent *event)

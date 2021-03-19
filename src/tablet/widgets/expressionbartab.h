@@ -101,6 +101,7 @@ public slots:
     void setResultFalse();
     void replaceSelection(QString text);
     InputEdit *getInputEdit();
+    void resetWidgetSize(QSize size);
 
 private slots:
     void handleTextChanged(const QString &text);
@@ -143,6 +144,7 @@ private:
     QVector<QString> m_redo;
 
     bool m_meanexp;    //是否表达式为纯数字
+    QVBoxLayout *m_layout;
 };
 
 #endif

@@ -130,6 +130,7 @@ public slots:
     void revisionResults(const QModelIndex &index);
     void hisRevisionResults(const QModelIndex &index, Quantity ans);
     bool judgeinput();
+    void resetWidgetSize(QSize size);
 
 private slots:
     void handleTextChanged(const QString &text);
@@ -170,5 +171,7 @@ private:
     QString m_expression = QString();
     QPair<bool, QString> m_pair; //getexpression()函数的返回值，first为是否是错误表达式，second为表达式
     Quantity m_listanswer = Quantity(); //历史记录对应的answer
+
+    QVBoxLayout *m_layout;
 };
 #endif // SCIEXPRESSIONBARTAB_H
