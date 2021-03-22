@@ -135,6 +135,7 @@ void MainWindowTab::initModule()
         m_basicModule = new BasicModuleTab(this);
         m_mainLayout->addWidget(m_basicModule);
         m_isStandInit = true;
+        emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
         m_basicModule->resetWindowSize(m_windowsize);
         switchToSimpleMode();
         break;
@@ -142,6 +143,7 @@ void MainWindowTab::initModule()
         m_scientificModule = new scientificModuleTab(this);
         m_mainLayout->addWidget(m_scientificModule);
         m_isSciInit = true;
+        emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
         m_scientificModule->resetWindowSize(m_windowsize);
         switchToScientificMode();
         break;
@@ -149,6 +151,7 @@ void MainWindowTab::initModule()
         m_basicModule = new BasicModuleTab(this);
         m_mainLayout->addWidget(m_basicModule);
         m_isStandInit = true;
+        emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
         m_basicModule->resetWindowSize(m_windowsize);
         switchToSimpleMode();
         break;
