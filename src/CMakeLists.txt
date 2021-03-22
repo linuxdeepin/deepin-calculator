@@ -38,15 +38,15 @@ find_package(Qt5Xml REQUIRED)
 find_package(Qt5Svg REQUIRED)
 find_package(Qt5Test REQUIRED)
 
-#find_package(DtkWidget REQUIRED dtkwidget5.5)
-#find_package(DtkGui REQUIRED dtkgui5.5)
-#find_package(DtkCore REQUIRED dtkcore5.5)
+find_package(DtkWidget5.5 REQUIRED)
+find_package(DtkGui5.5 REQUIRED)
+find_package(DtkCore5.5 REQUIRED)
 #find_package(DFrameworkDbus REQUIRED dframeworkdbus)
 pkg_check_modules(DFrameworkDBus REQUIRED dframeworkdbus)
 
-#include_directories(${DtkWidget_INCLUDE_DIRS})
-#include_directories(${DtkGui_INCLUDE_DIRS})
-#include_directories(${DtkCore_INCLUDE_DIRS})
+include_directories(${DtkWidget5.5_INCLUDE_DIRS})
+include_directories(${DtkGui5.5_INCLUDE_DIRS})
+include_directories(${DtkCore5.5_INCLUDE_DIRS})
 
 set (EXE_NAME deepin-calculator)
 
@@ -58,9 +58,9 @@ set(LINK_LIBS
     Qt5::Svg
     Qt5::Test
 
-    dtkgui5.5
-    dtkwidget5.5
-    dtkcore5.5
+    ${DtkWidget5.5_LIBRARIES}
+    ${DtkCore5.5_LIBRARIES}
+    ${DtkGUI5.5_LIBRARIES}
     ${DFrameworkDBus_LIBRARIES}
 )
 
@@ -85,10 +85,10 @@ target_include_directories(${EXE_NAME} PUBLIC ${Qt5Widgets_LIBRARIES}
                                               ${Qt5DBus_LIBRARIES}
                                               ${Qt5TestLib_LIBRARIES}
                                               ${PROJECT_BINARY_DIR}
-                                              ${DFrameworkDBus_INCLUDE_DIRS}
-                                              /usr/include/libdtk-5.5.0/DWidget5.5
-                                              /usr/include/libdtk-5.5.0/DGui5.5
-                                              /usr/include/libdtk-5.5.0/DCore5.5)
+                                              ${DtkWidget5.5_INCLUDE_DIRS}
+                                              ${DtkCore5.5_LIBRARIES}
+                                              ${DtkGUI5.5_INCLUDE_DIRS}
+                                              ${DFrameworkDBus_INCLUDE_DIRS})
 
 target_link_libraries (${EXE_NAME} ${LINK_LIBS})
 
@@ -107,4 +107,3 @@ install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/assets/Icons
         DESTINATION /usr/share/due-shell/shortcuts)
 install(FILES assets/images/deepin-calculator.svg
             DESTINATION share/icons/hicolor/scalable/apps/)
-
