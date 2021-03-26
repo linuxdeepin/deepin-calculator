@@ -39,7 +39,7 @@ BasicModule::BasicModule(QWidget *parent)
     m_memCalbtn = false;
     m_memRCbtn = false;
     m_isallgray = false;
-    m_memoryPublic = MemoryPublic::instance(this);
+    m_memoryPublic = MemoryPublic::instance();
     m_memorylistwidget = m_memoryPublic->getwidget(MemoryPublic::standardleft);
     QVBoxLayout *layout = new QVBoxLayout(this);
     m_expressionBar = new ExpressionBar(this);
@@ -96,8 +96,8 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_memorylistwidget, &MemoryWidget::insidewidget, this, [ = ]() {
         m_insidewidget = true;
     });
-    connect(m_memorylistwidget, &MemoryWidget::mListUnavailable, this, &BasicModule::mUnAvailableEvent);
-    connect(m_memorylistwidget, &MemoryWidget::mListAvailable, this, &BasicModule::mAvailableEvent);
+    connect(m_memoryPublic, &MemoryPublic::memorycleanSig, this, &BasicModule::mUnAvailableEvent);
+    connect(m_memoryPublic, &MemoryPublic::generateDataSig, this, &BasicModule::mAvailableEvent);
     connect(m_memorylistwidget, &MemoryWidget::itemclick, this, [ = ](const QPair<QString, Quantity> p) {
         QString str = p.first;
         m_expressionBar->getInputEdit()->setAnswer(str.remove("\n"), p.second);
@@ -154,7 +154,7 @@ BasicModule::BasicModule(QWidget *parent)
     });
     connect(m_memorylistwidget, &MemoryWidget::hideWidget, this, &BasicModule::closeListWidget);
     //获取科学模式内存是否为空，处理分开初始化科学模式下增加内存切到标准模式Mlist不能点击情况
-    if (!m_memoryPublic->isWidgetEmpty(0))
+    if (!m_memoryPublic->isEmpty())
         mAvailableEvent();
     else
         mUnAvailableEvent();

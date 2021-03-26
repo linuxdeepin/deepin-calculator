@@ -40,6 +40,7 @@
 /**
  * @brief 标准模式内存界面
  */
+class MemoryPublic;
 class MemoryWidget : public QWidget
 {
     Q_OBJECT
@@ -48,47 +49,35 @@ public:
     explicit MemoryWidget(int mode = 0, QWidget *parent = nullptr);
     ~MemoryWidget() override;
 
-    void generateData(Quantity answer);
+    void generateData(const Quantity answer, bool ismax);
     void mousePressEvent(QMouseEvent *event) override;
     bool eventFilter(QObject *obj, QEvent *event) override;
     void focusInEvent(QFocusEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
-//    bool event(QEvent *event);
 
-    void memoryplus(Quantity answer);
-    void memoryminus(Quantity answer);
+    void memoryAnsChanged(int row, const Quantity answer);
     void memoryclean();//内存列表为空时插入一个item
     QPair<QString, Quantity> getfirstnumber();//MR
-
-    void widgetplusslot(int row, Quantity answer);
-    void widgetminusslot(int row, Quantity answer);
-    bool isWidgetEmpty(); //内存列表是否为空
     MemoryListWidget *getMemoryWidget();
-    QString programmerResult(Quantity answer, bool basetag);
+    QString programmerResult(const Quantity answer);
     void resetAllLabelByBase();
 
 signals:
     void widgetplus(int row);
     void widgetminus(int row);
     void insidewidget();
-    void mListUnavailable();
-    void mListAvailable();
     void itemclick(const QPair<QString, Quantity>);
     void themechange(int type);
     void widgetclean(int row, int mode, bool ismenu); //是否通过menu点击发出，用于区分是否下一个item直接进入hover状态
-    void memorycleansignal();
-    void scimemtab();
     void hideWidget();
 
 private:
     MemoryListWidget *m_listwidget;
     QPoint m_mousepoint;
     IconButton *m_clearbutton;
-    bool m_isempty; //内存中是否为空
     Evaluator *m_evaluator;
     Quantity m_ans;
     bool m_ansVaild;
-    QList<Quantity> m_list; //ans的list
     int m_themetype = 0;
     int m_calculatormode;//0-标准下拉 1-科学右侧
     int m_line = 1; //item数字行数
@@ -97,17 +86,18 @@ private:
     int m_precision = -1;//计算精度
     QLabel *m_label;//内存为空item
     int m_currentrow = 0;//listwidget当前行
+    MemoryPublic *m_memorypublic = nullptr;
 
 private:
+    void initConnect();
     QString formatExpression(const QString &text);
     QString setitemwordwrap(const QString &text, int row = 0);
-//    void nothinginmemory(); //内存列表为空时插入一个item
     void emptymemoryfontcolor();
 public slots:
-//    void on_listWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void setThemeType(int type);
     void expressionempty(bool b);
     void widgetcleanslot(int row, int mode, bool ismenu);
+    void setMemoryPublic(MemoryPublic *pub);
 };
 
 

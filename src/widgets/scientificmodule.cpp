@@ -45,7 +45,7 @@ scientificModule::scientificModule(QWidget *parent)
     m_memCalbtn = false;
     m_memRCbtn = false;
     QVBoxLayout *layout = new QVBoxLayout(this);
-    m_memoryPublic = MemoryPublic::instance(this);
+    m_memoryPublic = MemoryPublic::instance();
     m_sciexpressionBar->setFixedHeight(EXPRESSIONBAR_HEIGHT);
     layout->addWidget(m_sciexpressionBar);
     layout->addWidget(m_memhiskeypad);
@@ -107,8 +107,8 @@ scientificModule::scientificModule(QWidget *parent)
         if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
             m_memhiswidget->memoryFunctions(MemHisWidget::widgetminus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second, row);
     });
-    connect(m_memhiswidget->findChild<MemoryWidget *>(), &MemoryWidget::mListUnavailable, this, &scientificModule::mUnAvailableEvent);
-    connect(m_memhiswidget->findChild<MemoryWidget *>(), &MemoryWidget::mListAvailable, this, &scientificModule::mAvailableEvent);
+    connect(m_memoryPublic, &MemoryPublic::memorycleanSig, this, &scientificModule::mUnAvailableEvent);
+    connect(m_memoryPublic, &MemoryPublic::generateDataSig, this, &scientificModule::mAvailableEvent);
     connect(m_memhiswidget->findChild<MemoryWidget *>(), &MemoryWidget::itemclick, this, [ = ](const QPair<QString, Quantity> p) {
         //内存界面点击item
         QString str = p.first;
@@ -167,7 +167,7 @@ scientificModule::scientificModule(QWidget *parent)
         }
     });
 
-    if (!m_memoryPublic->isWidgetEmpty(1))
+    if (!m_memoryPublic->isEmpty())
         mAvailableEvent();
     else
         mUnAvailableEvent();

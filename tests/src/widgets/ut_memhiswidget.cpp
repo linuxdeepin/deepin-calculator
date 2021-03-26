@@ -23,9 +23,9 @@ TEST_F(Ut_MemHisWidget, space)
 TEST_F(Ut_MemHisWidget, filledMem)
 {
     MemHisWidget *m_memhiswidget = new MemHisWidget;
-    MemoryPublic *m_mempublic = MemoryPublic::instance(m_memhiswidget);
-    m_memhiswidget->m_memoryWidget->generateData(Quantity(1));
-    m_mempublic->filledMem();
+    MemoryPublic *m_mempublic = MemoryPublic::instance();
+//    m_memhiswidget->m_memoryWidget->generateData(Quantity(1),false);
+    m_mempublic->generateData(Quantity(1));
     ASSERT_EQ(m_memhiswidget->m_isshowM, true);
     //无ASSERT
     MemoryPublic::deleteInstance();
@@ -34,9 +34,9 @@ TEST_F(Ut_MemHisWidget, filledMem)
 TEST_F(Ut_MemHisWidget, emptyMem)
 {
     MemHisWidget *m_memhiswidget = new MemHisWidget;
-    MemoryPublic *m_mempublic = MemoryPublic::instance(m_memhiswidget);
-    m_memhiswidget->m_memoryWidget->memoryclean();
-    m_mempublic->emptyMem();
+    MemoryPublic *m_mempublic = MemoryPublic::instance();
+//    m_memhiswidget->m_memoryWidget->memoryclean();
+    m_mempublic->memoryclean();
     ASSERT_EQ(m_memhiswidget->m_isshowM, false);
     //无ASSERT
     MemoryPublic::deleteInstance();

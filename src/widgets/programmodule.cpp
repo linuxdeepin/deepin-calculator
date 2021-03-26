@@ -44,7 +44,7 @@ ProgramModule::ProgramModule(QWidget *parent)
     , m_shiftArrowListWidget(new MemoryListWidget(this, true))
     , m_shiftProgrammerArrowDelegate(new ProgrammerArrowDelegate(this))
 {
-    m_memoryPublic = MemoryPublic::instance(this);
+    m_memoryPublic = MemoryPublic::instance();
     m_memorylistwidget = m_memoryPublic->getwidget(MemoryPublic::programmerleft);
     m_proExpressionBar->setFixedHeight(EXPRESSIONBAR_HEIGHT);
     m_proListView->setModel(m_proListModel);
@@ -120,15 +120,15 @@ ProgramModule::ProgramModule(QWidget *parent)
         if (m_proExpressionBar->getInputEdit()->getCurrentAns().first)
             m_memoryPublic->widgetminus(row, m_proExpressionBar->getInputEdit()->getCurrentAns().second);
     });
-    if (!m_memoryPublic->isWidgetEmpty(2))
+    if (!m_memoryPublic->isEmpty())
         mAvailableEvent();
     else
         mUnAvailableEvent();
     connect(m_memorylistwidget, &MemoryWidget::insidewidget, this, [ = ]() {
         m_insidewidget = true;
     });
-    connect(m_memorylistwidget, &MemoryWidget::mListUnavailable, this, &ProgramModule::mUnAvailableEvent);
-    connect(m_memorylistwidget, &MemoryWidget::mListAvailable, this, &ProgramModule::mAvailableEvent);
+    connect(m_memoryPublic, &MemoryPublic::memorycleanSig, this, &ProgramModule::mUnAvailableEvent);
+    connect(m_memoryPublic, &MemoryPublic::generateDataSig, this, &ProgramModule::mAvailableEvent);
     connect(m_memorylistwidget, &MemoryWidget::itemclick, this, [ = ](const QPair<QString, Quantity> p) {
         QString str = p.first;
         m_proExpressionBar->getInputEdit()->setAnswer(str.remove("\n"), p.second);

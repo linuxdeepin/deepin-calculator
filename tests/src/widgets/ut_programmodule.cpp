@@ -22,8 +22,8 @@ TEST_F(Ut_ProgramModule, Signals)
     m_programmodule->m_proExpressionBar->getInputEdit()->emptyExpression(false);
 
     m_programmodule->m_memorylistwidget->widgetplus(0);
-    m_programmodule->m_memorylistwidget->mListUnavailable();
-    m_programmodule->m_memorylistwidget->mListAvailable();
+    m_programmodule->m_memoryPublic->generateData(Quantity(1));
+    m_programmodule->m_memoryPublic->memoryclean();
     m_programmodule->m_stackWidget->setCurrentIndex(2);
     QPair<QString, Quantity> pair2 = {"1", Quantity(1)};
     m_programmodule->m_memorylistwidget->itemclick(pair2);

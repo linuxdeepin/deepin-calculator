@@ -9,15 +9,15 @@ Ut_MemoryWidget::Ut_MemoryWidget()
 
 TEST_F(Ut_MemoryWidget, space)
 {
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
+    MemoryPublic *m_memoryPublic = new MemoryPublic;
+    MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
+//    MemoryWidget *m_memoryWidget = new MemoryWidget;
     QListWidgetItem *item1 = new QListWidgetItem;
     item1->setFlags(Qt::ItemIsEditable);
     MemoryItemWidget *widget = new MemoryItemWidget;
     m_memoryWidget->m_listwidget->insertItem(0, item1);
     m_memoryWidget->m_listwidget->setItemWidget(item1, widget);
     widget->setTextLabel("1");
-    m_memoryWidget->m_list.insert(0, Quantity(1));
-    m_memoryWidget->m_isempty = false;
     m_memoryWidget->m_listwidget->setCurrentRow(0);
     m_memoryWidget->m_listwidget->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier));
     m_memoryWidget->m_clearbutton->clicked();
@@ -30,10 +30,11 @@ TEST_F(Ut_MemoryWidget, space)
 
 TEST_F(Ut_MemoryWidget, focus)
 {
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
-    m_memoryWidget->generateData(Quantity(1));
-    m_memoryWidget->generateData(Quantity(2));
-    m_memoryWidget->generateData(Quantity(3));
+    MemoryPublic *m_memoryPublic = new MemoryPublic;
+    MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
+    m_memoryPublic->generateData(Quantity(1));
+    m_memoryPublic->generateData(Quantity(2));
+    m_memoryPublic->generateData(Quantity(3));
     m_memoryWidget->setFocus();
     m_memoryWidget->m_listwidget->setCurrentRow(1);
     m_memoryWidget->m_listwidget->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier));
@@ -45,12 +46,13 @@ TEST_F(Ut_MemoryWidget, focus)
 
 TEST_F(Ut_MemoryWidget, generateData)
 {
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
-    m_memoryWidget->generateData(Quantity(1));
+    MemoryPublic *m_memoryPublic = new MemoryPublic;
+    MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
+    m_memoryPublic->generateData(Quantity(1));
     QTest::mouseClick(static_cast<MemoryItemWidget *>(m_memoryWidget->m_listwidget->itemWidget(m_memoryWidget->m_listwidget->item(0)))->m_btnclean, Qt::LeftButton);
     for (int i = 0; i < 500; i++)
-        m_memoryWidget->generateData(Quantity(1));
-    m_memoryWidget->generateData(Quantity(1));
+        m_memoryPublic->generateData(Quantity(1));
+    m_memoryPublic->generateData(Quantity(1));
     m_memoryWidget->m_listwidget->setCurrentRow(1);
     QTest::mouseClick(static_cast<MemoryItemWidget *>(m_memoryWidget->m_listwidget->itemWidget(m_memoryWidget->m_listwidget->item(0)))->m_btnplus, Qt::LeftButton);
     QTest::mouseClick(static_cast<MemoryItemWidget *>(m_memoryWidget->m_listwidget->itemWidget(m_memoryWidget->m_listwidget->item(0)))->m_btnminus, Qt::LeftButton);
@@ -80,38 +82,31 @@ TEST_F(Ut_MemoryWidget, eventFilter)
 
 TEST_F(Ut_MemoryWidget, focusInEvent)
 {
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
-    m_memoryWidget->m_calculatormode = 1;
-    m_memoryWidget->generateData(Quantity(1));
+    MemoryPublic *m_memoryPublic = new MemoryPublic;
+    MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
+    m_memoryPublic->generateData(Quantity(1));
     m_memoryWidget->focusInEvent(new QFocusEvent(QFocusEvent::Type::FocusIn));
     //无ASSERT
     MemoryPublic::deleteInstance();
 }
 
-TEST_F(Ut_MemoryWidget, memoryplus)
+TEST_F(Ut_MemoryWidget, memoryAnsChanged)
 {
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
-    m_memoryWidget->generateData(Quantity(1));
-    m_memoryWidget->memoryplus(Quantity(1));
+    MemoryPublic *m_memoryPublic = new MemoryPublic;
+    MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
+    m_memoryPublic->generateData(Quantity(1));
+    m_memoryWidget->memoryAnsChanged(0, Quantity(2));
     ASSERT_EQ(static_cast<MemoryItemWidget *>(m_memoryWidget->m_listwidget->itemWidget(m_memoryWidget->m_listwidget->item(0)))->textLabel(), "2");
-    MemoryPublic::deleteInstance();
-}
-
-TEST_F(Ut_MemoryWidget, memoryminus)
-{
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
-    m_memoryWidget->generateData(Quantity(1));
-    m_memoryWidget->memoryminus(Quantity(1));
-    ASSERT_EQ(static_cast<MemoryItemWidget *>(m_memoryWidget->m_listwidget->itemWidget(m_memoryWidget->m_listwidget->item(0)))->textLabel(), "0");
     MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_MemoryWidget, memoryclean)
 {
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
-    m_memoryWidget->generateData(Quantity(1));
+    MemoryPublic *m_memoryPublic = new MemoryPublic;
+    MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
+    m_memoryPublic->generateData(Quantity(1));
     m_memoryWidget->memoryclean();
-    ASSERT_TRUE(m_memoryWidget->m_isempty);
+    ASSERT_EQ(m_memoryWidget->m_listwidget->count(), 1);
     MemoryPublic::deleteInstance();
 }
 
@@ -128,42 +123,18 @@ TEST_F(Ut_MemoryWidget, emptymemoryfontcolor)
 
 TEST_F(Ut_MemoryWidget, getfirstnumber)
 {
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
-    m_memoryWidget->generateData(Quantity(1));
+    MemoryPublic *m_memoryPublic = new MemoryPublic;
+    MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
+    m_memoryPublic->generateData(Quantity(1));
     ASSERT_EQ(m_memoryWidget->getfirstnumber().first, "1");
-    MemoryPublic::deleteInstance();
-}
-
-TEST_F(Ut_MemoryWidget, widgetplusslot)
-{
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
-    m_memoryWidget->generateData(Quantity(1));
-    m_memoryWidget->widgetplusslot(0, Quantity(1));
-    ASSERT_EQ(static_cast<MemoryItemWidget *>(m_memoryWidget->m_listwidget->itemWidget(m_memoryWidget->m_listwidget->item(0)))->textLabel(), "2");
-    MemoryPublic::deleteInstance();
-}
-
-TEST_F(Ut_MemoryWidget, widgetminusslot)
-{
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
-    m_memoryWidget->generateData(Quantity(1));
-    m_memoryWidget->widgetminusslot(0, Quantity(1));
-    ASSERT_EQ(static_cast<MemoryItemWidget *>(m_memoryWidget->m_listwidget->itemWidget(m_memoryWidget->m_listwidget->item(0)))->textLabel(), "0");
-    MemoryPublic::deleteInstance();
-}
-
-TEST_F(Ut_MemoryWidget, isWidgetEmpty)
-{
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
-    m_memoryWidget->m_isempty = true;
-    ASSERT_TRUE(m_memoryWidget->isWidgetEmpty());
     MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_MemoryWidget, getMemoryWidget)
 {
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
-    m_memoryWidget->generateData(Quantity(1));
+    MemoryPublic *m_memoryPublic = new MemoryPublic;
+    MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
+    m_memoryPublic->generateData(Quantity(1));
     ASSERT_EQ(static_cast<MemoryItemWidget *>(m_memoryWidget->getMemoryWidget()->itemWidget(m_memoryWidget->m_listwidget->item(0)))->textLabel(), "1");
     MemoryPublic::deleteInstance();
 }
@@ -172,15 +143,16 @@ TEST_F(Ut_MemoryWidget, programmerResult)
 {
     MemoryWidget *m_memoryWidget = new MemoryWidget;
     HNumber number("1.5");
-    ASSERT_EQ(m_memoryWidget->programmerResult(Quantity(number), true), "1");
+    ASSERT_EQ(m_memoryWidget->programmerResult(Quantity(number)), "1");
     MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_MemoryWidget, resetAllLabelByBase)
 {
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
+    MemoryPublic *m_memoryPublic = new MemoryPublic;
+    MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
     HNumber number("1.5");
-    m_memoryWidget->generateData(Quantity(number));
+    m_memoryPublic->generateData(Quantity(number));
     m_memoryWidget->m_calculatormode = 2;
     m_memoryWidget->resetAllLabelByBase();
     ASSERT_EQ(static_cast<MemoryItemWidget *>(m_memoryWidget->getMemoryWidget()->itemWidget(m_memoryWidget->m_listwidget->item(0)))->textLabel(), "1");
@@ -189,23 +161,22 @@ TEST_F(Ut_MemoryWidget, resetAllLabelByBase)
 
 TEST_F(Ut_MemoryWidget, expressionempty)
 {
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
-    m_memoryWidget->generateData(Quantity(1));
-    m_memoryWidget->m_isempty = false;
+    MemoryPublic *m_memoryPublic = new MemoryPublic;
+    MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
+    m_memoryPublic->generateData(Quantity(1));
     m_memoryWidget->expressionempty(false);
     MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_MemoryWidget, widgetcleanslot)
 {
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
-    m_memoryWidget->generateData(Quantity(1));
-    m_memoryWidget->m_calculatormode = 1;
-    m_memoryWidget->widgetcleanslot(0, 0, false);
-    m_memoryWidget->generateData(Quantity(1));
-    m_memoryWidget->generateData(Quantity(1));
-    m_memoryWidget->m_calculatormode = 0;
-    m_memoryWidget->widgetcleanslot(0, 0, false);
+    MemoryPublic *m_memoryPublic = new MemoryPublic;
+    MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::standardleft);
+    m_memoryPublic->generateData(Quantity(1));
+    m_memoryWidget->widgetcleanslot(0, 1, false);
+    m_memoryPublic->generateData(Quantity(1));
+    m_memoryPublic->generateData(Quantity(1));
+    m_memoryWidget->widgetcleanslot(0, 1, false);
     ASSERT_EQ(m_memoryWidget->m_listwidget->count(), 2);
     MemoryPublic::deleteInstance();
 }
@@ -219,8 +190,9 @@ TEST_F(Ut_MemoryWidget, formatExpression)
 
 TEST_F(Ut_MemoryWidget, setitemwordwrap)
 {
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
-    m_memoryWidget->generateData(Quantity(1));
+    MemoryPublic *m_memoryPublic = new MemoryPublic;
+    MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
+    m_memoryPublic->generateData(Quantity(1));
     m_memoryWidget->m_calculatormode = 2;
     m_memoryWidget->setitemwordwrap("12345678901234", 0);
     m_memoryWidget->setitemwordwrap("1234567890123456789012", 0);
@@ -236,7 +208,9 @@ TEST_F(Ut_MemoryWidget, setitemwordwrap)
 
 TEST_F(Ut_MemoryWidget, setThemeType)
 {
-    MemoryWidget *m_memoryWidget = new MemoryWidget;
+    MemoryPublic *m_memoryPublic = new MemoryPublic;
+    MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
+    m_memoryPublic->generateData(Quantity(1));
     m_memoryWidget->setThemeType(2);
     m_memoryWidget->setThemeType(1);
     ASSERT_EQ(m_memoryWidget->m_themetype, 1);

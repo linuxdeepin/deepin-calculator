@@ -36,8 +36,8 @@
 
 #include "../utils.h"
 #include "../../3rdparty/core/settings.h"
+#include "../memorypublic.h"
 
-const int GLOBALPREC = 78; //全局精度
 const int STANDARD_MWIDGET_HEIGHT = 260; //标准模式memorywidget高度
 const int SCIENTIFIC_MWIDGET_HEIGHT = 302; //科学模式memorywidget高度
 const int PROGRAMMER_MWIDGET_HEIGHT = 230; //程序猿模式memorywidget高度
@@ -61,7 +61,6 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     : QWidget(parent)
     , m_listwidget(new MemoryListWidget(this))
     , m_clearbutton(new IconButton(this, 1))
-    , m_isempty(true)
     , m_memoryDelegate(new MemoryItemDelegate(this))
 {
     this->setAttribute(Qt::WA_DeleteOnClose);
@@ -109,66 +108,10 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     layH->addSpacing(10);
     if (mode == 1)
         m_clearbutton->hide();
-    connect(m_clearbutton, &TextButton::space, this, [ = ]() {
-        emit memorycleansignal();
-        setFocus();
-    }); //focus下空格按下
-    connect(m_clearbutton, &DPushButton::clicked, this, [ = ]() {
-        emit memorycleansignal();
-        setFocus();
-    });
+
     lay->addLayout(layH);
     lay->addSpacing(6);
     this->setLayout(lay);
-    connect(m_listwidget, &MemoryListWidget::itemselected, this, [ = ](int row, bool isselect) {
-        if (!m_isempty && isselect) {
-            QPair<QString, Quantity> p;
-            MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
-            //        p.first = m_listwidget->item(row)->data(Qt::DisplayRole).toString();
-            p.first = w1->textLabel();
-            p.second = m_list.at(row);
-            if (m_listwidget->item(row)->flags() != Qt::NoItemFlags)
-                emit itemclick(p);
-        }
-    });
-    connect(m_listwidget, &MemoryListWidget::space, this, [ = ] {
-        if (!m_isempty) //只有listwidget在focus状态才会触发keypress,所以此处未进行hasfocus判断
-        {
-            QPair<QString, Quantity> p;
-            int row = m_listwidget->currentRow();
-            MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
-            //        p.first = m_listwidget->item(row)->data(Qt::DisplayRole).toString();
-            p.first = w1->textLabel();
-            p.second = m_list.at(row);
-            if (m_listwidget->item(row)->flags() != Qt::NoItemFlags)
-                emit itemclick(p);
-        }
-    });
-    connect(m_listwidget, &MemoryListWidget::focus, this, [ = ](int direction) {
-        switch (direction) { //只有listwidget在focus状态才会触发keypress,所以此处未进行hasfocus判断
-        case 0:
-            if (m_listwidget->currentRow() > 0) {
-                m_listwidget->setCurrentRow(m_listwidget->currentRow() - 1);
-                m_currentrow = m_listwidget->currentRow();
-                m_listwidget->scrollToItem(m_listwidget->item(m_listwidget->currentRow())); //滚动条跟随焦点项
-            }
-            break;
-        case 1:
-            if (m_listwidget->currentRow() < (m_listwidget->count() - 1)) {
-                m_listwidget->setCurrentRow(m_listwidget->currentRow() + 1);
-                m_currentrow = m_listwidget->currentRow();
-                m_listwidget->scrollToItem(m_listwidget->item(m_listwidget->currentRow())); //滚动条跟随焦点项
-            }
-            break;
-        default:
-            break;
-        }
-    });
-    connect(m_listwidget, &MemoryListWidget::altAndM, this, [ = ]() {
-        int row = m_listwidget->currentRow();
-        MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
-        w1->showTextEditMenuByAltM();
-    });
 
     m_label->setText(tr("Nothing saved in memory"));
     m_label->setAlignment(Qt::AlignCenter); //label字体居右，居上
@@ -194,23 +137,17 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
  * @param answer
  * 将输入的数字转换为quantity类型
  */
-void MemoryWidget::generateData(Quantity answer)
+void MemoryWidget::generateData(const Quantity answer, bool ismax)
 {
-//    m_listwidget->setFocusPolicy(Qt::TabFocus); //内存中有内容时TabFocus
     m_label->hide();
-    //500 memory number limit
-    if (m_list.count() == MAXSIZE) {
-        m_list.pop_back();
+    if (ismax)
         m_listwidget->takeItem(MAXSIZE - 1);
-    }
-    if (m_isempty == true) {
+    if (m_memorypublic->isEmpty()) {
         m_listwidget->clear();
     }
-    m_isempty = false;
-    emit mListAvailable();
     QListWidgetItem *item1 = new QListWidgetItem();
     item1->setFlags(Qt::ItemIsEditable);
-//    item1->setTextAlignment(Qt::AlignRight | Qt::AlignTop);
+
     QFont font;
     font.setPixelSize(30);
     item1->setFont(font);
@@ -220,12 +157,12 @@ void MemoryWidget::generateData(Quantity answer)
 
     m_listwidget->insertItem(0, item1);
     m_listwidget->setItemWidget(item1, widget);
-    if (answer == Quantity(0)) {
+    if (answer.isZero()) {
         widget->setTextLabel("0");
     } else {
         QString formatResult = QString();
         if (m_calculatormode == 2) {
-            const QString result = programmerResult(answer, true);
+            const QString result = programmerResult(answer);
             formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
         } else {
             const QString result = DMath::format(answer, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
@@ -234,21 +171,17 @@ void MemoryWidget::generateData(Quantity answer)
         formatResult = setitemwordwrap(formatResult);
         widget->setTextLabel(formatResult);
     }
-    m_list.insert(0, answer); //对于新增数据，同步在list中加入对应的Quantity
+
     connect(widget, &MemoryItemWidget::plusbtnclicked, this, [ = ]() {
         int row = m_listwidget->row(item1);
-//        widget->setFocus(); //memorybutton取消focus状态
         emit MemoryWidget::widgetplus(row);
     });
     connect(widget, &MemoryItemWidget::minusbtnclicked, this, [ = ]() {
         int row = m_listwidget->row(item1);
-//        widget->setFocus(); //memorybutton取消focus状态
         emit MemoryWidget::widgetminus(row);
     });
     connect(widget, &MemoryItemWidget::cleanbtnclicked, this, [ = ]() {
-//        widget->setFocus(); //memorybutton取消focus状态
         emit widgetclean(m_listwidget->row(item1), m_calculatormode, false);
-        m_list.removeAt(m_listwidget->row(item1));
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
         if (m_listwidget->count() == 0) {
@@ -259,7 +192,6 @@ void MemoryWidget::generateData(Quantity answer)
     connect(this, &MemoryWidget::themechange, widget, &MemoryItemWidget::themetypechanged);
     connect(widget, &MemoryItemWidget::menuclean, this, [ = ]() { //item菜单MC
         emit widgetclean(m_listwidget->row(item1), m_calculatormode, true);
-        m_list.removeAt(m_listwidget->row(item1));
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
         if (m_listwidget->count() == 0) {
@@ -300,7 +232,7 @@ bool MemoryWidget::eventFilter(QObject *obj, QEvent *event)
     if (obj == this && event->type() == QEvent::KeyPress) {
         QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
         if (key_event->key() == Qt::Key_Tab) {
-            if (!m_isempty) {
+            if (!m_memorypublic->isEmpty()) {
                 m_listwidget->setCurrentRow(m_currentrow);
                 m_listwidget->setFocus();
             } else {
@@ -339,7 +271,7 @@ bool MemoryWidget::eventFilter(QObject *obj, QEvent *event)
  */
 void MemoryWidget::focusInEvent(QFocusEvent *event)
 {
-    if (!m_isempty && event->reason() == Qt::TabFocusReason) {
+    if (!m_memorypublic->isEmpty() && event->reason() == Qt::TabFocusReason) {
         m_listwidget->setCurrentRow(m_currentrow);
         m_listwidget->setFocus();
     }
@@ -354,94 +286,19 @@ void MemoryWidget::keyPressEvent(QKeyEvent *event)
         return;
 }
 
-/**
- * @brief MemoryWidget::memoryplus
- * 用于从数字键盘或快捷键的方式，对内存列表中的第一个进行加法运算，memoryminus为减法
- * @param answer
- */
-void MemoryWidget::memoryplus(Quantity answer)
+void MemoryWidget::memoryAnsChanged(int row, const Quantity answer)
 {
-    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC));
-    QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
-    formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
-    if (m_isempty == false) {
-        //内存中不为空时在第一条内存中加输入框数字；否则内存为空，添加一条内存数据
-        QString formatResult = QString();
-        Quantity ans;
-        if (m_calculatormode == 2) {
-            QString exp = QString(programmerResult(m_list.value(0), false) + "+(" + formatResultmem + ")");
-            m_evaluator->setExpression(formatExpression(exp));
-            ans = m_evaluator->evalUpdateAns();
-            const QString result = programmerResult(ans, true);
-            formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
-        } else {
-            QString exp = QString(DMath::format(m_list.value(0), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "+(" + formatResultmem + ")");
-            m_evaluator->setExpression(formatExpression(exp));
-            ans = m_evaluator->evalUpdateAns();
-            const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
-            formatResult = Utils::formatThousandsSeparators(result);
-        }
-        formatResult = setitemwordwrap(formatResult);
-        MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
-        w1->setTextLabel(formatResult);
-        m_list.replace(0, ans);
+    QString formatResult = QString();
+    if (m_calculatormode == 2) {
+        const QString result = programmerResult(answer);
+        formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
     } else {
-        m_listwidget->clear();
-        generateData(answer);
+        const QString result = DMath::format(answer, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
+        formatResult = Utils::formatThousandsSeparators(result);
     }
-}
-
-/**
- * @brief 用于从数字键盘或快捷键的方式，对内存列表中的第一个进行M-
- */
-void MemoryWidget::memoryminus(Quantity answer)
-{
-    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC));
-    QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
-    formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
-    if (m_isempty == false) {
-        Quantity ans;
-        QString formatResult = QString();
-        if (m_calculatormode == 2) {
-            QString exp = QString(programmerResult(m_list.value(0), false) + "-(" + formatResultmem + ")");
-            m_evaluator->setExpression(formatExpression(exp));
-            ans = m_evaluator->evalUpdateAns();
-            const QString result = programmerResult(ans, true);
-            formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
-        } else {
-            QString exp = QString(DMath::format(m_list.value(0), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "-(" + formatResultmem + ")");
-            m_evaluator->setExpression(formatExpression(exp));
-            ans = m_evaluator->evalUpdateAns();
-            const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
-            formatResult = Utils::formatThousandsSeparators(result);
-        }
-        formatResult = setitemwordwrap(formatResult);
-        MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
-        w1->setTextLabel(formatResult);
-        m_list.replace(0, ans);
-    } else {
-        m_listwidget->clear();
-        generateData(Quantity(0));
-        Quantity ans;
-        QString formatResult = QString();
-        if (m_calculatormode == 2) {
-            QString exp = QString("0-(" + formatResultmem + ")");
-            m_evaluator->setExpression(formatExpression(exp));
-            ans = m_evaluator->evalUpdateAns();
-            const QString result = programmerResult(ans, true);
-            formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
-        } else {
-            QString exp = QString("0-(" + formatResultmem + ")");
-            m_evaluator->setExpression(formatExpression(exp));
-            ans = m_evaluator->evalUpdateAns();
-            const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
-            formatResult = Utils::formatThousandsSeparators(result);
-        }
-        formatResult = setitemwordwrap(formatResult);
-        MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
-        w1->setTextLabel(formatResult);
-        m_list.replace(0, ans);
-    }
+    formatResult = setitemwordwrap(formatResult, row);
+    MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
+    w1->setTextLabel(formatResult);
 }
 
 /**
@@ -453,7 +310,6 @@ void MemoryWidget::memoryclean()
     m_listwidget->setFocusPolicy(Qt::NoFocus); //内存无内容时NoFocus
     m_label->show();
     m_listwidget->clear();
-    m_list.clear();
     QListWidgetItem *item1 = new QListWidgetItem(m_listwidget);
 
     m_listwidget->insertItem(0, item1);
@@ -463,9 +319,7 @@ void MemoryWidget::memoryclean()
         m_listwidget->item(0)->setSizeHint(QSize(m_itemwidth, SCIENTIFIC_MWIDGET_HEIGHT)); //科学模式
     m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
     emptymemoryfontcolor();
-    m_isempty = true;
     m_clearbutton->hide();
-    emit mListUnavailable();
 }
 
 /**
@@ -492,95 +346,17 @@ void MemoryWidget::emptymemoryfontcolor()
 QPair<QString, Quantity> MemoryWidget::getfirstnumber()
 {
     QPair<QString, Quantity> p1;
-    if (m_isempty == false) {
-//        QString str = m_listwidget->item(0)->data(Qt::EditRole).toString();
+    if (!m_memorypublic->isEmpty()) {
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(0)));
         QString str = w1->textLabel();
         p1.first = str.remove("\n");
-        p1.second = m_list.at(0);
+        p1.second = m_memorypublic->getList().at(0);
         return p1;
     } else {
         p1.first = QString();
         p1.second = Quantity(0);
         return p1;
     }
-}
-
-/**
- * @brief MemoryWidget::widgetplusslot
- * 用于从列表中item里的按钮，对指定行号的内存数据进行增加，widgetminusslot为减法
- * @param row
- * 指定的行号
- * @param answer
- * 输入栏中的数的quantity类型
- */
-void MemoryWidget::widgetplusslot(int row, Quantity answer)
-{
-    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC));
-    QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
-    formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
-    if (answer == Quantity(0)) {
-//        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole));
-    } else {
-        Quantity ans;
-        QString formatResult = QString();
-        if (m_calculatormode == 2) {
-            QString exp = QString(programmerResult(m_list.value(row), false) + "+(" + formatResultmem + ")");
-            m_evaluator->setExpression(formatExpression(exp));
-            ans = m_evaluator->evalUpdateAns();
-            const QString result = programmerResult(ans, true);
-            formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
-        } else {
-            QString exp = QString(DMath::format(m_list.value(row), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "+(" + formatResultmem + ")");
-            m_evaluator->setExpression(formatExpression(exp));
-            ans = m_evaluator->evalUpdateAns();
-            const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
-            formatResult = Utils::formatThousandsSeparators(result);
-        }
-        formatResult = setitemwordwrap(formatResult, row);
-        MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
-        w1->setTextLabel(formatResult);
-        m_list.replace(row, ans);
-    }
-}
-
-/**
- * @brief 用于从列表中item里的按钮，对指定行号的内存数据进行M-
- */
-void MemoryWidget::widgetminusslot(int row, Quantity answer)
-{
-    const QString resultmem = DMath::format(answer, Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC));
-    QString formatResultmem = Utils::formatThousandsSeparators(resultmem);
-    formatResultmem = formatResultmem.replace('-', "－").replace('+', "＋");
-    if (answer == Quantity(0)) {
-        //        m_listwidget->item(row)->setData(Qt::DisplayRole, m_listwidget->item(row)->data(Qt::EditRole));
-    } else {
-        Quantity ans;
-        QString formatResult = QString();
-        if (m_calculatormode == 2) {
-            QString exp = QString(programmerResult(m_list.value(row), false) + "-(" + formatResultmem + ")");
-            m_evaluator->setExpression(formatExpression(exp));
-            ans = m_evaluator->evalUpdateAns();
-            const QString result = programmerResult(ans, true);
-            formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
-        } else {
-            QString exp = QString(DMath::format(m_list.value(row), Quantity::Format::Fixed() + Quantity::Format::Precision(GLOBALPREC)) + "-(" + formatResultmem + ")");
-            m_evaluator->setExpression(formatExpression(exp));
-            ans = m_evaluator->evalUpdateAns();
-            const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
-            formatResult = Utils::formatThousandsSeparators(result);
-        }
-        formatResult = setitemwordwrap(formatResult, row);
-//        m_listwidget->item(row)->setData(Qt::DisplayRole, formatResult);
-        MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
-        w1->setTextLabel(formatResult);
-        m_list.replace(row, ans);
-    }
-}
-
-bool MemoryWidget::isWidgetEmpty()
-{
-    return m_isempty;
 }
 
 MemoryListWidget *MemoryWidget::getMemoryWidget()
@@ -592,23 +368,17 @@ MemoryListWidget *MemoryWidget::getMemoryWidget()
  * @brief MemoryWidget::programmerResult
  * 根据当前进制显示相应的内存结果
  */
-QString MemoryWidget::programmerResult(Quantity answer, bool basetag)
+QString MemoryWidget::programmerResult(const Quantity answer)
 {
     QString result;
     Quantity ans = DMath::integer(answer);
     switch (Settings::instance()->programmerBase) {
     case 16:
-        if (basetag)
-            return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
-        return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal());
+        return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
     case 8:
-        if (basetag)
-            return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o");
-        return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal());
+        return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o");
     case 2:
-        if (basetag)
-            return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
-        return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary());
+        return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
     default:
         return result = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
     }
@@ -621,13 +391,79 @@ QString MemoryWidget::programmerResult(Quantity answer, bool basetag)
 void MemoryWidget::resetAllLabelByBase()
 {
     QString text;
-    if (m_calculatormode == 2 && !m_isempty) {
+    if (m_calculatormode == 2 && !m_memorypublic->isEmpty()) {
         for (int i = 0; i < m_listwidget->count(); i++) {
-            text = Utils::reformatSeparatorsPro(programmerResult(m_list.at(i), true), Settings::instance()->programmerBase);
+            text = Utils::reformatSeparatorsPro(programmerResult(m_memorypublic->getList().at(i)), Settings::instance()->programmerBase);
             text = setitemwordwrap(text, i);
             static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->setTextLabel(text);
         }
     }
+}
+
+void MemoryWidget::initConnect()
+{
+    connect(m_memorypublic, &MemoryPublic::generateDataSig, this, &MemoryWidget::generateData);
+    connect(m_memorypublic, &MemoryPublic::memorycleanSig, this, &MemoryWidget::memoryclean);
+    connect(m_memorypublic, &MemoryPublic::memoryAnsSig, this, &MemoryWidget::memoryAnsChanged);
+    connect(m_memorypublic, &MemoryPublic::widgetcleanSig, this, &MemoryWidget::widgetcleanslot);
+    connect(m_memorypublic, &MemoryPublic::setThemeTypeSig, this, &MemoryWidget::setThemeType);
+
+    connect(m_clearbutton, &TextButton::space, this, [ = ]() {
+        m_memorypublic->memoryclean();
+        setFocus();
+    }); //focus下空格按下
+    connect(m_clearbutton, &DPushButton::clicked, this, [ = ]() {
+        m_memorypublic->memoryclean();
+        setFocus();
+    });
+
+    connect(m_listwidget, &MemoryListWidget::itemselected, this, [ = ](int row, bool isselect) {
+        if (!m_memorypublic->isEmpty() && isselect) {
+            QPair<QString, Quantity> p;
+            MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
+            p.first = w1->textLabel();
+            p.second = m_memorypublic->getList().at(row);
+            if (m_listwidget->item(row)->flags() != Qt::NoItemFlags)
+                emit itemclick(p);
+        }
+    });
+    connect(m_listwidget, &MemoryListWidget::space, this, [ = ] {
+        if (!m_memorypublic->isEmpty()) //只有listwidget在focus状态才会触发keypress,所以此处未进行hasfocus判断
+        {
+            QPair<QString, Quantity> p;
+            int row = m_listwidget->currentRow();
+            MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
+            p.first = w1->textLabel();
+            p.second = m_memorypublic->getList().at(row);
+            if (m_listwidget->item(row)->flags() != Qt::NoItemFlags)
+                emit itemclick(p);
+        }
+    });
+    connect(m_listwidget, &MemoryListWidget::focus, this, [ = ](int direction) {
+        switch (direction) { //只有listwidget在focus状态才会触发keypress,所以此处未进行hasfocus判断
+        case 0:
+            if (m_listwidget->currentRow() > 0) {
+                m_listwidget->setCurrentRow(m_listwidget->currentRow() - 1);
+                m_currentrow = m_listwidget->currentRow();
+                m_listwidget->scrollToItem(m_listwidget->item(m_listwidget->currentRow())); //滚动条跟随焦点项
+            }
+            break;
+        case 1:
+            if (m_listwidget->currentRow() < (m_listwidget->count() - 1)) {
+                m_listwidget->setCurrentRow(m_listwidget->currentRow() + 1);
+                m_currentrow = m_listwidget->currentRow();
+                m_listwidget->scrollToItem(m_listwidget->item(m_listwidget->currentRow())); //滚动条跟随焦点项
+            }
+            break;
+        default:
+            break;
+        }
+    });
+    connect(m_listwidget, &MemoryListWidget::altAndM, this, [ = ]() {
+        int row = m_listwidget->currentRow();
+        MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
+        w1->showTextEditMenuByAltM();
+    });
 }
 
 /**
@@ -638,7 +474,7 @@ void MemoryWidget::resetAllLabelByBase()
  */
 void MemoryWidget::expressionempty(bool b)
 {
-    if (!m_isempty) {
+    if (!m_memorypublic->isEmpty()) {
         for (int i = 0; i < m_listwidget->count(); i++) {
             static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->isexpressionempty(b);
         }
@@ -656,7 +492,6 @@ void MemoryWidget::expressionempty(bool b)
 void MemoryWidget::widgetcleanslot(int row, int mode, bool ismenu)
 {
     if (m_calculatormode != mode) {
-        m_list.removeAt(row);
         delete m_listwidget->takeItem(row);
         if (m_listwidget->count() == 0) {
             memoryclean();
@@ -665,6 +500,12 @@ void MemoryWidget::widgetcleanslot(int row, int mode, bool ismenu)
         if (row + 1 < m_listwidget->count() && !ismenu)
             static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row + 1)))->setNextItemHover();
     }
+}
+
+void MemoryWidget::setMemoryPublic(MemoryPublic *pub)
+{
+    m_memorypublic = pub;
+    initConnect();
 }
 
 /**
@@ -743,23 +584,6 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
     return result;
 }
 
-//void MemoryWidget::nothinginmemory()
-//{
-//    m_listwidget->clear();
-//    list.clear();
-//    m_listwidget->addItem(tr("Nothing saved in memory"));
-//    QFont m_clearbuttonfont;
-//    m_clearbuttonfont.setPixelSize(16);
-//    m_listwidget->item(0)->setFont(m_clearbuttonfont);
-//    m_listwidget->item(0)->setSizeHint(QSize(itemwidth, m_listwidget->frameRect().height()));
-//    m_listwidget->item(0)->setFlags(Qt::NoItemFlags);
-//    m_listwidget->item(0)->setTextAlignment(Qt::AlignCenter | Qt::AlignTop);
-//    emptymemoryfontcolor();
-//    m_isempty = true;
-//    m_clearbutton->hide();
-//    emit mListUnavailable();
-//}
-
 /**
  * @brief 根据主题变换垃圾桶及内存中没有数据字体颜色
  */
@@ -776,13 +600,13 @@ void MemoryWidget::setThemeType(int type)
     if (m_themetype == 1) {
         path = QString(":/assets/images/%1/").arg("light");
         m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
-        if (m_isempty) {
+        if (m_memorypublic->isEmpty()) {
             emptymemoryfontcolor(); //更改内存中没有数据字体颜色
         }
     } else {
         path = QString(":/assets/images/%1/").arg("dark");
         m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_hover.svg", path + "empty_press.svg", 1);
-        if (m_isempty) {
+        if (m_memorypublic->isEmpty()) {
             emptymemoryfontcolor(); //更改内存中没有数据字体颜色
         }
     }

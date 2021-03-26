@@ -39,7 +39,7 @@ MemHisWidget::MemHisWidget(QWidget *parent)
 , m_historyBtn(new DButtonBoxButton(QIcon(), {}, this))
 , m_clearButton(new IconButton(this, 1))
 {
-    m_memoryPublic = MemoryPublic::instance(this);
+    m_memoryPublic = MemoryPublic::instance();
     m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::scientificright);
     m_memoryWidget->setFocusPolicy(Qt::TabFocus);
     m_stackWidget->addWidget(m_memoryWidget);
@@ -62,8 +62,7 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     m_buttonBox->setId(m_memoryBtn, 0);
     m_buttonBox->setId(m_historyBtn, 1);
     m_buttonBox->button(0)->setChecked(true);
-//    m_memoryBtn->setIcon(QIcon(":/assets/images/icon_memory_checked.svg"));
-//    m_historyBtn->setIcon(QIcon(":/assets/images/icon_history_normal.svg"));
+
     iconChanged(m_themeType, 0);
 
     QVBoxLayout *m_Vlayout = new QVBoxLayout(this);
@@ -77,7 +76,7 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     m_clearButton->setParent(clearwidget);
     m_clearButton->setObjectName("clearbtn");
     m_clearButton->showtooltip(true); //设置内存垃圾桶tooltip
-    if (m_memoryWidget->isWidgetEmpty())  //防止在其他模式下初始化有内存切换至科学模式清除按钮隐藏
+    if (m_memoryPublic->isEmpty())  //防止在其他模式下初始化有内存切换至科学模式清除按钮隐藏
         m_clearButton->setHidden(true);
     else
         m_isshowM = true;
@@ -164,13 +163,13 @@ MemHisWidget::MemHisWidget(QWidget *parent)
         if (m_stackWidget->currentWidget() != m_memoryWidget)
             m_clearButton->setHidden(true);
     });
-    connect(m_memoryPublic, &MemoryPublic::filledMem, this, [ = ]() {
+    connect(m_memoryPublic, &MemoryPublic::generateDataSig, this, [ = ]() {
         m_isshowM = true; //公共内存中有数据信号接收
         m_memoryWidget->setFocusPolicy(Qt::TabFocus);
         if (m_stackWidget->currentWidget() == m_memoryWidget)
             m_clearButton->setHidden(false);
     });
-    connect(m_memoryPublic, &MemoryPublic::emptyMem, this, [ = ]() {
+    connect(m_memoryPublic, &MemoryPublic::memorycleanSig, this, [ = ]() {
         m_isshowM = false; //公共内存中无数据信号接收
         m_memoryWidget->setFocusPolicy(Qt::NoFocus);
         if (m_stackWidget->currentWidget() == m_memoryWidget)

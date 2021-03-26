@@ -52,7 +52,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     , m_memorybtn(new DButtonBoxButton(tr("Memory"), this))
     , m_clearbutton(new IconButton(this, 1))
 {
-    memoryPublic = MemoryPublic::instance(this);
+    memoryPublic = MemoryPublic::instance();
     m_memorywidget = memoryPublic->getwidget(MemoryPublic::scientificright);
     m_memorywidget->setFocusPolicy(Qt::TabFocus);
     m_stacklayout = new QStackedLayout();
@@ -73,7 +73,7 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
     m_clearbutton->showtooltip(false); //设置历史垃圾桶tooltip
     m_clearbutton->setHidden(true);
 //    m_clearbutton->setHidden(!(m_isshowH & m_indexH));
-    m_isshowM = !memoryPublic->isWidgetEmpty(1);
+    m_isshowM = !memoryPublic->isEmpty();
 //    m_clearbuttonM->setHidden(!(m_isshowM & m_indexM));
 
     m_Vlayout->addSpacing(5);
@@ -172,14 +172,14 @@ SciHistoryWidget::SciHistoryWidget(QWidget *parent)
 //        m_clearbutton->setHidden(!(m_isshowH & m_indexH));
 //        setFocus();
     });
-    connect(memoryPublic, &MemoryPublic::filledMem, this, [ = ]() {
+    connect(memoryPublic, &MemoryPublic::generateDataSig, this, [ = ]() {
         m_isshowM = true; //公共内存中有数据信号接收
         m_memorywidget->setFocusPolicy(Qt::TabFocus);
         if (m_buttonbox->checkedId() == 1)
             m_clearbutton->setHidden(false);
 //        m_clearbuttonM->setHidden(!(m_isshowM & m_indexM));
     });
-    connect(memoryPublic, &MemoryPublic::emptyMem, this, [ = ]() {
+    connect(memoryPublic, &MemoryPublic::memorycleanSig, this, [ = ]() {
         m_isshowM = false; //公共内存中无数据信号接收
         m_memorywidget->setFocusPolicy(Qt::NoFocus);
         if (m_buttonbox->checkedId() == 1)

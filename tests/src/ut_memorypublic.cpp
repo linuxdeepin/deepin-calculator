@@ -91,7 +91,7 @@ TEST_F(Ut_MemoryPublic, setThemeType)
 {
     MemoryPublic *m_memoryPublic = new MemoryPublic;
     MemoryWidget *memorywidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
-    memorywidget->m_isempty = true;
+    m_memoryPublic->m_list.clear();
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_memoryPublic->setThemeType(0);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
