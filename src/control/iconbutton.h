@@ -44,7 +44,7 @@ public:
      * @param page 科学模式第二页的IconButton
      */
     IconButton(QWidget *parent = nullptr, int b = 0, bool page = false);
-    ~IconButton();
+    ~IconButton() override;
 
     void setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode = 0);
     QStringList getIconUrl() const;
@@ -55,12 +55,12 @@ public:
     void setBtnHighlight(bool light);
 
 protected:
-    void mousePressEvent(QMouseEvent *);
-    void mouseReleaseEvent(QMouseEvent *);
-    void enterEvent(QEvent *);
-    void leaveEvent(QEvent *);
-    void paintEvent(QPaintEvent *);
-    void keyPressEvent(QKeyEvent *e);
+    void mousePressEvent(QMouseEvent *) override;
+    void mouseReleaseEvent(QMouseEvent *) override;
+    void enterEvent(QEvent *) override;
+    void leaveEvent(QEvent *) override;
+    void paintEvent(QPaintEvent *) override;
+    void keyPressEvent(QKeyEvent *e) override;
 
 private:
     //void setIconSize(const int &size);

@@ -21,6 +21,17 @@
 
 #pragma once
 
+#include "textbutton.h"
+#include "iconbutton.h"
+#include "equalbutton.h"
+#include "memorybutton.h"
+
+#include <DWidget>
+#include <DLabel>
+#include <DGuiApplicationHelper>
+#include <DSuggestButton>
+#include <com_deepin_daemon_appearance.h>
+
 #include <QWidget>
 #include <QGridLayout>
 #include <QVBoxLayout>
@@ -28,16 +39,6 @@
 #include <QSignalMapper>
 #include <QStackedWidget>
 #include <QDebug>
-#include <DWidget>
-#include <DLabel>
-#include <DGuiApplicationHelper>
-#include <DSuggestButton>
-#include <com_deepin_daemon_appearance.h>
-
-#include "textbutton.h"
-#include "iconbutton.h"
-#include "equalbutton.h"
-#include "memorybutton.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -66,9 +67,9 @@ public:
     };
 
     explicit ScientificKeyPad(QWidget *parent = nullptr);
-    ~ScientificKeyPad();
+    ~ScientificKeyPad() override;
 
-    void mouseMoveEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e) override;
 
     DPushButton *button(Buttons key);
     DPushButton *button(int key);

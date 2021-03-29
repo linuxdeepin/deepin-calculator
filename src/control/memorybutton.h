@@ -22,15 +22,17 @@
 #ifndef MEMORYBUTTON_H
 #define MEMORYBUTTON_H
 
+
+#include "textbutton.h"
+#include "../dsettings.h"
+
+#include <DPalette>
+#include <DPushButton>
+
 #include <QDebug>
 #include <QGraphicsDropShadowEffect>
 #include <QHelpEvent>
 #include <QToolTip>
-#include <DPalette>
-#include <DPushButton>
-
-#include "textbutton.h"
-#include "../dsettings.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -44,7 +46,7 @@ class MemoryButton : public TextButton
 
 public:
     MemoryButton(const QString &text = QString(), bool listwidgetbtn = false, QWidget *parent = nullptr); //listwidgetbtn-是否是内存界面中的按钮
-    ~MemoryButton();
+    ~MemoryButton() override;
 
     void init();
     // void showShadow();
@@ -62,12 +64,12 @@ signals:
     void updateInterface();
 
 public:
-    void mousePressEvent(QMouseEvent *);
-    void mouseReleaseEvent(QMouseEvent *);
-    void enterEvent(QEvent *);
-    void leaveEvent(QEvent *);
-    void paintEvent(QPaintEvent *e);
-    void focusOutEvent(QFocusEvent *);
+    void mousePressEvent(QMouseEvent *) override;
+    void mouseReleaseEvent(QMouseEvent *) override;
+    void enterEvent(QEvent *) override;
+    void leaveEvent(QEvent *) override;
+    void paintEvent(QPaintEvent *e) override;
+    void focusOutEvent(QFocusEvent *) override;
 
 private:
     QGraphicsDropShadowEffect *m_effect;

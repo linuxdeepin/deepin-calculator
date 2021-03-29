@@ -52,9 +52,9 @@ public:
     };
 
     explicit BasicKeypad(QWidget *parent = nullptr);
-    ~BasicKeypad();
+    ~BasicKeypad() override;
 
-    void mouseMoveEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e) override;
 
     DPushButton *button(Buttons key);
     DPushButton *button(int key);

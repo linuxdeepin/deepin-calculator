@@ -39,10 +39,10 @@ class ProSystemKeypad : public DWidget
 
 public:
     explicit ProSystemKeypad(QWidget *parent = nullptr);
-    ~ProSystemKeypad();
+    ~ProSystemKeypad() override;
     void setSystem(int system, int oldsystem); //system-64, 32, 16, 8 oldsystem-转换前的位数
     bool buttonHasFocus();
-    void mouseMoveEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event) override;
 
 signals:
     void valuechanged(QString num);

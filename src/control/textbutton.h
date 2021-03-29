@@ -20,15 +20,16 @@
 #ifndef TEXTBUTTON_H
 #define TEXTBUTTON_H
 
+#include <DPushButton>
+#include <DPalette>
+#include <DGuiApplicationHelper>
+
 #include <QGraphicsDropShadowEffect>
 #include <QDebug>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
 #include <QTimer>
-#include <DPushButton>
-#include <DPalette>
-#include <DGuiApplicationHelper>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -39,7 +40,7 @@ class TextButton : public DPushButton
 
 public:
     TextButton(const QString &text = QString(), bool page = false, QWidget *parent = nullptr); //page-是否是科学计算器中两页中的按钮
-    ~TextButton();
+    ~TextButton() override;
 
     void init();
     void animate(bool isspace = false, int msec = 100);
@@ -55,13 +56,13 @@ signals:
     void space();
 
 public:
-    void mousePressEvent(QMouseEvent *);
-    void mouseReleaseEvent(QMouseEvent *);
-    void enterEvent(QEvent *);
-    void leaveEvent(QEvent *);
-    void paintEvent(QPaintEvent *e);
-    void focusOutEvent(QFocusEvent *);
-    void keyPressEvent(QKeyEvent *e);
+    void mousePressEvent(QMouseEvent *) override;
+    void mouseReleaseEvent(QMouseEvent *) override;
+    void enterEvent(QEvent *) override;
+    void leaveEvent(QEvent *) override;
+    void paintEvent(QPaintEvent *e) override;
+    void focusOutEvent(QFocusEvent *) override;
+    void keyPressEvent(QKeyEvent *e) override;
 
 private:
     void paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect);

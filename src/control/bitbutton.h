@@ -40,20 +40,20 @@ class BitButton : public DPushButton
     Q_OBJECT
 public:
     explicit BitButton(QWidget *parent = nullptr);
-    ~BitButton();
+    ~BitButton() override;
 
     void init();
     void animate(bool isspace = false, int msec = 100);
     void setButtonState(bool b);
 
 public:
-    void mousePressEvent(QMouseEvent *);
-    void mouseReleaseEvent(QMouseEvent *);
-    void enterEvent(QEvent *);
-    void leaveEvent(QEvent *);
-    void paintEvent(QPaintEvent *e);
-    void focusOutEvent(QFocusEvent *);
-    void keyPressEvent(QKeyEvent *e);
+    void mousePressEvent(QMouseEvent *) override;
+    void mouseReleaseEvent(QMouseEvent *) override;
+    void enterEvent(QEvent *) override;
+    void leaveEvent(QEvent *) override;
+    void paintEvent(QPaintEvent *e) override;
+    void focusOutEvent(QFocusEvent *) override;
+    void keyPressEvent(QKeyEvent *e) override;
 
 signals:
     void updateInterface();

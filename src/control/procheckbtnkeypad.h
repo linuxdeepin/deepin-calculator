@@ -20,16 +20,17 @@
 #ifndef PROCHECKBTNKEYPAD_H
 #define PROCHECKBTNKEYPAD_H
 
-#include <QWidget>
-#include <QGridLayout>
-#include <QSignalMapper>
-#include <DGuiApplicationHelper>
-#include <DSuggestButton>
-
 #include "textbutton.h"
 #include "iconbutton.h"
 #include "memorybutton.h"
 #include "equalbutton.h"
+
+#include <DGuiApplicationHelper>
+#include <DSuggestButton>
+
+#include <QWidget>
+#include <QGridLayout>
+#include <QSignalMapper>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -48,9 +49,9 @@ public:
     enum Buttons {Key_GeneralKeypad = 36, Key_BinaryKeypad, Key_System, Key_Option, Key_MS, Key_Mlist}; //普通键盘, 二进制键盘, 位数, 计算方法选项, MS, M^
 
     explicit ProCheckBtnKeypad(QWidget *parent = nullptr);
-    ~ProCheckBtnKeypad();
+    ~ProCheckBtnKeypad() override;
 
-    void mouseMoveEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e) override;
 
     DPushButton *button(Buttons key);
     void animate(Buttons key, bool isspace = false);

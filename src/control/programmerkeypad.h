@@ -20,16 +20,17 @@
 #ifndef PROGRAMMERKEYPAD_H
 #define PROGRAMMERKEYPAD_H
 
-#include <QWidget>
-#include <QGridLayout>
-#include <QSignalMapper>
-#include <DGuiApplicationHelper>
-#include <DSuggestButton>
-
 #include "textbutton.h"
 #include "iconbutton.h"
 #include "memorybutton.h"
 #include "equalbutton.h"
+
+#include <DGuiApplicationHelper>
+#include <DSuggestButton>
+
+#include <QWidget>
+#include <QGridLayout>
+#include <QSignalMapper>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -52,9 +53,9 @@ public:
     };
 
     explicit ProgrammerKeypad(QWidget *parent = nullptr);
-    ~ProgrammerKeypad();
+    ~ProgrammerKeypad() override;
 
-    void mouseMoveEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e) override;
 
     DPushButton *button(Buttons key);
     void animate(Buttons key, bool isspace = false);

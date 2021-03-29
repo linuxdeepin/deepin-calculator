@@ -51,9 +51,9 @@ public:
     enum Buttons {Key_FE = 52, Key_MC, Key_MR, Key_Mplus, Key_Mmin, Key_MS, Key_MHlist}; //FE, MC, MR, M+, M-, MS, MH^
 
     explicit MemHisKeypad(QWidget *parent = nullptr);
-    ~MemHisKeypad();
+    ~MemHisKeypad() override;
 
-    void mouseMoveEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e) override;
 
     DPushButton *button(Buttons key);
     void animate(Buttons key, bool isspace = false);
