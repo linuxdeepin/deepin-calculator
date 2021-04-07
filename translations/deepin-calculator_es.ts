@@ -68,7 +68,7 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>La calculadora es una calculadora de escritorio fácil de usar, que soporta los modos estándar, científico y programador.</translation>
+        <translation>La calculadora es una aplicación de escritorio, fácil de usar que soporta los modos estándar, científico y programador.</translation>
     </message>
     <message>
         <source>Programmer</source>
