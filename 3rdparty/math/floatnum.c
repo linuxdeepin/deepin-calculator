@@ -1514,11 +1514,11 @@ _addsub_ordered(
   int overprec_part_s2 = summand2->significand->n_scale - summand2->exponent - DECPRECISION;
   if(overprec_part_s1 > 0 && DECPRECISION + summand1->exponent > 0)
   {
-      float_round(summand1,summand1,DECPRECISION + summand1->exponent,TONEAREST);
+      float_round(summand1,summand1,DECPRECISION + summand1->exponent + 3,TONEAREST);
   }
   if(overprec_part_s2 > 0 && DECPRECISION + summand2->exponent > 0)
   {
-      float_round(summand2,summand2,DECPRECISION + summand2->exponent,TONEAREST);
+      float_round(summand2,summand2,DECPRECISION + summand2->exponent + 3,TONEAREST);
   }
   //end edit jingzhou 20200807
   if (float_getsign(summand1) == float_getsign(summand2))
