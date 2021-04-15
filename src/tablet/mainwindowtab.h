@@ -26,6 +26,8 @@
 
 #include "tablet/widgets/basicmoduletab.h"
 #include "tablet/widgets/scientificmoduletab.h"
+#include "tablet/widgets/basicmodulever.h"
+#include "tablet/widgets/scientificmodulever.h"
 #include "tablet/control/iconbuttontab.h"
 #include "dsettings.h"
 #include "performancemonitor.h"
@@ -59,18 +61,21 @@ private:
     DSettingsAlt *m_settings;
     QStackedLayout *m_mainLayout;
 
-    BasicModuleTab *m_basicModule;
-    scientificModuleTab *m_scientificModule;
+    BasicModuleTab *m_basicModule = nullptr;
+    scientificModuleTab *m_scientificModule = nullptr;
 
     IconButtonTab *m_clearbutton;
 
     bool m_isinit = true;//初始化
-    bool m_isStandInit = false; //标准是否初始化
-    bool m_isSciInit = false; //科学是否初始化
 
     bool m_standShow = false; //标准显示清除按钮
     bool m_sciShow = false; //科学显示清除按钮
+    bool m_standVerShow = false; //标准显示清除按钮
+    bool m_sciVerShow = false;
     QSize m_windowsize = QSize();
+
+    //横竖屏
+    bool m_isVer = false;
 };
 
 #endif

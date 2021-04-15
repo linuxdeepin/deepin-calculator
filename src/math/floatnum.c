@@ -1512,21 +1512,13 @@ _addsub_ordered(
    */
   int overprec_part_s1 = summand1->significand->n_scale - summand1->exponent - DECPRECISION;
   int overprec_part_s2 = summand2->significand->n_scale - summand2->exponent - DECPRECISION;
-  if(overprec_part_s1 > 0)
+  if(overprec_part_s1 > 0 && DECPRECISION + summand1->exponent > 0)
   {
-      for (;overprec_part_s1>0;overprec_part_s1--) {
-          if(summand1->significand->n_scale == 0)
-              break;
-          summand1->significand->n_scale--;     
-      }
+      float_round(summand1,summand1,DECPRECISION + summand1->exponent,TONEAREST);
   }
-  if(overprec_part_s2 > 0)
+  if(overprec_part_s2 > 0 && DECPRECISION + summand2->exponent > 0)
   {
-      for (;overprec_part_s2>0;overprec_part_s2--) {
-          if(summand2->significand->n_scale == 0)
-              break;
-          summand2->significand->n_scale--;
-      }
+      float_round(summand2,summand2,DECPRECISION + summand2->exponent,TONEAREST);
   }
   //end edit jingzhou 20200807
   if (float_getsign(summand1) == float_getsign(summand2))

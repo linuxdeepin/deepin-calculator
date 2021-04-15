@@ -127,32 +127,27 @@ void MainWindowTab::initModule()
 
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
 
-    QRect rect = QApplication::desktop()->screenGeometry();
+    QRect rect = QApplication::desktop()->availableGeometry();
     m_windowsize = QSize(rect.width(), rect.height());
+    m_isVer = rect.width() < rect.height();
     m_isinit = true;
     switch (mode) {
     case 0:
         m_basicModule = new BasicModuleTab(this);
         m_mainLayout->addWidget(m_basicModule);
-        m_isStandInit = true;
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
-        m_basicModule->resetWindowSize(m_windowsize);
         switchToSimpleMode();
         break;
     case 1:
         m_scientificModule = new scientificModuleTab(this);
         m_mainLayout->addWidget(m_scientificModule);
-        m_isSciInit = true;
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
-        m_scientificModule->resetWindowSize(m_windowsize);
         switchToScientificMode();
         break;
     default:
         m_basicModule = new BasicModuleTab(this);
         m_mainLayout->addWidget(m_basicModule);
-        m_isStandInit = true;
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
-        m_basicModule->resetWindowSize(m_windowsize);
         switchToSimpleMode();
         break;
     }
@@ -161,12 +156,10 @@ void MainWindowTab::initModule()
 
 void MainWindowTab::switchToSimpleMode()
 {
-    if (!m_isStandInit) {
+    if (!m_basicModule) {
         m_basicModule = new BasicModuleTab(this);
         m_mainLayout->addWidget(m_basicModule);
-        m_isStandInit = true;
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
-        m_basicModule->resetWindowSize(m_windowsize);
     }
     if (m_settings->getOption("mode") != 0 || m_isinit) {
         m_settings->setOption("mode", 0);
@@ -185,16 +178,15 @@ void MainWindowTab::switchToSimpleMode()
         }, Qt::UniqueConnection);
         m_basicModule->checkLineEmpty();
     }
+    m_basicModule->resetWindowSize(m_windowsize);
 }
 
 void MainWindowTab::switchToScientificMode()
 {
-    if (!m_isSciInit) {
+    if (!m_scientificModule) {
         m_scientificModule = new scientificModuleTab(this);
         m_mainLayout->addWidget(m_scientificModule);
-        m_isSciInit = true;
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
-        m_scientificModule->resetWindowSize(m_windowsize);
     }
     if (m_settings->getOption("mode") != 1 || m_isinit) {
         m_settings->setOption("mode", 1);
@@ -213,6 +205,7 @@ void MainWindowTab::switchToScientificMode()
         }, Qt::UniqueConnection);
         m_scientificModule->checkLineEmpty();
     }
+    m_scientificModule->resetWindowSize(m_windowsize);
 }
 
 /**
@@ -237,6 +230,13 @@ void MainWindowTab::resizeEvent(QResizeEvent *event)
 {
     m_settings->setOption("windowWidth", event->size().width());
     m_settings->setOption("windowHeight", event->size().height());
+    QRect rect = QApplication::desktop()->availableGeometry();
+    m_windowsize = QSize(rect.width(), rect.height());
+    if (m_settings->getOption("mode").toInt() != 1) {
+        switchToSimpleMode();
+    } else {
+        switchToScientificMode();
+    }
     DMainWindow::resizeEvent(event);
 }
 

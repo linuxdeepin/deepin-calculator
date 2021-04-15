@@ -29,7 +29,9 @@
 #include "dthememanager.h"
 
 const int KEYPADHEIGHT = 714; //整体键盘的高度
+const int KEYPADHEIGHTVER = 1165; //整体键盘的高度
 const QSize BUTTON_SIZE = QSize(231, 80); //科学模式的固定大小
+const QSize BUTTONVER_SIZE = QSize(167, 157); //科学模式的固定大小
 
 const ScientificKeyPadTab::KeyDescription ScientificKeyPadTab::keyDescriptions[] = {
     {"F-E", Key_FE, 1, 0, 1, 1},   {"MC", Key_MC, 1, 1, 1, 1},   {"MR", Key_MR, 1, 2, 1, 1},
@@ -639,28 +641,59 @@ void ScientificKeyPadTab::getFocus(int direction)
 
 void ScientificKeyPadTab::resetWidgetSize(QSize size)
 {
-    this->setFixedHeight(KEYPADHEIGHT * size.height() / 1055);
-    QSize btnsize;
-    btnsize.setWidth(231 * size.width() / 1920);
-    btnsize.setHeight(80 * size.height() / 1055);
-    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
-    while (i.hasNext()) {
-        i.next();
-        i.value().first->setFixedSize(btnsize);
+    if (size.width() < size.height()) {
+        this->setFixedHeight(KEYPADHEIGHTVER * size.height() / 1880);
+        QSize btnsize;
+        btnsize.setWidth(167 * size.width() / 1080);
+        btnsize.setHeight(157 * size.height() / 1880);
+        QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+        while (i.hasNext()) {
+            i.next();
+            if (i.value().second->row == 1)
+                i.value().first->hide();
+            i.value().first->setFixedSize(btnsize);
+        }
+        QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription1 *>> i1(m_keys1);
+        while (i1.hasNext()) {
+            i1.next();
+            i1.value().first->setFixedSize(btnsize);
+        }
+        m_arcsinwidget->setFixedSize(167 * size.width() / 1080, 161 * size.height() / 1880);
+        m_arccoswidget->setFixedSize(167 * size.width() / 1080, 161 * size.height() / 1880);
+        m_arctanwidget->setFixedSize(167 * size.width() / 1080, 161 * size.height() / 1880);
+        m_arccotwidget->setFixedSize(167 * size.width() / 1080, 161 * size.height() / 1880);
+        m_sqrtwidget->setFixedSize(167 * size.width() / 1080, 161 * size.height() / 1880);
+        m_cbrtwidget->setFixedSize(167 * size.width() / 1080, 161 * size.height() / 1880);
+        m_yrootwidget->setFixedSize(167 * size.width() / 1080, 161 * size.height() / 1880);
+        m_2xwidget->setFixedSize(167 * size.width() / 1080, 161 * size.height() / 1880);
+        m_logyxwidget->setFixedSize(167 * size.width() / 1080, 161 * size.height() / 1880);
+        m_exwidget->setFixedSize(167 * size.width() / 1080, 161 * size.height() / 1880);
+    } else {
+        this->setFixedHeight(KEYPADHEIGHT * size.height() / 1055);
+        QSize btnsize;
+        btnsize.setWidth(231 * size.width() / 1920);
+        btnsize.setHeight(80 * size.height() / 1055);
+        QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+        while (i.hasNext()) {
+            i.next();
+            if (i.value().second->row == 1)
+                i.value().first->show();
+            i.value().first->setFixedSize(btnsize);
+        }
+        QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription1 *>> i1(m_keys1);
+        while (i1.hasNext()) {
+            i1.next();
+            i1.value().first->setFixedSize(btnsize);
+        }
+        m_arcsinwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+        m_arccoswidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+        m_arctanwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+        m_arccotwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+        m_sqrtwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+        m_cbrtwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+        m_yrootwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+        m_2xwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+        m_logyxwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
+        m_exwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
     }
-    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription1 *>> i1(m_keys1);
-    while (i1.hasNext()) {
-        i1.next();
-        i1.value().first->setFixedSize(btnsize);
-    }
-    m_arcsinwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
-    m_arccoswidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
-    m_arctanwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
-    m_arccotwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
-    m_sqrtwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
-    m_cbrtwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
-    m_yrootwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
-    m_2xwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
-    m_logyxwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
-    m_exwidget->setFixedSize(231 * size.width() / 1920, 84 * size.height() / 1055);
 }

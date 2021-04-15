@@ -77,6 +77,7 @@ public:
 signals:
     void hisbtnClicked();
     void clearbtnShow(bool show);
+    void hisIsFilled(bool isfilled);
 
 public slots:
     void themeChanged(int type);

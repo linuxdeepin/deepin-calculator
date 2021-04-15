@@ -1,11 +1,12 @@
 #include "memorykeypadtab.h"
 
 const QSize MEMORYBUTTON_SIZE = QSize(279, 87); //标准模式大小，为画边框比ui大2pix
+const QSize MEMORYBUTTONVER_SIZE = QSize(167, 182); //竖屏大小
 
 const MemoryKeypadTab::KeyDescription MemoryKeypadTab::keyDescriptions[] = {
     {"MC", Key_MC, 1, 0, 1, 1},       {"MR", Key_MR, 1, 1, 1, 1},
     {"M+", Key_Mplus, 1, 2, 1, 1},    {"M-", Key_Mminus, 1, 3, 1, 1},
-    {"MS", Key_MS, 1, 4, 1, 1}
+    {"MS", Key_MS, 1, 4, 1, 1},       {"M˅", Key_Mlist, 1, 5, 1, 1},
 };
 
 MemoryKeypadTab::MemoryKeypadTab(QWidget *parent)
@@ -61,7 +62,7 @@ bool MemoryKeypadTab::buttonHasFocus()
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
     while (i.hasNext()) {
         i.next();
-        if (i.value().first->hasFocus()) {
+        if (i.value().first && i.value().first->hasFocus()) {
             return true;
         }
     }
@@ -110,7 +111,7 @@ void MemoryKeypadTab::getFocus(int direction)
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
     while (i.hasNext()) {
         i.next();
-        if (i.value().first->hasFocus()) {
+        if (i.value().first && i.value().first->hasFocus()) {
             break; //获取焦点按钮
         }
     }
@@ -130,13 +131,30 @@ void MemoryKeypadTab::getFocus(int direction)
 
 void MemoryKeypadTab::resetWidgetSize(QSize size)
 {
-    this->setFixedHeight(95 * size.height() / 1055);
-    QSize btnsize;
-    btnsize.setWidth(279 * size.width() / 1920);
-    btnsize.setHeight(87 * size.height() / 1055);
-    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
-    while (i.hasNext()) {
-        i.next();
-        i.value().first->setFixedSize(btnsize);
+    if (size.width() < size.height()) {
+        this->setFixedHeight(190 * size.height() / 1880);
+        QSize btnsize;
+        btnsize.setWidth(167 * size.width() / 1080);
+        btnsize.setHeight(182 * size.height() / 1880);
+        QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+        while (i.hasNext()) {
+            i.next();
+            if (i.value().first->text() == "M˅")
+                i.value().first->show();
+            i.value().first->setFixedSize(btnsize);
+        }
+    } else {
+        this->setFixedHeight(95 * size.height() / 1055);
+        QSize btnsize;
+        btnsize.setWidth(279 * size.width() / 1920);
+        btnsize.setHeight(87 * size.height() / 1055);
+        QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
+        while (i.hasNext()) {
+            i.next();
+            if (i.value().first->text() == "M˅")
+                i.value().first->hide();
+            i.value().first->setFixedSize(btnsize);
+        }
     }
+
 }

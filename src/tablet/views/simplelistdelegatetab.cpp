@@ -24,6 +24,8 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
+#include <QDesktopWidget>
+#include <QApplication>
 #include <DGuiApplicationHelper>
 
 #include "dthememanager.h"
@@ -414,8 +416,12 @@ QSize SimpleListDelegateTab::sizeHint(const QStyleOptionViewItem &option,
                          (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 1)); //由于结果字体较大，暂以此避免
         resultHeight = fmresult.height() * resultline;
         return QSize(HISWIDTH, expHeight + resultHeight + 25); //多出25pix空隙
-    } else
-        return QSize(-1, 68);
+    } else {
+        if (QApplication::desktop()->screenGeometry().width() < QApplication::desktop()->screenGeometry().height())
+            return QSize(-1, 68 * QApplication::desktop()->availableGeometry().height() / 1880);
+        else
+            return QSize(-1, 68 * QApplication::desktop()->availableGeometry().height() / 1055);
+    }
 }
 
 //bool SimpleListDelegateTab::editorEvent(QEvent *event, QAbstractItemModel *model,

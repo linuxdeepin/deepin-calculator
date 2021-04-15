@@ -1,23 +1,4 @@
-/*
- * Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
- *
- * Author:     rekols <rekols@foxmail.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-#include "basicmoduletab.h"
+#include "basicmodulever.h"
 
 #include <QDebug>
 #include <QKeyEvent>
@@ -29,134 +10,71 @@
 #include "utils.h"
 #include "math/quantity.h"
 
-const int new_Func_Percent = 0; //0-旧的百分号方法 1-新
-
-BasicModuleTab::BasicModuleTab(QWidget *parent)
+BasicModuleVer::BasicModuleVer(QWidget *parent)
     : DWidget(parent)
 {
-    m_scihiswidget = new SciHistoryWidgetTab(0, this);
-    m_scihiswidgetver = new SciHistoryWidgetTab(2, this);
     m_basicKeypad = new BasicKeypadTab(this);
     m_memoryKeypad = new MemoryKeypadTab(this);
     m_keypadLayout = new QStackedWidget(this);
     m_memCalbtn = false;
     m_memRCbtn = false;
     m_memoryPublic = MemoryPublicTab::instance();
+    m_scihiswidget = new SciHistoryWidgetTab(2, this);
+    QVBoxLayout *layout = new QVBoxLayout(this);
     m_expressionBar = new ExpressionBarTab(this);
-
-    QHBoxLayout *layout = new QHBoxLayout(this);
-    QVBoxLayout *leftlay = new QVBoxLayout();
-    leftlay->addWidget(m_expressionBar);
-    leftlay->addWidget(m_memoryKeypad);
+    layout->addWidget(m_expressionBar);
+    layout->addWidget(m_memoryKeypad);
     layout->addSpacing(1); //按钮边框多1pix
-    leftlay->addWidget(m_keypadLayout);
+    layout->addWidget(m_keypadLayout);
     m_keypadLayout->addWidget(m_basicKeypad);
-    m_keypadLayout->addWidget(m_scihiswidgetver);
+    m_keypadLayout->addWidget(m_scihiswidget);
 
-    QVBoxLayout *rightlay = new QVBoxLayout();
-    rightlay->addWidget(m_scihiswidget);
-    layout->addLayout(leftlay);
-    layout->addLayout(rightlay);
     layout->setSpacing(0);
-    this->setLayout(layout);
+    layout->setMargin(0);
     layout->setContentsMargins(0, 0, 0, 0);
 
     setMouseTracking(true);
     setFocus();
-
     m_expressionBar->initTheme(DGuiApplicationHelper::instance()->themeType());
     //信号槽连接
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_expressionBar, &ExpressionBarTab::initTheme);
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this,
-            &BasicModuleTab::initTheme);
+            &BasicModuleVer::initTheme);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_basicKeypad, &BasicKeypadTab::buttonThemeChanged);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_memoryPublic, &MemoryPublicTab::setThemeType);
-    connect(m_expressionBar, &ExpressionBarTab::keyPress, this, &BasicModuleTab::handleEditKeyPress);
+    connect(m_expressionBar, &ExpressionBarTab::keyPress, this, &BasicModuleVer::handleEditKeyPress);
     connect(m_expressionBar, &ExpressionBarTab::clearStateChanged, this,
-            &BasicModuleTab::handleClearStateChanged);
+            &BasicModuleVer::handleClearStateChanged);
     connect(m_basicKeypad, &BasicKeypadTab::buttonPressed, this,
-            &BasicModuleTab::handleKeypadButtonPress);
+            &BasicModuleVer::handleKeypadButtonPress);
     connect(m_basicKeypad, &BasicKeypadTab::buttonPressedbySpace, this,
-            &BasicModuleTab::handleKeypadButtonPressByspace);
+            &BasicModuleVer::handleKeypadButtonPressByspace);
     connect(m_basicKeypad, &BasicKeypadTab::moveLeft, [ = ] { m_expressionBar->moveLeft(); });
     connect(m_basicKeypad, &BasicKeypadTab::moveRight, [ = ] { m_expressionBar->moveRight(); });
     connect(m_memoryKeypad, &MemoryKeypadTab::moveLeft, [ = ] { m_expressionBar->moveLeft(); });
     connect(m_memoryKeypad, &MemoryKeypadTab::moveRight, [ = ] { m_expressionBar->moveRight(); });
     connect(m_memoryKeypad, &MemoryKeypadTab::buttonPressed, this,
-            &BasicModuleTab::handleKeypadButtonPress);
+            &BasicModuleVer::handleKeypadButtonPress);
     connect(m_memoryKeypad, &MemoryKeypadTab::buttonPressedbySpace, this,
-            &BasicModuleTab::handleKeypadButtonPressByspace);
+            &BasicModuleVer::handleKeypadButtonPressByspace);
     connect(m_scihiswidget->findChild<MemoryWidgetTab *>(), &MemoryWidgetTab::widgetplus, this, [ = ](int row) {
-        //点击键盘按键上的m+,m-是先进行计算，若有计算结果放入内存中
-        m_expressionBar->settingLinkage();
-        if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
-            m_scihiswidget->memoryFunctions(SciHistoryWidgetTab::widgetplus, m_expressionBar->getInputEdit()->getMemoryAnswer().second, row);
-    });
-    connect(m_scihiswidget->findChild<MemoryWidgetTab *>(), &MemoryWidgetTab::widgetminus, this, [ = ](int row) {
-        m_expressionBar->settingLinkage();
-        if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
-            m_scihiswidget->memoryFunctions(SciHistoryWidgetTab::widgetminus, m_expressionBar->getInputEdit()->getMemoryAnswer().second, row);
-    });
-    connect(m_memoryPublic, &MemoryPublicTab::memorycleanSig, this, &BasicModuleTab::mUnAvailableEvent);
-    connect(m_memoryPublic, &MemoryPublicTab::generateDataSig, this, &BasicModuleTab::mAvailableEvent);
-    connect(m_scihiswidget->findChild<MemoryWidgetTab *>(), &MemoryWidgetTab::itemclick, this, [ = ](const QPair<QString, Quantity> p) {
-        //内存界面点击item
-        QString str = p.first;
-        m_expressionBar->getInputEdit()->setAnswer(str.remove("\n"), p.second);
-        m_expressionBar->getInputEdit()->setFocus();
-        this->handleClearStateChanged(false);
-        MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MC));
-        btn->setEnabled(true);
-        MemoryButtonTab *btn1 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MR));
-        btn1->setEnabled(true);
-        MemoryButtonTab *btn2 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mplus));
-        btn2->setEnabled(true);
-        MemoryButtonTab *btn3 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mminus));
-        btn3->setEnabled(true);
-        MemoryButtonTab *btn4 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MS));
-        btn4->setEnabled(true);
-        m_memRCbtn = true;
-        m_memCalbtn = true;
-    });
-    connect(m_expressionBar->getInputEdit(), &InputEdit::emptyExpression, this, [ = ](bool b) {
-        if (b == false) {
-            MemoryButtonTab *btn2 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mplus));
-            btn2->setEnabled(true);
-            MemoryButtonTab *btn3 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mminus));
-            btn3->setEnabled(true);
-            MemoryButtonTab *btn4 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MS));
-            btn4->setEnabled(true);
-            m_memCalbtn = true;
-            m_scihiswidget->findChild<MemoryWidgetTab *>()->expressionempty(b);
-            m_scihiswidgetver->findChild<MemoryWidgetTab *>()->expressionempty(b);
-        } else {
-            MemoryButtonTab *btn2 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mplus));
-            btn2->setEnabled(false);
-            MemoryButtonTab *btn3 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mminus));
-            btn3->setEnabled(false);
-            MemoryButtonTab *btn4 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MS));
-            btn4->setEnabled(false);
-            m_memCalbtn = false;
-            m_scihiswidget->findChild<MemoryWidgetTab *>()->expressionempty(b);
-            m_scihiswidgetver->findChild<MemoryWidgetTab *>()->expressionempty(b);
-        }
-    });
-    //竖屏内存界面信号
-    connect(m_scihiswidgetver->findChild<MemoryWidgetTab *>(), &MemoryWidgetTab::widgetplus, this, [ = ](int row) {
         m_expressionBar->settingLinkage();
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
             m_memoryPublic->widgetplus(row, m_expressionBar->getInputEdit()->getMemoryAnswer().second);
     });
-    connect(m_scihiswidgetver->findChild<MemoryWidgetTab *>(), &MemoryWidgetTab::widgetminus, this, [ = ](int row) {
+    connect(m_scihiswidget->findChild<MemoryWidgetTab *>(), &MemoryWidgetTab::widgetminus, this, [ = ](int row) {
         m_expressionBar->settingLinkage();
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
             m_memoryPublic->widgetminus(row, m_expressionBar->getInputEdit()->getMemoryAnswer().second);
     });
-    connect(m_scihiswidgetver->findChild<MemoryWidgetTab *>(), &MemoryWidgetTab::itemclick, this, [ = ](const QPair<QString, Quantity> p) {
+
+    connect(m_memoryPublic, &MemoryPublicTab::memorycleanSig, this, &BasicModuleVer::mUnAvailableEvent);
+    connect(m_memoryPublic, &MemoryPublicTab::generateDataSig, this, &BasicModuleVer::mAvailableEvent);
+    connect(m_scihiswidget->findChild<MemoryWidgetTab *>(), &MemoryWidgetTab::itemclick, this, [ = ](const QPair<QString, Quantity> p) {
         QString str = p.first;
         m_expressionBar->getInputEdit()->setAnswer(str.remove("\n"), p.second);
         m_expressionBar->getInputEdit()->setFocus();
@@ -164,11 +82,29 @@ BasicModuleTab::BasicModuleTab(QWidget *parent)
         this->handleClearStateChanged(false);
         m_keypadLayout->setCurrentIndex(0);
     });
-
+    connect(m_expressionBar->getInputEdit(), &InputEdit::emptyExpression, this, [ = ](bool b) {
+        if (b == false) {
+            MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mplus));
+            btn2->setEnabled(true);
+            MemoryButton *btn3 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mminus));
+            btn3->setEnabled(true);
+            MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MS));
+            btn4->setEnabled(true);
+            m_memCalbtn = true;
+            m_scihiswidget->findChild<MemoryWidgetTab *>()->expressionempty(b);
+        } else {
+            MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mplus));
+            btn2->setEnabled(false);
+            MemoryButton *btn3 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mminus));
+            btn3->setEnabled(false);
+            MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MS));
+            btn4->setEnabled(false);
+            m_memCalbtn = false;
+            m_scihiswidget->findChild<MemoryWidgetTab *>()->expressionempty(b);
+        }
+    });
     //titlebar的清除按钮
-    connect(m_scihiswidget, &SciHistoryWidgetTab::clearbtnShow, this, &BasicModuleTab::clearbtnShow);
-    connect(m_scihiswidgetver, &SciHistoryWidgetTab::clearbtnShow, this, &BasicModuleTab::clearbtnShow);
-
+    connect(m_scihiswidget, &SciHistoryWidgetTab::clearbtnShow, this, &BasicModuleVer::clearbtnShow);
     //获取科学模式内存是否为空，处理分开初始化科学模式下增加内存切到标准模式Mlist不能点击情况
     if (!m_memoryPublic->isEmpty())
         mAvailableEvent();
@@ -177,9 +113,9 @@ BasicModuleTab::BasicModuleTab(QWidget *parent)
     setBasicTabOrder();
 }
 
-BasicModuleTab::~BasicModuleTab() {}
+BasicModuleVer::~BasicModuleVer() {}
 
-void BasicModuleTab::initTheme(int type)
+void BasicModuleVer::initTheme(int type)
 {
     m_expressionBar->initTheme(type);
     update();
@@ -188,7 +124,7 @@ void BasicModuleTab::initTheme(int type)
 /**
  * @brief 物理键盘press事件
  */
-void BasicModuleTab::handleEditKeyPress(QKeyEvent *e)
+void BasicModuleVer::handleEditKeyPress(QKeyEvent *e)
 {
     if (m_keypadLayout->currentIndex() == 1)
         return;
@@ -281,10 +217,7 @@ void BasicModuleTab::handleEditKeyPress(QKeyEvent *e)
         m_expressionBar->enterRightBracketsEvent();
         break;
     case Qt::Key_Percent:
-        if (new_Func_Percent == 0)
-            m_expressionBar->enterPercentEvent();
-        else
-            m_expressionBar->enterPercentEventCommon();
+        m_expressionBar->enterPercentEvent();
         m_basicKeypad->animate(BasicKeypadTab::Key_Percent);
         break;
     case Qt::Key_C:
@@ -340,8 +273,9 @@ void BasicModuleTab::handleEditKeyPress(QKeyEvent *e)
     case Qt::Key_R:
         if (isPressCtrl && m_memRCbtn) {
             m_memoryKeypad->animate(MemoryKeypadTab::Key_MR);
-            m_expressionBar->getInputEdit()->setAnswer(m_scihiswidget->findChild<MemoryWidgetTab *>()->getfirstnumber().first
-                                                       , m_scihiswidget->findChild<MemoryWidgetTab *>()->getfirstnumber().second);
+            m_expressionBar->getInputEdit()->setAnswer(m_scihiswidget->findChild<MemoryWidgetTab *>()->getfirstnumber().first,
+                                                       m_scihiswidget->findChild<MemoryWidgetTab *>()->getfirstnumber().second);
+            //点击item清除键状态改变
             this->handleClearStateChanged(false);
         }
         break;
@@ -379,11 +313,12 @@ void BasicModuleTab::handleEditKeyPress(QKeyEvent *e)
 /**
  * @brief 计算器键盘点击事件
  */
-void BasicModuleTab::handleKeypadButtonPress(int key)
+void BasicModuleVer::handleKeypadButtonPress(int key)
 {
-    bool memoryfocus = false;
+    bool pagefocus = false;
     m_basicKeypad->update();
     //20200414 bug20294鼠标点击取消focus
+    QPair<QString, Quantity> p;
     switch (key) {
     case BasicKeypadTab::Key_0:
         m_expressionBar->enterNumberEvent("0"); //按键0事件
@@ -428,10 +363,7 @@ void BasicModuleTab::handleKeypadButtonPress(int key)
         m_expressionBar->enterSymbolEvent("/");
         break;
     case BasicKeypadTab::Key_Percent:
-        if (new_Func_Percent == 0)
-            m_expressionBar->enterPercentEvent();
-        else
-            m_expressionBar->enterPercentEventCommon();
+        m_expressionBar->enterPercentEvent();
         break;
     case BasicKeypadTab::Key_Equals:
         m_expressionBar->settingLinkage();
@@ -462,10 +394,7 @@ void BasicModuleTab::handleKeypadButtonPress(int key)
         }
         break;
     case MemoryKeypadTab::Key_Mlist:
-        if (m_keypadLayout->currentIndex() == 0)
-            showListWidget();
-        else
-            closeListWidget();
+        showListWidget();
         break;
     case MemoryKeypadTab::Key_Mplus:
         m_expressionBar->settingLinkage();
@@ -478,14 +407,14 @@ void BasicModuleTab::handleKeypadButtonPress(int key)
             m_memoryPublic->memoryminus(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case MemoryKeypadTab::Key_MR:
-        m_expressionBar->getInputEdit()->setAnswer(m_scihiswidget->findChild<MemoryWidgetTab *>()->getfirstnumber().first
-                                                   , m_scihiswidget->findChild<MemoryWidgetTab *>()->getfirstnumber().second);
+        p = m_scihiswidget->findChild<MemoryWidgetTab *>()->getfirstnumber();
+        m_expressionBar->getInputEdit()->setAnswer(p.first, p.second);
         this->handleClearStateChanged(false);
         break;
     default:
         break;
     }
-    if (!memoryfocus)
+    if (!pagefocus)
         m_expressionBar->getInputEdit()->setFocus();
 }
 
@@ -493,7 +422,7 @@ void BasicModuleTab::handleKeypadButtonPress(int key)
  * @brief 焦点空格事件
  * @param key-button枚举值
  */
-void BasicModuleTab::handleKeypadButtonPressByspace(int key)
+void BasicModuleVer::handleKeypadButtonPressByspace(int key)
 {
     m_basicKeypad->update();
     m_memoryKeypad->update();
@@ -558,10 +487,7 @@ void BasicModuleTab::handleKeypadButtonPressByspace(int key)
         m_basicKeypad->animate(BasicKeypadTab::Key_Div, true);
         break;
     case BasicKeypadTab::Key_Percent:
-        if (new_Func_Percent == 0)
-            m_expressionBar->enterPercentEvent();
-        else
-            m_expressionBar->enterPercentEventCommon();
+        m_expressionBar->enterPercentEvent();
         m_basicKeypad->animate(BasicKeypadTab::Key_Percent, true);
         break;
     case BasicKeypadTab::Key_Equals:
@@ -601,10 +527,7 @@ void BasicModuleTab::handleKeypadButtonPressByspace(int key)
         break;
     case MemoryKeypadTab::Key_Mlist:
         m_memoryKeypad->animate(MemoryKeypadTab::Key_Mlist, true);
-        if (m_keypadLayout->currentIndex() == 0)
-            showListWidget();
-        else
-            closeListWidget();
+        showListWidget();
         break;
     case MemoryKeypadTab::Key_Mplus:
         m_memoryKeypad->animate(MemoryKeypadTab::Key_Mplus, true);
@@ -620,8 +543,8 @@ void BasicModuleTab::handleKeypadButtonPressByspace(int key)
         break;
     case MemoryKeypadTab::Key_MR:
         m_memoryKeypad->animate(MemoryKeypadTab::Key_MR, true);
-        m_expressionBar->getInputEdit()->setAnswer(m_scihiswidget->findChild<MemoryWidgetTab *>()->getfirstnumber().first
-                                                   , m_scihiswidget->findChild<MemoryWidgetTab *>()->getfirstnumber().second);
+        p = m_scihiswidget->findChild<MemoryWidgetTab *>()->getfirstnumber();
+        m_expressionBar->getInputEdit()->setAnswer(p.first, p.second);
         this->handleClearStateChanged(false);
         break;
     default:
@@ -632,9 +555,9 @@ void BasicModuleTab::handleKeypadButtonPressByspace(int key)
 /**
  * @brief 设置清楚按键状态
  */
-void BasicModuleTab::handleClearStateChanged(bool isAllClear)
+void BasicModuleVer::handleClearStateChanged(bool isAllClear)
 {
-    TextButtonTab *btn = static_cast<TextButtonTab *>(m_basicKeypad->button(BasicKeypadTab::Key_Clear));
+    TextButton *btn = static_cast<TextButton *>(m_basicKeypad->button(BasicKeypadTab::Key_Clear));
 
     if (isAllClear) {
         btn->setText("AC");
@@ -643,26 +566,22 @@ void BasicModuleTab::handleClearStateChanged(bool isAllClear)
     }
 }
 
-void BasicModuleTab::setBasicTabOrder()
+void BasicModuleVer::setBasicTabOrder()
 {
     this->setTabOrder(m_expressionBar->getInputEdit(), m_memoryKeypad->button(MemoryKeypadTab::Key_MC));
     for (int i = 0; i < 5; i++) {
         this->setTabOrder(m_memoryKeypad->button(MemoryKeypadTab::Key_MC + i), m_memoryKeypad->button(MemoryKeypadTab::Key_MC + i + 1));
     }
-    this->setTabOrder(m_memoryKeypad->button(MemoryKeypadTab::Key_MS), m_basicKeypad->button(BasicKeypadTab::Key_Clear));
+    this->setTabOrder(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist), m_basicKeypad->button(BasicKeypadTab::Key_Clear));
     for (int i = 0; i < 20; i++) {
         this->setTabOrder(m_basicKeypad->button(BasicKeypadTab::Key_Clear + i), m_basicKeypad->button(BasicKeypadTab::Key_Clear + i + 1));
     }
-    this->setTabOrder(m_basicKeypad->button(BasicKeypadTab::Key_Equals), static_cast<MemoryWidgetTab *>(m_scihiswidget->findChild<MemoryWidgetTab *>()));
-    connect(static_cast<MemoryWidgetTab *>(m_scihiswidget->findChild<MemoryWidgetTab *>()), &MemoryWidgetTab::scimemtab, this, &BasicModuleTab::sciMemTab);
-    connect(static_cast<MemoryWidgetTab *>(m_scihiswidgetver->findChild<MemoryWidgetTab *>()),
-            &MemoryWidgetTab::scimemtab, this, &BasicModuleTab::sciMemTab);
 }
 
 /**
  * @brief mainwindow焦点不在basicmodul时也触发keypress
  */
-void BasicModuleTab::setKeyPress(QKeyEvent *e)
+void BasicModuleVer::setKeyPress(QKeyEvent *e)
 {
     handleEditKeyPress(e);
 }
@@ -670,81 +589,53 @@ void BasicModuleTab::setKeyPress(QKeyEvent *e)
 /**
  * @brief 向内存中存入数据时触发
  */
-void BasicModuleTab::mAvailableEvent()
+void BasicModuleVer::mAvailableEvent()
 {
     m_avail = true;
-    MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MC));
+    MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MC));
     btn->setEnabled(true);
-    MemoryButtonTab *btn1 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MR));
+    MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MR));
     btn1->setEnabled(true);
-    m_memRCbtn = true;
     MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
     btn2->setEnabled(true);
+    m_memRCbtn = true;
 }
 
 /**
  * @brief 清空内存列表触发
  */
-void BasicModuleTab::mUnAvailableEvent()
+void BasicModuleVer::mUnAvailableEvent()
 {
     m_avail = false;
-    MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MC));
+    MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MC));
     btn->setEnabled(false);
     btn->updateWhenBtnDisable();
-    MemoryButtonTab *btn1 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MR));
+    MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MR));
     btn1->setEnabled(false);
     m_memRCbtn = false;
     if (m_keypadLayout->currentIndex() == 0) {
         MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
         btn2->setEnabled(false);
     }
-    if (m_scihiswidget->isHidden()) {
-        emit clearbtnShow(false);
-    }
+    emit clearbtnShow(false);
 }
 
 /**
- * @brief BasicModuleTab::titleBarClean
- * titlebar的删除按钮触发
+ * @brief 显示内存列表
  */
-void BasicModuleTab::titleBarClean()
+void BasicModuleVer::showListWidget()
 {
-    m_memoryPublic->memoryclean();
-    m_expressionBar->getInputEdit()->setFocus();
-}
-
-void BasicModuleTab::resetWindowSize(QSize size)
-{
-    m_basicKeypad->resetWidgetSize(size);
-    m_memoryKeypad->resetWidgetSize(size);
-    m_expressionBar->resetWidgetSize(size);
-    if (size.width() < size.height()) {
-        m_scihiswidget->hide();
-        m_scihiswidgetver->resetWidgetSize(size);
-    } else {
-        m_scihiswidget->resetWidgetSize(size);
-        m_scihiswidget->show();
-        m_keypadLayout->setCurrentWidget(m_basicKeypad);
+    if (m_keypadLayout->currentIndex() == 0) {
+        m_keypadLayout->setCurrentIndex(1);
     }
 }
 
-void BasicModuleTab::showListWidget()
-{
-    if (m_keypadLayout->currentWidget() == m_basicKeypad) {
-        m_keypadLayout->setCurrentWidget(m_scihiswidgetver);
-        MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
-        btn->setbtnlight(true);
-    }
-}
-
-void BasicModuleTab::closeListWidget()
+void BasicModuleVer::closeListWidget()
 {
     //内存界面显示时，点击内存界面以外部分切换内存界面为键盘界面
     if (m_keypadLayout->currentIndex() == 1) {
         m_keypadLayout->setCurrentIndex(0);
         m_expressionBar->getInputEdit()->setFocus();
-        MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
-        btn->setbtnlight(false);
     }
 
     if (m_avail == true) {
@@ -766,12 +657,26 @@ void BasicModuleTab::closeListWidget()
     m_expressionBar->getInputEdit()->isExpressionEmpty(); //确认输入栏是否有内容，发送信号M+,M-,MS是否置灰
 }
 
-void BasicModuleTab::mouseMoveEvent(QMouseEvent *event)
+void BasicModuleVer::titleBarClean()
+{
+    m_memoryPublic->memoryclean();
+    m_expressionBar->getInputEdit()->setFocus();
+}
+
+void BasicModuleVer::resetWindowSize(QSize size)
+{
+    m_basicKeypad->resetWidgetSize(size);
+    m_memoryKeypad->resetWidgetSize(size);
+    m_scihiswidget->resetWidgetSize(size);
+    m_expressionBar->resetWidgetSize(size);
+}
+
+void BasicModuleVer::mouseMoveEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
 }
 
-void BasicModuleTab::checkLineEmpty()
+void BasicModuleVer::checkLineEmpty()
 {
     m_expressionBar->getInputEdit()->isExpressionEmpty();
     m_scihiswidget->resetFocus();

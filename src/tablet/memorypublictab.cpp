@@ -22,14 +22,21 @@
 #include "memorypublictab.h"
 
 static MemoryPublicTab *INSTANCE = nullptr;
+const int MAXSIZE = 500; //内存保存最大数
+
+static void s_deletemempub()
+{
+    delete INSTANCE;
+}
 
 /**
  * @brief 实例
  */
-MemoryPublicTab *MemoryPublicTab::instance(QObject *p)
+MemoryPublicTab *MemoryPublicTab::instance()
 {
     if (!INSTANCE) {
-        INSTANCE = new MemoryPublicTab(p);
+        INSTANCE = new MemoryPublicTab();
+        qAddPostRoutine(s_deletemempub);
     }
     return INSTANCE;
 }
@@ -45,8 +52,16 @@ MemoryPublicTab::MemoryPublicTab(QObject *parent)
 {
     m_standard_l = new MemoryWidgetTab(0);
     m_scientific_r = new MemoryWidgetTab(1);
+    m_standard_ver = new MemoryWidgetTab(2);
+    m_scientific_ver = new MemoryWidgetTab(3);
+    m_evaluator = Evaluator::instance();
+    m_standard_l->setMemoryPublic(this);
+    m_scientific_r->setMemoryPublic(this);
+    m_standard_ver->setMemoryPublic(this);
+    m_scientific_ver->setMemoryPublic(this);
 
     initconnects();
+    memoryclean();
 }
 
 /**
@@ -55,24 +70,33 @@ MemoryPublicTab::MemoryPublicTab(QObject *parent)
 void MemoryPublicTab::initconnects()
 {
     connect(m_standard_l, &MemoryWidgetTab::widgetclean, this, &MemoryPublicTab::widgetclean);
-    connect(m_standard_l, &MemoryWidgetTab::mListAvailable, this, &MemoryPublicTab::filledMem);
-    connect(m_standard_l, &MemoryWidgetTab::mListUnavailable, this, &MemoryPublicTab::emptyMem);
     connect(m_scientific_r, &MemoryWidgetTab::widgetclean, this, &MemoryPublicTab::widgetclean);
-    connect(m_scientific_r, &MemoryWidgetTab::mListAvailable, this, &MemoryPublicTab::filledMem);
-    connect(m_scientific_r, &MemoryWidgetTab::mListUnavailable, this, &MemoryPublicTab::emptyMem);
+    connect(m_standard_ver, &MemoryWidgetTab::widgetclean, this, &MemoryPublicTab::widgetclean);
+    connect(m_scientific_ver, &MemoryWidgetTab::widgetclean, this, &MemoryPublicTab::widgetclean);
 }
 
 /**
  * @brief 根据模式获取不同memorywidget
  */
-MemoryWidgetTab *MemoryPublicTab::getwidget(memorymode mode)
+MemoryWidgetTab *MemoryPublicTab::getwidget(int mode)
 {
     switch (mode) {
-    case standardleft:
+    case 0:
         return m_standard_l;
+    case 1:
+        return m_scientific_r;
+    case 2:
+        return m_standard_ver;
+    case 3:
+        return m_scientific_ver;
     default:
         return m_scientific_r;
     }
+}
+
+QList<Quantity> MemoryPublicTab::getList()
+{
+    return m_list;
 }
 
 /**
@@ -80,8 +104,13 @@ MemoryWidgetTab *MemoryPublicTab::getwidget(memorymode mode)
  */
 void MemoryPublicTab::generateData(Quantity answer)
 {
-    m_standard_l->generateData(answer);
-    m_scientific_r->generateData(answer);
+    bool ismax = false;
+    if (m_list.count() == MAXSIZE) {
+        m_list.pop_back();
+        ismax = true;
+    }
+    emit generateDataSig(answer, ismax);
+    m_list.insert(0, answer);
 }
 
 /**
@@ -89,8 +118,13 @@ void MemoryPublicTab::generateData(Quantity answer)
  */
 void MemoryPublicTab::memoryplus(Quantity answer)
 {
-    m_standard_l->memoryplus(answer);
-    m_scientific_r->memoryplus(answer);
+    if (!m_list.isEmpty()) {
+        Quantity ans;
+        ans = m_list.value(0) + answer;
+        emit memoryAnsSig(0, ans);
+        m_list.replace(0, ans);
+    } else
+        generateData(answer);
 }
 
 /**
@@ -98,8 +132,13 @@ void MemoryPublicTab::memoryplus(Quantity answer)
  */
 void MemoryPublicTab::memoryminus(Quantity answer)
 {
-    m_standard_l->memoryminus(answer);
-    m_scientific_r->memoryminus(answer);
+    if (!m_list.isEmpty()) {
+        Quantity ans;
+        ans = m_list.value(0) - answer;
+        emit memoryAnsSig(0, ans);
+        m_list.replace(0, ans);
+    } else
+        generateData(Quantity(-1)*answer);
 }
 
 /**
@@ -107,8 +146,8 @@ void MemoryPublicTab::memoryminus(Quantity answer)
  */
 void MemoryPublicTab::memoryclean()
 {
-    m_standard_l->memoryclean();
-    m_scientific_r->memoryclean();
+    m_list.clear();
+    emit memorycleanSig();
 }
 
 /**
@@ -116,8 +155,12 @@ void MemoryPublicTab::memoryclean()
  */
 void MemoryPublicTab::widgetplus(int row, Quantity answer)
 {
-    m_standard_l->widgetplusslot(row, answer);
-    m_scientific_r->widgetplusslot(row, answer);
+    if (!answer.isZero()) {
+        Quantity ans;
+        ans = m_list.value(row) + answer;
+        emit memoryAnsSig(row, ans);
+        m_list.replace(row, ans);
+    }
 }
 
 /**
@@ -125,8 +168,12 @@ void MemoryPublicTab::widgetplus(int row, Quantity answer)
  */
 void MemoryPublicTab::widgetminus(int row, Quantity answer)
 {
-    m_standard_l->widgetminusslot(row, answer);
-    m_scientific_r->widgetminusslot(row, answer);
+    if (!answer.isZero()) {
+        Quantity ans;
+        ans = m_list.value(row) - answer;
+        emit memoryAnsSig(row, ans);
+        m_list.replace(row, ans);
+    }
 }
 
 /**
@@ -134,9 +181,8 @@ void MemoryPublicTab::widgetminus(int row, Quantity answer)
  */
 void MemoryPublicTab::widgetclean(int row, int mode, bool ismenu)
 {
-    m_standard_l->widgetcleanslot(row, mode, ismenu);
-    m_scientific_r->widgetcleanslot(row, mode, ismenu);
-    emit publicwidgetclean(mode);
+    m_list.removeAt(row);
+    emit widgetcleanSig(row, mode, ismenu);
 }
 
 /**
@@ -144,16 +190,15 @@ void MemoryPublicTab::widgetclean(int row, int mode, bool ismenu)
  */
 void MemoryPublicTab::setThemeType(int type)
 {
-    m_standard_l->setThemeType(type);
-    m_scientific_r->setThemeType(type);
+    emit setThemeTypeSig(type);
 }
 
 /**
  * @brief 返回内存中是否有数据
  */
-bool MemoryPublicTab::isWidgetEmpty(int mode)
+bool MemoryPublicTab::isEmpty()
 {
-    return (mode == 0 ? m_scientific_r->isWidgetEmpty() : m_standard_l->isWidgetEmpty());
+    return m_list.isEmpty();
 }
 
 MemoryPublicTab::~MemoryPublicTab()

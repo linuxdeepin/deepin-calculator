@@ -1,5 +1,5 @@
-#ifndef MEMORYKEYPADTAB_H
-#define MEMORYKEYPADTAB_H
+#ifndef MEMHISKEYPADTAB_H
+#define MEMHISKEYPADTAB_H
 
 #include "textbuttontab.h"
 #include "iconbuttontab.h"
@@ -16,22 +16,16 @@
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
 
-/**
- * @brief 简易计算器内存按键栏
- */
-class MemoryKeypadTab : public DWidget
+class MemHisKeypadTab : public DWidget
 {
     Q_OBJECT
-
 public:
     /**
      * @brief 内存按键栏
      */
-    enum Buttons {Key_MC = 20, Key_MR, Key_Mplus, Key_Mminus, Key_MS, Key_Mlist}; //MC, MR, M+, M-, MS
-
-    MemoryKeypadTab(QWidget *parent = nullptr);
-    ~MemoryKeypadTab();
-
+    enum Buttons {Key_FE = 84, Key_MC, Key_MR, Key_Mplus, Key_Mmin, Key_MS, Key_MHlist}; //FE, MC, MR, M+, M-, MS, MH^
+    MemHisKeypadTab(QWidget *parent = nullptr);
+    ~MemHisKeypadTab();
     void mouseMoveEvent(QMouseEvent *e);
 
     DPushButton *button(Buttons key);
@@ -63,4 +57,4 @@ private:
     QHash<Buttons, QPair<DPushButton *, const KeyDescription *>> m_keys;
 };
 
-#endif // MEMORYKEYPADTAB_H
+#endif // MEMHISKEYPADTAB_H

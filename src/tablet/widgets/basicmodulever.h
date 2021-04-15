@@ -1,26 +1,7 @@
-/*
- * Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
- *
- * Author:     rekols <rekols@foxmail.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+#ifndef BASICMODULEVER_H
+#define BASICMODULEVER_H
 
-#ifndef BASICMODULETAB_H
-#define BASICMODULETAB_H
-
-#include <QStackedLayout>
+#include <QStackedWidget>
 #include <QGridLayout>
 #include <QTimer>
 #include <DWidget>
@@ -39,14 +20,12 @@
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
 
-class BasicModuleTab : public DWidget
+class BasicModuleVer : public DWidget
 {
     Q_OBJECT
-
 public:
-    BasicModuleTab(QWidget *parent = nullptr);
-    ~BasicModuleTab();
-
+    BasicModuleVer(QWidget *parent = nullptr);
+    ~BasicModuleVer();
     void setKeyPress(QKeyEvent *e);
     void mouseMoveEvent(QMouseEvent *event);
     void checkLineEmpty();
@@ -59,10 +38,10 @@ public slots:
     //memory func
     void mAvailableEvent();
     void mUnAvailableEvent();
-    void titleBarClean();
-    void resetWindowSize(QSize size);
     void showListWidget();
     void closeListWidget();
+    void titleBarClean();
+    void resetWindowSize(QSize size);
 private slots:
     void initTheme(int type);
 private:
@@ -85,8 +64,7 @@ private:
     bool m_memCalbtn; //m+,m-,ms可用
     bool m_memRCbtn;//mr,mc可用
     SciHistoryWidgetTab *m_scihiswidget;
-    SciHistoryWidgetTab *m_scihiswidgetver; //竖屏
     MemoryPublicTab *m_memoryPublic;
 };
 
-#endif
+#endif // BASICMODULEVER_H

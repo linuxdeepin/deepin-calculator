@@ -29,6 +29,7 @@
 
 const int STANDPREC = 15;
 const int WIDGET_FIXHEIGHT = 412;
+const int WIDGETVER_FIXHEIGHT = 680;
 const int INPUTEDIT_HEIGHT = 116;
 const int HISTORYLINKAGE_MAXSIZE = 10;
 
@@ -67,8 +68,10 @@ ExpressionBarTab::ExpressionBarTab(QWidget *parent)
 
     m_layout = new QVBoxLayout(this);
 //    m_layout->addSpacing(46);//平板模式上面增加一点空白
+    m_layout->addStretch();
     m_layout->addWidget(m_listView);
     m_layout->addWidget(m_inputEdit);
+    m_layout->addStretch();
     m_layout->setMargin(0);
     m_layout->setSpacing(0);
 
@@ -1852,8 +1855,14 @@ InputEdit *ExpressionBarTab::getInputEdit()
 
 void ExpressionBarTab::resetWidgetSize(QSize size)
 {
-    m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT * size.height() / 1055);
-    m_listView->setFixedHeight(204 * size.height() / 1055);
-    setMaximumHeight(WIDGET_FIXHEIGHT * size.height() / 1055);
-    m_layout->insertSpacing(0, 46 * size.height() / 1055);
+    if (size.width() < size.height()) {
+        m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT * size.height() / 1880);
+        m_listView->setFixedHeight(204 * size.height() / 1880);
+        setFixedHeight(WIDGETVER_FIXHEIGHT * size.height() / 1880);
+    } else {
+        m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT * size.height() / 1055);
+        m_listView->setFixedHeight(204 * size.height() / 1055);
+        setFixedHeight(WIDGET_FIXHEIGHT * size.height() / 1055);
+    }
+    m_listModel->refrushModel();
 }

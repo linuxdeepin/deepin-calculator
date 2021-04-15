@@ -75,6 +75,7 @@ void SimpleListViewTab::contextMenuEvent(QContextMenuEvent *event)
         static_cast<SimpleListModel *>(model())->copyToClipboard(indexAt(event->pos()).row());
     });
     connect(clean, &QAction::triggered, this, [ = ]() {
+        emit removeRow(indexAt(event->pos()).row());
         static_cast<SimpleListModel *>(model())->deleteItem(indexAt(event->pos()).row());
     });
     if (indexAt(event->pos()).row() >= 0 && m_itemfill) {
@@ -103,6 +104,7 @@ void SimpleListViewTab::showTextEditMenuByAltM(const QModelIndex &index)
         static_cast<SimpleListModel *>(model())->copyToClipboard(index.row());
     });
     connect(clean, &QAction::triggered, this, [ = ]() {
+        emit removeRow(index.row());
         static_cast<SimpleListModel *>(model())->deleteItem(index.row());
     });
     if (index.row() >= 0 && m_itemfill) {

@@ -40,6 +40,7 @@ public:
     void removeHisLink();
     void removeAllLink();
     void removeHisLinked();  // add 20200318 for fix cleanlinkcache
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
 public slots:
     void setThemeType(int type);
@@ -50,7 +51,7 @@ protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const;
     void drawFocusStatus(QPainter *painter, const QStyleOptionViewItem &option) const;
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+
 //    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option,
 //                     const QModelIndex &index);
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;

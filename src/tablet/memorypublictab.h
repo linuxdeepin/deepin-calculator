@@ -41,14 +41,11 @@ public:
     /**
      * @brief 当前内存界面所在计算器模式
      */
-    enum memorymode {
-        standardleft,  //标准模式
-        scientificright //科学模式
-    };
-    static MemoryPublicTab *instance(QObject *p);
+    static MemoryPublicTab *instance();
     static void deleteInstance();
     ~MemoryPublicTab();
-    MemoryWidgetTab *getwidget(memorymode mode);
+    MemoryWidgetTab *getwidget(int mode);
+    QList<Quantity> getList();
 
     void generateData(Quantity answer);
     void memoryplus(Quantity answer);
@@ -58,18 +55,22 @@ public:
     void widgetminus(int row, Quantity answer);
     void widgetclean(int row, int mode, bool ismenu);
     void setThemeType(int type);
-    bool isWidgetEmpty(int mode); //0-标准 1-科学
+    bool isEmpty();
 private:
     MemoryWidgetTab *m_standard_l;
     MemoryWidgetTab *m_scientific_r;
+    MemoryWidgetTab *m_standard_ver;
+    MemoryWidgetTab *m_scientific_ver;
+    QList<Quantity> m_list;
+    Evaluator *m_evaluator;
 
 
 signals:
-    void widgetplus(int row);
-    void widgetminus(int row);
-    void filledMem();
-    void emptyMem();
-    void publicwidgetclean(int mode);
+    void generateDataSig(Quantity answer, bool ismax);
+    void memorycleanSig();
+    void memoryAnsSig(int row, Quantity answer);
+    void widgetcleanSig(int row, int mode, bool ismenu);
+    void setThemeTypeSig(int type);
 
 public slots:
 };

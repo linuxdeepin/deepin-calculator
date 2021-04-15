@@ -1,28 +1,7 @@
-/*
-* Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
-*
-* Author:     xiajing <xiajing@uniontech.com>
-*
-* Maintainer: jingzhou <jingzhou@uniontech.com>
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+#ifndef SCIENTIFICMODULEVER_H
+#define SCIENTIFICMODULEVER_H
 
-#ifndef SCIENTIFICMODELTAB_H
-#define SCIENTIFICMODELTAB_H
-
-#include <QStackedLayout>
+#include <QStackedWidget>
 #include <QGridLayout>
 #include <QTimer>
 #include <DWidget>
@@ -31,35 +10,28 @@
 #include "tablet/control/textbuttontab.h"
 #include "tablet/control/iconbuttontab.h"
 #include "tablet/control/basickeypadtab.h"
-#include "tablet/control/memorykeypadtab.h"
-#include "tablet/control/scientifickeypadtab.h"
 #include "tablet/control/memhiskeypadtab.h"
+#include "tablet/control/scientifickeypadtab.h"
 #include "tablet/views/memorywidgettab.h"
 #include "tablet/memorypublictab.h"
 #include "widgets/inputedit.h"
 #include "scihistorywidgettab.h"
 #include "sciexpressionbartab.h"
 
-DGUI_USE_NAMESPACE
-DWIDGET_USE_NAMESPACE
-
-/**
- * @brief 科学模式界面
- */
-class scientificModuleTab : public DWidget
+class scientificModuleVer : public DWidget
 {
     Q_OBJECT
-
 public:
-    scientificModuleTab(QWidget *parent = nullptr);
-    ~scientificModuleTab();
+    scientificModuleVer(QWidget *parent = nullptr);
+    ~scientificModuleVer();
     void setKeyPress(QKeyEvent *e);
-
+    void mouseMoveEvent(QMouseEvent *event);
     void checkLineEmpty();
+
 signals:
-    void changedeg(int deg);
     void sciMemTab();
     void clearbtnShow(bool show);
+    void changedeg(int deg);
 
 public slots:
     //memory func
@@ -69,6 +41,7 @@ public slots:
     void closeListWidget();
     void titleBarClean();
     void resetWindowSize(QSize size);
+
 private slots:
     void initTheme(int type);
 private:
@@ -79,7 +52,7 @@ private:
     void handleDegChanged();
     void handleFEStateChanged(bool isdown);
     void handlePageStateChanged();
-    void setScientificTabOrder();
+//    void setBasicTabOrder();
 
 private:
     QStackedWidget *m_stackWidget;
@@ -94,8 +67,7 @@ private:
     bool m_memCalbtn; //m+,m-,ms
     bool m_memRCbtn;//mr,mc
     SciHistoryWidgetTab *m_scihiswidget;
-    SciHistoryWidgetTab *m_scihiswidgetver; //竖屏
     MemoryPublicTab *m_memoryPublic;
 };
 
-#endif // SCIENTIFICMODELTAB_H
+#endif // SCIENTIFICMODULEVER_H

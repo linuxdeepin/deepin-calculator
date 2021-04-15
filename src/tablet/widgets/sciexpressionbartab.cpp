@@ -70,9 +70,11 @@ SciExpressionBarTab::SciExpressionBarTab(QWidget *parent)
 
     m_layout = new QVBoxLayout(this);
 //    m_layout->addSpacing(46);//平板模式上面增加一点空白
+    m_layout->addStretch();
     m_layout->addWidget(m_listView);
     m_layout->addSpacing(10);
     m_layout->addWidget(m_inputEdit);
+    m_layout->addStretch();
     m_layout->setMargin(0);
     m_layout->setSpacing(0);
 
@@ -2376,9 +2378,13 @@ bool SciExpressionBarTab::judgeinput()
 
 void SciExpressionBarTab::resetWidgetSize(QSize size)
 {
-    m_listView->setFixedHeight(LIST_HEIGHT * size.height() / 1055);
-    m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT * size.height() / 1055);
-    m_layout->insertSpacing(0, 46 * size.height() / 1055);
+    if (size.width() < size.height()) {
+        m_listView->setFixedHeight(LIST_HEIGHT * size.height() / 1055);
+        m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT * size.height() / 1055);
+    } else {
+        m_listView->setFixedHeight(LIST_HEIGHT * size.height() / 1055);
+        m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT * size.height() / 1055);
+    }
 }
 
 //void SciExpressionBarTab::computationalResults(const QString &expression, QString &result)

@@ -35,31 +35,33 @@
 
 const int WIDGET_WIDTH = 456; //历史记录侧宽度
 const int BUTTONBOX_WIDTH = 96; //buttonbox宽度
+const int BUTTONBOXVER_WIDTH = 116; //竖屏
 const int BUTTONBOX_HEIGHT = 40; //buttonbox高度
-const int LEFT_SPACE = 180; //buttonbox左侧宽度
-const int RIGHT_SPACE = 180; //垃圾桶右侧宽度
+//const int LEFT_SPACE = 180; //buttonbox左侧宽度
+//const int RIGHT_SPACE = 180; //垃圾桶右侧宽度
 const int SPACE_BETWEEN_BUTTONANDVIEW = 20; //button与下侧widget之间空隙
 
 SciHistoryWidgetTab::SciHistoryWidgetTab(int mode, QWidget *parent)
     : DWidget(parent)
 {
-    memoryPublic = MemoryPublicTab::instance(this);
+    memoryPublic = MemoryPublicTab::instance();
     QVBoxLayout *m_Vlayout = new QVBoxLayout(this);
-    this->setFixedWidth(WIDGET_WIDTH);
     m_mode = mode;
+    if (mode < 2)
+        this->setFixedWidth(WIDGET_WIDTH);
 
-    if (mode == 0) {
-        m_memorywidget = memoryPublic->getwidget(MemoryPublicTab::standardleft);
+    if (mode == 0 || mode == 2) {
+        m_memorywidget = memoryPublic->getwidget(mode);
         m_memorywidget->setFocusPolicy(Qt::TabFocus);
         m_Vlayout->addWidget(m_memorywidget);
-        m_isshowM = !memoryPublic->isWidgetEmpty(0);
+        m_isshowM = !memoryPublic->isEmpty();
 
-        connect(memoryPublic, &MemoryPublicTab::filledMem, this, [ = ]() {
+        connect(memoryPublic, &MemoryPublicTab::generateDataSig, this, [ = ]() {
             m_isshowM = true; //公共内存中有数据信号接收
             emit clearbtnShow(m_isshowM);
             m_memorywidget->setFocusPolicy(Qt::TabFocus);
         });
-        connect(memoryPublic, &MemoryPublicTab::emptyMem, this, [ = ]() {
+        connect(memoryPublic, &MemoryPublicTab::memorycleanSig, this, [ = ]() {
             m_isshowM = false; //公共内存中无数据信号接收
             emit clearbtnShow(m_isshowM);
             m_memorywidget->setFocusPolicy(Qt::NoFocus);
@@ -71,18 +73,18 @@ SciHistoryWidgetTab::SciHistoryWidgetTab(int mode, QWidget *parent)
         m_listView = new SimpleListViewTab(1, this);
         m_listDelegate = new SimpleListDelegateTab(1, this);
         m_listModel = new SimpleListModel(1, this);
-        m_memorywidget = memoryPublic->getwidget(MemoryPublicTab::scientificright);
+        m_memorywidget = memoryPublic->getwidget(mode);
 //        m_memorywidget->setFocusPolicy(Qt::TabFocus);
         m_stacklayout = new QStackedWidget(this);
         QHBoxLayout *m_Hlayout = new QHBoxLayout();
-        m_Hlayout->addSpacing(LEFT_SPACE);
+        m_Hlayout->addStretch();
         m_Hlayout->addWidget(m_buttonbox);
         m_buttonbox->setFixedWidth(BUTTONBOX_WIDTH);
 
         //button stack
-        m_Hlayout->addSpacing(RIGHT_SPACE);
+        m_Hlayout->addStretch();
 
-        m_isshowM = !memoryPublic->isWidgetEmpty(1);
+        m_isshowM = !memoryPublic->isEmpty();
 
         m_Vlayout->addSpacing(15);
         m_Vlayout->addLayout(m_Hlayout);
@@ -107,6 +109,7 @@ SciHistoryWidgetTab::SciHistoryWidgetTab(int mode, QWidget *parent)
 
         listBtnBox << m_memorybtn << m_historybtn;
         m_memorybtn->setFocusPolicy(Qt::TabFocus);
+        m_memorybtn->setObjectName("mButtonBoxButton");
         m_memorybtn->installEventFilter(this);
         m_historybtn->installEventFilter(this);
         m_buttonbox->setFocusPolicy(Qt::NoFocus);
@@ -137,16 +140,17 @@ SciHistoryWidgetTab::SciHistoryWidgetTab(int mode, QWidget *parent)
             m_listView->setFocusPolicy(Qt::NoFocus);
             m_listView->listItemFill(false);
             m_isshowH = false;
+            emit hisIsFilled(false);
             if (m_buttonbox->checkedId() == 1)
                 emit clearbtnShow(m_isshowH);
         });
-        connect(memoryPublic, &MemoryPublicTab::filledMem, this, [ = ]() {
+        connect(memoryPublic, &MemoryPublicTab::generateDataSig, this, [ = ]() {
             m_isshowM = true; //公共内存中有数据信号接收
             if (m_buttonbox->checkedId() == 0)
                 emit clearbtnShow(m_isshowM);
             m_memorywidget->setFocusPolicy(Qt::TabFocus);
         });
-        connect(memoryPublic, &MemoryPublicTab::emptyMem, this, [ = ]() {
+        connect(memoryPublic, &MemoryPublicTab::memorycleanSig, this, [ = ]() {
             m_isshowM = false; //公共内存中无数据信号接收
             if (m_buttonbox->checkedId() == 0)
                 emit clearbtnShow(m_isshowM);
@@ -205,7 +209,7 @@ void SciHistoryWidgetTab::memoryFunctions(SciHistoryWidgetTab::memOperate operat
  */
 void SciHistoryWidgetTab::resetFocus()
 {
-    if (m_mode == 1) {
+    if (m_mode == 1 || m_mode == 3) {
         m_isshowH ? m_listView->setFocusPolicy(Qt::TabFocus) : m_listView->setFocusPolicy(Qt::NoFocus);
         m_isshowM ? m_memorywidget->setFocusPolicy(Qt::TabFocus) : m_memorywidget->setFocusPolicy(Qt::NoFocus);
         if (m_buttonbox->checkedId() == 1) {
@@ -226,7 +230,7 @@ void SciHistoryWidgetTab::mouseMoveEvent(QMouseEvent *e)
 
 void SciHistoryWidgetTab::keyPressEvent(QKeyEvent *e)
 {
-    if (m_mode == 1) {
+    if (m_mode == 1 || m_mode == 3) {
         if (e->key() == Qt::Key_Left && (m_historybtn->hasFocus() ||  m_memorybtn->hasFocus())) {
             focusNextChild();//焦点移动
             m_historybtn->setFocus();
@@ -241,7 +245,7 @@ void SciHistoryWidgetTab::keyPressEvent(QKeyEvent *e)
 
 bool SciHistoryWidgetTab::eventFilter(QObject *obj, QEvent *event)
 {
-    if (m_mode == 1) {
+    if (m_mode == 1 || m_mode == 3) {
         if (obj == m_memorybtn && event->type() == QEvent::FocusIn) {
             QFocusEvent *focus_Event = static_cast<QFocusEvent *>(event);
             if (focus_Event->reason() == Qt::TabFocusReason && !m_iskeypressfocus) {
@@ -280,7 +284,7 @@ void SciHistoryWidgetTab::themeChanged(int type)
     memoryPublic->setThemeType(typeIn);
     m_listDelegate->setThemeType(typeIn);
     m_themeType = typeIn;
-    if (m_mode == 1)
+    if (m_mode == 1 || m_mode == 3)
         iconChanged(m_themeType, m_buttonbox->checkedId());
 }
 
@@ -294,6 +298,7 @@ void SciHistoryWidgetTab::historyfilled()
     m_listView->listItemFill(true);
     m_listView->setFocusPolicy(Qt::TabFocus);
     m_isshowH = true;
+    emit hisIsFilled(true);
     if (m_buttonbox->checkedId() == 1)
         emit clearbtnShow(m_isshowH);
 }
@@ -322,6 +327,7 @@ void SciHistoryWidgetTab::cleanButtonEvent()
 {
     if (m_buttonbox->checkedId() == 1) {
         m_listModel->clearItems();
+        emit hisIsFilled(false);
         m_listView->listItemFill(false);
         m_isshowH = false;
         if (m_buttonbox->checkedId() == 1)
@@ -338,8 +344,17 @@ void SciHistoryWidgetTab::cleanButtonEvent()
 
 void SciHistoryWidgetTab::resetWidgetSize(QSize size)
 {
-    this->setFixedWidth(WIDGET_WIDTH * size.width() / 1920);
+    if (m_mode < 2) {
+        this->setFixedWidth(WIDGET_WIDTH * size.width() / 1920);
+    }
     m_memorywidget->resetWidgetSize(size);
+    if (m_mode == 3) {
+        m_buttonbox->setFixedWidth(BUTTONBOXVER_WIDTH * size.width() / 1080);
+        m_historybtn->setFixedSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOX_HEIGHT * size.height() / 1880);
+        m_historybtn->setIconSize(QSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOX_HEIGHT * size.height() / 1880));
+        m_memorybtn->setFixedSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOX_HEIGHT * size.height() / 1880);
+        m_memorybtn->setIconSize(QSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOX_HEIGHT * size.height() / 1880));
+    }
     if (m_mode == 1) {
         m_buttonbox->setFixedWidth(BUTTONBOX_WIDTH * size.width() / 1920);
         m_historybtn->setFixedSize(BUTTONBOX_WIDTH / 2 * size.width() / 1920, BUTTONBOX_HEIGHT * size.height() / 1055);

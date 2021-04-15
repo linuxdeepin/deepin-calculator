@@ -50,6 +50,7 @@ Q_SIGNALS:
     void clickrow(QString str);
     void obtainingHistorical(const QModelIndex &index);
     void obtainingHistoricalSimple(const QModelIndex &index);
+    void removeRow(const int row);
 
 private:
     int m_mode = 0;
