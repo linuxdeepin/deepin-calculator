@@ -1563,12 +1563,12 @@ void scientificModuleTab::resetWindowSize(QSize size)
         m_memhiskeypad->show();
         m_memhiskeypad->resetWidgetSize(size);
         m_scihiswidgetver->resetWidgetSize(size);
+        m_stackWidget->setCurrentWidget(m_scikeypadwidget);
         m_sciexpressionBar->setFixedHeight(500 * size.height() / 1880);
     } else {
         m_memhiskeypad->hide();
         m_scihiswidget->resetWidgetSize(size);
         m_scihiswidget->show();
-        m_stackWidget->setCurrentWidget(m_scikeypadwidget);
         m_sciexpressionBar->setFixedHeight(EXPRESSIONBAR_HEIGHT * size.height() / 1055);
     }
     m_sciexpressionBar->resetWidgetSize(size);
