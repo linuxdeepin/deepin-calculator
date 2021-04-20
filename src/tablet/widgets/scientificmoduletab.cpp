@@ -175,7 +175,7 @@ scientificModuleTab::scientificModuleTab(QWidget *parent)
             m_scihiswidgetver, &SciHistoryWidgetTab::themeChanged);
     connect(m_scihiswidget, &SciHistoryWidgetTab::hisIsFilled, [ = ](bool hisisfilled) {
         if (hisisfilled) {
-            MemoryButton *btn = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist));
+            MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist));
             btn->setEnabled(true);
             m_havail = true;
         } else {
@@ -184,7 +184,7 @@ scientificModuleTab::scientificModuleTab(QWidget *parent)
     });
     connect(m_scihiswidgetver, &SciHistoryWidgetTab::hisIsFilled, [ = ](bool hisisfilled) {
         if (hisisfilled) {
-            MemoryButton *btn = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist));
+            MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist));
             btn->setEnabled(true);
             m_havail = true;
         } else {
@@ -1475,11 +1475,11 @@ void scientificModuleTab::mAvailableEvent()
     btn->setEnabled(true);
     MemoryButtonTab *btn1 = static_cast<MemoryButtonTab *>(m_scikeypadwidget->button(ScientificKeyPadTab::Key_MR));
     btn1->setEnabled(true);
-    MemoryButton *btn2 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MC));
+    MemoryButtonTab *btn2 = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MC));
     btn2->setEnabled(true);
-    MemoryButton *btn3 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MR));
+    MemoryButtonTab *btn3 = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MR));
     btn3->setEnabled(true);
-    MemoryButton *btn4 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist));
+    MemoryButtonTab *btn4 = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist));
     btn4->setEnabled(true);
     m_memRCbtn = true;
     m_avail = true;
@@ -1495,14 +1495,14 @@ void scientificModuleTab::mUnAvailableEvent()
     btn->updateWhenBtnDisable();
     MemoryButtonTab *btn1 = static_cast<MemoryButtonTab *>(m_scikeypadwidget->button(ScientificKeyPadTab::Key_MR));
     btn1->setEnabled(false);
-    MemoryButton *btn2 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MC));
+    MemoryButtonTab *btn2 = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MC));
     btn2->setEnabled(false);
-    MemoryButton *btn3 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MR));
+    MemoryButtonTab *btn3 = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MR));
     btn3->setEnabled(false);
     m_memRCbtn = false;
     m_avail = false;
     if (m_stackWidget->currentWidget() == m_scikeypadwidget && m_havail == false) {
-        MemoryButton *btn2 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist));
+        MemoryButtonTab *btn2 = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist));
         btn2->setEnabled(false);
     }
 }
@@ -1510,9 +1510,11 @@ void scientificModuleTab::mUnAvailableEvent()
 void scientificModuleTab::showListWidget()
 {
     m_stackWidget->setCurrentWidget(m_scihiswidgetver);
-    if (static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist))->hasFocus()) {
+    if (static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist))->hasFocus()) {
         m_scihiswidgetver->findChild<DButtonBoxButton *>("mButtonBoxButton")->setFocus();
     }
+    MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist));
+    btn->setbtnlight(true);
 }
 
 void scientificModuleTab::closeListWidget()
@@ -1520,26 +1522,28 @@ void scientificModuleTab::closeListWidget()
     m_stackWidget->setCurrentWidget(m_scikeypadwidget);
     m_sciexpressionBar->getInputEdit()->setFocus();
     if (m_avail == true) {
-        MemoryButton *btn = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MC));
+        MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MC));
         btn->setbuttongray(false);
         btn->setEnabled(true);
-        MemoryButton *btn7 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MR));
+        MemoryButtonTab *btn7 = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MR));
         btn7->setbuttongray(false);
         btn7->setEnabled(true);
         m_memRCbtn = true;
     } else {
-        MemoryButton *btn = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MC));
+        MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MC));
         btn->setbuttongray(true);
         btn->setEnabled(false);
-        MemoryButton *btn1 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MR));
+        MemoryButtonTab *btn1 = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MR));
         btn->setbuttongray(true);
         btn1->setEnabled(false);
         if (m_havail == false) {
-            MemoryButton *btn8 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist));
+            MemoryButtonTab *btn8 = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist));
             btn8->setEnabled(false);
         }
         m_memRCbtn = false;
     }
+    MemoryButtonTab *btn2 = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist));
+    btn2->setbtnlight(false);
     m_sciexpressionBar->getInputEdit()->isExpressionEmpty(); //确认输入栏是否有内容，发送信号M+,M-,MS是否置灰
 }
 
@@ -1563,7 +1567,6 @@ void scientificModuleTab::resetWindowSize(QSize size)
         m_memhiskeypad->show();
         m_memhiskeypad->resetWidgetSize(size);
         m_scihiswidgetver->resetWidgetSize(size);
-        m_stackWidget->setCurrentWidget(m_scikeypadwidget);
         m_sciexpressionBar->setFixedHeight(500 * size.height() / 1880);
     } else {
         m_memhiskeypad->hide();
@@ -1571,6 +1574,7 @@ void scientificModuleTab::resetWindowSize(QSize size)
         m_scihiswidget->show();
         m_sciexpressionBar->setFixedHeight(EXPRESSIONBAR_HEIGHT * size.height() / 1055);
     }
+    m_stackWidget->setCurrentWidget(m_scikeypadwidget);
     m_sciexpressionBar->resetWidgetSize(size);
 }
 

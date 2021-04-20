@@ -457,7 +457,7 @@ void BasicModuleTab::handleKeypadButtonPress(int key)
         m_memoryPublic->memoryclean();
         if (m_keypadLayout->currentIndex() == 1) {
             m_keypadLayout->setCurrentIndex(0);
-            MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
+            MemoryButtonTab *btn5 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
             btn5->setbtnlight(false);
         }
         break;
@@ -595,7 +595,7 @@ void BasicModuleTab::handleKeypadButtonPressByspace(int key)
         m_memoryPublic->memoryclean();
         if (m_keypadLayout->currentIndex() == 1) {
             m_keypadLayout->setCurrentIndex(0);
-            MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
+            MemoryButtonTab *btn5 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
             btn5->setbtnlight(false);
         }
         break;
@@ -678,7 +678,7 @@ void BasicModuleTab::mAvailableEvent()
     MemoryButtonTab *btn1 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MR));
     btn1->setEnabled(true);
     m_memRCbtn = true;
-    MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
+    MemoryButtonTab *btn2 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
     btn2->setEnabled(true);
 }
 
@@ -695,7 +695,7 @@ void BasicModuleTab::mUnAvailableEvent()
     btn1->setEnabled(false);
     m_memRCbtn = false;
     if (m_keypadLayout->currentIndex() == 0) {
-        MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
+        MemoryButtonTab *btn2 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
         btn2->setEnabled(false);
     }
     if (m_scihiswidget->isHidden()) {
@@ -732,7 +732,7 @@ void BasicModuleTab::showListWidget()
 {
     if (m_keypadLayout->currentWidget() == m_basicKeypad) {
         m_keypadLayout->setCurrentWidget(m_scihiswidgetver);
-        MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
+        MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
         btn->setbtnlight(true);
     }
 }
@@ -743,23 +743,23 @@ void BasicModuleTab::closeListWidget()
     if (m_keypadLayout->currentIndex() == 1) {
         m_keypadLayout->setCurrentIndex(0);
         m_expressionBar->getInputEdit()->setFocus();
-        MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
+        MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
         btn->setbtnlight(false);
     }
 
     if (m_avail == true) {
-        MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MC));
+        MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MC));
         btn->setEnabled(true);
-        MemoryButton *btn4 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MR));
+        MemoryButtonTab *btn4 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MR));
         btn4->setEnabled(true);
         m_memRCbtn = true;
     } else {
-        MemoryButton *btn = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MC));
+        MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MC));
         btn->setEnabled(false);
         btn->updateWhenBtnDisable();
-        MemoryButton *btn1 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MR));
+        MemoryButtonTab *btn1 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_MR));
         btn1->setEnabled(false);
-        MemoryButton *btn5 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
+        MemoryButtonTab *btn5 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
         btn5->setEnabled(false);
         m_memRCbtn = false;
     }
