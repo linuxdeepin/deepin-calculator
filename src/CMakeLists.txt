@@ -100,7 +100,7 @@ install(FILES ${QM_FILES} DESTINATION share/deepin-calculator/translations)
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/../deepin-calculator.desktop
         DESTINATION share/applications/)
 #平板快捷键
-install(FILES ${CMAKE_CURRENT_LIST_DIR}/../shortcut/deepin-calculator-shortcut.desktop
+install(FILES ${CMAKE_CURRENT_LIST_DIR}/../shortcut/deepin-calculator.desktop
         DESTINATION share/due-shell/shortcuts)
 #平板icon
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/assets/Icons
