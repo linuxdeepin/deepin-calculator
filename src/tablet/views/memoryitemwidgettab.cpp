@@ -32,13 +32,14 @@
 
 const QSize MEMORYBUTTON_SIZE = QSize(82, 42); //内存按键大小，为画边框比ui大2pix
 
-MemoryItemWidgetTab::MemoryItemWidgetTab(QWidget *parent)
+MemoryItemWidgetTab::MemoryItemWidgetTab(QWidget *parent, bool isVer)
     : QWidget(parent)
     , m_btnplus(new MemoryButtonTab(QString("M+"), true, this))
     , m_btnminus(new MemoryButtonTab(QString("M-"), true, this))
     , m_btnclean(new MemoryButtonTab(QString("MC"), true, this))
     , m_label(new QLabel(this))
 {
+    m_isVer = isVer;
     setFocusPolicy(Qt::NoFocus);
     QVBoxLayout *layV = new QVBoxLayout(this); //存放四个控件
     QHBoxLayout *lay = new QHBoxLayout(); //存放三个按钮
@@ -52,6 +53,7 @@ MemoryItemWidgetTab::MemoryItemWidgetTab(QWidget *parent)
     lay->addWidget(m_btnplus);
     lay->addWidget(m_btnminus);
     layV->setMargin(0);
+    layV->addStretch();
     layV->addWidget(m_label);
 //    layV->addStretch();
     QFont font;
@@ -63,7 +65,7 @@ MemoryItemWidgetTab::MemoryItemWidgetTab(QWidget *parent)
 
     m_label->setAttribute(Qt::WA_TransparentForMouseEvents, true); //label鼠标穿透
     layV->addLayout(lay);
-    layV->setContentsMargins(0, 0, 33, 15); //右边距33,下边距15
+    layV->setContentsMargins(0, 0, 40, 15); //右边距33,下边距15
     this->setLayout(layV);
 
     connect(m_btnplus, &QPushButton::clicked, this, &MemoryItemWidgetTab::plusbtnclicked);
@@ -196,7 +198,7 @@ QString MemoryItemWidgetTab::textLabel()
 void MemoryItemWidgetTab::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-    QRectF rect = this->rect();
+    QRect rect = this->rect();
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true); //防走样
     painter.setPen(Qt::NoPen);
@@ -213,15 +215,22 @@ void MemoryItemWidgetTab::paintEvent(QPaintEvent *e)
         hover = QColor(255, 255, 255);
         hover.setAlphaF(0.05);
     }
+    QRect resultRect(rect.x() + (m_isVer ? 20 : 0), rect.y(), rect.width()  - (m_isVer ? 50 : 20),
+                     rect.height());
+    QPainterPath path;
+    path.addRoundedRect(resultRect, 4, 4);
     if (m_ishover) {
-        painter.setPen(Qt::NoPen);
-//        painter.setFont(m_font);
-        painter.setBrush(hover);
-        painter.drawRect(rect); //hover状态下对item进行颜色填充
+        QBrush brush(hover);
+        painter.fillPath(path, brush);
+//        painter.setPen(Qt::NoPen);
+//        painter.setBrush(hover);
+//        painter.drawRect(rect); //hover状态下对item进行颜色填充
         if (m_ispress) {
+            QBrush brush(press);
+            painter.fillPath(path, brush);
             painter.setPen(Qt::NoPen);
-            painter.setBrush(press);
-            painter.drawRect(rect); //press状态下对item进行颜色填充
+//            painter.setBrush(press);
+//            painter.drawRect(rect); //press状态下对item进行颜色填充
 
         }
     }

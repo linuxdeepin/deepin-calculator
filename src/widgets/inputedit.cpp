@@ -374,7 +374,7 @@ void InputEdit::autoZoomFontSize()
     //编译环境中DTK版本低，暂时固定走平板模式
     if (/*DGuiApplicationHelper::instance()->isTabletEnvironment()*/1) {
         // the maximum font is 30, minimum font is 15.
-        for (int i = 80; i > 61; --i) {
+        for (int i = 80; i > 50; --i) {
             font.setPixelSize(i);
 
             QFontMetrics fm(font);

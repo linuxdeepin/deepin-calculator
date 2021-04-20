@@ -163,6 +163,10 @@ BasicModuleTab::BasicModuleTab(QWidget *parent)
         //点击item清除键状态改变
         this->handleClearStateChanged(false);
         m_keypadLayout->setCurrentIndex(0);
+        MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
+        btn->setbtnlight(false);
+        m_memRCbtn = true;
+        m_memCalbtn = true;
     });
 
     //titlebar的清除按钮

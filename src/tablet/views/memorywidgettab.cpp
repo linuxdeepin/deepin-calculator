@@ -121,9 +121,9 @@ void MemoryWidgetTab::generateData(const Quantity answer, bool ismax)
     QFont font;
     font.setPixelSize(30);
     item1->setFont(font);
-    item1->setSizeHint(QSize(m_itemwidth, 70 + 60 * m_line));
-    MemoryItemWidgetTab *widget = new MemoryItemWidgetTab(this);
-    widget->setFixedSize(QSize(m_itemwidth, 70 + 60 * m_line));
+    item1->setSizeHint(QSize(m_itemwidth, 80 + 60 * m_line));
+    MemoryItemWidgetTab *widget = new MemoryItemWidgetTab(this, m_mode > 1);
+    widget->setFixedSize(QSize(m_itemwidth, 80 + 60 * m_line));
 
     m_listwidget->insertItem(0, item1);
     m_listwidget->setItemWidget(item1, widget);
@@ -346,8 +346,8 @@ void MemoryWidgetTab::resetWidgetSize(QSize size)
         m_label->setFixedSize(QSize(m_itemwidth, NOMEMORYHEIGHT));
         if (!m_memorypublic->isEmpty()) {
             for (int i = 0; i < m_listwidget->count(); i++) {
-                m_listwidget->item(i)->setSizeHint(QSize(m_itemwidth, 70 + 60 * m_line));
-                static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->setFixedSize(QSize(m_itemwidth, 70 + 60 * m_line));
+                m_listwidget->item(i)->setSizeHint(QSize(m_itemwidth, 80 + 60 * m_line));
+                static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->setFixedSize(QSize(m_itemwidth, 80 + 60 * m_line));
             }
         } else {
             memoryclean();
@@ -357,8 +357,8 @@ void MemoryWidgetTab::resetWidgetSize(QSize size)
         m_label->setFixedSize(QSize(m_itemwidth, NOMEMORYHEIGHT));
         if (!m_memorypublic->isEmpty()) {
             for (int i = 0; i < m_listwidget->count(); i++) {
-                m_listwidget->item(i)->setSizeHint(QSize(m_itemwidth, 70 + 60 * m_line));
-                static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->setFixedSize(QSize(m_itemwidth, 70 + 60 * m_line));
+                m_listwidget->item(i)->setSizeHint(QSize(m_itemwidth, 80 + 60 * m_line));
+                static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->setFixedSize(QSize(m_itemwidth, 80 + 60 * m_line));
             }
         } else {
             memoryclean();
@@ -486,8 +486,8 @@ QString MemoryWidgetTab::setitemwordwrap(const QString &text, int row)
     }
     if (m_listwidget->item(row)) {
         //设置item高度
-        m_listwidget->item(row)->setSizeHint(QSize(m_itemwidth, 70 + 60 * m_line));
-        m_listwidget->itemWidget(m_listwidget->item(row))->setFixedSize(QSize(m_itemwidth, 70 + 60 * m_line));
+        m_listwidget->item(row)->setSizeHint(QSize(m_itemwidth, 80 + 60 * m_line));
+        m_listwidget->itemWidget(m_listwidget->item(row))->setFixedSize(QSize(m_itemwidth, 80 + 60 * m_line));
     }
     static_cast<MemoryItemWidgetTab *>(m_listwidget->itemWidget(m_listwidget->item(row)))->setLineHight(m_line); //设置item中label高度
     return result;

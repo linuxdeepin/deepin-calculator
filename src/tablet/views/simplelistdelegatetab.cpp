@@ -326,12 +326,12 @@ void SimpleListDelegateTab::paint(QPainter *painter, const QStyleOptionViewItem 
             painter->setFont(font);
             painter->setPen(QColor(nohistory));
             painter->drawText(
-                QRectF(rect.x() + PADDING, rect.y(), rect.width() - PADDING * 2, NOHISTORYHEIGHT),
+                QRectF(rect.x() + PADDING, rect.y(), rect.width() - PADDING * 2 - 10, NOHISTORYHEIGHT),
                 expression, Qt::AlignHCenter | Qt::AlignVCenter);
         } else {
             // draw result text.
             painter->drawText(
-                QRectF(rect.x() + PADDING, rect.y() + 10, rect.width() - PADDING * 2, expHeight),
+                QRectF(rect.x() + PADDING, rect.y() + 10, rect.width() - PADDING * 2 - 10, expHeight),
                 exp, textoption); //exp与上方空隙5pix
             painter->setFont(fontresult);
             int resultHeight;
@@ -345,21 +345,31 @@ void SimpleListDelegateTab::paint(QPainter *painter, const QStyleOptionViewItem 
                 painter->setPen(QColor(resultColor));
             }
             painter->drawText(
-                QRectF(rect.x() + PADDING, rect.y() + expHeight + 12, rect.width() - PADDING * 2, resultHeight),
+                QRectF(rect.x() + PADDING, rect.y() + expHeight + 12, rect.width() - PADDING * 2 - 10, resultHeight),
                 resultStr, textoption); //result与exp空隙12pix
+            QRect resultRect(rect.x() + 20, rect.y(), rect.width()  - 50,
+                             rect.height());
+            QPainterPath path;
+            path.addRoundedRect(resultRect, 4, 4);
             if (option.state & QStyle::State_MouseOver && m_state == 0) {
-                painter->setBrush(normalbackground);
-                painter->setPen(Qt::NoPen);
-                painter->drawRect(rect.x(), rect.y(), rect.width() + 5, rect.height());
+                QBrush brush(normalbackground);
+                painter->fillPath(path, brush);
+//                painter->setBrush(normalbackground);
+//                painter->setPen(Qt::NoPen);
+//                painter->drawRect(rect.x(), rect.y(), rect.width() + 5, rect.height());
             } else if (m_state == 1 && m_row == index.row()) {
-                painter->setBrush(normalbackground);
-                painter->setPen(Qt::NoPen);
-                painter->drawRect(rect.x(), rect.y(), rect.width() + 5, rect.height());
+                QBrush brush(normalbackground);
+                painter->fillPath(path, brush);
+//                painter->setBrush(normalbackground);
+//                painter->setPen(Qt::NoPen);
+//                painter->drawRect(rect.x(), rect.y(), rect.width() + 5, rect.height());
             }
             if (m_state == 2 && m_row == index.row()) {
-                painter->setPen(Qt::NoPen);
-                painter->setBrush(pressbackground);
-                painter->drawRect(rect.x(), rect.y(), rect.width() + 5, rect.height());
+                QBrush brush(pressbackground);
+                painter->fillPath(path, brush);
+//                painter->setPen(Qt::NoPen);
+//                painter->setBrush(pressbackground);
+//                painter->drawRect(rect.x(), rect.y(), rect.width() + 5, rect.height());
             }
         }
     }

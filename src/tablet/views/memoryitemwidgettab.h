@@ -40,7 +40,7 @@ class MemoryItemWidgetTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit MemoryItemWidgetTab(QWidget *parent = nullptr);
+    explicit MemoryItemWidgetTab(QWidget *parent = nullptr, bool isVer = false);
     ~MemoryItemWidgetTab() Q_DECL_OVERRIDE;
     void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
@@ -80,6 +80,7 @@ private:
     bool m_ispress = false;
     bool m_ishover = false;
     QFont m_font;
+    bool m_isVer = false;
 };
 
 #endif // MEMORYITEMWIDGETTAB_H

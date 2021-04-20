@@ -201,13 +201,17 @@ scientificModuleTab::scientificModuleTab(QWidget *parent)
         if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first)
             m_memoryPublic->widgetminus(row, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second);
     });
-    connect(m_scihiswidget->findChild<MemoryWidgetTab *>(), &MemoryWidgetTab::itemclick, this, [ = ](const QPair<QString, Quantity> p) {
+    connect(m_scihiswidgetver->findChild<MemoryWidgetTab *>(), &MemoryWidgetTab::itemclick, this, [ = ](const QPair<QString, Quantity> p) {
         QString str = p.first;
         m_sciexpressionBar->getInputEdit()->setAnswer(str.remove("\n"), p.second);
         m_sciexpressionBar->getInputEdit()->setFocus();
         //点击item清除键状态改变
         this->handleClearStateChanged(false);
         m_stackWidget->setCurrentWidget(m_scikeypadwidget);
+        MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist));
+        btn->setbtnlight(false);
+        m_memRCbtn = true;
+        m_memCalbtn = true;
     });
     //同时删除历史记录
     connect(m_scihiswidget->m_listView, &SimpleListViewTab::removeRow, m_scihiswidgetver->m_listModel, &SimpleListModel::deleteItem);

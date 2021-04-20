@@ -35,8 +35,9 @@
 
 const int WIDGET_WIDTH = 456; //历史记录侧宽度
 const int BUTTONBOX_WIDTH = 96; //buttonbox宽度
-const int BUTTONBOXVER_WIDTH = 116; //竖屏
+const int BUTTONBOXVER_WIDTH = 106; //竖屏
 const int BUTTONBOX_HEIGHT = 40; //buttonbox高度
+const int BUTTONBOXVER_HEIGHT = 50; //buttonbox高度
 //const int LEFT_SPACE = 180; //buttonbox左侧宽度
 //const int RIGHT_SPACE = 180; //垃圾桶右侧宽度
 const int SPACE_BETWEEN_BUTTONANDVIEW = 20; //button与下侧widget之间空隙
@@ -350,10 +351,10 @@ void SciHistoryWidgetTab::resetWidgetSize(QSize size)
     m_memorywidget->resetWidgetSize(size);
     if (m_mode == 3) {
         m_buttonbox->setFixedWidth(BUTTONBOXVER_WIDTH * size.width() / 1080);
-        m_historybtn->setFixedSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOX_HEIGHT * size.height() / 1880);
-        m_historybtn->setIconSize(QSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOX_HEIGHT * size.height() / 1880));
-        m_memorybtn->setFixedSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOX_HEIGHT * size.height() / 1880);
-        m_memorybtn->setIconSize(QSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOX_HEIGHT * size.height() / 1880));
+        m_historybtn->setFixedSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOXVER_HEIGHT * size.height() / 1880);
+        m_historybtn->setIconSize(QSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOXVER_HEIGHT * size.height() / 1880));
+        m_memorybtn->setFixedSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOXVER_HEIGHT * size.height() / 1880);
+        m_memorybtn->setIconSize(QSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOXVER_HEIGHT * size.height() / 1880));
     }
     if (m_mode == 1) {
         m_buttonbox->setFixedWidth(BUTTONBOX_WIDTH * size.width() / 1920);
