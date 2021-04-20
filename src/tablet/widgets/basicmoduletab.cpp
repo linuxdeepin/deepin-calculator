@@ -725,10 +725,12 @@ void BasicModuleTab::resetWindowSize(QSize size)
     if (size.width() < size.height()) {
         m_scihiswidget->hide();
         m_scihiswidgetver->resetWidgetSize(size);
+        m_keypadLayout->setCurrentWidget(m_basicKeypad);
+        MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
+        btn->setbtnlight(false);
     } else {
         m_scihiswidget->resetWidgetSize(size);
         m_scihiswidget->show();
-        m_keypadLayout->setCurrentWidget(m_basicKeypad);
     }
 }
 

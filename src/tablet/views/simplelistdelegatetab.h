@@ -50,7 +50,7 @@ public slots:
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const;
-    void drawFocusStatus(QPainter *painter, const QStyleOptionViewItem &option) const;
+    void drawFocusStatus(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
 //    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option,
 //                     const QModelIndex &index);

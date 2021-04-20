@@ -353,6 +353,7 @@ void MemoryWidgetTab::resetWidgetSize(QSize size)
             memoryclean();
         }
     } else {
+        this->setFixedWidth(QApplication::desktop()->screenGeometry().width());
         m_itemwidth = QApplication::desktop()->screenGeometry().width();
         m_label->setFixedSize(QSize(m_itemwidth, NOMEMORYHEIGHT));
         if (!m_memorypublic->isEmpty()) {

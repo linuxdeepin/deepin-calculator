@@ -37,6 +37,7 @@ DWIDGET_USE_NAMESPACE
 
 const int PADDING = 30; //历史记录区边距
 const int NOHISTORYHEIGHT = 970; // 无历史记录rect高度
+const int NOHISTORYHEIGHTVER = 1120; // 无历史记录rect高度
 const int HISWIDTH = 456; //历史记录宽度
 
 SimpleListDelegateTab::SimpleListDelegateTab(int mode, QObject *parent)
@@ -148,7 +149,7 @@ void SimpleListDelegateTab::currentfocusindex(QModelIndex index)
 void SimpleListDelegateTab::paint(QPainter *painter, const QStyleOptionViewItem &option,
                                   const QModelIndex &index) const
 {
-    drawFocusStatus(painter, option); //焦点边框
+    drawFocusStatus(painter, option, index); //焦点边框
     if (m_mode == 0) {
         const QString expression = index.data(SimpleListModel::ExpressionRole).toString();
         QRect rect(option.rect);
@@ -268,7 +269,7 @@ void SimpleListDelegateTab::paint(QPainter *painter, const QStyleOptionViewItem 
                                     rect.width() - resultWidth - expWidth - PADDING * 2, rect.height()),
                               Qt::AlignVCenter | Qt::AlignRight, linkNum);
         }
-    } else if (m_mode == 1) {
+    } else if (m_mode > 0) {
         const QString expression = index.data(SimpleListModel::ExpressionWithOutTip).toString();
         QRect rect(option.rect);
         rect.setRight(option.widget->width() - 5); //设置矩形右边缘,会导致rect宽度改变
@@ -326,7 +327,7 @@ void SimpleListDelegateTab::paint(QPainter *painter, const QStyleOptionViewItem 
             painter->setFont(font);
             painter->setPen(QColor(nohistory));
             painter->drawText(
-                QRectF(rect.x() + PADDING, rect.y(), rect.width() - PADDING * 2 - 10, NOHISTORYHEIGHT),
+                QRectF(rect.x() + PADDING, rect.y(), rect.width() - PADDING * 2 - 10, m_mode == 1 ? NOHISTORYHEIGHT : NOHISTORYHEIGHTVER),
                 expression, Qt::AlignHCenter | Qt::AlignVCenter);
         } else {
             // draw result text.
@@ -378,10 +379,12 @@ void SimpleListDelegateTab::paint(QPainter *painter, const QStyleOptionViewItem 
 /**
  * @brief 绘制焦点状态
  */
-void SimpleListDelegateTab::drawFocusStatus(QPainter *painter, const QStyleOptionViewItem &option) const
+void SimpleListDelegateTab::drawFocusStatus(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     SimpleListViewTab *listview = qobject_cast<SimpleListViewTab *>(option.styleObject);
-    if (listview->hasFocus()) {
+    const QString expression = index.data(SimpleListModel::ExpressionWithOutTip).toString();
+    QStringList splitList = expression.split("＝");
+    if (listview->hasFocus() && splitList.size() > 1) {
         painter->setRenderHint(QPainter::Antialiasing, true);
         QRectF itemrect(listview->visualRect(m_focusindex));
         QRectF frame(itemrect.left() + 1, itemrect.top() + 1, HISWIDTH - 2, itemrect.height() - 2);
@@ -401,12 +404,16 @@ QSize SimpleListDelegateTab::sizeHint(const QStyleOptionViewItem &option,
                                       const QModelIndex &index) const
 {
     Q_UNUSED(option);
-    if (m_mode == 1) {
+    if (m_mode > 0) {
         const QString expression = index.data(SimpleListModel::ExpressionWithOutTip).toString();
         const int rectwidth = 451; //paintevent设置右边缘后的宽度
         QStringList splitList = expression.split("＝");
-        if (splitList.size() == 1)
-            return QSize(-1, 516); //历史记录无内容时大小
+        if (splitList.size() == 1) {
+            if (m_mode == 1)
+                return QSize(-1, 516); //历史记录无内容时大小
+            else
+                return QSize(-1, 1120);
+        }
         QString resultStr = splitList.last();
         QString exp = splitList.first() + "＝";
         QFont font;

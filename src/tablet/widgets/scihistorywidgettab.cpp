@@ -72,7 +72,7 @@ SciHistoryWidgetTab::SciHistoryWidgetTab(int mode, QWidget *parent)
         m_historybtn = new DButtonBoxButton(QIcon(), {}, this);
         m_memorybtn = new DButtonBoxButton(QIcon(), {}, this);
         m_listView = new SimpleListViewTab(1, this);
-        m_listDelegate = new SimpleListDelegateTab(1, this);
+        m_listDelegate = new SimpleListDelegateTab(mode, this);
         m_listModel = new SimpleListModel(1, this);
         m_memorywidget = memoryPublic->getwidget(mode);
 //        m_memorywidget->setFocusPolicy(Qt::TabFocus);

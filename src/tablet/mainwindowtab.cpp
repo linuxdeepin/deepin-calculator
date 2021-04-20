@@ -98,9 +98,11 @@ void MainWindowTab::initTheme()
     QString path;
     if (type == 1) {
         DPalette titlePa = titlebar()->palette();
-        titlePa.setColor(DPalette::Light, QColor(240, 240, 240));
-        titlePa.setColor(DPalette::Dark, QColor(240, 240, 240));
-        titlePa.setColor(DPalette::Base, QColor(240, 240, 240));
+        QColor normalbackground = QColor("#FFFFFF");
+        normalbackground.setAlphaF(0.8);
+        titlePa.setColor(DPalette::Light, QColor(normalbackground));
+        titlePa.setColor(DPalette::Dark, QColor(normalbackground));
+        titlePa.setColor(DPalette::Base, QColor(normalbackground));
         titlebar()->setPalette(titlePa);
         path = QString(":/assets/images/%1/").arg("light");
         m_clearbutton->setIconUrl(path + "empty_normal.svg", path + "empty_normal.svg", path + "empty_normal.svg", 1);
