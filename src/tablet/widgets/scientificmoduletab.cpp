@@ -1592,6 +1592,9 @@ void scientificModuleTab::resetWindowSize(QSize size)
     m_stackWidget->setCurrentWidget(m_scikeypadwidget);
     MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist));
     btn->setbtnlight(false);
+    if (m_havail == false && m_avail == false) {
+        btn->setEnabled(false);
+    }
     m_sciexpressionBar->resetWidgetSize(size);
 }
 
