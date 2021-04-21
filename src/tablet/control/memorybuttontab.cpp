@@ -227,6 +227,8 @@ void MemoryButtonTab::paintEvent(QPaintEvent *e)
     painter.setFont(m_font);
     QRectF textRect = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                          Qt::AlignCenter, this->text());
+    QRectF textRectMH = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                           Qt::AlignCenter, "M/H˄");
     QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();//活动色
     QColor pressBrush, focus, hoverFrame, base, text, hoverbrush;
     QColor pressText = actcolor;
@@ -304,7 +306,7 @@ void MemoryButtonTab::paintEvent(QPaintEvent *e)
             painter.setBrush(Qt::NoBrush);
             painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //focus边框
             if (this->text() == "MH˅" || this->text() == "MH˄") {
-                this->paintTextNormal(painter, normal);
+                this->paintTextNormal(painter, textRectMH);
             } else
                 painter.drawText(textRect, this->text());
         } else {
@@ -326,7 +328,7 @@ void MemoryButtonTab::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setFont(m_font);
             if (this->text() == "MH˅" || this->text() == "MH˄") {
-                this->paintTextNormal(painter, normal);
+                this->paintTextNormal(painter, textRectMH);
             } else
                 painter.drawText(textRect, this->text());
             m_effect->setColor(focusShadow);
@@ -344,7 +346,7 @@ void MemoryButtonTab::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setFont(m_font);
             if (this->text() == "MH˅" || this->text() == "MH˄") {
-                this->paintTextHover(painter, normal);
+                this->paintTextHover(painter, textRectMH);
             } else
                 painter.drawText(textRect, this->text());
             m_effect->setColor(hoverShadow);
@@ -357,7 +359,7 @@ void MemoryButtonTab::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setFont(m_font);
             if (this->text() == "MH˅" || this->text() == "MH˄") {
-                this->paintTextNormal(painter, normal);
+                this->paintTextNormal(painter, textRectMH);
             } else
                 painter.drawText(textRect, this->text());
         } else { //normal状态
@@ -368,7 +370,7 @@ void MemoryButtonTab::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setFont(m_font);
             if (this->text() == "MH˅" || this->text() == "MH˄") {
-                this->paintTextNormal(painter, normal);
+                this->paintTextNormal(painter, textRectMH);
             } else
                 painter.drawText(textRect, this->text());
             m_effect->setColor(QColor(0, 0, 0, 0));
@@ -386,42 +388,42 @@ void MemoryButtonTab::focusOutEvent(QFocusEvent *e)
 void MemoryButtonTab::paintTextNormal(QPainter &painter, QRectF normal)
 {
     if (this->text() == "MH˅") {
-        QRectF textRect1 = QRectF(normal.left() + 57, normal.top() + 62, 10, 17);
+        QRectF textRect1 = QRectF(normal.left() + 5, normal.top(), 13, 17);
         QFont a1;
         a1.setPointSize(12);
         a1.setFamily("Noto Sans");
         painter.setFont(a1);
         painter.drawText(textRect1, "M");
-        QRectF textRect2 = QRectF(normal.left() + 64, normal.top() + 67, 10, 17);
+        QRectF textRect2 = QRectF(normal.left() + 19, normal.top() + 5, 10, 17);
         painter.drawLine(textRect2.bottomLeft(), textRect2.topRight());
-        QRectF textRect3 = QRectF(normal.left() + 72, normal.top() + 69, 9, 17);
+        QRectF textRect3 = QRectF(normal.left() + 27, normal.top() + 7, 12, 17);
         QFont a3;
         a3.setPointSize(12);
         a3.setFamily("Noto Sans");
         painter.setFont(a3);
         painter.drawText(textRect3, "H");
-        QRectF textRect4 = QRectF(normal.left() + 80, normal.top() + 60, 9, 17);
+        QRectF textRect4 = QRectF(normal.left() + 35, normal.top() - 2, 9, 17);
         QFont a4;
         a4.setPointSize(20);
         a4.setFamily("Noto Sans");
         painter.setFont(a4);
         painter.drawText(textRect4, "˅");
     } else if (this->text() == "MH˄") {
-        QRectF textRect1 = QRectF(normal.left() + 57, normal.top() + 62, 10, 17);
+        QRectF textRect1 = QRectF(normal.left() + 5, normal.top(), 13, 17);
         QFont a1;
         a1.setPointSize(12);
         a1.setFamily("Noto Sans");
         painter.setFont(a1);
         painter.drawText(textRect1, "M");
-        QRectF textRect2 = QRectF(normal.left() + 64, normal.top() + 67, 10, 17);
+        QRectF textRect2 = QRectF(normal.left() + 19, normal.top() + 5, 10, 17);
         painter.drawLine(textRect2.bottomLeft(), textRect2.topRight());
-        QRectF textRect3 = QRectF(normal.left() + 72, normal.top() + 69, 9, 17);
+        QRectF textRect3 = QRectF(normal.left() + 27, normal.top() + 7, 12, 17);
         QFont a3;
         a3.setPointSize(12);
         a3.setFamily("Noto Sans");
         painter.setFont(a3);
         painter.drawText(textRect3, "H");
-        QRectF textRect4 = QRectF(normal.left() + 80, normal.top() + 60, 9, 17);
+        QRectF textRect4 = QRectF(normal.left() + 35, normal.top() - 2, 9, 17);
         QFont a4;
         a4.setPointSize(20);
         a4.setFamily("Noto Sans");
@@ -433,42 +435,42 @@ void MemoryButtonTab::paintTextNormal(QPainter &painter, QRectF normal)
 void MemoryButtonTab::paintTextHover(QPainter &painter, QRectF normal)
 {
     if (this->text() == "MH˅") {
-        QRectF textRect1 = QRectF(normal.left() + 57, normal.top() + 62, 12, 17);
+        QRectF textRect1 = QRectF(normal.left() + 5, normal.top(), 14, 18);
         QFont a1;
         a1.setPointSize(13);
         a1.setFamily("Noto Sans");
         painter.setFont(a1);
         painter.drawText(textRect1, "M");
-        QRectF textRect2 = QRectF(normal.left() + 65, normal.top() + 67, 10, 17);
+        QRectF textRect2 = QRectF(normal.left() + 20, normal.top() + 5, 10, 17);
         painter.drawLine(textRect2.bottomLeft(), textRect2.topRight());
-        QRectF textRect3 = QRectF(normal.left() + 72, normal.top() + 69, 9, 17);
+        QRectF textRect3 = QRectF(normal.left() + 27, normal.top() + 7, 13, 18);
         QFont a3;
         a3.setPointSize(13);
         a3.setFamily("Noto Sans");
         painter.setFont(a3);
         painter.drawText(textRect3, "H");
-        QRectF textRect4 = QRectF(normal.left() + 80, normal.top() + 60, 9, 17);
+        QRectF textRect4 = QRectF(normal.left() + 35, normal.top() - 2, 9, 17);
         QFont a4;
         a4.setPointSize(22);
         a4.setFamily("Noto Sans");
         painter.setFont(a4);
         painter.drawText(textRect4, "˅");
     } else if (this->text() == "MH˄") {
-        QRectF textRect1 = QRectF(normal.left() + 57, normal.top() + 62, 12, 17);
+        QRectF textRect1 = QRectF(normal.left() + 5, normal.top(), 14, 18);
         QFont a1;
         a1.setPointSize(13);
         a1.setFamily("Noto Sans");
         painter.setFont(a1);
         painter.drawText(textRect1, "M");
-        QRectF textRect2 = QRectF(normal.left() + 65, normal.top() + 67, 10, 17);
+        QRectF textRect2 = QRectF(normal.left() + 20, normal.top() + 5, 10, 17);
         painter.drawLine(textRect2.bottomLeft(), textRect2.topRight());
-        QRectF textRect3 = QRectF(normal.left() + 72, normal.top() + 69, 9, 17);
+        QRectF textRect3 = QRectF(normal.left() + 27, normal.top() + 7, 13, 18);
         QFont a3;
         a3.setPointSize(13);
         a3.setFamily("Noto Sans");
         painter.setFont(a3);
         painter.drawText(textRect3, "H");
-        QRectF textRect4 = QRectF(normal.left() + 80, normal.top() + 60, 9, 17);
+        QRectF textRect4 = QRectF(normal.left() + 35, normal.top() - 2, 9, 17);
         QFont a4;
         a4.setPointSize(22);
         a4.setFamily("Noto Sans");

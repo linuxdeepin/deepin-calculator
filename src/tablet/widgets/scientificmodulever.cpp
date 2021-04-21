@@ -205,7 +205,7 @@ void scientificModuleVer::closeListWidget()
 
 void scientificModuleVer::titleBarClean()
 {
-    m_scihiswidget->cleanButtonEvent();
+    m_scihiswidget->cleanHistory();
     m_sciexpressionBar->getInputEdit()->setFocus();
 }
 

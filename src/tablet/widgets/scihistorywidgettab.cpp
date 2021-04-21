@@ -224,6 +224,11 @@ void SciHistoryWidgetTab::resetFocus()
     }
 }
 
+int SciHistoryWidgetTab::getCurrentBoxId()
+{
+    return m_buttonbox->checkedId();
+}
+
 void SciHistoryWidgetTab::mouseMoveEvent(QMouseEvent *e)
 {
     Q_UNUSED(e);
@@ -320,27 +325,15 @@ void SciHistoryWidgetTab::iconChanged(int type, int id)
     }
 }
 
-/**
- * @brief SciHistoryWidgetTab::cleanButtonEvent
- * 仅在科学模式下，根据当前内存/历史界面进行清除
- */
-void SciHistoryWidgetTab::cleanButtonEvent()
+void SciHistoryWidgetTab::cleanHistory()
 {
-    if (m_buttonbox->checkedId() == 1) {
-        m_listModel->clearItems();
-        emit hisIsFilled(false);
-        m_listView->listItemFill(false);
-        m_isshowH = false;
-        if (m_buttonbox->checkedId() == 1)
-            emit clearbtnShow(m_isshowH);
-        m_listView->setFocusPolicy(Qt::NoFocus);
-    } else {
-        memoryPublic->memoryclean();
-        m_isshowM = false;
-        if (m_buttonbox->checkedId() == 0)
-            emit clearbtnShow(m_isshowM);
-        m_memorywidget->setFocusPolicy(Qt::NoFocus);
-    }
+    m_listModel->clearItems();
+    emit hisIsFilled(false);
+    m_listView->listItemFill(false);
+    m_isshowH = false;
+    if (m_buttonbox->checkedId() == 1)
+        emit clearbtnShow(m_isshowH);
+    m_listView->setFocusPolicy(Qt::NoFocus);
 }
 
 void SciHistoryWidgetTab::resetWidgetSize(QSize size)

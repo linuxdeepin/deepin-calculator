@@ -1557,8 +1557,19 @@ void scientificModuleTab::closeListWidget()
  */
 void scientificModuleTab::titleBarClean()
 {
-    m_scihiswidget->cleanButtonEvent();
-    m_scihiswidgetver->cleanButtonEvent();
+    if (m_scihiswidget->isHidden()) {
+        if (m_scihiswidgetver->getCurrentBoxId() == 1) {
+            m_scihiswidget->cleanHistory();
+            m_scihiswidgetver->cleanHistory();
+        } else
+            m_memoryPublic->memoryclean();
+    } else {
+        if (m_scihiswidget->getCurrentBoxId() == 1) {
+            m_scihiswidget->cleanHistory();
+            m_scihiswidgetver->cleanHistory();
+        } else
+            m_memoryPublic->memoryclean();
+    }
     m_sciexpressionBar->getInputEdit()->setFocus();
 }
 

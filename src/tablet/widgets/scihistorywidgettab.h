@@ -63,6 +63,7 @@ public:
     void focusOnButtonbox();
     void memoryFunctions(memOperate operate = generateData, Quantity answer = Quantity(), int row = -1);
     void resetFocus();
+    int getCurrentBoxId();
 
     void mouseMoveEvent(QMouseEvent *e);
     void keyPressEvent(QKeyEvent *e);
@@ -83,7 +84,7 @@ public slots:
     void themeChanged(int type);
     void historyfilled();
     void iconChanged(int type, int id);
-    void cleanButtonEvent();
+    void cleanHistory();
     void resetWidgetSize(QSize size);
 
 private:
