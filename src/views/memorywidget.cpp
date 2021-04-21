@@ -185,7 +185,7 @@ void MemoryWidget::generateData(const Quantity answer, bool ismax)
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
         if (m_listwidget->count() == 0) {
-            memoryclean();
+            m_memorypublic->memoryclean();
         }
     });
     widget->themetypechanged(m_themetype);
@@ -195,7 +195,7 @@ void MemoryWidget::generateData(const Quantity answer, bool ismax)
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
         if (m_listwidget->count() == 0) {
-            memoryclean();
+            m_memorypublic->memoryclean();
         }
     });
     connect(widget, &MemoryItemWidget::menucopy, this, [ = ]() { //item菜单复制
@@ -493,9 +493,6 @@ void MemoryWidget::widgetcleanslot(int row, int mode, bool ismenu)
 {
     if (m_calculatormode != mode) {
         delete m_listwidget->takeItem(row);
-        if (m_listwidget->count() == 0) {
-            memoryclean();
-        }
     } else {
         if (row + 1 < m_listwidget->count() && !ismenu)
             static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row + 1)))->setNextItemHover();

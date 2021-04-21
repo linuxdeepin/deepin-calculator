@@ -177,7 +177,7 @@ TEST_F(Ut_MemoryWidget, widgetcleanslot)
     m_memoryPublic->generateData(Quantity(1));
     m_memoryPublic->generateData(Quantity(1));
     m_memoryWidget->widgetcleanslot(0, 1, false);
-    ASSERT_EQ(m_memoryWidget->m_listwidget->count(), 2);
+    ASSERT_EQ(m_memoryWidget->m_listwidget->count(), 1);
     MemoryPublic::deleteInstance();
 }
 

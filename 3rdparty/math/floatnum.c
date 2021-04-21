@@ -1510,16 +1510,16 @@ _addsub_ordered(
    * HMATH_WORKING_PREC = DECPRECISION(运算精度) + 2，减少了位数，即0.0003的前三个0
    * 再次将结果去减1/3000时，最后几位无法对齐，导致运算结果为-3.33×e82。现将超过的部分截掉
    */
-  int overprec_part_s1 = summand1->significand->n_scale - summand1->exponent - DECPRECISION;
-  int overprec_part_s2 = summand2->significand->n_scale - summand2->exponent - DECPRECISION;
-  if(overprec_part_s1 > 0 && DECPRECISION + summand1->exponent > 0)
-  {
-      float_round(summand1,summand1,DECPRECISION + summand1->exponent + 3,TONEAREST);
-  }
-  if(overprec_part_s2 > 0 && DECPRECISION + summand2->exponent > 0)
-  {
-      float_round(summand2,summand2,DECPRECISION + summand2->exponent + 3,TONEAREST);
-  }
+//  int overprec_part_s1 = summand1->significand->n_scale - summand1->exponent - DECPRECISION;
+//  int overprec_part_s2 = summand2->significand->n_scale - summand2->exponent - DECPRECISION;
+//  if(overprec_part_s1 > 0 && DECPRECISION + summand1->exponent > 0)
+//  {
+//      float_round(summand1,summand1,DECPRECISION + summand1->exponent + 3,TONEAREST);
+//  }
+//  if(overprec_part_s2 > 0 && DECPRECISION + summand2->exponent > 0)
+//  {
+//      float_round(summand2,summand2,DECPRECISION + summand2->exponent + 3,TONEAREST);
+//  }
   //end edit jingzhou 20200807
   if (float_getsign(summand1) == float_getsign(summand2))
     return _addsub_normal(dest, summand1, summand2, digits);
