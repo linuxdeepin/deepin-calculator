@@ -132,6 +132,7 @@ int main(int argc, char *argv[])
 
 
     MainWindow window;
+    window.setWindowFlag(Qt::WindowMaximizeButtonHint, false);
     DSettingsAlt *m_dsettings = DSettingsAlt::instance(&window);
     if (app->setSingleInstance(app->applicationName(), DApplication::UserScope)) {
         Dtk::Widget::moveToCenter(&window);
