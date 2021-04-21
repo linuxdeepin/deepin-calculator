@@ -332,7 +332,7 @@ void SimpleListDelegateTab::paint(QPainter *painter, const QStyleOptionViewItem 
         } else {
             // draw result text.
             painter->drawText(
-                QRectF(rect.x() + PADDING, rect.y() + 10, rect.width() - PADDING * 2 - 10, expHeight),
+                QRectF(rect.x() + PADDING, rect.y() + 20, rect.width() - PADDING * 2 - 10, expHeight),
                 exp, textoption); //exp与上方空隙5pix
             painter->setFont(fontresult);
             int resultHeight;
@@ -346,7 +346,7 @@ void SimpleListDelegateTab::paint(QPainter *painter, const QStyleOptionViewItem 
                 painter->setPen(QColor(resultColor));
             }
             painter->drawText(
-                QRectF(rect.x() + PADDING, rect.y() + expHeight + 12, rect.width() - PADDING * 2 - 10, resultHeight),
+                QRectF(rect.x() + PADDING, rect.y() + expHeight + 20, rect.width() - PADDING * 2 - 10, resultHeight),
                 resultStr, textoption); //result与exp空隙12pix
             QRect resultRect(rect.x() + 20, rect.y(), rect.width()  - 50,
                              rect.height());
@@ -406,7 +406,7 @@ QSize SimpleListDelegateTab::sizeHint(const QStyleOptionViewItem &option,
     Q_UNUSED(option);
     if (m_mode > 0) {
         const QString expression = index.data(SimpleListModel::ExpressionWithOutTip).toString();
-        const int rectwidth = 451; //paintevent设置右边缘后的宽度
+        const int rectwidth = option.rect.width(); //paintevent设置右边缘后的宽度
         QStringList splitList = expression.split("＝");
         if (splitList.size() == 1) {
             if (m_mode == 1)
@@ -432,7 +432,7 @@ QSize SimpleListDelegateTab::sizeHint(const QStyleOptionViewItem &option,
                          (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 1) + 1) :
                          (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 1)); //由于结果字体较大，暂以此避免
         resultHeight = fmresult.height() * resultline;
-        return QSize(HISWIDTH, expHeight + resultHeight + 25); //多出25pix空隙
+        return QSize(-1, expHeight + resultHeight + 50); //多出25pix空隙
     } else {
         if (QApplication::desktop()->screenGeometry().width() < QApplication::desktop()->screenGeometry().height())
             return QSize(-1, 68 * QApplication::desktop()->availableGeometry().height() / 1880);

@@ -343,8 +343,7 @@ void MemoryWidgetTab::resetWidgetSize(QSize size)
         m_label->setFixedSize(QSize(m_itemwidth, NOMEMORYHEIGHT));
         if (!m_memorypublic->isEmpty()) {
             for (int i = 0; i < m_listwidget->count(); i++) {
-                m_listwidget->item(i)->setSizeHint(QSize(m_itemwidth, 80 + 60 * m_line));
-                static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->setFixedSize(QSize(m_itemwidth, 80 + 60 * m_line));
+                setitemwordwrap(static_cast<MemoryItemWidgetTab *>(m_listwidget->itemWidget(m_listwidget->item(i)))->textLabel(), i);
             }
         } else {
             memoryclean();
@@ -355,8 +354,7 @@ void MemoryWidgetTab::resetWidgetSize(QSize size)
         m_label->setFixedSize(QSize(m_itemwidth, 700));
         if (!m_memorypublic->isEmpty()) {
             for (int i = 0; i < m_listwidget->count(); i++) {
-                m_listwidget->item(i)->setSizeHint(QSize(m_itemwidth, 80 + 60 * m_line));
-                static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->setFixedSize(QSize(m_itemwidth, 80 + 60 * m_line));
+                setitemwordwrap(static_cast<MemoryItemWidgetTab *>(m_listwidget->itemWidget(m_listwidget->item(i)))->textLabel(), i);
             }
         } else {
             memoryclean();
@@ -452,34 +450,15 @@ QString MemoryWidgetTab::formatExpression(const QString &text)
 QString MemoryWidgetTab::setitemwordwrap(const QString &text, int row)
 {
     QString result = text;
-    result.replace('-', "－").replace('+', "＋");
-    int index = result.indexOf("E");
+    result.replace('-', "－").replace('+', "＋").remove("\n");
+//    int index = result.indexOf("E");
     m_line = 1;
-    if (m_calculatormode == 0 || m_calculatormode == 2) {
-        if (index > 0 && result.left(index).length() > 13) {
-            result.insert(index, "\n");
-            m_line = 2;
-        } else if (index <= 0 && result.length() > 21) {
-            result.insert(20, "\n");
-            m_line = 2;
-        }
-    } else {
-        if (index > 15) {
-            result.insert(index, "\n");
-            m_line = 2;
-            if (index > 18 && index < 33) {
-                result.remove("\n");
-                result.insert(18, "\n");
-                m_line = 2;
-            } else {
-                result.remove("\n");
-                result.insert(18, "\n");
-                result.insert(index + 1, "\n");
-                m_line = 3;
-            }
-        } else if (index <= 0 && result.length() > 19) {
-            result.insert(18, "\n");
-            m_line = 2;
+    if (m_calculatormode == 0 || m_calculatormode == 1) {
+        const int line = result.length();
+        int enter = (line % 13 == 0) ? (line / 13) : (line / 13 + 1);
+        m_line += line / 13;
+        while (--enter > 0) {
+            result.insert(enter * 12, "\n");
         }
     }
     if (m_listwidget->item(row)) {
