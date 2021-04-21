@@ -37,7 +37,7 @@ DWIDGET_USE_NAMESPACE
 
 const int PADDING = 30; //历史记录区边距
 const int NOHISTORYHEIGHT = 970; // 无历史记录rect高度
-const int NOHISTORYHEIGHTVER = 1120; // 无历史记录rect高度
+const int NOHISTORYHEIGHTVER = 700; // 无历史记录rect高度
 const int HISWIDTH = 456; //历史记录宽度
 
 SimpleListDelegateTab::SimpleListDelegateTab(int mode, QObject *parent)

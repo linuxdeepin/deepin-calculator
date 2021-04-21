@@ -355,7 +355,7 @@ void MemoryWidgetTab::resetWidgetSize(QSize size)
     } else {
         this->setFixedWidth(QApplication::desktop()->screenGeometry().width());
         m_itemwidth = QApplication::desktop()->screenGeometry().width();
-        m_label->setFixedSize(QSize(m_itemwidth, NOMEMORYHEIGHT));
+        m_label->setFixedSize(QSize(m_itemwidth, 700));
         if (!m_memorypublic->isEmpty()) {
             for (int i = 0; i < m_listwidget->count(); i++) {
                 m_listwidget->item(i)->setSizeHint(QSize(m_itemwidth, 80 + 60 * m_line));
