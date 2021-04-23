@@ -1575,8 +1575,9 @@ void scientificModuleTab::titleBarClean()
 
 void scientificModuleTab::resetWindowSize(QSize size)
 {
+    this->setFixedHeight(size.height());
     m_scikeypadwidget->resetWidgetSize(size);
-    m_scihiswidget->resetWidgetSize(size);
+    m_scihiswidget->setFixedHeight(size.height());
     if (size.width() < size.height()) {
         m_scihiswidget->hide();
         m_memhiskeypad->show();

@@ -353,7 +353,6 @@ void SimpleListDelegateTab::paint(QPainter *painter, const QStyleOptionViewItem 
                 resultStr, textoption); //result与exp空隙12pix
             QRect resultRect(rect.x() + 20, rect.y(), rect.width()  - 40,
                              expHeight + resultHeight + painter->fontMetrics().height());
-            qInfo() << expHeight << resultHeight << painter->fontMetrics().height();
             QPainterPath path;
             path.addRoundedRect(resultRect, 8, 8);
             if (option.state & QStyle::State_MouseOver && m_state == 0) {
@@ -427,7 +426,6 @@ QSize SimpleListDelegateTab::sizeHint(const QStyleOptionViewItem &option,
                          (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 21) + 1) :
                          (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 21)); //由于结果字体较大，暂以此避免
         resultHeight = fmresult.height() * resultline;
-        qInfo() << expHeight << resultHeight << fmresult.height();
         return QSize(-1, expHeight + resultHeight + fmresult.height()); //多出25pix空隙
     } else {
         if (QApplication::desktop()->screenGeometry().width() < QApplication::desktop()->screenGeometry().height())

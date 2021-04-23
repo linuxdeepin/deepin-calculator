@@ -46,14 +46,13 @@ SimpleListViewTab::SimpleListViewTab(int mode, QWidget *parent)
     if (m_mode == 0) {
         setFocusPolicy(Qt::NoFocus);
 //        setFixedHeight(204);
+        connect(verticalScrollBar(), &QScrollBar::rangeChanged, this, &SimpleListViewTab::adjustScrollbarMargins);
     }
 
     if (m_mode == 1) {
 //        setFocusPolicy(Qt::NoFocus);
         setMouseTracking(true);
     }
-
-    connect(verticalScrollBar(), &QScrollBar::rangeChanged, this, &SimpleListViewTab::adjustScrollbarMargins);
 }
 
 SimpleListViewTab::~SimpleListViewTab()
