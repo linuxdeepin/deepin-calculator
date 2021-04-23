@@ -20,7 +20,7 @@ MemoryKeypadTab::MemoryKeypadTab(QWidget *parent)
     m_layout->setContentsMargins(0, 0, 0, 0);
 
     initButtons();
-    this->setContentsMargins(19, 0, 19, 0);
+    this->setContentsMargins(19, 0, 19, 10);
 
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
 }
@@ -83,9 +83,8 @@ void MemoryKeypadTab::initButtons()
         font.setFamily("Noto Sans");
         button->setFont(font);
 
-        button->setFixedSize(MEMORYBUTTON_SIZE);
-        m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
-                            Qt::AlignTop);
+        button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
@@ -133,27 +132,19 @@ void MemoryKeypadTab::resetWidgetSize(QSize size)
 {
     if (size.width() < size.height()) {
         this->setFixedHeight(190 * size.height() / 1880);
-        QSize btnsize;
-        btnsize.setWidth(167 * size.width() / 1080);
-        btnsize.setHeight(182 * size.height() / 1880);
         QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
         while (i.hasNext()) {
             i.next();
             if (i.value().first->text() == "M˅")
                 i.value().first->show();
-            i.value().first->setFixedSize(btnsize);
         }
     } else {
         this->setFixedHeight(95 * size.height() / 1055);
-        QSize btnsize;
-        btnsize.setWidth(279 * size.width() / 1920);
-        btnsize.setHeight(87 * size.height() / 1055);
         QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
         while (i.hasNext()) {
             i.next();
             if (i.value().first->text() == "M˅")
                 i.value().first->hide();
-            i.value().first->setFixedSize(btnsize);
         }
     }
 

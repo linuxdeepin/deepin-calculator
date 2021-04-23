@@ -31,7 +31,7 @@ const int KEYPAD_SPACING = 8; //键盘按键间距,按钮比ui大2pix,此处小2
 const int LEFT_MARGIN = 19; //键盘左边距
 const int RIGHT_MARGIN = 19; //键盘右边距
 const int BOTTOM_MARGIN = 20; //键盘下边距
-const QSize STANDARD_TEXTBTNSIZE = QSize(351, 87); //标准模式按钮大小，为画边框比ui大2pix
+//const QSize STANDARD_TEXTBTNSIZE = QSize(351, 87); //标准模式按钮大小，为画边框比ui大2pix
 
 const BasicKeypadTab::KeyDescription BasicKeypadTab::keyDescriptions[] = {
 //    {"MC", Key_MC, 1, 0, 1, 2},       {"MR", Key_MR, 1, 2, 1, 2},
@@ -181,9 +181,9 @@ void BasicKeypadTab::initButtons()
             }
         }
 
-        button->setFixedSize(STANDARD_TEXTBTNSIZE);
-        m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
-                            Qt::AlignHCenter | Qt::AlignVCenter);
+//        button->setFixedSize(STANDARD_TEXTBTNSIZE);
+        button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
@@ -272,24 +272,8 @@ void BasicKeypadTab::resetWidgetSize(QSize size)
 {
     if (size.width() < size.height()) {
         this->setFixedHeight(KEYPADVER_HEIGHT * size.height() / 1880);
-        QSize btnsize;
-        btnsize.setWidth(254 * size.width() / 1080);
-        btnsize.setHeight(182 * size.height() / 1880);
-        QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
-        while (i.hasNext()) {
-            i.next();
-            i.value().first->setFixedSize(btnsize);
-        }
     } else {
         this->setFixedHeight(KEYPAD_HEIGHT * size.height() / 1055);
-        QSize btnsize;
-        btnsize.setWidth(351 * size.width() / 1920);
-        btnsize.setHeight(87 * size.height() / 1055);
-        QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
-        while (i.hasNext()) {
-            i.next();
-            i.value().first->setFixedSize(btnsize);
-        }
     }
 
 }

@@ -18,7 +18,7 @@ MemHisKeypadTab::MemHisKeypadTab(QWidget *parent)
     m_layout->setContentsMargins(0, 0, 0, 0);
 
     initButtons();
-    this->setContentsMargins(19, 0, 19, 0);
+    this->setContentsMargins(19, 0, 19, 10);
 
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
 }
@@ -75,9 +75,8 @@ void MemHisKeypadTab::initButtons()
         font.setFamily("Noto Sans");
         button->setFont(font);
 
-        button->setFixedSize(142, 157);
-        m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
-                            Qt::AlignTop);
+        button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
@@ -130,14 +129,6 @@ void MemHisKeypadTab::getFocus(int direction)
 void MemHisKeypadTab::resetWidgetSize(QSize size)
 {
     this->setFixedHeight(165 * size.height() / 1880);
-    QSize btnsize;
-    btnsize.setWidth(142 * size.width() / 1080);
-    btnsize.setHeight(157 * size.height() / 1880);
-    QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
-    while (i.hasNext()) {
-        i.next();
-        i.value().first->setFixedSize(btnsize);
-    }
 }
 
 
