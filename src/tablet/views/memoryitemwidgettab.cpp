@@ -215,10 +215,10 @@ void MemoryItemWidgetTab::paintEvent(QPaintEvent *e)
         hover = QColor(255, 255, 255);
         hover.setAlphaF(0.05);
     }
-    QRect resultRect(rect.x() + (m_isVer ? 20 : 0), rect.y(), rect.width()  - (m_isVer ? 50 : 20),
+    QRect resultRect(rect.x() + (m_isVer ? 20 : 0), rect.y(), rect.width()  - (m_isVer ? 40 : 20),
                      rect.height());
     QPainterPath path;
-    path.addRoundedRect(resultRect, 4, 4);
+    path.addRoundedRect(resultRect, 8, 8);
     if (m_ishover) {
         QBrush brush(hover);
         painter.fillPath(path, brush);

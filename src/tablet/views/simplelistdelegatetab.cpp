@@ -284,6 +284,7 @@ void SimpleListDelegateTab::paint(QPainter *painter, const QStyleOptionViewItem 
         QFontMetrics fm1 = painter->fontMetrics();
         QFont font;
         font.setPixelSize(20);
+        QFontMetrics fmexp(font);
         QFont fontresult; //结果字体
         fontresult.setPixelSize(40);
         painter->setFont(font);
@@ -293,10 +294,11 @@ void SimpleListDelegateTab::paint(QPainter *painter, const QStyleOptionViewItem 
         QString exp = splitList.first() + " ＝ ";
 
         int expHeight;
-        int expline = (painter->fontMetrics().width(exp) % (rect.width() - PADDING * 2)) ?
-                      (painter->fontMetrics().width(exp) / (rect.width() - PADDING * 2) + 1) :
-                      (painter->fontMetrics().width(exp) / (rect.width() - PADDING * 2));
+        int expline = (painter->fontMetrics().width(exp) % (rect.width() - PADDING * 2 - 10)) ?
+                      (painter->fontMetrics().width(exp) / (rect.width() - PADDING * 2 - 10) + 1) :
+                      (painter->fontMetrics().width(exp) / (rect.width() - PADDING * 2 - 10));
         expHeight = painter->fontMetrics().height() * expline;
+        int expsingleheight = painter->fontMetrics().height();
 
         if (m_type == 1) {
             errorFontColor = "#FF5736";  //edit for bug-21508
@@ -332,45 +334,38 @@ void SimpleListDelegateTab::paint(QPainter *painter, const QStyleOptionViewItem 
         } else {
             // draw result text.
             painter->drawText(
-                QRectF(rect.x() + PADDING, rect.y() + 20, rect.width() - PADDING * 2 - 10, expHeight),
+                QRectF(rect.x() + PADDING, rect.y() + expsingleheight, rect.width() - PADDING * 2 - 10, expHeight),
                 exp, textoption); //exp与上方空隙5pix
             painter->setFont(fontresult);
             int resultHeight;
-            int resultline = (painter->fontMetrics().width(resultStr) % (rect.width() - PADDING * 2 - 1)) ?
-                             (painter->fontMetrics().width(resultStr) / (rect.width() - PADDING * 2 - 1) + 1) :
-                             (painter->fontMetrics().width(resultStr) / (rect.width() - PADDING * 2 - 1)); //由于结果字体较大，暂以此避免
+            int resultline = (painter->fontMetrics().width(resultStr) % (rect.width() - PADDING * 2 - 21)) ?
+                             (painter->fontMetrics().width(resultStr) / (rect.width() - PADDING * 2 - 21) + 1) :
+                             (painter->fontMetrics().width(resultStr) / (rect.width() - PADDING * 2 - 21)); //由于结果字体较大，暂以此避免
             resultHeight = painter->fontMetrics().height() * resultline;
+            int resultsingleheight = painter->fontMetrics().height();
             if (resultStr == tr("Expression error")) {
                 painter->setPen(QColor(errorFontColor));
             } else {
                 painter->setPen(QColor(resultColor));
             }
             painter->drawText(
-                QRectF(rect.x() + PADDING, rect.y() + expHeight + 20, rect.width() - PADDING * 2 - 10, resultHeight),
+                QRectF(rect.x() + PADDING, rect.y() + expHeight + resultsingleheight / 2, rect.width() - PADDING * 2 - 10, resultHeight),
                 resultStr, textoption); //result与exp空隙12pix
-            QRect resultRect(rect.x() + 20, rect.y(), rect.width()  - 50,
-                             rect.height());
+            QRect resultRect(rect.x() + 20, rect.y(), rect.width()  - 40,
+                             expHeight + resultHeight + painter->fontMetrics().height());
+            qInfo() << expHeight << resultHeight << painter->fontMetrics().height();
             QPainterPath path;
-            path.addRoundedRect(resultRect, 4, 4);
+            path.addRoundedRect(resultRect, 8, 8);
             if (option.state & QStyle::State_MouseOver && m_state == 0) {
                 QBrush brush(normalbackground);
                 painter->fillPath(path, brush);
-//                painter->setBrush(normalbackground);
-//                painter->setPen(Qt::NoPen);
-//                painter->drawRect(rect.x(), rect.y(), rect.width() + 5, rect.height());
             } else if (m_state == 1 && m_row == index.row()) {
                 QBrush brush(normalbackground);
                 painter->fillPath(path, brush);
-//                painter->setBrush(normalbackground);
-//                painter->setPen(Qt::NoPen);
-//                painter->drawRect(rect.x(), rect.y(), rect.width() + 5, rect.height());
             }
             if (m_state == 2 && m_row == index.row()) {
                 QBrush brush(pressbackground);
                 painter->fillPath(path, brush);
-//                painter->setPen(Qt::NoPen);
-//                painter->setBrush(pressbackground);
-//                painter->drawRect(rect.x(), rect.y(), rect.width() + 5, rect.height());
             }
         }
     }
@@ -406,7 +401,7 @@ QSize SimpleListDelegateTab::sizeHint(const QStyleOptionViewItem &option,
     Q_UNUSED(option);
     if (m_mode > 0) {
         const QString expression = index.data(SimpleListModel::ExpressionWithOutTip).toString();
-        const int rectwidth = option.rect.width(); //paintevent设置右边缘后的宽度
+        const int rectwidth = option.rect.width() - 5; //paintevent设置右边缘后的宽度
         QStringList splitList = expression.split("＝");
         if (splitList.size() == 1) {
             if (m_mode == 1)
@@ -423,16 +418,17 @@ QSize SimpleListDelegateTab::sizeHint(const QStyleOptionViewItem &option,
         fontresult.setPixelSize(40);
         QFontMetrics fmresult(fontresult);
         int expHeight;
-        int expline = (fmexp.width(exp) % (rectwidth - PADDING * 2)) ?
-                      (fmexp.width(exp) / (rectwidth - PADDING * 2) + 1) :
-                      (fmexp.width(exp) / (rectwidth - PADDING * 2));
+        int expline = (fmexp.width(exp) % (rectwidth - PADDING * 2 - 10)) ?
+                      (fmexp.width(exp) / (rectwidth - PADDING * 2 - 10) + 1) :
+                      (fmexp.width(exp) / (rectwidth - PADDING * 2 - 10));
         expHeight = fmexp.height() * expline;
         int resultHeight;
-        int resultline = (fmresult.width(resultStr) % (rectwidth - PADDING * 2 - 1)) ?
-                         (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 1) + 1) :
-                         (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 1)); //由于结果字体较大，暂以此避免
+        int resultline = (fmresult.width(resultStr) % (rectwidth - PADDING * 2 - 21)) ?
+                         (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 21) + 1) :
+                         (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 21)); //由于结果字体较大，暂以此避免
         resultHeight = fmresult.height() * resultline;
-        return QSize(-1, expHeight + resultHeight + 50); //多出25pix空隙
+        qInfo() << expHeight << resultHeight << fmresult.height();
+        return QSize(-1, expHeight + resultHeight + fmresult.height()); //多出25pix空隙
     } else {
         if (QApplication::desktop()->screenGeometry().width() < QApplication::desktop()->screenGeometry().height())
             return QSize(-1, 68 * QApplication::desktop()->availableGeometry().height() / 1880);

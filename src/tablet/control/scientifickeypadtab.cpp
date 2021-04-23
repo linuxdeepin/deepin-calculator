@@ -298,7 +298,7 @@ void ScientificKeyPadTab::initButtons()
                 initStackWidget(m_exwidget, button, pagebutton, desc1);
             }
 
-            pagebutton->setFixedSize(BUTTON_SIZE);
+            pagebutton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             connect(static_cast<TextButtonTab *>(pagebutton), &TextButtonTab::focus, this, &ScientificKeyPadTab::getFocus); //获取上下左右键
         } else {
             m_gridlayout1->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount);
