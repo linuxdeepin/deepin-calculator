@@ -87,7 +87,8 @@ SciHistoryWidgetTab::SciHistoryWidgetTab(int mode, QWidget *parent)
 
         m_isshowM = !memoryPublic->isEmpty();
 
-        m_Vlayout->addSpacing(15);
+        if (m_mode == 1)
+            m_Vlayout->addSpacing(15);
         m_Vlayout->addLayout(m_Hlayout);
         m_Vlayout->addSpacing(SPACE_BETWEEN_BUTTONANDVIEW);
 
