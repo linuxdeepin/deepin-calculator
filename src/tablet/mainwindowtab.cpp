@@ -75,6 +75,9 @@ MainWindowTab::MainWindowTab(QWidget *parent)
     checkbtnID = checkbtnID > 1 ? 0 : checkbtnID;
     buttonbox->button(checkbtnID)->setChecked(true);
 
+    QWidget *space = new QWidget(this);
+    space->setFixedWidth(20);
+    titlebar()->addWidget(space, Qt::AlignLeft | Qt::AlignCenter);
     titlebar()->addWidget(buttonbox, Qt::AlignLeft | Qt::AlignCenter);
 
     initModule();
