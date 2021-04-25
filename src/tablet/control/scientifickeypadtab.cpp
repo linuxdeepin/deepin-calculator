@@ -61,12 +61,12 @@ const ScientificKeyPadTab::KeyDescription ScientificKeyPadTab::keyDescriptions[]
 
 const ScientificKeyPadTab::KeyDescription1 ScientificKeyPadTab::keyDescriptions1[] = {
 
-    {"", Key_arcsin, 3, 0, 1, 1},       {"", Key_sqrt2, 3, 1, 1, 1},
-    {"", Key_arccos, 4, 0, 1, 1}, {"", Key_sqrt3, 4, 1, 1, 1},
+    {"arcsin", Key_arcsin, 3, 0, 1, 1},       {"", Key_sqrt2, 3, 1, 1, 1},
+    {"arccos", Key_arccos, 4, 0, 1, 1}, {"", Key_sqrt3, 4, 1, 1, 1},
 
-    {"", Key_arctan, 5, 0, 1, 1},       {"", Key_ysqrtx, 5, 1, 1, 1},
+    {"arctan", Key_arctan, 5, 0, 1, 1},       {"", Key_ysqrtx, 5, 1, 1, 1},
 
-    {"", Key_arccot, 6, 0, 1, 1}, {"2ˣ", Key_2x, 6, 1, 1, 1},
+    {"arccot", Key_arccot, 6, 0, 1, 1}, {"2ˣ", Key_2x, 6, 1, 1, 1},
 
     {"logᵧx", Key_logyx, 7, 1, 1, 1},
 
@@ -648,7 +648,7 @@ void ScientificKeyPadTab::resetWidgetSize(QSize size)
                 i.value().first->hide();
         }
     } else {
-        this->setFixedHeight(KEYPADHEIGHT * size.height() / 1055);
+        this->setFixedHeight(KEYPADHEIGHT * size.height() / 1040);
         QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
         while (i.hasNext()) {
             i.next();

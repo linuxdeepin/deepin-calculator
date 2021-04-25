@@ -2379,11 +2379,11 @@ bool SciExpressionBarTab::judgeinput()
 void SciExpressionBarTab::resetWidgetSize(QSize size)
 {
     if (size.width() < size.height()) {
-        m_listView->setFixedHeight(LIST_HEIGHT * size.height() / 1055);
-        m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT * size.height() / 1055);
+        m_listView->setFixedHeight(LIST_HEIGHT * size.height() / 1040);
+        m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT * size.height() / 1040);
     } else {
-        m_listView->setFixedHeight(LIST_HEIGHT * size.height() / 1055);
-        m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT * size.height() / 1055);
+        m_listView->setFixedHeight(LIST_HEIGHT * size.height() / 1040);
+        m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT * size.height() / 1040);
     }
 }
 

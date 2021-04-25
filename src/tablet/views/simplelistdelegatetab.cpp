@@ -431,7 +431,7 @@ QSize SimpleListDelegateTab::sizeHint(const QStyleOptionViewItem &option,
         if (QApplication::desktop()->screenGeometry().width() < QApplication::desktop()->screenGeometry().height())
             return QSize(-1, 68 * QApplication::desktop()->availableGeometry().height() / 1880);
         else
-            return QSize(-1, 68 * QApplication::desktop()->availableGeometry().height() / 1055);
+            return QSize(-1, 68 * QApplication::desktop()->availableGeometry().height() / 1040);
     }
 }
 

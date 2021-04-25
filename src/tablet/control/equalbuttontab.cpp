@@ -7,7 +7,7 @@
 #include <DGuiApplicationHelper>
 
 const qreal BLURRADIUS = 4; //阴影模糊半径
-const int FONT_PIXELSIZE = 72; //字号
+const int FONT_PIXELSIZE = 30; //字号
 const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
 const qreal ROUND_YRADIUS = 8; //按钮圆角y轴半径
 
@@ -34,7 +34,7 @@ EqualButtonTab::~EqualButtonTab()
  */
 void EqualButtonTab::init()
 {
-    m_font.setPixelSize(FONT_PIXELSIZE);
+    m_font.setPointSize(FONT_PIXELSIZE);
     m_font.setFamily("Noto Sans");
     m_font.setStyleName("Light");
 }

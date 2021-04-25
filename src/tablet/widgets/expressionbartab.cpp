@@ -1860,9 +1860,9 @@ void ExpressionBarTab::resetWidgetSize(QSize size)
         m_listView->setFixedHeight(204 * size.height() / 1880);
         setFixedHeight(WIDGETVER_FIXHEIGHT * size.height() / 1880);
     } else {
-        m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT * size.height() / 1055);
-        m_listView->setFixedHeight(204 * size.height() / 1055);
-        setFixedHeight(WIDGET_FIXHEIGHT * size.height() / 1055);
+        m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT * size.height() / 1040);
+        m_listView->setFixedHeight(204 * size.height() / 1040);
+        setFixedHeight(WIDGET_FIXHEIGHT * size.height() / 1040);
     }
     m_listModel->refrushModel();
 }

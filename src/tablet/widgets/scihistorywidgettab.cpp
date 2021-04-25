@@ -352,9 +352,9 @@ void SciHistoryWidgetTab::resetWidgetSize(QSize size)
     }
     if (m_mode == 1) {
         m_buttonbox->setFixedWidth(BUTTONBOX_WIDTH * size.width() / 1920);
-        m_historybtn->setFixedSize(BUTTONBOX_WIDTH / 2 * size.width() / 1920, BUTTONBOX_HEIGHT * size.height() / 1055);
-        m_historybtn->setIconSize(QSize(BUTTONBOX_WIDTH / 2 * size.width() / 1920, BUTTONBOX_HEIGHT * size.height() / 1055));
-        m_memorybtn->setFixedSize(BUTTONBOX_WIDTH / 2 * size.width() / 1920, BUTTONBOX_HEIGHT * size.height() / 1055);
-        m_memorybtn->setIconSize(QSize(BUTTONBOX_WIDTH / 2 * size.width() / 1920, BUTTONBOX_HEIGHT * size.height() / 1055));
+        m_historybtn->setFixedSize(BUTTONBOX_WIDTH / 2 * size.width() / 1920, BUTTONBOX_HEIGHT * size.height() / 1040);
+        m_historybtn->setIconSize(QSize(BUTTONBOX_WIDTH / 2 * size.width() / 1920, BUTTONBOX_HEIGHT * size.height() / 1040));
+        m_memorybtn->setFixedSize(BUTTONBOX_WIDTH / 2 * size.width() / 1920, BUTTONBOX_HEIGHT * size.height() / 1040);
+        m_memorybtn->setIconSize(QSize(BUTTONBOX_WIDTH / 2 * size.width() / 1920, BUTTONBOX_HEIGHT * size.height() / 1040));
     }
 }

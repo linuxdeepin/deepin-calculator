@@ -89,6 +89,8 @@ void TextButtonTab::init()
         m_font.setPointSize(16);
     } else if (text() == "+/-") {
         m_font.setPointSize(20);
+    } else if (text() == "arcsin" || text() == "arccos" || text() == "arctan" || text() == "arccot") {
+        m_font.setPointSize(16);
     } else
         m_font.setPointSize(18);
     m_font.setFamily("Noto Sans");
@@ -184,6 +186,8 @@ void TextButtonTab::enterEvent(QEvent *e)
         m_font.setPointSize(18);
     } else if (text() == "+/-") {
         m_font.setPointSize(22);
+    } else if (text() == "arcsin" || text() == "arccos" || text() == "arctan" || text() == "arccot") {
+        m_font.setPointSize(18);
     } else
         m_font.setPointSize(20);
     m_font.setStyleName("");
@@ -215,6 +219,8 @@ void TextButtonTab::leaveEvent(QEvent *e)
         m_font.setPointSize(16);
     } else if (text() == "+/-") {
         m_font.setPointSize(20);
+    } else if (text() == "arcsin" || text() == "arccos" || text() == "arctan" || text() == "arccot") {
+        m_font.setPointSize(16);
     } else
         m_font.setPointSize(18);
     m_font.setStyleName("Light");

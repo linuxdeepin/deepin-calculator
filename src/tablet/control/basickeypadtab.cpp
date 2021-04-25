@@ -273,7 +273,7 @@ void BasicKeypadTab::resetWidgetSize(QSize size)
     if (size.width() < size.height()) {
         this->setFixedHeight(KEYPADVER_HEIGHT * size.height() / 1880);
     } else {
-        this->setFixedHeight(KEYPAD_HEIGHT * size.height() / 1055);
+        this->setFixedHeight(KEYPAD_HEIGHT * size.height() / 1040);
     }
 
 }

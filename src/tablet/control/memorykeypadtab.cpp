@@ -139,7 +139,7 @@ void MemoryKeypadTab::resetWidgetSize(QSize size)
                 i.value().first->show();
         }
     } else {
-        this->setFixedHeight(95 * size.height() / 1055);
+        this->setFixedHeight(95 * size.height() / 1040);
         QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
         while (i.hasNext()) {
             i.next();
