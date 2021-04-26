@@ -24,6 +24,7 @@
 #include <QApplication>
 
 #include "../utils.h"
+#include "../globaldefine.h"
 #include "../../3rdparty/core/settings.h"
 
 const QString AtoF = "ABCDEF";
@@ -136,9 +137,9 @@ void SimpleListModel::updataList(const QString &text, const int index, bool sci)
             deleteItem(0);
     }
     QString exp = text;
-    exp = exp.replace('+', QString::fromUtf8("＋"))
-          .replace('-', QString::fromUtf8("－"))
-          .replace('*', QString::fromUtf8("×"));
+    exp = exp.replace(EN_ADD, CN_ADD)
+          .replace(EN_MIN, CN_MIN)
+          .replace(EN_MUL, CN_MUL);
 
     if (index == -1) {
         appendText(exp, sci); //科学模式上方历史记录区
@@ -167,9 +168,9 @@ void SimpleListModel::updataList(Quantity ans, const QString &text, const int in
 
     }
     QString exp = text;
-    exp = exp.replace('+', QString::fromUtf8("＋"))
-          .replace('-', QString::fromUtf8("－"))
-          .replace('*', QString::fromUtf8("×"));
+    exp = exp.replace(EN_ADD, CN_ADD)
+          .replace(EN_MIN, CN_MIN)
+          .replace(EN_MUL, CN_MUL);
 
     beginInsertRows(QModelIndex(), index, index);
     m_expressionList.insert(index, exp);
@@ -261,7 +262,7 @@ void SimpleListModel::radixChanged(int baseori, int basedest)
                     m_textorder += "1";
                     i += 3;
                 }
-            } else if ((i == 0 || !isNumber(oldtext.at(i - 1))) && oldtext.at(i) == QString::fromUtf8("－")
+            } else if ((i == 0 || !isNumber(oldtext.at(i - 1))) && oldtext.at(i) == CN_MIN
                        && oldtext.length() > i + 1 && isNumber(oldtext.at(i + 1))) {
                 i++;
                 for (int j = 0; j < oldtext.length() - i; j++) {
@@ -333,10 +334,10 @@ void SimpleListModel::radixChanged(int baseori, int basedest)
         }
     }
     newtext = newtext + (ans.isNan() ? m_expressionList.at(0).split("＝").last() : result);
-    newtext = Utils::reformatSeparatorsPro(newtext, basedest).replace('+', QString::fromUtf8("＋"))
-              .replace('-', QString::fromUtf8("－"))
-              .replace('*', QString::fromUtf8("×"))
-              .replace('/', QString::fromUtf8("÷"));
+    newtext = Utils::reformatSeparatorsPro(newtext, basedest).replace(EN_ADD, CN_ADD)
+              .replace(EN_MIN, CN_MIN)
+              .replace(EN_MUL, CN_MUL)
+              .replace(EN_DIV, CN_DIV);
     m_expressionList.clear();
     beginInsertRows(QModelIndex(), 0, 0);
     m_expressionList << newtext;
@@ -354,13 +355,13 @@ bool SimpleListModel::isNumber(QChar a)
 QString SimpleListModel::formatExpression(const int &probase, const QString &text)
 {
     QString formattext = text;
-    formattext.replace(QString::fromUtf8("＋"), "+")
-    .replace(QString::fromUtf8("－"), "-")
-    .replace(QString::fromUtf8("×"), "*")
-    .replace(QString::fromUtf8("÷"), "/")
-    .replace(QString::fromUtf8(","), "")
+    formattext.replace(CN_ADD, EN_ADD)
+    .replace(CN_MIN, EN_MIN)
+    .replace(CN_MUL, EN_MUL)
+    .replace(CN_DIV, EN_DIV)
+    .replace(EN_Comma, "")
     .replace(QString::fromUtf8(" "), "")
-    .replace("%", "mod");
+    .replace(EN_Percent, "mod");
 
     QString base = QString();
     switch (probase) {
@@ -413,10 +414,10 @@ void SimpleListModel::answerOutOfRange(Quantity ans)
     if (m_expressionList.count() > 0) {
         QString expression = m_expressionList.at(0);
         expression =  Utils::reformatSeparatorsPro((expression.left(expression.indexOf("＝") + 1) + resultnum), Settings::instance()->programmerBase)
-                      .replace('+', QString::fromUtf8("＋"))
-                      .replace('-', QString::fromUtf8("－"))
-                      .replace('*', QString::fromUtf8("×"))
-                      .replace('/', QString::fromUtf8("÷"));;
+                      .replace(EN_ADD, CN_ADD)
+                      .replace(EN_MIN, CN_MIN)
+                      .replace(EN_MUL, CN_MUL)
+                      .replace(EN_DIV, CN_DIV);;
         m_expressionList.clear();
         beginInsertRows(QModelIndex(), 0, 0);
         m_expressionList << expression;

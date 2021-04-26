@@ -28,6 +28,7 @@
 #include <DGuiApplicationHelper>
 
 #include "../utils.h"
+#include "../globaldefine.h"
 #include "../../3rdparty/core/settings.h"
 
 const int SCIPREC = 31; //科学计算器精度
@@ -57,25 +58,17 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
     m_inputEdit->setTextMargins(10, 0, 10, 6);
 
     DPalette pl1 = this->palette();
-    // pl.setColor(DPalette::Text,QColor(48,48,48));
     pl1.setColor(DPalette::Button, Qt::transparent);
     pl1.setColor(DPalette::Highlight, Qt::transparent);
     pl1.setColor(DPalette::HighlightedText, Qt::blue);
 
-//    DPalette pl = this->palette();
-//    pl.setColor(DPalette::Light, QColor(0, 0, 0, 0));
-//    pl.setColor(DPalette::Dark, QColor(0, 0, 0, 0));
-//    pl.setColor(DPalette::Base, QColor(0, 0, 0, 0));
-//    this->setPalette(pl);
-
     QVBoxLayout *layout = new QVBoxLayout(this);
-//    layout->addWidget(m_listView);
+
     layout->addWidget(m_listView);
     layout->addWidget(m_inputEdit);
     layout->setMargin(0);
     layout->setSpacing(0);
 
-//    setFixedHeight(100);
     initConnect();
 
     Settings::instance()->angleUnit = 'd';
@@ -123,7 +116,6 @@ void SciExpressionBar::enterNumberEvent(const QString &text)
             m_inputEdit->clear();
 
         m_isContinue = true;
-//        m_listView->setFocus();
     }
 
     m_inputNumber = false;
@@ -158,7 +150,7 @@ void SciExpressionBar::enterSymbolEvent(const QString &text)
         return;
     QString oldText = m_inputEdit->text();
     QString symbol = text;
-    symbol.replace('/', QString::fromUtf8("÷"));
+    symbol.replace(EN_DIV, CN_DIV);
     m_isResult = false;
     m_isUndo = false;
     // 20200213统一被选中光标复位代码
@@ -170,10 +162,6 @@ void SciExpressionBar::enterSymbolEvent(const QString &text)
             m_inputEdit->insert(symbol);
         }
     } else {
-        // 20200316无效代码删除
-        //        if (m_inputEdit->text() == "－")
-        //            m_inputEdit->setText(oldText);
-        //        getSelection();
         int curPos = m_inputEdit->cursorPosition();
         QString exp = m_inputEdit->text();
         if (cursorPosAtEnd()) {
@@ -187,10 +175,10 @@ void SciExpressionBar::enterSymbolEvent(const QString &text)
             }
         } else if (curPos == 0) {
             QString firstStr = exp.left(1);
-            if (firstStr == QString::fromUtf8("－")) {
+            if (firstStr == CN_MIN) {
                 m_inputEdit->setText(oldText);
             } else {
-                if (symbol == QString::fromUtf8("－") || symbol == "-")
+                if (symbol == CN_MIN || symbol == EN_MIN)
                     m_inputEdit->insert(symbol);
             }
         } else {
@@ -225,7 +213,6 @@ void SciExpressionBar::enterPercentEvent()
     if (!judgeinput())
         return;
     if (m_inputEdit->text().isEmpty()) {
-//        m_inputEdit->setText("0%");
         return;
     }
     m_isResult = false;
@@ -278,7 +265,6 @@ void SciExpressionBar::enterPointEvent()
     } else {
         if (exp.at(curpos - 1) == ".")
             return;
-//        if (exp.at(curpos - 1) != ")" && exp.at(curpos - 1) != "%") {
         QString sRegNum = "[0-9,]+";
         QRegExp rx;
         rx.setPattern(sRegNum);
@@ -296,7 +282,6 @@ void SciExpressionBar::enterPointEvent()
             }
         } else
             m_inputEdit->insert("0.");
-//        }
     }
     exp = pointFaultTolerance(m_inputEdit->text());
     if (exp != m_inputEdit->text())
@@ -312,7 +297,7 @@ void SciExpressionBar::enterBackspaceEvent()
     QRegExp rx;
     rx.setPattern(sRegNum);
     SSelection selection = m_inputEdit->getSelection();
-    if (selection.selected != "") {
+    if (!selection.selected.isEmpty()) {
         QString text = m_inputEdit->text();
         QString seloldtext = text;
         int removepos = 0; //被删除位置
@@ -445,11 +430,7 @@ void SciExpressionBar::enterBackspaceEvent()
     }
 
     if (pointFaultTolerance(m_inputEdit->text()) != m_inputEdit->text()) {
-        QTimer::singleShot(5000, this, [ = ] {
-            int curpos = m_inputEdit->cursorPosition();
-            m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
-            m_inputEdit->setCursorPosition(curpos);
-        });
+        QTimer::singleShot(5000, this, &SciExpressionBar::pointCheckAfterDelete);
     }
 
     m_isResult = false;
@@ -514,20 +495,20 @@ void SciExpressionBar::enterEqualEvent()
         else
             result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(SCIPREC));
         QString formatResult = Utils::formatThousandsSeparators(result);
-        formatResult = formatResult.replace(QString::fromUtf8("＋"), "+")
-                       .replace(QString::fromUtf8("－"), "-")
-                       .replace(QString::fromUtf8("×"), "*")
-                       .replace(QString::fromUtf8("÷"), "/");
+        formatResult = formatResult.replace(CN_ADD, EN_ADD)
+                       .replace(CN_MIN, EN_MIN)
+                       .replace(CN_MUL, EN_MUL)
+                       .replace(CN_DIV, EN_DIV);
         //.replace(QString::fromUtf8(","), "");
 
         //        QString tStr = m_inputEdit->text().replace(QString::fromUtf8(","), "");
         QString tStr = m_inputEdit->text();
         //edit 20200518 for bug-26628
         QString StrToComp = formatResult;
-        StrToComp = StrToComp.replace("+", QString::fromUtf8("＋"))
-                    .replace("-", QString::fromUtf8("－"))
-                    .replace("*", QString::fromUtf8("×"))
-                    .replace("/", QString::fromUtf8("÷"));
+        StrToComp = StrToComp.replace(EN_ADD, CN_ADD)
+                    .replace(EN_MIN, CN_MIN)
+                    .replace(EN_MUL, CN_MUL)
+                    .replace(EN_DIV, CN_DIV);
         if (StrToComp == exp) {
             m_pair.first = false;
             return;
@@ -540,7 +521,7 @@ void SciExpressionBar::enterEqualEvent()
         }
         m_isContinue = false;
         m_inputEdit->setText(formatResult);
-        formatResult = formatResult.replace(QString::fromUtf8("-"), "－");
+        formatResult = formatResult.replace(EN_MIN, CN_MIN);
 
         m_pair.first = true;
         m_expression = exp + "＝" + formatResult;
@@ -845,19 +826,19 @@ void SciExpressionBar::copyClipboard2Result()
     QString exp = m_inputEdit->text();
     QString text = Utils::toHalfWidth(QApplication::clipboard()->text());
     text = text.left(text.indexOf("="));
-    text = text.replace('+', QString::fromUtf8("＋"))
-           .replace('-', QString::fromUtf8("－"))
-           .replace("_", QString::fromUtf8("－"))
-           .replace('*', QString::fromUtf8("×"))
-           .replace('x', QString::fromUtf8("×"))
-           .replace('X', QString::fromUtf8("×"))
-           .replace(QString::fromUtf8("＊"), QString::fromUtf8("×"))
-           .replace(QString::fromUtf8("（"), "(")
-           .replace(QString::fromUtf8("）"), ")")
-           .replace(QString::fromUtf8("。"), ".")
-           .replace(QString::fromUtf8("——"), QString::fromUtf8("－"))
-           .replace(QString::fromUtf8("％"), "%")
-           .replace('/', QString::fromUtf8("÷")); //对粘贴板中的内容进行英替中
+    text = text.replace(EN_ADD, CN_ADD)
+           .replace(EN_MIN, CN_MIN)
+           .replace(EN_Underscore, CN_MIN)
+           .replace(EN_MUL, CN_MUL)
+           .replace('x', CN_MUL)
+           .replace('X', CN_MUL)
+           .replace(CN_Asterisk, CN_MUL)
+           .replace(CN_LBracket, EN_LBracket)
+           .replace(CN_RBracket, EN_RBracket)
+           .replace(CN_Period, EN_Period)
+           .replace(CN_Underscore, CN_MIN)
+           .replace(CN_Percent, EN_Percent)
+           .replace(EN_DIV, CN_DIV); //对粘贴板中的内容进行英替中
 
     //匹配函数方法
     QStringList list = text.split(QRegExp("[0-9＋－×÷/()%^!E.,]")); //正则表达式中为科学模式下可存在的非字母;函数中;无法被复制
@@ -979,12 +960,8 @@ void SciExpressionBar::shear()
     else
         m_inputEdit->setCursorPosition(removepos - 1);
     // 20200401 选中部分左侧为分隔符按退格的光标处理
-    int curpos = m_inputEdit->cursorPosition();
     if (pointFaultTolerance(m_inputEdit->text()) != m_inputEdit->text()) {
-        QTimer::singleShot(5000, this, [ = ] {
-            m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
-            m_inputEdit->setCursorPosition(curpos);
-        });
+        QTimer::singleShot(5000, this, &SciExpressionBar::pointCheckAfterDelete);
     }
     // end fix
     m_isResult = false;
@@ -1070,12 +1047,8 @@ void SciExpressionBar::deleteText()
     else
         m_inputEdit->setCursorPosition(removepos - 1);
     // 20200401 选中部分左侧为分隔符按退格的光标处理
-    int curpos = m_inputEdit->cursorPosition();
     if (pointFaultTolerance(m_inputEdit->text()) != m_inputEdit->text()) {
-        QTimer::singleShot(5000, this, [ = ] {
-            m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
-            m_inputEdit->setCursorPosition(curpos);
-        });
+        QTimer::singleShot(5000, this, &SciExpressionBar::pointCheckAfterDelete);
     }
     // end fix
     m_isResult = false;
@@ -1099,6 +1072,13 @@ void SciExpressionBar::handleTextChanged(const QString &text)
     m_isContinue = true;
 }
 
+void SciExpressionBar::pointCheckAfterDelete()
+{
+    int curpos = m_inputEdit->cursorPosition();
+    m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
+    m_inputEdit->setCursorPosition(curpos);
+}
+
 bool SciExpressionBar::cursorPosAtEnd()
 {
     return m_inputEdit->cursorPosition() == m_inputEdit->text().length();
@@ -1107,12 +1087,12 @@ bool SciExpressionBar::cursorPosAtEnd()
 QString SciExpressionBar::formatExpression(const QString &text)
 {
     return QString(text)
-           .replace(QString::fromUtf8("＋"), "+")
-           .replace(QString::fromUtf8("－"), "-")
-           .replace(QString::fromUtf8("×"), "*")
-           .replace(QString::fromUtf8("÷"), "/")
-           .replace(QString::fromUtf8(","), "")
-           .replace(QString::fromUtf8("π"), QLatin1String("pi"));
+           .replace(CN_ADD, EN_ADD)
+           .replace(CN_MIN, EN_MIN)
+           .replace(CN_MUL, EN_MUL)
+           .replace(CN_DIV, EN_DIV)
+           .replace(EN_Comma, "")
+           .replace(EN_PI, QLatin1String("pi"));
 }
 
 void SciExpressionBar::revisionResults(const QModelIndex &index)
@@ -1197,48 +1177,6 @@ bool SciExpressionBar::judgeinput()
         return true;
     }
 }
-
-//void SciExpressionBar::computationalResults(const QString &expression, QString &result)
-//{
-//    if (m_inputEdit->text().isEmpty())
-//        return;
-
-//    QString exp = expression.left(expression.size() - 1);
-//    exp = formatExpression(exp);
-//    m_evaluator->setExpression(formatExpression(exp));
-//    Quantity ans = m_evaluator->evalUpdateAns();
-
-//    if (m_evaluator->error().isEmpty()) {
-//        if (ans.isNan() && !m_evaluator->isUserFunctionAssign())
-//            return;
-
-//        const QString tResult = DMath::format(ans, Quantity::Format::Fixed());
-//        result = Utils::formatThousandsSeparators(tResult);
-//        result = formatExpression(result);
-//        m_inputEdit->setAnswer(result, ans);
-
-//        if (result != m_inputEdit->text()) {
-//            m_isContinue = false;
-//        }
-//    } else {
-//        result = tr("Expression error");
-//        m_inputEdit->setText(result);
-//    }
-//}
-
-//QString SciExpressionBar::completedBracketsCalculation(QString &text)
-//{
-//    int leftBrack = text.count("(");
-//    int rightBrack = text.count(")");
-//    QString newText = text;
-//    if (leftBrack > rightBrack) {
-//        for (int i = 0; i < leftBrack - rightBrack; i++)
-//            newText += ")";
-//    }
-
-//    return newText;
-//}
-
 void SciExpressionBar::initConnect()
 {
     connect(m_listView, &SimpleListView::obtainingHistoricalSimple, this,
@@ -1305,18 +1243,18 @@ QString SciExpressionBar::pointFaultTolerance(const QString &text)
 {
     QString oldText = text;
     // QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
-    QString reformatStr = oldText.replace('+', QString::fromUtf8("＋"))
-                          .replace('-', QString::fromUtf8("－"))
-                          .replace("_", QString::fromUtf8("－"))
-                          .replace('*', QString::fromUtf8("×"))
-                          .replace('x', QString::fromUtf8("×"))
-                          .replace('X', QString::fromUtf8("×"))
-                          .replace(QString::fromUtf8("＊"), QString::fromUtf8("×"))
-                          .replace(QString::fromUtf8("（"), "(")
-                          .replace(QString::fromUtf8("）"), ")")
-                          .replace(QString::fromUtf8("。"), ".")
-                          .replace(QString::fromUtf8("——"), QString::fromUtf8("－"))
-                          .replace(QString::fromUtf8("％"), "%")
+    QString reformatStr = oldText.replace(EN_ADD, CN_ADD)
+                          .replace(EN_MIN, CN_MIN)
+                          .replace(EN_Underscore, CN_MIN)
+                          .replace(EN_MUL, CN_MUL)
+                          .replace('x', CN_MUL)
+                          .replace('X', CN_MUL)
+                          .replace(CN_Asterisk, CN_MUL)
+                          .replace(CN_LBracket, EN_LBracket)
+                          .replace(CN_RBracket, EN_RBracket)
+                          .replace(CN_Period, EN_Period)
+                          .replace(CN_Underscore, CN_MIN)
+                          .replace(CN_Percent, EN_Percent)
                           /*.replace('/', QString::fromUtf8("÷"))*/; //对内容进行英替中
     QStringList list = reformatStr.split(QRegExp("[＋－×÷/(]")); //20200717去掉),否则下方)小数点容错无法进入
     for (int i = 0; i < list.size(); ++i) {
@@ -1394,7 +1332,7 @@ void SciExpressionBar::expressionCheck()
 
 bool SciExpressionBar::isnumber(QChar a)
 {
-    if (a.isDigit() || a == "." || a == "," || a == QString::fromUtf8("π") || a == QString::fromUtf8("e"))
+    if (a.isDigit() || a == "." || a == "," || a == EN_PI || a == EN_Eular)
         return true;
     else
         return false;
@@ -1579,7 +1517,7 @@ void SciExpressionBar::replaceSelection(QString text)
     QString seloldtext = text;
     SSelection selection = m_inputEdit->getSelection();
     int selcurPos = m_inputEdit->cursorPosition();
-    if (selection.selected != "") {
+    if (!selection.selected.isEmpty()) {
         text.remove(selection.curpos, selection.selected.size());
         m_inputEdit->setText(text);
         if (selcurPos > selection.curpos &&
@@ -1602,8 +1540,8 @@ void SciExpressionBar::replaceSelection(QString text)
 
 bool SciExpressionBar::isOperator(const QString &text)
 {
-    if (text == QString::fromUtf8("＋") || text == QString::fromUtf8("－") ||
-            text == QString::fromUtf8("×") || text == QString::fromUtf8("÷")) {
+    if (text == CN_ADD || text == CN_MIN ||
+            text == CN_MUL || text == CN_DIV) {
         return true;
     } else {
         return false;

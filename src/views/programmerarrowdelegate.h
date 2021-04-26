@@ -33,10 +33,11 @@ class ProgrammerArrowDelegate : public QStyledItemDelegate
 
 public:
     explicit ProgrammerArrowDelegate(QObject *parent = nullptr);
+    ~ProgrammerArrowDelegate() override;
 
 protected:
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
 #endif // PROGRAMMERARROWDELEGATE_H

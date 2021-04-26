@@ -37,6 +37,7 @@
 #include "../utils.h"
 #include "../../3rdparty/core/settings.h"
 #include "../memorypublic.h"
+#include "../globaldefine.h"
 
 const int STANDARD_MWIDGET_HEIGHT = 260; //标准模式memorywidget高度
 const int SCIENTIFIC_MWIDGET_HEIGHT = 302; //科学模式memorywidget高度
@@ -511,11 +512,11 @@ void MemoryWidget::setMemoryPublic(MemoryPublic *pub)
 QString MemoryWidget::formatExpression(const QString &text)
 {
     return QString(text)
-           .replace(QString::fromUtf8("＋"), "+")
-           .replace(QString::fromUtf8("－"), "-")
-           .replace(QString::fromUtf8("×"), "*")
-           .replace(QString::fromUtf8("÷"), "/")
-           .replace(QString::fromUtf8(","), "");
+           .replace(CN_ADD, EN_ADD)
+           .replace(CN_MIN, EN_MIN)
+           .replace(CN_MUL, EN_MUL)
+           .replace(CN_DIV, EN_DIV)
+           .replace(EN_Comma, "");
 }
 
 /**

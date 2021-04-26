@@ -20,9 +20,9 @@
 #ifndef SIMPLELISTMODEL_H
 #define SIMPLELISTMODEL_H
 
-#include <QAbstractListModel>
-
 #include "../../3rdparty/core/evaluator.h"
+
+#include <QAbstractListModel>
 
 class SimpleListModel : public QAbstractListModel
 {
@@ -30,7 +30,7 @@ class SimpleListModel : public QAbstractListModel
 
 public:
     SimpleListModel(int mode = 0, QObject *parent = nullptr);//mode:0-标准模式 1-科学模式
-    ~SimpleListModel();
+    ~SimpleListModel() override;
     void refrushModel();
 
     //model的data数据类型
@@ -42,8 +42,8 @@ public:
         ExpressionNext, //下一个数据
     };
 
-    int rowCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    int rowCount(const QModelIndex &parent) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
     void appendText(const QString &text, bool sci);
     void clearItems();
     void updataList(const QString &text, const int index, bool sci = false);

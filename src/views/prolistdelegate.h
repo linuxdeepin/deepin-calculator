@@ -32,7 +32,7 @@ class ProListDelegate : public QStyledItemDelegate
 
 public:
     explicit ProListDelegate(QObject *parent = nullptr);
-    ~ProListDelegate();
+    ~ProListDelegate() override;
 
 public slots:
     void setThemeType(int type);
@@ -40,11 +40,11 @@ public slots:
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const;
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+               const QModelIndex &index) const override;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option,
-                     const QModelIndex &index);
-    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+                     const QModelIndex &index) override;
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     void drawFocusStatus(QPainter *painter, const QStyleOptionViewItem &option) const;
 signals:
     void obtainingHistorical(const QModelIndex &index);

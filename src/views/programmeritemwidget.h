@@ -22,14 +22,16 @@
 
 #include <QDebug>
 #include <QWidget>
-#include <DIconButton>
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QMouseEvent>
 #include <QPainter>
-#include <DGuiApplicationHelper>
 #include <QSvgRenderer>
+
+#include <DGuiApplicationHelper>
+#include <DIconButton>
+
 
 DWIDGET_USE_NAMESPACE
 
@@ -39,13 +41,13 @@ class ProgrammerItemWidget : public QWidget
 public:
     ProgrammerItemWidget(QString label, const int width, const QString path, QWidget *parent = nullptr);
     ProgrammerItemWidget(QString label, QWidget *parent = nullptr);
-    ~ProgrammerItemWidget();
-    void enterEvent(QEvent *event);
-    void leaveEvent(QEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void paintEvent(QPaintEvent *e);
-    bool eventFilter(QObject *obj, QEvent *event);
+    ~ProgrammerItemWidget() override;
+    void enterEvent(QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void paintEvent(QPaintEvent *e) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
     void cleanHoverState();
     void cleanFocusState();
     void isMarkHide(bool ishide);

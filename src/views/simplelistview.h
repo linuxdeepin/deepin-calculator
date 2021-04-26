@@ -20,12 +20,13 @@
 #ifndef SIMPLELISTVIEW_H
 #define SIMPLELISTVIEW_H
 
-#include <QScrollBar>
-#include <DWidget>
-#include <DListView>
-
 #include "simplelistdelegate.h"
 #include "simplelistmodel.h"
+
+#include <DListView>
+
+#include <QScrollBar>
+#include <DWidget>
 
 DWIDGET_USE_NAMESPACE
 
@@ -35,17 +36,17 @@ class SimpleListView : public DListView
 
 public:
     explicit SimpleListView(int mode = 0, DWidget *parent = nullptr); //mode:0-标准模式 1-科学模式
-    ~SimpleListView();
-    void contextMenuEvent(QContextMenuEvent *event);
+    ~SimpleListView() override;
+    void contextMenuEvent(QContextMenuEvent *event) override;
     void listItemFill(bool itemfill); //itemfill中是否有历史记录
     void showTextEditMenuByAltM(const QModelIndex &index);
 
 protected:
-    void mouseMoveEvent(QMouseEvent *);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void keyPressEvent(QKeyEvent *e);
-    void focusInEvent(QFocusEvent *event);
+    void mouseMoveEvent(QMouseEvent *) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void keyPressEvent(QKeyEvent *e) override;
+    void focusInEvent(QFocusEvent *event) override;
     void adjustScrollbarMargins();
 Q_SIGNALS:
     void clickrow(QString str);

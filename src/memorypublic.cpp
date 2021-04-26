@@ -32,15 +32,6 @@ static void s_deletemempub()
     delete INSTANCE;
 }
 
-QString formatExpression(const QString &text)
-{
-    return QString(text)
-           .replace(QString::fromUtf8("＋"), "+")
-           .replace(QString::fromUtf8("－"), "-")
-           .replace(QString::fromUtf8("×"), "*")
-           .replace(QString::fromUtf8("÷"), "/")
-           .replace(QString::fromUtf8(","), "");
-}
 /**
  * @brief 实例
  */
