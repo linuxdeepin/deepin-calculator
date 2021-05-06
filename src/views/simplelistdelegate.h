@@ -32,7 +32,7 @@ class SimpleListDelegate : public QStyledItemDelegate
     Q_PROPERTY(bool m_selected READ isSelected WRITE setSelect)
 public:
     SimpleListDelegate(int mode, QObject *parent = nullptr);//mode:0-标准模式 1-科学模式
-    ~SimpleListDelegate();
+    ~SimpleListDelegate() override;
     void setHisLink(const int link);
     void setHisLinked(const int linked);
     void removeLine(const int link, const int linked);
@@ -50,12 +50,12 @@ public slots:
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const;
+               const QModelIndex &index) const override;
     void drawFocusStatus(QPainter *painter, const QStyleOptionViewItem &option) const;
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 //    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option,
 //                     const QModelIndex &index);
-    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 signals:
     void obtainingHistorical(const QModelIndex &index);
     void historicalLinkage(const QModelIndex &index);

@@ -20,17 +20,18 @@
 #ifndef PROLISTVIEW_H
 #define PROLISTVIEW_H
 
+#include "prolistmodel.h"
+#include "prolistdelegate.h"
+
 #include <DWidget>
 #include <DListView>
+
 #include <QModelIndex>
 #include <QDebug>
 #include <QMenu>
 #include <QAction>
 #include <QClipboard>
 #include <QMouseEvent>
-
-#include "prolistmodel.h"
-#include "prolistdelegate.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -40,8 +41,8 @@ class ProListView : public DListView
 
 public:
     explicit ProListView(DWidget *parent = nullptr);
-    ~ProListView();
-    void contextMenuEvent(QContextMenuEvent *event);
+    ~ProListView() override;
+    void contextMenuEvent(QContextMenuEvent *event) override;
     void showTextEditMenuByAltM(const QModelIndex &index);
     QModelIndex focusIndex() const;
     QModelIndex indexBeforeFocusOut() const;
@@ -53,8 +54,8 @@ protected:
 //    void mouseMoveEvent(QMouseEvent *e);
 //    void mousePressEvent(QMouseEvent *event);
 //    void mouseReleaseEvent(QMouseEvent *event);
-    void keyPressEvent(QKeyEvent *e);
-    void focusInEvent(QFocusEvent *event);
+    void keyPressEvent(QKeyEvent *e) override;
+    void focusInEvent(QFocusEvent *event) override;
 Q_SIGNALS:
     void obtainingHistorical(const QModelIndex &index, bool isspace);
 

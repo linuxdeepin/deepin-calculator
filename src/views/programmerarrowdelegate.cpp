@@ -30,6 +30,11 @@ ProgrammerArrowDelegate::ProgrammerArrowDelegate(QObject *parent)
 
 }
 
+ProgrammerArrowDelegate::~ProgrammerArrowDelegate()
+{
+
+}
+
 void ProgrammerArrowDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     //边框绘制

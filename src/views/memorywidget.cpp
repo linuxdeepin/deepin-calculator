@@ -37,6 +37,7 @@
 #include "../utils.h"
 #include "../../3rdparty/core/settings.h"
 #include "../memorypublic.h"
+#include "../globaldefine.h"
 
 const int STANDARD_MWIDGET_HEIGHT = 260; //标准模式memorywidget高度
 const int SCIENTIFIC_MWIDGET_HEIGHT = 302; //科学模式memorywidget高度
@@ -185,7 +186,7 @@ void MemoryWidget::generateData(const Quantity answer, bool ismax)
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
         if (m_listwidget->count() == 0) {
-            memoryclean();
+            m_memorypublic->memoryclean();
         }
     });
     widget->themetypechanged(m_themetype);
@@ -195,7 +196,7 @@ void MemoryWidget::generateData(const Quantity answer, bool ismax)
         m_listwidget->takeItem(m_listwidget->row(item1));
         delete item1;
         if (m_listwidget->count() == 0) {
-            memoryclean();
+            m_memorypublic->memoryclean();
         }
     });
     connect(widget, &MemoryItemWidget::menucopy, this, [ = ]() { //item菜单复制
@@ -493,9 +494,6 @@ void MemoryWidget::widgetcleanslot(int row, int mode, bool ismenu)
 {
     if (m_calculatormode != mode) {
         delete m_listwidget->takeItem(row);
-        if (m_listwidget->count() == 0) {
-            memoryclean();
-        }
     } else {
         if (row + 1 < m_listwidget->count() && !ismenu)
             static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row + 1)))->setNextItemHover();
@@ -514,11 +512,11 @@ void MemoryWidget::setMemoryPublic(MemoryPublic *pub)
 QString MemoryWidget::formatExpression(const QString &text)
 {
     return QString(text)
-           .replace(QString::fromUtf8("＋"), "+")
-           .replace(QString::fromUtf8("－"), "-")
-           .replace(QString::fromUtf8("×"), "*")
-           .replace(QString::fromUtf8("÷"), "/")
-           .replace(QString::fromUtf8(","), "");
+           .replace(CN_ADD, EN_ADD)
+           .replace(CN_MIN, EN_MIN)
+           .replace(CN_MUL, EN_MUL)
+           .replace(CN_DIV, EN_DIV)
+           .replace(EN_Comma, "");
 }
 
 /**

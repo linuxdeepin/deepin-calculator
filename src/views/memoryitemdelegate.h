@@ -22,11 +22,11 @@
 #ifndef TESTITEMDELEGATE_H
 #define TESTITEMDELEGATE_H
 
-#include <QStyledItemDelegate>
-#include <QPainter>
-
 #include "memorylistwidget.h"
 #include "memoryitemwidget.h"
+
+#include <QStyledItemDelegate>
+#include <QPainter>
 
 /**
  * @brief 内存ListWidget委托
@@ -37,10 +37,11 @@ class MemoryItemDelegate : public QStyledItemDelegate
 
 public:
     explicit MemoryItemDelegate(QObject *parent = nullptr);
+    ~MemoryItemDelegate() override;
 
 protected:
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
 #endif // TESTITEMDELEGATE_H

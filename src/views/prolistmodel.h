@@ -20,11 +20,11 @@
 #ifndef PROLISTMODEL_H
 #define PROLISTMODEL_H
 
+#include "../../3rdparty/core/evaluator.h"
+
 #include <QAbstractListModel>
 #include <QClipboard>
 #include <QApplication>
-
-#include "../../3rdparty/core/evaluator.h"
 
 class ProListModel : public QAbstractListModel
 {
@@ -32,7 +32,7 @@ class ProListModel : public QAbstractListModel
 
 public:
     explicit ProListModel(QObject *parent = nullptr);
-    ~ProListModel();
+    ~ProListModel() override;
     void refrushModel();
 
     //model的data数据类型
@@ -43,8 +43,8 @@ public:
         ExpressionNext //下一个数据
     };
 
-    int rowCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    int rowCount(const QModelIndex &parent) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
     void clearItems();
     void updataList(const Quantity ans);
     void copyToClipboard(const int index);

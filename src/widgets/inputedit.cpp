@@ -446,6 +446,7 @@ void InputEdit::valueChangeFromProSyskeypad(const QString num)
  */
 void InputEdit::handleTextChanged(const QString &text)
 {
+    qInfo() << "textchangestart:" << text;
     if (m_currentInAns) {
         m_ansLength = 0; //光标在ans中间且text改变，清空ans
     } else if (m_currentOnAnsLeft && m_oldText.length() != 0) {
@@ -521,6 +522,7 @@ void InputEdit::handleTextChanged(const QString &text)
     m_selected.oldText = this->text(); //选中输入情况下清空被选部分
     m_selected.selected = selectedText();
     m_selected.curpos = selectionStart() < selectionEnd() ? selectionStart() : selectionEnd();
+    qInfo() << "textchangeend:" << text;
 }
 
 /**
@@ -962,6 +964,7 @@ QString InputEdit::formatAns(const QString &text)
  */
 QPair<bool, Quantity> InputEdit::getCurrentAns()
 {
+    qInfo() << "getans start";
     QPair<bool, Quantity> pair;
     QString expression;
     if (Settings::instance()->programmerBase == 8 || Settings::instance()->programmerBase == 16) {
@@ -969,10 +972,12 @@ QPair<bool, Quantity> InputEdit::getCurrentAns()
     } else {
         expression = InputEdit::formatExpression(Settings::instance()->programmerBase, text());
     }
+    qInfo() << "getans ==== format";
     QString exp1 = symbolComplement(expression);
     m_evaluator->setExpression(exp1);
     Quantity ans = m_evaluator->evalUpdateAns();
 
+    qInfo() << "getans ==== exec";
     if (m_evaluator->error().isEmpty()) {
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign()) {
             pair.first = false;
@@ -986,6 +991,7 @@ QPair<bool, Quantity> InputEdit::getCurrentAns()
         pair.second = Quantity(0);
     }
     emit prolistAns(pair);
+    qInfo() << "getans ==== end";
     return pair;
 }
 
@@ -1038,10 +1044,12 @@ QPair<bool, Quantity> InputEdit::getMemoryAnswer()
  */
 void InputEdit::isExpressionEmpty()
 {
+    qInfo() << "isexpressionempty start";
     if (text().isEmpty())
         emit emptyExpression(true);
     else
         emit emptyExpression(false);
+    qInfo() << "isexpressionempty end";
 }
 
 /**

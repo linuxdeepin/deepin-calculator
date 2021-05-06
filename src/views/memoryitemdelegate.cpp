@@ -29,6 +29,11 @@ MemoryItemDelegate::MemoryItemDelegate(QObject *parent)
 {
 }
 
+MemoryItemDelegate::~MemoryItemDelegate()
+{
+
+}
+
 /**
  * @brief 绘制memorylistwidget背景色
  */

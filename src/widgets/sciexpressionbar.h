@@ -102,6 +102,13 @@ public slots:
 
 private slots:
     void handleTextChanged(const QString &text);
+    /**
+     * @brief pointCheckAfterDelete
+     * 删除内容后5秒钟清理多余的小数点
+     * @param curpos
+     * 光标位置
+     */
+    void pointCheckAfterDelete();
 
 
 private:

@@ -949,7 +949,7 @@ void ProExpressionBar::copyClipboard2Result()
     QString oldText = m_inputEdit->text(); //未粘贴操作的text
     int curpos = m_inputEdit->cursorPosition(); //未粘贴操作的光标位
     QString text = Utils::toHalfWidth(QApplication::clipboard()->text());
-
+    text = text.left(text.indexOf("="));
     text = text.replace('+', QString::fromUtf8("＋"))
            .replace('-', QString::fromUtf8("－"))
            .replace("_", QString::fromUtf8("－"))

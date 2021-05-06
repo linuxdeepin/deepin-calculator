@@ -1159,6 +1159,7 @@ void ExpressionBar::copyClipboard2Result()
     replaceSelection(oldText);
     QString exp = m_inputEdit->text();
     QString text = Utils::toHalfWidth(QApplication::clipboard()->text());
+    text = text.left(text.indexOf("="));
     text = text.replace('+', QString::fromUtf8("＋"))
            .replace('-', QString::fromUtf8("－"))
            .replace("_", QString::fromUtf8("－"))

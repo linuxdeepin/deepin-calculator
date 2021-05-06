@@ -1862,7 +1862,9 @@ Quantity Evaluator::exec(const QVector<Opcode> &opcodes,
                 return CMath::nan();
             }
             val1 = stack.pop();
+            qInfo() << val1.numericValue().toInt();
             val1 = checkOperatorResult(-val1);
+            qInfo() << val1.numericValue().toInt();
             stack.push(val1);
             break;
 

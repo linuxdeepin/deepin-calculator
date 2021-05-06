@@ -40,7 +40,7 @@
 #define RATIONAL_TOL HNumber("1e-20")
 
 // TODO make this configurable
-#define HMATH_WORKING_PREC (2*DECPRECISION)
+#define HMATH_WORKING_PREC (DECPRECISION + 3)
 #define HMATH_EVAL_PREC (HMATH_WORKING_PREC + 2)
 
 // TODO should go into a separate format file
