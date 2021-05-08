@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.9.5)
 
 if (NOT DEFINED VERSION)
-    set(VERSION 1.2.2)
+    set(VERSION 5.6.0.13)
 endif ()
 
 #最外层一个工程，单项目中不添加工程，只添加执行文件

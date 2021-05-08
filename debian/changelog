@@ -1,3 +1,9 @@
+deepin-calculator (5.6.0.13) UNRELEASED; urgency=medium
+
+  * 修复龙芯5000上的问题
+
+ -- Deepin Packages Builder <jingzhou@jingzhou-PC>  Sat, 08 May 2021 14:51:07 +0800
+
 deepin-calculator (0.1-1) unstable; urgency=medium
 
   * Initial Release.
