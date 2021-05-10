@@ -141,19 +141,19 @@ void MainWindowTab::initModule()
         m_basicModule = new BasicModuleTab(this);
         m_mainLayout->addWidget(m_basicModule);
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
-        switchToSimpleMode();
+//        switchToSimpleMode();
         break;
     case 1:
         m_scientificModule = new scientificModuleTab(this);
         m_mainLayout->addWidget(m_scientificModule);
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
-        switchToScientificMode();
+//        switchToScientificMode();
         break;
     default:
         m_basicModule = new BasicModuleTab(this);
         m_mainLayout->addWidget(m_basicModule);
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
-        switchToSimpleMode();
+//        switchToSimpleMode();
         break;
     }
     m_isinit = false;
@@ -237,6 +237,8 @@ void MainWindowTab::resizeEvent(QResizeEvent *event)
     m_settings->setOption("windowHeight", event->size().height());
     QRect rect = QApplication::desktop()->availableGeometry();
     m_windowsize = QSize(rect.width(), rect.height());
+    if (this->height() != rect.height())
+        this->setFixedHeight(rect.height());
     if (m_settings->getOption("mode").toInt() != 1) {
         switchToSimpleMode();
     } else {
