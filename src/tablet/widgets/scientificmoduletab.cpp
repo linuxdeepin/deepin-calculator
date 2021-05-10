@@ -1575,7 +1575,6 @@ void scientificModuleTab::titleBarClean()
 
 void scientificModuleTab::resetWindowSize(QSize size)
 {
-    this->setFixedHeight(size.height());
     m_scikeypadwidget->resetWidgetSize(size);
     m_scihiswidget->setFixedHeight(size.height());
     if (size.width() < size.height()) {
@@ -1584,11 +1583,13 @@ void scientificModuleTab::resetWindowSize(QSize size)
         m_memhiskeypad->resetWidgetSize(size);
         m_scihiswidgetver->resetWidgetSize(size);
         m_sciexpressionBar->setFixedHeight(500 * size.height() / 1880);
+        m_scikeypadwidget->setFixedHeight(this->height() - m_memhiskeypad->height() - m_sciexpressionBar->height());
     } else {
         m_memhiskeypad->hide();
         m_scihiswidget->resetWidgetSize(size);
         m_scihiswidget->show();
         m_sciexpressionBar->setFixedHeight(EXPRESSIONBAR_HEIGHT * size.height() / 1040);
+        m_scikeypadwidget->setFixedHeight(this->height() - m_sciexpressionBar->height());
     }
     m_stackWidget->setCurrentWidget(m_scikeypadwidget);
     MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_MHlist));
