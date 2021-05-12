@@ -135,7 +135,7 @@ void MemoryKeypadTab::resetWidgetSize(QSize size)
         QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
         while (i.hasNext()) {
             i.next();
-            if (i.value().first->text() == "M˅")
+            if (i.value().first->text() == "M˅" || i.value().first->text() == "M˄")
                 i.value().first->show();
         }
     } else {
@@ -143,7 +143,7 @@ void MemoryKeypadTab::resetWidgetSize(QSize size)
         QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
         while (i.hasNext()) {
             i.next();
-            if (i.value().first->text() == "M˅")
+            if (i.value().first->text() == "M˅" || i.value().first->text() == "M˄")
                 i.value().first->hide();
         }
     }

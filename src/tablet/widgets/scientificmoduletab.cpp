@@ -1575,19 +1575,20 @@ void scientificModuleTab::titleBarClean()
 
 void scientificModuleTab::resetWindowSize(QSize size)
 {
+    m_sciexpressionBar->resetWidgetSize(size);
     m_scikeypadwidget->resetWidgetSize(size);
-    m_scihiswidget->setFixedHeight(size.height());
     if (size.width() < size.height()) {
         m_scihiswidget->hide();
         m_memhiskeypad->show();
         m_memhiskeypad->resetWidgetSize(size);
-        m_scihiswidgetver->resetWidgetSize(size);
         m_sciexpressionBar->setFixedHeight(500 * size.height() / 1880);
         m_scikeypadwidget->setFixedHeight(this->height() - m_memhiskeypad->height() - m_sciexpressionBar->height());
+        m_scihiswidgetver->setFixedHeight(m_scikeypadwidget->height());
+        m_scihiswidgetver->resetWidgetSize(size);
     } else {
         m_memhiskeypad->hide();
-        m_scihiswidget->resetWidgetSize(size);
         m_scihiswidget->show();
+        m_scihiswidget->resetWidgetSize(size);
         m_sciexpressionBar->setFixedHeight(EXPRESSIONBAR_HEIGHT * size.height() / 1040);
         m_scikeypadwidget->setFixedHeight(this->height() - m_sciexpressionBar->height());
     }
@@ -1597,7 +1598,6 @@ void scientificModuleTab::resetWindowSize(QSize size)
     if (m_havail == false && m_avail == false) {
         btn->setEnabled(false);
     }
-    m_sciexpressionBar->resetWidgetSize(size);
 }
 
 /**

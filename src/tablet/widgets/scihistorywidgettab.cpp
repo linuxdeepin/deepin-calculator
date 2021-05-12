@@ -339,22 +339,31 @@ void SciHistoryWidgetTab::cleanHistory()
 
 void SciHistoryWidgetTab::resetWidgetSize(QSize size)
 {
-    if (m_mode < 2) {
+    switch (m_mode) {
+    case 0:
         this->setFixedWidth(WIDGET_WIDTH * size.width() / 1920);
-    }
-    m_memorywidget->resetWidgetSize(size);
-    if (m_mode == 3) {
-        m_buttonbox->setFixedWidth(BUTTONBOXVER_WIDTH * size.width() / 1080);
-        m_historybtn->setFixedSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOXVER_HEIGHT * size.height() / 1880);
-        m_historybtn->setIconSize(QSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOXVER_HEIGHT * size.height() / 1880));
-        m_memorybtn->setFixedSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOXVER_HEIGHT * size.height() / 1880);
-        m_memorybtn->setIconSize(QSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOXVER_HEIGHT * size.height() / 1880));
-    }
-    if (m_mode == 1) {
+        m_memorywidget->setFixedHeight(this->height() - 20);
+        break;
+    case 1:
+        this->setFixedWidth(WIDGET_WIDTH * size.width() / 1920);
         m_buttonbox->setFixedWidth(BUTTONBOX_WIDTH * size.width() / 1920);
         m_historybtn->setFixedSize(BUTTONBOX_WIDTH / 2 * size.width() / 1920, BUTTONBOX_HEIGHT * size.height() / 1040);
         m_historybtn->setIconSize(QSize(BUTTONBOX_WIDTH / 2 * size.width() / 1920, BUTTONBOX_HEIGHT * size.height() / 1040));
         m_memorybtn->setFixedSize(BUTTONBOX_WIDTH / 2 * size.width() / 1920, BUTTONBOX_HEIGHT * size.height() / 1040);
         m_memorybtn->setIconSize(QSize(BUTTONBOX_WIDTH / 2 * size.width() / 1920, BUTTONBOX_HEIGHT * size.height() / 1040));
+        m_memorywidget->setFixedHeight(this->height() - 55 - m_historybtn->height());
+        break;
+    case 2:
+        m_memorywidget->setFixedHeight(this->height() - 20);
+        break;
+    default:
+        m_buttonbox->setFixedWidth(BUTTONBOXVER_WIDTH * size.width() / 1080);
+        m_historybtn->setFixedSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOXVER_HEIGHT * size.height() / 1880);
+        m_historybtn->setIconSize(QSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOXVER_HEIGHT * size.height() / 1880));
+        m_memorybtn->setFixedSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOXVER_HEIGHT * size.height() / 1880);
+        m_memorybtn->setIconSize(QSize(BUTTONBOXVER_WIDTH / 2 * size.width() / 1080, BUTTONBOXVER_HEIGHT * size.height() / 1880));
+        m_memorywidget->setFixedHeight(this->height() - 40 - m_historybtn->height());
+        break;
     }
+    m_memorywidget->resetWidgetSize(size);
 }

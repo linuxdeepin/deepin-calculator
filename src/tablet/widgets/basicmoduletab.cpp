@@ -720,18 +720,19 @@ void BasicModuleTab::titleBarClean()
 void BasicModuleTab::resetWindowSize(QSize size)
 {
 //    m_basicKeypad->resetWidgetSize(size);
+    m_keypadLayout->setCurrentWidget(m_basicKeypad);
     m_memoryKeypad->resetWidgetSize(size);
     m_expressionBar->resetWidgetSize(size);
     m_basicKeypad->setFixedHeight(this->height() - m_memoryKeypad->height() - m_expressionBar->height());
     if (size.width() < size.height()) {
         m_scihiswidget->hide();
+        m_scihiswidgetver->setFixedHeight(m_basicKeypad->height());
         m_scihiswidgetver->resetWidgetSize(size);
-        m_keypadLayout->setCurrentWidget(m_basicKeypad);
         MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
         btn->setbtnlight(false);
     } else {
-        m_scihiswidget->resetWidgetSize(size);
         m_scihiswidget->show();
+        m_scihiswidget->resetWidgetSize(size);
     }
 }
 

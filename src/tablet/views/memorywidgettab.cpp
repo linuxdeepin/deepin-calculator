@@ -338,6 +338,7 @@ void MemoryWidgetTab::widgetcleanslot(int row, int mode, bool ismenu)
 
 void MemoryWidgetTab::resetWidgetSize(QSize size)
 {
+    m_listwidget->setFixedHeight(this->height());
     if (m_mode < 2) {
         m_itemwidth = ITEM_WIDTH * size.width() / 1920;
         m_label->setFixedSize(QSize(m_itemwidth, NOMEMORYHEIGHT));
