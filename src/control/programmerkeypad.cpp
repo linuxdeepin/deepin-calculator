@@ -348,29 +348,29 @@ void ProgrammerKeypad::initUI()
             m_leftBracket->setParent(i.value().first);
             m_leftBracket->move(i.value().first->rect().x() + 37, i.value().first->rect().y() + 22);
             connect(i.value().first, &DPushButton::pressed, [ = ]() {
-                m_leftBracket->setStyleSheet(QString("font-family:Noto Sans;color:%1;font-size:14px;")
+                m_leftBracket->setStyleSheet(QString("font-family:Noto Sans CJK SC;color:%1;font-size:14px;")
                                              .arg(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name()));
             });
             connect(static_cast<TextButton *>(i.value().first), &TextButton::mouseRelease, [ = ]() {
                 //考虑focus状态，在鼠标松开时再更改label字体颜色
                 if (m_themetype == 1)
-                    m_leftBracket->setStyleSheet(QString("font-family:Noto Sans;color:black;font-size:14px;"));
+                    m_leftBracket->setStyleSheet(QString("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
                 else
-                    m_leftBracket->setStyleSheet(QString("font-family:Noto Sans;color:white;font-size:14px;"));
+                    m_leftBracket->setStyleSheet(QString("font-family:Noto Sans CJK SC;color:white;font-size:14px;"));
             });
         }
         if (i.key() == Key_rightBracket) {
             m_rightBracket->setParent(i.value().first);
             m_rightBracket->move(i.value().first->rect().x() + 37, i.value().first->rect().y() + 22);
             connect(i.value().first, &DPushButton::pressed, [ = ]() {
-                m_rightBracket->setStyleSheet(QString("font-family:Noto Sans;color:%1;font-size:14px;")
+                m_rightBracket->setStyleSheet(QString("font-family:Noto Sans CJK SC;color:%1;font-size:14px;")
                                               .arg(Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name()));
             });
             connect(static_cast<TextButton *>(i.value().first), &TextButton::mouseRelease, [ = ]() {
                 if (m_themetype == 1)
-                    m_rightBracket->setStyleSheet(QString("font-family:Noto Sans;color:black;font-size:14px;"));
+                    m_rightBracket->setStyleSheet(QString("font-family:Noto Sans CJK SC;color:black;font-size:14px;"));
                 else
-                    m_rightBracket->setStyleSheet(QString("font-family:Noto Sans;color:white;font-size:14px;"));
+                    m_rightBracket->setStyleSheet(QString("font-family:Noto Sans CJK SC;color:white;font-size:14px;"));
             });
         }
     }

@@ -72,6 +72,12 @@ public:
     void focusOutEvent(QFocusEvent *) override;
 
 private:
+    void paintTextNormal(QPainter &painter, QRectF normal);
+    void paintTextHover(QPainter &painter, QRectF normal);
+    void paintTextNormalM(QPainter &painter, QRectF normal);
+    void paintTextHoverM(QPainter &painter, QRectF normal);
+
+private:
     QGraphicsDropShadowEffect *m_effect;
     DSettingsAlt *m_settings;
 

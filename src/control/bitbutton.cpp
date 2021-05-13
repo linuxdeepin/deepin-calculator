@@ -38,7 +38,7 @@ BitButton::~BitButton()
 void BitButton::init()
 {
     m_font.setPixelSize(18);
-    m_font.setFamily("Noto Sans");
+    m_font.setFamily("Noto Sans CJK SC");
     m_font.setStyleName("Light");
     m_font.setWeight(2);
 }

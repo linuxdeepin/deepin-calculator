@@ -52,7 +52,7 @@ ProBitWidget::ProBitWidget(QWidget *parent)
 
     QFont font;
     font.setPixelSize(14);
-    font.setFamily("Noto Sans");
+    font.setFamily("Noto Sans CJK SC");
     m_label->setFont(font);
     vlay->addLayout(hlay);
     vlay->addWidget(m_label);

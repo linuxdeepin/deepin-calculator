@@ -95,7 +95,7 @@ void TextButton::init()
         m_font.setPixelSize(17);
     } else
         m_font.setPixelSize(18);
-    m_font.setFamily("Noto Sans");
+    m_font.setFamily("Noto Sans CJK SC");
     m_font.setStyleName("Light");
     m_font.setWeight(2);
 }
@@ -479,7 +479,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
         QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2, int(rect.height() / 4 - vpadding),
                                                               int(rect.width()) / 2, int(rect.height() / 2),
                                                               Qt::AlignLeft, "nd");
-        a.setFamily("Noto Sans");
+        a.setFamily("Noto Sans CJK SC");
         painter.setFont(a);
         painter.drawText(textRect2, "nd");
     } else if (m_btn == 2) {
@@ -497,7 +497,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
                                                               Qt::AlignLeft, "y");
         QFont a;
         a.setPixelSize(powersize);
-        a.setFamily("Noto Sans");
+        a.setFamily("Noto Sans CJK SC");
         painter.setFont(a);
         painter.drawText(textRect2, "y");
     } else if (m_btn == 3) {
@@ -514,7 +514,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
                                                               Qt::AlignLeft, "x");
         QFont a;
         a.setPixelSize(powersize);
-        a.setFamily("Noto Sans");
+        a.setFamily("Noto Sans CJK SC");
         painter.setFont(a);
         painter.drawText(textRect2, "x");
     } else if (m_btn == 4) {
@@ -531,7 +531,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
                                                               Qt::AlignLeft, "x");
         QFont a;
         a.setPixelSize(powersize);
-        a.setFamily("Noto Sans");
+        a.setFamily("Noto Sans CJK SC");
         painter.setFont(a);
         painter.drawText(textRect2, "x");
     } else if (m_btn == 5) {
@@ -548,7 +548,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
                                                               Qt::AlignLeft, "x");
         QFont a;
         a.setPixelSize(powersize);
-        a.setFamily("Noto Sans");
+        a.setFamily("Noto Sans CJK SC");
         painter.setFont(a);
         painter.drawText(textRect2, "x");
     } else if (m_btn == 6) {
@@ -566,7 +566,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
                                                               Qt::AlignLeft, "-1");
         QFont a;
         a.setPixelSize(powersize);
-        a.setFamily("Noto Sans");
+        a.setFamily("Noto Sans CJK SC");
         painter.setFont(a);
         painter.drawText(textRect2, "-1");
     } else if (m_btn == 7) {
@@ -584,7 +584,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
                                                               Qt::AlignLeft, "-1");
         QFont a;
         a.setPixelSize(powersize);
-        a.setFamily("Noto Sans");
+        a.setFamily("Noto Sans CJK SC");
         painter.setFont(a);
         painter.drawText(textRect2, "-1");
     } else if (m_btn == 8) {
@@ -602,7 +602,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
                                                               Qt::AlignLeft, "-1");
         QFont a;
         a.setPixelSize(powersize);
-        a.setFamily("Noto Sans");
+        a.setFamily("Noto Sans CJK SC");
         painter.setFont(a);
         painter.drawText(textRect2, "-1");
     } else if (m_btn == 9) {
@@ -620,7 +620,7 @@ void TextButton::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect
                                                               Qt::AlignLeft, "-1");
         QFont a;
         a.setPixelSize(powersize);
-        a.setFamily("Noto Sans");
+        a.setFamily("Noto Sans CJK SC");
         painter.setFont(a);
         painter.drawText(textRect2, "-1");
     } else {

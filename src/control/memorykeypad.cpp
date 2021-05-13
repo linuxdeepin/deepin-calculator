@@ -103,7 +103,7 @@ void MemoryKeypad::initButtons()
         DPushButton *button;
         button = new MemoryButton(desc->text, false, this);
         QFont font = button->font();
-        font.setFamily("Noto Sans");
+        font.setFamily("Noto Sans CJK SC");
         button->setFont(font);
 
         button->setFixedSize(MEMORYBUTTON_SIZE);
