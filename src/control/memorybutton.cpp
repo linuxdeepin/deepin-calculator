@@ -455,15 +455,18 @@ void MemoryButton::paintTextHover(QPainter &painter, QRectF normal)
 
 void MemoryButton::paintTextNormalM(QPainter &painter, QRectF normal)
 {
+    Q_UNUSED(normal)
     painter.save();
     QRectF rect = this->rect();
     int vpadding = rect.width() < 69 ? 4 : 2;
     if (this->text() == "M˄") {
+        QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                              Qt::AlignCenter, "M²");
         QFont a1;
         a1.setPixelSize(16);
         a1.setFamily("Noto Sans CJK SC");
         painter.setFont(a1);
-        painter.drawText(normal, "M");
+        painter.drawText(textRect1, "M");
         QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 4, int(rect.height() / 4 - vpadding),
                                                               int(rect.width()) / 2, int(rect.height() / 2),
                                                               Qt::AlignLeft, "^");
@@ -473,11 +476,13 @@ void MemoryButton::paintTextNormalM(QPainter &painter, QRectF normal)
         painter.setFont(a2);
         painter.drawText(textRect2, "^");
     } else if (this->text() == "M˅") {
+        QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                              Qt::AlignCenter, "M²");
         QFont a1;
         a1.setPixelSize(16);
         a1.setFamily("Noto Sans CJK SC");
         painter.setFont(a1);
-        painter.drawText(normal, "M");
+        painter.drawText(textRect1, "M");
         QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 4, int(rect.height() / 4 - vpadding),
                                                               int(rect.width()) / 2, int(rect.height() / 2),
                                                               Qt::AlignLeft, "v");
@@ -492,15 +497,18 @@ void MemoryButton::paintTextNormalM(QPainter &painter, QRectF normal)
 
 void MemoryButton::paintTextHoverM(QPainter &painter, QRectF normal)
 {
+    Q_UNUSED(normal)
     painter.save();
     QRectF rect = this->rect();
     int vpadding = rect.width() < 69 ? 6 : 4;
     if (this->text() == "M˅") {
+        QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
+                                                              Qt::AlignCenter, "M²");
         QFont a1;
         a1.setPixelSize(17);
         a1.setFamily("Noto Sans CJK SC");
         painter.setFont(a1);
-        painter.drawText(normal, "M");
+        painter.drawText(textRect1, "M");
         QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 4, int(rect.height() / 4 - vpadding),
                                                               int(rect.width()) / 2, int(rect.height() / 2),
                                                               Qt::AlignLeft, "v");
