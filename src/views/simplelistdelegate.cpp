@@ -257,7 +257,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
             painter->setPen(QColor(fontColor));
             for (int i = 0; i < m_linkedIten.size(); ++i) {
-                if (m_linkedIten[i] == index.row())
+                if (m_linkedIten[i] == index.row() && resultStr != tr("Expression error")) // 错误表达式不联动
                     painter->setPen(QColor(linkColor)); //判断第一个数是否是被联动项,如果是，设置字体颜色为高亮
             }
 

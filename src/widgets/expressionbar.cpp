@@ -1690,7 +1690,6 @@ void ExpressionBar::addUndo()
     //    if (!m_undo.isEmpty() && m_inputEdit->text() == m_undo.last())
     //        return;
     m_undo.append(m_inputEdit->text());
-    qInfo() << m_undo;
     m_redo.clear();
     m_inputEdit->setRedoAction(false);
     m_inputEdit->setUndoAction(true);
