@@ -344,6 +344,7 @@ void ProExpressionBar::enterBackspaceEvent()
 void ProExpressionBar::enterClearEvent()
 {
     Settings::instance()->proRotateCarry = "00";
+    bool need_addundo = !m_inputEdit->text().isEmpty();
     if (m_isAllClear) {
         m_listModel->clearItems();
         m_listView->reset();
@@ -361,7 +362,8 @@ void ProExpressionBar::enterClearEvent()
     m_isResult = false;
     m_isUndo = false;
 //    m_Selected = -1;
-    addUndo();
+    if (need_addundo)
+        addUndo();
 }
 
 void ProExpressionBar::enterEqualEvent()
@@ -928,6 +930,7 @@ void ProExpressionBar::addUndo()
 {
     m_undo.append(m_inputEdit->text());
     m_redo.clear();
+    m_inputEdit->setRedoAction(false);
     m_inputEdit->setUndoAction(true);
     SSelection selection;
     m_inputEdit->setSelection(selection);

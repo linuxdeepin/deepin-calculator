@@ -703,6 +703,7 @@ void ExpressionBar::enterBackspaceEvent()
  */
 void ExpressionBar::enterClearEvent()
 {
+    bool need_addundo = !m_inputEdit->text().isEmpty();
     if (m_isAllClear) {
         m_listModel->clearItems();
         m_listView->reset();
@@ -729,7 +730,8 @@ void ExpressionBar::enterClearEvent()
 
     m_isUndo = false;
     m_Selected = -1;
-    addUndo();
+    if (need_addundo)
+        addUndo();
 }
 
 /**
@@ -816,6 +818,9 @@ void ExpressionBar::enterEqualEvent()
         if (m_hisRevision == -1) {
             m_isLinked = false;
             m_listView->scrollToBottom();
+            m_isResult = true;
+            m_isUndo = false;
+            addUndo();
             return;
         }
         for (int i = 0; i < m_hisLink.size(); ++i) {
@@ -1685,7 +1690,9 @@ void ExpressionBar::addUndo()
     //    if (!m_undo.isEmpty() && m_inputEdit->text() == m_undo.last())
     //        return;
     m_undo.append(m_inputEdit->text());
+    qInfo() << m_undo;
     m_redo.clear();
+    m_inputEdit->setRedoAction(false);
     m_inputEdit->setUndoAction(true);
     SSelection selection;
     m_inputEdit->setSelection(selection);
