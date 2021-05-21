@@ -837,13 +837,13 @@ void SciExpressionBar::copyClipboard2Result()
            .replace(CN_Asterisk, CN_MUL)
            .replace(CN_LBracket, EN_LBracket)
            .replace(CN_RBracket, EN_RBracket)
-           .replace(CN_Period, EN_Period)
            .replace(CN_Underscore, CN_MIN)
            .replace(CN_Percent, EN_Percent)
-           .replace(EN_DIV, CN_DIV); //对粘贴板中的内容进行英替中
+           .replace(EN_DIV, CN_DIV)
+           .replace(" ", ""); //对粘贴板中的内容进行英替中
 
     //匹配函数方法
-    QStringList list = text.split(QRegExp("[0-9＋－×÷/()%^!E.,]")); //正则表达式中为科学模式下可存在的非字母;函数中;无法被复制
+    QStringList list = text.split(QRegExp("[0-9＋－×÷/()%^!E.,。]")); //正则表达式中为科学模式下可存在的非字母;函数中;无法被复制
     for (int i = 0; i < list.size(); i++) {
         QString item = list[i];
         for (int j = 0; j < m_funclist.size(); j++) {
@@ -1254,16 +1254,34 @@ QString SciExpressionBar::pointFaultTolerance(const QString &text)
                           .replace(CN_Asterisk, CN_MUL)
                           .replace(CN_LBracket, EN_LBracket)
                           .replace(CN_RBracket, EN_RBracket)
-                          .replace(CN_Period, EN_Period)
                           .replace(CN_Underscore, CN_MIN)
                           .replace(CN_Percent, EN_Percent)
                           /*.replace('/', QString::fromUtf8("÷"))*/; //对内容进行英替中
     QStringList list = reformatStr.split(QRegExp("[＋－×÷/(]")); //20200717去掉),否则下方)小数点容错无法进入
+    QStringList symbollist;
+    for (int i = 0; i < reformatStr.size(); ++i) {
+        if (QRegExp("[＋－×÷/(]").exactMatch(reformatStr.at(i)))
+            symbollist << reformatStr.at(i);
+    }
+    reformatStr.clear();
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];
         int firstPoint = item.indexOf(".");
-        if (firstPoint == -1)
+        if (item.contains(QString::fromUtf8("。"))) {
+            if (firstPoint >= 0)
+                item.remove(QString::fromUtf8("。"));
+            else
+                item.replace(QString::fromUtf8("。"), ".");
+            firstPoint = item.indexOf(".");
+        }
+        if (firstPoint == -1) {
+            reformatStr += item;
+            if (!symbollist.isEmpty()) {
+                reformatStr += symbollist.first();
+                symbollist.pop_front();
+            }
             continue;
+        }
         if (firstPoint == 0) {
             item.insert(firstPoint, "0"); //小数点在数字前，进行补0;例:.123->0.123;此处未对reformatStr进行操作，导致只有两个.时才会进行补0
             ++firstPoint;
@@ -1272,13 +1290,16 @@ QString SciExpressionBar::pointFaultTolerance(const QString &text)
             if (item.at(firstPoint - 1) == ")" || item.at(firstPoint - 1) == "%") {
                 item.remove(firstPoint, 1);
                 item.insert(firstPoint, "0."); //20200717)及%后小数点补0;与小数点输入处理一致
-                reformatStr.replace(list[i], item);
             }
         }
         if (item.count(".") > 1) {
             item.remove(".");
             item.insert(firstPoint, ".");
-            reformatStr.replace(list[i], item); //去除多余.
+        }
+        reformatStr += item;
+        if (!symbollist.isEmpty()) {
+            reformatStr += symbollist.first();
+            symbollist.pop_front();
         }
     }
     for (int i = 0; i < reformatStr.size(); ++i) {

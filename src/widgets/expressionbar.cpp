@@ -1174,11 +1174,10 @@ void ExpressionBar::copyClipboard2Result()
            .replace(QString::fromUtf8("＊"), QString::fromUtf8("×"))
            .replace(QString::fromUtf8("（"), "(")
            .replace(QString::fromUtf8("）"), ")")
-           .replace(QString::fromUtf8("。"), ".")
            .replace(QString::fromUtf8("——"), QString::fromUtf8("－"))
            .replace(QString::fromUtf8("％"), "%")
            .replace('/', QString::fromUtf8("÷")); //对粘贴板中的内容进行英替中
-    text.remove(QRegExp("[^0-9＋－×÷,.%()]"));
+    text.remove(QRegExp("[^0-9＋－×÷,.%()。]"));
 //    text = pasteFaultTolerance(text);
     m_inputEdit->insert(text);
 
@@ -1557,15 +1556,33 @@ QString ExpressionBar::pointFaultTolerance(const QString &text)
                           .replace('X', QString::fromUtf8("×"))
                           .replace(QString::fromUtf8("（"), "(")
                           .replace(QString::fromUtf8("）"), ")")
-                          .replace(QString::fromUtf8("。"), ".")
                           .replace(QString::fromUtf8("——"), QString::fromUtf8("－"))
                           .replace(QString::fromUtf8("％"), "%");
     QStringList list = reformatStr.split(QRegExp("[＋－×÷(]")); //20200717去掉),否则下方)小数点容错无法进入; //此处可不考虑多符号问题
+    QStringList symbollist;
+    for (int i = 0; i < reformatStr.size(); ++i) {
+        if (QRegExp("[＋－×÷(]").exactMatch(reformatStr.at(i)))
+            symbollist << reformatStr.at(i);
+    }
+    reformatStr.clear();
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];
         int firstPoint = item.indexOf(".");
-        if (firstPoint == -1)
+        if (item.contains(QString::fromUtf8("。"))) {
+            if (firstPoint >= 0)
+                item.remove(QString::fromUtf8("。"));
+            else
+                item.replace(QString::fromUtf8("。"), ".");
+            firstPoint = item.indexOf(".");
+        }
+        if (firstPoint == -1) {
+            reformatStr += item;
+            if (!symbollist.isEmpty()) {
+                reformatStr += symbollist.first();
+                symbollist.pop_front();
+            }
             continue;
+        }
         if (firstPoint == 0) {
             item.insert(firstPoint, "0"); //小数点在数字前，进行补0;例:.123->0.123;此处未对reformatStr进行操作，导致只有两个.时才会进行补0
             ++firstPoint;
@@ -1574,13 +1591,16 @@ QString ExpressionBar::pointFaultTolerance(const QString &text)
             if (item.at(firstPoint - 1) == ")" || item.at(firstPoint - 1) == "%") {
                 item.remove(firstPoint, 1);
                 item.insert(firstPoint, "0."); //20200717)及%后小数点补0;与小数点输入处理一致
-                reformatStr.replace(list[i], item);
             }
         }
         if (item.count(".") > 1) {
             item.remove(".");
             item.insert(firstPoint, ".");
-            reformatStr.replace(list[i], item); //去除多余.
+        }
+        reformatStr += item;
+        if (!symbollist.isEmpty()) {
+            reformatStr += symbollist.first();
+            symbollist.pop_front();
         }
     }
     for (int i = 0; i < reformatStr.size(); ++i) {

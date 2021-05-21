@@ -495,7 +495,6 @@ void InputEdit::handleTextChanged(const QString &text)
                   .replace('X', QString::fromUtf8("×"))
                   .replace(QString::fromUtf8("（"), "(")
                   .replace(QString::fromUtf8("）"), ")")
-                  .replace(QString::fromUtf8("。"), ".")
                   .replace(QString::fromUtf8("——"), QString::fromUtf8("－"))
                   .replace(QString::fromUtf8("％"), "%");
 
