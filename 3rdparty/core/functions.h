@@ -41,7 +41,9 @@ public:
         : QObject(parent)
         , m_identifier(identifier)
         , m_ptr(ptr)
-    { }
+    {
+        m_error = Success;
+    }
 
     const QString &identifier() const { return m_identifier; }
     const QString &name() const { return m_name; }

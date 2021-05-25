@@ -86,8 +86,8 @@ public:
     QByteArray manualWindowGeometry;
 
 private:
-    Settings();
     Q_DISABLE_COPY(Settings)
+    Settings();
 };
 
 #endif

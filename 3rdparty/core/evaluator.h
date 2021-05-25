@@ -180,8 +180,8 @@ protected:
     void compile(const Tokens &);
 
 private:
-    Evaluator();
     Q_DISABLE_COPY(Evaluator)
+    Evaluator();
 
     bool m_dirty;
     QString m_error;
