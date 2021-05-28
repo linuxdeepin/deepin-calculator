@@ -128,14 +128,11 @@ private:
     SimpleListModel *m_listModel;
     InputEdit *m_inputEdit;
 
-    QString m_unfinishedExp;  //未完成表达式
     bool m_isContinue;
     bool m_isAllClear;
     bool m_isResult;           //计算结果
-    bool m_isAutoComputation;  //自动计算
     bool m_inputNumber;        //输入数字
     bool m_isUndo;
-    QString m_selection;
     QVector<QString> m_undo;
     QVector<QString> m_redo;
 

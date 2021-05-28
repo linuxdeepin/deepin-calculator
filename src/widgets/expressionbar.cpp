@@ -709,7 +709,6 @@ void ExpressionBar::enterClearEvent()
         m_listView->reset();
         m_isAllClear = false;
         m_isLinked = false;    //20200619 清空历史记录时将联动参数置为false
-        m_unfinishedExp.clear();
         m_isAutoComputation = false;
         m_hisRevision = -1;
         m_hisLink.clear();

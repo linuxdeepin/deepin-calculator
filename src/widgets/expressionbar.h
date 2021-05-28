@@ -134,7 +134,6 @@ private:
     SimpleListModel *m_listModel;
     InputEdit *m_inputEdit;
 
-    QString m_unfinishedExp;  //未完成表达式
     bool m_isContinue;        //点击结果左侧可继续输入，在结果最右侧清除结果
     bool m_isAllClear;         //C,AC切换标志
     bool m_isResult;           //计算结果
@@ -146,7 +145,6 @@ private:
     bool m_isLinked;     //联动状态
     int m_linkageIndex;  //联动索引缓存
     int m_Selected;      //历史记录选中项
-    QString m_selection;
     QVector<historicalLinkageIndex> m_hisLink;  //历史联动索引
     QVector<QString> m_undo;
     QVector<QString> m_redo;

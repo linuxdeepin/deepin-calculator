@@ -44,7 +44,6 @@ InputEdit::InputEdit(QWidget *parent)
     , m_oldText("")
     , m_lastPos(0)
     , m_memoryans(0)
-    , m_percentexp(QString())
 {
     m_evaluator = Evaluator::instance();
     setAttribute(Qt::WA_InputMethodEnabled, false); //禁止中文输入法

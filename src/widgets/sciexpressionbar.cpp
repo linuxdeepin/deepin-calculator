@@ -446,8 +446,6 @@ void SciExpressionBar::enterClearEvent()
         m_listModel->clearItems();
         m_listView->reset();
         m_isAllClear = false;
-        m_unfinishedExp.clear();
-        m_isAutoComputation = false;
 
         emit clearStateChanged(false);
     } else {
