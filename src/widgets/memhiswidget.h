@@ -22,19 +22,20 @@
 #ifndef MEMHISWIDGET_H
 #define MEMHISWIDGET_H
 
-#include <QStackedWidget>
-#include <QApplication>
-#include <DButtonBox>
-#include <DIconButton>
-#include <DWidget>
-#include <DGuiApplicationHelper>
-
 #include "../control/iconbutton.h"
 #include "../views/memorywidget.h"
 #include "../views/simplelistdelegate.h"
 #include "../views/simplelistmodel.h"
 #include "../views/simplelistview.h"
 #include "../memorypublic.h"
+
+#include <DButtonBox>
+#include <DIconButton>
+#include <DWidget>
+#include <DGuiApplicationHelper>
+
+#include <QStackedWidget>
+#include <QApplication>
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE

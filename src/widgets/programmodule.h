@@ -20,15 +20,6 @@
 #ifndef PROGRAMMODULE_H
 #define PROGRAMMODULE_H
 
-#include <DWidget>
-#include <DGuiApplicationHelper>
-#include <DArrowRectangle>
-#include <DListWidget>
-#include <DMenu>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QStackedWidget>
-
 #include "../views/memorywidget.h"
 #include "../views/programmerarrowdelegate.h"
 #include "../views/programmeritemwidget.h"
@@ -42,6 +33,16 @@
 #include "proexpressionbar.h"
 #include "arrowrectangle.h"
 #include "../memorypublic.h"
+
+#include <DWidget>
+#include <DGuiApplicationHelper>
+#include <DArrowRectangle>
+#include <DListWidget>
+#include <DMenu>
+
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QStackedWidget>
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE

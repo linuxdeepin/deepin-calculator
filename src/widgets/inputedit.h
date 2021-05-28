@@ -20,11 +20,11 @@
 #ifndef INPUTEDIT_H
 #define INPUTEDIT_H
 
-#include <DLineEdit>
-#include <DPalette>
-
 #include "../../3rdparty/math/quantity.h"
 #include "../../3rdparty/core/evaluator.h"
+
+#include <DLineEdit>
+#include <DPalette>
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE

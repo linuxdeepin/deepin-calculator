@@ -20,18 +20,18 @@
 #ifndef EXPRESSIONBAR_H
 #define EXPRESSIONBAR_H
 
-#include <QKeyEvent>
-#include <QPair>
-#include <QVBoxLayout>
-#include <QVector>
-#include <QWidget>
-#include <DWidget>
-
 #include "../../3rdparty/core/evaluator.h"
 #include "inputedit.h"
 #include "../views/simplelistdelegate.h"
 #include "../views/simplelistmodel.h"
 #include "../views/simplelistview.h"
+
+#include <DWidget>
+#include <QKeyEvent>
+#include <QPair>
+#include <QVBoxLayout>
+#include <QVector>
+#include <QWidget>
 
 DWIDGET_USE_NAMESPACE
 

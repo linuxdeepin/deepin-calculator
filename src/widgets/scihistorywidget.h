@@ -22,23 +22,23 @@
 #ifndef SCIHISTORYWIDGET_H
 #define SCIHISTORYWIDGET_H
 
-#include <QStackedLayout>
-#include <QStackedWidget>
-#include <QApplication>
-#include <DButtonBox>
-#include <DIconButton>
-#include <DWidget>
-#include <DGuiApplicationHelper>
-
 #include "../control/textbutton.h"
 #include "../control/iconbutton.h"
 #include "../control/basickeypad.h"
 #include "../control/memorykeypad.h"
 #include "inputedit.h"
-
 #include "expressionbar.h"
 #include "../views/memorywidget.h"
 #include "../memorypublic.h"
+
+#include <DButtonBox>
+#include <DIconButton>
+#include <DWidget>
+#include <DGuiApplicationHelper>
+
+#include <QStackedLayout>
+#include <QStackedWidget>
+#include <QApplication>
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE

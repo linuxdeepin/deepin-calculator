@@ -20,14 +20,14 @@
 #ifndef PROEXPRESSIONBAR_H
 #define PROEXPRESSIONBAR_H
 
-#include <QApplication>
-#include <QClipboard>
-#include <QKeyEvent>
-
 #include "inputedit.h"
 #include "../views/simplelistview.h"
 #include "../views/simplelistmodel.h"
 #include "../views/simplelistdelegate.h"
+
+#include <QApplication>
+#include <QClipboard>
+#include <QKeyEvent>
 
 DWIDGET_USE_NAMESPACE
 

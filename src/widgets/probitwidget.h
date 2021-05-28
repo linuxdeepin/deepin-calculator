@@ -20,11 +20,11 @@
 #ifndef PROBITWIDGET_H
 #define PROBITWIDGET_H
 
+#include "../control/bitbutton.h"
+
 #include <DWidget>
 #include <DLabel>
 #include <DGuiApplicationHelper>
-
-#include "../control/bitbutton.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE

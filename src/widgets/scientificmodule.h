@@ -22,11 +22,6 @@
 #ifndef SCIENTIFICMODEL_H
 #define SCIENTIFICMODEL_H
 
-#include <QStackedWidget>
-#include <QTimer>
-#include <DWidget>
-#include <DGuiApplicationHelper>
-
 #include "../control/textbutton.h"
 #include "../control/iconbutton.h"
 #include "../control/scientifickeypad.h"
@@ -36,6 +31,12 @@
 #include "sciexpressionbar.h"
 #include "../views/memorywidget.h"
 #include "../memorypublic.h"
+
+#include <DWidget>
+#include <DGuiApplicationHelper>
+
+#include <QStackedWidget>
+#include <QTimer>
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
