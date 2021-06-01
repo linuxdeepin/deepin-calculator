@@ -401,6 +401,35 @@ TEST_F(Ut_ProgramModule, handleKeypadButtonPressByspace)
     Settings::instance()->programmerBase = 0;
 }
 
+TEST_F(Ut_ProgramModule, moveL)
+{
+    ProgramModule *m_programmodule = new ProgramModule;
+    m_programmodule->m_shiftArrowCurrentRow = 0;
+    m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_moveL);
+    m_programmodule->m_shiftArrowCurrentRow = 1;
+    m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_moveL);
+    m_programmodule->m_shiftArrowCurrentRow = 2;
+    m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_moveL);
+    m_programmodule->m_shiftArrowCurrentRow = 3;
+    m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_moveL);
+    ASSERT_EQ(m_programmodule->m_proExpressionBar->getInputEdit()->text(), "0rcl");
+}
+
+TEST_F(Ut_ProgramModule, moveR)
+{
+    ProgramModule *m_programmodule = new ProgramModule;
+    m_programmodule->m_shiftArrowCurrentRow = 0;
+    m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_moveR);
+    m_programmodule->m_shiftArrowCurrentRow = 1;
+    m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_moveR);
+    m_programmodule->m_shiftArrowCurrentRow = 2;
+    m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_moveR);
+    m_programmodule->m_shiftArrowCurrentRow = 3;
+    m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_moveR);
+    ASSERT_EQ(m_programmodule->m_proExpressionBar->getInputEdit()->text(), "0rcr");
+}
+
+
 TEST_F(Ut_ProgramModule, shiftArrowListWidgetItemClicked)
 {
     ProgramModule *m_programmodule = new ProgramModule;
