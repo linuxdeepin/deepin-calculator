@@ -56,7 +56,13 @@ TEST_F(Ut_MemoryWidget, generateData)
     m_memoryWidget->m_listwidget->setCurrentRow(1);
     QTest::mouseClick(static_cast<MemoryItemWidget *>(m_memoryWidget->m_listwidget->itemWidget(m_memoryWidget->m_listwidget->item(0)))->m_btnplus, Qt::LeftButton);
     QTest::mouseClick(static_cast<MemoryItemWidget *>(m_memoryWidget->m_listwidget->itemWidget(m_memoryWidget->m_listwidget->item(0)))->m_btnminus, Qt::LeftButton);
-    ASSERT_EQ(m_memoryWidget->m_listwidget->count(), 500);
+
+    static_cast<MemoryItemWidget *>(m_memoryWidget->m_listwidget->itemWidget(m_memoryWidget->m_listwidget->item(0)))->menucopy();
+    static_cast<MemoryItemWidget *>(m_memoryWidget->m_listwidget->itemWidget(m_memoryWidget->m_listwidget->item(0)))->menuplus();
+    static_cast<MemoryItemWidget *>(m_memoryWidget->m_listwidget->itemWidget(m_memoryWidget->m_listwidget->item(0)))->menuclean();
+    static_cast<MemoryItemWidget *>(m_memoryWidget->m_listwidget->itemWidget(m_memoryWidget->m_listwidget->item(0)))->menuminus();
+
+    ASSERT_EQ(m_memoryWidget->m_listwidget->count(), 499);
     MemoryPublic::deleteInstance();
 }
 

@@ -41,21 +41,21 @@ TEST_F(Ut_ProexpressionBar, judgeinput)
     select.oldText = "and";
     select.selected = "n";
     m_proexpressionBar->m_inputEdit->setSelection(select);
-    bool b1 = m_proexpressionBar->judgeinput();
+    ASSERT_FALSE(m_proexpressionBar->judgeinput());
     m_proexpressionBar->m_inputEdit->setText("1and");
     SSelection select0;
     select0.curpos = 0;
     select0.oldText = "1and";
     select0.selected = "1";
     m_proexpressionBar->m_inputEdit->setSelection(select0);
-    bool b2 = m_proexpressionBar->judgeinput();
+    ASSERT_TRUE(m_proexpressionBar->judgeinput());
     m_proexpressionBar->m_inputEdit->setText("1and");
     SSelection select1;
     select1.curpos = 0;
     select1.oldText = "1and";
     select1.selected = "1a";
     m_proexpressionBar->m_inputEdit->setSelection(select1);
-    ASSERT_FALSE(b1 && b2 && m_proexpressionBar->judgeinput());
+    ASSERT_FALSE(m_proexpressionBar->judgeinput());
     DSettingsAlt::deleteInstance();
 }
 
@@ -67,7 +67,7 @@ TEST_F(Ut_ProexpressionBar, enterNumberEvent)
     m_proexpressionBar->m_isResult = true;
     m_proexpressionBar->m_isContinue = false;
     m_proexpressionBar->enterNumberEvent("1");
-    bool b1 = m_proexpressionBar->m_inputEdit->text().isEmpty();
+    ASSERT_FALSE(m_proexpressionBar->m_inputEdit->text().isEmpty());
     m_proexpressionBar->m_inputNumber = false;
     m_proexpressionBar->m_isResult = true;
     m_proexpressionBar->enterNumberEvent("1");
@@ -75,8 +75,7 @@ TEST_F(Ut_ProexpressionBar, enterNumberEvent)
     m_proexpressionBar->enterNumberEvent("2");
     m_proexpressionBar->enterNumberEvent("2");
     m_proexpressionBar->enterNumberEvent("2");
-    bool b2 = m_proexpressionBar->m_inputEdit->text() == "18,222";
-    ASSERT_TRUE(!b1 && b2);
+    ASSERT_TRUE(m_proexpressionBar->m_inputEdit->text() == "18,222");
     DSettingsAlt::deleteInstance();
 }
 
@@ -175,12 +174,11 @@ TEST_F(Ut_ProexpressionBar, enterOperatorEvent)
     m_proexpressionBar->enterOperatorEvent("ror");
     m_proexpressionBar->enterNumberEvent("4");
     m_proexpressionBar->enterEqualEvent();
-    bool b1 = m_proexpressionBar->findChild<InputEdit *>()->text() == "5,764,607,523,034,234,880";
+    ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text() == "5,764,607,523,034,234,880");
     m_proexpressionBar->enterOperatorEvent("rcl");
     m_proexpressionBar->enterNumberEvent("3");
     m_proexpressionBar->enterEqualEvent();
-    bool b2 = m_proexpressionBar->findChild<InputEdit *>()->text() == "－9,223,372,036,854,775,807";
-    ASSERT_TRUE(b1 && b2);
+    ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text() == "－9,223,372,036,854,775,807");
     DSettingsAlt::deleteInstance();
 }
 
@@ -188,17 +186,16 @@ TEST_F(Ut_ProexpressionBar, enterOppositeEvent)
 {
     ProExpressionBar *m_proexpressionBar = new ProExpressionBar();
     m_proexpressionBar->enterOppositeEvent();
-    bool b1 = m_proexpressionBar->findChild<InputEdit *>()->text().isEmpty();
+    ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text().isEmpty());
     m_proexpressionBar->enterNumberEvent("0");
     m_proexpressionBar->enterOppositeEvent();
-    bool b2 = m_proexpressionBar->findChild<InputEdit *>()->text() == "0";
+    ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text() == "0");
     m_proexpressionBar->enterClearEvent();
     m_proexpressionBar->enterSymbolEvent("-");
     m_proexpressionBar->enterNumberEvent("1");
     m_proexpressionBar->enterOppositeEvent();
     m_proexpressionBar->enterEqualEvent();
-    bool b3 = m_proexpressionBar->findChild<InputEdit *>()->text() == "－1";
-    ASSERT_TRUE(b1 && b2 && b3);
+    ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text() == "－1");
     DSettingsAlt::deleteInstance();
 }
 

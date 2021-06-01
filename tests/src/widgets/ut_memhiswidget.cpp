@@ -16,6 +16,8 @@ TEST_F(Ut_MemHisWidget, space)
     m_memhiswidget->m_historyBtn->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier));
     m_memhiswidget->m_memoryBtn->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier));
     m_memhiswidget->m_clearButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier));
+    m_memhiswidget->m_stackWidget->setCurrentWidget(m_memhiswidget->m_listView);
+    m_memhiswidget->m_clearButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier));
     //无ASSERT
     MemoryPublic::deleteInstance();
 }
@@ -57,6 +59,8 @@ TEST_F(Ut_MemHisWidget, clicked)
     m_memhiswidget->m_historyBtn->clicked();
     m_memhiswidget->m_memoryBtn->clicked();
     m_memhiswidget->m_clearButton->clicked();
+    m_memhiswidget->m_stackWidget->setCurrentWidget(m_memhiswidget->m_listView);
+    m_memhiswidget->m_clearButton->clicked();
     //无ASSERT
     MemoryPublic::deleteInstance();
 }
@@ -94,9 +98,13 @@ TEST_F(Ut_MemHisWidget, eventFilter)
 {
     MemHisWidget *m_memhiswidget = new MemHisWidget;
     m_memhiswidget->eventFilter(m_memhiswidget->m_historyBtn, static_cast <QEvent *>(new QFocusEvent(QEvent::Type::FocusIn, Qt::TabFocusReason)));
+    m_memhiswidget->eventFilter(m_memhiswidget->m_memoryBtn, static_cast <QEvent *>(new QKeyEvent(QEvent::KeyPress, Qt::Key_Tab, Qt::NoModifier)));
+    m_memhiswidget->eventFilter(m_memhiswidget->m_clearButton, static_cast <QEvent *>(new QKeyEvent(QEvent::KeyPress, Qt::Key_Tab, Qt::NoModifier)));
+    m_memhiswidget->eventFilter(m_memhiswidget->m_memoryWidget, static_cast <QEvent *>(new QKeyEvent(QEvent::KeyPress, Qt::Key_Tab, Qt::NoModifier)));
     m_memhiswidget->m_clearButton->setHidden(false);
     m_memhiswidget->eventFilter(m_memhiswidget, static_cast <QEvent *>(new QKeyEvent(QEvent::KeyPress, Qt::Key_Tab, Qt::NoModifier)));
     m_memhiswidget->eventFilter(m_memhiswidget, static_cast <QEvent *>(new QFocusEvent(QEvent::Type::FocusOut, Qt::MouseFocusReason)));
+    m_memhiswidget->eventFilter(m_memhiswidget->m_clearButton, static_cast <QEvent *>(new QFocusEvent(QEvent::Type::FocusOut, Qt::MouseFocusReason)));
     ASSERT_FALSE(m_memhiswidget->hasFocus());
     MemoryPublic::deleteInstance();
 }
@@ -114,6 +122,7 @@ TEST_F(Ut_MemHisWidget, focusInEvent)
 TEST_F(Ut_MemHisWidget, themeChanged)
 {
     MemHisWidget *m_memhiswidget = new MemHisWidget;
+    m_memhiswidget->themeChanged(2);
     m_memhiswidget->themeChanged(1);
     ASSERT_EQ(m_memhiswidget->m_themeType, 1);
     MemoryPublic::deleteInstance();
@@ -123,6 +132,7 @@ TEST_F(Ut_MemHisWidget, iconChanged)
 {
     MemHisWidget *m_memhiswidget = new MemHisWidget;
     m_memhiswidget->iconChanged(1, 0);
+    m_memhiswidget->iconChanged(2, 1);
     MemoryPublic::deleteInstance();
 }
 
@@ -130,8 +140,20 @@ TEST_F(Ut_MemHisWidget, historyfilled)
 {
     MemHisWidget *m_memhiswidget = new MemHisWidget;
     m_memhiswidget->historyfilled();
-    bool b1 = m_memhiswidget->m_listView->focusPolicy() == Qt::TabFocus;
-    bool b2 = m_memhiswidget->m_isshowH;
-    ASSERT_TRUE(b1 && b2);
+    ASSERT_TRUE(m_memhiswidget->m_listView->focusPolicy() == Qt::TabFocus);
+    ASSERT_TRUE(m_memhiswidget->m_isshowH);
+    MemoryPublic::deleteInstance();
+}
+
+TEST_F(Ut_MemHisWidget, memoryFunctions)
+{
+    MemHisWidget *m_memhiswidget = new MemHisWidget;
+    MemoryPublic *m_mempub = MemoryPublic::instance();
+    m_mempub->generateData(Quantity(1));
+    m_memhiswidget->memoryFunctions(MemHisWidget::memoryplus, Quantity(0), 0);
+    m_memhiswidget->memoryFunctions(MemHisWidget::memoryminus, Quantity(0), 0);
+    m_memhiswidget->memoryFunctions(MemHisWidget::widgetplus, Quantity(0), 0);
+    m_memhiswidget->memoryFunctions(MemHisWidget::widgetminus, Quantity(0), 0);
+    m_memhiswidget->memoryFunctions(MemHisWidget::memoryclean, Quantity(0), 0);
     MemoryPublic::deleteInstance();
 }

@@ -288,18 +288,13 @@ bool MemHisWidget::eventFilter(QObject *obj, QEvent *event)
             QKeyEvent *key_event = static_cast < QKeyEvent *>(event); //将事件转化为键盘事件
             if (key_event->key() == Qt::Key_Tab) {
                 if (m_memoryWidget->findChild<MemoryListWidget *>()->hasFocus()) {
-//                    focusNextChild();//焦点移动
                     m_memoryBtn->setFocus(Qt::TabFocusReason);
                 } else if (m_listView->hasFocus()) {
-//                    focusNextChild();//焦点移动
                     m_memoryBtn->setFocus(Qt::TabFocusReason);
                 } else if ((m_memoryBtn->hasFocus() || m_historyBtn->hasFocus()) && !m_clearButton->isHidden()) {
-//                    focusNextChild();//焦点移动
                     m_clearButton->setFocus(Qt::TabFocusReason);
                 } else if (m_clearButton->hasFocus()) {
-//                    focusNextChild();//焦点移动
                     if (m_stackWidget->currentWidget() == m_memoryWidget)
-//                        m_memoryWidget->findChild<MemoryListWidget *>()->setFocus();
                         m_memoryWidget->setFocus(Qt::TabFocusReason);
                     else
                         m_listView->setFocus(Qt::TabFocusReason);

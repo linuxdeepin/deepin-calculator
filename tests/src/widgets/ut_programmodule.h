@@ -7,6 +7,8 @@
 
 #include "../../src/memorypublic.h"
 #include "../../src/dsettings.h"
+#include "../stub.h"
+#include "../3rdparty/core/settings.h"
 
 class Ut_ProgramModule : public ::testing::Test
 {

@@ -30,11 +30,10 @@ TEST_F(Ut_ProListModel, updataList)
 {
     ProListModel *m_proListModel = new ProListModel();
     m_proListModel->updataList(Quantity(11));
-    bool b1 = m_proListModel->m_expressionList.at(0) == "B";
-    bool b2 = m_proListModel->m_expressionList.at(1) == "11";
-    bool b3 = m_proListModel->m_expressionList.at(2) == "13";
-    bool b4 = m_proListModel->m_expressionList.at(3) == "1011";
-    ASSERT_TRUE(b1 && b2 && b3 && b4);
+    ASSERT_TRUE(m_proListModel->m_expressionList.at(0) == "B");
+    ASSERT_TRUE(m_proListModel->m_expressionList.at(1) == "11");
+    ASSERT_TRUE(m_proListModel->m_expressionList.at(2) == "13");
+    ASSERT_TRUE(m_proListModel->m_expressionList.at(3) == "1011");
     DSettingsAlt::deleteInstance();
 }
 

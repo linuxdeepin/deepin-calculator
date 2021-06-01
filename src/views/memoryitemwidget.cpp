@@ -160,18 +160,10 @@ void MemoryItemWidget::contextMenuEvent(QContextMenuEvent *event)
         plus->setEnabled(true);
         minus->setEnabled(true);
     }
-    connect(copy, &QAction::triggered, this, [ = ]() {
-        emit menucopy();
-    });
-    connect(clean, &QAction::triggered, this, [ = ]() {
-        emit menuclean();
-    });
-    connect(plus, &QAction::triggered, this, [ = ]() {
-        emit menuplus();
-    });
-    connect(minus, &QAction::triggered, this, [ = ]() {
-        emit menuminus();
-    });
+    connect(copy, &QAction::triggered, this, &MemoryItemWidget::menucopy);
+    connect(clean, &QAction::triggered, this, &MemoryItemWidget::menuclean);
+    connect(plus, &QAction::triggered, this, &MemoryItemWidget::menuplus);
+    connect(minus, &QAction::triggered, this, &MemoryItemWidget::menuminus);
     menu->exec(event->globalPos()); //当前鼠标位置显示菜单
     delete menu;
 }
@@ -250,18 +242,10 @@ void MemoryItemWidget::showTextEditMenuByAltM()
         plus->setEnabled(true);
         minus->setEnabled(true);
     }
-    connect(copy, &QAction::triggered, this, [ = ]() {
-        emit menucopy();
-    });
-    connect(clean, &QAction::triggered, this, [ = ]() {
-        emit menuclean();
-    });
-    connect(plus, &QAction::triggered, this, [ = ]() {
-        emit menuplus();
-    });
-    connect(minus, &QAction::triggered, this, [ = ]() {
-        emit menuminus();
-    });
+    connect(copy, &QAction::triggered, this, &MemoryItemWidget::menucopy);
+    connect(clean, &QAction::triggered, this, &MemoryItemWidget::menuclean);
+    connect(plus, &QAction::triggered, this, &MemoryItemWidget::menuplus);
+    connect(minus, &QAction::triggered, this, &MemoryItemWidget::menuminus);
     QPoint menupoint;
     menupoint.setX(mapToGlobal(m_label->rect().center()).x());
     menupoint.setY(mapToGlobal(m_label->rect().bottomLeft()).y());
