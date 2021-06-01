@@ -12,31 +12,41 @@ Ut_ScientificModule::Ut_ScientificModule()
 
 }
 
-//bool stub_geometry_contains(const QPoint &p, bool proper = false)
-//{
-//    Q_UNUSED(p);
-//    proper = false;
-//    return false;
-//}
+TEST_F(Ut_ScientificModule, signals1)
+{
+    scientificModule *m_scientificModule = new scientificModule;
+    m_scientificModule->m_memhiskeypad->moveLeft();
+    m_scientificModule->m_memhiskeypad->moveRight();
+    m_scientificModule->m_memhiswidget->hisIsFilled(true);
+    m_scientificModule->m_memoryPublic->generateData(Quantity(1));
+    m_scientificModule->m_memhiswidget->findChild<MemoryWidget *>()->widgetminus(0);
+    m_scientificModule->m_memhiswidget->findChild<MemoryWidget *>()->widgetplus(0);
+    m_scientificModule->m_memhiswidget->findChild<MemoryWidget *>()->itemclick({"1", Quantity(1)});
+    ASSERT_EQ(m_scientificModule->m_sciexpressionBar->getInputEdit()->text(), "1");
+}
 
-//TEST_F(Ut_ScientificModule, mousePressEvent)
-//{
-//    scientificModule *m_scientificModule = new scientificModule;
-//    m_scientificModule->m_stackWidget->setCurrentWidget(m_scientificModule->m_memhiswidget);
-//    Stub stub;
-//    stub.set((bool(QRect::*)(const QPoint &, bool))ADDR(QRect, contains), stub_geometry_contains);
-//    m_scientificModule->mousePressEvent(new QMouseEvent(QEvent::MouseButtonPress, m_scientificModule->findChild<InputEdit *>()->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
-//    DSettingsAlt::deleteInstance();
-//    MemoryPublic::deleteInstance();
-//}
+bool stub_geometry_contains(const QPoint &p, bool proper = false)
+{
+    Q_UNUSED(p);
+    proper = false;
+    return false;
+}
+
+TEST_F(Ut_ScientificModule, mousePressEvent)
+{
+    scientificModule *m_scientificModule = new scientificModule;
+    m_scientificModule->m_stackWidget->setCurrentWidget(m_scientificModule->m_memhiswidget);
+    Stub stub;
+    stub.set((bool(QRect::*)(const QPoint &, bool) const)ADDR(QRect, contains), stub_geometry_contains);
+    m_scientificModule->mousePressEvent(new QMouseEvent(QEvent::MouseButtonPress, m_scientificModule->findChild<InputEdit *>()->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+    ASSERT_EQ(m_scientificModule->m_stackWidget->currentWidget(), m_scientificModule->m_scikeypadwidget);
+}
 
 TEST_F(Ut_ScientificModule, setKeyPress)
 {
     scientificModule *m_scientificModule = new scientificModule;
     m_scientificModule->setKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
     ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "1");
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ScientificModule, checkLineEmpty)
@@ -46,8 +56,6 @@ TEST_F(Ut_ScientificModule, checkLineEmpty)
     m_scientificModule->findChild<InputEdit *>()->setText("1");
     m_scientificModule->checkLineEmpty();
     ASSERT_TRUE(m_scientificModule->m_memCalbtn);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ScientificModule, mAvailableEvent)
@@ -459,7 +467,31 @@ TEST_F(Ut_ScientificModule, handleKeypadButtonPressByspace)
     m_scientificModule->handleKeypadButtonPressByspace(ScientificKeyPad::Key_1);
     m_scientificModule->handleKeypadButtonPressByspace(ScientificKeyPad::Key_Equals);
     ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "2");
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
+}
+
+TEST_F(Ut_ScientificModule, hideMemHisWidget)
+{
+    scientificModule *m_scientificModule = new scientificModule;
+    m_scientificModule->m_avail = true;
+    m_scientificModule->hideMemHisWidget();
+    m_scientificModule->m_avail = false;
+    m_scientificModule->hideMemHisWidget();
+    ASSERT_EQ(m_scientificModule->m_stackWidget->currentWidget(), m_scientificModule->m_scikeypadwidget);
+}
+
+int stub_model_sci()
+{
+    return 0;
+}
+
+TEST_F(Ut_ScientificModule, clickListView)
+{
+    scientificModule *m_scientificModule = new scientificModule;
+    m_scientificModule->m_sciexpressionBar->getInputEdit()->setText("1+1");
+    m_scientificModule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Enter, Qt::NoModifier));
+    Stub stub;
+    stub.set(ADDR(QModelIndex, row), stub_model_sci);
+    m_scientificModule->clickListView(QModelIndex());
+    ASSERT_EQ(m_scientificModule->m_sciexpressionBar->getInputEdit()->text(), "2");
 }
 
