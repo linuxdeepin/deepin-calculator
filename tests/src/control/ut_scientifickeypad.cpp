@@ -42,15 +42,6 @@ TEST_F(Ut_ScientificKeypad, buttonHasFocus)
     MemoryPublic::deleteInstance();
 }
 
-TEST_F(Ut_ScientificKeypad, initButtons)
-{
-    ScientificKeyPad *m_scientifickeypad = new ScientificKeyPad;
-    m_scientifickeypad->initButtons();
-    ASSERT_EQ(m_scientifickeypad->m_keys.size(), 42);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
-}
-
 TEST_F(Ut_ScientificKeypad, LeftButton)
 {
     ScientificKeyPad *m_scientifickeypad = new ScientificKeyPad;
@@ -102,15 +93,39 @@ TEST_F(Ut_ScientificKeypad, bracketsNum)
     DSettingsAlt::deleteInstance();
 }
 
+bool stub_focus_scikey()
+{
+    return true;
+}
+
 TEST_F(Ut_ScientificKeypad, getFocus)
 {
     ScientificKeyPad *m_scientifickeypad = new ScientificKeyPad;
+    Stub stub;
+    stub.set(ADDR(QWidget, hasFocus), stub_focus_scikey);
+    m_scientifickeypad->m_arcsinwidget->setCurrentIndex(0);
     m_scientifickeypad->getFocus(0);
     m_scientifickeypad->getFocus(1);
     m_scientifickeypad->getFocus(2);
     m_scientifickeypad->getFocus(3);
+    m_scientifickeypad->getFocus(4);
+    m_scientifickeypad->m_arcsinwidget->setCurrentIndex(1);
+    m_scientifickeypad->getFocus(0);
+    m_scientifickeypad->getFocus(1);
+    m_scientifickeypad->getFocus(2);
+    m_scientifickeypad->getFocus(3);
+    m_scientifickeypad->getFocus(4);
     //无ASSERT
     DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
+}
+
+TEST_F(Ut_ScientificKeypad, connects)
+{
+    ScientificKeyPad *m_scientifickeypad = new ScientificKeyPad;
+    m_scientifickeypad->button(ScientificKeyPad::Key_left)->pressed();
+    static_cast<TextButton *>(m_scientifickeypad->button(ScientificKeyPad::Key_left))->mouseRelease();
+    m_scientifickeypad->button(ScientificKeyPad::Key_right)->pressed();
+    static_cast<TextButton *>(m_scientifickeypad->button(ScientificKeyPad::Key_right))->mouseRelease();
 }
 

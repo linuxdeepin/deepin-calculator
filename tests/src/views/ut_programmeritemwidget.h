@@ -5,6 +5,8 @@
 #include <gmock/gmock-matchers.h>
 #include <QTest>
 
+#include "../stub.h"
+
 class Ut_ProgrammerItemWidget : public ::testing::Test
 {
 public:

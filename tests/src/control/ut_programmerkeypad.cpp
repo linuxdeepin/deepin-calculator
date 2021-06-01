@@ -76,6 +76,15 @@ TEST_F(Ut_ProgrammerKeypad, bracketsNum)
     DSettingsAlt::deleteInstance();
 }
 
+TEST_F(Ut_ProgrammerKeypad, connects)
+{
+    ProgrammerKeypad *m_programmerkeypad = new ProgrammerKeypad;
+    m_programmerkeypad->button(ProgrammerKeypad::Key_leftBracket)->pressed();
+    static_cast<TextButton *>(m_programmerkeypad->button(ProgrammerKeypad::Key_leftBracket))->mouseRelease();
+    m_programmerkeypad->button(ProgrammerKeypad::Key_rightBracket)->pressed();
+    static_cast<TextButton *>(m_programmerkeypad->button(ProgrammerKeypad::Key_rightBracket))->mouseRelease();
+}
+
 //TEST_F(Ut_ProgrammerKeypad, initUI)
 //{
 //    ProgrammerKeypad *m_programmerkeypad = new ProgrammerKeypad;

@@ -14,8 +14,6 @@ TEST_F(Ut_ProgrammerItemWidget, enterEvent)
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
     m_programmerItemWidget->enterEvent(new QEvent(QEvent::Type::MouseMove));
     ASSERT_TRUE(m_programmerItemWidget->m_ishover);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgrammerItemWidget, leaveEvent)
@@ -23,8 +21,6 @@ TEST_F(Ut_ProgrammerItemWidget, leaveEvent)
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
     m_programmerItemWidget->leaveEvent(new QEvent(QEvent::Type::MouseMove));
     ASSERT_FALSE(m_programmerItemWidget->m_ishover);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgrammerItemWidget, mousePressEvent)
@@ -37,8 +33,6 @@ TEST_F(Ut_ProgrammerItemWidget, mousePressEvent)
                                                             m_programmerItemWidget->pos(), Qt::MouseButton::LeftButton,
                                                             Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
     ASSERT_TRUE(m_programmerItemWidget->m_ispress);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgrammerItemWidget, mouseReleaseEvent)
@@ -51,8 +45,6 @@ TEST_F(Ut_ProgrammerItemWidget, mouseReleaseEvent)
                                                               m_programmerItemWidget->pos(), Qt::MouseButton::LeftButton,
                                                               Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
     ASSERT_FALSE(m_programmerItemWidget->m_ispress);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgrammerItemWidget, cleanHoverState)
@@ -60,8 +52,6 @@ TEST_F(Ut_ProgrammerItemWidget, cleanHoverState)
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
     m_programmerItemWidget->cleanHoverState();
     ASSERT_FALSE(m_programmerItemWidget->m_ishover);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgrammerItemWidget, cleanFocusState)
@@ -69,8 +59,6 @@ TEST_F(Ut_ProgrammerItemWidget, cleanFocusState)
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
     m_programmerItemWidget->cleanFocusState();
     ASSERT_FALSE(m_programmerItemWidget->m_isfocus);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgrammerItemWidget, isMarkHide)
@@ -78,8 +66,6 @@ TEST_F(Ut_ProgrammerItemWidget, isMarkHide)
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
     m_programmerItemWidget->isMarkHide(true);
     ASSERT_TRUE(m_programmerItemWidget->m_isMarkHide);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgrammerItemWidget, initMark)
@@ -87,18 +73,15 @@ TEST_F(Ut_ProgrammerItemWidget, initMark)
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
     m_programmerItemWidget->initMark();
     ASSERT_EQ(m_programmerItemWidget->m_pointVec.at(1), m_programmerItemWidget->m_markmid);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgrammerItemWidget, themetypechanged)
 {
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
+    m_programmerItemWidget->themetypechanged(2);
     m_programmerItemWidget->themetypechanged(1);
     ASSERT_EQ(m_programmerItemWidget->m_label->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Text).name(),
               "#000000");
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgrammerItemWidget, setFocus)
@@ -106,8 +89,6 @@ TEST_F(Ut_ProgrammerItemWidget, setFocus)
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
     m_programmerItemWidget->setFocus();
     ASSERT_TRUE(m_programmerItemWidget->m_isfocus);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgrammerItemWidget, paintEvent)
@@ -120,11 +101,12 @@ TEST_F(Ut_ProgrammerItemWidget, paintEvent)
     m_programmerItemWidget->m_ishover = false;
     m_programmerItemWidget->paintEvent(event);
     m_programmerItemWidget->update();
+    ProgrammerItemWidget *m_programmerItemWidget1 = new ProgrammerItemWidget("Circular shift", 50, ":/assets/images/dark/icon_as_normal.svg");
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
-    m_programmerItemWidget->m_ispress = false;
-    m_programmerItemWidget->m_ishover = true;
-    m_programmerItemWidget->paintEvent(event);
-    m_programmerItemWidget->update();
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
+    m_programmerItemWidget1->m_isMarkHide = false;
+    m_programmerItemWidget1->m_isshift = true;
+    m_programmerItemWidget1->m_ispress = false;
+    m_programmerItemWidget1->m_ishover = true;
+    m_programmerItemWidget1->paintEvent(event);
+    m_programmerItemWidget1->update();
 }

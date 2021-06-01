@@ -6,6 +6,7 @@
 #include <QTest>
 
 #include "../../src/dsettings.h"
+#include"../stub.h"
 
 class Ut_ScientificKeypad : public ::testing::Test
 {

@@ -2,6 +2,8 @@
 #include "../../src/views/memorywidget.h"
 #include "../../src/memorypublic.h"
 
+#include <QMenu>
+
 Ut_MemoryWidget::Ut_MemoryWidget()
 {
 
@@ -21,6 +23,7 @@ TEST_F(Ut_MemoryWidget, space)
     m_memoryWidget->m_listwidget->setCurrentRow(0);
     m_memoryWidget->m_listwidget->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier));
     m_memoryWidget->m_clearbutton->clicked();
+    m_memoryWidget->m_clearbutton->space();
     m_memoryWidget->m_listwidget->itemselected(0, false);
     m_memoryWidget->m_listwidget->focus(0);
     m_memoryWidget->m_listwidget->focus(1);
@@ -201,7 +204,7 @@ TEST_F(Ut_MemoryWidget, setitemwordwrap)
     m_memoryPublic->generateData(Quantity(1));
     m_memoryWidget->m_calculatormode = 2;
     m_memoryWidget->setitemwordwrap("12345678901234", 0);
-    m_memoryWidget->setitemwordwrap("1234567890123456789012", 0);
+    m_memoryWidget->setitemwordwrap("12345678901234567890121234567890123456789012567890123456789012", 0);
     m_memoryWidget->m_calculatormode = 0;
     m_memoryWidget->setitemwordwrap("12345678901234E", 0);
     m_memoryWidget->setitemwordwrap("1234567890123456789012", 0);
@@ -220,5 +223,13 @@ TEST_F(Ut_MemoryWidget, setThemeType)
     m_memoryWidget->setThemeType(2);
     m_memoryWidget->setThemeType(1);
     ASSERT_EQ(m_memoryWidget->m_themetype, 1);
+    MemoryPublic::deleteInstance();
+}
+
+TEST_F(Ut_MemoryWidget, keyPressEvent)
+{
+    MemoryPublic *m_memoryPublic = new MemoryPublic;
+    MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
+    m_memoryWidget->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Escape, Qt::NoModifier));
     MemoryPublic::deleteInstance();
 }
