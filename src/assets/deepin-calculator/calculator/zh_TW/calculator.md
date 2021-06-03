@@ -47,12 +47,12 @@
 | ![icon](fig/MH.png)                                          | 儲存鍵     | 展示記憶體列表及歷史記錄。                        |
 | ![icon](fig/deg.png)/![icon](fig/grad.png)/![icon](fig/rad.png) | 度量轉換 | 分別計算角度、梯度、弧度。                      |
 | sin、cos、tan、cot                                           | 三角函數 | 分別計算數值的正弦、餘弦、正切、餘切。    |
-| sin<sup>-1</sup>、cos<sup>-1</sup>、tan<sup>-1</sup>、cot<sup>-1</sup> | 反三角函數 | 第二功能介面按鈕，分別計算sin、cos、tan、cot的反三角函數。 |
+| sin<sup>-1</sup>、cos<sup>-1</sup>、tan<sup>-1</sup>、cot<sup>-1</sup> | 反三角函數 | 單擊 **2<sup>nd</sup>** 切換到第二功能介面，分別計算sin、cos、tan、cot的反三角函數。 |
 | &#124;x&#124;、Rand                                          | F函數      | 分別計算數值的絕對值和隨機顯示一個31位的小數。 |
-| 2<sup>nd</sup>                                               | 第二功能鍵 | 單擊 **2<sup>nd</sup>** 切換到反三角函數和開根運算介面，再次單擊切換到三角函數與次方運算介面。 |
+| 2<sup>nd</sup>                                               | 第二功能鍵 | 單擊 **2<sup>nd</sup>** 切換到第二功能介面，再次單擊切換到三角函數與次方運算介面。 |
 | x<sup>2</sup>、x<sup>3</sup> 、x<sup>y</sup>                 | 冪函數  | 分別計算數值的平方、立方、y次方。           |
 | 10<sup>x</sup>、2<sup>x</sup>、e<sup>x</sup>                 | 指數函數 | 分別計算10的x次方、2的x次方和e的x次方。其中2<sup>x</sup>和e<sup>x</sup>為第二功能介面按鈕。 |
-| ![icon](fig/square_root.png)、![icon](fig/cube_root.png)、![icon](fig/y_root.png) | 冪函數  | 第二功能介面按鈕，分別計算數值的平方根、立方根、x的y次方根。 |
+| ![icon](fig/square_root.png)、![icon](fig/cube_root.png)、![icon](fig/y_root.png) | 冪函數  | 單擊 **2<sup>nd</sup>** 切換到第二功能介面，分別計算數值的平方根、立方根、x的y次方根。 |
 | log、In、log<sub>y</sub><sup>x</sup>                         | 對數函數 | 分別以10為底的對數值、以e為底的對數值、以y為底x的對數。其中log<sub>y</sub><sup>x</sup> 為第二功能介面按鈕。 |
 | π                                                            | 圓周率  | 約等於3.14159......，可精確到小數點後31位。 |
 | e                                                            | 自然常數 | 約等於2.71828......，可精確到小數點後31位。 |
@@ -134,7 +134,7 @@
 
 ### 主題
 
-視窗主題包含淺色主題、深色主題和跟隨系統主題。
+視窗主題包含含亮色主題、暗色主題和系統主題。
 
 1. 在計算器介面，點擊 ![icon_menu](../common/icon_menu.svg)。
 2. 點擊 **主題**，選擇一個主題顏色。
