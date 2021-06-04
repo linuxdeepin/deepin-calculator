@@ -36,9 +36,10 @@ class SimpleListView : public DListView
 public:
     explicit SimpleListView(int mode = 0, DWidget *parent = nullptr); //mode:0-标准模式 1-科学模式
     ~SimpleListView();
-    void contextMenuEvent(QContextMenuEvent *event);
+//    void contextMenuEvent(QContextMenuEvent *event);
     void listItemFill(bool itemfill); //itemfill中是否有历史记录
     void showTextEditMenuByAltM(const QModelIndex &index);
+    void showRightMenu(const QPoint &pos);
 
 protected:
     void mouseMoveEvent(QMouseEvent *);

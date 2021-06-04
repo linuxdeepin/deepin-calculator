@@ -46,7 +46,8 @@ public:
     void leaveEvent(QEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
-    void contextMenuEvent(QContextMenuEvent *event);
+//    void contextMenuEvent(QContextMenuEvent *event);
+    void showRightMenu(const QPoint &pos);
     void setTextLabel(QString s);
     QString textLabel();
     void paintEvent(QPaintEvent *e);

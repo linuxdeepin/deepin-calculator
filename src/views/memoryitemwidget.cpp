@@ -40,6 +40,7 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     , m_label(new QLabel(this))
 {
     setFocusPolicy(Qt::NoFocus);
+    setContextMenuPolicy(Qt::CustomContextMenu);
     QVBoxLayout *layV = new QVBoxLayout(this); //存放四个控件
     QHBoxLayout *lay = new QHBoxLayout(); //存放三个按钮
 
@@ -65,6 +66,8 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     layV->addLayout(lay);
     layV->setContentsMargins(0, 0, 20, 6); //右边距20,下边距6
     this->setLayout(layV);
+
+    connect(this, &MemoryItemWidget::customContextMenuRequested, this, &MemoryItemWidget::showRightMenu);
 
     connect(m_btnplus, &QPushButton::clicked, this, &MemoryItemWidget::plusbtnclicked);
     connect(m_btnminus, &QPushButton::clicked, this, &MemoryItemWidget::minusbtnclicked);
@@ -142,7 +145,7 @@ void MemoryItemWidget::mouseReleaseEvent(QMouseEvent *event)
     QWidget::mouseReleaseEvent(event);
 }
 
-void MemoryItemWidget::contextMenuEvent(QContextMenuEvent *event)
+void MemoryItemWidget::showRightMenu(const QPoint &pos)
 {
     QMenu *menu = new QMenu(this); //添加各item的菜单项
     QAction *copy = new QAction(tr("Copy"), menu); //复制
@@ -172,9 +175,42 @@ void MemoryItemWidget::contextMenuEvent(QContextMenuEvent *event)
     connect(minus, &QAction::triggered, this, [ = ]() {
         emit menuminus();
     });
-    menu->exec(event->globalPos()); //当前鼠标位置显示菜单
-    delete menu;
+    menu->exec(mapToGlobal(pos)); //当前鼠标位置显示菜单
 }
+
+//void MemoryItemWidget::contextMenuEvent(QContextMenuEvent *event)
+//{
+//    QMenu *menu = new QMenu(this); //添加各item的菜单项
+//    QAction *copy = new QAction(tr("Copy"), menu); //复制
+//    QAction *clean = new QAction(tr("Clear memory item"), menu); //MC
+//    QAction *plus = new QAction(tr("Add to memory item"), menu); //M+
+//    QAction *minus = new QAction(tr("Subtract from memory item"), menu); //M-
+//    menu->addAction(copy);
+//    menu->addAction(clean);
+//    menu->addAction(plus);
+//    menu->addAction(minus);
+//    if (m_isExpressionEmpty) {
+//        plus->setEnabled(false);
+//        minus->setEnabled(false);
+//    } else {
+//        plus->setEnabled(true);
+//        minus->setEnabled(true);
+//    }
+//    connect(copy, &QAction::triggered, this, [ = ]() {
+//        emit menucopy();
+//    });
+//    connect(clean, &QAction::triggered, this, [ = ]() {
+//        emit menuclean();
+//    });
+//    connect(plus, &QAction::triggered, this, [ = ]() {
+//        emit menuplus();
+//    });
+//    connect(minus, &QAction::triggered, this, [ = ]() {
+//        emit menuminus();
+//    });
+//    menu->exec(event->globalPos()); //当前鼠标位置显示菜单
+//    delete menu;
+//}
 
 /**
  * @brief 当做出内存操作时对label->settext

@@ -44,6 +44,7 @@ SimpleListView::SimpleListView(int mode, QWidget *parent)
     setAutoScroll(false);
     setSelectionBehavior(QAbstractItemView::SelectRows); //选中一行
     setSelectionMode(QAbstractItemView::SingleSelection); //选中单个目标
+    setContextMenuPolicy(Qt::CustomContextMenu);
     if (m_mode == 0) {
         setFocusPolicy(Qt::NoFocus);
         setFixedHeight(99);
@@ -55,6 +56,7 @@ SimpleListView::SimpleListView(int mode, QWidget *parent)
     }
 
     connect(verticalScrollBar(), &QScrollBar::rangeChanged, this, &SimpleListView::adjustScrollbarMargins);
+    connect(this, &SimpleListView::customContextMenuRequested, this, &SimpleListView::showRightMenu);
 }
 
 SimpleListView::~SimpleListView()
@@ -64,25 +66,25 @@ SimpleListView::~SimpleListView()
 /**
  * @brief 添加右键菜单
  */
-void SimpleListView::contextMenuEvent(QContextMenuEvent *event)
-{
-    QMenu *menu = new QMenu(this);
-    //缺翻译
-    QAction *copy = new QAction(tr("Copy"), menu);
-    QAction *clean = new QAction(tr("Delete"), menu);
-    menu->addAction(copy);
-    menu->addAction(clean);
-    connect(copy, &QAction::triggered, this, [ = ]() {
-        static_cast<SimpleListModel *>(model())->copyToClipboard(indexAt(event->pos()).row());
-    });
-    connect(clean, &QAction::triggered, this, [ = ]() {
-        static_cast<SimpleListModel *>(model())->deleteItem(indexAt(event->pos()).row());
-    });
-    if (indexAt(event->pos()).row() >= 0 && m_itemfill) {
-        menu->exec(event->globalPos());
-    }
-    delete menu;
-}
+//void SimpleListView::contextMenuEvent(QContextMenuEvent *event)
+//{
+//    QMenu *menu = new QMenu(this);
+//    //缺翻译
+//    QAction *copy = new QAction(tr("Copy"), menu);
+//    QAction *clean = new QAction(tr("Delete"), menu);
+//    menu->addAction(copy);
+//    menu->addAction(clean);
+//    connect(copy, &QAction::triggered, this, [ = ]() {
+//        static_cast<SimpleListModel *>(model())->copyToClipboard(indexAt(event->pos()).row());
+//    });
+//    connect(clean, &QAction::triggered, this, [ = ]() {
+//        static_cast<SimpleListModel *>(model())->deleteItem(indexAt(event->pos()).row());
+//    });
+//    if (indexAt(event->pos()).row() >= 0 && m_itemfill) {
+//        menu->exec(event->globalPos());
+//    }
+//    delete menu;
+//}
 
 /**
  * @brief 给私有变量赋值，历史记录有数据
@@ -113,6 +115,28 @@ void SimpleListView::showTextEditMenuByAltM(const QModelIndex &index)
         menu->exec(menupoint);
     }
     delete menu;
+}
+
+void SimpleListView::showRightMenu(const QPoint &pos)
+{
+    if (!this->indexAt(pos).isValid())
+        return;
+    QMenu *menu = new QMenu(this);
+    //缺翻译
+    QAction *copy = new QAction(tr("Copy"), menu);
+    QAction *clean = new QAction(tr("Delete"), menu);
+    menu->addAction(copy);
+    menu->addAction(clean);
+    connect(copy, &QAction::triggered, this, [ = ]() {
+        static_cast<SimpleListModel *>(model())->copyToClipboard(indexAt(pos).row());
+    });
+    connect(clean, &QAction::triggered, this, [ = ]() {
+        static_cast<SimpleListModel *>(model())->deleteItem(indexAt(pos).row());
+    });
+    if (indexAt(pos).row() >= 0 && m_itemfill) {
+        menu->exec(mapToGlobal(pos));
+    }
+//    delete menu;
 }
 
 /**
