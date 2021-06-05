@@ -119,6 +119,7 @@ int main(int argc, char *argv[])
     app->setApplicationVersion(VERSION);
     app->setQuitOnLastWindowClosed(true);
     app->setApplicationDisplayName(QObject::tr("Calculator"));
+    app->setAutoActivateWindows(true);
     // app.setStyle("chameleon");
 
     QDBusConnection dbus = QDBusConnection::sessionBus();
