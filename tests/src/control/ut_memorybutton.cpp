@@ -56,39 +56,50 @@ TEST_F(Ut_MemoryButton, setbuttongray)
 TEST_F(Ut_MemoryButton, mousePressEvent)
 {
     MemoryButton *m_memorybutton = new MemoryButton;
-    m_memorybutton->mousePressEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
-                                                    m_memorybutton->pos(), Qt::MouseButton::LeftButton,
-                                                    Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                     m_memorybutton->pos(), Qt::MouseButton::LeftButton,
+                                     Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+
+    m_memorybutton->mousePressEvent(m);
+    delete m;
     ASSERT_TRUE(m_memorybutton->m_isPress);
 }
 
 TEST_F(Ut_MemoryButton, mouseReleaseEvent)
 {
     MemoryButton *m_memorybutton = new MemoryButton;
-    m_memorybutton->mouseReleaseEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
-                                                      m_memorybutton->pos(), Qt::MouseButton::LeftButton,
-                                                      Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
+                                     m_memorybutton->pos(), Qt::MouseButton::LeftButton,
+                                     Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_memorybutton->mouseReleaseEvent(m);
     ASSERT_FALSE(m_memorybutton->m_isPress);
+    delete m;
 }
 
 TEST_F(Ut_MemoryButton, enterEvent)
 {
     MemoryButton *m_memorybutton = new MemoryButton;
-    m_memorybutton->enterEvent(new QEvent(QEvent::Type::Enter));
+    QEvent *q = new QEvent(QEvent::Type::Enter);
+    m_memorybutton->enterEvent(q);
     ASSERT_TRUE(m_memorybutton->m_isHover);
+    delete q;
 }
 
 TEST_F(Ut_MemoryButton, leaveEvent)
 {
     MemoryButton *m_memorybutton = new MemoryButton;
-    m_memorybutton->leaveEvent(new QEvent(QEvent::Type::Leave));
+    QEvent *q = new QEvent(QEvent::Type::Leave);
+    m_memorybutton->leaveEvent(q);
     ASSERT_FALSE(m_memorybutton->m_isHover);
+    delete q;
 }
 
 TEST_F(Ut_MemoryButton, focusOutEvent)
 {
     MemoryButton *m_memorybutton = new MemoryButton;
-    m_memorybutton->focusOutEvent(new QFocusEvent(QEvent::Type::FocusOut));
+    QFocusEvent *f = new QFocusEvent(QEvent::Type::FocusOut);
+    m_memorybutton->focusOutEvent(f);
+    delete f;
     //无ASSERT
 }
 

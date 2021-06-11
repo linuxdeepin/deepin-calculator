@@ -80,7 +80,9 @@ TEST_F(Ut_SciHistoryWidget, memoryFunctions)
 TEST_F(Ut_SciHistoryWidget, mouseMoveEvent)
 {
     SciHistoryWidget *m_scihistorywidget = new SciHistoryWidget;
-    m_scihistorywidget->mouseMoveEvent(new QMouseEvent(QMouseEvent::Type::MouseMove, m_scihistorywidget->pos(), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseMove, m_scihistorywidget->pos(), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_scihistorywidget->mouseMoveEvent(m);
+    delete m;
     //无ASSERT
     DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
@@ -89,7 +91,9 @@ TEST_F(Ut_SciHistoryWidget, mouseMoveEvent)
 TEST_F(Ut_SciHistoryWidget, keyPressEvent)
 {
     SciHistoryWidget *m_scihistorywidget = new SciHistoryWidget;
-    m_scihistorywidget->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier));
+    QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier);
+    m_scihistorywidget->keyPressEvent(k);
+    delete k;
     //无法setfocus,无ASSERT
     DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();

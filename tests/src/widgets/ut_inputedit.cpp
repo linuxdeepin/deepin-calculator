@@ -36,7 +36,9 @@ TEST_F(Ut_InputEdit, keyPressEvent)
 {
     InputEdit *m_inputEdit = new InputEdit;
     m_inputEdit->setFocus();
-    m_inputEdit->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_M, Qt::AltModifier));
+    QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_M, Qt::AltModifier);
+    m_inputEdit->keyPressEvent(k);
+    delete k;
     //无ASSERT
 }
 
@@ -44,17 +46,21 @@ TEST_F(Ut_InputEdit, mouseDoubleClickEvent)
 {
     InputEdit *m_inputEdit = new InputEdit;
     m_inputEdit->setText("12345");
-    m_inputEdit->mouseDoubleClickEvent(new QMouseEvent(QEvent::MouseButtonDblClick, m_inputEdit->rect().center(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QEvent::MouseButtonDblClick, m_inputEdit->rect().center(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    m_inputEdit->mouseDoubleClickEvent(m);
     ASSERT_EQ(m_inputEdit->m_selected.selected, "12,345");
+    delete m;
 }
 
 TEST_F(Ut_InputEdit, mousePressEvent)
 {
     InputEdit *m_inputEdit = new InputEdit;
     m_inputEdit->setText("12345");
-    m_inputEdit->mouseDoubleClickEvent(new QMouseEvent(QEvent::MouseButtonDblClick, m_inputEdit->rect().center(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
-    m_inputEdit->mousePressEvent(new QMouseEvent(QEvent::MouseButtonPress, m_inputEdit->rect().center(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+//    m_inputEdit->mouseDoubleClickEvent(new QMouseEvent(QEvent::MouseButtonDblClick, m_inputEdit->rect().center(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QEvent::MouseButtonPress, m_inputEdit->rect().center(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    m_inputEdit->mousePressEvent(m);
     ASSERT_EQ(m_inputEdit->m_selected.selected, "");
+    delete m;
 }
 
 TEST_F(Ut_InputEdit, handleTextChanged)
@@ -102,12 +108,14 @@ TEST_F(Ut_InputEdit, BracketCompletion)
 {
     InputEdit *m_inputEdit = new InputEdit;
     m_inputEdit->setText("(()");
-    m_inputEdit->BracketCompletion(new QKeyEvent(QEvent::None, Qt::Key_1, Qt::NoModifier));
+    QKeyEvent *k = new QKeyEvent(QEvent::None, Qt::Key_1, Qt::NoModifier);
+    m_inputEdit->BracketCompletion(k);
     m_inputEdit->setText("())");
-    m_inputEdit->BracketCompletion(new QKeyEvent(QEvent::None, Qt::Key_1, Qt::NoModifier));
+    m_inputEdit->BracketCompletion(k);
     m_inputEdit->setText("()");
-    m_inputEdit->BracketCompletion(new QKeyEvent(QEvent::None, Qt::Key_1, Qt::NoModifier));
+    m_inputEdit->BracketCompletion(k);
     ASSERT_EQ(m_inputEdit->text(), "()()");
+    delete k;
 }
 
 TEST_F(Ut_InputEdit, multipleArithmetic)
@@ -144,7 +152,9 @@ TEST_F(Ut_InputEdit, symbolComplement)
 TEST_F(Ut_InputEdit, focusInEvent)
 {
     InputEdit *m_inputEdit = new InputEdit;
-    m_inputEdit->focusInEvent(new QFocusEvent(QEvent::Type::FocusIn, Qt::TabFocusReason));
+    QFocusEvent *f = new QFocusEvent(QEvent::Type::FocusIn, Qt::TabFocusReason);
+    m_inputEdit->focusInEvent(f);
+    delete f;
     //无ASSERT
 }
 

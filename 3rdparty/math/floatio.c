@@ -1095,7 +1095,7 @@ int cattokensbin(char *buf, int bufsz, p_otokens tokens, signed char expbase, un
     {
         comlength = 65;
     }
-    char cmpltag[comlength];
+    char cmpltag[comlength + 1];
     if(comlength >=0)
     {
         memset(cmpltag,0,comlength);

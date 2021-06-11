@@ -12,39 +12,46 @@ Ut_ProgrammerItemWidget::Ut_ProgrammerItemWidget()
 TEST_F(Ut_ProgrammerItemWidget, enterEvent)
 {
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
-    m_programmerItemWidget->enterEvent(new QEvent(QEvent::Type::MouseMove));
+    QEvent *e = new QEvent(QEvent::Type::MouseMove);
+    m_programmerItemWidget->enterEvent(e);
     ASSERT_TRUE(m_programmerItemWidget->m_ishover);
+    delete e;
 }
 
 TEST_F(Ut_ProgrammerItemWidget, leaveEvent)
 {
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
-    m_programmerItemWidget->leaveEvent(new QEvent(QEvent::Type::MouseMove));
+    QEvent *e = new QEvent(QEvent::Type::MouseMove);
+    m_programmerItemWidget->leaveEvent(e);
     ASSERT_FALSE(m_programmerItemWidget->m_ishover);
+    delete e;
 }
 
 TEST_F(Ut_ProgrammerItemWidget, mousePressEvent)
 {
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
-    m_programmerItemWidget->mousePressEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
-                                                            m_programmerItemWidget->pos(), Qt::MouseButton::RightButton,
-                                                            Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
-    m_programmerItemWidget->mousePressEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
-                                                            m_programmerItemWidget->pos(), Qt::MouseButton::LeftButton,
-                                                            Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                     m_programmerItemWidget->pos(), Qt::MouseButton::RightButton,
+                                     Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_programmerItemWidget->mousePressEvent(m);
+    QMouseEvent *m1 = new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                      m_programmerItemWidget->pos(), Qt::MouseButton::LeftButton,
+                                      Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_programmerItemWidget->mousePressEvent(m1);
     ASSERT_TRUE(m_programmerItemWidget->m_ispress);
+    delete m;
+    delete m1;
 }
 
 TEST_F(Ut_ProgrammerItemWidget, mouseReleaseEvent)
 {
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
-    m_programmerItemWidget->mouseReleaseEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
-                                                              m_programmerItemWidget->pos(), Qt::MouseButton::RightButton,
-                                                              Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
-    m_programmerItemWidget->mouseReleaseEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
-                                                              m_programmerItemWidget->pos(), Qt::MouseButton::LeftButton,
-                                                              Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *e = new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
+                                     m_programmerItemWidget->pos(), Qt::MouseButton::LeftButton,
+                                     Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_programmerItemWidget->mouseReleaseEvent(e);
     ASSERT_FALSE(m_programmerItemWidget->m_ispress);
+    delete e;
 }
 
 TEST_F(Ut_ProgrammerItemWidget, cleanHoverState)
@@ -109,4 +116,5 @@ TEST_F(Ut_ProgrammerItemWidget, paintEvent)
     m_programmerItemWidget1->m_ishover = true;
     m_programmerItemWidget1->paintEvent(event);
     m_programmerItemWidget1->update();
+    delete event;
 }

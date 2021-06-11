@@ -86,7 +86,6 @@ TEST_F(Ut_ScientificModule, initTheme)
 
 TEST_F(Ut_ScientificModule, handleEditKeyPress)
 {
-    /*
     scientificModule *m_scientificModule = new scientificModule;
     m_scientificModule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_0, Qt::NoModifier));
     m_scientificModule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
@@ -217,7 +216,6 @@ TEST_F(Ut_ScientificModule, handleEditKeyPress)
     ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "2");
     DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
-    */
 }
 
 TEST_F(Ut_ScientificModule, handleKeypadButtonPress)
@@ -348,7 +346,6 @@ TEST_F(Ut_ScientificModule, handleKeypadButtonPress)
 
 TEST_F(Ut_ScientificModule, handleKeypadButtonPressByspace)
 {
-    /*
     scientificModule *m_scientificModule = new scientificModule;
     m_scientificModule->handleKeypadButtonPressByspace(ScientificKeyPad::Key_0);
     m_scientificModule->handleKeypadButtonPressByspace(ScientificKeyPad::Key_1);
@@ -469,7 +466,6 @@ TEST_F(Ut_ScientificModule, handleKeypadButtonPressByspace)
     m_scientificModule->handleKeypadButtonPressByspace(ScientificKeyPad::Key_1);
     m_scientificModule->handleKeypadButtonPressByspace(ScientificKeyPad::Key_Equals);
     ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "2");
-    */
 }
 
 TEST_F(Ut_ScientificModule, hideMemHisWidget)

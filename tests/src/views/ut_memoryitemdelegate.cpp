@@ -45,6 +45,7 @@ TEST_F(Ut_MemoryItemDelegate, paint)
     m_memoryItemDelegate->paint(painter, option, index);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_memoryItemDelegate->paint(painter, option, index);
+    delete painter;
 //    listwidget->update();
 //    qDebug() << listwidget->palette().color(QPalette::ColorGroup::Current, QPalette::ColorRole::Window).name();
 //    QPalette pal = m_memorywidget->palette();

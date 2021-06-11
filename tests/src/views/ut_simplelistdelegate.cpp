@@ -160,6 +160,7 @@ TEST_F(Ut_SimpleListDelegate, paintnofocus)
     m_simpleListDelegate->paint(painter, option, QModelIndex());
     m_simpleListDelegate->m_type = 1;
     m_simpleListDelegate->paint(painter, option, m_model->index(0, 0, QModelIndex()));
+    delete painter;
 }
 
 TEST_F(Ut_SimpleListDelegate, paint1nofocus)
@@ -182,6 +183,7 @@ TEST_F(Ut_SimpleListDelegate, paint1nofocus)
     m_simpleListDelegate->paint(painter, option, QModelIndex());
     m_simpleListDelegate->m_type = 1;
     m_simpleListDelegate->paint(painter, option, m_model->index(0, 0, QModelIndex()));
+    delete painter;
 }
 
 TEST_F(Ut_SimpleListDelegate, updateEditorGeometry)

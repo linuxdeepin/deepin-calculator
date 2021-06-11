@@ -47,34 +47,42 @@ TEST_F(Ut_IconButton, mousePressEvent)
 {
     IconButton *m_iconButton = new IconButton;
     m_iconButton->animate(false, 100);
-    m_iconButton->mousePressEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
-                                                  m_iconButton->pos(), Qt::MouseButton::LeftButton,
-                                                  Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                     m_iconButton->pos(), Qt::MouseButton::LeftButton,
+                                     Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_iconButton->mousePressEvent(m);
     ASSERT_TRUE(m_iconButton->m_isPress);
+    delete m;
 }
 
 TEST_F(Ut_IconButton, mouseReleaseEvent)
 {
     IconButton *m_iconButton = new IconButton;
     m_iconButton->animate(false, 100);
-    m_iconButton->mouseReleaseEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
-                                                    m_iconButton->pos(), Qt::MouseButton::LeftButton,
-                                                    Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
+                                     m_iconButton->pos(), Qt::MouseButton::LeftButton,
+                                     Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_iconButton->mouseReleaseEvent(m);
     ASSERT_FALSE(m_iconButton->m_isPress);
+    delete m;
 }
 
 TEST_F(Ut_IconButton, enterEvent)
 {
     IconButton *m_iconButton = new IconButton;
-    m_iconButton->enterEvent(new QEvent(QEvent::Type::Enter));
+    QEvent *e = new QEvent(QEvent::Type::Enter);
+    m_iconButton->enterEvent(e);
     ASSERT_TRUE(m_iconButton->m_isHover);
+    delete e;
 }
 
 TEST_F(Ut_IconButton, leaveEvent)
 {
     IconButton *m_iconButton = new IconButton;
-    m_iconButton->leaveEvent(new QEvent(QEvent::Type::Leave));
+    QEvent *e = new QEvent(QEvent::Type::Leave);
+    m_iconButton->leaveEvent(e);
     ASSERT_FALSE(m_iconButton->m_isHover);
+    delete e;
 }
 
 bool stub_focus_icon()
@@ -167,13 +175,23 @@ TEST_F(Ut_IconButton, keyPressEvent)
 {
     IconButton *m_iconButton = new IconButton;
     m_iconButton->m_isEmptyBtn = true;
-    m_iconButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier));
-    m_iconButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier));
-    m_iconButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier));
-    m_iconButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier));
-    m_iconButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier));
-    m_iconButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Enter, Qt::NoModifier));
-    m_iconButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier));
-    m_iconButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
+    QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
+    QKeyEvent *k1 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier);
+    QKeyEvent *k2 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier);
+    QKeyEvent *k3 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier);
+    QKeyEvent *k4 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier);
+    QKeyEvent *k5 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Enter, Qt::NoModifier);
+    m_iconButton->keyPressEvent(k);
+    m_iconButton->keyPressEvent(k1);
+    m_iconButton->keyPressEvent(k2);
+    m_iconButton->keyPressEvent(k3);
+    m_iconButton->keyPressEvent(k4);
+    m_iconButton->keyPressEvent(k5);
+    delete k;
+    delete k1;
+    delete k2;
+    delete k3;
+    delete k4;
+    delete k5;
     //无ASSERT
 }

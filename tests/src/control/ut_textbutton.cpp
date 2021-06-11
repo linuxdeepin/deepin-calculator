@@ -35,75 +35,83 @@ TEST_F(Ut_TextButton, setButtonDown)
 TEST_F(Ut_TextButton, mousePressEvent)
 {
     TextButton *m_textbutton = new TextButton;
-    m_textbutton->mousePressEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
-                                                  m_textbutton->pos(), Qt::MouseButton::LeftButton,
-                                                  Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                     m_textbutton->pos(), Qt::MouseButton::LeftButton,
+                                     Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_textbutton->mousePressEvent(m);
     ASSERT_TRUE(m_textbutton->m_isPress);
+    delete m;
 }
 
 TEST_F(Ut_TextButton, mouseReleaseEvent)
 {
     TextButton *m_textbutton = new TextButton;
-    m_textbutton->mouseReleaseEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
-                                                    m_textbutton->pos(), Qt::MouseButton::LeftButton,
-                                                    Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
+                                     m_textbutton->pos(), Qt::MouseButton::LeftButton,
+                                     Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_textbutton->mouseReleaseEvent(m);
     ASSERT_FALSE(m_textbutton->m_isPress);
+    delete m;
 }
 
 TEST_F(Ut_TextButton, enterEvent)
 {
     TextButton *m_textbutton = new TextButton;
+    QEvent *e = new QEvent(QEvent::Type::Enter);
     m_textbutton->setText("Rand");
-    m_textbutton->enterEvent(new QEvent(QEvent::Type::Enter));
+    m_textbutton->enterEvent(e);
     m_textbutton->setText("logᵧx");
-    m_textbutton->enterEvent(new QEvent(QEvent::Type::Enter));
+    m_textbutton->enterEvent(e);
     m_textbutton->setText("log");
-    m_textbutton->enterEvent(new QEvent(QEvent::Type::Enter));
+    m_textbutton->enterEvent(e);
     m_textbutton->setText("|x|");
-    m_textbutton->enterEvent(new QEvent(QEvent::Type::Enter));
+    m_textbutton->enterEvent(e);
     m_textbutton->setText("Mod");
-    m_textbutton->enterEvent(new QEvent(QEvent::Type::Enter));
+    m_textbutton->enterEvent(e);
     m_textbutton->setText("exp");
-    m_textbutton->enterEvent(new QEvent(QEvent::Type::Enter));
+    m_textbutton->enterEvent(e);
     m_textbutton->setText("sin");
-    m_textbutton->enterEvent(new QEvent(QEvent::Type::Enter));
+    m_textbutton->enterEvent(e);
     m_textbutton->setText("cos");
-    m_textbutton->enterEvent(new QEvent(QEvent::Type::Enter));
+    m_textbutton->enterEvent(e);
     m_textbutton->setText("tan");
-    m_textbutton->enterEvent(new QEvent(QEvent::Type::Enter));
+    m_textbutton->enterEvent(e);
     m_textbutton->setText("cot");
-    m_textbutton->enterEvent(new QEvent(QEvent::Type::Enter));
+    m_textbutton->enterEvent(e);
     m_textbutton->setText("+/-");
-    m_textbutton->enterEvent(new QEvent(QEvent::Type::Enter));
+    m_textbutton->enterEvent(e);
     ASSERT_TRUE(m_textbutton->m_isHover);
+    delete e;
 }
 
 TEST_F(Ut_TextButton, leaveEvent)
 {
     TextButton *m_textbutton = new TextButton;
+    QEvent *e = new QEvent(QEvent::Type::Leave);
     m_textbutton->setText("Rand");
-    m_textbutton->leaveEvent(new QEvent(QEvent::Type::Leave));
+    m_textbutton->leaveEvent(e);
     m_textbutton->setText("logᵧx");
-    m_textbutton->leaveEvent(new QEvent(QEvent::Type::Leave));
+    m_textbutton->leaveEvent(e);
     m_textbutton->setText("log");
-    m_textbutton->leaveEvent(new QEvent(QEvent::Type::Leave));
+    m_textbutton->leaveEvent(e);
     m_textbutton->setText("|x|");
-    m_textbutton->leaveEvent(new QEvent(QEvent::Type::Leave));
+    m_textbutton->leaveEvent(e);
     m_textbutton->setText("Mod");
-    m_textbutton->leaveEvent(new QEvent(QEvent::Type::Leave));
+    m_textbutton->leaveEvent(e);
     m_textbutton->setText("exp");
-    m_textbutton->leaveEvent(new QEvent(QEvent::Type::Leave));
+    m_textbutton->leaveEvent(e);
     m_textbutton->setText("sin");
-    m_textbutton->leaveEvent(new QEvent(QEvent::Type::Leave));
+    m_textbutton->leaveEvent(e);
     m_textbutton->setText("cos");
-    m_textbutton->leaveEvent(new QEvent(QEvent::Type::Leave));
+    m_textbutton->leaveEvent(e);
     m_textbutton->setText("tan");
-    m_textbutton->leaveEvent(new QEvent(QEvent::Type::Leave));
+    m_textbutton->leaveEvent(e);
     m_textbutton->setText("cot");
-    m_textbutton->leaveEvent(new QEvent(QEvent::Type::Leave));
+    m_textbutton->leaveEvent(e);
     m_textbutton->setText("+/-");
-    m_textbutton->leaveEvent(new QEvent(QEvent::Type::Leave));
+    m_textbutton->leaveEvent(e);
     ASSERT_FALSE(m_textbutton->m_isHover);
+    delete e;
 }
 
 bool stub_focus_text()
@@ -152,15 +160,25 @@ TEST_F(Ut_TextButton, paintEvent)
 TEST_F(Ut_TextButton, keyPressEvent)
 {
     TextButton *m_textbutton = new TextButton;
-    m_textbutton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier));
-    m_textbutton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier));
-    m_textbutton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier));
-    m_textbutton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier));
-    m_textbutton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier));
-    m_textbutton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Enter, Qt::NoModifier));
-    m_textbutton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier));
-    m_textbutton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
+    QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
+    QKeyEvent *k1 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier);
+    QKeyEvent *k2 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier);
+    QKeyEvent *k3 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier);
+    QKeyEvent *k4 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier);
+    QKeyEvent *k5 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Enter, Qt::NoModifier);
+    m_textbutton->keyPressEvent(k);
+    m_textbutton->keyPressEvent(k1);
+    m_textbutton->keyPressEvent(k2);
+    m_textbutton->keyPressEvent(k3);
+    m_textbutton->keyPressEvent(k4);
+    m_textbutton->keyPressEvent(k5);
     //无ASSERT
+    delete k;
+    delete k1;
+    delete k2;
+    delete k3;
+    delete k4;
+    delete k5;
 }
 
 TEST_F(Ut_TextButton, paintspecialbtn)

@@ -128,7 +128,8 @@ void SimpleListView::mouseMoveEvent(QMouseEvent *e)
                 m_presschanged = false;
             QListView::mouseMoveEvent(e);
         } else {
-            static_cast<SimpleListDelegate *>(itemDelegate(indexAt(e->pos())))->paintback(indexAt(e->pos()), 0);
+            if (indexAt(e->pos()).isValid())
+                static_cast<SimpleListDelegate *>(itemDelegate(indexAt(e->pos())))->paintback(indexAt(e->pos()), 0);
             QWidget::mouseMoveEvent(e);
         }
     } else if (m_mode == 0 && this->count() > 0) {
@@ -139,7 +140,8 @@ void SimpleListView::mouseMoveEvent(QMouseEvent *e)
                 m_presschanged = false;
             QListView::mouseMoveEvent(e);
         } else {
-            static_cast<SimpleListDelegate *>(itemDelegate(indexAt(e->pos())))->paintback(indexAt(e->pos()), 0);
+            if (indexAt(e->pos()).isValid())
+                static_cast<SimpleListDelegate *>(itemDelegate(indexAt(e->pos())))->paintback(indexAt(e->pos()), 0);
             QWidget::mouseMoveEvent(e);
         }
 //        if (e->x() < width() - 12) {

@@ -60,8 +60,10 @@ TEST_F(TestCala, switchToScientificMode)
 TEST_F(TestCala, keyPressEvent)
 {
     MainWindow m_mainwindow;
-    m_mainwindow.keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier));
+    QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
+    m_mainwindow.keyPressEvent(k);
     //无ASSERT
+    delete k;
     DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
@@ -79,8 +81,10 @@ TEST_F(TestCala, resizeEvent)
 {
     MainWindow m_mainwindow;
     m_mainwindow.switchToScientificMode();
-    m_mainwindow.resizeEvent(new QResizeEvent(QSize(811, 542), QSize(451, 542)));
+    QResizeEvent *r = new QResizeEvent(QSize(811, 542), QSize(451, 542));
+    m_mainwindow.resizeEvent(r);
     ASSERT_EQ(m_mainwindow.m_settings->getOption("windowWidth"), 811);
+    delete r;
     DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }

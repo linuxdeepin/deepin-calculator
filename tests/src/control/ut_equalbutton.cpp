@@ -16,33 +16,41 @@ TEST_F(Ut_EqualButton, init)
 TEST_F(Ut_EqualButton, mousePressEvent)
 {
     EqualButton *m_equalButton = new EqualButton;
-    m_equalButton->mousePressEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
-                                                   m_equalButton->pos(), Qt::MouseButton::LeftButton,
-                                                   Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                     m_equalButton->pos(), Qt::MouseButton::LeftButton,
+                                     Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_equalButton->mousePressEvent(m);
     ASSERT_TRUE(m_equalButton->m_isPress);
+    delete m;
 }
 
 TEST_F(Ut_EqualButton, mouseReleaseEvent)
 {
     EqualButton *m_equalButton = new EqualButton;
-    m_equalButton->mouseReleaseEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
-                                                     m_equalButton->pos(), Qt::MouseButton::LeftButton,
-                                                     Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
+                                     m_equalButton->pos(), Qt::MouseButton::LeftButton,
+                                     Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_equalButton->mouseReleaseEvent(m);
     ASSERT_FALSE(m_equalButton->m_isPress);
+    delete m;
 }
 
 TEST_F(Ut_EqualButton, enterEvent)
 {
     EqualButton *m_equalButton = new EqualButton;
-    m_equalButton->enterEvent(new QEvent(QEvent::Type::Enter));
+    QEvent *e = new QEvent(QEvent::Type::Enter);
+    m_equalButton->enterEvent(e);
     ASSERT_TRUE(m_equalButton->m_isHover);
+    delete e;
 }
 
 TEST_F(Ut_EqualButton, leaveEvent)
 {
     EqualButton *m_equalButton = new EqualButton;
-    m_equalButton->leaveEvent(new QEvent(QEvent::Type::Leave));
+    QEvent *e = new QEvent(QEvent::Type::Leave);
+    m_equalButton->leaveEvent(e);
     ASSERT_FALSE(m_equalButton->m_isHover);
+    delete e;
 }
 
 bool stub_focus_equal()
@@ -93,11 +101,23 @@ TEST_F(Ut_EqualButton, paintEvent)
 TEST_F(Ut_EqualButton, keyPressEvent)
 {
     EqualButton *m_equalButton = new EqualButton;
-    m_equalButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier));
-    m_equalButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier));
-    m_equalButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier));
-    m_equalButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier));
-    m_equalButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier));
-    m_equalButton->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
+    QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
+    QKeyEvent *k1 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier);
+    QKeyEvent *k2 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier);
+    QKeyEvent *k3 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier);
+    QKeyEvent *k4 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier);
+    QKeyEvent *k5 = new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier);
+    m_equalButton->keyPressEvent(k);
+    m_equalButton->keyPressEvent(k1);
+    m_equalButton->keyPressEvent(k2);
+    m_equalButton->keyPressEvent(k3);
+    m_equalButton->keyPressEvent(k4);
+    m_equalButton->keyPressEvent(k5);
+    delete k;
+    delete k1;
+    delete k2;
+    delete k3;
+    delete k4;
+    delete k5;
     //无ASSERT
 }

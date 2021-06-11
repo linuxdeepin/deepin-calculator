@@ -17,7 +17,9 @@ Ut_ProexpressionBar::Ut_ProexpressionBar()
 TEST_F(Ut_ProexpressionBar, mouseMoveEvent)
 {
     ProExpressionBar *m_proexpressionBar = new ProExpressionBar;
-    m_proexpressionBar->mouseMoveEvent(new QMouseEvent(QMouseEvent::Type::MouseMove, m_proexpressionBar->pos(), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseMove, m_proexpressionBar->pos(), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_proexpressionBar->mouseMoveEvent(m);
+    delete m;
     //无ASSERT
     DSettingsAlt::deleteInstance();
 }
@@ -154,50 +156,50 @@ TEST_F(Ut_ProexpressionBar, enterEqualEvent)
 
 TEST_F(Ut_ProexpressionBar, enterNotEvent)
 {
-    //    ProExpressionBar *m_proexpressionBar = new ProExpressionBar;
-    //    m_proexpressionBar->enterNotEvent();
-    //    m_proexpressionBar->enterClearEvent();
-    //    m_proexpressionBar->enterNumberEvent("5");
-    //    m_proexpressionBar->enterNotEvent();
-    //    m_proexpressionBar->enterEqualEvent();
-    //    ASSERT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "－6");
-    //    DSettingsAlt::deleteInstance();
+    ProExpressionBar *m_proexpressionBar = new ProExpressionBar;
+    m_proexpressionBar->enterNotEvent();
+    m_proexpressionBar->enterClearEvent();
+    m_proexpressionBar->enterNumberEvent("5");
+    m_proexpressionBar->enterNotEvent();
+    m_proexpressionBar->enterEqualEvent();
+    ASSERT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "－6");
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ProexpressionBar, enterOperatorEvent)
 {
-    //    ProExpressionBar *m_proexpressionBar = new ProExpressionBar;
-    //    m_proexpressionBar->enterOperatorEvent("ror");
-    //    m_proexpressionBar->enterClearEvent();
-    //    m_proexpressionBar->enterNumberEvent("5");
-    //    m_proexpressionBar->enterOperatorEvent("sal");
-    //    m_proexpressionBar->enterOperatorEvent("rcl");
-    //    m_proexpressionBar->enterOperatorEvent("ror");
-    //    m_proexpressionBar->enterNumberEvent("4");
-    //    m_proexpressionBar->enterEqualEvent();
-    //    ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text() == "5,764,607,523,034,234,880");
-    //    m_proexpressionBar->enterOperatorEvent("rcl");
-    //    m_proexpressionBar->enterNumberEvent("3");
-    //    m_proexpressionBar->enterEqualEvent();
-    //    ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text() == "－9,223,372,036,854,775,807");
-    //    DSettingsAlt::deleteInstance();
+    ProExpressionBar *m_proexpressionBar = new ProExpressionBar;
+    m_proexpressionBar->enterOperatorEvent("ror");
+    m_proexpressionBar->enterClearEvent();
+    m_proexpressionBar->enterNumberEvent("5");
+    m_proexpressionBar->enterOperatorEvent("sal");
+    m_proexpressionBar->enterOperatorEvent("rcl");
+    m_proexpressionBar->enterOperatorEvent("ror");
+    m_proexpressionBar->enterNumberEvent("4");
+    m_proexpressionBar->enterEqualEvent();
+    ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text() == "5,764,607,523,034,234,880");
+    m_proexpressionBar->enterOperatorEvent("rcl");
+    m_proexpressionBar->enterNumberEvent("3");
+    m_proexpressionBar->enterEqualEvent();
+    ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text() == "－9,223,372,036,854,775,807");
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ProexpressionBar, enterOppositeEvent)
 {
-    //    ProExpressionBar *m_proexpressionBar = new ProExpressionBar();
-    //    m_proexpressionBar->enterOppositeEvent();
-    //    ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text().isEmpty());
-    //    m_proexpressionBar->enterNumberEvent("0");
-    //    m_proexpressionBar->enterOppositeEvent();
-    //    ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text() == "0");
-    //    m_proexpressionBar->enterClearEvent();
-    //    m_proexpressionBar->enterSymbolEvent("-");
-    //    m_proexpressionBar->enterNumberEvent("1");
-    //    m_proexpressionBar->enterOppositeEvent();
-    //    m_proexpressionBar->enterEqualEvent();
-    //    ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text() == "－1");
-    //    DSettingsAlt::deleteInstance();
+    ProExpressionBar *m_proexpressionBar = new ProExpressionBar();
+    m_proexpressionBar->enterOppositeEvent();
+    ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text().isEmpty());
+    m_proexpressionBar->enterNumberEvent("0");
+    m_proexpressionBar->enterOppositeEvent();
+    ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text() == "0");
+    m_proexpressionBar->enterClearEvent();
+    m_proexpressionBar->enterSymbolEvent("-");
+    m_proexpressionBar->enterNumberEvent("1");
+    m_proexpressionBar->enterOppositeEvent();
+    m_proexpressionBar->enterEqualEvent();
+    ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text() == "－1");
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ProexpressionBar, enterLeftBracketsEvent)

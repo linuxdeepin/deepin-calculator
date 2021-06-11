@@ -9,7 +9,9 @@ Ut_ExpressionBar::Ut_ExpressionBar()
 TEST_F(Ut_ExpressionBar, mouseMoveEvent)
 {
     ExpressionBar *m_expressionBar = new ExpressionBar;
-    m_expressionBar->mouseMoveEvent(new QMouseEvent(QMouseEvent::Type::MouseMove, m_expressionBar->pos(), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseMove, m_expressionBar->pos(), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_expressionBar->mouseMoveEvent(m);
+    delete m;
     //无ASSERT
     DSettingsAlt::deleteInstance();
 }
@@ -31,19 +33,19 @@ TEST_F(Ut_ExpressionBar, enterNumberEvent)
 
 TEST_F(Ut_ExpressionBar, enterSymbolEvent)
 {
-    //    ExpressionBar *m_expressionBar = new ExpressionBar;
-    //    m_expressionBar->m_listModel->updataList(QString("1＋2") + "＝" + "3", -1);
-    //    m_expressionBar->findChild<InputEdit *>()->setText("3");
-    //    m_expressionBar->m_isUndo = true;
-    //    m_expressionBar->enterSymbolEvent("-");
-    //    m_expressionBar->m_hisLink.last().linkedItem = -1;
-    //    m_expressionBar->enterSymbolEvent("＋");
-    //    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(0);
-    //    m_expressionBar->enterSymbolEvent("-");
-    //    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(1);
-    //    m_expressionBar->enterSymbolEvent("-");
-    //    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "－3＋");
-    //    DSettingsAlt::deleteInstance();
+    ExpressionBar *m_expressionBar = new ExpressionBar;
+    m_expressionBar->m_listModel->updataList(QString("1＋2") + "＝" + "3", -1);
+    m_expressionBar->m_inputEdit->setText("3");
+    m_expressionBar->m_isUndo = true;
+    m_expressionBar->enterSymbolEvent("-");
+    m_expressionBar->m_hisLink.last().linkedItem = -1;
+    m_expressionBar->enterSymbolEvent("＋");
+    m_expressionBar->m_inputEdit->setCursorPosition(0);
+    m_expressionBar->enterSymbolEvent("-");
+    m_expressionBar->m_inputEdit->setCursorPosition(1);
+    m_expressionBar->enterSymbolEvent("-");
+    ASSERT_EQ(m_expressionBar->m_inputEdit->text(), "－3＋");
+    DSettingsAlt::deleteInstance();
 }
 
 TEST_F(Ut_ExpressionBar, enterPointEvent)

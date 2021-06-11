@@ -21,8 +21,10 @@ TEST_F(Ut_MemoryItemWidget, connects)
 TEST_F(Ut_MemoryItemWidget, enterEvent)
 {
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
-    m_memoryItemWidget->enterEvent(new QEvent(QEvent::Type::MouseMove));
+    QEvent *e = new QEvent(QEvent::Type::MouseMove);
+    m_memoryItemWidget->enterEvent(e);
     ASSERT_TRUE(m_memoryItemWidget->m_ishover);
+    delete e;
     DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
@@ -30,8 +32,10 @@ TEST_F(Ut_MemoryItemWidget, enterEvent)
 TEST_F(Ut_MemoryItemWidget, leaveEvent)
 {
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
-    m_memoryItemWidget->leaveEvent(new QEvent(QEvent::Type::MouseMove));
+    QEvent *e = new QEvent(QEvent::Type::MouseMove);
+    m_memoryItemWidget->leaveEvent(e);
     ASSERT_FALSE(m_memoryItemWidget->m_ishover);
+    delete e;
     DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
@@ -40,13 +44,17 @@ TEST_F(Ut_MemoryItemWidget, mousePressEvent)
 {
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
-    m_memoryItemWidget->mousePressEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
-                                                        m_memoryItemWidget->pos(), Qt::MouseButton::RightButton,
-                                                        Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
-    m_memoryItemWidget->mousePressEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
-                                                        m_memoryItemWidget->pos(), Qt::MouseButton::LeftButton,
-                                                        Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                     m_memoryItemWidget->pos(), Qt::MouseButton::RightButton,
+                                     Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_memoryItemWidget->mousePressEvent(m);
+    QMouseEvent *m1 = new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                      m_memoryItemWidget->pos(), Qt::MouseButton::LeftButton,
+                                      Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_memoryItemWidget->mousePressEvent(m1);
     ASSERT_TRUE(m_memoryItemWidget->m_ispress);
+    delete m;
+    delete m1;
     DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
@@ -55,13 +63,12 @@ TEST_F(Ut_MemoryItemWidget, mouseReleaseEvent)
 {
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
-    m_memoryItemWidget->mouseReleaseEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
-                                                          m_memoryItemWidget->pos(), Qt::MouseButton::RightButton,
-                                                          Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
-    m_memoryItemWidget->mouseReleaseEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
-                                                          m_memoryItemWidget->pos(), Qt::MouseButton::LeftButton,
-                                                          Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
+                                     m_memoryItemWidget->pos(), Qt::MouseButton::LeftButton,
+                                     Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_memoryItemWidget->mouseReleaseEvent(m);
     ASSERT_FALSE(m_memoryItemWidget->m_ispress);
+    delete m;
     DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
@@ -79,19 +86,18 @@ TEST_F(Ut_MemoryItemWidget, contextMenuEvent)
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
     Stub stub;
     stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec);
-//    QContextMenuEvent *e = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_memoryItemWidget->pos());
     m_memoryItemWidget->m_isExpressionEmpty = true;
-    m_memoryItemWidget->contextMenuEvent(new QContextMenuEvent(QContextMenuEvent::Reason::Mouse,
-                                                               m_memoryItemWidget->pos(), m_memoryItemWidget->pos(),
-                                                               Qt::KeyboardModifier::NoModifier));
+    QContextMenuEvent *e = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse,
+                                                 m_memoryItemWidget->pos(), m_memoryItemWidget->pos(),
+                                                 Qt::KeyboardModifier::NoModifier);
+    m_memoryItemWidget->contextMenuEvent(e);
     stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec);
 //    QContextMenuEvent *e1 = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_memoryItemWidget->pos());
     m_memoryItemWidget->m_isExpressionEmpty = false;
-    m_memoryItemWidget->contextMenuEvent(new QContextMenuEvent(QContextMenuEvent::Reason::Mouse,
-                                                               m_memoryItemWidget->pos(), m_memoryItemWidget->pos(),
-                                                               Qt::KeyboardModifier::NoModifier));
+    m_memoryItemWidget->contextMenuEvent(e);
 
     ASSERT_FALSE(m_memoryItemWidget->m_ispress);
+    delete e;
     DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }
@@ -127,6 +133,7 @@ TEST_F(Ut_MemoryItemWidget, paintEvent)
     m_memoryItemWidget->update();
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
     m_memoryItemWidget->paintEvent(event);
+    delete event;
     DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }

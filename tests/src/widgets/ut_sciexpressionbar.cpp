@@ -9,7 +9,9 @@ Ut_SciexpressionBar::Ut_SciexpressionBar()
 TEST_F(Ut_SciexpressionBar, mouseMoveEvent)
 {
     SciExpressionBar *m_sciexpressionBar = new SciExpressionBar;
-    m_sciexpressionBar->mouseMoveEvent(new QMouseEvent(QMouseEvent::Type::MouseMove, m_sciexpressionBar->pos(), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseMove, m_sciexpressionBar->pos(), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    m_sciexpressionBar->mouseMoveEvent(m);
+    delete m;
     //无ASSERT
     DSettingsAlt::deleteInstance();
 }
@@ -41,7 +43,6 @@ TEST_F(Ut_SciexpressionBar, enterNumberEvent)
 
 TEST_F(Ut_SciexpressionBar, enterSymbolEvent)
 {
-    /*
     SciExpressionBar *m_expressionBar = new SciExpressionBar;
     //    m_expressionBar->m_listModel->updataList(QString("1＋2") + "＝" + "3", -1);
     //    m_expressionBar->findChild<InputEdit *>()->setText("3");
@@ -64,7 +65,6 @@ TEST_F(Ut_SciexpressionBar, enterSymbolEvent)
     m_expressionBar->enterSymbolEvent("-");
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1－1");
     DSettingsAlt::deleteInstance();
-    */
 }
 
 TEST_F(Ut_SciexpressionBar, enterPercentEvent)

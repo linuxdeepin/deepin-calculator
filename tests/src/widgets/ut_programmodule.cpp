@@ -326,7 +326,6 @@ TEST_F(Ut_ProgramModule, handleKeypadButtonPress)
 
 TEST_F(Ut_ProgramModule, handleKeypadButtonPressByspace)
 {
-    /*
     ProgramModule *m_programmodule = new ProgramModule;
     m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_0);
     m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_1);
@@ -399,7 +398,6 @@ TEST_F(Ut_ProgramModule, handleKeypadButtonPressByspace)
     m_programmodule->handleKeypadButtonPressByspace(ProCheckBtnKeypad::Key_Mlist);
     ASSERT_EQ(m_programmodule->findChild<InputEdit *>()->text(), "4");
     Settings::instance()->programmerBase = 0;
-    */
 }
 
 TEST_F(Ut_ProgramModule, moveL)

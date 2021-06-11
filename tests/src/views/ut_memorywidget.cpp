@@ -21,13 +21,15 @@ TEST_F(Ut_MemoryWidget, space)
     m_memoryWidget->m_listwidget->setItemWidget(item1, widget);
     widget->setTextLabel("1");
     m_memoryWidget->m_listwidget->setCurrentRow(0);
-    m_memoryWidget->m_listwidget->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier));
+    QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier);
+    m_memoryWidget->m_listwidget->keyPressEvent(k);
     m_memoryWidget->m_clearbutton->clicked();
     m_memoryWidget->m_clearbutton->space();
     m_memoryWidget->m_listwidget->itemselected(0, false);
     m_memoryWidget->m_listwidget->focus(0);
     m_memoryWidget->m_listwidget->focus(1);
     //无ASSERT
+    delete k;
     MemoryPublic::deleteInstance();
 }
 
@@ -40,10 +42,16 @@ TEST_F(Ut_MemoryWidget, focus)
     m_memoryPublic->generateData(Quantity(3));
     m_memoryWidget->setFocus();
     m_memoryWidget->m_listwidget->setCurrentRow(1);
-    m_memoryWidget->m_listwidget->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier));
-    m_memoryWidget->m_listwidget->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier));
-    m_memoryWidget->m_listwidget->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier));
+    QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
+    QKeyEvent *k1 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier);
+    QKeyEvent *k2 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier);
+    m_memoryWidget->m_listwidget->keyPressEvent(k);
+    m_memoryWidget->m_listwidget->keyPressEvent(k1);
+    m_memoryWidget->m_listwidget->keyPressEvent(k2);
     ASSERT_EQ(m_memoryWidget->m_listwidget->currentRow(), 1);
+    delete k;
+    delete k1;
+    delete k2;
     MemoryPublic::deleteInstance();
 }
 
@@ -72,10 +80,12 @@ TEST_F(Ut_MemoryWidget, generateData)
 TEST_F(Ut_MemoryWidget, mousePressEvent)
 {
     MemoryWidget *m_memoryWidget = new MemoryWidget;
-    m_memoryWidget->mousePressEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
-                                                    m_memoryWidget->pos(), Qt::MouseButton::LeftButton,
-                                                    Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                     m_memoryWidget->pos(), Qt::MouseButton::LeftButton,
+                                     Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
+    m_memoryWidget->mousePressEvent(m);
     ASSERT_EQ(m_memoryWidget->m_mousepoint, m_memoryWidget->pos());
+    delete m;
     MemoryPublic::deleteInstance();
 }
 
@@ -83,9 +93,11 @@ TEST_F(Ut_MemoryWidget, eventFilter)
 {
     MemoryWidget *m_memoryWidget = new MemoryWidget;
     m_memoryWidget->m_calculatormode = 0;
-    m_memoryWidget->eventFilter(m_memoryWidget->m_listwidget, static_cast <QEvent *>(new QKeyEvent(QKeyEvent::Type::KeyPress, Qt::Key_Tab, Qt::KeyboardModifier::NoModifier)));
+    QKeyEvent *k = new QKeyEvent(QKeyEvent::Type::KeyPress, Qt::Key_Tab, Qt::KeyboardModifier::NoModifier);
+    m_memoryWidget->eventFilter(m_memoryWidget->m_listwidget, static_cast <QEvent *>(k));
 //    ASSERT_TRUE(m_memoryWidget->m_listwidget->hasFocus());
     //无ASSERT,此处无法setfocus
+    delete k;
     MemoryPublic::deleteInstance();
 }
 
@@ -94,7 +106,9 @@ TEST_F(Ut_MemoryWidget, focusInEvent)
     MemoryPublic *m_memoryPublic = new MemoryPublic;
     MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
     m_memoryPublic->generateData(Quantity(1));
-    m_memoryWidget->focusInEvent(new QFocusEvent(QFocusEvent::Type::FocusIn));
+    QFocusEvent *f = new QFocusEvent(QFocusEvent::Type::FocusIn);
+    m_memoryWidget->focusInEvent(f);
+    delete f;
     //无ASSERT
     MemoryPublic::deleteInstance();
 }
@@ -230,6 +244,8 @@ TEST_F(Ut_MemoryWidget, keyPressEvent)
 {
     MemoryPublic *m_memoryPublic = new MemoryPublic;
     MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
-    m_memoryWidget->keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Escape, Qt::NoModifier));
+    QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_Escape, Qt::NoModifier);
+    m_memoryWidget->keyPressEvent(k);
+    delete k;
     MemoryPublic::deleteInstance();
 }

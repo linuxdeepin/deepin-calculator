@@ -298,7 +298,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
             m_sciexpressionBar->copyClipboard2Result();
         } else {
             m_sciexpressionBar->enterFEEvent(m_FEisdown);
-            m_memhiskeypad->animate(MemHisKeypad::Key_FE);
+//            m_memhiskeypad->animate(MemHisKeypad::Key_FE);
         }
         break;
     case Qt::Key_A:
@@ -733,7 +733,7 @@ void scientificModule::handleKeypadButtonPressByspace(int key)
 {
     m_scikeypadwidget->update();
     m_memhiskeypad->update();
-    if (key > 51 && key < 58)
+    if (key > 52 && key < 58)
         m_memhiskeypad->animate(MemHisKeypad::Buttons(key), true);
     else if (key < 52)
         m_scikeypadwidget->animate(ScientificKeyPad::Buttons(key), true);

@@ -32,7 +32,9 @@ TEST_F(Ut_ProListDelegate, editorEvent)
     ProListDelegate *m_proListDelegate = new ProListDelegate;
     ProListModel *model = new ProListModel();
     QStyleOptionViewItem item;
-    ASSERT_TRUE(m_proListDelegate->editorEvent(new QEvent(QEvent::Type::None), model, item, model->index(0, 0)));
+    QEvent *e = new QEvent(QEvent::Type::None);
+    ASSERT_TRUE(m_proListDelegate->editorEvent(e, model, item, model->index(0, 0)));
+    delete e;
 }
 
 //bool stub_focus_prolistdelegateT()
