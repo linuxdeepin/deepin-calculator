@@ -1,5 +1,4 @@
 #include "ut_memoryitemdelegate.h"
-#include "../../src/views/memoryitemdelegate.h"
 
 #include "../../src/views/memorylistwidget.h"
 #include <QPainter>
@@ -7,6 +6,16 @@
 Ut_MemoryItemDelegate::Ut_MemoryItemDelegate()
 {
 
+}
+
+void Ut_MemoryItemDelegate::SetUp()
+{
+    m_memoryItemDelegate = new MemoryItemDelegate;
+}
+
+void Ut_MemoryItemDelegate::TearDown()
+{
+    delete m_memoryItemDelegate;
 }
 
 //bool stub_focus_memdelegateT()
@@ -21,7 +30,6 @@ bool stub_focus_memdelegateF()
 
 TEST_F(Ut_MemoryItemDelegate, paint)
 {
-    MemoryItemDelegate *m_memoryItemDelegate = new MemoryItemDelegate;
     MemoryListWidget *listwidget = new MemoryListWidget;
     listwidget->setItemDelegate(m_memoryItemDelegate);
 
@@ -58,6 +66,5 @@ TEST_F(Ut_MemoryItemDelegate, paint)
 
 TEST_F(Ut_MemoryItemDelegate, updateEditorGeometry)
 {
-    MemoryItemDelegate *m_memoryItemDelegate = new MemoryItemDelegate;
     m_memoryItemDelegate->updateEditorGeometry(new QWidget(), QStyleOptionViewItem(), QModelIndex());
 }

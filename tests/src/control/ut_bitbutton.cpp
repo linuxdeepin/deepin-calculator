@@ -116,5 +116,6 @@ TEST_F(Ut_BitButton, paintEvent)
     m_bitbutton->update();
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
     m_bitbutton->paintEvent(event);
+    delete event;
     //无ASSERT
 }

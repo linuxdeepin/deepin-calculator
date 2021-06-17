@@ -60,10 +60,10 @@ TEST_F(Ut_ProgramModule, Signals2)
 TEST_F(Ut_ProgramModule, setKeyPress)
 {
     ProgramModule *m_programmodule = new ProgramModule;
-    m_programmodule->setKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
+    QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier);
+    m_programmodule->setKeyPress(k);
     ASSERT_EQ(m_programmodule->findChild<InputEdit *>()->text(), "1");
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
+    delete k;
 }
 
 TEST_F(Ut_ProgramModule, mAvailableEvent)
@@ -71,8 +71,6 @@ TEST_F(Ut_ProgramModule, mAvailableEvent)
     ProgramModule *m_programmodule = new ProgramModule;
     m_programmodule->mAvailableEvent();
     ASSERT_TRUE(m_programmodule->m_avail);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgramModule, mUnAvailableEvent)
@@ -80,8 +78,6 @@ TEST_F(Ut_ProgramModule, mUnAvailableEvent)
     ProgramModule *m_programmodule = new ProgramModule;
     m_programmodule->mUnAvailableEvent();
     ASSERT_FALSE(m_programmodule->m_avail);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgramModule, showListWidget)
@@ -89,8 +85,6 @@ TEST_F(Ut_ProgramModule, showListWidget)
     ProgramModule *m_programmodule = new ProgramModule;
     m_programmodule->showListWidget();
     ASSERT_EQ(m_programmodule->m_stackWidget->currentIndex(), 2);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgramModule, closeListWidget)
@@ -98,150 +92,151 @@ TEST_F(Ut_ProgramModule, closeListWidget)
     ProgramModule *m_programmodule = new ProgramModule;
     m_programmodule->closeListWidget();
     ASSERT_EQ(m_programmodule->m_stackWidget->currentIndex(), 0);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgramModule, handleEditKeyPress)
 {
     ProgramModule *m_programmodule = new ProgramModule;
     Settings::instance()->programmerBase = 16;
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_0, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_2, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_3, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_4, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_5, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_6, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_7, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_8, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_9, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_A, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_B, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_C, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_D, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_E, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_F, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Plus, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Minus, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Underscore, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Asterisk, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Slash, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Enter, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Equal, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Backspace, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Period, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Escape, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_ParenLeft, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_ParenRight, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Percent, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_AsciiCircum, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_C, Qt::ControlModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_V, Qt::ControlModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_V, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_A, Qt::ControlModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_X, Qt::ControlModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_X, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Delete, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Z, Qt::ControlModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Y, Qt::ControlModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Y, Qt::NoModifier));
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_0, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_1, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_2, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_3, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_4, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_5, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_6, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_7, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_8, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_9, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_A, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_B, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_C, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_D, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_E, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_F, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Plus, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Minus, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Underscore, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Asterisk, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Slash, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Enter, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Return, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Equal, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Backspace, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Period, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Escape, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_ParenLeft, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_ParenRight, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Percent, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_AsciiCircum, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_C, Qt::ControlModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_V, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_V, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_A, Qt::ControlModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_X, Qt::ControlModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_X, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Delete, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Left, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Right, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Z, Qt::ControlModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Y, Qt::ControlModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Y, Qt::NoModifier);
     m_programmodule->m_memCalbtn = true;
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_L, Qt::ControlModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_L, Qt::ShiftModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_L, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_R, Qt::ControlModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_R, Qt::ShiftModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_R, Qt::NoModifier));
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_L, Qt::ControlModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_L, Qt::ShiftModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_L, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_R, Qt::ControlModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_R, Qt::ShiftModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_R, Qt::NoModifier);
     m_programmodule->m_memCalbtn = true;
     m_programmodule->findChild<InputEdit *>()->setText("1");
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_P, Qt::ControlModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_P, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Q, Qt::ControlModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Q, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_M, Qt::ControlModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_M, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_NumberSign, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_N, Qt::ControlModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_N, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_At, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_B, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Bar, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_E, Qt::ShiftModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_E, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_S, Qt::ShiftModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_S, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_O, Qt::ShiftModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_O, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_T, Qt::ShiftModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_T, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_J, Qt::ShiftModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_J, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Exclam, Qt::NoModifier));
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_P, Qt::ControlModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_P, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Q, Qt::ControlModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Q, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_M, Qt::ControlModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_M, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_NumberSign, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_N, Qt::ControlModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_N, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_At, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_B, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Bar, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_E, Qt::ShiftModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_E, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_S, Qt::ShiftModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_S, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_O, Qt::ShiftModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_O, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_T, Qt::ShiftModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_T, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_J, Qt::ShiftModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_J, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Exclam, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Escape, Qt::NoModifier);
     //函数中输入
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Escape, Qt::NoModifier));
     QTest::mouseClick(m_programmodule->findChild<ProgrammerKeypad *>()->button(ProgrammerKeypad::Key_AND), Qt::LeftButton);
     m_programmodule->findChild<InputEdit *>()->setCursorPosition(1);
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_0, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_2, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_3, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_4, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_5, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_6, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_7, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_8, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_9, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Plus, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Minus, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Underscore, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Asterisk, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Slash, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Period, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_ParenLeft, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_ParenRight, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_ParenRight, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Percent, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_AsciiCircum, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_X, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Y, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_L, Qt::ShiftModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_L, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_R, Qt::ShiftModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_R, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_P, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Q, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_M, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_NumberSign, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_N, Qt::ControlModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_N, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_At, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_B, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Bar, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_E, Qt::ShiftModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_E, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_S, Qt::ShiftModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_S, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_O, Qt::ShiftModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_O, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_T, Qt::ShiftModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_T, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_J, Qt::ShiftModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_J, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Exclam, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_W, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Escape, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Plus, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
-    m_programmodule->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Equal, Qt::NoModifier));
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_0, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_1, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_2, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_3, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_4, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_5, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_6, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_7, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_8, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_9, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_A, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_B, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_C, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_D, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_E, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_F, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Plus, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Minus, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Underscore, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Asterisk, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Slash, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Period, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_ParenLeft, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_ParenRight, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Percent, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_AsciiCircum, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_X, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Y, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_L, Qt::ShiftModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_L, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_R, Qt::ShiftModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_R, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_P, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Q, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_M, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_NumberSign, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_N, Qt::ControlModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_N, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_At, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_B, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Bar, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_E, Qt::ShiftModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_E, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_S, Qt::ShiftModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_S, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_O, Qt::ShiftModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_O, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_T, Qt::ShiftModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_T, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_J, Qt::ShiftModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_J, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Exclam, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_W, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Escape, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_1, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Plus, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_1, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Equal, Qt::NoModifier);
     ASSERT_EQ(m_programmodule->findChild<InputEdit *>()->text(), "2");
     Settings::instance()->programmerBase = 0;
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgramModule, handleKeypadButtonPress)
@@ -320,8 +315,6 @@ TEST_F(Ut_ProgramModule, handleKeypadButtonPress)
     m_programmodule->handleKeypadButtonPress(ProCheckBtnKeypad::Key_Mlist);
     ASSERT_EQ(m_programmodule->findChild<InputEdit *>()->text(), "4");
     Settings::instance()->programmerBase = 0;
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_ProgramModule, handleKeypadButtonPressByspace)
@@ -457,10 +450,12 @@ TEST_F(Ut_ProgramModule, handleClearStateChanged)
 TEST_F(Ut_ProgramModule, mousePressEvent)
 {
     ProgramModule *m_programmodule = new ProgramModule;
-    m_programmodule->mousePressEvent(new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
-                                                     m_programmodule->pos(), Qt::MouseButton::LeftButton,
-                                                     Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
+                                     m_programmodule->pos(), Qt::MouseButton::LeftButton,
+                                     Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
+    m_programmodule->mousePressEvent(m);
     ASSERT_FALSE(m_programmodule->m_insidewidget);
+    delete m;
 }
 
 TEST_F(Ut_ProgramModule, setwidgetAttribute)

@@ -6,11 +6,16 @@
 #include <QTest>
 
 #include "../../src/dsettings.h"
+#include "../../src/views/simplelistmodel.h"
 
 class Ut_SimpleListModel : public ::testing::Test
 {
 public:
     Ut_SimpleListModel();
+    SimpleListModel *m_simpleListModel;
+protected:
+    void SetUp();
+    void TearDown();
 };
 
 #endif // UT_SIMPLELISTMODEL_H

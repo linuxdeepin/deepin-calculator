@@ -1,6 +1,5 @@
 #include "ut_programmerarrowdelegate.h"
 
-#include "../../src/views/programmerarrowdelegate.h"
 #include "../../src/views/programmeritemwidget.h"
 #include "../../src/views/memorylistwidget.h"
 #include <QPainter>
@@ -8,6 +7,16 @@
 Ut_ProgrammerArrowDelegate::Ut_ProgrammerArrowDelegate()
 {
 
+}
+
+void Ut_ProgrammerArrowDelegate::SetUp()
+{
+    m_memoryItemDelegate = new ProgrammerArrowDelegate;
+}
+
+void Ut_ProgrammerArrowDelegate::TearDown()
+{
+    delete m_memoryItemDelegate;
 }
 
 //bool stub_focus_proarrowdelegateT()
@@ -22,7 +31,6 @@ bool stub_focus_proarrowdelegateF()
 
 TEST_F(Ut_ProgrammerArrowDelegate, paint)
 {
-    ProgrammerArrowDelegate *m_memoryItemDelegate = new ProgrammerArrowDelegate;
     MemoryListWidget *listwidget = new MemoryListWidget;
     listwidget->setItemDelegate(m_memoryItemDelegate);
 
@@ -46,10 +54,10 @@ TEST_F(Ut_ProgrammerArrowDelegate, paint)
     m_memoryItemDelegate->paint(painter, option, index);
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_memoryItemDelegate->paint(painter, option, index);
+    delete painter;
 }
 
 TEST_F(Ut_ProgrammerArrowDelegate, updateEditorGeometry)
 {
-    ProgrammerArrowDelegate *m_memoryItemDelegate = new ProgrammerArrowDelegate;
     m_memoryItemDelegate->updateEditorGeometry(new QWidget(), QStyleOptionViewItem(), QModelIndex());
 }

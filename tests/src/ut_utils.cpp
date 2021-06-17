@@ -13,6 +13,7 @@ TEST_F(Ut_Utils, getwidget)
     m_utils->getConfigDir();
     //无ASSERT
 //    ASSERT_EQ(m_dsetting->getOption("windowHeight").toInt(), 0);
+    delete m_utils;
 }
 
 TEST_F(Ut_Utils, getQssContent)
@@ -21,6 +22,7 @@ TEST_F(Ut_Utils, getQssContent)
     m_utils->getQssContent("/etc/apt/sources.list");
     //无ASSERT
 //    ASSERT_EQ(m_dsetting->getOption("windowHeight").toInt(), 0);
+    delete m_utils;
 }
 
 TEST_F(Ut_Utils, formatThousandsSeparators)
@@ -28,4 +30,5 @@ TEST_F(Ut_Utils, formatThousandsSeparators)
     Utils *m_utils = new Utils;
     m_utils->formatThousandsSeparators("1234");
     ASSERT_EQ(m_utils->formatThousandsSeparators("1234"), "1,234");
+    delete m_utils;
 }

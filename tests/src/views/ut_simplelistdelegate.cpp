@@ -1,7 +1,5 @@
 #include "ut_simplelistdelegate.h"
 
-#include "../../src/views/simplelistdelegate.h"
-#include "../../src/views/simplelistmodel.h"
 #include "../../src/views/simplelistview.h"
 #include <QPainter>
 
@@ -10,23 +8,32 @@ Ut_SimpleListDelegate::Ut_SimpleListDelegate()
 
 }
 
+void Ut_SimpleListDelegate::SetUp()
+{
+    m_simpleListDelegate = new SimpleListDelegate(0);
+    model = new SimpleListModel(0);
+}
+
+void Ut_SimpleListDelegate::TearDown()
+{
+    delete m_simpleListDelegate;
+    delete model;
+}
+
 TEST_F(Ut_SimpleListDelegate, setHisLink)
 {
-    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->setHisLink(0);
     ASSERT_EQ(m_simpleListDelegate->m_linkItem.count(), 1);
 }
 
 TEST_F(Ut_SimpleListDelegate, setHisLinked)
 {
-    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->setHisLinked(0);
     ASSERT_EQ(m_simpleListDelegate->m_linkedIten.count(), 1);
 }
 
 TEST_F(Ut_SimpleListDelegate, removeLine2)
 {
-    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->setHisLink(0);
     m_simpleListDelegate->setHisLinked(0);
     m_simpleListDelegate->removeLine(0, 0);
@@ -35,7 +42,6 @@ TEST_F(Ut_SimpleListDelegate, removeLine2)
 
 TEST_F(Ut_SimpleListDelegate, removeLine1)
 {
-    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->setHisLink(0);
     m_simpleListDelegate->setHisLinked(0);
     m_simpleListDelegate->setHisLink(1);
@@ -46,7 +52,6 @@ TEST_F(Ut_SimpleListDelegate, removeLine1)
 
 TEST_F(Ut_SimpleListDelegate, removeHisLink)
 {
-    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->setHisLink(0);
     m_simpleListDelegate->setHisLink(1);
     m_simpleListDelegate->removeHisLink();
@@ -55,7 +60,6 @@ TEST_F(Ut_SimpleListDelegate, removeHisLink)
 
 TEST_F(Ut_SimpleListDelegate, removeAllLink)
 {
-    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->setHisLink(0);
     m_simpleListDelegate->setHisLinked(0);
     m_simpleListDelegate->setHisLink(1);
@@ -66,7 +70,6 @@ TEST_F(Ut_SimpleListDelegate, removeAllLink)
 
 TEST_F(Ut_SimpleListDelegate, removeHisLinked)
 {
-    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->setHisLinked(0);
     m_simpleListDelegate->setHisLinked(1);
     m_simpleListDelegate->removeHisLinked();
@@ -75,25 +78,21 @@ TEST_F(Ut_SimpleListDelegate, removeHisLinked)
 
 TEST_F(Ut_SimpleListDelegate, setThemeType)
 {
-    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->setThemeType(1);
     ASSERT_EQ(m_simpleListDelegate->m_type, 1);
 }
 
 TEST_F(Ut_SimpleListDelegate, paintback)
 {
-    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->paintback(QModelIndex(), 1);
     ASSERT_EQ(m_simpleListDelegate->m_state, 1);
 }
 
 TEST_F(Ut_SimpleListDelegate, sizeHint)
 {
-    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->m_mode = 0;
     m_simpleListDelegate->sizeHint(QStyleOptionViewItem(), QModelIndex());
     m_simpleListDelegate->m_mode = 1;
-    SimpleListModel *model = new SimpleListModel();
     m_simpleListDelegate->sizeHint(QStyleOptionViewItem(), model->index(0, 0));
     model->appendText("1＋1＝2", true);
     ASSERT_EQ(m_simpleListDelegate->sizeHint(QStyleOptionViewItem(), model->index(0, 0)).width(), 451);
@@ -110,7 +109,6 @@ TEST_F(Ut_SimpleListDelegate, sizeHint)
 
 TEST_F(Ut_SimpleListDelegate, cutApart)
 {
-    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     QString linkNum = QString();
     QString expStr = QString();
     m_simpleListDelegate->cutApart("", linkNum, expStr);
@@ -125,7 +123,6 @@ TEST_F(Ut_SimpleListDelegate, cutApart)
 
 TEST_F(Ut_SimpleListDelegate, setSelect)
 {
-    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->setSelect(true);
     ASSERT_TRUE(m_simpleListDelegate->m_selected);
 }
@@ -144,7 +141,6 @@ TEST_F(Ut_SimpleListDelegate, paintnofocus)
 {
     SimpleListView *m_simplelistview = new SimpleListView(0);
     SimpleListModel *m_model = new SimpleListModel(0);
-    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simplelistview->setModel(m_model);
     m_simplelistview->setItemDelegate(m_simpleListDelegate);
     m_model->m_expressionList.append("1");
@@ -188,7 +184,6 @@ TEST_F(Ut_SimpleListDelegate, paint1nofocus)
 
 TEST_F(Ut_SimpleListDelegate, updateEditorGeometry)
 {
-    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListDelegate->updateEditorGeometry(new QWidget(), QStyleOptionViewItem(), QModelIndex());
 }
 

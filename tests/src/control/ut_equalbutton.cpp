@@ -96,6 +96,7 @@ TEST_F(Ut_EqualButton, paintEvent)
     m_equalButton->paintEvent(event);
     m_equalButton->update();
     //无ASSERT
+    delete event;
 }
 
 TEST_F(Ut_EqualButton, keyPressEvent)

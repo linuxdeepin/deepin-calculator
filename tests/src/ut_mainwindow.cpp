@@ -71,8 +71,10 @@ TEST_F(TestCala, keyPressEvent)
 TEST_F(TestCala, moveEvent)
 {
     MainWindow m_mainwindow;
-    m_mainwindow.moveEvent(new QMoveEvent(QPoint(1, 1), QPoint(0, 0)));
+    QMoveEvent *m = new QMoveEvent(QPoint(1, 1), QPoint(0, 0));
+    m_mainwindow.moveEvent(m);
     ASSERT_EQ(m_mainwindow.m_settings->getOption("windowX"), 1);
+    delete m;
     DSettingsAlt::deleteInstance();
     MemoryPublic::deleteInstance();
 }

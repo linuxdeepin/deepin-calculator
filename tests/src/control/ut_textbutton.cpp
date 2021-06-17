@@ -154,6 +154,7 @@ TEST_F(Ut_TextButton, paintEvent)
     m_textbutton->m_isHover = false;
     m_textbutton->m_isPress = false;
     m_textbutton->paintEvent(event);
+    delete event;
     //无ASSERT
 }
 

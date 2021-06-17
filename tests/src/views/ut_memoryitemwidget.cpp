@@ -91,15 +91,12 @@ TEST_F(Ut_MemoryItemWidget, contextMenuEvent)
                                                  m_memoryItemWidget->pos(), m_memoryItemWidget->pos(),
                                                  Qt::KeyboardModifier::NoModifier);
     m_memoryItemWidget->contextMenuEvent(e);
-    stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec);
-//    QContextMenuEvent *e1 = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_memoryItemWidget->pos());
-    m_memoryItemWidget->m_isExpressionEmpty = false;
-    m_memoryItemWidget->contextMenuEvent(e);
+//    stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec);
+//    m_memoryItemWidget->m_isExpressionEmpty = false;
+//    m_memoryItemWidget->contextMenuEvent(e);
 
     ASSERT_FALSE(m_memoryItemWidget->m_ispress);
     delete e;
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_MemoryItemWidget, showTextEditMenuByAltM)
@@ -111,14 +108,11 @@ TEST_F(Ut_MemoryItemWidget, showTextEditMenuByAltM)
     m_memoryItemWidget->m_isExpressionEmpty = true;
     m_memoryItemWidget->showTextEditMenuByAltM();
 
-    stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec);
-//    QContextMenuEvent *e1 = new QContextMenuEvent(QContextMenuEvent::Reason::Keyboard, m_memoryItemWidget->pos());
-    m_memoryItemWidget->m_isExpressionEmpty = false;
-    m_memoryItemWidget->showTextEditMenuByAltM();
+//    stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec);
+//    m_memoryItemWidget->m_isExpressionEmpty = false;
+//    m_memoryItemWidget->showTextEditMenuByAltM();
 
     ASSERT_FALSE(m_memoryItemWidget->m_ispress);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
 }
 
 TEST_F(Ut_MemoryItemWidget, paintEvent)

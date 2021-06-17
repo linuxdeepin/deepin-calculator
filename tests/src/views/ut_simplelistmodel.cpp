@@ -1,15 +1,22 @@
 #include "ut_simplelistmodel.h"
 
-#include "../../src/views/simplelistmodel.h"
-
 Ut_SimpleListModel::Ut_SimpleListModel()
 {
 
 }
 
+void Ut_SimpleListModel::SetUp()
+{
+    m_simpleListModel = new SimpleListModel();
+}
+
+void Ut_SimpleListModel::TearDown()
+{
+    delete m_simpleListModel;
+}
+
 TEST_F(Ut_SimpleListModel, data)
 {
-    SimpleListModel *m_simpleListModel = new SimpleListModel();
     m_simpleListModel->appendText("1", true);
     m_simpleListModel->appendText("2", true);
     m_simpleListModel->appendText("3", true);
@@ -22,7 +29,6 @@ TEST_F(Ut_SimpleListModel, data)
 
 TEST_F(Ut_SimpleListModel, updataList1)
 {
-    SimpleListModel *m_simpleListModel = new SimpleListModel();
     for (int i = 0; i < 500; i++) {
         m_simpleListModel->m_expressionList.append("1");
     }
@@ -35,7 +41,6 @@ TEST_F(Ut_SimpleListModel, updataList1)
 
 TEST_F(Ut_SimpleListModel, updataList2)
 {
-    SimpleListModel *m_simpleListModel = new SimpleListModel();
     for (int i = 0; i < 500; i++) {
         m_simpleListModel->m_expressionList.append("1");
         m_simpleListModel->m_answerlist.append(Quantity(1));
@@ -47,7 +52,6 @@ TEST_F(Ut_SimpleListModel, updataList2)
 
 TEST_F(Ut_SimpleListModel, deleteItem)
 {
-    SimpleListModel *m_simpleListModel = new SimpleListModel();
     m_simpleListModel->m_expressionList.append("1");
     m_simpleListModel->m_answerlist.append(Quantity(1));
     m_simpleListModel->deleteItem(0);
@@ -57,7 +61,6 @@ TEST_F(Ut_SimpleListModel, deleteItem)
 
 TEST_F(Ut_SimpleListModel, copyToClipboard)
 {
-    SimpleListModel *m_simpleListModel = new SimpleListModel();
     m_simpleListModel->m_expressionList.append("1");
     m_simpleListModel->copyToClipboard(0);
     //无ASSERT
@@ -66,7 +69,6 @@ TEST_F(Ut_SimpleListModel, copyToClipboard)
 
 TEST_F(Ut_SimpleListModel, getAnswer)
 {
-    SimpleListModel *m_simpleListModel = new SimpleListModel();
     m_simpleListModel->m_answerlist.append(Quantity(1));
     m_simpleListModel->getAnswer(1);
     ASSERT_EQ(m_simpleListModel->getAnswer(0), Quantity(1));
@@ -75,7 +77,6 @@ TEST_F(Ut_SimpleListModel, getAnswer)
 
 TEST_F(Ut_SimpleListModel, radixChanged)
 {
-    SimpleListModel *m_simpleListModel = new SimpleListModel();
     m_simpleListModel->m_expressionList.append("123＋321 ＝ 444");
     m_simpleListModel->radixChanged(10, 2);
     ASSERT_EQ(m_simpleListModel->m_expressionList.at(0), "111 1011＋1 0100 0001＝1 1011 1100");
@@ -84,7 +85,6 @@ TEST_F(Ut_SimpleListModel, radixChanged)
 
 TEST_F(Ut_SimpleListModel, formatExpression)
 {
-    SimpleListModel *m_simpleListModel = new SimpleListModel();
     m_simpleListModel->formatExpression(10, "321");
     m_simpleListModel->formatExpression(8, "321");
     m_simpleListModel->formatExpression(2, "321");
@@ -95,7 +95,6 @@ TEST_F(Ut_SimpleListModel, formatExpression)
 
 TEST_F(Ut_SimpleListModel, answerOutOfRange)
 {
-    SimpleListModel *m_simpleListModel = new SimpleListModel();
     m_simpleListModel->m_expressionList.append("123＋321 ＝ 444");
     m_simpleListModel->answerOutOfRange(Quantity(123));
     ASSERT_EQ(m_simpleListModel->m_expressionList.at(0), "123＋321 ＝123");

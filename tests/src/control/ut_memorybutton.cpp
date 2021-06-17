@@ -25,7 +25,7 @@ TEST_F(Ut_MemoryButton, setbtnlight)
         ASSERT_EQ(m_memorybutton->text(), "MH˅");
     else
         ASSERT_EQ(m_memorybutton->text(), "M˅");
-    DSettingsAlt::deleteInstance();
+    delete m_dsetting;
 }
 
 TEST_F(Ut_MemoryButton, showtips)
@@ -144,6 +144,7 @@ TEST_F(Ut_MemoryButton, paintEvent)
     m_memorybutton->m_isPress = true;
     m_memorybutton->paintEvent(event);
     //无ASSERT
+    delete event;
 }
 
 TEST_F(Ut_MemoryButton, paintEvent2)
@@ -182,6 +183,7 @@ TEST_F(Ut_MemoryButton, paintEvent2)
     m_memorybutton->m_isPress = true;
     m_memorybutton->paintEvent(event);
     //无ASSERT
+    delete event;
 }
 
 TEST_F(Ut_MemoryButton, paintEvent3)
@@ -219,4 +221,5 @@ TEST_F(Ut_MemoryButton, paintEvent3)
     m_memorybutton->m_isPress = true;
     m_memorybutton->paintEvent(event);
     //无ASSERT
+    delete event;
 }

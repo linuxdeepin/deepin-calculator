@@ -51,7 +51,5 @@ TEST_F(Ut_MemoryListWidget, focusInEvent)
     MemoryListWidget *m_memoryListWidget = new MemoryListWidget;
     QFocusEvent *f = new QFocusEvent(QEvent::Type::FocusIn, Qt::OtherFocusReason);
     m_memoryListWidget->focusInEvent(f);
-    //无ASSERT
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
+    delete f;
 }

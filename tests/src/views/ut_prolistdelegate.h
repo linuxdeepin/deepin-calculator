@@ -16,9 +16,14 @@ class Ut_ProListDelegate : public ::testing::Test
 public:
     Ut_ProListDelegate();
 
-    ProListView *m_prolistview1 = new ProListView();
-    ProListModel *m_model1 = new ProListModel();
-    ProListDelegate *m_proListDelegate1 = new ProListDelegate();
+    ProListView *m_prolistview1;
+    ProListModel *m_model1;
+    ProListDelegate *m_proListDelegate1;
+    ProListDelegate *m_proListDelegate;
+    ProListModel *m_model;
+protected:
+    void SetUp();
+    void TearDown();
 };
 
 #endif // UT_PROLISTDELEGATE_H

@@ -169,6 +169,7 @@ TEST_F(Ut_IconButton, paintEvent)
     m_iconButton->m_currentUrl = ":/assets/images/light/deg_press.svg";
     m_iconButton->paintEvent(event);
     //无ASSERT
+    delete event;
 }
 
 TEST_F(Ut_IconButton, keyPressEvent)
