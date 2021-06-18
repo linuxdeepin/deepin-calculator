@@ -259,7 +259,7 @@ void InputEdit::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton) {
         setFocus();
-        m_selected.selected = "";
+//        m_selected.selected = "";
         emit setResult(); //expression中m_isResult置为false
         //        qDebug() << m_selected.selected;
     }
