@@ -125,6 +125,7 @@ void TextButtonTab::animate(bool isspace, int msec)
 void TextButtonTab::setButtonDown(bool down)
 {
     m_Btnisdown = down;
+    update();
 }
 
 /**

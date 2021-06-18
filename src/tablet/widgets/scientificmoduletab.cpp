@@ -1368,14 +1368,15 @@ void scientificModuleTab::handleDegChanged()
  */
 void scientificModuleTab::handleFEStateChanged(bool isdown)
 {
-    TextButtonTab *btn = m_scihiswidget->isHidden() ? static_cast<TextButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_FE))
-                         : static_cast<TextButtonTab *>(m_scikeypadwidget->button(ScientificKeyPadTab::Key_FE));
+//    TextButtonTab *btn = m_scihiswidget->isHidden() ? static_cast<TextButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_FE))
+//                         : static_cast<TextButtonTab *>(m_scikeypadwidget->button(ScientificKeyPadTab::Key_FE));
     if (isdown) {
         m_FEisdown = true;
     } else {
         m_FEisdown = false;
     }
-    btn->setButtonDown(m_FEisdown);
+    static_cast<TextButtonTab *>(m_memhiskeypad->button(MemHisKeypadTab::Key_FE))->setButtonDown(m_FEisdown);
+    static_cast<TextButtonTab *>(m_scikeypadwidget->button(ScientificKeyPadTab::Key_FE))->setButtonDown(m_FEisdown);
 }
 
 /**
