@@ -44,7 +44,7 @@ const int ITEM_WIDTH = 456;
 const int STANDARD_FORMAT_PREC = 15; //标准模式科学计数位数
 const int SCIENTIFIC_FORMAT_PREC = 31; //科学模式科学计数位数
 const int MAXSIZE = 500; //内存保存最大数
-const int NOMEMORYHEIGHT = 970; //无内存时item高度
+const int NOMEMORYHEIGHT = 870; //无内存时item高度
 
 MemoryWidgetTab::MemoryWidgetTab(int mode, QWidget *parent)
     : QWidget(parent)
@@ -93,7 +93,7 @@ MemoryWidgetTab::MemoryWidgetTab(int mode, QWidget *parent)
     m_label->setFixedSize(QSize(m_itemwidth, NOMEMORYHEIGHT));
     m_label->setAttribute(Qt::WA_TranslucentBackground); //label窗体透明
     QFont font;
-    font.setPixelSize(16);
+    font.setPixelSize(28);
     m_label->setFont(font);
     m_label->setAttribute(Qt::WA_TransparentForMouseEvents, true); //label鼠标穿透
 
@@ -352,7 +352,7 @@ void MemoryWidgetTab::resetWidgetSize(QSize size)
     } else {
         this->setFixedWidth(QApplication::desktop()->screenGeometry().width());
         m_itemwidth = QApplication::desktop()->screenGeometry().width();
-        m_label->setFixedSize(QSize(m_itemwidth, 800));
+        m_label->setFixedSize(QSize(m_itemwidth, 700));
         if (!m_memorypublic->isEmpty()) {
             for (int i = 0; i < m_listwidget->count(); i++) {
                 setitemwordwrap(static_cast<MemoryItemWidgetTab *>(m_listwidget->itemWidget(m_listwidget->item(i)))->textLabel(), i);

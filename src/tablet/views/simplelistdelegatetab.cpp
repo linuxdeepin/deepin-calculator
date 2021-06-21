@@ -36,8 +36,8 @@
 DWIDGET_USE_NAMESPACE
 
 const int PADDING = 30; //历史记录区边距
-const int NOHISTORYHEIGHT = 970; // 无历史记录rect高度
-const int NOHISTORYHEIGHTVER = 800; // 无历史记录rect高度
+const int NOHISTORYHEIGHT = 870; // 无历史记录rect高度
+const int NOHISTORYHEIGHTVER = 700; // 无历史记录rect高度
 const int HISWIDTH = 456; //历史记录宽度
 
 SimpleListDelegateTab::SimpleListDelegateTab(int mode, QObject *parent)
@@ -325,7 +325,7 @@ void SimpleListDelegateTab::paint(QPainter *painter, const QStyleOptionViewItem 
         // check result text is error.
         painter->setPen(QColor(fontColor));
         if (splitList.size() == 1) {
-            font.setPixelSize(16);
+            font.setPixelSize(28);
             painter->setFont(font);
             painter->setPen(QColor(nohistory));
             painter->drawText(

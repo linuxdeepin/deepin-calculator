@@ -34,7 +34,7 @@
 #include "math/quantity.h"
 
 const int WIDGET_WIDTH = 456; //历史记录侧宽度
-const int BUTTONBOX_WIDTH = 96; //buttonbox宽度
+const int BUTTONBOX_WIDTH = 126; //buttonbox宽度
 const int BUTTONBOXVER_WIDTH = 106; //竖屏
 const int BUTTONBOX_HEIGHT = 30; //buttonbox高度
 const int BUTTONBOXVER_HEIGHT = 50; //buttonbox高度
