@@ -1856,7 +1856,7 @@ InputEdit *ExpressionBarTab::getInputEdit()
 void ExpressionBarTab::resetWidgetSize(QSize size)
 {
     if (size.width() < size.height()) {
-        m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT * size.height() / 1880);
+        m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT * size.height() / 1040);
         m_listView->setFixedHeight(204 * size.height() / 1880);
         setFixedHeight(WIDGETVER_FIXHEIGHT * size.height() / 1880);
     } else {
