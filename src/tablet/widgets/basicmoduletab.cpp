@@ -162,9 +162,7 @@ BasicModuleTab::BasicModuleTab(QWidget *parent)
         m_expressionBar->getInputEdit()->setFocus();
         //点击item清除键状态改变
         this->handleClearStateChanged(false);
-        m_keypadLayout->setCurrentIndex(0);
-        MemoryButtonTab *btn = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
-        btn->setbtnlight(false);
+        this->closeListWidget();
         m_memRCbtn = true;
         m_memCalbtn = true;
     });
@@ -194,8 +192,8 @@ void BasicModuleTab::initTheme(int type)
  */
 void BasicModuleTab::handleEditKeyPress(QKeyEvent *e)
 {
-    if (m_keypadLayout->currentIndex() == 1)
-        return;
+//    if (m_keypadLayout->currentIndex() == 1)
+//        return;
     const bool isPressCtrl = e->modifiers() == Qt::ControlModifier;
     const QString keyText = e->text();
 
@@ -460,9 +458,7 @@ void BasicModuleTab::handleKeypadButtonPress(int key)
     case MemoryKeypadTab::Key_MC:
         m_memoryPublic->memoryclean();
         if (m_keypadLayout->currentIndex() == 1) {
-            m_keypadLayout->setCurrentIndex(0);
-            MemoryButtonTab *btn5 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
-            btn5->setbtnlight(false);
+            closeListWidget();
         }
         break;
     case MemoryKeypadTab::Key_Mlist:
@@ -598,9 +594,7 @@ void BasicModuleTab::handleKeypadButtonPressByspace(int key)
         m_memoryKeypad->animate(MemoryKeypadTab::Key_MC, true);
         m_memoryPublic->memoryclean();
         if (m_keypadLayout->currentIndex() == 1) {
-            m_keypadLayout->setCurrentIndex(0);
-            MemoryButtonTab *btn5 = static_cast<MemoryButtonTab *>(m_memoryKeypad->button(MemoryKeypadTab::Key_Mlist));
-            btn5->setbtnlight(false);
+            closeListWidget();
         }
         break;
     case MemoryKeypadTab::Key_Mlist:
