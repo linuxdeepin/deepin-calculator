@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
         DGuiApplicationHelper::instance()->setThemeType(oldpalette);
     }
     // Register debus service.
-    dbus.registerObject("/com/deepin/calculator", &windowtab, QDBusConnection::ExportScriptableSlots);
+    dbus.registerObject("/com/deepin/calculator", &windowtab, QDBusConnection::ExportScriptableSignals | QDBusConnection::ExportScriptableSlots);
     windowtab.showMaximized();
 
 //    PerformanceMonitor::initializAppFinish();

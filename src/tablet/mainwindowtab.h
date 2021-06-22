@@ -37,13 +37,17 @@ DWIDGET_USE_NAMESPACE
 class MainWindowTab : public DMainWindow
 {
     Q_OBJECT
-
+    Q_CLASSINFO("D-Bus Interface", "com.deepin.calculator")
 public:
     MainWindowTab(QWidget *parent = nullptr);
     ~MainWindowTab();
 
 public slots:
+    void focusChanged(QWidget *before, QWidget *now);
     //void onViewShortcut();
+
+signals:
+    Q_SCRIPTABLE void focusInCalculator(bool hasfocus);
 protected:
     //void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *event);

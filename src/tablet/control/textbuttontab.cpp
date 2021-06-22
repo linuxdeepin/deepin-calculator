@@ -19,8 +19,6 @@
 
 #include "textbuttontab.h"
 
-#include <QApplication>
-#include <QDesktopWidget>
 #include "performancemonitor.h"
 
 const qreal BLURRADIUS = 12; //阴影模糊半径
@@ -396,7 +394,6 @@ void TextButtonTab::keyPressEvent(QKeyEvent *e)
 void TextButtonTab::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect)
 {
     painter.save();
-//    bool isVer = QApplication::desktop()->availableGeometry();
     int powersize = 10; //次方字体大小
     int trisize = 16; //三角函数字体大小
     int vpadding = 0; //纵向微调距

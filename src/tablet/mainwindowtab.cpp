@@ -88,12 +88,22 @@ MainWindowTab::MainWindowTab(QWidget *parent)
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &MainWindowTab::initTheme);
     connect(simplebtn, &QAbstractButton::clicked, this, &MainWindowTab::switchToSimpleMode);
     connect(scientificbtn, &QAbstractButton::clicked, this, &MainWindowTab::switchToScientificMode);
+    connect(qApp, &QApplication::focusChanged, this, &MainWindowTab::focusChanged);
 }
 
 MainWindowTab::~MainWindowTab()
 {
 //    PerformanceMonitor::closeAPPFinish();
 }
+
+void MainWindowTab::focusChanged(QWidget *before, QWidget *now)
+{
+    if (!before && now)
+        Q_EMIT focusInCalculator(true);
+    else if (before && !now)
+        Q_EMIT focusInCalculator(false);
+}
+
 
 void MainWindowTab::initTheme()
 {
