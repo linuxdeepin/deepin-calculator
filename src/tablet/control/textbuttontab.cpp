@@ -19,6 +19,8 @@
 
 #include "textbuttontab.h"
 
+#include <QApplication>
+#include <QDesktopWidget>
 #include "performancemonitor.h"
 
 const qreal BLURRADIUS = 12; //阴影模糊半径
@@ -394,6 +396,7 @@ void TextButtonTab::keyPressEvent(QKeyEvent *e)
 void TextButtonTab::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textRect)
 {
     painter.save();
+//    bool isVer = QApplication::desktop()->availableGeometry();
     int powersize = 10; //次方字体大小
     int trisize = 16; //三角函数字体大小
     int vpadding = 0; //纵向微调距
@@ -415,7 +418,7 @@ void TextButtonTab::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textR
             a.setPointSize(11);
             vpadding = -1;
         }
-        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2, int(rect.height() / 4 - vpadding),
+        QRectF textRect2 = painter.fontMetrics().boundingRect(int(rect.width()) / 2 + 2, int(rect.height() / 4 - vpadding),
                                                               int(rect.width()) / 2, int(rect.height() / 2),
                                                               Qt::AlignLeft, "nd");
         a.setFamily("Noto Sans");
@@ -495,7 +498,7 @@ void TextButtonTab::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textR
             vpadding = -4;
         }
         QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
-                                                              Qt::AlignCenter, "sinˣ");
+                                                              Qt::AlignCenter, "sinˣˣ");
         m_font.setPointSize(trisize);
         painter.setFont(m_font);
         painter.drawText(textRect1, "sin");
@@ -513,7 +516,7 @@ void TextButtonTab::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textR
             vpadding = -4;
         }
         QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
-                                                              Qt::AlignCenter, "cosˣ");
+                                                              Qt::AlignCenter, "cosˣˣ");
         m_font.setPointSize(trisize);
         painter.setFont(m_font);
         painter.drawText(textRect1, "cos");
@@ -531,7 +534,7 @@ void TextButtonTab::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textR
             vpadding = -4;
         }
         QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
-                                                              Qt::AlignCenter, "tanˣ");
+                                                              Qt::AlignCenter, "tanˣˣ");
         m_font.setPointSize(trisize);
         painter.setFont(m_font);
         painter.drawText(textRect1, "tan");
@@ -549,7 +552,7 @@ void TextButtonTab::paintspecialbtn(QPainter &painter, QRectF rect, QRectF textR
             vpadding = -4;
         }
         QRectF textRect1 = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
-                                                              Qt::AlignCenter, "cotˣ");
+                                                              Qt::AlignCenter, "cotˣˣ");
         m_font.setPointSize(trisize);
         painter.setFont(m_font);
         painter.drawText(textRect1, "cot");

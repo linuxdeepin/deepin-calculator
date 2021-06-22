@@ -93,7 +93,7 @@ MemoryWidgetTab::MemoryWidgetTab(int mode, QWidget *parent)
     m_label->setFixedSize(QSize(m_itemwidth, NOMEMORYHEIGHT));
     m_label->setAttribute(Qt::WA_TranslucentBackground); //label窗体透明
     QFont font;
-    font.setPixelSize(28);
+    font.setPixelSize(24);
     m_label->setFont(font);
     m_label->setAttribute(Qt::WA_TransparentForMouseEvents, true); //label鼠标穿透
 

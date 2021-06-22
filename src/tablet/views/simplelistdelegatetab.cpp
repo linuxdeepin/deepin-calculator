@@ -325,7 +325,7 @@ void SimpleListDelegateTab::paint(QPainter *painter, const QStyleOptionViewItem 
         // check result text is error.
         painter->setPen(QColor(fontColor));
         if (splitList.size() == 1) {
-            font.setPixelSize(28);
+            font.setPixelSize(24);
             painter->setFont(font);
             painter->setPen(QColor(nohistory));
             painter->drawText(
