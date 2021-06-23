@@ -243,6 +243,9 @@ void ProExpressionBar::enterSymbolEvent(const QString &text)
     }
     m_isContinue = true;
     expressionCheck();
+    if (!m_inputEdit->text().isEmpty()) {
+        emit clearStateChanged(false);
+    }
     addUndo();
 }
 
@@ -459,6 +462,7 @@ void ProExpressionBar::enterNotEvent()
 {
     if (!judgeinput())
         return;
+    emit clearStateChanged(false);
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("not(0)");
         m_isResult = false;
@@ -577,6 +581,7 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
 {
     if (!judgeinput())
         return;
+    emit clearStateChanged(false);
     QString zerotext = "0" + text;
     bool isreplace = false;
     int length = text.length();
@@ -659,6 +664,7 @@ void ProExpressionBar::enterOppositeEvent()
     if (m_inputEdit->text().isEmpty()) {
         return;
     }
+    emit clearStateChanged(false);
     m_isResult = false;
     m_isUndo = false;
     bool hasselect = (m_inputEdit->getSelection().selected != "");
@@ -798,6 +804,7 @@ void ProExpressionBar::enterLeftBracketsEvent()
         return;
     if (m_inputEdit->text().count("(") >= 100)
         return;
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -827,6 +834,7 @@ void ProExpressionBar::enterRightBracketsEvent()
         return;
     if (m_inputEdit->text().count(")") >= 100)
         return;
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();

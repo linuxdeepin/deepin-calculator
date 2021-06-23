@@ -205,6 +205,9 @@ void SciExpressionBar::enterSymbolEvent(const QString &text)
     }
     m_isContinue = true;
     expressionCheck();
+    if (!m_inputEdit->text().isEmpty()) {
+        emit clearStateChanged(false);
+    }
     addUndo();
 }
 
@@ -288,6 +291,7 @@ void SciExpressionBar::enterPointEvent()
         m_inputEdit->setText(exp);
     m_isUndo = false;
     m_isResult = false;
+    emit clearStateChanged(false);
     addUndo();
 }
 
@@ -590,6 +594,8 @@ void SciExpressionBar::enterRandEvent()
     str = "0." + str;
     m_isResult = false;
     m_inputEdit->setText(str);
+    if (!m_inputEdit->text().isEmpty())
+        emit clearStateChanged(false);
     addUndo();
 }
 
@@ -600,6 +606,7 @@ void SciExpressionBar::enterOperatorEvent(const QString &text)
     QString zerotext = "0" + text;
     QString brackettext = "(0" + text;
     int length = text.length();
+    emit clearStateChanged(false);
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText(zerotext);
         m_isResult = false;
@@ -685,6 +692,7 @@ void SciExpressionBar::enterFunctionEvent(const QString &text)
     } else {
         m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
+    emit clearStateChanged(false);
 }
 
 void SciExpressionBar::enterConstantEvent(const QString &text)
@@ -722,6 +730,7 @@ void SciExpressionBar::enterConstantEvent(const QString &text)
             m_inputEdit->setCursorPosition(curpos + length + multi);
         }
     }
+    emit clearStateChanged(false);
 }
 
 void SciExpressionBar::enterBracketEvent(const int &type)
@@ -759,6 +768,7 @@ void SciExpressionBar::enterBracketEvent(const int &type)
             m_inputEdit->setCursorPosition(curpos + 1);
         }
     }
+    emit clearStateChanged(false);
 }
 
 void SciExpressionBar::enterSpecialFuncEvent(const QString &text)
@@ -771,10 +781,12 @@ void SciExpressionBar::enterSpecialFuncEvent(const QString &text)
             m_isResult = false;
             m_isUndo = false;
             addUndo();
+            emit clearStateChanged(false);
             return;
         }
         return;
     }
+    emit clearStateChanged(false);
     QString exptext = m_inputEdit->text();//表达式
     // 20200316百分号选中部分格式替代
     replaceSelection(m_inputEdit->text());
