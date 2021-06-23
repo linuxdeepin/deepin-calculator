@@ -228,6 +228,9 @@ void ExpressionBarTab::enterSymbolEvent(const QString &text)
     }
     m_isContinue = true;
     expressionCheck();
+    if (!m_inputEdit->text().isEmpty()) {
+        emit clearStateChanged(false);
+    }
     addUndo();
 }
 
@@ -606,6 +609,7 @@ void ExpressionBarTab::enterPointEvent()
         m_inputEdit->setText(exp);
     m_isUndo = false;
     m_isResult = false;
+    emit clearStateChanged(false);
     addUndo();
 }
 
@@ -968,6 +972,7 @@ void ExpressionBarTab::enterBracketsEvent()
         m_inputEdit->setText(formatexp);
     m_isUndo = false;
     addUndo();
+    emit clearStateChanged(false);
 }
 
 /**
@@ -1026,6 +1031,7 @@ void ExpressionBarTab::enterLeftBracketsEvent()
     }
     if (formatexp == exp)
         m_inputEdit->setText(formatexp);
+    emit clearStateChanged(false);
 }
 
 void ExpressionBarTab::enterRightBracketsEvent()
@@ -1080,6 +1086,7 @@ void ExpressionBarTab::enterRightBracketsEvent()
     }
     if (formatexp == exp)
         m_inputEdit->setText(formatexp);
+    emit clearStateChanged(false);
 }
 
 /**

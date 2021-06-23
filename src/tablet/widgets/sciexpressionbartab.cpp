@@ -216,6 +216,9 @@ void SciExpressionBarTab::enterSymbolEvent(const QString &text)
     }
     m_isContinue = true;
     expressionCheck();
+    if (!m_inputEdit->text().isEmpty()) {
+        emit clearStateChanged(false);
+    }
     addUndo();
 }
 
@@ -297,6 +300,7 @@ void SciExpressionBarTab::enterPointEvent()
         m_inputEdit->setText(exp);
     m_isUndo = false;
     m_isResult = false;
+    emit clearStateChanged(false);
     addUndo();
 }
 
@@ -577,6 +581,7 @@ void SciExpressionBarTab::enterLeftBracketsEvent()
             m_inputEdit->setCursorPosition(curpos + 1);
         }
     }
+    emit clearStateChanged(false);
 }
 
 void SciExpressionBarTab::enterRightBracketsEvent()
@@ -601,6 +606,7 @@ void SciExpressionBarTab::enterRightBracketsEvent()
             m_inputEdit->setCursorPosition(curpos + 1);
         }
     }
+    emit clearStateChanged(false);
 }
 
 /**
@@ -645,6 +651,7 @@ void SciExpressionBarTab::enterSinEvent()
     } else {
         m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
+    emit clearStateChanged(false);
 }
 
 /**
@@ -705,6 +712,7 @@ void SciExpressionBarTab::enterPIEvent()
             m_inputEdit->setCursorPosition(curpos + 1 + multi);
         }
     }
+    emit clearStateChanged(false);
 }
 
 /**
@@ -746,6 +754,7 @@ void SciExpressionBarTab::enterEulerEvent()
             m_inputEdit->setCursorPosition(curpos + 1 + multi);
         }
     }
+    emit clearStateChanged(false);
 }
 
 /**
@@ -754,6 +763,7 @@ void SciExpressionBarTab::enterEulerEvent()
  */
 void SciExpressionBarTab::enterModEvent()
 {
+    emit clearStateChanged(false);
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("0mod");
         m_isResult = false;
@@ -812,6 +822,7 @@ void SciExpressionBarTab::enterModEvent()
  */
 void SciExpressionBarTab::enterx2Event()
 {
+    emit clearStateChanged(false);
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("0^2");
         m_isResult = false;
@@ -989,6 +1000,7 @@ void SciExpressionBarTab::enterDerivativeEvent()
     m_isResult = false;
     m_isUndo = false;
     addUndo();
+    emit clearStateChanged(false);
 }
 
 /**
@@ -996,6 +1008,7 @@ void SciExpressionBarTab::enterDerivativeEvent()
  */
 void SciExpressionBarTab::enterFactorialsEvent()
 {
+    emit clearStateChanged(false);
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("0!");
         m_isResult = false;
@@ -1045,6 +1058,7 @@ void SciExpressionBarTab::enterFactorialsEvent()
  */
 void SciExpressionBarTab::enterExpEvent()
 {
+    emit clearStateChanged(false);
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("0.E＋");
         m_isResult = false;
@@ -1099,6 +1113,7 @@ void SciExpressionBarTab::enterExpEvent()
 
 void SciExpressionBarTab::enterCosEvent()
 {
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -1129,6 +1144,7 @@ void SciExpressionBarTab::enterCosEvent()
  */
 void SciExpressionBarTab::enterx3Event()
 {
+    emit clearStateChanged(false);
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("0^3");
         m_isResult = false;
@@ -1188,6 +1204,7 @@ void SciExpressionBarTab::enterx3Event()
 
 void SciExpressionBarTab::enterTanEvent()
 {
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -1218,6 +1235,7 @@ void SciExpressionBarTab::enterTanEvent()
  */
 void SciExpressionBarTab::enterxyEvent()
 {
+    emit clearStateChanged(false);
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->insert("0^");
         m_isResult = false;
@@ -1273,6 +1291,7 @@ void SciExpressionBarTab::enterxyEvent()
 
 void SciExpressionBarTab::enterCotEvent()
 {
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -1303,6 +1322,7 @@ void SciExpressionBarTab::enterCotEvent()
  */
 void SciExpressionBarTab::enter10xEvent()
 {
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -1348,6 +1368,7 @@ void SciExpressionBarTab::enter10xEvent()
  */
 void SciExpressionBarTab::enterModulusEvent()
 {
+    emit clearStateChanged(false);
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("abs(0)");
         m_isResult = false;
@@ -1464,6 +1485,7 @@ void SciExpressionBarTab::enterModulusEvent()
  */
 void SciExpressionBarTab::enterLogEvent()
 {
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -1490,6 +1512,7 @@ void SciExpressionBarTab::enterLogEvent()
 
 void SciExpressionBarTab::enterRandEvent()
 {
+    emit clearStateChanged(false);
     m_inputEdit->clear();
     m_isResult = false;
     m_isUndo = false;
@@ -1510,6 +1533,7 @@ void SciExpressionBarTab::enterRandEvent()
  */
 void SciExpressionBarTab::enterLnEvent()
 {
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -1536,6 +1560,7 @@ void SciExpressionBarTab::enterLnEvent()
 
 void SciExpressionBarTab::enterArcsinEvent()
 {
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -1566,6 +1591,7 @@ void SciExpressionBarTab::enterArcsinEvent()
  */
 void SciExpressionBarTab::enterSqrtEvent()
 {
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -1592,6 +1618,7 @@ void SciExpressionBarTab::enterSqrtEvent()
 
 void SciExpressionBarTab::enterArccosEvent()
 {
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -1622,6 +1649,7 @@ void SciExpressionBarTab::enterArccosEvent()
  */
 void SciExpressionBarTab::enterCbrtEvent()
 {
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -1648,6 +1676,7 @@ void SciExpressionBarTab::enterCbrtEvent()
 
 void SciExpressionBarTab::enterArctanEvent()
 {
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -1678,6 +1707,7 @@ void SciExpressionBarTab::enterArctanEvent()
  */
 void SciExpressionBarTab::enterYrootEvent()
 {
+    emit clearStateChanged(false);
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("0yroot");
         m_isResult = false;
@@ -1732,6 +1762,7 @@ void SciExpressionBarTab::enterYrootEvent()
 
 void SciExpressionBarTab::enterArccotEvent()
 {
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -1762,6 +1793,7 @@ void SciExpressionBarTab::enterArccotEvent()
  */
 void SciExpressionBarTab::enter2xEvent()
 {
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -1808,6 +1840,7 @@ void SciExpressionBarTab::enter2xEvent()
  */
 void SciExpressionBarTab::enterlogyxEvent()
 {
+    emit clearStateChanged(false);
     if (m_inputEdit->text().isEmpty()) {
         m_inputEdit->setText("0log");
         m_isResult = false;
@@ -1866,6 +1899,7 @@ void SciExpressionBarTab::enterlogyxEvent()
  */
 void SciExpressionBarTab::enterexEvent()
 {
+    emit clearStateChanged(false);
     m_isResult = false;
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
@@ -1907,6 +1941,7 @@ void SciExpressionBarTab::enterOppositeEvent()
     if (m_inputEdit->text().isEmpty()) {
         return;
     }
+    emit clearStateChanged(false);
     m_isResult = false;
     m_isUndo = false;
     bool hasselect = (m_inputEdit->getSelection().selected != "");
