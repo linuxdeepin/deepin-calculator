@@ -472,7 +472,8 @@ void IconButtonTab::drawCenterPixMap(QPainter &painter)
     SetAttrRecur(doc.documentElement(), "g", "fill", Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name());
     QRectF frameRect = this->rect();
     QRectF rect(frameRect.left(), frameRect.top(), frameRect.width(), frameRect.height());
-    QRectF pixRect = m_pixmap.rect();
+    QRectF pixRect(m_pixmap.rect().x() - 5, m_pixmap.rect().y() - 5, m_pixmap.rect().width() + 10, m_pixmap.rect().height() + 10);
+//    QRectF pixRect = m_pixmap.rect();
     pixRect.moveCenter(rect.center()); //将图片移至button中间
 //    m_iconRenderer = new DSvgRenderer(doc.toByteArray(), this);
     m_iconRenderer->load(doc.toByteArray());
