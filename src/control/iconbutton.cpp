@@ -96,6 +96,8 @@ void IconButton::animate(bool isspace, int msec)
             m_mode = 4;
         if (m_mode == 5)
             m_mode = 6;
+        if (m_mode == 7)
+            m_mode = 8;
 
         QTimer::singleShot(msec, this, [ = ] {
             if (!isspace)
@@ -108,6 +110,8 @@ void IconButton::animate(bool isspace, int msec)
                 m_mode = 3;
             if (m_mode == 6)
                 m_mode = 5;
+            if (m_mode == 8)
+                m_mode = 7;
             m_isPress = false;
             update();
         });
@@ -149,6 +153,8 @@ void IconButton::setBtnPressing(bool press)
 {
     if (press) {
         m_currentUrl = m_pressUrl;
+        if (m_mode == 7)
+            m_mode = 8;
         if (m_mode == 5)
             m_mode = 6;
         if (m_mode == 3)
@@ -159,6 +165,8 @@ void IconButton::setBtnPressing(bool press)
         m_isPressing = true;
     } else {
         m_currentUrl = m_normalUrl;
+        if (m_mode == 8)
+            m_mode = 7;
         if (m_mode == 6)
             m_mode = 5;
         if (m_mode == 4)
@@ -194,6 +202,8 @@ void IconButton::mousePressEvent(QMouseEvent *e)
         m_mode = 4;
     if (m_mode == 5)
         m_mode = 6;
+    if (m_mode == 7)
+        m_mode = 8;
     m_isPress = true;
     m_isHover = false; //20200722删除foucus状态
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
@@ -216,6 +226,8 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
         m_mode = 3;
     if (m_mode == 6)
         m_mode = 5;
+    if (m_mode == 8)
+        m_mode = 7;
     if (m_isPress == true && this->rect().contains(e->pos())) {
         m_currentUrl = m_hoverUrl;
         m_buttonStatus = 1;
@@ -422,7 +434,7 @@ void IconButton::keyPressEvent(QKeyEvent *e)
  */
 void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval)
 {
-    if ((m_mode != 1 && m_mode != 3 && m_mode != 5) || m_highlight) {
+    if ((m_mode != 1 && m_mode != 3 && m_mode != 5 && m_mode != 7) || m_highlight) {
         if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
             elem.setAttribute(strattr, strattrval);
             if (m_buttonStatus == 0)
@@ -451,6 +463,16 @@ void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString stra
         }
         if (m_mode == 6) {
             if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
+                elem.setAttribute(strattr, strattrval);
+            }
+        }
+        if (m_mode == 8) {
+            strattr = "fill";
+            if (elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
+                elem.setAttribute(strattr, strattrval);
+            }
+            strattr = "stroke";
+            if (elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
                 elem.setAttribute(strattr, strattrval);
             }
         }
