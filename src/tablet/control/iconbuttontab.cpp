@@ -92,6 +92,8 @@ void IconButtonTab::animate(bool isspace, int msec)
             m_mode = 4;
         if (m_mode == 5)
             m_mode = 6;
+        if (m_mode == 7)
+            m_mode = 8;
 
         QTimer::singleShot(msec, this, [ = ] {
             if (!isspace)
@@ -104,6 +106,8 @@ void IconButtonTab::animate(bool isspace, int msec)
                 m_mode = 3;
             if (m_mode == 6)
                 m_mode = 5;
+            if (m_mode == 8)
+                m_mode = 7;
             m_isPress = false;
             update();
         });
@@ -135,6 +139,8 @@ void IconButtonTab::mousePressEvent(QMouseEvent *e)
         m_mode = 4;
     if (m_mode == 5)
         m_mode = 6;
+    if (m_mode == 7)
+        m_mode = 8;
     m_isPress = true;
     m_isHover = false; //20200722删除foucus状态
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
@@ -158,6 +164,8 @@ void IconButtonTab::mouseReleaseEvent(QMouseEvent *e)
         m_mode = 3;
     if (m_mode == 6)
         m_mode = 5;
+    if (m_mode == 8)
+        m_mode = 7;
     if (m_isPress == true && this->rect().contains(e->pos())) {
         m_currentUrl = m_hoverUrl;
         m_buttonStatus = 1;
@@ -393,7 +401,7 @@ void IconButtonTab::keyPressEvent(QKeyEvent *e)
  */
 void IconButtonTab::SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval)
 {
-    if (m_mode != 1 && m_mode != 3/* && !m_isHistorybtn*/ && m_mode != 5) {
+    if (m_mode != 1 && m_mode != 3/* && !m_isHistorybtn*/ && m_mode != 5 && m_mode != 7) {
         if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
             elem.setAttribute(strattr, strattrval);
             if (m_buttonStatus == 0)
@@ -422,6 +430,16 @@ void IconButtonTab::SetAttrRecur(QDomElement elem, QString strtagname, QString s
         }
         if (m_mode == 6) {
             if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
+                elem.setAttribute(strattr, strattrval);
+            }
+        }
+        if (m_mode == 8) {
+            strattr = "fill";
+            if (elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
+                elem.setAttribute(strattr, strattrval);
+            }
+            strattr = "stroke";
+            if (elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
                 elem.setAttribute(strattr, strattrval);
             }
         }

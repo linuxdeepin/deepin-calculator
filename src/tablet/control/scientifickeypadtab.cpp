@@ -438,7 +438,7 @@ void ScientificKeyPadTab::buttonThemeChanged(int type)
         btn->setIconUrl(path + "rad_normal.svg", path + "rad_hover.svg", path + "rad_press.svg", 5);
     } else if (m_deg == 2) {
         btn = static_cast<IconButtonTab *>(button(Key_deg));
-        btn->setIconUrl(path + "grad_normal.svg", path + "grad_hover.svg", path + "grad_press.svg", 5);
+        btn->setIconUrl(path + "grad_normal.svg", path + "grad_hover.svg", path + "grad_press.svg", 7);
     } else if (m_deg == 3) {
         btn = static_cast<IconButtonTab *>(button(Key_deg));
         btn->setIconUrl(path + "deg_normal.svg", path + "deg_hover.svg", path + "deg_press.svg", 5);
@@ -501,7 +501,7 @@ void ScientificKeyPadTab::getdeg(int deg)
     } else if (m_deg == 2) {
         btn = static_cast<IconButtonTab *>(button(Key_deg));
         QTimer::singleShot(100, this, [ = ] {
-            btn->setIconUrl(path + "grad_normal.svg", path + "grad_hover.svg", path + "grad_press.svg", 5);
+            btn->setIconUrl(path + "grad_normal.svg", path + "grad_hover.svg", path + "grad_press.svg", 7);
             btn->update();
         });
     } else if (m_deg == 3) {
