@@ -227,6 +227,7 @@ void MemoryButtonTab::paintEvent(QPaintEvent *e)
     painter.setFont(m_font);
     QRectF textRect = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                          Qt::AlignCenter, this->text());
+    QRectF textRectM = textRect.translated(5, 0);
     QRectF textRectMH = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                            Qt::AlignCenter, "M/H˄");
     QColor actcolor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color().name();//活动色
@@ -305,9 +306,11 @@ void MemoryButtonTab::paintEvent(QPaintEvent *e)
             painter.setPen(pen);
             painter.setBrush(Qt::NoBrush);
             painter.drawRoundedRect(normal, ROUND_XRADIUS, ROUND_YRADIUS); //focus边框
-            if (this->text() == "MH˅" || this->text() == "MH˄") {
+            if (this->text() == "MH˅" || this->text() == "MH˄")
                 this->paintTextNormal(painter, textRectMH);
-            } else
+            else if (this->text() == "M˅" || this->text() == "M˄")
+                painter.drawText(textRectM, this->text());
+            else
                 painter.drawText(textRect, this->text());
         } else {
             painter.setPen(Qt::NoPen);
@@ -327,9 +330,11 @@ void MemoryButtonTab::paintEvent(QPaintEvent *e)
             pen.setColor(text);
             painter.setPen(pen);
             painter.setFont(m_font);
-            if (this->text() == "MH˅" || this->text() == "MH˄") {
+            if (this->text() == "MH˅" || this->text() == "MH˄")
                 this->paintTextNormal(painter, textRectMH);
-            } else
+            else if (this->text() == "M˅" || this->text() == "M˄")
+                painter.drawText(textRectM, this->text());
+            else
                 painter.drawText(textRect, this->text());
             m_effect->setColor(focusShadow);
             this->setGraphicsEffect(m_effect);
@@ -345,9 +350,11 @@ void MemoryButtonTab::paintEvent(QPaintEvent *e)
             pen.setColor(text);
             painter.setPen(pen);
             painter.setFont(m_font);
-            if (this->text() == "MH˅" || this->text() == "MH˄") {
+            if (this->text() == "MH˅" || this->text() == "MH˄")
                 this->paintTextHover(painter, textRectMH);
-            } else
+            else if (this->text() == "M˅" || this->text() == "M˄")
+                painter.drawText(textRectM, this->text());
+            else
                 painter.drawText(textRect, this->text());
             m_effect->setColor(hoverShadow);
             this->setGraphicsEffect(m_effect);
@@ -358,9 +365,11 @@ void MemoryButtonTab::paintEvent(QPaintEvent *e)
             pen.setColor(pressText);
             painter.setPen(pen);
             painter.setFont(m_font);
-            if (this->text() == "MH˅" || this->text() == "MH˄") {
+            if (this->text() == "MH˅" || this->text() == "MH˄")
                 this->paintTextNormal(painter, textRectMH);
-            } else
+            else if (this->text() == "M˅" || this->text() == "M˄")
+                painter.drawText(textRectM, this->text());
+            else
                 painter.drawText(textRect, this->text());
         } else { //normal状态
             painter.setBrush(QBrush(base));
@@ -369,9 +378,11 @@ void MemoryButtonTab::paintEvent(QPaintEvent *e)
             pen.setColor(text);
             painter.setPen(pen);
             painter.setFont(m_font);
-            if (this->text() == "MH˅" || this->text() == "MH˄") {
+            if (this->text() == "MH˅" || this->text() == "MH˄")
                 this->paintTextNormal(painter, textRectMH);
-            } else
+            else if (this->text() == "M˅" || this->text() == "M˄")
+                painter.drawText(textRectM, this->text());
+            else
                 painter.drawText(textRect, this->text());
             m_effect->setColor(QColor(0, 0, 0, 0));
             this->setGraphicsEffect(m_effect);
