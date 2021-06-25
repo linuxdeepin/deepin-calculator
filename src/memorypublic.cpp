@@ -30,6 +30,7 @@ const int MAXSIZE = 500; //内存保存最大数
 static void s_deletemempub()
 {
     delete INSTANCE;
+    INSTANCE = nullptr;
 }
 
 /**

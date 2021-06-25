@@ -27,7 +27,6 @@
 #include "../control/scientifickeypad.h"
 #include "../control/memhiskeypad.h"
 #include "memhiswidget.h"
-#include "scihistorywidget.h"
 #include "sciexpressionbar.h"
 #include "../views/memorywidget.h"
 #include "../memorypublic.h"
