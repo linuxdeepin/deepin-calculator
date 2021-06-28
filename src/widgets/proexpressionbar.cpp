@@ -19,12 +19,12 @@
 
 #include "proexpressionbar.h"
 
+#include "../utils.h"
+#include "../../3rdparty/core/settings.h"
+
 #include <QVBoxLayout>
 #include <QDebug>
 #include <DGuiApplicationHelper>
-
-#include "../utils.h"
-#include "../../3rdparty/core/settings.h"
 
 const int LIST_HEIGHT = 35; //输入栏上方表达式的高度
 const int INPUTEDIT_HEIGHT = 55;

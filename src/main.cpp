@@ -17,6 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "mainwindow.h"
+#include "environments.h"
+#include "utils.h"
+
 #include <QDBusInterface>
 #include <QDate>
 #include <QDebug>
@@ -29,10 +33,6 @@
 #include <DLog>
 #include <DWidgetUtil>
 #include <DWindowManagerHelper>
-
-#include "mainwindow.h"
-#include "environments.h"
-#include "utils.h"
 
 DWIDGET_USE_NAMESPACE
 static QString g_appPath;  //全局路径
@@ -142,20 +142,6 @@ int main(int argc, char *argv[])
     if (oldversion == true) {
         DGuiApplicationHelper::instance()->setThemeType(oldpalette);
     }
-
-
-    // 应用已保存的主题设置
-//    DGuiApplicationHelper::ColorType t_type = DGuiApplicationHelper::instance()->themeType();
-//    saveThemeTypeSetting(t_type);
-    //监听当前应用主题切换事件
-//    QObject::connect(DGuiApplicationHelper::instance(),
-//                     &DGuiApplicationHelper::paletteTypeChanged,
-//    [](DGuiApplicationHelper::ColorType type) {
-//        qDebug() << type;
-//        // 保存程序的主题设置  type : 0,系统主题， 1,浅色主题， 2,深色主题
-//        saveThemeTypeSetting(type);
-//        DGuiApplicationHelper::instance()->setPaletteType(type);
-//    });
 
     // 20200330 主题记忆更改为规范代码
 //    DApplicationSettings savetheme(&app);

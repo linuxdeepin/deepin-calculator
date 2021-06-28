@@ -21,16 +21,16 @@
 
 #include "scientificmodule.h"
 
+#include "dthememanager.h"
+#include "../utils.h"
+#include "../../3rdparty/math/quantity.h"
+
 #include <QDebug>
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-
-#include "dthememanager.h"
-#include "../utils.h"
-#include "../../3rdparty/math/quantity.h"
 
 const int EXPRESSIONBAR_HEIGHT = 100;
 

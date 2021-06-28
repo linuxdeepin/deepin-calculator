@@ -22,11 +22,11 @@
 #ifndef MEMORYPUBLIC_H
 #define MEMORYPUBLIC_H
 
-#include <QObject>
-#include <QList>
-
 #include "../3rdparty/core/evaluator.h"
 #include "views/memorywidget.h"
+
+#include <QObject>
+#include <QList>
 
 /**
  * @brief 同步处理数字内存

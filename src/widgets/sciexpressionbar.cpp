@@ -21,15 +21,15 @@
 
 #include "sciexpressionbar.h"
 
+#include "../utils.h"
+#include "../globaldefine.h"
+#include "../../3rdparty/core/settings.h"
+
 #include <QApplication>
 #include <QClipboard>
 #include <QDebug>
 #include <QTimer>
 #include <DGuiApplicationHelper>
-
-#include "../utils.h"
-#include "../globaldefine.h"
-#include "../../3rdparty/core/settings.h"
 
 const int SCIPREC = 31; //科学计算器精度
 const int LIST_HEIGHT = 35; //输入栏上方表达式的高度

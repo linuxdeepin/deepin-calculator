@@ -18,12 +18,13 @@
 */
 
 #include "programmodule.h"
-#include <DIconButton>
-#include <DLabel>
-#include <DPushButton>
 
 #include "probitwidget.h"
 #include "../../3rdparty/core/settings.h"
+
+#include <DIconButton>
+#include <DLabel>
+#include <DPushButton>
 
 const int EXPRESSIONBAR_HEIGHT = 95;
 

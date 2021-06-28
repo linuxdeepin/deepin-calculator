@@ -21,12 +21,12 @@
 
 #include "memhiswidget.h"
 
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-
 #include "dthememanager.h"
 #include "../utils.h"
 #include "../../3rdparty/math/quantity.h"
+
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 MemHisWidget::MemHisWidget(QWidget *parent)
     : DWidget(parent)

@@ -18,9 +18,11 @@
 */
 
 #include "arrowrectangle.h"
+#include "../views/memorylistwidget.h"
+
 #include <QDebug>
 #include <DListWidget>
-#include "../views/memorylistwidget.h"
+
 
 //static int init = 0;
 

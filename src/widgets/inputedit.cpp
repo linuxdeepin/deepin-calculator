@@ -19,6 +19,10 @@
 
 #include "inputedit.h"
 
+#include "../../3rdparty/core/settings.h"
+#include "../../3rdparty/math/floatconfig.h"
+#include "../utils.h"
+
 #include <QApplication>
 #include <QClipboard>
 #include <QDebug>
@@ -26,10 +30,6 @@
 #include <QMouseEvent>
 #include <QStringList>
 #include <DMenu>
-
-#include "../../3rdparty/core/settings.h"
-#include "../../3rdparty/math/floatconfig.h"
-#include "../utils.h"
 
 const QString AtoF = "ABCDEF";
 
