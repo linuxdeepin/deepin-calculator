@@ -119,6 +119,10 @@ TEST_F(Ut_ProexpressionBar, enterBackspaceEvent)
     m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(2);
     m_proexpressionBar->enterBackspaceEvent();
     ASSERT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "0(0)");
+    m_proexpressionBar->findChild<InputEdit *>()->setText("1 and 2");
+    m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(6);
+    m_proexpressionBar->enterBackspaceEvent();
+    ASSERT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "1  2");
     DSettingsAlt::deleteInstance();
 }
 
@@ -163,6 +167,11 @@ TEST_F(Ut_ProexpressionBar, enterNotEvent)
     m_proexpressionBar->enterNotEvent();
     m_proexpressionBar->enterEqualEvent();
     ASSERT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "－6");
+    m_proexpressionBar->findChild<InputEdit *>()->setText("1 and (1 and 2)");
+    m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(15);
+    m_proexpressionBar->enterNotEvent();
+    m_proexpressionBar->enterEqualEvent();
+    ASSERT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "1");
     DSettingsAlt::deleteInstance();
 }
 
@@ -406,8 +415,20 @@ TEST_F(Ut_ProexpressionBar, replaceSelection)
 TEST_F(Ut_ProexpressionBar, isNumberOutOfRange)
 {
     ProExpressionBar *m_proexpressionBar = new ProExpressionBar();
+    Settings::instance()->programmerBase = 10;
     m_proexpressionBar->findChild<InputEdit *>()->setText("9,223,372,036,854,775,807");
     ASSERT_TRUE(m_proexpressionBar->isNumberOutOfRange("1"));
+    Settings::instance()->proBitLength = 32;
+    m_proexpressionBar->findChild<InputEdit *>()->setText("2147483647");
+    ASSERT_TRUE(m_proexpressionBar->isNumberOutOfRange("1"));
+    Settings::instance()->proBitLength = 16;
+    m_proexpressionBar->findChild<InputEdit *>()->setText("32767");
+    ASSERT_TRUE(m_proexpressionBar->isNumberOutOfRange("1"));
+    Settings::instance()->proBitLength = 8;
+    m_proexpressionBar->findChild<InputEdit *>()->setText("127");
+    ASSERT_TRUE(m_proexpressionBar->isNumberOutOfRange("1"));
+    Settings::instance()->proBitLength = 64;
+    Settings::instance()->programmerBase = 0;
     DSettingsAlt::deleteInstance();
 }
 
