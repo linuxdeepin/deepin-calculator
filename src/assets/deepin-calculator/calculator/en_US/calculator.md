@@ -103,7 +103,7 @@ Calculator supports keyboard operation and fault-tolerant computing of special s
   
 ### Scientific Notation
 
-  When the calculation result is more than 16 digits / 32 digits respectively, it will be displayed in scientific notation, that is, taking the first 16 digits / 32 digits multiplied by 10 to the power of plus or minus n.
+When the calculation result is more than 16 digits / 32 digits respectively, it will be displayed in scientific notation, that is, taking the first 16 digits / 32 digits multiplied by 10 to the power of plus or minus n.
 
   - When the calculation result is positive and greater than 16 digits / 32 digits, it is displayed in the following format: number + numbers of 15 digits / 31 digits after the decimal point+E+number.
 
@@ -114,7 +114,7 @@ Calculator supports keyboard operation and fault-tolerant computing of special s
 ### Digital Linkage
 
 - It is available to continue entering operator after an expression displays its numerical result. The first number in the expression now is the calculation result of the previous one.  Take the current expression 10 + 20 = 30 for example. The displayed result is 30.  Input + and number 9 and a new expression will be formed, 30 + 9. Press the **Enter** key and the calculation result of the new expression will be 39.
-- After the two expressions are linked, modify the numbers and operators of the previous expression. If the calculation result changes, it will affect the result of the new expression linked to it. For example, the two expressions 10 + 20 = 30 and 30 +9 = 39 are linked. If the operator +  in the first expression is changed to *, the expression will be 10 x 20 = 200. The second expression will be changed to 200 + 9 = 209 automatically. Up to 9 expression linkages are supported according to this rule.
+- After the two expressions are linked, modify the numbers and operators of the previous expression. If the calculation result changes, it will affect the result of the new expression linked to it. For example, the two expressions 10 + 20 = 30 and 30 + 9 = 39 are linked. If the operator +  in the first expression is changed to *, the expression will be 10 x 20 = 200. The second expression will be changed to 200 + 9 = 209 automatically. Up to 9 expression linkages are supported according to this rule.
 -  In the process of re-editing an expression containing linked numbers, if the expression of linked numbers or linked numbers are modified incorrectly, the linkage can be released. 
 
 >![notes](../common/notes.svg)Notes: This function is only supported under Standard Mode.
