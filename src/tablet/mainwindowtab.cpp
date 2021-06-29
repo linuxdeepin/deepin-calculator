@@ -88,22 +88,12 @@ MainWindowTab::MainWindowTab(QWidget *parent)
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &MainWindowTab::initTheme);
     connect(simplebtn, &QAbstractButton::clicked, this, &MainWindowTab::switchToSimpleMode);
     connect(scientificbtn, &QAbstractButton::clicked, this, &MainWindowTab::switchToScientificMode);
-    connect(qApp, &QApplication::focusChanged, this, &MainWindowTab::focusChanged);
 }
 
 MainWindowTab::~MainWindowTab()
 {
 //    PerformanceMonitor::closeAPPFinish();
 }
-
-void MainWindowTab::focusChanged(QWidget *before, QWidget *now)
-{
-    if (!before && now)
-        Q_EMIT focusInCalculator(true);
-    else if (before && !now)
-        Q_EMIT focusInCalculator(false);
-}
-
 
 void MainWindowTab::initTheme()
 {
@@ -261,5 +251,17 @@ void MainWindowTab::closeEvent(QCloseEvent *event)
 {
 //    PerformanceMonitor::closeAppStart();
     DMainWindow::closeEvent(event);
+}
+
+void MainWindowTab::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::ActivationChange) {
+        if (this->isActiveWindow()) {
+            Q_EMIT focusInCalculator(true);
+        } else {
+            Q_EMIT focusInCalculator(false);
+        }
+    }
+    DMainWindow::changeEvent(event);
 }
 

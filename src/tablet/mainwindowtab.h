@@ -43,7 +43,6 @@ public:
     ~MainWindowTab();
 
 public slots:
-    void focusChanged(QWidget *before, QWidget *now);
     //void onViewShortcut();
 
 signals:
@@ -54,6 +53,7 @@ protected:
     void moveEvent(QMoveEvent *event);
     void resizeEvent(QResizeEvent *event);
     void closeEvent(QCloseEvent *event);
+    void changeEvent(QEvent *event);
 
 private:
     void initTheme();

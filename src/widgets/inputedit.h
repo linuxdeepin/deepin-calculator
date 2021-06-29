@@ -104,7 +104,7 @@ private slots:
     void showTextEditMenu();
     void selectionChangedSlot();
     void showTextEditMenuByAltM();
-    void banVirtualKeyboard(bool b);
+//    void banVirtualKeyboard(bool b);
 
 private:
     Quantity m_ans;
@@ -133,7 +133,7 @@ private:
     QList<QString> m_funclist; //科学模式下函数名列表
     QString m_strans;
 
-    ComDeepinImInterface *api; //dbus接口，用于屏蔽虚拟键盘
+//    ComDeepinImInterface *api; //dbus接口，用于屏蔽虚拟键盘
 };
 
 #endif

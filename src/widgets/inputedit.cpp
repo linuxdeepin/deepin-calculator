@@ -70,7 +70,7 @@ InputEdit::InputEdit(QWidget *parent)
                   , "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π"
                  };
     QDBusConnection connection = QDBusConnection::sessionBus();
-    api = new ComDeepinImInterface("com.deepin.im", "/com/deepin/im", connection);
+//    api = new ComDeepinImInterface("com.deepin.im", "/com/deepin/im", connection);
 }
 
 InputEdit::~InputEdit() {}
@@ -795,12 +795,12 @@ void InputEdit::showTextEditMenuByAltM()
  * @brief InputEdit::banVirtualKeyboard
  * 用于屏蔽虚拟键盘的弹出
  */
-void InputEdit::banVirtualKeyboard(bool b)
-{
-    if (b) {
-        api->setImActive(false);
-    }
-}
+//void InputEdit::banVirtualKeyboard(bool b)
+//{
+//    if (b) {
+//        api->setImActive(false);
+//    }
+//}
 
 /**
  * @brief 选中改变的槽
@@ -902,12 +902,10 @@ void InputEdit::focusInEvent(QFocusEvent *event)
     if (event->reason() == Qt::TabFocusReason) {
         setCursorPosition(curtemp);
     }
-    connect(api, &ComDeepinImInterface::imActiveChanged, this, &InputEdit::banVirtualKeyboard, Qt::UniqueConnection);
 }
 
 void InputEdit::focusOutEvent(QFocusEvent *event)
 {
-    disconnect(api, &ComDeepinImInterface::imActiveChanged, this, &InputEdit::banVirtualKeyboard);
     QLineEdit::focusOutEvent(event);
 }
 
