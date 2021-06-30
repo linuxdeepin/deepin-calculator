@@ -230,7 +230,7 @@ void BasicKeypadTab::buttonThemeChanged(int type)
     btn = static_cast<IconButtonTab *>(button(Key_Plus));
     btn->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
     btn = static_cast<IconButtonTab *>(button(Key_Backspace));
-    btn->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg", 1);
+    btn->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg", 7);
 }
 
 /**

@@ -426,7 +426,7 @@ void ScientificKeyPadTab::buttonThemeChanged(int type)
     btn = static_cast<IconButtonTab *>(button(Key_Plus));
     btn->setIconUrl(path + "+_normal.svg", path + "+_hover.svg", path + "+_press.svg");
     btn = static_cast<IconButtonTab *>(button(Key_Backspace));
-    btn->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg", 1);
+    btn->setIconUrl(path + "clear_normal.svg", path + "clear_hover.svg", path + "clear_press.svg", 7);
     btn = static_cast<IconButtonTab *>(button(Key_sqrt2));
     btn->setIconUrl(path + "squareroot_normal.svg", path + "squareroot_hover.svg", path + "squareroot_press.svg", 3);
     btn = static_cast<IconButtonTab *>(button(Key_sqrt3));
