@@ -21,6 +21,7 @@ TEST_F(Ut_ProgramModule, Signals)
     m_programmodule->m_proExpressionBar->getInputEdit()->emptyExpression(false);
 
     m_programmodule->m_memorylistwidget->widgetplus(0);
+    m_programmodule->m_memorylistwidget->widgetminus(0);
     m_programmodule->m_memoryPublic->generateData(Quantity(1));
     m_programmodule->m_memoryPublic->memoryclean();
     m_programmodule->m_stackWidget->setCurrentIndex(2);
@@ -90,6 +91,8 @@ TEST_F(Ut_ProgramModule, showListWidget)
 TEST_F(Ut_ProgramModule, closeListWidget)
 {
     ProgramModule *m_programmodule = new ProgramModule;
+    m_programmodule->m_stackWidget->setCurrentIndex(2);
+    m_programmodule->m_insidewidget = false;
     m_programmodule->closeListWidget();
     ASSERT_EQ(m_programmodule->m_stackWidget->currentIndex(), 0);
 }
@@ -141,10 +144,11 @@ TEST_F(Ut_ProgramModule, handleEditKeyPress)
     QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Z, Qt::ControlModifier);
     QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Y, Qt::ControlModifier);
     QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Y, Qt::NoModifier);
-    m_programmodule->m_memCalbtn = true;
+    m_programmodule->m_avail = true;
     QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_L, Qt::ControlModifier);
     QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_L, Qt::ShiftModifier);
     QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_L, Qt::NoModifier);
+    m_programmodule->m_avail = true;
     QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_R, Qt::ControlModifier);
     QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_R, Qt::ShiftModifier);
     QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_R, Qt::NoModifier);
@@ -405,6 +409,26 @@ TEST_F(Ut_ProgramModule, moveL)
     m_programmodule->m_shiftArrowCurrentRow = 3;
     m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_moveL);
     ASSERT_EQ(m_programmodule->m_proExpressionBar->getInputEdit()->text(), "0rcl");
+    m_programmodule->m_proExpressionBar->enterClearEvent();
+    m_programmodule->m_shiftArrowCurrentRow = 0;
+    m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_moveL);
+    m_programmodule->m_shiftArrowCurrentRow = 1;
+    m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_moveL);
+    m_programmodule->m_shiftArrowCurrentRow = 2;
+    m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_moveL);
+    m_programmodule->m_shiftArrowCurrentRow = 3;
+    m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_moveL);
+    ASSERT_EQ(m_programmodule->m_proExpressionBar->getInputEdit()->text(), "0rcl");
+    m_programmodule->m_proExpressionBar->enterClearEvent();
+    m_programmodule->m_shiftArrowCurrentRow = 0;
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Less, Qt::NoModifier);
+    m_programmodule->m_shiftArrowCurrentRow = 1;
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Less, Qt::NoModifier);
+    m_programmodule->m_shiftArrowCurrentRow = 2;
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Less, Qt::NoModifier);
+    m_programmodule->m_shiftArrowCurrentRow = 3;
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Less, Qt::NoModifier);
+    ASSERT_EQ(m_programmodule->m_proExpressionBar->getInputEdit()->text(), "0rcl");
 }
 
 TEST_F(Ut_ProgramModule, moveR)
@@ -419,25 +443,57 @@ TEST_F(Ut_ProgramModule, moveR)
     m_programmodule->m_shiftArrowCurrentRow = 3;
     m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_moveR);
     ASSERT_EQ(m_programmodule->m_proExpressionBar->getInputEdit()->text(), "0rcr");
+    m_programmodule->m_proExpressionBar->enterClearEvent();
+    m_programmodule->m_shiftArrowCurrentRow = 0;
+    m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_moveR);
+    m_programmodule->m_shiftArrowCurrentRow = 1;
+    m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_moveR);
+    m_programmodule->m_shiftArrowCurrentRow = 2;
+    m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_moveR);
+    m_programmodule->m_shiftArrowCurrentRow = 3;
+    m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_moveR);
+    ASSERT_EQ(m_programmodule->m_proExpressionBar->getInputEdit()->text(), "0rcr");
+    m_programmodule->m_proExpressionBar->enterClearEvent();
+    m_programmodule->m_shiftArrowCurrentRow = 0;
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Greater, Qt::NoModifier);
+    m_programmodule->m_shiftArrowCurrentRow = 1;
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Greater, Qt::NoModifier);
+    m_programmodule->m_shiftArrowCurrentRow = 2;
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Greater, Qt::NoModifier);
+    m_programmodule->m_shiftArrowCurrentRow = 3;
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Greater, Qt::NoModifier);
+    ASSERT_EQ(m_programmodule->m_proExpressionBar->getInputEdit()->text(), "0rcr");
 }
 
 TEST_F(Ut_ProgramModule, shiftArrowListWidgetItemClicked)
 {
     ProgramModule *m_programmodule = new ProgramModule;
+    m_programmodule->shiftArrowListWidgetItemSpace();
+    m_programmodule->shiftArrowListWidgetItemClicked(3, false);
+    m_programmodule->m_proListView->testAttribute(Qt::WA_TransparentForMouseEvents);
+    m_programmodule->shiftArrowListWidgetItemClicked(0, false);
+    m_programmodule->m_proListView->testAttribute(Qt::WA_TransparentForMouseEvents);
+    m_programmodule->shiftArrowListWidgetItemClicked(1, false);
+    m_programmodule->m_proListView->testAttribute(Qt::WA_TransparentForMouseEvents);
     m_programmodule->shiftArrowListWidgetItemClicked(2, false);
     m_programmodule->m_proListView->testAttribute(Qt::WA_TransparentForMouseEvents);
     ASSERT_EQ(m_programmodule->m_shiftArrowCurrentRow, 2);
+    m_programmodule->shiftArrowListWidgetItemPressed(0);
+    ASSERT_EQ(m_programmodule->m_shiftArrowPressRow, 0);
 }
 
 TEST_F(Ut_ProgramModule, byteArrowListWidgetItemClicked)
 {
     ProgramModule *m_programmodule = new ProgramModule;
+    m_programmodule->byteArrowListWidgetItemSpace();
     m_programmodule->byteArrowListWidgetItemClicked(3, false);
     m_programmodule->byteArrowListWidgetItemClicked(0, false);
     m_programmodule->byteArrowListWidgetItemClicked(1, false);
     m_programmodule->byteArrowListWidgetItemClicked(2, false);
     m_programmodule->m_proListView->testAttribute(Qt::WA_TransparentForMouseEvents);
     ASSERT_EQ(Settings::instance()->proBitLength, 16);
+    m_programmodule->byteArrowListWidgetItemPressed(0);
+    ASSERT_EQ(m_programmodule->m_byteArrowPressRow, 0);
 }
 
 TEST_F(Ut_ProgramModule, handleClearStateChanged)
