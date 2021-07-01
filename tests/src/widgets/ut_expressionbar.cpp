@@ -72,6 +72,14 @@ TEST_F(Ut_ExpressionBar, enterBackspaceEvent)
     m_expressionBar->enterBackspaceEvent();
     m_expressionBar->enterBackspaceEvent();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "1");
+    m_expressionBar->findChild<InputEdit *>()->setText("111,111");
+    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(4);
+    m_expressionBar->enterBackspaceEvent();
+    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "11,111");
+    m_expressionBar->findChild<InputEdit *>()->setText("1,111");
+    m_expressionBar->findChild<InputEdit *>()->setCursorPosition(3);
+    m_expressionBar->enterBackspaceEvent();
+    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "111");
     DSettingsAlt::deleteInstance();
 }
 
@@ -108,6 +116,23 @@ TEST_F(Ut_ExpressionBar, enterEqualEvent)
     m_expressionBar->m_hisRevision = -1;
     m_expressionBar->m_isLinked = true;
     m_expressionBar->enterEqualEvent();
+
+    m_expressionBar->findChild<InputEdit *>()->setText("1＋");
+    m_expressionBar->m_hisLink.append(his);
+    m_expressionBar->m_hisRevision = 1;
+    m_expressionBar->enterEqualEvent();
+
+    m_expressionBar->findChild<InputEdit *>()->setText("1＋2");
+    m_expressionBar->m_hisRevision = -1;
+    m_expressionBar->m_isLinked = true;
+    m_expressionBar->enterEqualEvent();
+
+    m_expressionBar->findChild<InputEdit *>()->setText("1＋2");
+    m_expressionBar->m_hisRevision = 0;
+    m_expressionBar->m_isLinked = true;
+    m_expressionBar->m_Selected = 0;
+    m_expressionBar->enterEqualEvent();
+
     m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
     m_expressionBar->enterEqualEvent();
     ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "2");
@@ -222,6 +247,16 @@ TEST_F(Ut_ExpressionBar, shear)
     DSettingsAlt::deleteInstance();
 }
 
+TEST_F(Ut_ExpressionBar, deleteText)
+{
+    ExpressionBar *m_expressionBar = new ExpressionBar;
+    m_expressionBar->findChild<InputEdit *>()->setText("1＋2");
+    m_expressionBar->allElection();
+    m_expressionBar->deleteText();
+    ASSERT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "");
+    DSettingsAlt::deleteInstance();
+}
+
 TEST_F(Ut_ExpressionBar, clearLinkageCache)
 {
     ExpressionBar *m_expressionBar = new ExpressionBar;
@@ -241,6 +276,25 @@ TEST_F(Ut_ExpressionBar, clearLinkageCache)
     //    m_expressionBar->shear();
     ASSERT_EQ(m_expressionBar->m_hisLink.count(), 0);
     DSettingsAlt::deleteInstance();
+}
+
+TEST_F(Ut_ExpressionBar, settingLinkage)
+{
+    ExpressionBar *m_expressionBar = new ExpressionBar;
+    historicalLinkageIndex his;
+    his.linkageTerm = 0;
+    his.linkageValue = 3;
+    his.linkedItem = 1;
+    m_expressionBar->m_hisLink.append(his);
+    m_expressionBar->m_hisRevision = 0;
+    m_expressionBar->settingLinkage();
+    m_expressionBar->m_hisLink.clear();
+    his.linkageTerm = 1;
+    his.linkageValue = 3;
+    his.linkedItem = 0;
+    m_expressionBar->m_hisLink.append(his);
+    m_expressionBar->m_hisRevision = 0;
+    m_expressionBar->settingLinkage();
 }
 
 TEST_F(Ut_ExpressionBar, setResultFalse)

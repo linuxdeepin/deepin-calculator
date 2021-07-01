@@ -172,6 +172,9 @@ TEST_F(Ut_ProexpressionBar, enterNotEvent)
     m_proexpressionBar->enterNotEvent();
     m_proexpressionBar->enterEqualEvent();
     ASSERT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "1");
+    m_proexpressionBar->findChild<InputEdit *>()->setText("()");
+    m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(2);
+    m_proexpressionBar->enterNotEvent();
     DSettingsAlt::deleteInstance();
 }
 
@@ -208,6 +211,16 @@ TEST_F(Ut_ProexpressionBar, enterOppositeEvent)
     m_proexpressionBar->enterOppositeEvent();
     m_proexpressionBar->enterEqualEvent();
     ASSERT_TRUE(m_proexpressionBar->findChild<InputEdit *>()->text() == "－1");
+    Settings::instance()->programmerBase = 10;
+    m_proexpressionBar->findChild<InputEdit *>()->setText("1 and (1 and 2)");
+    m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(15);
+    m_proexpressionBar->enterOppositeEvent();
+    m_proexpressionBar->enterEqualEvent();
+    Settings::instance()->programmerBase = 16;
+    m_proexpressionBar->findChild<InputEdit *>()->setText("1");
+    m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(1);
+    m_proexpressionBar->enterOppositeEvent();
+    Settings::instance()->programmerBase = 0;
     DSettingsAlt::deleteInstance();
 }
 
@@ -329,6 +342,17 @@ TEST_F(Ut_ProexpressionBar, copyResultToClipboard)
     m_proexpressionBar->allElection();
     m_proexpressionBar->copyResultToClipboard();
     m_proexpressionBar->copyClipboard2Result();
+    Settings::instance()->programmerBase = 16;
+    m_proexpressionBar->copyClipboard2Result();
+    m_proexpressionBar->enterClearEvent();
+    Settings::instance()->programmerBase = 8;
+    m_proexpressionBar->copyClipboard2Result();
+    m_proexpressionBar->enterClearEvent();
+    Settings::instance()->programmerBase = 2;
+    m_proexpressionBar->copyClipboard2Result();
+    m_proexpressionBar->enterClearEvent();
+    Settings::instance()->programmerBase = 0;
+    m_proexpressionBar->copyClipboard2Result();
     ASSERT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "1＋2");
     DSettingsAlt::deleteInstance();
 }
@@ -446,6 +470,22 @@ TEST_F(Ut_ProexpressionBar, selectedPartDelete)
     rx.setPattern(sRegNum);
     m_proexpressionBar->selectedPartDelete(rx);
     ASSERT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "1,122");
+
+    m_proexpressionBar->findChild<InputEdit *>()->setText("1and2or3");
+    select1.curpos = 3;
+    select1.oldText = "1and2or3";
+    select1.selected = "d2o";
+    m_proexpressionBar->m_inputEdit->setSelection(select1);
+    m_proexpressionBar->selectedPartDelete(rx);
+    ASSERT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "13");
+
+    m_proexpressionBar->findChild<InputEdit *>()->setText("12or3");
+    select1.curpos = 3;
+    select1.oldText = "12or3";
+    select1.selected = "r3";
+    m_proexpressionBar->m_inputEdit->setSelection(select1);
+    m_proexpressionBar->selectedPartDelete(rx);
+    ASSERT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "12");
     DSettingsAlt::deleteInstance();
 }
 

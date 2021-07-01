@@ -8,6 +8,34 @@ Ut_BasicModul::Ut_BasicModul()
 
 }
 
+TEST_F(Ut_BasicModul, Signals)
+{
+    BasicModule *m_basicmodul = new BasicModule;
+
+    m_basicmodul->m_memorylistwidget->widgetplus(0);
+    m_basicmodul->m_memorylistwidget->widgetminus(0);
+    m_basicmodul->m_memoryPublic->generateData(Quantity(1));
+    m_basicmodul->m_memoryPublic->memoryclean();
+    m_basicmodul->m_keypadLayout->setCurrentIndex(1);
+    QPair<QString, Quantity> pair2 = {"1", Quantity(1)};
+    m_basicmodul->m_memorylistwidget->itemclick(pair2);
+    m_basicmodul->m_memorylistwidget->hideWidget();
+    m_basicmodul->m_memorylistwidget->insidewidget();
+    DSettingsAlt::deleteInstance();
+    MemoryPublic::deleteInstance();
+}
+
+TEST_F(Ut_BasicModul, Signals1)
+{
+    BasicModule *m_basicmodul = new BasicModule;
+    m_basicmodul->m_basicKeypad->moveLeft();
+    m_basicmodul->m_basicKeypad->moveRight();
+    m_basicmodul->m_memoryKeypad->moveLeft();
+    m_basicmodul->m_memoryKeypad->moveRight();
+    DSettingsAlt::deleteInstance();
+    MemoryPublic::deleteInstance();
+}
+
 TEST_F(Ut_BasicModul, setKeyPress)
 {
     BasicModule *m_basicmodul = new BasicModule;

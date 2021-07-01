@@ -96,7 +96,7 @@ Calculator supports keyboard operation and fault-tolerant computing of special s
 ### Expression
 
 
-- Click  =  in the current expression input area or press the **Enter** key on the keyboard to perform calculation and display the calculated result in the current input box. The expression becomes historical expression. There is no limit on the number of historical expressions.
+- Click  =  in the current expression input area or press the **Enter** key on the keyboard to perform calculation and display the calculated result in the current input box. The expression becomes historical expression. 
 - Reedit: Click a single expression to reedit. The expression is displayed in the expression input area. After editing, press the **Enter** key or = on the keyboard or click = in the expression input area to modify the result of historical expression and linkage expression.
 - Expression error: If the expression input is incorrect, it is unavailable to perform calculation and "Expression error" is displayed.
 
