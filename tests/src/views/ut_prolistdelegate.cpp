@@ -79,6 +79,7 @@ TEST_F(Ut_ProListDelegate, paintnofocus)
     Stub stub;
     stub.set(ADDR(ProListView, hasFocus), stub_focus_prolistdelegateF);
     QStyleOptionViewItem option;
+    option.init(m_prolistview1);
     Stub stub1;
     stub1.set(ADDR(ProListView, currentIndex), stub_index_prolistdelegate3);
     m_proListDelegate1->m_themeType = 0;
