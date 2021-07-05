@@ -236,7 +236,6 @@ void ProSystemKeypad::initconnects()
         connect(m_buttons.value(i), &BitButton::focus, this, [ = ](int direction) {
             getFocus(direction, i);
         }); //获取上下左右键
-        connect(m_buttons.value(i), &BitButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
         connect(m_buttons.value(i), &BitButton::space, this, [ = ]() {
             if (m_buttons.value(i)->text() == QString("0"))
                 m_buttons.value(i)->setButtonState(true);

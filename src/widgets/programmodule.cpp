@@ -426,7 +426,7 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
         path = QString(":/assets/images/%1/").arg("light");
     m_checkBtnKeypad->update();
     m_programmerKeypad->update();
-    if ((key > 35 && key < 38) || (key > 39 && key < 42))
+    if (key > 39 && key < 42)
         m_checkBtnKeypad->animate(ProCheckBtnKeypad::Buttons(key), true);
     else if (key <= 35)
         m_programmerKeypad->animate(ProgrammerKeypad::Buttons(key), true);

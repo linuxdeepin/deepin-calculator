@@ -105,8 +105,6 @@ public slots:
 signals:
     void buttonPressed(int);
     void buttonPressedbySpace(int);
-    void moveLeft();
-    void moveRight();
 
 private:
     void initUI();

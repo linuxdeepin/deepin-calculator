@@ -14,8 +14,6 @@ Ut_ScientificModule::Ut_ScientificModule()
 TEST_F(Ut_ScientificModule, signals1)
 {
     scientificModule *m_scientificModule = new scientificModule;
-    m_scientificModule->m_memhiskeypad->moveLeft();
-    m_scientificModule->m_memhiskeypad->moveRight();
     m_scientificModule->m_memhiswidget->hisIsFilled(true);
     m_scientificModule->m_memoryPublic->generateData(Quantity(1));
     m_scientificModule->m_memhiswidget->findChild<MemoryWidget *>()->widgetminus(0);

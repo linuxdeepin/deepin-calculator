@@ -167,7 +167,6 @@ void MemoryButton::mousePressEvent(QMouseEvent *e)
     m_palette = this->palette();
     m_isPress = true;
     m_isHover = false; //20200722删除foucus状态
-    emit updateInterface();
     DPushButton::mousePressEvent(e);
 }
 
@@ -538,6 +537,5 @@ void MemoryButton::paintEvent(QPaintEvent *e)
 
 void MemoryButton::focusOutEvent(QFocusEvent *e)
 {
-    emit updateInterface();
     QPushButton::focusOutEvent(e);
 }

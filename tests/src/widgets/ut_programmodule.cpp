@@ -35,8 +35,8 @@ TEST_F(Ut_ProgramModule, Signals)
 TEST_F(Ut_ProgramModule, Signals1)
 {
     ProgramModule *m_programmodule = new ProgramModule;
-    m_programmodule->m_checkBtnKeypad->buttonPressed(36);
-    m_programmodule->m_checkBtnKeypad->buttonPressedbySpace(36);
+    m_programmodule->m_checkBtnKeypad->buttonPressed(38);
+    m_programmodule->m_checkBtnKeypad->buttonPressedbySpace(38);
     m_programmodule->m_programmerKeypad->buttonPressed(26);
     m_programmodule->m_programmerKeypad->buttonPressedbySpace(26);
     m_programmodule->m_proSystemKeypad->bitbuttonclicked();

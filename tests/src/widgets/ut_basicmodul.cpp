@@ -25,17 +25,6 @@ TEST_F(Ut_BasicModul, Signals)
     MemoryPublic::deleteInstance();
 }
 
-TEST_F(Ut_BasicModul, Signals1)
-{
-    BasicModule *m_basicmodul = new BasicModule;
-    m_basicmodul->m_basicKeypad->moveLeft();
-    m_basicmodul->m_basicKeypad->moveRight();
-    m_basicmodul->m_memoryKeypad->moveLeft();
-    m_basicmodul->m_memoryKeypad->moveRight();
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
-}
-
 TEST_F(Ut_BasicModul, setKeyPress)
 {
     BasicModule *m_basicmodul = new BasicModule;

@@ -175,7 +175,6 @@ void IconButton::setBtnPressing(bool press)
         m_buttonStatus = 0;
         m_isPressing = false;
     }
-    emit updateInterface();
 }
 
 /**
@@ -186,7 +185,6 @@ void IconButton::setBtnPressing(bool press)
 void IconButton::setBtnHighlight(bool light)
 {
     m_highlight = light;
-    emit updateInterface();
 }
 
 /**

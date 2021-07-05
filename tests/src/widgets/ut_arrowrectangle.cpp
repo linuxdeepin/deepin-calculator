@@ -10,8 +10,10 @@ Ut_ArrowRectangle::Ut_ArrowRectangle()
 TEST_F(Ut_ArrowRectangle, eventFilter)
 {
     ArrowRectangle *arrowrectangle = new ArrowRectangle(DArrowRectangle::ArrowTop, DArrowRectangle::FloatWidget);
-    QKeyEvent *k = new QKeyEvent(QKeyEvent::Type::FocusOut, Qt::NoButton, Qt::KeyboardModifier::NoModifier);
+    QFocusEvent *f = new QFocusEvent(QFocusEvent::Type::FocusOut);
+    QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_Escape, Qt::KeyboardModifier::NoModifier);
     arrowrectangle->eventFilter(arrowrectangle, static_cast <QEvent *>(k));
+    arrowrectangle->eventFilter(arrowrectangle, static_cast <QEvent *>(f));
     ASSERT_TRUE(arrowrectangle->isHidden());
     delete k;
 }

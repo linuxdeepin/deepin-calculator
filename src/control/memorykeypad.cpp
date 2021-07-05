@@ -113,14 +113,11 @@ void MemoryKeypad::initButtons()
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
         connect(static_cast<MemoryButton *>(button), &MemoryButton::focus, this, &MemoryKeypad::getFocus); //获取上下左右键
-        connect(static_cast<MemoryButton *>(button), &MemoryButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
         connect(static_cast<MemoryButton *>(button), &MemoryButton::space, this, [ = ]() {
             Buttons spacekey = m_keys.key(hashValue);
             emit buttonPressedbySpace(spacekey);
         });
-        connect(static_cast<MemoryButton *>(button), &MemoryButton::moveLeft, this, &MemoryKeypad::moveLeft);
-        connect(static_cast<MemoryButton *>(button), &MemoryButton::moveRight, this, &MemoryKeypad::moveRight);
         m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
     }
 }

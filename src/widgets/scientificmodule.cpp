@@ -79,13 +79,9 @@ scientificModule::scientificModule(QWidget *parent)
     connect(this, &scientificModule::changedeg, m_scikeypadwidget, &ScientificKeyPad::getdeg); //切换deg切图
     connect(m_scikeypadwidget, &ScientificKeyPad::buttonPressed, this,
             &scientificModule::handleKeypadButtonPress);
-    connect(m_scikeypadwidget, &ScientificKeyPad::moveLeft, [ = ] { m_sciexpressionBar->moveLeft(); });
-    connect(m_scikeypadwidget, &ScientificKeyPad::moveRight, [ = ] { m_sciexpressionBar->moveRight(); });
     connect(m_scikeypadwidget, &ScientificKeyPad::buttonPressedbySpace, this, &scientificModule::handleKeypadButtonPressByspace);
     connect(m_memhiskeypad, &MemHisKeypad::buttonPressed, this,
             &scientificModule::handleKeypadButtonPress);
-    connect(m_memhiskeypad, &MemHisKeypad::moveLeft, [ = ] { m_sciexpressionBar->moveLeft(); });
-    connect(m_memhiskeypad, &MemHisKeypad::moveRight, [ = ] { m_sciexpressionBar->moveRight(); });
     connect(m_memhiskeypad, &MemHisKeypad::buttonPressedbySpace, this, &scientificModule::handleKeypadButtonPressByspace);
     connect(m_memhiswidget, &MemHisWidget::hisIsFilled, [ = ](bool hisisfilled) {
         if (hisisfilled) {

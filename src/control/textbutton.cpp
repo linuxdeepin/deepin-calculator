@@ -144,7 +144,6 @@ void TextButton::setBtnPressing(bool press)
     } else {
         m_isPress = false;
     }
-    emit updateInterface();
 }
 
 void TextButton::setButtonGray(bool gray)
@@ -165,7 +164,6 @@ void TextButton::mousePressEvent(QMouseEvent *e)
     m_palette = this->palette();
     m_isPress = true;
     m_isHover = false; //20200722删除foucus状态
-    emit updateInterface();
     DPushButton::mousePressEvent(e);
 }
 
@@ -419,7 +417,6 @@ void TextButton::paintEvent(QPaintEvent *e)
 
 void TextButton::focusOutEvent(QFocusEvent *e)
 {
-    emit updateInterface();
     QPushButton::focusOutEvent(e);
 }
 

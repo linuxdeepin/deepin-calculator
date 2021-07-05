@@ -301,15 +301,14 @@ void ScientificKeyPad::initButtons()
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
-        connect(static_cast<TextButton *>(button), &TextButton::focus, this, &ScientificKeyPad::getFocus); //获取上下左右键
-        connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
-        connect(static_cast<TextButton *>(button), &TextButton::space, this, [ = ]() {
-            Buttons spacekey = m_keys.key(hashValue);
-            emit buttonPressedbySpace(spacekey);
-        });
+        if (desc->text != "=") {
+            connect(static_cast<TextButton *>(button), &TextButton::focus, this, &ScientificKeyPad::getFocus); //获取上下左右键
+            connect(static_cast<TextButton *>(button), &TextButton::space, this, [ = ]() {
+                Buttons spacekey = m_keys.key(hashValue);
+                emit buttonPressedbySpace(spacekey);
+            });
+        }
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-        connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &ScientificKeyPad::moveLeft);
-        connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &ScientificKeyPad::moveRight);
         m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
 
     }
@@ -383,10 +382,7 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
                              Qt::AlignCenter/* | Qt::AlignTop*/);
     const QPair<DPushButton *, const KeyDescription1 *> hashValue1(pagebutton, desc1);
     m_keys1.insert(desc1->button, hashValue1); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription1 *
-    connect(static_cast<TextButton *>(pagebutton), &TextButton::updateInterface, [ = ] {update();});
     connect(pagebutton, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(static_cast<TextButton *>(pagebutton), &TextButton::moveLeft, this, &ScientificKeyPad::moveLeft);
-    connect(static_cast<TextButton *>(pagebutton), &TextButton::moveRight, this, &ScientificKeyPad::moveRight);
     connect(static_cast<TextButton *>(pagebutton), &TextButton::space, this, [ = ]() {
         Buttons spacekey = m_keys1.key(hashValue1);
         emit buttonPressedbySpace(spacekey);

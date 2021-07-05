@@ -58,11 +58,6 @@ public slots:
     void setbuttongray(bool memorywidgetshow);
     void updateWhenBtnDisable();
 
-signals:
-    void moveLeft();
-    void moveRight();
-    void updateInterface();
-
 public:
     void mousePressEvent(QMouseEvent *) override;
     void mouseReleaseEvent(QMouseEvent *) override;

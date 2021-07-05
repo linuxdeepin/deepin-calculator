@@ -77,8 +77,6 @@ signals:
     void buttonPressed(int);
     void buttonPressedbySpace(int);
     void equalPressed();
-    void moveLeft();
-    void moveRight();
 
 private:
     void initUI();

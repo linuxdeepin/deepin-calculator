@@ -82,7 +82,6 @@ void BitButton::mousePressEvent(QMouseEvent *e)
 
     m_isPress = true;
     m_isHover = false; //20200722删除foucus状态
-    emit updateInterface();
     DPushButton::mousePressEvent(e);
 }
 
@@ -165,7 +164,6 @@ void BitButton::paintEvent(QPaintEvent *e)
 
 void BitButton::focusOutEvent(QFocusEvent *e)
 {
-    emit updateInterface();
     QPushButton::focusOutEvent(e);
 }
 

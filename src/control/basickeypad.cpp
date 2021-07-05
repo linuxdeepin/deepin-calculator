@@ -192,15 +192,14 @@ void BasicKeypad::initButtons()
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
-        connect(static_cast<TextButton *>(button), &TextButton::focus, this, &BasicKeypad::getFocus); //获取上下左右键
-        connect(static_cast<TextButton *>(button), &TextButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
-        connect(static_cast<TextButton *>(button), &TextButton::space, this, [ = ]() {
-            Buttons spacekey = m_keys.key(hashValue);
-            emit buttonPressedbySpace(spacekey);
-        });
+        if (desc->text != "=") {
+            connect(static_cast<TextButton *>(button), &TextButton::focus, this, &BasicKeypad::getFocus); //获取上下左右键
+            connect(static_cast<TextButton *>(button), &TextButton::space, this, [ = ]() {
+                Buttons spacekey = m_keys.key(hashValue);
+                emit buttonPressedbySpace(spacekey);
+            });
+        }
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-        connect(static_cast<TextButton *>(button), &TextButton::moveLeft, this, &BasicKeypad::moveLeft);
-        connect(static_cast<TextButton *>(button), &TextButton::moveRight, this, &BasicKeypad::moveRight);
         m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
     }
 }

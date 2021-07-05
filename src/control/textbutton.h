@@ -48,9 +48,6 @@ public:
     void setBtnPressing(bool press);
     void setButtonGray(bool gray);
 signals:
-    void moveLeft();
-    void moveRight();
-    void updateInterface();
     void mouseRelease();
     void focus(int direction); //direction 0-上　1-下　2-左　3-右
     void space();
