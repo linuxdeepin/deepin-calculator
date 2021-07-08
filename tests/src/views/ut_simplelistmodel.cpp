@@ -78,8 +78,17 @@ TEST_F(Ut_SimpleListModel, getAnswer)
 TEST_F(Ut_SimpleListModel, radixChanged)
 {
     m_simpleListModel->m_expressionList.append("123＋321 ＝ 444");
+    m_simpleListModel->radixChanged(16, 10);
+    m_simpleListModel->radixChanged(10, 8);
+    m_simpleListModel->radixChanged(8, 2);
+    m_simpleListModel->radixChanged(2, 16);
+    DSettingsAlt::deleteInstance();
+}
+
+TEST_F(Ut_SimpleListModel, radixChanged1)
+{
+    m_simpleListModel->m_expressionList.append("－123and321 ＝ 444");
     m_simpleListModel->radixChanged(10, 2);
-    ASSERT_EQ(m_simpleListModel->m_expressionList.at(0), "111 1011＋1 0100 0001＝1 1011 1100");
     DSettingsAlt::deleteInstance();
 }
 

@@ -4,6 +4,9 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #include <QTest>
+#include <QMenu>
+
+#include"../stub.h"
 
 class Ut_InputEdit : public ::testing::Test
 {

@@ -262,3 +262,47 @@ TEST_F(Ut_InputEdit, formatExpression)
     QString str = m_inputEdit->formatExpression(8, "4435");
     ASSERT_EQ(str, "0o4435");
 }
+
+QAction *stub_exec_input(const QPoint &pos, QAction *at = nullptr)
+{
+    Q_UNUSED(pos)
+    Q_UNUSED(at)
+
+    return nullptr;
+}
+
+TEST_F(Ut_InputEdit, showTextEditMenu)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    Stub stub;
+    stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec_input);
+    m_inputEdit->showTextEditMenu();
+}
+
+TEST_F(Ut_InputEdit, showTextEditMenu1)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    m_inputEdit->setText("111111");
+    m_inputEdit->QLineEdit::setSelection(1, 1);
+    Stub stub;
+    stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec_input);
+    m_inputEdit->showTextEditMenu();
+}
+
+TEST_F(Ut_InputEdit, showTextEditMenuByAltM)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    Stub stub;
+    stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec_input);
+    m_inputEdit->showTextEditMenuByAltM();
+}
+
+TEST_F(Ut_InputEdit, showTextEditMenuByAltM1)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+    m_inputEdit->setText("111111");
+    m_inputEdit->QLineEdit::setSelection(1, 1);
+    Stub stub;
+    stub.set((QAction * (QMenu::*)(const QPoint &, QAction *))ADDR(QMenu, exec), stub_exec_input);
+    m_inputEdit->showTextEditMenuByAltM();
+}

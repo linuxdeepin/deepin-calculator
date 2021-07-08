@@ -894,6 +894,7 @@ void ExpressionBar::shear()
     int length = m_inputEdit->selectionLength();
     text.remove(start, length);
     m_inputEdit->setText(text);
+    selcurPos -= length;
     m_isResult = false;
     addUndo();
     m_isUndo = false;
@@ -928,6 +929,7 @@ void ExpressionBar::deleteText()
     int length = m_inputEdit->selectionLength();
     text.remove(start, length);
     m_inputEdit->setText(text);
+    selcurPos -= length;
     addUndo();
     m_isUndo = false;
     m_isResult = false;

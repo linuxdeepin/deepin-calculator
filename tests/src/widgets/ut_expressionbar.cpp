@@ -338,3 +338,12 @@ TEST_F(Ut_ExpressionBar, cancelLink)
     ASSERT_TRUE(m_expressionBar->cancelLink(1));
     DSettingsAlt::deleteInstance();
 }
+
+TEST_F(Ut_ExpressionBar, pointFaultTolerance)
+{
+    ExpressionBar *m_expressionBar = new ExpressionBar;
+    m_expressionBar->pointFaultTolerance("123321.123321。");
+    m_expressionBar->pointFaultTolerance("123321。123321.");
+    m_expressionBar->pointFaultTolerance(".123321");
+    DSettingsAlt::deleteInstance();
+}

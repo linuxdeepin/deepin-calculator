@@ -188,6 +188,7 @@ void ProSystemKeypad::setvalue(QString num)
     int length = num.length();
     if (length > Settings::instance()->proBitLength) {
         num = num.right(Settings::instance()->proBitLength);
+        length = num.length();
         m_binaryValue.fill('0', 64).replace(64 - length, length, num);
         emit valuechanged(m_binaryValue);
         longBitCut(num);

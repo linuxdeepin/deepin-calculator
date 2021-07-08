@@ -89,6 +89,21 @@ TEST_F(Ut_ProgrammerItemWidget, themetypechanged)
     m_programmerItemWidget->themetypechanged(1);
     ASSERT_EQ(m_programmerItemWidget->m_label->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Text).name(),
               "#000000");
+    ProgrammerItemWidget *m_programmerItemWidget1 = new ProgrammerItemWidget("Circular shift", 50, ":/assets/images/dark/icon_as_normal.svg");
+    m_programmerItemWidget1->themetypechanged(2);
+    m_programmerItemWidget1->themetypechanged(1);
+
+    ProgrammerItemWidget *m_programmerItemWidget2 = new ProgrammerItemWidget("Arithmetic shift", 50, ":/assets/images/dark/icon_as_normal.svg");
+    m_programmerItemWidget2->themetypechanged(2);
+    m_programmerItemWidget2->themetypechanged(1);
+    ProgrammerItemWidget *m_programmerItemWidget3 = new ProgrammerItemWidget("Logical shift", 50, ":/assets/images/dark/icon_as_normal.svg");
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    m_programmerItemWidget3->themetypechanged(2);
+    m_programmerItemWidget3->themetypechanged(1);
+    ProgrammerItemWidget *m_programmerItemWidget4 = new ProgrammerItemWidget("Rotate through carry circular shift", 50, ":/assets/images/dark/icon_as_normal.svg");
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    m_programmerItemWidget4->themetypechanged(2);
+    m_programmerItemWidget4->themetypechanged(1);
 }
 
 TEST_F(Ut_ProgrammerItemWidget, setFocus)

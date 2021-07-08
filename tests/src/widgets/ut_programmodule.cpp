@@ -132,6 +132,10 @@ TEST_F(Ut_ProgramModule, handleEditKeyPress)
     QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_ParenRight, Qt::NoModifier);
     QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Percent, Qt::NoModifier);
     QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_AsciiCircum, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Ampersand, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Backslash, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_Bar, Qt::NoModifier);
+    QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_AsciiTilde, Qt::NoModifier);
     QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_C, Qt::ControlModifier);
     QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_V, Qt::NoModifier);
     QTest::keyClick(m_programmodule->findChild<InputEdit *>(), Qt::Key_V, Qt::NoModifier);
@@ -270,6 +274,11 @@ TEST_F(Ut_ProgramModule, handleKeypadButtonPress)
     m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_opposite);
     m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_leftBracket);
     m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_rightBracket);
+    m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_OR);
+    m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_XOR);
+    m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_NAND);
+    m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_NOR);
+    m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_NOT);
     m_programmodule->handleKeypadButtonPress(ProgrammerKeypad::Key_Clear);
     m_programmodule->findChild<InputEdit *>()->setText("1");
     m_programmodule->handleKeypadButtonPress(ProCheckBtnKeypad::Key_BinaryKeypad);
@@ -346,6 +355,11 @@ TEST_F(Ut_ProgramModule, handleKeypadButtonPressByspace)
     m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_opposite);
     m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_leftBracket);
     m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_rightBracket);
+    m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_OR);
+    m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_XOR);
+    m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_NAND);
+    m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_NOR);
+    m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_NOT);
     m_programmodule->handleKeypadButtonPressByspace(ProgrammerKeypad::Key_Clear);
     m_programmodule->findChild<InputEdit *>()->setText("1");
     m_programmodule->handleKeypadButtonPressByspace(ProCheckBtnKeypad::Key_BinaryKeypad);

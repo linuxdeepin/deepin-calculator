@@ -6,6 +6,24 @@ Ut_IconButton::Ut_IconButton()
 
 }
 
+TEST_F(Ut_IconButton, animate)
+{
+    IconButton *m_iconButton = new IconButton;
+    m_iconButton->m_isPress = false;
+    m_iconButton->setIconUrl("a", "b", "c", 1);
+    m_iconButton->animate(false);
+    m_iconButton->m_isPress = false;
+    m_iconButton->setIconUrl("a", "b", "c", 3);
+    m_iconButton->animate(false);
+    m_iconButton->m_isPress = false;
+    m_iconButton->setIconUrl("a", "b", "c", 5);
+    m_iconButton->animate(false);
+    m_iconButton->m_isPress = false;
+    m_iconButton->setIconUrl("a", "b", "c", 7);
+    m_iconButton->animate(false);
+    ASSERT_EQ(m_iconButton->m_mode, 8);
+}
+
 TEST_F(Ut_IconButton, setIconUrl)
 {
     IconButton *m_iconButton = new IconButton;
@@ -130,6 +148,13 @@ TEST_F(Ut_IconButton, paintEvent)
     m_iconButton->m_mode = 6;
     m_iconButton->m_currentUrl = ":/assets/images/light/deg_press.svg";
     m_iconButton->paintEvent(event);
+    m_iconButton->m_mode = 8;
+    m_iconButton->m_currentUrl = ":/assets/images/light/deg_press.svg";
+    m_iconButton->paintEvent(event);
+    m_iconButton->m_mode = 8;
+    m_iconButton->m_highlight = true;
+    m_iconButton->m_currentUrl = ":/assets/images/light/deg_press.svg";
+    m_iconButton->paintEvent(event);
 
     //focus状态
     Stub stub;
@@ -155,10 +180,20 @@ TEST_F(Ut_IconButton, paintEvent)
     m_iconButton->m_buttonStatus = 2;
     m_iconButton->m_currentUrl = ":/assets/images/light/clear_press.svg";
     m_iconButton->paintEvent(event);
+
     m_iconButton->m_mode = 0;
     m_iconButton->m_buttonStatus = 0;
     m_iconButton->m_currentUrl = ":/assets/images/light/+_press.svg";
     m_iconButton->paintEvent(event);
+    m_iconButton->m_mode = 0;
+    m_iconButton->m_buttonStatus = 1;
+    m_iconButton->m_currentUrl = ":/assets/images/light/+_press.svg";
+    m_iconButton->paintEvent(event);
+    m_iconButton->m_mode = 0;
+    m_iconButton->m_buttonStatus = 2;
+    m_iconButton->m_currentUrl = ":/assets/images/light/+_press.svg";
+    m_iconButton->paintEvent(event);
+
     m_iconButton->m_buttonStatus = 1;
     m_iconButton->paintEvent(event);
     m_iconButton->m_mode = 4;
