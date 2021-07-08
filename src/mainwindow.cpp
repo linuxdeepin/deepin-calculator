@@ -151,16 +151,12 @@ void MainWindow::initModule()
     case 0:
         m_basicModule = new BasicModule(this);
         m_mainLayout->addWidget(m_basicModule);
-        m_firstInitMode = 0;
-        m_isStandInit = true;
         m_simpleAction->setChecked(true);
         switchToSimpleMode();
         break;
     case 1:
         m_scientificModule = new scientificModule(this);
         m_mainLayout->addWidget(m_scientificModule);
-        m_firstInitMode = 1;
-        m_isSciInit = true;
         m_scAction->setChecked(true);
         switchToScientificMode();
 //        resize(m_settings->getOption("windowWidth").toInt(), m_settings->getOption("windowHeight").toInt());
@@ -169,8 +165,6 @@ void MainWindow::initModule()
     default:
         m_basicModule = new BasicModule(this);
         m_mainLayout->addWidget(m_basicModule);
-        m_firstInitMode = 0;
-        m_isStandInit = true;
         m_simpleAction->setChecked(true);
         switchToSimpleMode();
         break;
@@ -181,16 +175,15 @@ void MainWindow::initModule()
 void MainWindow::switchToSimpleMode()
 {
     m_hisAction->setVisible(false);
-    if (!m_isStandInit) {
+    if (!m_basicModule) {
         m_basicModule = new BasicModule(this);
         m_mainLayout->addWidget(m_basicModule);
-        m_isStandInit = true;
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
     }
-    if (m_settings->getOption("mode") != 0 || m_isinit) {
+    if (this->width() > 400 || m_isinit) {
 //        m_lastscisize = m_isinit ? STANDARD_SIZE : this->size();
         m_settings->setOption("mode", 0);
-        m_mainLayout->setCurrentIndex((m_firstInitMode == 0 ? 0 : 1));
+        m_mainLayout->setCurrentWidget(m_basicModule);
         hideHistoryWidget(false);
     }
 }
@@ -198,16 +191,15 @@ void MainWindow::switchToSimpleMode()
 void MainWindow::switchToScientificMode()
 {
     m_hisAction->setVisible(true);
-    if (!m_isSciInit) {
+    if (!m_scientificModule) {
         m_scientificModule = new scientificModule(this);
         m_mainLayout->addWidget(m_scientificModule);
-        m_isSciInit = true;
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
     }
     connect(this, &MainWindow::windowChanged, m_scientificModule, &scientificModule::getWindowChanged);
-    if (m_settings->getOption("mode") != 1 || m_isinit) {
+    if (this->width() < 400 || m_isinit) {
         m_settings->setOption("mode", 1);
-        m_mainLayout->setCurrentIndex((m_firstInitMode == 0 ? 1 : 0));
+        m_mainLayout->setCurrentWidget(m_scientificModule);
         m_scientificModule->checkLineEmpty();
         setMinimumSize(SCIENTIFIC_MIN_SIZE);
         setMaximumSize(SCIENTIFIC_MAX_SIZE);
@@ -222,6 +214,7 @@ void MainWindow::switchToScientificMode()
 void MainWindow::showHistoryWidget()
 {
     m_settings->setOption("history", 1);
+    m_settings->setOption("mode", 1);
     m_scientificModule->showOrHideHistory(false);
 }
 
@@ -230,21 +223,15 @@ void MainWindow::hideHistoryWidget(bool hissetting)
     //从科学到简易时b=false，其余为true
     if (hissetting == true)
         m_settings->setOption("history", 0);
-    if (m_isSciInit)
+    if (m_scientificModule)
         m_scientificModule->showOrHideHistory(true);
-    switch (m_settings->getOption("mode").toInt()) {
-    case 0:
+    if (m_basicModule && m_mainLayout->currentWidget() == m_basicModule)
         setFixedSize(STANDARD_SIZE);
-        break;
-    case 1:
+    else if (m_scientificModule && m_mainLayout->currentWidget() == m_scientificModule) {
         setMinimumSize(SCIENTIFIC_MIN_SIZE);
         setMaximumSize(SCIENTIFIC_MAX_SIZE);
         if (m_isinit)
             this->setWindowFlags(windowFlags() & ~ Qt::WindowMaximizeButtonHint);
-        break;
-    default:
-        setFixedSize(STANDARD_SIZE);
-        break;
     }
 }
 
@@ -253,7 +240,7 @@ void MainWindow::hideHistoryWidget(bool hissetting)
  */
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if (m_mainLayout->currentIndex() == (m_firstInitMode == 0 ? 0 : 1))
+    if (m_mainLayout->currentWidget() == m_basicModule)
         m_basicModule->setKeyPress(event);
     else
         m_scientificModule->setKeyPress(event);
