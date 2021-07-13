@@ -90,28 +90,16 @@ void IconButton::animate(bool isspace, int msec)
         m_isPress = true;
         m_currentUrl = m_pressUrl;
         m_buttonStatus = 2;
-        if (m_mode == 1)
-            m_mode = 2;
-        if (m_mode == 3)
-            m_mode = 4;
-        if (m_mode == 5)
-            m_mode = 6;
-        if (m_mode == 7)
-            m_mode = 8;
+        if ((m_mode & 1) == 1)
+            ++m_mode;
 
         QTimer::singleShot(msec, this, [ = ] {
             if (!isspace)
                 setDown(false);
             m_currentUrl = m_normalUrl;
             m_buttonStatus = 0;
-            if (m_mode == 2)
-                m_mode = 1;
-            if (m_mode == 4)
-                m_mode = 3;
-            if (m_mode == 6)
-                m_mode = 5;
-            if (m_mode == 8)
-                m_mode = 7;
+            if ((m_mode & 1) != 1)
+                --m_mode;
             m_isPress = false;
             update();
         });
@@ -153,24 +141,16 @@ void IconButton::setBtnPressing(bool press)
 {
     if (press) {
         m_currentUrl = m_pressUrl;
-        if (m_mode == 7)
-            m_mode = 8;
-        if (m_mode == 5)
-            m_mode = 6;
-        if (m_mode == 3)
-            m_mode = 4;
+        if ((m_mode & 1) == 1)
+            ++m_mode;
         m_isPress = true;
         m_buttonStatus = 2;
         m_isHover = false; //20200722删除foucus状态
         m_isPressing = true;
     } else {
         m_currentUrl = m_normalUrl;
-        if (m_mode == 8)
-            m_mode = 7;
-        if (m_mode == 6)
-            m_mode = 5;
-        if (m_mode == 4)
-            m_mode = 3;
+        if ((m_mode & 1) != 1)
+            --m_mode;
         m_isPress = false;
         m_buttonStatus = 0;
         m_isPressing = false;
@@ -194,14 +174,8 @@ void IconButton::mousePressEvent(QMouseEvent *e)
 {
     m_currentUrl = m_pressUrl;
     m_buttonStatus = 2;
-    if (m_mode == 1)
-        m_mode = 2;
-    if (m_mode == 3)
-        m_mode = 4;
-    if (m_mode == 5)
-        m_mode = 6;
-    if (m_mode == 7)
-        m_mode = 8;
+    if ((m_mode & 1) == 1)
+        ++m_mode;
     m_isPress = true;
     m_isHover = false; //20200722删除foucus状态
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
@@ -218,14 +192,8 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
 //    if (m_isHistorybtn)
 //        clearFocus();
     m_currentUrl = m_normalUrl;
-    if (m_mode == 2)
-        m_mode = 1;
-    if (m_mode == 4)
-        m_mode = 3;
-    if (m_mode == 6)
-        m_mode = 5;
-    if (m_mode == 8)
-        m_mode = 7;
+    if ((m_mode & 1) != 1)
+        --m_mode;
     if (m_isPress == true && this->rect().contains(e->pos())) {
         m_currentUrl = m_hoverUrl;
         m_buttonStatus = 1;
