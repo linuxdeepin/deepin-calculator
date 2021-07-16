@@ -139,6 +139,7 @@ TEST_F(Ut_SimpleListView, keyPressEvent)
 {
     SimpleListView *m_simpleListView = new SimpleListView();
     SimpleListModel *m_simpleListModel = new SimpleListModel();
+    SimpleListDelegate *m_simpleListDelegate = new SimpleListDelegate(0);
     m_simpleListModel->updataList("11", 0);
     m_simpleListModel->updataList("22", 1);
     m_simpleListModel->updataList("33", 2);
@@ -146,6 +147,7 @@ TEST_F(Ut_SimpleListView, keyPressEvent)
     m_simpleListModel->appendText("2", true);
     m_simpleListModel->appendText("3", true);
     m_simpleListView->setModel(m_simpleListModel);
+    m_simpleListView->setItemDelegate(m_simpleListDelegate);
     m_simpleListView->setCurrentIndex(m_simpleListModel->index(1, 0));
     QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier);
     QKeyEvent *k1 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
