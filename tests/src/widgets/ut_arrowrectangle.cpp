@@ -16,6 +16,7 @@ TEST_F(Ut_ArrowRectangle, eventFilter)
     arrowrectangle->eventFilter(arrowrectangle, static_cast <QEvent *>(f));
     ASSERT_TRUE(arrowrectangle->isHidden());
     delete k;
+    delete f;
 }
 
 TEST_F(Ut_ArrowRectangle, focusInEvent)
