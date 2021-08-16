@@ -114,8 +114,6 @@ int main(int argc, char *argv[])
     app.setApplicationDisplayName(QObject::tr("Calculator"));
     // app.setStyle("chameleon");
 
-    QDBusConnection dbus = QDBusConnection::sessionBus();
-    dbus.registerService("com.deepin.calculator");
     using namespace Dtk::Core;
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
@@ -129,7 +127,8 @@ int main(int argc, char *argv[])
     MainWindow window;
     window.setWindowFlag(Qt::WindowMaximizeButtonHint, false);
     DSettingsAlt *m_dsettings = DSettingsAlt::instance(&window);
-    if (app.setSingleInstance(app.applicationName(), DApplication::UserScope)) {
+    QDBusConnection dbus = QDBusConnection::sessionBus();
+    if (dbus.registerService("com.deepin.calculator")) {
         Dtk::Widget::moveToCenter(&window);
         m_dsettings->setOption("windowX", window.pos().x());
         m_dsettings->setOption("windowY", window.pos().y());
