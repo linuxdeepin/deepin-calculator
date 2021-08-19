@@ -17,22 +17,22 @@ Click ![icon_menu](../common/icon_menu.svg) > **Mode** to:
 
 ​                            ![0|calculator](fig/standard_mode.png)
 
-| Icon                                          | Name                                                | Description                                                  |
-| --------------------------------------------- | :-------------------------------------------------- | ------------------------------------------------------------ |
-| 0~9                                           | Number Key                                          | Basic Arabic numerals                                        |
-| ![mc](../common/MC.svg)                       | Clear Key                                           | Clear all memories                                           |
-| ![mr](../common/MR.svg)                       | Storage Key                                         | Memory recall                                                |
-| ![m+](../common/M+.svg)                       | Storage Key                                         | Memory add; click ![m+](../common/M+.svg) to add the current number accumulatively to the memory and interrupt digital input. |
-| ![m-](../common/M-.svg)                       | Storage Key                                         | Memory subtract; click ![m-](../common/M-.svg) to subtract the current number from the memory and interrupt digital input. |
-| ![ms](../common/MS.svg)                       | Storage Key                                         | Memory store；click ![ms](../common/MS.svg) to add the numeric value in the input box to the memory list. |
-| ![M](../common/M.svg)/![m^](../common/M^.svg) | Storage Key                                         | Click ![M](../common/M.svg)to expand the memory list; click ![m^](../common/M^.svg) to fold the memory list. The memory will be cleared up when Calculator is closed. |
-| C/AC                                          | Clear                                               | Click once to clear current contents and click twice to clear all. |
-| %                                             | Percent Sign                                        | To input percent sign                                        |
-| ![delete](../common/delete.svg)               | Delete                                              | Click once to delete a character forward                     |
-| +-×÷                                          | Addition, subtraction, multiplication, and division | Basic math operators for addition, subtraction, multiplication and division |
-| .                                             | Decimal Point                                       | To input decimal point                                       |
-| ()                                            | Bracket                                             | To input brackets with the left and right bracket completed automatically. |
-| =                                             | Equal Sign                                          | To get result                                                |
+| Icon                            | Name                                                | Description                                                  |
+| ------------------------------- | :-------------------------------------------------- | ------------------------------------------------------------ |
+| 0~9                             | Number Key                                          | Basic Arabic numerals                                        |
+| MC                              | Clear Key                                           | Clear all memories                                           |
+| MR                              | Storage Key                                         | Memory recall                                                |
+| M+                              | Storage Key                                         | Memory add; click it to add the current number accumulatively to the memory and interrupt digital input. |
+| M-                              | Storage Key                                         | Memory subtract; click it to subtract the current number from the memory and interrupt digital input. |
+| MS                              | Storage Key                                         | Memory store；click it to add the numeric value in the input box to the memory list. |
+| ![M](../common/M.png)           | Storage Key                                         | Click ![M](../common/M.png)to expand the memory list; click again to fold the memory list. The memory will be cleared up when Calculator is closed. |
+| C/AC                            | Clear                                               | Click once to clear current contents and click twice to clear all. |
+| %                               | Percent Sign                                        | To input percent sign                                        |
+| ![delete](../common/delete.svg) | Delete                                              | Click once to delete a character forward                     |
+| +-×÷                            | Addition, subtraction, multiplication, and division | Basic math operators for addition, subtraction, multiplication and division |
+| .                               | Decimal Point                                       | To input decimal point                                       |
+| ()                              | Bracket                                             | To input brackets with the left and right bracket completed automatically. |
+| =                               | Equal Sign                                          | To get result                                                |
 
 ### Scientific Mode
 
