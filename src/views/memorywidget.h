@@ -62,6 +62,12 @@ public:
     QString programmerResult(const Quantity answer);
     void resetAllLabelByBase();
 
+public slots:
+    void setThemeType(int type);
+    void expressionempty(bool b);
+    void widgetcleanslot(int row, int mode, bool ismenu);
+    void setMemoryPublic(MemoryPublic *pub);
+
 signals:
     void widgetplus(int row);
     void widgetminus(int row);
@@ -70,6 +76,17 @@ signals:
     void themechange(int type);
     void widgetclean(int row, int mode, bool ismenu); //是否通过menu点击发出，用于区分是否下一个item直接进入hover状态
     void hideWidget();
+
+private:
+    void initConnect();
+    QString formatExpression(const QString &text);
+    QString setitemwordwrap(const QString &text, int row = 0);
+    void emptymemoryfontcolor();
+    QString programmerWrap(QString result);
+    int fontHeight();
+
+private slots:
+    void resetItemHeight();
 
 private:
     MemoryListWidget *m_listwidget;
@@ -87,17 +104,6 @@ private:
     QLabel *m_label;//内存为空item
     int m_currentrow = 0;//listwidget当前行
     MemoryPublic *m_memorypublic = nullptr;
-
-private:
-    void initConnect();
-    QString formatExpression(const QString &text);
-    QString setitemwordwrap(const QString &text, int row = 0);
-    void emptymemoryfontcolor();
-public slots:
-    void setThemeType(int type);
-    void expressionempty(bool b);
-    void widgetcleanslot(int row, int mode, bool ismenu);
-    void setMemoryPublic(MemoryPublic *pub);
 };
 
 

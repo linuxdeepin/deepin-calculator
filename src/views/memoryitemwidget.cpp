@@ -219,9 +219,15 @@ void MemoryItemWidget::paintEvent(QPaintEvent *e)
     }
 }
 
-void MemoryItemWidget::setLineHight(int line)
+void MemoryItemWidget::setLineHight(int line, int height)
 {
-    m_label->setFixedHeight(45 * line);
+    m_label->setFixedHeight(height * line);
+    m_line = line;
+}
+
+int MemoryItemWidget::getLine()
+{
+    return m_line;
 }
 
 void MemoryItemWidget::showTextEditMenuByAltM()

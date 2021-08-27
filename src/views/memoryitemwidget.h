@@ -50,7 +50,8 @@ public:
     void setTextLabel(QString s);
     QString textLabel();
     void paintEvent(QPaintEvent *e) override;
-    void setLineHight(int line);
+    void setLineHight(int line, int height);
+    int getLine();
 signals:
     void plusbtnclicked();
     void minusbtnclicked();
@@ -80,6 +81,7 @@ private:
     bool m_ispress = false;
     bool m_ishover = false;
     QFont m_font;
+    int m_line = 0;
 };
 
 #endif // MEMORYITEMWIDGET_H

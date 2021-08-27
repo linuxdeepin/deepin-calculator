@@ -249,3 +249,15 @@ TEST_F(Ut_MemoryWidget, keyPressEvent)
     delete k;
     MemoryPublic::deleteInstance();
 }
+
+TEST_F(Ut_MemoryWidget, resetItemHeight)
+{
+    MemoryPublic *m_memoryPublic = new MemoryPublic;
+    MemoryWidget *m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
+    m_memoryWidget->m_calculatormode = 1;
+    m_memoryPublic->generateData(Quantity(1));
+    m_memoryWidget->resetItemHeight();
+    int line = static_cast<MemoryItemWidget *>(m_memoryWidget->m_listwidget->itemWidget(m_memoryWidget->m_listwidget->item(0)))->getLine();
+    ASSERT_EQ(line, 1);
+    MemoryPublic::deleteInstance();
+}

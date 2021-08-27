@@ -158,20 +158,17 @@ void MemoryWidget::generateData(const Quantity answer, bool ismax)
 
     m_listwidget->insertItem(0, item1);
     m_listwidget->setItemWidget(item1, widget);
-    if (answer.isZero()) {
-        widget->setTextLabel("0");
+
+    QString formatResult = QString();
+    if (m_calculatormode == 2) {
+        const QString result = programmerResult(answer);
+        formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
     } else {
-        QString formatResult = QString();
-        if (m_calculatormode == 2) {
-            const QString result = programmerResult(answer);
-            formatResult = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
-        } else {
-            const QString result = DMath::format(answer, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
-            formatResult = Utils::formatThousandsSeparators(result);
-        }
-        formatResult = setitemwordwrap(formatResult);
-        widget->setTextLabel(formatResult);
+        const QString result = DMath::format(answer, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
+        formatResult = Utils::formatThousandsSeparators(result);
     }
+    formatResult = setitemwordwrap(formatResult);
+    widget->setTextLabel(formatResult);
 
     connect(widget, &MemoryItemWidget::plusbtnclicked, this, [ = ]() {
         int row = m_listwidget->row(item1);
@@ -342,6 +339,73 @@ void MemoryWidget::emptymemoryfontcolor()
 }
 
 /**
+ * 程序员专用换行
+ */
+QString MemoryWidget::programmerWrap(QString result)
+{
+    QFont font = qApp->font();
+    font.setPixelSize(29);
+    QFontMetrics fm(font);
+
+    int validwidth = PRO_SCI_ITEM_WIDTH - 30;
+    int l = 0, r = 0;
+    int last = result.length();
+    int block;
+    if (16 == Settings::instance()->programmerBase || 2 == Settings::instance()->programmerBase)
+        block = 5;
+    else
+        block = 4;
+
+    while (r < result.length()) {
+        if (fm.width(result.mid(l, r - l)) < validwidth)
+            ++r;
+        else {
+            while (result.at(r) != QLatin1String(" ") && result.at(r) != QLatin1String(",")) {
+                --r;
+                if (r <= l)
+                    break;
+            }
+            if (last < r - l) {
+                r -= block;
+            }
+            result.insert(r + 1, "\n");
+            ++m_line;
+            last = r - l;
+            r += 2;
+            l = r;
+        }
+    }
+    return result;
+}
+
+int MemoryWidget::fontHeight()
+{
+    QFont font = qApp->font();
+    font.setPixelSize(29);
+    QFontMetrics fm(font);
+    return fm.height() + 1;
+}
+
+/**
+ * 字体变化需要重设高度
+ */
+void MemoryWidget::resetItemHeight()
+{
+    //程序员模式不在这里处理
+    if (2 == m_calculatormode || m_memorypublic->isEmpty())
+        return;
+    for (int i = 0; i < m_listwidget->count(); i++) {
+        if (m_listwidget->item(i)) {
+            int line = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->getLine();
+            //设置item高度
+            m_listwidget->item(i)->setSizeHint(QSize(m_itemwidth, 40 + fontHeight() * line));
+            m_listwidget->itemWidget(m_listwidget->item(i))->setFixedSize(QSize(m_itemwidth, 40 + fontHeight() * line));
+            static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)))->setLineHight(line, fontHeight());
+        }
+    }
+}
+
+/**
  * @brief MR
  */
 QPair<QString, Quantity> MemoryWidget::getfirstnumber()
@@ -391,8 +455,10 @@ QString MemoryWidget::programmerResult(const Quantity answer)
  */
 void MemoryWidget::resetAllLabelByBase()
 {
+    if (m_memorypublic->isEmpty())
+        return;
     QString text;
-    if (m_calculatormode == 2 && !m_memorypublic->isEmpty()) {
+    if (m_calculatormode == 2) {
         for (int i = 0; i < m_listwidget->count(); i++) {
             text = Utils::reformatSeparatorsPro(programmerResult(m_memorypublic->getList().at(i)), Settings::instance()->programmerBase);
             text = setitemwordwrap(text, i);
@@ -465,6 +531,8 @@ void MemoryWidget::initConnect()
         MemoryItemWidget *w1 = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)));
         w1->showTextEditMenuByAltM();
     });
+
+    connect(qApp, &QApplication::fontChanged, this, &MemoryWidget::resetItemHeight);
 }
 
 /**
@@ -559,14 +627,8 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
             m_line = 2;
         }
     } else {
-        if (result.length() > 29 && result.length() <= 60) {
-            result.insert(29, "\n");
-            m_line = 2;
-        } else if (result.length() > 60) {
-            result.insert(29, "\n");
-            result.insert(60, "\n");
-            m_line = 3;
-        }
+        result = programmerWrap(result);
+
         if (m_clearbutton->isHidden() == true) {
             m_clearbutton->show();
             m_clearbutton->updateWhenBtnDisable();
@@ -575,10 +637,10 @@ QString MemoryWidget::setitemwordwrap(const QString &text, int row)
     }
     if (m_listwidget->item(row)) {
         //设置item高度
-        m_listwidget->item(row)->setSizeHint(QSize(m_itemwidth, 40 + 45 * m_line));
-        m_listwidget->itemWidget(m_listwidget->item(row))->setFixedSize(QSize(m_itemwidth, 40 + 45 * m_line));
+        m_listwidget->item(row)->setSizeHint(QSize(m_itemwidth, 40 + fontHeight() * m_line));
+        m_listwidget->itemWidget(m_listwidget->item(row))->setFixedSize(QSize(m_itemwidth, 40 + fontHeight() * m_line));
     }
-    static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)))->setLineHight(m_line); //设置item中label高度
+    static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(row)))->setLineHight(m_line, fontHeight()); //设置item中label高度
     return result;
 }
 
