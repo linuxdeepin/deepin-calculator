@@ -150,7 +150,7 @@ scientificModule::scientificModule(QWidget *parent)
             MemoryButton *btn4 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MS));
             btn4->setEnabled(true);
             m_memCalbtn = true;
-            m_memhiswidget->findChild<MemoryWidget *>()->expressionempty(b);
+            m_memhiswidget->getMemoryWiget()->expressionempty(b);
         } else {
             MemoryButton *btn2 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_Mplus));
             btn2->setEnabled(false);
@@ -159,7 +159,7 @@ scientificModule::scientificModule(QWidget *parent)
             MemoryButton *btn4 = static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MS));
             btn4->setEnabled(false);
             m_memCalbtn = false;
-            m_memhiswidget->findChild<MemoryWidget *>()->expressionempty(b);
+            m_memhiswidget->getMemoryWiget()->expressionempty(b);
         }
     });
 

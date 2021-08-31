@@ -9,30 +9,31 @@ Ut_MemHisKeypad::Ut_MemHisKeypad()
 TEST_F(Ut_MemHisKeypad, button)
 {
     MemHisKeypad *m_memhiskeypad = new MemHisKeypad;
-    ASSERT_EQ(m_memhiskeypad->button(MemHisKeypad::Buttons::Key_MC)->text(), "MC");
-    DSettingsAlt::deleteInstance();
+    EXPECT_EQ(m_memhiskeypad->button(MemHisKeypad::Buttons::Key_MC)->text(), "MC");
+    delete m_memhiskeypad;
 }
 
 TEST_F(Ut_MemHisKeypad, animate)
 {
     MemHisKeypad *m_memhiskeypad = new MemHisKeypad;
     m_memhiskeypad->animate(MemHisKeypad::Buttons::Key_MC, false);
-    DSettingsAlt::deleteInstance();
+    EXPECT_FALSE(static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Buttons::Key_MC))->m_isHover);
+    delete m_memhiskeypad;
 }
 
 TEST_F(Ut_MemHisKeypad, buttonHasFocus)
 {
     MemHisKeypad *m_memhiskeypad = new MemHisKeypad;
-    ASSERT_FALSE(m_memhiskeypad->buttonHasFocus());
-    DSettingsAlt::deleteInstance();
+    EXPECT_FALSE(m_memhiskeypad->buttonHasFocus());
+    delete m_memhiskeypad;
 }
 
 TEST_F(Ut_MemHisKeypad, initButtons)
 {
     MemHisKeypad *m_memhiskeypad = new MemHisKeypad;
     m_memhiskeypad->initButtons();
-    ASSERT_EQ(m_memhiskeypad->m_keys.size(), 7);
-    DSettingsAlt::deleteInstance();
+    EXPECT_EQ(m_memhiskeypad->m_keys.size(), 7);
+    delete m_memhiskeypad;
 }
 
 TEST_F(Ut_MemHisKeypad, getFocus)
@@ -41,5 +42,6 @@ TEST_F(Ut_MemHisKeypad, getFocus)
     m_memhiskeypad->getFocus(1);
     m_memhiskeypad->getFocus(2);
     m_memhiskeypad->getFocus(3);
-    DSettingsAlt::deleteInstance();
+    //焦点函数，无assert
+    delete m_memhiskeypad;
 }

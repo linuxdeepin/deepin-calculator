@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
 
     MainWindow window;
     window.setWindowFlag(Qt::WindowMaximizeButtonHint, false);
-    DSettingsAlt *m_dsettings = DSettingsAlt::instance(&window);
+    DSettingsAlt *m_dsettings = DSettingsAlt::instance();
     QDBusConnection dbus = QDBusConnection::sessionBus();
     if (dbus.registerService("com.deepin.calculator")) {
         Dtk::Widget::moveToCenter(&window);

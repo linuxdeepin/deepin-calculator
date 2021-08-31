@@ -15,10 +15,11 @@ TEST_F(Ut_MemoryListWidget, mousePressEvent)
                                      m_memoryListWidget->pos(), Qt::MouseButton::LeftButton,
                                      Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
     m_memoryListWidget->mousePressEvent(m);
-//    qDebug() << m_memoryListWidget->m_clickrow;
+    EXPECT_EQ(m_memoryListWidget->m_mousemovepoint, m->globalPos());
+    EXPECT_EQ(m_memoryListWidget->m_mousepoint, m->pos());
+    EXPECT_EQ(m_memoryListWidget->m_clickrow, -1);
     delete m;
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
+    delete m_memoryListWidget;
 }
 
 TEST_F(Ut_MemoryListWidget, keyPressEvent)
@@ -42,8 +43,8 @@ TEST_F(Ut_MemoryListWidget, keyPressEvent)
     delete k3;
     delete k4;
     delete k5;
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
+    //焦点设置函数，无assert
+    delete m_memoryListWidget;
 }
 
 TEST_F(Ut_MemoryListWidget, focusInEvent)
@@ -51,5 +52,7 @@ TEST_F(Ut_MemoryListWidget, focusInEvent)
     MemoryListWidget *m_memoryListWidget = new MemoryListWidget;
     QFocusEvent *f = new QFocusEvent(QEvent::Type::FocusIn, Qt::OtherFocusReason);
     m_memoryListWidget->focusInEvent(f);
+    EXPECT_EQ(m_memoryListWidget->currentRow(), -1);
     delete f;
+    delete m_memoryListWidget;
 }

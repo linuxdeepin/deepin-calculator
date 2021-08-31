@@ -384,3 +384,8 @@ void MemHisWidget::historyfilled()
     if (m_stackWidget->currentWidget() != m_memoryWidget)
         m_clearButton->setHidden(false);
 }
+
+MemoryWidget *MemHisWidget::getMemoryWiget()
+{
+    return m_memoryWidget;
+}

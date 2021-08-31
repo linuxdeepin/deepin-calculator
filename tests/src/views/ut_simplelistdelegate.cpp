@@ -23,13 +23,13 @@ void Ut_SimpleListDelegate::TearDown()
 TEST_F(Ut_SimpleListDelegate, setHisLink)
 {
     m_simpleListDelegate->setHisLink(0);
-    ASSERT_EQ(m_simpleListDelegate->m_linkItem.count(), 1);
+    EXPECT_EQ(m_simpleListDelegate->m_linkItem.count(), 1);
 }
 
 TEST_F(Ut_SimpleListDelegate, setHisLinked)
 {
     m_simpleListDelegate->setHisLinked(0);
-    ASSERT_EQ(m_simpleListDelegate->m_linkedIten.count(), 1);
+    EXPECT_EQ(m_simpleListDelegate->m_linkedIten.count(), 1);
 }
 
 TEST_F(Ut_SimpleListDelegate, removeLine2)
@@ -37,7 +37,7 @@ TEST_F(Ut_SimpleListDelegate, removeLine2)
     m_simpleListDelegate->setHisLink(0);
     m_simpleListDelegate->setHisLinked(0);
     m_simpleListDelegate->removeLine(0, 0);
-    ASSERT_EQ(m_simpleListDelegate->m_linkedIten.count(), 0);
+    EXPECT_EQ(m_simpleListDelegate->m_linkedIten.count(), 0);
 }
 
 TEST_F(Ut_SimpleListDelegate, removeLine1)
@@ -47,7 +47,7 @@ TEST_F(Ut_SimpleListDelegate, removeLine1)
     m_simpleListDelegate->setHisLink(1);
     m_simpleListDelegate->setHisLinked(1);
     m_simpleListDelegate->removeLine(0, 0);
-    ASSERT_EQ(m_simpleListDelegate->m_linkedIten.count(), 1);
+    EXPECT_EQ(m_simpleListDelegate->m_linkedIten.count(), 1);
 }
 
 TEST_F(Ut_SimpleListDelegate, removeHisLink)
@@ -55,7 +55,7 @@ TEST_F(Ut_SimpleListDelegate, removeHisLink)
     m_simpleListDelegate->setHisLink(0);
     m_simpleListDelegate->setHisLink(1);
     m_simpleListDelegate->removeHisLink();
-    ASSERT_EQ(m_simpleListDelegate->m_linkItem.count(), 1);
+    EXPECT_EQ(m_simpleListDelegate->m_linkItem.count(), 1);
 }
 
 TEST_F(Ut_SimpleListDelegate, removeAllLink)
@@ -65,7 +65,7 @@ TEST_F(Ut_SimpleListDelegate, removeAllLink)
     m_simpleListDelegate->setHisLink(1);
     m_simpleListDelegate->setHisLinked(1);
     m_simpleListDelegate->removeAllLink();
-    ASSERT_EQ(m_simpleListDelegate->m_linkedIten.count(), 0);
+    EXPECT_EQ(m_simpleListDelegate->m_linkedIten.count(), 0);
 }
 
 TEST_F(Ut_SimpleListDelegate, removeHisLinked)
@@ -73,19 +73,19 @@ TEST_F(Ut_SimpleListDelegate, removeHisLinked)
     m_simpleListDelegate->setHisLinked(0);
     m_simpleListDelegate->setHisLinked(1);
     m_simpleListDelegate->removeHisLinked();
-    ASSERT_EQ(m_simpleListDelegate->m_linkedIten.count(), 1);
+    EXPECT_EQ(m_simpleListDelegate->m_linkedIten.count(), 1);
 }
 
 TEST_F(Ut_SimpleListDelegate, setThemeType)
 {
     m_simpleListDelegate->setThemeType(1);
-    ASSERT_EQ(m_simpleListDelegate->m_type, 1);
+    EXPECT_EQ(m_simpleListDelegate->m_type, 1);
 }
 
 TEST_F(Ut_SimpleListDelegate, paintback)
 {
     m_simpleListDelegate->paintback(QModelIndex(), 1);
-    ASSERT_EQ(m_simpleListDelegate->m_state, 1);
+    EXPECT_EQ(m_simpleListDelegate->m_state, 1);
 }
 
 TEST_F(Ut_SimpleListDelegate, sizeHint)
@@ -95,7 +95,7 @@ TEST_F(Ut_SimpleListDelegate, sizeHint)
     m_simpleListDelegate->m_mode = 1;
     m_simpleListDelegate->sizeHint(QStyleOptionViewItem(), model->index(0, 0));
     model->appendText("1＋1＝2", true);
-    ASSERT_EQ(m_simpleListDelegate->sizeHint(QStyleOptionViewItem(), model->index(0, 0)).width(), 451);
+    EXPECT_EQ(m_simpleListDelegate->sizeHint(QStyleOptionViewItem(), model->index(0, 0)).width(), 451);
 }
 
 //TEST_F(Ut_SimpleListDelegate, editorEvent)
@@ -118,13 +118,13 @@ TEST_F(Ut_SimpleListDelegate, cutApart)
     linkNum = QString();
     expStr = QString();
     m_simpleListDelegate->cutApart("1＋2＝3", linkNum, expStr);
-    ASSERT_EQ(linkNum, "1");
+    EXPECT_EQ(linkNum, "1");
 }
 
 TEST_F(Ut_SimpleListDelegate, setSelect)
 {
     m_simpleListDelegate->setSelect(true);
-    ASSERT_TRUE(m_simpleListDelegate->m_selected);
+    EXPECT_TRUE(m_simpleListDelegate->m_selected);
 }
 
 //bool stub_focus_simpledelegateT()
@@ -158,6 +158,9 @@ TEST_F(Ut_SimpleListDelegate, paintnofocus)
     m_simpleListDelegate->m_type = 1;
     m_simpleListDelegate->paint(painter, option, m_model->index(0, 0, QModelIndex()));
     delete painter;
+    //paint函数，无assert
+    delete m_simplelistview;
+    delete m_model;
 }
 
 TEST_F(Ut_SimpleListDelegate, paint1nofocus)
@@ -182,11 +185,19 @@ TEST_F(Ut_SimpleListDelegate, paint1nofocus)
     m_simpleListDelegate->m_type = 1;
     m_simpleListDelegate->paint(painter, option, m_model->index(0, 0, QModelIndex()));
     delete painter;
+    //paint函数，无assert
+    delete m_simplelistview;
+    delete m_model;
+    delete m_simpleListDelegate;
 }
 
 TEST_F(Ut_SimpleListDelegate, updateEditorGeometry)
 {
-    m_simpleListDelegate->updateEditorGeometry(new QWidget(), QStyleOptionViewItem(), QModelIndex());
+    QWidget *widget = new QWidget();
+    QStyleOptionViewItem item;
+    m_simpleListDelegate->updateEditorGeometry(widget, item, QModelIndex());
+    EXPECT_EQ(widget->geometry(), item.rect);
+    widget->deleteLater();
 }
 
 //QRect stub_visualRect_simpledelegate(void *obj, const QModelIndex &index)

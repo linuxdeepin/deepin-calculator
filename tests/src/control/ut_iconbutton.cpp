@@ -12,95 +12,137 @@ TEST_F(Ut_IconButton, animate)
     m_iconButton->m_isPress = false;
     m_iconButton->setIconUrl("a", "b", "c", 1);
     m_iconButton->animate(false);
+    EXPECT_EQ(m_iconButton->m_mode, 2);
+    EXPECT_EQ(m_iconButton->m_buttonStatus, 2);
     m_iconButton->m_isPress = false;
     m_iconButton->setIconUrl("a", "b", "c", 3);
     m_iconButton->animate(false);
+    EXPECT_EQ(m_iconButton->m_mode, 4);
+    EXPECT_EQ(m_iconButton->m_currentUrl, "c");
     m_iconButton->m_isPress = false;
     m_iconButton->setIconUrl("a", "b", "c", 5);
     m_iconButton->animate(false);
+    EXPECT_EQ(m_iconButton->m_mode, 6);
     m_iconButton->m_isPress = false;
     m_iconButton->setIconUrl("a", "b", "c", 7);
     m_iconButton->animate(false);
-    ASSERT_EQ(m_iconButton->m_mode, 8);
+    EXPECT_EQ(m_iconButton->m_mode, 8);
+    EXPECT_TRUE(m_iconButton->m_isPress);
+    delete m_iconButton;
 }
 
 TEST_F(Ut_IconButton, setIconUrl)
 {
     IconButton *m_iconButton = new IconButton;
     m_iconButton->setIconUrl("a", "b", "c", 2);
-    ASSERT_EQ(m_iconButton->m_mode, 2);
+    EXPECT_EQ(m_iconButton->m_mode, 2);
+    EXPECT_EQ(m_iconButton->m_currentUrl, "a");
+    EXPECT_EQ(m_iconButton->m_buttonStatus, 0);
+    delete m_iconButton;
 }
 
 TEST_F(Ut_IconButton, showtooltip)
 {
     IconButton *m_iconButton = new IconButton;
     m_iconButton->showtooltip(false);
+    EXPECT_EQ(m_iconButton->m_cleartooltip, "Clear history");
     m_iconButton->showtooltip(true);
-    ASSERT_EQ(m_iconButton->m_cleartooltip, "Clear all memory");
+    EXPECT_EQ(m_iconButton->m_cleartooltip, "Clear all memory");
+    delete m_iconButton;
 }
 
 TEST_F(Ut_IconButton, updateWhenBtnDisable)
 {
     IconButton *m_iconButton = new IconButton;
     m_iconButton->updateWhenBtnDisable();
-    ASSERT_FALSE(m_iconButton->m_isPress);
+    EXPECT_FALSE(m_iconButton->m_isPress);
+    EXPECT_EQ(m_iconButton->m_buttonStatus, 0);
+    EXPECT_EQ(m_iconButton->m_mode, 1);
+    delete m_iconButton;
 }
 
 TEST_F(Ut_IconButton, setBtnPressing)
 {
     IconButton *m_iconButton = new IconButton;
     m_iconButton->setBtnPressing(false);
+    EXPECT_FALSE(m_iconButton->m_isPressing);
+    EXPECT_EQ(m_iconButton->m_buttonStatus, 0);
+    EXPECT_FALSE(m_iconButton->m_isPressing);
     m_iconButton->setBtnPressing(true);
-    ASSERT_TRUE(m_iconButton->m_isPressing);
+    EXPECT_TRUE(m_iconButton->m_isPressing);
+    EXPECT_EQ(m_iconButton->m_buttonStatus, 2);
+    EXPECT_TRUE(m_iconButton->m_isPressing);
+    delete m_iconButton;
 }
 
 TEST_F(Ut_IconButton, setBtnHighlight)
 {
     IconButton *m_iconButton = new IconButton;
     m_iconButton->setBtnHighlight(false);
-    ASSERT_FALSE(m_iconButton->m_highlight);
+    EXPECT_FALSE(m_iconButton->m_highlight);
+    delete m_iconButton;
 }
 
 TEST_F(Ut_IconButton, mousePressEvent)
 {
     IconButton *m_iconButton = new IconButton;
+    m_iconButton->m_mode = 1;
     m_iconButton->animate(false, 100);
     QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
                                      m_iconButton->pos(), Qt::MouseButton::LeftButton,
                                      Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
     m_iconButton->mousePressEvent(m);
-    ASSERT_TRUE(m_iconButton->m_isPress);
+    EXPECT_TRUE(m_iconButton->m_isPress);
+    EXPECT_FALSE(m_iconButton->m_isHover);
+    EXPECT_EQ(m_iconButton->m_buttonStatus, 2);
+    EXPECT_EQ(m_iconButton->m_mode, 2);
     delete m;
+    delete m_iconButton;
 }
 
 TEST_F(Ut_IconButton, mouseReleaseEvent)
 {
     IconButton *m_iconButton = new IconButton;
+    m_iconButton->m_mode = 2;
     m_iconButton->animate(false, 100);
     QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
                                      m_iconButton->pos(), Qt::MouseButton::LeftButton,
                                      Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
     m_iconButton->mouseReleaseEvent(m);
-    ASSERT_FALSE(m_iconButton->m_isPress);
+    EXPECT_TRUE(m_iconButton->m_isHover);
+    EXPECT_FALSE(m_iconButton->m_isPress);
+    EXPECT_EQ(m_iconButton->m_buttonStatus, 1);
+    EXPECT_EQ(m_iconButton->m_mode, 1);
+    EXPECT_TRUE(m_iconButton->m_isacting);
     delete m;
+    delete m_iconButton;
 }
 
 TEST_F(Ut_IconButton, enterEvent)
 {
     IconButton *m_iconButton = new IconButton;
+    m_iconButton->setIconUrl("a", "b", "c", 1);
     QEvent *e = new QEvent(QEvent::Type::Enter);
     m_iconButton->enterEvent(e);
-    ASSERT_TRUE(m_iconButton->m_isHover);
+    EXPECT_TRUE(m_iconButton->m_isHover);
+    EXPECT_EQ(m_iconButton->m_buttonStatus, 1);
+    EXPECT_EQ(m_iconButton->m_currentUrl, "b");
     delete e;
+    delete m_iconButton;
 }
 
 TEST_F(Ut_IconButton, leaveEvent)
 {
     IconButton *m_iconButton = new IconButton;
+    m_iconButton->setIconUrl("a", "b", "c", 1);
     QEvent *e = new QEvent(QEvent::Type::Leave);
     m_iconButton->leaveEvent(e);
-    ASSERT_FALSE(m_iconButton->m_isHover);
+    EXPECT_FALSE(m_iconButton->m_isHover);
+    EXPECT_EQ(m_iconButton->m_buttonStatus, 0);
+    EXPECT_EQ(m_iconButton->m_currentUrl, "a");
+    EXPECT_FALSE(m_iconButton->m_isacting);
     delete e;
+    delete m_iconButton;
 }
 
 bool stub_focus_icon()
@@ -205,6 +247,7 @@ TEST_F(Ut_IconButton, paintEvent)
     m_iconButton->paintEvent(event);
     //无ASSERT
     delete event;
+    delete m_iconButton;
 }
 
 TEST_F(Ut_IconButton, keyPressEvent)
@@ -230,4 +273,5 @@ TEST_F(Ut_IconButton, keyPressEvent)
     delete k4;
     delete k5;
     //无ASSERT
+    delete m_iconButton;
 }

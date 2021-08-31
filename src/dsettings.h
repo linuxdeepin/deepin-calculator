@@ -28,10 +28,9 @@ class DSettingsAlt : public QObject
     Q_OBJECT
 private:
     explicit DSettingsAlt(QObject *parent = nullptr);
-public:
-    static DSettingsAlt *instance(QObject *p);
-
     ~DSettingsAlt();
+public:
+    static DSettingsAlt *instance();
 
     QVariant getOption(const QString &key);
     void setOption(const QString &key, const QVariant &value);

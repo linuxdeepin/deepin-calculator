@@ -15,11 +15,22 @@ TEST_F(Ut_ScientificModule, signals1)
 {
     scientificModule *m_scientificModule = new scientificModule;
     m_scientificModule->m_memhiswidget->hisIsFilled(true);
+    EXPECT_TRUE(m_scientificModule->m_havail);
+
+    m_scientificModule->m_memoryPublic->memoryclean();
     m_scientificModule->m_memoryPublic->generateData(Quantity(1));
-    m_scientificModule->m_memhiswidget->findChild<MemoryWidget *>()->widgetminus(0);
-    m_scientificModule->m_memhiswidget->findChild<MemoryWidget *>()->widgetplus(0);
-    m_scientificModule->m_memhiswidget->findChild<MemoryWidget *>()->itemclick({"1", Quantity(1)});
-    ASSERT_EQ(m_scientificModule->m_sciexpressionBar->getInputEdit()->text(), "1");
+    EXPECT_TRUE(m_scientificModule->m_memRCbtn);
+    EXPECT_TRUE(m_scientificModule->m_avail);
+
+    m_scientificModule->m_memhiswidget->m_memoryWidget->widgetminus(0);
+    EXPECT_FALSE(m_scientificModule->m_memoryPublic->isEmpty());
+
+    m_scientificModule->m_memhiswidget->m_memoryWidget->widgetplus(0);
+    EXPECT_FALSE(m_scientificModule->m_memoryPublic->isEmpty());
+
+    m_scientificModule->m_memhiswidget->m_memoryWidget->itemclick({"1", Quantity(1)});
+    EXPECT_EQ(m_scientificModule->m_sciexpressionBar->getInputEdit()->text(), "1");
+    m_scientificModule->deleteLater();
 }
 
 bool stub_geometry_contains(const QPoint &p, bool proper = false)
@@ -37,8 +48,9 @@ TEST_F(Ut_ScientificModule, mousePressEvent)
     stub.set((bool (QRect::*)(const QPoint &, bool) const)ADDR(QRect, contains), stub_geometry_contains);
     QMouseEvent *m = new QMouseEvent(QEvent::MouseButtonPress, m_scientificModule->findChild<InputEdit *>()->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
     m_scientificModule->mousePressEvent(m);
-    ASSERT_EQ(m_scientificModule->m_stackWidget->currentWidget(), m_scientificModule->m_scikeypadwidget);
+    EXPECT_EQ(m_scientificModule->m_stackWidget->currentWidget(), m_scientificModule->m_scikeypadwidget);
     delete m;
+    m_scientificModule->deleteLater();
 }
 
 TEST_F(Ut_ScientificModule, setKeyPress)
@@ -46,44 +58,53 @@ TEST_F(Ut_ScientificModule, setKeyPress)
     scientificModule *m_scientificModule = new scientificModule;
     QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier);
     m_scientificModule->setKeyPress(k);
-    ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "1");
+    EXPECT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "1");
     delete k;
+    m_scientificModule->deleteLater();
 }
 
 TEST_F(Ut_ScientificModule, checkLineEmpty)
 {
     scientificModule *m_scientificModule = new scientificModule;
     m_scientificModule->checkLineEmpty();
+    EXPECT_FALSE(m_scientificModule->m_memCalbtn);
     m_scientificModule->findChild<InputEdit *>()->setText("1");
     m_scientificModule->checkLineEmpty();
-    ASSERT_TRUE(m_scientificModule->m_memCalbtn);
+    EXPECT_TRUE(m_scientificModule->m_memCalbtn);
+    m_scientificModule->deleteLater();
 }
 
 TEST_F(Ut_ScientificModule, mAvailableEvent)
 {
     scientificModule *m_scientificModule = new scientificModule;
     m_scientificModule->mAvailableEvent();
-    ASSERT_TRUE(m_scientificModule->m_memRCbtn);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
+    EXPECT_TRUE(m_scientificModule->m_memRCbtn);
+    EXPECT_TRUE(m_scientificModule->m_avail);
+    EXPECT_TRUE(static_cast<MemoryButton *>(m_scientificModule->m_memhiskeypad->button(MemHisKeypad::Key_MC))->isEnabled());
+    EXPECT_TRUE(static_cast<MemoryButton *>(m_scientificModule->m_memhiskeypad->button(MemHisKeypad::Key_MR))->isEnabled());
+    EXPECT_TRUE(static_cast<MemoryButton *>(m_scientificModule->m_memhiskeypad->button(MemHisKeypad::Key_MHlist))->isEnabled());
+    m_scientificModule->deleteLater();
 }
 
 TEST_F(Ut_ScientificModule, mUnAvailableEvent)
 {
     scientificModule *m_scientificModule = new scientificModule;
     m_scientificModule->mUnAvailableEvent();
-    ASSERT_FALSE(m_scientificModule->m_memRCbtn);
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
+    EXPECT_FALSE(m_scientificModule->m_memRCbtn);
+    EXPECT_FALSE(m_scientificModule->m_avail);
+    EXPECT_FALSE(static_cast<MemoryButton *>(m_scientificModule->m_memhiskeypad->button(MemHisKeypad::Key_MC))->isEnabled());
+    EXPECT_FALSE(static_cast<MemoryButton *>(m_scientificModule->m_memhiskeypad->button(MemHisKeypad::Key_MR))->isEnabled());
+    m_scientificModule->deleteLater();
 }
 
 TEST_F(Ut_ScientificModule, initTheme)
 {
     scientificModule *m_scientificModule = new scientificModule;
     m_scientificModule->initTheme(1);
-    ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Text), "#303030");
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
+    EXPECT_EQ(m_scientificModule->findChild<InputEdit *>()->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Text), "#303030");
+    m_scientificModule->initTheme(2);
+    EXPECT_EQ(m_scientificModule->findChild<InputEdit *>()->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Text), "#b4b4b4");
+    m_scientificModule->deleteLater();
 }
 
 TEST_F(Ut_ScientificModule, handleEditKeyPress)
@@ -214,7 +235,8 @@ TEST_F(Ut_ScientificModule, handleEditKeyPress)
     QTest::keyClick(m_scientificModule->findChild<InputEdit *>(), Qt::Key_Plus, Qt::NoModifier);
     QTest::keyClick(m_scientificModule->findChild<InputEdit *>(), Qt::Key_1, Qt::NoModifier);
     QTest::keyClick(m_scientificModule->findChild<InputEdit *>(), Qt::Key_Equal, Qt::NoModifier);
-    ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "2");
+    EXPECT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "2");
+    m_scientificModule->deleteLater();
 }
 
 TEST_F(Ut_ScientificModule, handleKeypadButtonPress)
@@ -338,9 +360,8 @@ TEST_F(Ut_ScientificModule, handleKeypadButtonPress)
     m_scientificModule->handleKeypadButtonPress(ScientificKeyPad::Key_Plus);
     m_scientificModule->handleKeypadButtonPress(ScientificKeyPad::Key_1);
     m_scientificModule->handleKeypadButtonPress(ScientificKeyPad::Key_Equals);
-    ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "2");
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
+    EXPECT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "2");
+    m_scientificModule->deleteLater();
 }
 
 TEST_F(Ut_ScientificModule, handleKeypadButtonPressByspace)
@@ -464,7 +485,8 @@ TEST_F(Ut_ScientificModule, handleKeypadButtonPressByspace)
     m_scientificModule->handleKeypadButtonPressByspace(ScientificKeyPad::Key_Plus);
     m_scientificModule->handleKeypadButtonPressByspace(ScientificKeyPad::Key_1);
     m_scientificModule->handleKeypadButtonPressByspace(ScientificKeyPad::Key_Equals);
-    ASSERT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "2");
+    EXPECT_EQ(m_scientificModule->findChild<InputEdit *>()->text(), "2");
+    m_scientificModule->deleteLater();
 }
 
 TEST_F(Ut_ScientificModule, hideMemHisWidget)
@@ -472,9 +494,13 @@ TEST_F(Ut_ScientificModule, hideMemHisWidget)
     scientificModule *m_scientificModule = new scientificModule;
     m_scientificModule->m_avail = true;
     m_scientificModule->hideMemHisWidget();
+    EXPECT_FALSE(m_scientificModule-> m_isallgray);
+    EXPECT_TRUE(m_scientificModule-> m_memRCbtn);
     m_scientificModule->m_avail = false;
     m_scientificModule->hideMemHisWidget();
-    ASSERT_EQ(m_scientificModule->m_stackWidget->currentWidget(), m_scientificModule->m_scikeypadwidget);
+    EXPECT_EQ(m_scientificModule->m_stackWidget->currentWidget(), m_scientificModule->m_scikeypadwidget);
+    EXPECT_FALSE(m_scientificModule-> m_memRCbtn);
+    m_scientificModule->deleteLater();
 }
 
 int stub_model_sci()
@@ -491,6 +517,7 @@ TEST_F(Ut_ScientificModule, clickListView)
     Stub stub;
     stub.set(ADDR(QModelIndex, row), stub_model_sci);
     m_scientificModule->clickListView(QModelIndex());
-    ASSERT_EQ(m_scientificModule->m_sciexpressionBar->getInputEdit()->text(), "2");
+    EXPECT_EQ(m_scientificModule->m_sciexpressionBar->getInputEdit()->text(), "2");
     delete k;
+    m_scientificModule->deleteLater();
 }

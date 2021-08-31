@@ -9,38 +9,43 @@ Ut_ProCheckBtnKeypad::Ut_ProCheckBtnKeypad()
 TEST_F(Ut_ProCheckBtnKeypad, button)
 {
     ProCheckBtnKeypad *m_procheckbtnkeypad = new ProCheckBtnKeypad;
-    ASSERT_EQ(m_procheckbtnkeypad->button(ProCheckBtnKeypad::Buttons::Key_MS)->text(), "MS");
-    DSettingsAlt::deleteInstance();
+    EXPECT_EQ(m_procheckbtnkeypad->button(ProCheckBtnKeypad::Buttons::Key_MS)->text(), "MS");
+    delete m_procheckbtnkeypad;
 }
 
 TEST_F(Ut_ProCheckBtnKeypad, animate)
 {
     ProCheckBtnKeypad *m_procheckbtnkeypad = new ProCheckBtnKeypad;
     m_procheckbtnkeypad->animate(ProCheckBtnKeypad::Buttons::Key_MS, false);
-    DSettingsAlt::deleteInstance();
+    EXPECT_FALSE(static_cast<MemoryButton *>(m_procheckbtnkeypad->button(ProCheckBtnKeypad::Buttons::Key_MS))->m_isHover);
+    delete m_procheckbtnkeypad;
 }
 
 TEST_F(Ut_ProCheckBtnKeypad, buttonHasFocus)
 {
     ProCheckBtnKeypad *m_procheckbtnkeypad = new ProCheckBtnKeypad;
-    ASSERT_FALSE(m_procheckbtnkeypad->buttonHasFocus());
-    DSettingsAlt::deleteInstance();
+    EXPECT_FALSE(m_procheckbtnkeypad->buttonHasFocus());
+    delete m_procheckbtnkeypad;
 }
 
 TEST_F(Ut_ProCheckBtnKeypad, initButtons)
 {
     ProCheckBtnKeypad *m_procheckbtnkeypad = new ProCheckBtnKeypad;
     m_procheckbtnkeypad->initButtons();
-    ASSERT_EQ(m_procheckbtnkeypad->m_keys.size(), 6);
-    DSettingsAlt::deleteInstance();
+    EXPECT_EQ(m_procheckbtnkeypad->m_keys.size(), 6);
+    delete m_procheckbtnkeypad;
 }
 
 TEST_F(Ut_ProCheckBtnKeypad, buttonThemeChanged)
 {
     ProCheckBtnKeypad *m_procheckbtnkeypad = new ProCheckBtnKeypad;
     m_procheckbtnkeypad->buttonThemeChanged(1);
+    EXPECT_EQ(static_cast<IconButton *>(m_procheckbtnkeypad->button(ProCheckBtnKeypad::Key_GeneralKeypad))->m_currentUrl,
+              ":/assets/images/light/icon_generalkeyboard_normal.svg");
     m_procheckbtnkeypad->buttonThemeChanged(2);
-    DSettingsAlt::deleteInstance();
+    EXPECT_EQ(static_cast<IconButton *>(m_procheckbtnkeypad->button(ProCheckBtnKeypad::Key_BinaryKeypad))->m_currentUrl,
+              ":/assets/images/dark/icon_binarysystem_normal.svg");
+    delete m_procheckbtnkeypad;
 }
 
 TEST_F(Ut_ProCheckBtnKeypad, getFocus)
@@ -49,5 +54,6 @@ TEST_F(Ut_ProCheckBtnKeypad, getFocus)
     m_procheckbtnkeypad->getFocus(1);
     m_procheckbtnkeypad->getFocus(2);
     m_procheckbtnkeypad->getFocus(3);
-    DSettingsAlt::deleteInstance();
+    //焦点函数，无assert
+    delete m_procheckbtnkeypad;
 }

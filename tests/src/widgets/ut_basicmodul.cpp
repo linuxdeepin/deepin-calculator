@@ -13,16 +13,19 @@ TEST_F(Ut_BasicModul, Signals)
     BasicModule *m_basicmodul = new BasicModule;
 
     m_basicmodul->m_memorylistwidget->widgetplus(0);
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "");
     m_basicmodul->m_memorylistwidget->widgetminus(0);
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "");
     m_basicmodul->m_memoryPublic->generateData(Quantity(1));
     m_basicmodul->m_memoryPublic->memoryclean();
     m_basicmodul->m_keypadLayout->setCurrentIndex(1);
     QPair<QString, Quantity> pair2 = {"1", Quantity(1)};
     m_basicmodul->m_memorylistwidget->itemclick(pair2);
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
     m_basicmodul->m_memorylistwidget->hideWidget();
+    EXPECT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 0);
     m_basicmodul->m_memorylistwidget->insidewidget();
-    DSettingsAlt::deleteInstance();
-    MemoryPublic::deleteInstance();
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, setKeyPress)
@@ -30,36 +33,44 @@ TEST_F(Ut_BasicModul, setKeyPress)
     BasicModule *m_basicmodul = new BasicModule;
     QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier);
     m_basicmodul->setKeyPress(k);
-    ASSERT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
     delete k;
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, mAvailableEvent)
 {
     BasicModule *m_basicmodul = new BasicModule;
     m_basicmodul->mAvailableEvent();
-    ASSERT_TRUE(m_basicmodul->m_memRCbtn);
+    EXPECT_TRUE(m_basicmodul->m_memRCbtn);
+    EXPECT_TRUE(m_basicmodul->m_avail);
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, mUnAvailableEvent)
 {
     BasicModule *m_basicmodul = new BasicModule;
     m_basicmodul->mUnAvailableEvent();
-    ASSERT_FALSE(m_basicmodul->m_memRCbtn);
+    EXPECT_FALSE(m_basicmodul->m_memRCbtn);
+    EXPECT_FALSE(m_basicmodul->m_avail);
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, showListWidget)
 {
     BasicModule *m_basicmodul = new BasicModule;
     m_basicmodul->showListWidget();
-    ASSERT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 1);
+    EXPECT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 1);
+    EXPECT_TRUE(m_basicmodul->m_isallgray);
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, initTheme)
 {
     BasicModule *m_basicmodul = new BasicModule;
     m_basicmodul->initTheme(1);
-    ASSERT_EQ(m_basicmodul->findChild<InputEdit *>()->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Text), "#303030");
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Text), "#303030");
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, handleEditKeyPress)
@@ -109,7 +120,8 @@ TEST_F(Ut_BasicModul, handleEditKeyPress)
     QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_M, Qt::ControlModifier);
     QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Escape, Qt::NoModifier);
     QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_1, Qt::NoModifier);
-    ASSERT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, handleKeypadButtonPress)
@@ -148,7 +160,8 @@ TEST_F(Ut_BasicModul, handleKeypadButtonPress)
     m_basicmodul->handleKeypadButtonPress(MemoryKeypad::Key_MR);
     m_basicmodul->handleKeypadButtonPress(BasicKeypad::Key_Clear);
     m_basicmodul->handleKeypadButtonPress(BasicKeypad::Key_1);
-    ASSERT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, handleKeypadButtonPressByspace)
@@ -182,7 +195,8 @@ TEST_F(Ut_BasicModul, handleKeypadButtonPressByspace)
     m_basicmodul->handleKeypadButtonPressByspace(MemoryKeypad::Key_MR);
     m_basicmodul->handleKeypadButtonPressByspace(BasicKeypad::Key_Clear);
     m_basicmodul->handleKeypadButtonPressByspace(BasicKeypad::Key_1);
-    ASSERT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, mousePressEvent)
@@ -193,11 +207,13 @@ TEST_F(Ut_BasicModul, mousePressEvent)
     QTest::mouseClick(m_basicmodul->findChild<MemoryKeypad *>()->button(MemoryKeypad::Key_Mlist), Qt::LeftButton);
     QMouseEvent *m = new QMouseEvent(QEvent::MouseButtonPress, m_basicmodul->findChild<InputEdit *>()->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
     m_basicmodul->mousePressEvent(m);
+    EXPECT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 0);
     QTest::mouseClick(m_basicmodul->findChild<MemoryKeypad *>()->button(MemoryKeypad::Key_Mlist), Qt::LeftButton);
     QTest::mouseClick(m_basicmodul->findChild<MemoryWidget *>()->findChild<IconButton *>(), Qt::LeftButton);
     m_basicmodul->mousePressEvent(m);
-    ASSERT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 0);
+    EXPECT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 0);
     delete m;
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, itemclick)
@@ -207,5 +223,6 @@ TEST_F(Ut_BasicModul, itemclick)
     QTest::mouseClick(m_basicmodul->findChild<MemoryKeypad *>()->button(MemoryKeypad::Key_MS), Qt::LeftButton);
     QTest::mouseClick(m_basicmodul->findChild<MemoryKeypad *>()->button(MemoryKeypad::Key_Mlist), Qt::LeftButton);
     QTest::mouseClick(m_basicmodul->findChild<MemoryItemWidget *>(), Qt::LeftButton);
-    ASSERT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 0);
+    EXPECT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 0);
+    m_basicmodul->deleteLater();
 }

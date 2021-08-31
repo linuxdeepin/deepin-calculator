@@ -10,8 +10,8 @@ TEST_F(Ut_SimpleListView, connect)
 {
     SimpleListView *m_simpleListView = new SimpleListView();
     m_simpleListView->verticalScrollBar()->rangeChanged(1, 1);
-    //无ASSERT
-    DSettingsAlt::deleteInstance();
+    EXPECT_EQ(m_simpleListView->viewportMargins(), QMargins(0, 0, 0, 0));
+    delete m_simpleListView;
 }
 
 QAction *stub_exec_simple(const QPoint &pos, QAction *at = nullptr)
@@ -36,17 +36,18 @@ TEST_F(Ut_SimpleListView, contextMenuEvent)
                                                  m_simpleListView->pos(), m_simpleListView->pos(),
                                                  Qt::KeyboardModifier::NoModifier);
     m_simpleListView->contextMenuEvent(e);
-    //无ASSERT
+    EXPECT_EQ(e->pos(), m_simpleListView->pos());
     delete e;
-    DSettingsAlt::deleteInstance();
+    delete m_simpleListView;
+    delete m_model;
 }
 
 TEST_F(Ut_SimpleListView, listItemFill)
 {
     SimpleListView *m_simpleListView = new SimpleListView();
     m_simpleListView->listItemFill(true);
-    ASSERT_TRUE(m_simpleListView->m_itemfill);
-    DSettingsAlt::deleteInstance();
+    EXPECT_TRUE(m_simpleListView->m_itemfill);
+    delete m_simpleListView;
 }
 
 TEST_F(Ut_SimpleListView, showTextEditMenuByAltM)
@@ -65,10 +66,11 @@ TEST_F(Ut_SimpleListView, showTextEditMenuByAltM)
     stub.set((QAction * (QMenu::*)(const QPoint &, QAction *)) ADDR(QMenu, exec), stub_exec_simple);
     //    QContextMenuEvent *e = new QContextMenuEvent(QContextMenuEvent::Reason::Mouse, m_simpleListView->pos());
     m_simpleListView->listItemFill(true);
-    qInfo() << m_simpleListView->currentIndex().row();
+
     m_simpleListView->showTextEditMenuByAltM(m_simpleListView->currentIndex());
-    //无ASSERT
-    DSettingsAlt::deleteInstance();
+    EXPECT_EQ(m_simpleListView->currentIndex().row(), 1);
+    delete m_simpleListView;
+    delete m_simpleListModel;
 }
 
 TEST_F(Ut_SimpleListView, mouseMoveEvent)
@@ -79,8 +81,10 @@ TEST_F(Ut_SimpleListView, mouseMoveEvent)
     m_simpleListView->m_ispressed = true;
     QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseMove, m_simpleListView->pos(), Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
     m_simpleListView->mouseMoveEvent(m);
+    EXPECT_FALSE(m_simpleListView->m_presschanged);
     m_simpleListView->m_ispressed = false;
     m_simpleListView->mouseMoveEvent(m);
+    EXPECT_FALSE(m_simpleListView->m_presschanged);
 
     m_simpleListView->m_mode = 0;
     SimpleListModel *m_model = new SimpleListModel;
@@ -89,16 +93,19 @@ TEST_F(Ut_SimpleListView, mouseMoveEvent)
     m_simpleListView->setItemDelegate(m_delegate);
     m_model->appendText("1", true);
     m_simpleListView->mouseMoveEvent(m);
+    EXPECT_FALSE(m_simpleListView->m_presschanged);
     delete m;
-    //无ASSERT
+    delete m_simpleListView;
+    delete m_model;
+    delete m_delegate;
 }
 
 TEST_F(Ut_SimpleListView, adjustScrollbarMargins)
 {
     SimpleListView *m_simpleListView = new SimpleListView();
     m_simpleListView->adjustScrollbarMargins();
-    //无ASSERT
-    DSettingsAlt::deleteInstance();
+    EXPECT_EQ(m_simpleListView->viewportMargins(), QMargins(0, 0, 0, 0));
+    delete m_simpleListView;
 }
 
 TEST_F(Ut_SimpleListView, mousePressEvent)
@@ -114,8 +121,12 @@ TEST_F(Ut_SimpleListView, mousePressEvent)
                                      m_simpleListView->pos(), Qt::MouseButton::LeftButton,
                                      Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
     m_simpleListView->mousePressEvent(m);
-    ASSERT_TRUE(m_simpleListView->m_ispressed);
+    EXPECT_EQ(m_simpleListView->m_currentrow, 0);
+    EXPECT_TRUE(m_simpleListView->m_ispressed);
     delete m;
+    delete m_simpleListView;
+    delete m_model;
+    delete m_delegate;
 }
 
 TEST_F(Ut_SimpleListView, mouseReleaseEvent)
@@ -131,8 +142,12 @@ TEST_F(Ut_SimpleListView, mouseReleaseEvent)
                                      m_simpleListView->pos(), Qt::MouseButton::LeftButton,
                                      Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
     m_simpleListView->mouseReleaseEvent(m);
-    ASSERT_FALSE(m_simpleListView->m_ispressed);
+    EXPECT_FALSE(m_simpleListView->m_ispressed);
+    EXPECT_EQ(m_simpleListView->m_presspoint, QPoint());
     delete m;
+    delete m_simpleListView;
+    delete m_model;
+    delete m_delegate;
 }
 
 TEST_F(Ut_SimpleListView, keyPressEvent)
@@ -153,16 +168,21 @@ TEST_F(Ut_SimpleListView, keyPressEvent)
     QKeyEvent *k1 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
     QKeyEvent *k2 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier);
     QKeyEvent *k3 = new QKeyEvent(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier);
+    m_simpleListView->setCurrentIndex(m_simpleListView->model()->index(0, 0));
     m_simpleListView->keyPressEvent(k);
     m_simpleListView->keyPressEvent(k1);
+    EXPECT_EQ(m_simpleListView->m_currentindexrow, 0);
     m_simpleListView->keyPressEvent(k2);
+    EXPECT_EQ(m_simpleListView->m_currentindexrow, 1);
     m_simpleListView->keyPressEvent(k3);
     delete k;
     delete k1;
     delete k2;
     delete k3;
-    //无ASSERT
-    DSettingsAlt::deleteInstance();
+
+    delete m_simpleListView;
+    delete m_simpleListModel;
+    delete m_simpleListDelegate;
 }
 
 TEST_F(Ut_SimpleListView, focusInEvent)
@@ -176,6 +196,9 @@ TEST_F(Ut_SimpleListView, focusInEvent)
     m_simpleListView->m_mode = 1;
     QFocusEvent *f = new QFocusEvent(QFocusEvent::Type::FocusIn);
     m_simpleListView->focusInEvent(f);
-    ASSERT_EQ(m_simpleListView->currentIndex().row(), 0);
+    EXPECT_EQ(m_simpleListView->currentIndex().row(), 0);
     delete f;
+    delete m_simpleListView;
+    delete m_model;
+    delete m_delegate;
 }

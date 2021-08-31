@@ -26,26 +26,26 @@ void Ut_ProListDelegate::TearDown()
 TEST_F(Ut_ProListDelegate, setThemeType)
 {
     m_proListDelegate->setThemeType(1);
-    ASSERT_EQ(m_proListDelegate->m_themeType, 1);
+    EXPECT_EQ(m_proListDelegate->m_themeType, 1);
 }
 
 TEST_F(Ut_ProListDelegate, currentfocusindex)
 {
     m_proListDelegate->currentfocusindex(QModelIndex());
-    ASSERT_EQ(m_proListDelegate->m_focusindex, QModelIndex());
+    EXPECT_EQ(m_proListDelegate->m_focusindex, QModelIndex());
 }
 
 TEST_F(Ut_ProListDelegate, sizeHint)
 {
     m_proListDelegate->sizeHint(QStyleOptionViewItem(), m_model->index(0, 0));
-    ASSERT_EQ(m_proListDelegate->sizeHint(QStyleOptionViewItem(), m_model->index(3, 0)), QSize(451, 28));
+    EXPECT_EQ(m_proListDelegate->sizeHint(QStyleOptionViewItem(), m_model->index(3, 0)), QSize(451, 28));
 }
 
 TEST_F(Ut_ProListDelegate, editorEvent)
 {
     QStyleOptionViewItem item;
     QEvent *e = new QEvent(QEvent::Type::None);
-    ASSERT_TRUE(m_proListDelegate->editorEvent(e, m_model, item, m_model->index(0, 0)));
+    EXPECT_TRUE(m_proListDelegate->editorEvent(e, m_model, item, m_model->index(0, 0)));
     delete e;
 }
 

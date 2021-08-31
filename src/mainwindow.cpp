@@ -46,7 +46,7 @@ const QSize PROGRAMM_SIZE = QSize(451, 574); //程序员模式固定大小
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent)
 {
-    m_settings = DSettingsAlt::instance(this);
+    m_settings = DSettingsAlt::instance();
     m_mainLayout = new QStackedLayout();
     m_tbMenu = new DMenu(this);
     QIcon t_icon = QIcon::fromTheme("deepin-calculator");

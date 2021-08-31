@@ -10,7 +10,10 @@ TEST_F(Ut_EqualButton, init)
 {
     EqualButton *m_equalButton = new EqualButton;
     m_equalButton->init();
-    ASSERT_EQ(m_equalButton->m_font.pixelSize(), 36);
+    EXPECT_EQ(m_equalButton->m_font.pixelSize(), 36);
+    EXPECT_EQ(m_equalButton->m_font.family(), "Noto Sans");
+    EXPECT_EQ(m_equalButton->m_font.styleName(), "Light");
+    delete m_equalButton;
 }
 
 TEST_F(Ut_EqualButton, mousePressEvent)
@@ -20,8 +23,10 @@ TEST_F(Ut_EqualButton, mousePressEvent)
                                      m_equalButton->pos(), Qt::MouseButton::LeftButton,
                                      Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
     m_equalButton->mousePressEvent(m);
-    ASSERT_TRUE(m_equalButton->m_isPress);
     delete m;
+    EXPECT_TRUE(m_equalButton->m_isPress);
+    EXPECT_FALSE(m_equalButton->m_isHover);
+    delete m_equalButton;
 }
 
 TEST_F(Ut_EqualButton, mouseReleaseEvent)
@@ -31,8 +36,11 @@ TEST_F(Ut_EqualButton, mouseReleaseEvent)
                                      m_equalButton->pos(), Qt::MouseButton::LeftButton,
                                      Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
     m_equalButton->mouseReleaseEvent(m);
-    ASSERT_FALSE(m_equalButton->m_isPress);
     delete m;
+    EXPECT_FALSE(m_equalButton->m_isPress);
+    EXPECT_TRUE(m_equalButton->m_isacting);
+    EXPECT_TRUE(m_equalButton->m_isHover);
+    delete m_equalButton;
 }
 
 TEST_F(Ut_EqualButton, enterEvent)
@@ -40,8 +48,9 @@ TEST_F(Ut_EqualButton, enterEvent)
     EqualButton *m_equalButton = new EqualButton;
     QEvent *e = new QEvent(QEvent::Type::Enter);
     m_equalButton->enterEvent(e);
-    ASSERT_TRUE(m_equalButton->m_isHover);
     delete e;
+    EXPECT_TRUE(m_equalButton->m_isHover);
+    delete m_equalButton;
 }
 
 TEST_F(Ut_EqualButton, leaveEvent)
@@ -49,8 +58,9 @@ TEST_F(Ut_EqualButton, leaveEvent)
     EqualButton *m_equalButton = new EqualButton;
     QEvent *e = new QEvent(QEvent::Type::Leave);
     m_equalButton->leaveEvent(e);
-    ASSERT_FALSE(m_equalButton->m_isHover);
     delete e;
+    EXPECT_FALSE(m_equalButton->m_isHover);
+    delete m_equalButton;
 }
 
 bool stub_focus_equal()
@@ -95,8 +105,9 @@ TEST_F(Ut_EqualButton, paintEvent)
     m_equalButton->m_isPress = false;
     m_equalButton->paintEvent(event);
     m_equalButton->update();
-    //无ASSERT
+    //paintevent，无ASSERT
     delete event;
+    delete m_equalButton;
 }
 
 TEST_F(Ut_EqualButton, keyPressEvent)
@@ -120,5 +131,6 @@ TEST_F(Ut_EqualButton, keyPressEvent)
     delete k3;
     delete k4;
     delete k5;
-    //无ASSERT
+    //该函数仅修改焦点，无ASSERT
+    delete m_equalButton;
 }

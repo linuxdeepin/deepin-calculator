@@ -54,17 +54,17 @@ TEST_F(Ut_MemoryItemDelegate, paint)
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_memoryItemDelegate->paint(painter, option, index);
     delete painter;
-//    listwidget->update();
-//    qDebug() << listwidget->palette().color(QPalette::ColorGroup::Current, QPalette::ColorRole::Window).name();
-//    QPalette pal = m_memorywidget->palette();
-//    QBrush brush = pal.background();
-//    m_memorywidget->update();
-//    m_memoryItemDelegate->paint()
-//    qDebug() << m_memorywidget->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Base);
-//    ASSERT_EQ(brush.color().name(), "#252525");
+    //paint函数，无assert
+    listwidget->deleteLater();
+    delete item;
+    widget->deleteLater();
 }
 
 TEST_F(Ut_MemoryItemDelegate, updateEditorGeometry)
 {
-    m_memoryItemDelegate->updateEditorGeometry(new QWidget(), QStyleOptionViewItem(), QModelIndex());
+    QWidget *widget = new QWidget();
+    QStyleOptionViewItem item;
+    m_memoryItemDelegate->updateEditorGeometry(widget, item, QModelIndex());
+    EXPECT_EQ(widget->geometry(), item.rect);
+    widget->deleteLater();
 }

@@ -32,10 +32,11 @@ static DSettingsAlt *INSTANCE = nullptr;
 /**
  * @brief 初始化
  */
-DSettingsAlt *DSettingsAlt::instance(QObject *p)
+DSettingsAlt *DSettingsAlt::instance()
 {
     if (!INSTANCE) {
-        INSTANCE = new DSettingsAlt(p);
+        INSTANCE = new DSettingsAlt();
+        qAddPostRoutine(deleteInstance);
     }
 
     return INSTANCE;

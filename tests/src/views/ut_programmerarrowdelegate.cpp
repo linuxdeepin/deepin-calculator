@@ -55,9 +55,17 @@ TEST_F(Ut_ProgrammerArrowDelegate, paint)
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
     m_memoryItemDelegate->paint(painter, option, index);
     delete painter;
+    //paint函数，无assert
+    listwidget->deleteLater();
+    delete item;
+    widget->deleteLater();
 }
 
 TEST_F(Ut_ProgrammerArrowDelegate, updateEditorGeometry)
 {
-    m_memoryItemDelegate->updateEditorGeometry(new QWidget(), QStyleOptionViewItem(), QModelIndex());
+    QWidget *widget = new QWidget();
+    QStyleOptionViewItem item;
+    m_memoryItemDelegate->updateEditorGeometry(widget, item, QModelIndex());
+    EXPECT_EQ(widget->geometry(), item.rect);
+    widget->deleteLater();
 }

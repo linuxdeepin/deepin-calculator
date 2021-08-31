@@ -10,9 +10,13 @@ TEST_F(Ut_TextButton, init)
 {
     TextButton *m_textbutton = new TextButton;
     m_textbutton->setText("+/-");
-    m_textbutton->animate(false, 100);
+//    m_textbutton->animate(false, 100);
     m_textbutton->init();
-    ASSERT_EQ(m_textbutton->m_font.pixelSize(), 20);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 20);
+    EXPECT_EQ(m_textbutton->m_font.family(), "Noto Sans");
+    EXPECT_EQ(m_textbutton->m_font.styleName(), "Light");
+    EXPECT_EQ(m_textbutton->m_font.weight(), 2);
+    delete m_textbutton;
 }
 
 TEST_F(Ut_TextButton, animate)
@@ -21,7 +25,9 @@ TEST_F(Ut_TextButton, animate)
     m_textbutton->m_isHover = true;
     m_textbutton->m_isPress = false;
     m_textbutton->animate(false, 100);
-    ASSERT_FALSE(m_textbutton->m_isHover);
+    EXPECT_FALSE(m_textbutton->m_isHover);
+    EXPECT_TRUE(m_textbutton->m_isPress);
+    delete m_textbutton;
 }
 
 TEST_F(Ut_TextButton, setButtonDown)
@@ -29,7 +35,8 @@ TEST_F(Ut_TextButton, setButtonDown)
     TextButton *m_textbutton = new TextButton;
     m_textbutton->m_Btnisdown = true;
     m_textbutton->setButtonDown(false);
-    ASSERT_FALSE(m_textbutton->m_Btnisdown);
+    EXPECT_FALSE(m_textbutton->m_Btnisdown);
+    delete m_textbutton;
 }
 
 TEST_F(Ut_TextButton, mousePressEvent)
@@ -39,8 +46,10 @@ TEST_F(Ut_TextButton, mousePressEvent)
                                      m_textbutton->pos(), Qt::MouseButton::LeftButton,
                                      Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
     m_textbutton->mousePressEvent(m);
-    ASSERT_TRUE(m_textbutton->m_isPress);
+    EXPECT_TRUE(m_textbutton->m_isPress);
+    EXPECT_FALSE(m_textbutton->m_isHover);
     delete m;
+    delete m_textbutton;
 }
 
 TEST_F(Ut_TextButton, mouseReleaseEvent)
@@ -50,8 +59,10 @@ TEST_F(Ut_TextButton, mouseReleaseEvent)
                                      m_textbutton->pos(), Qt::MouseButton::LeftButton,
                                      Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
     m_textbutton->mouseReleaseEvent(m);
-    ASSERT_FALSE(m_textbutton->m_isPress);
+    EXPECT_FALSE(m_textbutton->m_isPress);
+    EXPECT_TRUE(m_textbutton->m_isHover);
     delete m;
+    delete m_textbutton;
 }
 
 TEST_F(Ut_TextButton, enterEvent)
@@ -60,28 +71,39 @@ TEST_F(Ut_TextButton, enterEvent)
     QEvent *e = new QEvent(QEvent::Type::Enter);
     m_textbutton->setText("Rand");
     m_textbutton->enterEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 17);
     m_textbutton->setText("logᵧx");
     m_textbutton->enterEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 16);
     m_textbutton->setText("log");
     m_textbutton->enterEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 18);
     m_textbutton->setText("|x|");
     m_textbutton->enterEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 16);
     m_textbutton->setText("Mod");
     m_textbutton->enterEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 16);
     m_textbutton->setText("exp");
     m_textbutton->enterEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 18);
     m_textbutton->setText("sin");
     m_textbutton->enterEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 18);
     m_textbutton->setText("cos");
     m_textbutton->enterEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 18);
     m_textbutton->setText("tan");
     m_textbutton->enterEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 18);
     m_textbutton->setText("cot");
     m_textbutton->enterEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 18);
     m_textbutton->setText("+/-");
     m_textbutton->enterEvent(e);
-    ASSERT_TRUE(m_textbutton->m_isHover);
+    EXPECT_TRUE(m_textbutton->m_isHover);
     delete e;
+    delete m_textbutton;
 }
 
 TEST_F(Ut_TextButton, leaveEvent)
@@ -90,28 +112,39 @@ TEST_F(Ut_TextButton, leaveEvent)
     QEvent *e = new QEvent(QEvent::Type::Leave);
     m_textbutton->setText("Rand");
     m_textbutton->leaveEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 15);
     m_textbutton->setText("logᵧx");
     m_textbutton->leaveEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 14);
     m_textbutton->setText("log");
     m_textbutton->leaveEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 16);
     m_textbutton->setText("|x|");
     m_textbutton->leaveEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 14);
     m_textbutton->setText("Mod");
     m_textbutton->leaveEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 14);
     m_textbutton->setText("exp");
     m_textbutton->leaveEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 16);
     m_textbutton->setText("sin");
     m_textbutton->leaveEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 16);
     m_textbutton->setText("cos");
     m_textbutton->leaveEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 16);
     m_textbutton->setText("tan");
     m_textbutton->leaveEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 16);
     m_textbutton->setText("cot");
     m_textbutton->leaveEvent(e);
+    EXPECT_EQ(m_textbutton->m_font.pixelSize(), 16);
     m_textbutton->setText("+/-");
     m_textbutton->leaveEvent(e);
-    ASSERT_FALSE(m_textbutton->m_isHover);
+    EXPECT_FALSE(m_textbutton->m_isHover);
     delete e;
+    delete m_textbutton;
 }
 
 bool stub_focus_text()
@@ -156,6 +189,7 @@ TEST_F(Ut_TextButton, paintEvent)
     m_textbutton->paintEvent(event);
     delete event;
     //无ASSERT
+    delete m_textbutton;
 }
 
 TEST_F(Ut_TextButton, keyPressEvent)
@@ -180,6 +214,7 @@ TEST_F(Ut_TextButton, keyPressEvent)
     delete k3;
     delete k4;
     delete k5;
+    delete m_textbutton;
 }
 
 TEST_F(Ut_TextButton, paintspecialbtn)
@@ -215,5 +250,6 @@ TEST_F(Ut_TextButton, paintspecialbtn)
     m_textbutton->m_btn = 9;
     m_textbutton->paintspecialbtn(painter, m_textbutton->rect(), painter.fontMetrics().boundingRect(0, 0, int(m_textbutton->rect().width()), int(m_textbutton->rect().height()),
                                                                                                     Qt::AlignCenter, m_textbutton->text()));
-    //    ASSERT_FALSE(m_textbutton->m_Btnisdown);
+    //paint函数，无assert
+    delete m_textbutton;
 }

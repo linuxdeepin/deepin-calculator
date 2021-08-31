@@ -60,6 +60,7 @@ public:
     void memoryFunctions(memOperate operate = generateData, Quantity answer = Quantity(), int row = -1);
     void resetFocus();
     void historyfilled();
+    MemoryWidget *getMemoryWiget();
 
     void mouseMoveEvent(QMouseEvent *e);
     void keyPressEvent(QKeyEvent *e);

@@ -37,7 +37,7 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
     , m_effect(new QGraphicsDropShadowEffect(this))
     , m_isallgray(false)
 {
-    m_settings = DSettingsAlt::instance(this);
+    m_settings = DSettingsAlt::instance();
     setObjectName("MemoryButton");
     m_widgetbtn = listwidgetbtn; //是否是内存列表按键
 
