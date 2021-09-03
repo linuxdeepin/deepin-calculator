@@ -16,11 +16,15 @@ void Ut_ProListDelegate::SetUp()
 
 void Ut_ProListDelegate::TearDown()
 {
-    delete m_prolistview1;
+    m_prolistview1->deleteLater();
     delete m_model1;
+    m_model1 = nullptr;
     delete m_proListDelegate;
+    m_proListDelegate = nullptr;
     delete m_proListDelegate1;
+    m_proListDelegate1 = nullptr;
     delete m_model;
+    m_model = nullptr;
 }
 
 TEST_F(Ut_ProListDelegate, setThemeType)
