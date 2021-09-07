@@ -1519,8 +1519,7 @@ void SciExpressionBar::Redo()
     m_inputEdit->setText(m_redo.last());
     m_undo.append(m_inputEdit->text());
     m_redo.removeLast();
-    if (m_redo.isEmpty())
-        m_inputEdit->setRedoAction(false);
+    m_inputEdit->setRedoAction(!m_redo.isEmpty());
     if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
         emit clearStateChanged(true);
         m_isAllClear = true;

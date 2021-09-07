@@ -345,7 +345,7 @@ TEST_F(Ut_ProexpressionBar, Redo)
     m_proexpressionBar->m_redo.append("");
     m_proexpressionBar->Redo();
     EXPECT_TRUE(m_proexpressionBar->m_isAllClear);
-    EXPECT_FALSE(m_proexpressionBar->m_inputEdit->m_redo->isEnabled());
+    EXPECT_TRUE(m_proexpressionBar->m_inputEdit->m_redo->isEnabled());
     delete m_proexpressionBar;
 }
 

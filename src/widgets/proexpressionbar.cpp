@@ -263,7 +263,7 @@ void ProExpressionBar::enterBackspaceEvent()
         int funpos = -1;
         int i;
         int Sepold = text.count(",") + text.count(" ");
-        if (text.size() > 0 && cur > 0 && (text[cur - 1] == "," || (text[cur - 1] == " " && !text[cur - 2].isLower()))) {
+        if (text.size() > 0 && cur > 1 && (text[cur - 1] == "," || (text[cur - 1] == " " && !text[cur - 2].isLower()))) {
             text.remove(cur - 2, 2);
             m_inputEdit->setText(text);
             // 20200401 symbolFaultTolerance
@@ -1127,8 +1127,7 @@ void ProExpressionBar::Redo()
     m_inputEdit->setText(m_redo.last());
     m_undo.append(m_inputEdit->text());
     m_redo.removeLast();
-    if (m_redo.isEmpty())
-        m_inputEdit->setRedoAction(false);
+    m_inputEdit->setRedoAction(!m_redo.isEmpty());
     if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
         emit clearStateChanged(true);
         m_isAllClear = true;
