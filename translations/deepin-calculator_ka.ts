@@ -1,245 +1,245 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sr" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ka" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Грешка израза</translation>
+        <translation>გამოსახვის შეცდომა</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>Очисти сву меморију</translation>
+        <translation>მეხსიერების გასუფთავება</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation>Очисти историју</translation>
+        <translation>ისტორიის გასუფთავება</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>Delete</source>
-        <translation>Обриши</translation>
+        <translation>წაშლა</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Изабери све</translation>
+        <translation>ყველას მონიშვნა</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation>Опозови</translation>
+        <translation>დაბრუნება</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation>Обнови</translation>
+        <translation>წინ</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>Исеци</translation>
+        <translation>ამოჭრა</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Копирај</translation>
+        <translation>კოპირება</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Убаци</translation>
+        <translation>ჩასმა</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>Калкулатор</translation>
+        <translation>კალკულატორი</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>Стандардни</translation>
+        <translation>სტანდარტული</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>Научни</translation>
+        <translation>სამეცნიერო</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>Режим</translation>
+        <translation>რეჟიმი</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>Калкулатор је рачунарски прогам који је једноставан за употребу. Подржава стандардни, научни и програмерски режим.</translation>
+        <translation>კალტულატორი არის მარტივი დესკტოპ ხელსაწყო, რომლის გამოყენება შეგიძლიათ მარტივი, სამეცნიერო და პროგრამული გამოთვლებისათვის</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation>Програмер</translation>
+        <translation>პროგრამული</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Уклони ставку меморије</translation>
+        <translation>მეხსიერების აითემის გასუფთავება</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>Очисти сву меморију</translation>
+        <translation>მეხსიერების გასუფთავება</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Позови из меморије</translation>
+        <translation>მეხსიერების გახსენება</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Сабери са ставком меморије</translation>
+        <translation>მეხისერებაში დამატება</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Сабери са меморијом</translation>
+        <translation>მეხსიერების დამატება</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Одузми од ставке меморије</translation>
+        <translation>მეხსიერებიდან ამოღება</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Одузими од меморије</translation>
+        <translation>მეხსიერების გამოკლება</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Сачувај у меморији</translation>
+        <translation>მეხსიერების განთავსება</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Меморија</translation>
+        <translation>მეხსიერება</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation>Копирај</translation>
+        <translation>კოპირება</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Уклони ставку меморије</translation>
+        <translation>მეხსიერების აითემის გასუფთავება</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Додај у ставку меморије</translation>
+        <translation>მეხისერებაში დამატება</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Одузми од ставке меморије</translation>
+        <translation>მეხსიერებიდან ამოღება</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>Меморија је празна</translation>
+        <translation>მეხსიერება ცარიელია</translation>
     </message>
 </context>
 <context>
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Грешка израза</translation>
+        <translation>გამოსახვის შეცდომა</translation>
     </message>
 </context>
 <context>
     <name>ProListView</name>
     <message>
         <source>Copy</source>
-        <translation>Копирај</translation>
+        <translation>კოპირება</translation>
     </message>
 </context>
 <context>
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>Аритметички помак</translation>
+        <translation>არითმეტიკული ცვლა</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>Логички помак</translation>
+        <translation>ლოგიკური ცვლა</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Кружни помак</translation>
+        <translation>წრიული ცვლა</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Роптирај кроз носиоца кружног помака</translation>
+        <translation>წრიული ცვლის გადაადგილებით ბრუნვა</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>Аритметички помак</translation>
+        <translation>არითმეტიკული ცვლა</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>Логички помак</translation>
+        <translation>ლოგიკური ცვლა</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Кружни помак</translation>
+        <translation>წრიული ცვლა</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Роптирај кроз носиоца кружног помака</translation>
+        <translation>წრიული ცვლის გადაადგილებით ბრუნვა</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>Калкулатор</translation>
+        <translation>კალკულატორი</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Грешка израза</translation>
+        <translation>გამოსახვის შეცდომა</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Историја</translation>
+        <translation>ისოტირა</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Меморија</translation>
+        <translation>მეხსიერება</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>Грешка израза</translation>
+        <translation>გამოსახვის შეცდომა</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>Нема историје</translation>
+        <translation>ისტორია არ არის</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation>Копирај</translation>
+        <translation>კოპირება</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Обриши</translation>
+        <translation>წაშლა</translation>
     </message>
 </context>
 </TS>

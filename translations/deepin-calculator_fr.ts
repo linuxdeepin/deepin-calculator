@@ -68,7 +68,7 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>Calculator est une calculatrice de bureau facile à utiliser, prenant en charge les modes standard, scientifique et programmeur.</translation>
+        <translation>Calculatrice est une calculatrice de bureau facile à utiliser, prenant en charge les modes standard, scientifique et programmeur.</translation>
     </message>
     <message>
         <source>Programmer</source>
@@ -144,7 +144,7 @@
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Formule erronée </translation>
+        <translation>Erreur d&apos;expression</translation>
     </message>
 </context>
 <context>

@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>ئىپادە خاتا</translation>
+        <translation>ئىپادىلەش خاتا</translation>
     </message>
 </context>
 <context>
@@ -144,7 +144,7 @@
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>ئىپادە خاتا</translation>
+        <translation>ئىپادىلەش خاتا</translation>
     </message>
 </context>
 <context>
