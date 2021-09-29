@@ -128,4 +128,6 @@ install(FILES ${CMAKE_CURRENT_LIST_DIR}/src/assets/images/deepin-calculator.svg
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src/assets/deepin-calculator
                 DESTINATION /usr/share/deepin-manual/manual-assets/application/)
 
-add_subdirectory(tests)  #tests为ut测试文件夹名
+if (NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "loongarch64")
+   add_subdirectory(tests)  #tests为ut测试文件夹名
+endif ()
