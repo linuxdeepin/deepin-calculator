@@ -204,6 +204,12 @@ void ProgrammerItemWidget::paintEvent(QPaintEvent *e)
 
 bool ProgrammerItemWidget::eventFilter(QObject *obj, QEvent *event)
 {
+    //bug 101004
+    if(QEvent::Show == event->type()){
+        m_ishover=false;
+        m_isfocus=false;
+        m_ispress=false;
+    }
     if (event->type() == QEvent::MouseMove) {
         if (!m_ispress) {
             m_ishover = true;
