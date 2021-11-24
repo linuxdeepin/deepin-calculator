@@ -147,5 +147,7 @@ int main(int argc, char *argv[])
     // Register debus service.
     dbus.registerObject("/com/deepin/calculator", &window, QDBusConnection::ExportScriptableSlots);
     window.show();
+    window.switchModeBack();
+
     return app.exec();
 }

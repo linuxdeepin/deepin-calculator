@@ -90,6 +90,27 @@ MainWindow::~MainWindow()
 {
 }
 
+void MainWindow::switchModeBack()
+{
+    int mode = m_settings->getOption("mode").toInt();
+    switch(mode){
+    case 0:
+        switchToScientificMode();
+        switchToSimpleMode();
+        break;
+    case 1:
+        switchToSimpleMode();
+        switchToScientificMode();
+        break;
+    case 2:
+        switchToSimpleMode();
+        switchToProgrammerMode();
+        break;
+    default:
+        switchToScientificMode();
+        switchToSimpleMode();
+    }
+}
 void MainWindow::initTheme()
 {
     int type = DGuiApplicationHelper::instance()->themeType();

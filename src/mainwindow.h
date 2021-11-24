@@ -43,6 +43,9 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    //switch to another mode and switch back
+    void switchModeBack();
+
 protected:
     void keyPressEvent(QKeyEvent *event);
     void moveEvent(QMoveEvent *event);
