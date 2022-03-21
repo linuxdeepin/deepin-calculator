@@ -49,12 +49,28 @@ DSettingsAlt::DSettingsAlt(QObject *parent)
     : QObject(parent),
       m_settings(new QSettings(QDir(Utils::getConfigDir()).filePath("config.config"), QSettings::IniFormat, this))
 {
-    initConfig();;
+    initConfig();
+    loadConfig();
 }
 
 DSettingsAlt::~DSettingsAlt()
 {
 //    delete m_settings;
+    saveConfig();
+}
+
+void DSettingsAlt::loadConfig()
+{
+    m_standardSeparate = m_settings->value("standardSeparate", 3).toInt();  //默认3位
+    m_scientificSeparate = m_settings->value("scientificSeparate", 3).toInt();
+    m_programmerSeparate = m_settings->value("programmerSeparate", 3).toInt();
+}
+
+void DSettingsAlt::saveConfig()
+{
+    m_settings->setValue("standardSeparate", m_standardSeparate);
+    m_settings->setValue("scientificSeparate", m_scientificSeparate);
+    m_settings->setValue("programmerSeparate", m_programmerSeparate);
 }
 
 void DSettingsAlt::initConfig()
@@ -106,4 +122,60 @@ void DSettingsAlt::deleteInstance()
 {
     delete INSTANCE;
     INSTANCE = nullptr;
+}
+
+/**
+ * @brief getStandardSeparate
+ * 获取标准计算器分隔位数
+ * @return 标准计算器分隔位数
+ */
+int DSettingsAlt::getStandardSeparate()
+{
+    return m_standardSeparate;
+}
+
+/**
+ * @brief setStandardSeparate
+ * 设置标准计算器分隔位数
+ */
+void DSettingsAlt::setStandardSeparate(int separate)
+{
+    this->m_standardSeparate = separate;
+}
+
+/**
+ * @brief getScientificSeparate
+ * 获取科学计算器分隔位数
+ * @return
+ */
+int DSettingsAlt::getScientificSeparate()
+{
+    return m_scientificSeparate;
+}
+
+/**
+ * @brief setScientificSeparate
+ * 设置科学计算器分隔位数
+ */
+void DSettingsAlt::setScientificSeparate(int separate)
+{
+    this->m_scientificSeparate = separate;
+}
+
+/**
+ * @brief getProgrammerSeparate
+ * @return 程序员计算器分隔位数
+ */
+int DSettingsAlt::getProgrammerSeparate()
+{
+    return m_programmerSeparate;
+}
+
+/**
+ * @brief setProgrammerSeparate
+ * 设置程序员计算器分隔位数
+ */
+void DSettingsAlt::setProgrammerSeparate(int separate)
+{
+    this->m_programmerSeparate = separate;
 }

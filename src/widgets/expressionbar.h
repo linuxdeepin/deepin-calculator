@@ -114,6 +114,8 @@ public slots:
 private slots:
     void handleTextChanged(const QString &text);
     void revisionResults(const QModelIndex &index);
+    void onSwietThreeSeparateClicked(); //切换为千分位
+    void onswietFourSeparateClicked();  //切换为千分位
 
 private:
     bool cursorPosAtEnd();

@@ -22,6 +22,7 @@
 #include "../../3rdparty/core/settings.h"
 #include "../../3rdparty/math/floatconfig.h"
 #include "../utils.h"
+#include "../dsettings.h"
 
 #include <QApplication>
 #include <QClipboard>
@@ -67,6 +68,9 @@ InputEdit::InputEdit(QWidget *parent)
 
     connect(this, &QLineEdit::textChanged, this, &InputEdit::isExpressionEmpty);
     connect(this, &QLineEdit::textChanged, this, &InputEdit::getCurrentAns);
+
+    connect(this, &InputEdit::swietThreeSeparate, this, &InputEdit::onSwietThreeSeparateClicked);
+    connect(this, &InputEdit::swietFourSeparate, this, &InputEdit::onswietFourSeparateClicked);
 
     m_funclist = {"and",  "not", "xor", "nand", "nor", "mod", "or",
                   "shl", "shr", "sal", "sar", "rol", "ror", "rcl", "rcr"
@@ -287,6 +291,8 @@ void InputEdit::initAction()
     m_paste = new QAction(tr("Paste"), this);
     m_delete = new QAction(tr("Delete"), this);
     m_select = new QAction(tr("Select All"), this);
+    m_threeSeparate = new QAction(tr("Use thousands separator"), this);
+    m_fourSeparate = new QAction(tr("Use ten-thousands separator"), this);
 
     connect(m_undo, &QAction::triggered, this, &InputEdit::undo);
     connect(m_redo, &QAction::triggered, this, &InputEdit::redo);
@@ -295,6 +301,8 @@ void InputEdit::initAction()
     connect(m_paste, &QAction::triggered, this, &InputEdit::paste);
     connect(m_delete, &QAction::triggered, this, &InputEdit::deleteText);
     connect(m_select, &QAction::triggered, this, &InputEdit::selectAllText);
+    connect(m_threeSeparate, &QAction::triggered, this, &InputEdit::swietThreeSeparate);
+    connect(m_fourSeparate, &QAction::triggered, this, &InputEdit::swietFourSeparate);
 
     m_undo->setEnabled(false);
     m_redo->setEnabled(false);
@@ -857,6 +865,28 @@ void InputEdit::showTextEditMenu()
     menu->addAction(m_paste);
     menu->addAction(m_delete);
     menu->addSeparator();
+
+    int separate = 3;
+    switch (DSettingsAlt::instance()->getOption("mode").toInt()) {
+        case 0: separate = DSettingsAlt::instance()->getStandardSeparate();
+        break;
+    case 1: separate = DSettingsAlt::instance()->getScientificSeparate();
+        break;
+    case 2:
+        if (Settings::instance()->programmerBase == 10) {
+            separate = DSettingsAlt::instance()->getProgrammerSeparate();
+        } else {
+            separate = -1;
+        }
+        break;
+    }
+
+    if (separate == 3) {
+        menu->addAction(m_fourSeparate);
+    } else if (separate == 4) {
+        menu->addAction(m_threeSeparate);
+    }
+
     menu->addAction(m_select);
 
     if (QApplication::clipboard()->text().isEmpty())
@@ -899,6 +929,28 @@ void InputEdit::showTextEditMenuByAltM()
     menu->addAction(m_paste);
     menu->addAction(m_delete);
     menu->addSeparator();
+
+    int separate = 3;
+    switch (DSettingsAlt::instance()->getOption("mode").toInt()) {
+        case 0: separate = DSettingsAlt::instance()->getStandardSeparate();
+        break;
+    case 1: separate = DSettingsAlt::instance()->getScientificSeparate();
+        break;
+    case 2:
+        if (Settings::instance()->programmerBase == 10) {
+            separate = DSettingsAlt::instance()->getProgrammerSeparate();
+        } else {
+            separate = -1;
+        }
+        break;
+    }
+
+    if (separate == 3) {
+        menu->addAction(m_fourSeparate);
+    } else if (separate == 4) {
+        menu->addAction(m_threeSeparate);
+    }
+
     menu->addAction(m_select);
 
     if (QApplication::clipboard()->text().isEmpty())
@@ -1260,4 +1312,39 @@ void InputEdit::focusInEvent(QFocusEvent *event)
         setCursorPosition(curtemp);
     }
 }
+
+/**
+ * @brief onSwietThreeSeparateClicked
+ * 切换为千分位菜单点击事件
+ */
+void InputEdit::onSwietThreeSeparateClicked()
+{
+    switch (DSettingsAlt::instance()->getOption("mode").toInt()) {
+    case 0: DSettingsAlt::instance()->setStandardSeparate(3);
+        break;
+    case 1: DSettingsAlt::instance()->setScientificSeparate(3);
+        break;
+    case 2: DSettingsAlt::instance()->setProgrammerSeparate(3);
+        break;
+    }
+    handleTextChanged(m_oldText);
+}
+
+/**
+ * @brief onswietFourSeparateClicked
+ * 切换为万分位菜单点击事件
+ */
+void InputEdit::onswietFourSeparateClicked()
+{
+    switch (DSettingsAlt::instance()->getOption("mode").toInt()) {
+    case 0: DSettingsAlt::instance()->setStandardSeparate(4);
+        break;
+    case 1: DSettingsAlt::instance()->setScientificSeparate(4);
+        break;
+    case 2: DSettingsAlt::instance()->setProgrammerSeparate(4);
+        break;
+    }
+    handleTextChanged(m_oldText);
+}
+
 

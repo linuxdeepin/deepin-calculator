@@ -74,6 +74,8 @@ public slots:
     void handleTextChanged(const QString &text);
     void radixChanged(int baseori, int basedest);
     QString scanAndExec(int baseori, int basedest);
+    void onSwietThreeSeparateClicked();
+    void onswietFourSeparateClicked();
 
 Q_SIGNALS:
     void keyPress(QKeyEvent *);
@@ -89,6 +91,8 @@ Q_SIGNALS:
     void emptyExpression(bool b);
     void cursorPositionNumberChanged(QString num);
     void prolistAns(QPair<bool, Quantity> pair);
+    void swietThreeSeparate();  //切换为千分位
+    void swietFourSeparate();  //切换为万分位
 
 protected:
     void keyPressEvent(QKeyEvent *);
@@ -127,6 +131,8 @@ private:
     QAction *m_paste;
     QAction *m_delete;
     QAction *m_select;
+    QAction *m_threeSeparate;  //以三位分开
+    QAction *m_fourSeparate;  //以四位分开
 
     Quantity m_memoryans; //用于内存的结果
     Evaluator *m_evaluator;

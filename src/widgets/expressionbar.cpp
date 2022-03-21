@@ -1145,6 +1145,8 @@ void ExpressionBar::initConnect()
     connect(m_inputEdit, &InputEdit::undo, this, &ExpressionBar::Undo);
     connect(m_inputEdit, &InputEdit::redo, this, &ExpressionBar::Redo);
     connect(m_inputEdit, &InputEdit::setResult, this, &ExpressionBar::setResultFalse);
+    connect(m_inputEdit, &InputEdit::swietThreeSeparate, this, &ExpressionBar::onSwietThreeSeparateClicked);
+    connect(m_inputEdit, &InputEdit::swietFourSeparate, this, &ExpressionBar::onswietFourSeparateClicked);
 }
 
 /**
@@ -1543,4 +1545,22 @@ void ExpressionBar::moveRight()
 InputEdit *ExpressionBar::getInputEdit()
 {
     return m_inputEdit;
+}
+
+/**
+ * @brief ExpressionBar::onSwietThreeSeparateClicked
+ * 切换为千分位时进行历史记录刷新
+ */
+void ExpressionBar::onSwietThreeSeparateClicked()
+{
+
+}
+
+/**
+ * @brief ExpressionBar::onswietFourSeparateClicked
+ * 切换为万分位时进行历史记录刷新
+ */
+void ExpressionBar::onswietFourSeparateClicked()
+{
+
 }

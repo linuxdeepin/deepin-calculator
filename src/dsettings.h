@@ -36,11 +36,24 @@ public:
     void setOption(const QString &key, const QVariant &value);
     static void deleteInstance();
 
+    int getStandardSeparate(); //获取标准计算器分隔位数
+    void setStandardSeparate(int separate); //设置标准计算器分隔位数
+    int getScientificSeparate(); //获取科学计算器分隔位数
+    void setScientificSeparate(int separate); //设置科学计算器分隔位数
+    int getProgrammerSeparate(); //获取程序员计算器分隔位数
+    void setProgrammerSeparate(int separate); //设置程序员计算器分隔位数
+
 private:
     void initConfig();
+    void loadConfig();
+    void saveConfig();
 
 private:
     QSettings *m_settings;
+
+    int m_standardSeparate = 3;   //标准计算器分隔位数
+    int m_scientificSeparate = 3; //科学计算器分隔位数
+    int m_programmerSeparate = 3; //程序员计算器分隔位数
 };
 
 #endif
