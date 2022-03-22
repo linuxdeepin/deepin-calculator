@@ -70,15 +70,7 @@ QString Utils::getQssContent(const QString &filePath)
  */
 QString Utils::formatThousandsSeparators(const QString &str)
 {
-    int separate = 3; //数字分割位数
-    switch (DSettingsAlt::instance()->getOption("mode").toInt()) {
-    case 0: separate = DSettingsAlt::instance()->getStandardSeparate();
-        break;
-    case 1: separate = DSettingsAlt::instance()->getScientificSeparate();
-        break;
-    case 2: separate = DSettingsAlt::instance()->getProgrammerSeparate();
-        break;
-    }
+    int separate = DSettingsAlt::instance()->getSeparate(); //数字分割位数
 
     QString result = str;
     int startPos = result.indexOf(QRegularExpression("[0-9]"));
@@ -157,15 +149,7 @@ QString Utils::reformatSeparators(const QString &exp)
 
 QString Utils::formatThousandsSeparatorsPro(const QString &str, const int Base)
 {
-    int separate = 3;   //数字分割位数
-    switch (DSettingsAlt::instance()->getOption("mode").toInt()) {
-    case 0: separate = DSettingsAlt::instance()->getStandardSeparate();
-        break;
-    case 1: separate = DSettingsAlt::instance()->getScientificSeparate();
-        break;
-    case 2: separate = DSettingsAlt::instance()->getProgrammerSeparate();
-        break;
-    }
+
 
     QString result = str;
     int startPos = result.indexOf(QRegularExpression("[0-9]"));
@@ -183,6 +167,7 @@ QString Utils::formatThousandsSeparatorsPro(const QString &str, const int Base)
     case 10:
         if (startPos >= 0) {
             int endPos  = result.length();
+            int separate = DSettingsAlt::instance()->getSeparate(); //数字分割位数
             for (int i = endPos - separate; i >= startPos + 1; i -= separate) {
                 result.insert(i, ",");
             }

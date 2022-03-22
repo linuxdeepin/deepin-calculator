@@ -36,6 +36,8 @@ public:
     void setOption(const QString &key, const QVariant &value);
     static void deleteInstance();
 
+    int getSeparate();  //根据配置文件中的计算器类型自动获取计算器分隔位数
+    void setSeparate(int separate); //根据配置文件中的计算器类型自动设置相应的计算器分隔位数
     int getStandardSeparate(); //获取标准计算器分隔位数
     void setStandardSeparate(int separate); //设置标准计算器分隔位数
     int getScientificSeparate(); //获取科学计算器分隔位数

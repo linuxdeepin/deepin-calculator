@@ -125,6 +125,46 @@ void DSettingsAlt::deleteInstance()
 }
 
 /**
+ * @brief DSettingsAlt::getSeparate
+ * @return 根据配置文件中的计算器类型返回相应的计算器分隔位数
+ */
+int DSettingsAlt::getSeparate()
+{
+    int separate = 3;   //数字分割位数
+    switch (m_settings->value("mode", 0).toInt()) {
+    case 0: separate = getStandardSeparate();
+        break;
+    case 1: separate = getScientificSeparate();
+        break;
+    case 2: separate = getProgrammerSeparate();
+        break;
+    }
+
+    //间隔位数小于1时转为3，防止发生一些意外情况
+    if (separate < 1) {
+        separate = 3;
+    }
+    return separate;
+}
+
+/**
+ * @brief DSettingsAlt::setSeparate
+ * 根据配置文件中的计算器类型设置相应的计算器分隔位数
+ * @param separate  间隔位数
+ */
+void DSettingsAlt::setSeparate(int separate)
+{
+    switch (m_settings->value("mode", 0).toInt()) {
+    case 0: setStandardSeparate(separate);
+        break;
+    case 1: setScientificSeparate(separate);
+        break;
+    case 2: setProgrammerSeparate(separate);
+        break;
+    }
+}
+
+/**
  * @brief getStandardSeparate
  * 获取标准计算器分隔位数
  * @return 标准计算器分隔位数

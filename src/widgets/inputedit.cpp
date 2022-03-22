@@ -1319,16 +1319,9 @@ void InputEdit::focusInEvent(QFocusEvent *event)
  */
 void InputEdit::onSwietThreeSeparateClicked()
 {
-    switch (DSettingsAlt::instance()->getOption("mode").toInt()) {
-    case 0: DSettingsAlt::instance()->setStandardSeparate(3);
-        break;
-    case 1: DSettingsAlt::instance()->setScientificSeparate(3);
-        break;
-    case 2: DSettingsAlt::instance()->setProgrammerSeparate(3);
-        break;
-    }
-    handleTextChanged(m_oldText);
-    emit separateChange();
+    DSettingsAlt::instance()->setSeparate(3);
+    handleTextChanged(m_oldText);   //更新input中的算式
+    emit separateChange();  //发送更新信号
 }
 
 /**
@@ -1337,16 +1330,9 @@ void InputEdit::onSwietThreeSeparateClicked()
  */
 void InputEdit::onswietFourSeparateClicked()
 {
-    switch (DSettingsAlt::instance()->getOption("mode").toInt()) {
-    case 0: DSettingsAlt::instance()->setStandardSeparate(4);
-        break;
-    case 1: DSettingsAlt::instance()->setScientificSeparate(4);
-        break;
-    case 2: DSettingsAlt::instance()->setProgrammerSeparate(4);
-        break;
-    }
-    handleTextChanged(m_oldText);
-    emit separateChange();
+    DSettingsAlt::instance()->setSeparate(4);
+    handleTextChanged(m_oldText);   //更新input中的算式
+    emit separateChange();  //发送更新信号
 }
 
 
