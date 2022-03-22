@@ -1328,6 +1328,7 @@ void InputEdit::onSwietThreeSeparateClicked()
         break;
     }
     handleTextChanged(m_oldText);
+    emit separateChange();
 }
 
 /**
@@ -1345,6 +1346,7 @@ void InputEdit::onswietFourSeparateClicked()
         break;
     }
     handleTextChanged(m_oldText);
+    emit separateChange();
 }
 
 

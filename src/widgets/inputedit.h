@@ -93,6 +93,7 @@ Q_SIGNALS:
     void prolistAns(QPair<bool, Quantity> pair);
     void swietThreeSeparate();  //切换为千分位
     void swietFourSeparate();  //切换为万分位
+    void separateChange();
 
 protected:
     void keyPressEvent(QKeyEvent *);

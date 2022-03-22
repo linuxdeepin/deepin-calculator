@@ -1159,6 +1159,7 @@ void ProExpressionBar::initConnect()
     connect(m_inputEdit, &InputEdit::undo, this, &ProExpressionBar::Undo);
     connect(m_inputEdit, &InputEdit::redo, this, &ProExpressionBar::Redo);
     connect(m_inputEdit, &InputEdit::setResult, this, &ProExpressionBar::setResultFalse);
+    connect(m_inputEdit, &InputEdit::separateChange, this, &ProExpressionBar::onSeparateChange);
 }
 
 void ProExpressionBar::replaceSelection(QString text)
@@ -1522,4 +1523,13 @@ void ProExpressionBar::handleTextChanged()
 {
     m_isAllClear = false;
     m_isContinue = true;
+}
+
+/**
+ * @brief ProExpressionBar::separateChange
+ * 数字间隔位数发生改变
+ */
+void ProExpressionBar::onSeparateChange()
+{
+   m_listModel->updataOfSeparate();
 }

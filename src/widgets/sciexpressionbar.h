@@ -108,7 +108,7 @@ private slots:
      * 光标位置
      */
     void pointCheckAfterDelete();
-
+    void onSeparateChange();//数字将位数发生改变
 
 private:
     bool cursorPosAtEnd();

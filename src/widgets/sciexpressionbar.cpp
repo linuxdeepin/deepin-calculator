@@ -1206,6 +1206,7 @@ void SciExpressionBar::initConnect()
     connect(m_inputEdit, &InputEdit::undo, this, &SciExpressionBar::Undo);
     connect(m_inputEdit, &InputEdit::redo, this, &SciExpressionBar::Redo);
     connect(m_inputEdit, &InputEdit::setResult, this, &SciExpressionBar::setResultFalse);
+    connect(m_inputEdit, &InputEdit::separateChange, this, &SciExpressionBar::onSeparateChange);
 }
 
 QString SciExpressionBar::symbolComplement(const QString exp)
@@ -1636,4 +1637,13 @@ void SciExpressionBar::moveRight()
 InputEdit *SciExpressionBar::getInputEdit()
 {
     return m_inputEdit;
+}
+
+/**
+ * @brief SciExpressionBar::separateChange
+ * 数字间隔位数发生改变
+ */
+void SciExpressionBar::onSeparateChange()
+{
+   m_listModel->updataOfSeparate();
 }

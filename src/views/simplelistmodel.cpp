@@ -429,3 +429,21 @@ void SimpleListModel::expOutofRange()
 {
     radixChanged(Settings::instance()->programmerBase, Settings::instance()->programmerBase);
 }
+
+/**
+ * @brief SimpleListModel::updataOfSeparate
+ * 更新所有历史记录算式的分割位数
+ */
+void SimpleListModel::updataOfSeparate()
+{
+    for (int i = 0; i < m_expressionList.count(); ++i) {
+        QString expression = m_expressionList.at(i);    //获取原算式
+        expression.replace(",", "");   //清空逗号分隔符
+        QString newExp = Utils::reformatSeparators(expression); //重新填充分割符
+        //更新数据
+        beginInsertRows(QModelIndex(), 0, 0);
+        m_expressionList[i] = newExp;
+        endInsertRows();
+    }
+}
+

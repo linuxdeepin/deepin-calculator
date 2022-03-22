@@ -57,6 +57,8 @@ public:
     QString formatExpression(const int &probase, const QString &text);
     void answerOutOfRange(Quantity ans);
     void expOutofRange();
+    //更改数据分割位数
+    void updataOfSeparate();
 
 signals:
     void hisbtnhidden();

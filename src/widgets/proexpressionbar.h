@@ -88,6 +88,7 @@ private:
     bool isNumberOutOfRange(const QString &text);
     void selectedPartDelete(const QRegExp &rx);
     bool curposInNumber(int curpos);
+    void onSeparateChange();//数字将位数发生改变
 
 private slots:
     void handleTextChanged();
