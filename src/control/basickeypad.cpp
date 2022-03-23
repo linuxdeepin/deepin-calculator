@@ -50,7 +50,7 @@ const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
     {"3", Key_3, 4, 6, 1, 3},         {"", Key_Plus, 4, 9, 1, 3},
 
     {"0", Key_0, 5, 0, 1, 3},         {".", Key_Point, 5, 3, 1, 3},
-    {"()", Key_Brackets, 5, 6, 1, 3}, {"=", Key_Equals, 5, 9, 1, 3}
+    {"(  )", Key_Brackets, 5, 6, 1, 3}, {"=", Key_Equals, 5, 9, 1, 3}
 };
 
 /**
