@@ -61,6 +61,7 @@ public:
     void resetFocus();
     void historyfilled();
     MemoryWidget *getMemoryWiget();
+    SimpleListModel* getSimpleListModel();
 
     void mouseMoveEvent(QMouseEvent *e);
     void keyPressEvent(QKeyEvent *e);

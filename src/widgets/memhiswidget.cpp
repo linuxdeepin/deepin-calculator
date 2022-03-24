@@ -119,6 +119,7 @@ MemHisWidget::MemHisWidget(QWidget *parent)
         if (!m_buttonBox->button(1)->hasFocus() && QApplication::focusWidget() != nullptr)
             this->setFocus();
         m_clearButton->showtooltip(false); //设置内存垃圾桶tooltip
+        m_listModel->updataOfSeparate();
         m_stackWidget->setCurrentWidget(m_listView);
         m_clearButton->setHidden(!m_isshowH);
 
@@ -388,4 +389,10 @@ void MemHisWidget::historyfilled()
 MemoryWidget *MemHisWidget::getMemoryWiget()
 {
     return m_memoryWidget;
+}
+
+
+SimpleListModel* MemHisWidget::getSimpleListModel()
+{
+    return m_listModel;
 }

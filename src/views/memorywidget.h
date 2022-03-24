@@ -61,6 +61,7 @@ public:
     MemoryListWidget *getMemoryWidget();
     QString programmerResult(const Quantity answer);
     void resetAllLabelByBase();
+    void resetLabelBySeparator();
 
 public slots:
     void setThemeType(int type);

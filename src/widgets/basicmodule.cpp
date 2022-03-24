@@ -686,6 +686,7 @@ void BasicModule::showListWidget()
 {
     if (m_keypadLayout->currentIndex() == 0) {
         m_keypadLayout->setCurrentIndex(1);
+        m_memorylistwidget->resetLabelBySeparator();
         MemoryButton *btn2 = static_cast<MemoryButton *>(m_memoryKeypad->button(MemoryKeypad::Key_Mplus));
         btn2->setbuttongray(true);
         btn2->setEnabled(false);

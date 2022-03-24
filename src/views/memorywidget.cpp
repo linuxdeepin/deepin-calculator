@@ -467,6 +467,24 @@ void MemoryWidget::resetAllLabelByBase()
     }
 }
 
+
+
+/**
+ * @brief MemoryWidget::resetLabelBySeparator
+ * 按分割符位数重新设置文本
+ */
+void MemoryWidget::resetLabelBySeparator()
+{
+    if (m_memorypublic->isEmpty())
+        return;
+    QString text;
+    for (int i = 0; i < m_listwidget->count(); i++) {
+        auto wgt = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)));
+        text = Utils::formatThousandsSeparators(wgt->textLabel().remove(","));
+        wgt->setTextLabel(text);
+    }
+}
+
 void MemoryWidget::initConnect()
 {
     connect(m_memorypublic, &MemoryPublic::generateDataSig, this, &MemoryWidget::generateData);

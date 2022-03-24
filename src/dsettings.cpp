@@ -162,6 +162,8 @@ void DSettingsAlt::setSeparate(int separate)
     case 2: setProgrammerSeparate(separate);
         break;
     }
+
+    saveConfig();
 }
 
 /**

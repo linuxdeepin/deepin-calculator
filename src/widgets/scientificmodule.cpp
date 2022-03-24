@@ -1013,6 +1013,8 @@ void scientificModule::handlePageStateChanged()
 void scientificModule::showMemHisWidget()
 {
     m_stackWidget->setCurrentWidget(m_memhiswidget);
+    m_memhiswidget->getSimpleListModel()->updataOfSeparate();
+    m_memhiswidget->getMemoryWiget()->resetLabelBySeparator();
     if (static_cast<MemoryButton *>(m_memhiskeypad->button(MemHisKeypad::Key_MHlist))->hasFocus()) {
         //当前界面无历史focus到membuttonboxbutton
         if (!m_memhiswidget->findChild<IconButton *>()->isHidden())
