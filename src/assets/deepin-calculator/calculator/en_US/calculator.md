@@ -4,7 +4,7 @@
 
 Calculator is a simple and easy-to-use desktop calculator. It supports standard mode, scientific mode and programmer mode, with keyboard input perfectly matched, as well as symbolic fault-tolerant computing and calculation result linkage.
 
-## Operations
+## Modes
 
 Click ![icon_menu](../common/icon_menu.svg) > **Mode** to:
 
@@ -74,6 +74,11 @@ Click ![icon_menu](../common/icon_menu.svg) > **Mode** to:
 | A~F       | Letters | They are only activated in hexadecimal.                      |
 | <<, >>      | Movement   operators | Click them to move left or right. |
 
+## Functions
+
+### Use thousands / ten-thousands separator 
+
+Calculator supports thousands / ten-thousands separator. When the expression is in thousands, you can right-click the current expression area and select **Use ten-thousands separator**. When the expression is ten thousands, right-click the current expression area and select **Use thousands separator**.
 
 
 
