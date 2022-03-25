@@ -28,6 +28,14 @@
         <translation>全選</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation>切換為千分位</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>切換為萬分位</translation>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>撤銷</translation>
     </message>

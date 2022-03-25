@@ -28,6 +28,14 @@
         <translation>Zaznacz wszystko</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Cofnij</translation>
     </message>
@@ -72,7 +80,7 @@
     </message>
     <message>
         <source>Programmer</source>
-        <translation>Programista</translation>
+        <translation>Programisty</translation>
     </message>
 </context>
 <context>
@@ -144,7 +152,7 @@
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Nieprawidłowe wyrażenie</translation>
+        <translation>Błąd wyrażenia</translation>
     </message>
 </context>
 <context>
