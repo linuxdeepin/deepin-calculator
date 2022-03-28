@@ -56,7 +56,7 @@ DSettingsAlt::DSettingsAlt(QObject *parent)
 DSettingsAlt::~DSettingsAlt()
 {
 //    delete m_settings;
-    saveConfig();
+    //saveConfig();
 }
 
 void DSettingsAlt::loadConfig()
