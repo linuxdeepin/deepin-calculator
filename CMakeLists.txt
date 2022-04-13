@@ -131,3 +131,10 @@ install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src/assets/deepin-calculator
 #if (NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "loongarch64")
 add_subdirectory(tests)  #tests为ut测试文件夹名
 #endif ()
+
+
+#代码覆盖率开关
+if(CMAKE_COVERAGE_ARG STREQUAL "CMAKE_COVERAGE_ARG_ON")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall -fprofile-arcs -ftest-coverage")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -fprofile-arcs -ftest-coverage")
+endif()
