@@ -4,8 +4,10 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #include <QTest>
+#include <QMenu>
 
-#include "src/dsettings.h"
+#include"../stub.h"
+#include "../../src/dsettings.h"
 
 class Ut_SimpleListView : public ::testing::Test
 {

@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Błąd wyrażenia</translation>
+        <translation>Nieprawidłowe wyrażenie</translation>
     </message>
 </context>
 <context>
@@ -20,26 +20,6 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>&amp;Cofnij</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>&amp;Powtórz</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>Wyt&amp;nij</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>&amp;Kopiuj</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>&amp;Wklej</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Usuń</translation>
     </message>
@@ -47,16 +27,40 @@
         <source>Select All</source>
         <translation>Zaznacz wszystko</translation>
     </message>
+    <message>
+        <source>Use thousands separator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>Cofnij</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Ponów</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Wytnij</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopiuj</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Wklej</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
         <translation>Kalkulator</translation>
-    </message>
-    <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Kalkulator to łatwy w użyciu kalkulator biurkowy, obsługujący tryby standardowe i naukowe.</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -67,12 +71,16 @@
         <translation>Naukowy</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Historia</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Tryb</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation>Kalkulator jest łatwym w użyciu kalkulatorem desktopowym, wspierającym trzy tryby: standardowy, naukowy i programisty.</translation>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation>Programisty</translation>
     </message>
 </context>
 <context>
@@ -138,6 +146,58 @@
     <message>
         <source>Nothing saved in memory</source>
         <translation>Nic nie zostało zapisane w pamięci</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Błąd wyrażenia</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Kopiuj</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Przesunięcie arytmetyczne</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Przesunięcie logiczne</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Przesunięcie cykliczne</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Zastosuj przesunięcie cykliczne</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Przesunięcie arytmetyczne</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Przesunięcie logiczne</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Przesunięcie cykliczne</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Zastosuj przesunięcie cykliczne</translation>
     </message>
 </context>
 <context>

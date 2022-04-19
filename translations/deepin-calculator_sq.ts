@@ -20,26 +20,6 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>&amp;Zhbëje</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>&amp;Ribëje</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>&amp;Prije</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>&amp;Kopjoje</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>&amp;Ngjite</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Fshije</translation>
     </message>
@@ -47,16 +27,32 @@
         <source>Select All</source>
         <translation>Përzgjidhi Krejt</translation>
     </message>
+    <message>
+        <source>Undo</source>
+        <translation>Zhbëje</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Ribëje</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Prije</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopjoje</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Ngjite</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
         <translation>Llogaritës</translation>
-    </message>
-    <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Llogaritësi është një makinë llogaritëse për desktop, i lehtë për t’u përdorur, që mbulon mënyrat standardte dhe shkencore.</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -67,12 +63,16 @@
         <translation>Shkencore</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Historik</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Mënyrë</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation>Llogaritësi është një makinë llogaritëse për desktop, e lehtë për t’u përdorur, që mbulon mënyrat standard, shkencore dhe programues.</translation>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation>Programues</translation>
     </message>
 </context>
 <context>
@@ -138,6 +138,58 @@
     <message>
         <source>Nothing saved in memory</source>
         <translation>S’u ruajt gjë në kujtesë</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Gabim shprehjeje</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Kopjoje</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

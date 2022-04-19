@@ -1,47 +1,84 @@
+%define pkgrelease  1
+%if 0%{?openeuler}
+%define specrelease %{pkgrelease}
+%else
+## allow specrelease to have configurable %%{?dist} tag in other distribution
+%define specrelease %{pkgrelease}%{?dist}
+%endif
+
 Name:           deepin-calculator
-Version:        5.6.0.7
-Release:        1%{?dist}
+Version:        5.7.1.1
+Release:        %{specrelease}
 Summary:        An easy to use calculator for ordinary users
-License:        GPLv3
-URL:            https://github.com/linuxdeepin/deepin-calculator
+License:        GPLv3+
+URL:            https://github.com/linuxdeepin/%{name}
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  qt5-linguist
-BuildRequires:  cmake
-BuildRequires:  pkgconfig(Qt5Core)
-BuildRequires:  pkgconfig(Qt5Gui)
-BuildRequires:  pkgconfig(Qt5Widgets)
-BuildRequires:  pkgconfig(Qt5Svg)
-BuildRequires:  pkgconfig(dtkwidget) >= 2.0
-BuildRequires:  pkgconfig(Qt5Multimedia)
-BuildRequires:  pkgconfig(Qt5X11Extras)
-BuildRequires:  pkgconfig(dframeworkdbus)
-BuildRequires:  desktop-file-utils
-Requires:       hicolor-icon-theme
+BuildRequires: gcc-c++
+BuildRequires: cmake3
+BuildRequires: qt5-linguist
+BuildRequires: qt5-devel
+
+BuildRequires: pkgconfig(dtkcore)
+BuildRequires: pkgconfig(dtkwidget)
+BuildRequires: pkgconfig(dtkgui)
+BuildRequires: pkgconfig(dframeworkdbus)
+
+
+# BuildRequires: pkgconfig(Qt5Widgets)
+# BuildRequires: pkgconfig(Qt5Core)
+# BuildRequires: pkgconfig(Qt5Gui)
+# BuildRequires: pkgconfig(Qt5DBus)
+# BuildRequires: pkgconfig(Qt5Xml)
+# BuildRequires: pkgconfig(Qt5Svg)
+BuildRequires: gtest-devel
+BuildRequires: gmock-devel
+
+Requires: 	qt5-qtbase
+Requires: 	qt5-qtbase-gui
+Requires: 	qt5-qtsvg
+
+Requires: 	dde-qt-dbus-factory
+Requires: 	dtkcore
+Requires: 	dtkgui
+Requires: 	dtkwidget
 
 %description
 %{summary}.
 
 %prep
-%autosetup -p1
-sed -i 's|59 Temple Place, Suite 330|51 Franklin Street, Fifth Floor|;
-        s|Boston, MA 02111-1307 USA.|Boston, MA 02110-1335, USA.|' src/math/*.{c,h}
+%autosetup
 
 %build
-%cmake
-%cmake_build
+# help find (and prefer) qt5 utilities, e.g. qmake, lrelease
+export PATH=%{_qt5_bindir}:$PATH
+# cmake_minimum_required version is too high
+sed -i "s|^cmake_minimum_required.*|cmake_minimum_required(VERSION 3.0)|" $(find . -name "CMakeLists.txt")
+mkdir build
+pushd build
+%cmake ../ -DCMAKE_BUILD_TYPE=Release \-DAPP_VERSION=%{version} -DVERSION=%{version}
+
+%make_build
+popd
 
 %install
-%cmake_install
-
-%check
-desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
+# pushd build
+# %make_install
+# popd
+%make_install -C build INSTALL_ROOT="%buildroot"
 
 %files
 %doc README.md
 %license LICENSE
 %{_bindir}/%{name}
-%{_datadir}/applications/%{name}.desktop
+%{_datadir}/%{name}/translations/*.qm
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
+%{_datadir}/applications/%{name}.desktop
+%{_datadir}/deepin-manual/manual-assets/application/deepin-calculator/calculator/*
 
 %changelog
+* Mon Apr 19 2021 zhangdingwen <zhangdingwen@uniontech.com> - 5.7.1.1-1
+- init spec for euler
+
+* Thu Aug 13 2020 guoqinglan <guoqinglan@uniontech.com> - 5.5.27-1
+- Update to 5.5.27

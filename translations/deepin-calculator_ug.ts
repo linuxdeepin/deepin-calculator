@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>ئىپادە خاتا</translation>
+        <translation>ئىپادىلەش خاتا</translation>
     </message>
 </context>
 <context>
@@ -20,26 +20,6 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>&amp;يېنىۋېلىش</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>&amp;قايتا قىلىش</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>&amp;كېسىش</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>&amp;كۆچۈرۈش</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>&amp;چاپلاش</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>ئۆچۈرۈش</translation>
     </message>
@@ -47,16 +27,40 @@
         <source>Select All</source>
         <translation>ھەممىنى تاللاش</translation>
     </message>
+    <message>
+        <source>Use thousands separator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>ئەمەلدىن قالدۇرۇش</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>ئەسلىگە كەلتۈرۈش</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>كېسىش</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>كۆچۈرۈش</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>چاپلاش</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
         <translation>ھېسابلىغۇچ</translation>
-    </message>
-    <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>ھېسابلىغۇچ ئاددىي  ھەم ئاسان بولغان ئۈستەل يۈزى ھېسابلىغۇچتۇر، ئۇ ئۆلچەملىك ۋە ئىلمىي مودېلنى قوللايدۇ.</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -67,12 +71,16 @@
         <translation>ئىلمىي</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>تارىخىي خاتىرە</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>ھالەت</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation>ئۈستەل يۈزى ھېسابلىغۇچنى ئىشلىتىش ئاسان ، ئۆلچەملىك ، ئىلمىي ۋە پروگراممېر ھالىتىنى قوللايدۇ.</translation>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation>پروگراممېر</translation>
     </message>
 </context>
 <context>
@@ -138,6 +146,58 @@
     <message>
         <source>Nothing saved in memory</source>
         <translation>ساقلىغۇچىتا ھېچنىمە يوق</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>ئىپادىلەش خاتا</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>كۆچۈرۈش</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>ئارفىمېتكىلىق يۆتكىلىش</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>لوگىكىلىق يۆتكىلىش</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>ئايلانما يۆتكىلىش</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>ئايلانما يۆتكىلىش ئارقىلىق ئايلىنىش</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>ئارفىمېتكىلىق يۆتكىلىش</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>لوگىكىلىق يۆتكىلىش</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>ئايلانما يۆتكىلىش</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>ئايلانما يۆتكىلىش ئارقىلىق ئايلىنىش</translation>
     </message>
 </context>
 <context>

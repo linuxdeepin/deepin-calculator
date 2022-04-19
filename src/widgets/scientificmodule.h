@@ -22,22 +22,20 @@
 #ifndef SCIENTIFICMODEL_H
 #define SCIENTIFICMODEL_H
 
-#include <QStackedLayout>
-#include <QGridLayout>
-#include <QTimer>
+#include "../control/textbutton.h"
+#include "../control/iconbutton.h"
+#include "../control/scientifickeypad.h"
+#include "../control/memhiskeypad.h"
+#include "memhiswidget.h"
+#include "sciexpressionbar.h"
+#include "../views/memorywidget.h"
+#include "../memorypublic.h"
+
 #include <DWidget>
 #include <DGuiApplicationHelper>
 
-#include "src/control/textbutton.h"
-#include "src/control/iconbutton.h"
-#include "src/control/basickeypad.h"
-#include "src/control/memorykeypad.h"
-#include "src/control/scientifickeypad.h"
-#include "src/widgets/inputedit.h"
-#include "scihistorywidget.h"
-#include "sciexpressionbar.h"
-#include "src/views/memorywidget.h"
-#include "src/memorypublic.h"
+#include <QStackedWidget>
+#include <QTimer>
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
@@ -50,16 +48,15 @@ class scientificModule : public DWidget
     Q_OBJECT
 
 public:
-    scientificModule(QWidget *parent = nullptr);
+    explicit scientificModule(QWidget *parent = nullptr);
     ~scientificModule();
     void setKeyPress(QKeyEvent *e);
-
-    void showOrHideHistory(bool hide);
     void checkLineEmpty();
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *e);
+
 signals:
     void changedeg(int deg);
-    void getWindowChanged(int width, int height, bool hishide);
-    void sciMemTab();
 
 public slots:
     //memory func
@@ -67,6 +64,7 @@ public slots:
     void mUnAvailableEvent();
 private slots:
     void initTheme(int type);
+    void clickListView(const QModelIndex &index);
 private:
     void handleEditKeyPress(QKeyEvent *);
     void handleKeypadButtonPress(int);
@@ -75,20 +73,25 @@ private:
     void handleDegChanged();
     void handleFEStateChanged(bool isdown);
     void handlePageStateChanged();
-    void setScientificTabOrder();
+    void showMemHisWidget();
+    void hideMemHisWidget();
 
 private:
+    QStackedWidget *m_stackWidget;
     SciExpressionBar *m_sciexpressionBar;
+    MemHisKeypad *m_memhiskeypad;
     ScientificKeyPad *m_scikeypadwidget;
-    bool m_avail = false;
+    MemHisWidget *m_memhiswidget;
+    MemoryPublic *m_memoryPublic;
+    bool m_avail = false; //内存是否有内容
+    bool m_havail = false; //历史记录是否有内容
     int m_deg = 1;//1-deg 2-rad 3-grad
     bool m_FEisdown = false; //FE按键是否被按下
     bool m_Pageisdown = false; //2nd按键是否被按下
     bool m_isinsidefun = false;//鼠标点击在函数widget内
     bool m_memCalbtn; //m+,m-,ms
     bool m_memRCbtn;//mr,mc
-    SciHistoryWidget *m_scihiswidget;
-    MemoryPublic *m_memoryPublic;
+    bool m_isallgray = false; //内存按钮全部置灰;
 };
 
 #endif // SCIENTIFICMODEL_H

@@ -22,15 +22,17 @@
 #ifndef MEMORYBUTTON_H
 #define MEMORYBUTTON_H
 
+
+#include "textbutton.h"
+#include "../dsettings.h"
+
+#include <DPalette>
+#include <DPushButton>
+
 #include <QDebug>
 #include <QGraphicsDropShadowEffect>
 #include <QHelpEvent>
 #include <QToolTip>
-#include <DPalette>
-#include <DPushButton>
-
-#include "src/dsettings.h"
-#include "textbutton.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -44,7 +46,7 @@ class MemoryButton : public TextButton
 
 public:
     MemoryButton(const QString &text = QString(), bool listwidgetbtn = false, QWidget *parent = nullptr); //listwidgetbtn-是否是内存界面中的按钮
-    ~MemoryButton();
+    ~MemoryButton() override;
 
     void init();
     // void showShadow();
@@ -54,25 +56,21 @@ public:
     void showtips();
 public slots:
     void setbuttongray(bool memorywidgetshow);
-
-signals:
-    void moveLeft();
-    void moveRight();
-    void updateInterface();
+    void updateWhenBtnDisable();
 
 public:
-    void mousePressEvent(QMouseEvent *);
-    void mouseReleaseEvent(QMouseEvent *);
-    void enterEvent(QEvent *);
-    void leaveEvent(QEvent *);
-    void paintEvent(QPaintEvent *e);
-    void focusOutEvent(QFocusEvent *);
+    void mousePressEvent(QMouseEvent *) override;
+    void mouseReleaseEvent(QMouseEvent *) override;
+    void enterEvent(QEvent *) override;
+    void leaveEvent(QEvent *) override;
+    void paintEvent(QPaintEvent *e) override;
+    void focusOutEvent(QFocusEvent *) override;
 
 private:
     QGraphicsDropShadowEffect *m_effect;
+    DSettingsAlt *m_settings;
 
     DPalette m_palette;
-    DSettings *m_settings;
     bool m_isHover;
     bool m_isPress;
     bool m_isgray; //按键不可用置灰

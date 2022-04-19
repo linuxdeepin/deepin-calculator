@@ -22,11 +22,11 @@
 #ifndef MEMORYPUBLIC_H
 #define MEMORYPUBLIC_H
 
+#include "../3rdparty/core/evaluator.h"
+#include "views/memorywidget.h"
+
 #include <QObject>
 #include <QList>
-
-#include "views/memorywidget.h"
-#include "src/core/evaluator.h"
 
 /**
  * @brief 同步处理数字内存
@@ -43,12 +43,14 @@ public:
      */
     enum memorymode {
         standardleft,  //标准模式
-        scientificright //科学模式
+        scientificright, //科学模式
+        programmerleft //程序员
     };
-    static MemoryPublic *instance(QObject *p);
+    static MemoryPublic *instance();
     static void deleteInstance();
     ~MemoryPublic();
     MemoryWidget *getwidget(memorymode mode);
+    QList<Quantity> getList();
 
     void generateData(Quantity answer);
     void memoryplus(Quantity answer);
@@ -58,17 +60,21 @@ public:
     void widgetminus(int row, Quantity answer);
     void widgetclean(int row, int mode, bool ismenu);
     void setThemeType(int type);
-    bool isWidgetEmpty(int mode); //0-标准 1-科学
+    bool isEmpty();
 private:
     MemoryWidget *m_standard_l;
     MemoryWidget *m_scientific_r;
+    MemoryWidget *m_programmer_l;
+
+    QList<Quantity> m_list;
+    Evaluator *m_evaluator;
 
 signals:
-    void widgetplus(int row);
-    void widgetminus(int row);
-    void filledMem();
-    void emptyMem();
-    void publicwidgetclean(int mode);
+    void generateDataSig(Quantity answer, bool ismax);
+    void memorycleanSig();
+    void memoryAnsSig(int row, Quantity answer);
+    void widgetcleanSig(int row, int mode, bool ismenu);
+    void setThemeTypeSig(int type);
 
 public slots:
 };

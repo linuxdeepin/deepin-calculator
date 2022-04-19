@@ -24,17 +24,15 @@
 #include <QObject>
 #include <DGuiApplicationHelper>
 
-#include "src/dsettings.h"
-
 DGUI_USE_NAMESPACE
 class SimpleListDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool m_selected WRITE setSelect)
+    Q_PROPERTY(bool m_selected READ isSelected WRITE setSelect)
 public:
     SimpleListDelegate(int mode, QObject *parent = nullptr);//mode:0-标准模式 1-科学模式
-    ~SimpleListDelegate();
+    ~SimpleListDelegate() override;
     void setHisLink(const int link);
     void setHisLinked(const int linked);
     void removeLine(const int link, const int linked);
@@ -42,6 +40,8 @@ public:
     void removeHisLink();
     void removeAllLink();
     void removeHisLinked();  // add 20200318 for fix cleanlinkcache
+    bool isSelected() const {return m_selected;}
+    void setSelect(bool isSelect) { m_selected = isSelect; }
 
 public slots:
     void setThemeType(int type);
@@ -50,26 +50,24 @@ public slots:
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const;
+               const QModelIndex &index) const override;
     void drawFocusStatus(QPainter *painter, const QStyleOptionViewItem &option) const;
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option,
-                     const QModelIndex &index);
-    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+//    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option,
+//                     const QModelIndex &index);
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 signals:
     void obtainingHistorical(const QModelIndex &index);
     void historicalLinkage(const QModelIndex &index);
 
 private:
-    void setSelect(bool isSelect) { m_selected = isSelect; }
     void cutApart(const QString text, QString &linkNum, QString &expStr);
 
     SimpleListDelegate *m_simpleListDelegate;
     QVector<int> m_linkItem;
     QVector<int> m_linkedIten;
-    DSettings *m_settings;
     bool m_selected;
-    int m_type;
+    int m_type = 0;
     int m_mode = 0;
     int m_row = -1;
     int m_state = 0;

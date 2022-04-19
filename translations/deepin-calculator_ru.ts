@@ -20,26 +20,6 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>Отменить (&amp;U)</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>Повторить (&amp;R)</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>Вырезать (&amp;T)</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>Копировать( &amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>Вставить (&amp;P)</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
@@ -47,16 +27,32 @@
         <source>Select All</source>
         <translation>Выбрать все</translation>
     </message>
+    <message>
+        <source>Undo</source>
+        <translation>Отменить</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Повторить</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Вырезать</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Копировать</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Вставить</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
         <translation>Калькулятор</translation>
-    </message>
-    <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Калькулятор - простой и удобный в использовании настольный калькулятор. Он поддерживает стандартный и научный режимы.</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -67,12 +63,16 @@
         <translation>Научный</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>История</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Режим</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation>Калькулятор - это простой в использовании настольный калькулятор, поддерживающий стандартный, научный и программистский режимы.</translation>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation>Программистский</translation>
     </message>
 </context>
 <context>
@@ -87,27 +87,27 @@
     </message>
     <message>
         <source>Memory recall</source>
-        <translation type="unfinished"/>
+        <translation>Вызов из памяти</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Прибавить к памяти</translation>
+        <translation>Добавить элемент в память</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation type="unfinished"/>
+        <translation>Добавить в память</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Вычесть из памяти</translation>
+        <translation>Вычесть элемент из памяти</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation type="unfinished"/>
+        <translation>Вычесть из памяти</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation type="unfinished"/>
+        <translation>Хранилище памяти</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -122,15 +122,15 @@
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Очистить память</translation>
+        <translation>Удалить элемент из  памяти</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Прибавить к памяти</translation>
+        <translation>Добавить элемент в память</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Вычесть из памяти</translation>
+        <translation>Вычесть элемент из памяти</translation>
     </message>
 </context>
 <context>
@@ -138,6 +138,58 @@
     <message>
         <source>Nothing saved in memory</source>
         <translation>В памяти ничего не сохранено</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Ошибка выражения</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Копировать</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Арифметический сдвиг</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Логический сдвиг</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Циклический сдвиг</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Вращать циклический сдвиг посредством переноса</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Арифметический сдвиг</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Логический сдвиг</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Циклический сдвиг</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Вращать посредством переноса циклический сдвиг</translation>
     </message>
 </context>
 <context>
@@ -176,7 +228,7 @@
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>Нет истории</translation>
+        <translation>История не сохранилась</translation>
     </message>
 </context>
 <context>

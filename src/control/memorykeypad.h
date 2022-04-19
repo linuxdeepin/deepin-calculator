@@ -22,16 +22,17 @@
 #ifndef MEMORYKEYPAD_H
 #define MEMORYKEYPAD_H
 
-#include <QWidget>
-#include <QGridLayout>
-#include <QSignalMapper>
-#include <DGuiApplicationHelper>
-#include <DSuggestButton>
-
 #include "textbutton.h"
 #include "iconbutton.h"
 #include "memorybutton.h"
 #include "equalbutton.h"
+
+#include <DGuiApplicationHelper>
+#include <DSuggestButton>
+
+#include <QWidget>
+#include <QGridLayout>
+#include <QSignalMapper>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -49,12 +50,13 @@ public:
      */
     enum Buttons {Key_MC = 20, Key_MR, Key_Mplus, Key_Mminus, Key_MS, Key_Mlist}; //MC, MR, M+, M-, MS, M^
 
-    MemoryKeypad(QWidget *parent = nullptr);
-    ~MemoryKeypad();
+    explicit MemoryKeypad(QWidget *parent = nullptr);
+    ~MemoryKeypad() override;
 
-    void mouseMoveEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e) override;
 
     DPushButton *button(Buttons key);
+    DPushButton *button(int key);
     void animate(Buttons key, bool isspace = false);
     bool buttonHasFocus();
 
@@ -73,8 +75,6 @@ signals:
     void buttonPressed(int);
     void buttonPressedbySpace(int);
     void equalPressed();
-    void moveLeft();
-    void moveRight();
 
 private:
     QGridLayout *m_layout;

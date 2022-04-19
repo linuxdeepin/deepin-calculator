@@ -20,26 +20,6 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>Annulla (&amp;U)</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>Ripeti (&amp;R)</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>Taglia (&amp;T)</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>Copia (&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>Incolla (&amp;P)</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Elimina</translation>
     </message>
@@ -47,17 +27,32 @@
         <source>Select All</source>
         <translation>Seleziona tutti</translation>
     </message>
+    <message>
+        <source>Undo</source>
+        <translation>Annulla</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Ripeti</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Taglia</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Copia</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Incolla</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
         <translation>Calculatrice</translation>
-    </message>
-    <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Calcolatrice è una calcolatrice desktop semplice e facile da usare. Supporta il calcolo base e quello scientifico.
-Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -68,12 +63,17 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
         <translation>Scientifica</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Cronologia</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Modalità</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation>Calcolatrice è una calcolatrice desktop semplice e facile da usare. Supporta il calcolo base e quello scientifico.
+Localizzazione italiana a cura di Massimo A. Carofano.</translation>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation>Programmazione</translation>
     </message>
 </context>
 <context>
@@ -139,6 +139,58 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>Nothing saved in memory</source>
         <translation>Nessun elemento in memoria</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Errore espressione</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Copia</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Spostamento aritmetico</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Spostamento logico</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Spostamento circolare</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Ruota attraverso lo spostamento circolare</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Spostamento aritmetico</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Spostamento logico</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Spostamento circolare</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Ruota attraverso lo spostamento circolare</translation>
     </message>
 </context>
 <context>

@@ -20,32 +20,32 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>Опозови (&amp;U)</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>Обнови (&amp;R)</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>Исеци (&amp;T)</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>Копирај (&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>Убаци (&amp;P)</translation>
-    </message>
-    <message>
         <source>Delete</source>
-        <translation> Обриши</translation>
+        <translation>Обриши</translation>
     </message>
     <message>
         <source>Select All</source>
         <translation>Изабери све</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>Опозови</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Обнови</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Исеци</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Копирај</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Убаци</translation>
     </message>
 </context>
 <context>
@@ -53,10 +53,6 @@
     <message>
         <source>Calculator</source>
         <translation>Калкулатор</translation>
-    </message>
-    <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Калкулатор је једноставан за употребу рачунарски калкулатор. Подржава стандардни и научни режим.</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -67,12 +63,16 @@
         <translation>Научни</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Историја</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Режим</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation>Калкулатор је рачунарски прогам који је једноставан за употребу. Подржава стандардни, научни и програмерски режим.</translation>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation>Програмер</translation>
     </message>
 </context>
 <context>
@@ -141,6 +141,58 @@
     </message>
 </context>
 <context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Грешка израза</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Копирај</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Аритметички помак</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Логички помак</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Кружни помак</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Роптирај кроз носиоца кружног помака</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Аритметички помак</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Логички помак</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Кружни помак</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Роптирај кроз носиоца кружног помака</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
@@ -187,7 +239,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation> Обриши</translation>
+        <translation>Обриши</translation>
     </message>
 </context>
 </TS>

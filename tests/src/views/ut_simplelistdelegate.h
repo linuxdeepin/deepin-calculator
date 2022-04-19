@@ -5,12 +5,20 @@
 #include <gmock/gmock-matchers.h>
 #include <QTest>
 
-#include "src/dsettings.h"
+#include"../stub.h"
+#include "../../src/views/simplelistdelegate.h"
+#include "../../src/views/simplelistmodel.h"
 
 class Ut_SimpleListDelegate : public ::testing::Test
 {
 public:
     Ut_SimpleListDelegate();
+
+    SimpleListDelegate *m_simpleListDelegate;
+    SimpleListModel *model;
+protected:
+    void SetUp();
+    void TearDown();
 };
 
 #endif // UT_SIMPLELISTDELEGATE_H

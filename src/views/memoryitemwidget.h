@@ -22,6 +22,8 @@
 #ifndef MEMORYITEMWIDGET_H
 #define MEMORYITEMWIDGET_H
 
+#include "../control/memorybutton.h"
+
 #include <QWidget>
 #include <QPushButton>
 #include <QLabel>
@@ -31,8 +33,6 @@
 #include <QPainter>
 #include <QPen>
 
-#include "src/control/memorybutton.h"
-
 /**
  * @brief 内存列表Item界面
  */
@@ -41,16 +41,17 @@ class MemoryItemWidget : public QWidget
     Q_OBJECT
 public:
     explicit MemoryItemWidget(QWidget *parent = nullptr);
-    ~MemoryItemWidget();
-    void enterEvent(QEvent *event);
-    void leaveEvent(QEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void contextMenuEvent(QContextMenuEvent *event);
+    ~MemoryItemWidget() override;
+    void enterEvent(QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void contextMenuEvent(QContextMenuEvent *event) override;
     void setTextLabel(QString s);
     QString textLabel();
-    void paintEvent(QPaintEvent *e);
-    void setLineHight(int line);
+    void paintEvent(QPaintEvent *e) override;
+    void setLineHight(int line, int height);
+    int getLine();
 signals:
     void plusbtnclicked();
     void minusbtnclicked();
@@ -80,6 +81,7 @@ private:
     bool m_ispress = false;
     bool m_ishover = false;
     QFont m_font;
+    int m_line = 0;
 };
 
 #endif // MEMORYITEMWIDGET_H

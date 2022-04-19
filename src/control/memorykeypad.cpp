@@ -63,6 +63,11 @@ DPushButton *MemoryKeypad::button(Buttons key)
     return m_keys.value(key).first;
 }
 
+DPushButton *MemoryKeypad::button(int key)
+{
+    return m_keys.value(Buttons(key)).first;
+}
+
 /**
  * @brief 按钮点击动画效果
  */
@@ -72,6 +77,9 @@ void MemoryKeypad::animate(Buttons key, bool isspace)
     btn->animate(isspace);
 }
 
+/**
+ * @brief 焦点是否在该button上
+ */
 bool MemoryKeypad::buttonHasFocus()
 {
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
@@ -93,7 +101,7 @@ void MemoryKeypad::initButtons()
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
         DPushButton *button;
-        button = new MemoryButton(desc->text);
+        button = new MemoryButton(desc->text, false, this);
         QFont font = button->font();
         font.setFamily("Noto Sans");
         button->setFont(font);
@@ -105,14 +113,11 @@ void MemoryKeypad::initButtons()
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
         connect(static_cast<MemoryButton *>(button), &MemoryButton::focus, this, &MemoryKeypad::getFocus); //获取上下左右键
-        connect(static_cast<MemoryButton *>(button), &MemoryButton::updateInterface, [ = ] {update();}); //点击及焦点移除时update
         connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
         connect(static_cast<MemoryButton *>(button), &MemoryButton::space, this, [ = ]() {
             Buttons spacekey = m_keys.key(hashValue);
             emit buttonPressedbySpace(spacekey);
         });
-        connect(static_cast<MemoryButton *>(button), &MemoryButton::moveLeft, this, &MemoryKeypad::moveLeft);
-        connect(static_cast<MemoryButton *>(button), &MemoryButton::moveRight, this, &MemoryKeypad::moveRight);
         m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
     }
 }

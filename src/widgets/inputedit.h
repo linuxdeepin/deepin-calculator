@@ -20,11 +20,11 @@
 #ifndef INPUTEDIT_H
 #define INPUTEDIT_H
 
+#include "../../3rdparty/math/quantity.h"
+#include "../../3rdparty/core/evaluator.h"
+
 #include <DLineEdit>
 #include <DPalette>
-
-#include "src/math/quantity.h"
-#include "src/core/evaluator.h"
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
@@ -43,19 +43,23 @@ class InputEdit : public QLineEdit
     Q_OBJECT
 
 public:
-    InputEdit(QWidget *parent = nullptr);
+    explicit InputEdit(QWidget *parent = nullptr);
     ~InputEdit();
 
     QString expressionText();
-//    QString expressionPercent(QString &str); // edit for bug-19653,当对超过17位的数进行百分号处理时，保留超过精度的部分。
     void setAnswer(const QString &str, const Quantity &ans);
     void clear();
     SSelection getSelection() { return m_selected; }
     void setSelection(SSelection select) { m_selected = select; }
-//    void setPercentAnswer(const QString &str1, const QString &str2, const Quantity &ans,
-//                          const int &Pos); //str1-完整表达式 str2, ans-百分比计算结果 Pos-光标位置
     QPair<bool, Quantity> getMemoryAnswer(); //edit 20200507,获取上一次计算的全精度结果，用于数字内存。
     QString symbolComplement(const QString exp);
+    void getCurrentCursorPositionNumber(const int pos);//获取当前光标所在位置对应的数字并设置位键盘
+    QString CurrentCursorPositionNumber(const int pos, const int base); //获取当前光标所在位置对应的数字
+    QString CurrentCursorPositionNumber(const int pos);
+    static bool isNumber(QChar a);//判断是否为数字(分隔符)
+    QString formatBinaryNumber(const QString num);//清除二进制前多余的0
+    static QString formatExpression(const int &probase, const QString &text);
+    QPair<bool, Quantity> getCurrentAns();
     void focusInEvent(QFocusEvent *event);
 
 public slots:
@@ -66,6 +70,12 @@ public slots:
     void hisexpression(); //点击简易历史记录及科学左侧历史记录后清空ans
     void autoZoomFontSize(); //输入框字号变化
     void themetypechanged(int type);
+    void valueChangeFromProSyskeypad(const QString num);
+    void handleTextChanged(const QString &text);
+    void radixChanged(int baseori, int basedest);
+    QString scanAndExec(int baseori, int basedest);
+    void onSwietThreeSeparateClicked();
+    void onswietFourSeparateClicked();
 
 Q_SIGNALS:
     void keyPress(QKeyEvent *);
@@ -79,6 +89,11 @@ Q_SIGNALS:
     void deleteText();
     void setResult();
     void emptyExpression(bool b);
+    void cursorPositionNumberChanged(QString num);
+    void prolistAns(QPair<bool, Quantity> pair);
+    void swietThreeSeparate();  //切换为千分位
+    void swietFourSeparate();  //切换为万分位
+    void separateChange();
 
 protected:
     void keyPressEvent(QKeyEvent *);
@@ -88,11 +103,6 @@ protected:
 
 private slots:
     void initAction();
-    void updateAction();
-//    bool isSymbolCategoryChanged(int pos1, int pos2);
-//    int findWordBeginPosition(int pos);
-//    int findWordEndPosition(int pos);
-    void handleTextChanged(const QString &text);
     void handleCursorPositionChanged(int oldPos, int newPos);
     void BracketCompletion(QKeyEvent *e);
     QString pointFaultTolerance(const QString &text);
@@ -102,6 +112,7 @@ private slots:
     void showTextEditMenu();
     void selectionChangedSlot();
     void showTextEditMenuByAltM();
+    QString formatAns(const QString &text);
 
 private:
     Quantity m_ans;
@@ -121,14 +132,19 @@ private:
     QAction *m_paste;
     QAction *m_delete;
     QAction *m_select;
+    QAction *m_threeSeparate;  //以三位分开
+    QAction *m_fourSeparate;  //以四位分开
 
     Quantity m_memoryans; //用于内存的结果
     Evaluator *m_evaluator;
-    QString m_percentexp;
     bool m_ispercentanswer = false; //百分号结果是否需要转换为quantity
     //支持的功能列表
     QList<QString> m_funclist; //科学模式下函数名列表
     QString m_strans;
+    //进制切换时用于替换所有数字
+    QVector<QString> m_numvec;
+    QVector<QString> m_opvec;
+    QString m_textorder;
 };
 
 #endif

@@ -20,26 +20,6 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>撤銷(&amp;U)</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>恢復(&amp;R)</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>剪切(&amp;T)</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>複製(&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>黏貼(&amp;P)</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>刪除</translation>
     </message>
@@ -47,16 +27,40 @@
         <source>Select All</source>
         <translation>全選</translation>
     </message>
+    <message>
+        <source>Use thousands separator</source>
+        <translation>切換為千分位</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>切換為萬分位</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>撤銷</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>恢復</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>剪切</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>複製</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>黏貼</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>計算器</translation>
-    </message>
-    <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>計算器是一款簡單易用的桌面計算器，支持標準型和科學型模式。</translation>
+        <translation>計數機</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -67,12 +71,16 @@
         <translation>科學</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>歷史記錄</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>模式</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation>計數機是一款簡單易用的桌面計算器，支持標準型、科學型、程式員型模式。</translation>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation>程序員</translation>
     </message>
 </context>
 <context>
@@ -141,10 +149,62 @@
     </message>
 </context>
 <context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>運算式錯誤</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>複製</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>算數移位</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>邏輯移位</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>循環移位</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>帶進位循環移位</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>算數移位</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>邏輯移位</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>循環移位</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>帶進位循環移位</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>計算器</translation>
+        <translation>計數機</translation>
     </message>
 </context>
 <context>
