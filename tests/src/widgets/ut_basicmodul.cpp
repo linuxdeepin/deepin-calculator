@@ -1,119 +1,127 @@
 #include <QPalette>
 #include "ut_basicmodul.h"
-#define private public
-#include "src/widgets/basicmodule.h"
-#undef private
+
+#include "../../src/widgets/basicmodule.h"
 
 Ut_BasicModul::Ut_BasicModul()
 {
 
 }
 
-void Ut_BasicModul::SetUp()
+TEST_F(Ut_BasicModul, Signals)
 {
-}
+    BasicModule *m_basicmodul = new BasicModule;
 
-void Ut_BasicModul::TearDown()
-{
+    m_basicmodul->m_memorylistwidget->widgetplus(0);
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "");
+    m_basicmodul->m_memorylistwidget->widgetminus(0);
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "");
+    m_basicmodul->m_memoryPublic->generateData(Quantity(1));
+    m_basicmodul->m_memoryPublic->memoryclean();
+    m_basicmodul->m_keypadLayout->setCurrentIndex(1);
+    QPair<QString, Quantity> pair2 = {"1", Quantity(1)};
+    m_basicmodul->m_memorylistwidget->itemclick(pair2);
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
+    m_basicmodul->m_memorylistwidget->hideWidget();
+    EXPECT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 0);
+    m_basicmodul->m_memorylistwidget->insidewidget();
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, setKeyPress)
 {
     BasicModule *m_basicmodul = new BasicModule;
-    m_basicmodul->setKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
-    ASSERT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
-    DSettings::deleteInstance();
-    MemoryPublic::deleteInstance();
+    QKeyEvent *k = new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier);
+    m_basicmodul->setKeyPress(k);
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
+    delete k;
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, mAvailableEvent)
 {
     BasicModule *m_basicmodul = new BasicModule;
     m_basicmodul->mAvailableEvent();
-    ASSERT_TRUE(m_basicmodul->m_memRCbtn);
-    DSettings::deleteInstance();
-    MemoryPublic::deleteInstance();
+    EXPECT_TRUE(m_basicmodul->m_memRCbtn);
+    EXPECT_TRUE(m_basicmodul->m_avail);
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, mUnAvailableEvent)
 {
     BasicModule *m_basicmodul = new BasicModule;
     m_basicmodul->mUnAvailableEvent();
-    ASSERT_FALSE(m_basicmodul->m_memRCbtn);
-    DSettings::deleteInstance();
-    MemoryPublic::deleteInstance();
+    EXPECT_FALSE(m_basicmodul->m_memRCbtn);
+    EXPECT_FALSE(m_basicmodul->m_avail);
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, showListWidget)
 {
     BasicModule *m_basicmodul = new BasicModule;
     m_basicmodul->showListWidget();
-    ASSERT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 1);
-    DSettings::deleteInstance();
-    MemoryPublic::deleteInstance();
+    EXPECT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 1);
+    EXPECT_TRUE(m_basicmodul->m_isallgray);
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, initTheme)
 {
     BasicModule *m_basicmodul = new BasicModule;
     m_basicmodul->initTheme(1);
-    ASSERT_EQ(m_basicmodul->findChild<InputEdit *>()->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Text), "#303030");
-    DSettings::deleteInstance();
-    MemoryPublic::deleteInstance();
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Text), "#303030");
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, handleEditKeyPress)
 {
     BasicModule *m_basicmodul = new BasicModule;
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_0, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_2, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_3, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_4, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_5, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_6, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_7, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_8, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_9, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Plus, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Minus, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Underscore, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Asterisk, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Slash, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Enter, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Equal, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Backspace, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Period, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Escape, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_ParenLeft, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_ParenRight, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Percent, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_C, Qt::ControlModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_V, Qt::ControlModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_A, Qt::ControlModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_X, Qt::ControlModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_X, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Delete, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Z, Qt::ControlModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Y, Qt::ControlModifier));
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_0, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_1, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_2, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_3, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_4, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_5, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_6, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_7, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_8, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_9, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Plus, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Minus, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Underscore, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Asterisk, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Slash, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Enter, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Return, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Backspace, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Period, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Escape, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_ParenLeft, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_ParenRight, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Percent, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_C, Qt::ControlModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_V, Qt::ControlModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_A, Qt::ControlModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_X, Qt::ControlModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_X, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Delete, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Left, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Right, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Z, Qt::ControlModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Y, Qt::ControlModifier);
     m_basicmodul->m_memRCbtn = true;
     m_basicmodul->m_isallgray = false;
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_L, Qt::ControlModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_R, Qt::ControlModifier));
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_L, Qt::ControlModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_R, Qt::ControlModifier);
     m_basicmodul->m_memCalbtn = true;
     m_basicmodul->findChild<InputEdit *>()->setText("1");
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_P, Qt::ControlModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Q, Qt::ControlModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_M, Qt::ControlModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_Escape, Qt::NoModifier));
-    m_basicmodul->handleEditKeyPress(new QKeyEvent(QEvent::KeyPress, Qt::Key_1, Qt::NoModifier));
-    ASSERT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
-    DSettings::deleteInstance();
-    MemoryPublic::deleteInstance();
-    //25.2
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_P, Qt::ControlModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Q, Qt::ControlModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_M, Qt::ControlModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_Escape, Qt::NoModifier);
+    QTest::keyClick(m_basicmodul->findChild<InputEdit *>(), Qt::Key_1, Qt::NoModifier);
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, handleKeypadButtonPress)
@@ -152,9 +160,8 @@ TEST_F(Ut_BasicModul, handleKeypadButtonPress)
     m_basicmodul->handleKeypadButtonPress(MemoryKeypad::Key_MR);
     m_basicmodul->handleKeypadButtonPress(BasicKeypad::Key_Clear);
     m_basicmodul->handleKeypadButtonPress(BasicKeypad::Key_1);
-    ASSERT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
-    DSettings::deleteInstance();
-    MemoryPublic::deleteInstance();
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, handleKeypadButtonPressByspace)
@@ -188,9 +195,8 @@ TEST_F(Ut_BasicModul, handleKeypadButtonPressByspace)
     m_basicmodul->handleKeypadButtonPressByspace(MemoryKeypad::Key_MR);
     m_basicmodul->handleKeypadButtonPressByspace(BasicKeypad::Key_Clear);
     m_basicmodul->handleKeypadButtonPressByspace(BasicKeypad::Key_1);
-    ASSERT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
-    DSettings::deleteInstance();
-    MemoryPublic::deleteInstance();
+    EXPECT_EQ(m_basicmodul->findChild<InputEdit *>()->text(), "1");
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, mousePressEvent)
@@ -199,13 +205,15 @@ TEST_F(Ut_BasicModul, mousePressEvent)
     QTest::mouseClick(m_basicmodul->findChild<BasicKeypad *>()->button(BasicKeypad::Key_1), Qt::LeftButton);
     QTest::mouseClick(m_basicmodul->findChild<MemoryKeypad *>()->button(MemoryKeypad::Key_MS), Qt::LeftButton);
     QTest::mouseClick(m_basicmodul->findChild<MemoryKeypad *>()->button(MemoryKeypad::Key_Mlist), Qt::LeftButton);
-    m_basicmodul->mousePressEvent(new QMouseEvent(QEvent::MouseButtonPress, m_basicmodul->findChild<InputEdit *>()->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+    QMouseEvent *m = new QMouseEvent(QEvent::MouseButtonPress, m_basicmodul->findChild<InputEdit *>()->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    m_basicmodul->mousePressEvent(m);
+    EXPECT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 0);
     QTest::mouseClick(m_basicmodul->findChild<MemoryKeypad *>()->button(MemoryKeypad::Key_Mlist), Qt::LeftButton);
     QTest::mouseClick(m_basicmodul->findChild<MemoryWidget *>()->findChild<IconButton *>(), Qt::LeftButton);
-    m_basicmodul->mousePressEvent(new QMouseEvent(QEvent::MouseButtonPress, m_basicmodul->findChild<InputEdit *>()->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
-    ASSERT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 0);
-    DSettings::deleteInstance();
-    MemoryPublic::deleteInstance();
+    m_basicmodul->mousePressEvent(m);
+    EXPECT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 0);
+    delete m;
+    m_basicmodul->deleteLater();
 }
 
 TEST_F(Ut_BasicModul, itemclick)
@@ -215,7 +223,6 @@ TEST_F(Ut_BasicModul, itemclick)
     QTest::mouseClick(m_basicmodul->findChild<MemoryKeypad *>()->button(MemoryKeypad::Key_MS), Qt::LeftButton);
     QTest::mouseClick(m_basicmodul->findChild<MemoryKeypad *>()->button(MemoryKeypad::Key_Mlist), Qt::LeftButton);
     QTest::mouseClick(m_basicmodul->findChild<MemoryItemWidget *>(), Qt::LeftButton);
-    ASSERT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 0);
-    DSettings::deleteInstance();
-    MemoryPublic::deleteInstance();
+    EXPECT_EQ(m_basicmodul->m_keypadLayout->currentIndex(), 0);
+    m_basicmodul->deleteLater();
 }

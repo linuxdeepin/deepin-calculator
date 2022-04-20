@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Kifejezéshiba</translation>
+        <translation>Kifejezési hiba</translation>
     </message>
 </context>
 <context>
@@ -20,32 +20,32 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>Visszavonás (&amp;U)</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>Újra (&amp;R)</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>Kivágás (&amp;T)</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>Másolás (&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>Beillesztés (&amp;P)</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Törlés</translation>
     </message>
     <message>
         <source>Select All</source>
         <translation>Összes kijelölése</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>Vissza</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Előre</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Kivágás</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Másolás</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Beillesztés</translation>
     </message>
 </context>
 <context>
@@ -55,31 +55,31 @@
         <translation>Számológép</translation>
     </message>
     <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>A Számológép egy könnyen használható asztali számológép, amely támogatja a szabványos és tudományos módokat.</translation>
-    </message>
-    <message>
         <source>Standard</source>
-        <translation>Hagyományos</translation>
+        <translation>Hagyományos mód</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>Tudományos</translation>
-    </message>
-    <message>
-        <source>History</source>
-        <translation>Előzmény</translation>
+        <translation>Tudományos mód</translation>
     </message>
     <message>
         <source>Mode</source>
         <translation>Mód</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation>A Számológép egy könnyen használható asztali számológép alkalmazás, amely támogatja a hagyományos, tudományos és programozói módokat.</translation>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation>Programozói mód</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Elem törlése a memóriából</translation>
+        <translation>Memória elem törlése</translation>
     </message>
     <message>
         <source>Clear all memory</source>
@@ -107,7 +107,7 @@
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Tárolás a memóriában</translation>
+        <translation>Memóriatár</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -122,7 +122,7 @@
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Elem törlése a memóriából</translation>
+        <translation>Memória elem törlése</translation>
     </message>
     <message>
         <source>Add to memory item</source>
@@ -137,7 +137,59 @@
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>Üres a memória</translation>
+        <translation>A memória üres</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Kifejezési hiba</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Másolás</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Számtani eltolás</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Logikai eltolás</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Körkörös eltolás</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Forgassa végig a körkörös eltolást</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Számtani eltolás</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Logikai eltolás</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Körkörös eltolás</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Forgassa végig a körkörös eltolást</translation>
     </message>
 </context>
 <context>
@@ -151,7 +203,7 @@
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Kifejezéshiba</translation>
+        <translation>Kifejezési hiba</translation>
     </message>
 </context>
 <context>
@@ -169,7 +221,7 @@
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>Kifejezéshiba</translation>
+        <translation>Kifejezési hiba</translation>
     </message>
 </context>
 <context>

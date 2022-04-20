@@ -20,18 +20,18 @@
 #ifndef EXPRESSIONBAR_H
 #define EXPRESSIONBAR_H
 
+#include "../../3rdparty/core/evaluator.h"
+#include "inputedit.h"
+#include "../views/simplelistdelegate.h"
+#include "../views/simplelistmodel.h"
+#include "../views/simplelistview.h"
+
+#include <DWidget>
 #include <QKeyEvent>
 #include <QPair>
 #include <QVBoxLayout>
 #include <QVector>
 #include <QWidget>
-#include <DWidget>
-
-#include "src/core/evaluator.h"
-#include "src/widgets/inputedit.h"
-#include "src/views/simplelistdelegate.h"
-#include "src/views/simplelistmodel.h"
-#include "src/views/simplelistview.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -65,7 +65,7 @@ class ExpressionBar : public DWidget
     Q_OBJECT
 
 public:
-    ExpressionBar(QWidget *parent = nullptr);
+    explicit ExpressionBar(QWidget *parent = nullptr);
     ~ExpressionBar();
 
     void mouseMoveEvent(QMouseEvent *e);
@@ -86,7 +86,7 @@ public slots:
     void enterEqualEvent();
     void enterPercentEvent();
 //    void enterPercentEventBak();
-    void enterPercentEventCommon();
+//    void enterPercentEventCommon();
     void enterBracketsEvent();
     void enterLeftBracketsEvent();
     void enterRightBracketsEvent();
@@ -97,6 +97,7 @@ public slots:
     void copyClipboard2Result();
     void allElection();
     void shear();
+    void deleteText();
     void clearLinkageCache(const QString &text, bool isequal);
 //    void settingLinkage(const QModelIndex &index);
     void settingLinkage();
@@ -113,6 +114,7 @@ public slots:
 private slots:
     void handleTextChanged(const QString &text);
     void revisionResults(const QModelIndex &index);
+    void onSeparateChange();//数字间隔位数发生改变
 
 private:
     bool cursorPosAtEnd();
@@ -133,7 +135,6 @@ private:
     SimpleListModel *m_listModel;
     InputEdit *m_inputEdit;
 
-    QString m_unfinishedExp;  //未完成表达式
     bool m_isContinue;        //点击结果左侧可继续输入，在结果最右侧清除结果
     bool m_isAllClear;         //C,AC切换标志
     bool m_isResult;           //计算结果
@@ -145,7 +146,6 @@ private:
     bool m_isLinked;     //联动状态
     int m_linkageIndex;  //联动索引缓存
     int m_Selected;      //历史记录选中项
-    QString m_selection;
     QVector<historicalLinkageIndex> m_hisLink;  //历史联动索引
     QVector<QString> m_undo;
     QVector<QString> m_redo;

@@ -39,6 +39,7 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     , m_btnclean(new MemoryButton(QString("MC"), true, this))
     , m_label(new QLabel(this))
 {
+    setFocusPolicy(Qt::NoFocus);
     QVBoxLayout *layV = new QVBoxLayout(this); //存放四个控件
     QHBoxLayout *lay = new QHBoxLayout(); //存放三个按钮
 
@@ -54,7 +55,7 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     layV->addWidget(m_label);
     layV->addStretch();
     QFont font;
-    font.setPixelSize(30);
+    font.setPixelSize(29);
     m_label->setFont(font);
     m_label->setAttribute(Qt::WA_TranslucentBackground); //label窗体透明
 
@@ -106,7 +107,7 @@ void MemoryItemWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)
         return;
-    setFocus();
+//    setFocus();
     m_ispress = true;
     DPalette pl1 = this->palette(); //按下时给label字体设置颜色
     if (m_themetype == 1) {
@@ -126,7 +127,7 @@ void MemoryItemWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)
         return;
-    clearFocus();
+//    clearFocus();
     m_ispress = false;
     DPalette pl1 = this->palette(); //松开鼠标时给label字体重新设置颜色
     if (m_themetype == 1) {
@@ -159,18 +160,10 @@ void MemoryItemWidget::contextMenuEvent(QContextMenuEvent *event)
         plus->setEnabled(true);
         minus->setEnabled(true);
     }
-    connect(copy, &QAction::triggered, this, [ = ]() {
-        emit menucopy();
-    });
-    connect(clean, &QAction::triggered, this, [ = ]() {
-        emit menuclean();
-    });
-    connect(plus, &QAction::triggered, this, [ = ]() {
-        emit menuplus();
-    });
-    connect(minus, &QAction::triggered, this, [ = ]() {
-        emit menuminus();
-    });
+    connect(copy, &QAction::triggered, this, &MemoryItemWidget::menucopy);
+    connect(clean, &QAction::triggered, this, &MemoryItemWidget::menuclean);
+    connect(plus, &QAction::triggered, this, &MemoryItemWidget::menuplus);
+    connect(minus, &QAction::triggered, this, &MemoryItemWidget::menuminus);
     menu->exec(event->globalPos()); //当前鼠标位置显示菜单
     delete menu;
 }
@@ -200,9 +193,7 @@ void MemoryItemWidget::paintEvent(QPaintEvent *e)
     painter.setRenderHint(QPainter::Antialiasing, true); //防走样
     painter.setPen(Qt::NoPen);
     QColor press, hover;
-    int type = DGuiApplicationHelper::instance()->paletteType();
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType(); //获取当前主题类型
+    int type = DGuiApplicationHelper::instance()->themeType();
     if (type == 1) {
         press = QColor(0, 0, 0);
         press.setAlphaF(0.2);
@@ -228,9 +219,15 @@ void MemoryItemWidget::paintEvent(QPaintEvent *e)
     }
 }
 
-void MemoryItemWidget::setLineHight(int line)
+void MemoryItemWidget::setLineHight(int line, int height)
 {
-    m_label->setFixedHeight(45 * line);
+    m_label->setFixedHeight(height * line);
+    m_line = line;
+}
+
+int MemoryItemWidget::getLine()
+{
+    return m_line;
 }
 
 void MemoryItemWidget::showTextEditMenuByAltM()
@@ -251,18 +248,10 @@ void MemoryItemWidget::showTextEditMenuByAltM()
         plus->setEnabled(true);
         minus->setEnabled(true);
     }
-    connect(copy, &QAction::triggered, this, [ = ]() {
-        emit menucopy();
-    });
-    connect(clean, &QAction::triggered, this, [ = ]() {
-        emit menuclean();
-    });
-    connect(plus, &QAction::triggered, this, [ = ]() {
-        emit menuplus();
-    });
-    connect(minus, &QAction::triggered, this, [ = ]() {
-        emit menuminus();
-    });
+    connect(copy, &QAction::triggered, this, &MemoryItemWidget::menucopy);
+    connect(clean, &QAction::triggered, this, &MemoryItemWidget::menuclean);
+    connect(plus, &QAction::triggered, this, &MemoryItemWidget::menuplus);
+    connect(minus, &QAction::triggered, this, &MemoryItemWidget::menuminus);
     QPoint menupoint;
     menupoint.setX(mapToGlobal(m_label->rect().center()).x());
     menupoint.setY(mapToGlobal(m_label->rect().bottomLeft()).y());

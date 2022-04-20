@@ -25,7 +25,6 @@
 #include <QToolTip>
 
 const QSize HISTORY_WIDGET_CLEARBUTTONSIZE = QSize(36, 36); //历史记录区垃圾桶大小
-const QSize STANDARD_ICONBTNSIZE = QSize(78, 58); //标准模式等于按钮大小，为画边框比ui大2pix
 const qreal BLURRADIUS = 12; //阴影模糊半径
 const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
 const qreal ROUND_YRADIUS = 8; //按钮圆角y轴半径
@@ -58,20 +57,24 @@ IconButton::~IconButton()
  */
 void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode)
 {
-    int type = DGuiApplicationHelper::instance()->paletteType();
-    if (type == 0)
-        type = DGuiApplicationHelper::instance()->themeType();
-    m_themetype = type;
     m_normalUrl = normalFileName;
     m_hoverUrl = hoverFileName;
     m_pressUrl = pressFileName;
-    m_currentUrl = normalFileName;
 
     m_currentUrl = m_normalUrl;
     m_buttonStatus = 0; //0-normal 1-hover 2-press
     //setIcon(QIcon(m_pixmap));
     //setIconSize(QSize(30,30)*devicePixelRatioF());
     m_mode = mode;
+}
+
+QStringList IconButton::getIconUrl() const
+{
+    QStringList list;
+    list << m_normalUrl.right(m_normalUrl.length() - m_normalUrl.indexOf("icon"))
+         << m_hoverUrl.right(m_hoverUrl.length() - m_hoverUrl.indexOf("icon"))
+         << m_pressUrl.right(m_pressUrl.length() - m_pressUrl.indexOf("icon"));
+    return list;
 }
 
 /**
@@ -87,24 +90,16 @@ void IconButton::animate(bool isspace, int msec)
         m_isPress = true;
         m_currentUrl = m_pressUrl;
         m_buttonStatus = 2;
-        if (m_mode == 1)
-            m_mode = 2;
-        if (m_mode == 3)
-            m_mode = 4;
-        if (m_mode == 5)
-            m_mode = 6;
+        if ((m_mode & 1) == 1)
+            ++m_mode;
 
         QTimer::singleShot(msec, this, [ = ] {
             if (!isspace)
                 setDown(false);
             m_currentUrl = m_normalUrl;
             m_buttonStatus = 0;
-            if (m_mode == 2)
-                m_mode = 1;
-            if (m_mode == 4)
-                m_mode = 3;
-            if (m_mode == 6)
-                m_mode = 5;
+            if ((m_mode & 1) != 1)
+                --m_mode;
             m_isPress = false;
             update();
         });
@@ -127,18 +122,60 @@ void IconButton::showtooltip(bool ismemory)
 }
 
 /**
+ * @brief IconButton::updateWhenBtnDisable
+ * 当拥有焦点时同时按下空格和鼠标后会导致问题，将其置回普通状态
+ */
+void IconButton::updateWhenBtnDisable()
+{
+    m_isPress = false;
+    m_buttonStatus = 0;
+    m_mode = 1;
+    update();
+}
+
+/**
+ * @brief IconButton::setBtnPressing
+ * 用于数据长度和移位类型的按键，点开列表后，保持press的状态
+ */
+void IconButton::setBtnPressing(bool press)
+{
+    if (press) {
+        m_currentUrl = m_pressUrl;
+        if ((m_mode & 1) == 1)
+            ++m_mode;
+        m_isPress = true;
+        m_buttonStatus = 2;
+        m_isHover = false; //20200722删除foucus状态
+        m_isPressing = true;
+    } else {
+        m_currentUrl = m_normalUrl;
+        if ((m_mode & 1) != 1)
+            --m_mode;
+        m_isPress = false;
+        m_buttonStatus = 0;
+        m_isPressing = false;
+    }
+}
+
+/**
+ * @brief IconButton::setBtnHighlight
+ * @param light:是否高亮
+ * 设置全键盘/位键盘切换按钮高亮显示
+ */
+void IconButton::setBtnHighlight(bool light)
+{
+    m_highlight = light;
+}
+
+/**
  * @brief 点击时改变标置位
  */
 void IconButton::mousePressEvent(QMouseEvent *e)
 {
     m_currentUrl = m_pressUrl;
     m_buttonStatus = 2;
-    if (m_mode == 1)
-        m_mode = 2;
-    if (m_mode == 3)
-        m_mode = 4;
-    if (m_mode == 5)
-        m_mode = 6;
+    if ((m_mode & 1) == 1)
+        ++m_mode;
     m_isPress = true;
     m_isHover = false; //20200722删除foucus状态
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
@@ -155,13 +192,8 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
 //    if (m_isHistorybtn)
 //        clearFocus();
     m_currentUrl = m_normalUrl;
-//    m_buttonStatus = 0;
-    if (m_mode == 2)
-        m_mode = 1;
-    if (m_mode == 4)
-        m_mode = 3;
-    if (m_mode == 6)
-        m_mode = 5;
+    if ((m_mode & 1) != 1)
+        --m_mode;
     if (m_isPress == true && this->rect().contains(e->pos())) {
         m_currentUrl = m_hoverUrl;
         m_buttonStatus = 1;
@@ -192,10 +224,12 @@ void IconButton::enterEvent(QEvent *e)
 
 void IconButton::leaveEvent(QEvent *e)
 {
-    m_currentUrl = m_normalUrl;
-    m_buttonStatus = 0;
-    m_isHover = false;
-    m_isacting = false;
+    if (!m_isPressing) {
+        m_currentUrl = m_normalUrl;
+        m_buttonStatus = 0;
+        m_isHover = false;
+        m_isacting = false;
+    }
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
     //DPushButton::setIcon(QIcon(pixmap));
 
@@ -223,9 +257,7 @@ void IconButton::paintEvent(QPaintEvent *)
         hoverShadow.setAlphaF(0.1);
         focusShadow = QColor(0, 0, 0);
         focusShadow.setAlphaF(0.05);
-        int type = DGuiApplicationHelper::instance()->paletteType();
-        if (type == 0)
-            type = DGuiApplicationHelper::instance()->themeType();
+        int type = DGuiApplicationHelper::instance()->themeType();
         if (type == 1) { //浅色主题设置
             pressBrush = QColor(0, 0, 0);
             pressBrush.setAlphaF(0.1);
@@ -253,55 +285,6 @@ void IconButton::paintEvent(QPaintEvent *)
                 hoverbrush = QColor(60, 60, 60);
             }
         }
-//        if (m_isHistorybtn) { //打开历史记录按钮，当前取消此按钮
-//            if (type == 1) {
-//                pressBrush = QColor(0, 0, 0);
-//                pressBrush.setAlphaF(0.1);
-//                focus = actcolor;
-//                base = Qt::transparent;
-//                hoverbrush = QColor(255, 255, 255);
-//                hoverbrush.setAlphaF(0.6);
-//            } else {
-//                pressBrush = QColor(0, 0, 0);
-//                pressBrush.setAlphaF(0.5);
-//                focus = actcolor;
-//                base = QColor("#252525");
-//                hoverbrush = QColor(255, 255, 255);
-//                hoverbrush.setAlphaF(0.1);
-//            }
-//            if (hasFocus()) {
-//                if (m_isPress) {
-//                    painter.setBrush(QBrush(pressBrush));
-//                    QPen pen;
-//                    pen.setColor(pressBrush);
-//                    painter.setPen(pen);
-//                    painter.drawRect(rect);
-//                } else {
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(QBrush(base));
-//                    painter.drawRect(rect);
-//                    QPen pen;
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(Qt::NoBrush);
-//                    painter.drawRect(rect);
-//                }
-//            } else {
-//                if (m_isHover) {
-//                    QPen pen;
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(QBrush(hoverbrush));
-//                    painter.drawRect(rect);
-//                } else if (m_isPress) {
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(QBrush(pressBrush));
-//                    painter.drawRect(rect);
-//                } else {
-//                    painter.setPen(Qt::NoPen);
-//                    painter.setBrush(QBrush(base));
-//                    painter.drawRect(rect);
-//                }
-//            }
-//        } else {
         if (hasFocus()) {
             if (m_isPress) {
                 painter.setBrush(QBrush(pressBrush));
@@ -353,7 +336,6 @@ void IconButton::paintEvent(QPaintEvent *)
                 this->setGraphicsEffect(m_effect);
             }
         }
-//        }
     } else {
         QRectF frameRect = this->rect();
         QRectF rect(frameRect.left() + 1, frameRect.top() + 1, frameRect.width() - 2, frameRect.height() - 2);
@@ -375,6 +357,7 @@ void IconButton::paintEvent(QPaintEvent *)
             painter.drawRoundedRect(rect, ROUND_XRADIUS, ROUND_YRADIUS); //圆角半径单位为像素
         }
     }
+
     drawCenterPixMap(painter);
 }
 
@@ -417,22 +400,22 @@ void IconButton::keyPressEvent(QKeyEvent *e)
  */
 void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString strattr, QString strattrval)
 {
-    if (m_mode != 1 && m_mode != 3/* && !m_isHistorybtn*/ && m_mode != 5) {
+    if ((m_mode != 1 && m_mode != 3 && m_mode != 5 && m_mode != 7) || m_highlight) {
         if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
             elem.setAttribute(strattr, strattrval);
             if (m_buttonStatus == 0)
-                elem.setAttribute("fill-opacity", 0.75); //在svg文件中添加透明度
+                elem.setAttribute("fill-opacity", QLatin1String("0.75")); //在svg文件中添加透明度
             if (m_buttonStatus == 1)
-                elem.setAttribute("fill-opacity", 0.65);
+                elem.setAttribute("fill-opacity", QLatin1String("0.65"));
             if (m_buttonStatus == 2)
                 elem.setAttribute("fill-opacity", 1);
         }
         if (m_mode == 0) {
             elem.setAttribute(strattr, strattrval);
             if (m_buttonStatus == 0)
-                elem.setAttribute("fill-opacity", 0.75);
+                elem.setAttribute("fill-opacity", QLatin1String("0.75"));
             if (m_buttonStatus == 1)
-                elem.setAttribute("fill-opacity", 0.65);
+                elem.setAttribute("fill-opacity", QLatin1String("0.65"));
             if (m_buttonStatus == 2)
                 elem.setAttribute("fill-opacity", 1);
         }
@@ -445,6 +428,22 @@ void IconButton::SetAttrRecur(QDomElement elem, QString strtagname, QString stra
             }
         }
         if (m_mode == 6) {
+            if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
+                elem.setAttribute(strattr, strattrval);
+            }
+        }
+        if (m_mode == 8) {
+            strattr = "fill";
+            if (elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
+                elem.setAttribute(strattr, strattrval);
+            }
+            strattr = "stroke";
+            if (elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
+                elem.setAttribute(strattr, strattrval);
+            }
+        }
+        if (m_highlight) {
+            strtagname = "path";
             if (elem.tagName().compare(strtagname) == 0 && elem.attribute(strattr) != "none" && elem.attribute(strattr) != "") {
                 elem.setAttribute(strattr, strattrval);
             }

@@ -20,14 +20,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "dsettings.h"
+#include "control/iconbutton.h"
+#include "widgets/basicmodule.h"
+#include "widgets/scientificmodule.h"
+#include "widgets/programmodule.h"
+#include "control/iconbutton.h"
+
 #include <QStackedLayout>
 #include <QMenu>
 #include <DMainWindow>
-
-#include "widgets/basicmodule.h"
-#include "widgets/scientificmodule.h"
-#include "control/iconbutton.h"
-#include "dsettings.h"
 
 #define ENABLE_SCIENTIFIC 1
 
@@ -38,14 +40,13 @@ class MainWindow : public DMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-signals:
-    void windowChanged(int width, int height, bool hishide); //hishide-历史记录栏是否隐藏
-public slots:
-    //void onViewShortcut();
+
+    //switch to another mode and switch back
+    void switchModeBack();
+
 protected:
-    //void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *event);
     void moveEvent(QMoveEvent *event);
     void resizeEvent(QResizeEvent *event);
@@ -55,26 +56,24 @@ private:
     void initModule();
     void switchToSimpleMode();
     void switchToScientificMode();
-    void showHistoryWidget();
-    void hideHistoryWidget(bool hissetting);
+    void switchToProgrammerMode();
 
 private:
-    DSettings *m_settings;
+    DSettingsAlt *m_settings;
     QStackedLayout *m_mainLayout;
     DMenu *m_tbMenu;
     DMenu *m_modeshowmenu;
     QAction *m_simpleAction;
     QAction *m_scAction;
-    QAction *m_hisAction;
+    QAction *m_programmerAction;
     QActionGroup *m_pActionGroup;
 
-    BasicModule *m_basicModule;
-    scientificModule *m_scientificModule;
-//    QSize m_lastscisize = QSize(); //切换回标准时模式时科学模式的size
+    BasicModule *m_basicModule = nullptr;
+    scientificModule *m_scientificModule = nullptr;
+    ProgramModule *m_programmerModule = nullptr;
+
     bool m_isinit = true;//初始化
-    int m_firstInitMode = 0;//初始化的界面，0-标准 1-科学
-    bool m_isStandInit = false; //标准是否初始化
-    bool m_isSciInit = false; //科学是否初始化
+    int programmerOldBase = 10;//切换前程序员计算器的进制
 };
 
 #endif

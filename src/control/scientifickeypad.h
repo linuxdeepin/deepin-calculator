@@ -21,6 +21,17 @@
 
 #pragma once
 
+#include "textbutton.h"
+#include "iconbutton.h"
+#include "equalbutton.h"
+#include "memorybutton.h"
+
+#include <DWidget>
+#include <DLabel>
+#include <DGuiApplicationHelper>
+#include <DSuggestButton>
+#include <com_deepin_daemon_appearance.h>
+
 #include <QWidget>
 #include <QGridLayout>
 #include <QVBoxLayout>
@@ -28,16 +39,6 @@
 #include <QSignalMapper>
 #include <QStackedWidget>
 #include <QDebug>
-#include <DWidget>
-#include <DLabel>
-#include <DGuiApplicationHelper>
-#include <DSuggestButton>
-#include <com_deepin_daemon_appearance.h>
-
-#include "textbutton.h"
-#include "iconbutton.h"
-#include "equalbutton.h"
-#include "memorybutton.h"
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -54,7 +55,6 @@ public:
      * @brief 科学模式键盘
      */
     enum Buttons {
-        Key_FE = 26, Key_MC, Key_MR, Key_Mplus, Key_Mmin, Key_MS, //FE, MC, MR, M+, M-, MS
         Key_deg, Key_page, Key_PI, Key_e, Key_Mod, Key_Backspace, //deg, 2ⁿᵈ, π, e, mod, 退格符
         Key_sin, Key_x2, Key_Derivative, Key_Factorials, Key_exp, Key_Clear, //sin, x², 1/x, x!, exp, C
         Key_cos, Key_x3, Key_left, Key_right, Key_Percent, Key_Div, //cos, x³, (, ), %, 除号
@@ -66,10 +66,10 @@ public:
         Key_sqrt2, Key_sqrt3, Key_ysqrtx, Key_2x, Key_logyx, Key_ex //√x, ³√x, ʸ√x, 2ˣ, logᵧx, eˣ
     };
 
-    ScientificKeyPad(QWidget *parent = nullptr);
-    ~ScientificKeyPad();
+    explicit ScientificKeyPad(QWidget *parent = nullptr);
+    ~ScientificKeyPad() override;
 
-    void mouseMoveEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e) override;
 
     DPushButton *button(Buttons key);
     DPushButton *button(int key);
@@ -105,9 +105,6 @@ public slots:
 signals:
     void buttonPressed(int);
     void buttonPressedbySpace(int);
-    void moveLeft();
-    void moveRight();
-    void windowSize(int width, int height, bool hishide);
 
 private:
     void initUI();

@@ -35,6 +35,17 @@ public:
     static QString formatThousandsSeparators(const QString &str);
     static bool stringIsDigit(const QString &str);
     static QString reformatSeparators(const QString &exp);
+
+    //程序员计算器format
+    static QString formatThousandsSeparatorsPro(const QString &str, const int Base);
+    static bool stringIsDigitPro(const QString &str, const int Base);
+    static QString reformatSeparatorsPro(const QString &exp, const int Base);
+
+    //全角转半角符号
+    static QString toHalfWidth(const QString &str);
+
+private:
+    static bool isAtoE(const QChar &num);
 };
 
 #endif

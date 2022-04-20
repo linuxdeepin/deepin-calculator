@@ -20,32 +20,32 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>되돌리기(&amp;U)</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>재실행(&amp;R)</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>잘라내기(&amp;T)</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>복사하기(&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>붙여넣기(&amp;P)</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>삭제</translation>
     </message>
     <message>
         <source>Select All</source>
         <translation>모두 선택</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>복사</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

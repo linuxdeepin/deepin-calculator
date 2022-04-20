@@ -10,7 +10,7 @@
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>Nettoyer toute la mémoire</translation>
+        <translation>Effacer toute la mémoire</translation>
     </message>
     <message>
         <source>Clear history</source>
@@ -20,26 +20,6 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>&amp;Annuler</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>&amp;Rétablir</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>Cou&amp;per</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>&amp;Copier</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>&amp;Coller</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Effacer</translation>
     </message>
@@ -47,16 +27,32 @@
         <source>Select All</source>
         <translation>Tout sélectionner</translation>
     </message>
+    <message>
+        <source>Undo</source>
+        <translation>Annuler</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Rétablir</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Couper</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Copier</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Coller</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
         <translation>Calculatrice</translation>
-    </message>
-    <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Calculator est une calculatrice de bureau facile à utiliser, prenant en charge les modes standard et scientifique.</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -67,31 +63,35 @@
         <translation>Scientifique</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Historique</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Mode</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation>Calculatrice est une calculatrice de bureau facile à utiliser, prenant en charge les modes standard, scientifique et programmeur.</translation>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation>Programmeur</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Nettoyer l&apos;item de mémoire</translation>
+        <translation>Effacer l&apos;élément de la mémoire</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>Nettoyer toute la mémoire</translation>
+        <translation>Effacer toute la mémoire</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Rappel de mémoire</translation>
+        <translation>Rappel de la mémoire</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Ajouter à l&apos;item de mémoire</translation>
+        <translation>Ajouter l&apos;élément à la mémoire</translation>
     </message>
     <message>
         <source>Memory add</source>
@@ -99,15 +99,15 @@
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Soustraire de l&apos;item de mémoire</translation>
+        <translation>Soustraire l&apos;élément de la mémoire</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Soustraction de mémoire</translation>
+        <translation>Soustraire de la mémoire</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Stockage de mémoire</translation>
+        <translation>Mémoire de stockage</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -122,22 +122,74 @@
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Nettoyer l&apos;item de mémoire</translation>
+        <translation>Effacer l&apos;élément de la mémoire</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Ajouter à l&apos;item de mémoire</translation>
+        <translation>Ajouter l&apos;élément à la mémoire</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Soustraire de l&apos;item de mémoire</translation>
+        <translation>Soustraire l&apos;élément de la mémoire</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>Rien de sauvegardé en mémoire</translation>
+        <translation>Ne rien sauvegarder en mémoire</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Erreur d&apos;expression</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Copier</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Décalage arithmétique</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Changement logique</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Décalage circulaire</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Rotation par déplacement circulaire</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Décalage arithmétique</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Changement logique</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Décalage circulaire</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Rotation par déplacement circulaire</translation>
     </message>
 </context>
 <context>

@@ -23,24 +23,24 @@
 #include <QEvent>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QPainterPath>
 #include <DGuiApplicationHelper>
 
 #include "dthememanager.h"
 #include "simplelistmodel.h"
 #include "simplelistview.h"
-#include "src/utils.h"
+#include "../utils.h"
 
 DWIDGET_USE_NAMESPACE
 
 const int PADDING = 15; //历史记录区边距
-const int NOHISTORYHEIGHT = 320; // 无历史记录rect高度
-const int HISWIDTH = 360; //历史记录宽度
+const int NOHISTORYHEIGHT = 302; // 无历史记录rect高度
+const int HISWIDTH = 451; //历史记录宽度
 
 SimpleListDelegate::SimpleListDelegate(int mode, QObject *parent)
     : QStyledItemDelegate(parent)
 {
     m_mode = mode;
-    m_settings = DSettings::instance(this);
     m_selected = false;
     m_simpleListDelegate = this;
 }
@@ -206,10 +206,10 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                              splitList.first(), Qt::ElideLeft, rect.width() - resultWidth - PADDING * 2 - equalStrWidth);
         // QString expStr = splitList.first();
 
-        if (m_selected) {
+        if (m_state == 2 && m_row == index.row()) {
             //edit for bug--21508
-            QRect resultRect(rect.topRight().x() - resultWidth - PADDING - 2, rect.y() + 3, resultWidth + 7,
-                             rect.height() - 6);
+            QRectF resultRect(rect.topRight().x() - resultWidth - PADDING - 2, rect.y() + 4.8, resultWidth + 7,
+                              rect.height() - 9.6);
             QPainterPath path;
             path.addRoundedRect(resultRect, 4, 4);
 
@@ -230,7 +230,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
             }
 
             painter->setPen(QPen(QColor(Qt::white)));
-            m_simpleListDelegate->setSelect(false);
+//            m_simpleListDelegate->setSelect(false);
         }
 
         if (splitList.size() == 1) {
@@ -257,7 +257,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
             painter->setPen(QColor(fontColor));
             for (int i = 0; i < m_linkedIten.size(); ++i) {
-                if (m_linkedIten[i] == index.row())
+                if (m_linkedIten[i] == index.row() && resultStr != tr("Expression error")) // 错误表达式不联动
                     painter->setPen(QColor(linkColor)); //判断第一个数是否是被联动项,如果是，设置字体颜色为高亮
             }
 
@@ -389,10 +389,10 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
     Q_UNUSED(option);
     if (m_mode == 1) {
         const QString expression = index.data(SimpleListModel::ExpressionWithOutTip).toString();
-        const int rectwidth = 356; //paintevent设置右边缘后的宽度
+        const int rectwidth = 447; //paintevent设置右边缘后的宽度
         QStringList splitList = expression.split("＝");
         if (splitList.size() == 1)
-            return QSize(-1, 420); //历史记录无内容时大小
+            return QSize(-1, 302); //历史记录无内容时大小
         QString resultStr = splitList.last();
         QString exp = splitList.first() + "＝";
         QFont font;
@@ -416,17 +416,17 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
         return QSize(-1, 33);
 }
 
-bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
-                                     const QStyleOptionViewItem &option, const QModelIndex &index)
-{
-    Q_UNUSED(event);
-    Q_UNUSED(model);
-    Q_UNUSED(option);
-    m_selected = true;
-    if (m_mode == 0)
-        emit obtainingHistorical(index);
-    return true;
-}
+//bool SimpleListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
+//                                     const QStyleOptionViewItem &option, const QModelIndex &index)
+//{
+//    Q_UNUSED(event);
+//    Q_UNUSED(model);
+//    Q_UNUSED(option);
+//    m_selected = true;
+//    if (m_mode == 0)
+//        emit obtainingHistorical(index);
+//    return true;
+//}
 
 /**
  * @brief 将等于号左侧表达式中被联动项与剩余部分分开
@@ -438,7 +438,6 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
 {
     QString exp = text;
     QStringList list;
-    int index = 0;
     list = exp.split(QRegExp("[＋－×÷/()]"), QString::SkipEmptyParts);
     if (list.isEmpty() || list.size() == 1) {
         linkNum = "";
@@ -446,6 +445,7 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
         return;
     }
     if (exp.at(0) != "－") {
+        int index = 0;
         while (exp.at(index) == "(") {
             ++index;
             linkNum.append("(");

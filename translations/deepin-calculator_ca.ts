@@ -20,26 +20,6 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>&amp;Desfés</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>&amp;Refés</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>&amp;Retalla</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>&amp;Copia</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>&amp;Enganxa</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Suprimeix</translation>
     </message>
@@ -47,16 +27,32 @@
         <source>Select All</source>
         <translation>Selecciona-ho tot</translation>
     </message>
+    <message>
+        <source>Undo</source>
+        <translation>Desfés</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Refés</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Retalla</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Copia</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Enganxa</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
         <translation>Calculadora</translation>
-    </message>
-    <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>La Calculadora és una calculadora d&apos;escriptori fàcil d&apos;usar. Admet els modes estàndard i científic.</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -67,12 +63,16 @@
         <translation>Científic</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Historial</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Mode</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation>La Calculadora és una calculadora d&apos;escriptori fàcil d&apos;usar. Admet els modes estàndard, científic i de programador.</translation>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation>Programador</translation>
     </message>
 </context>
 <context>
@@ -138,6 +138,58 @@
     <message>
         <source>Nothing saved in memory</source>
         <translation>No hi ha res desat a la memòria.</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Error d&apos;expressió</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Copia</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Desplaçament aritmètic</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Desplaçament lògic</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Desplaçament circular</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Rotació del desplaçament circular del transport</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Desplaçament aritmètic</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Desplaçament lògic</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Desplaçament circular</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Rotació del desplaçament circular del transport</translation>
     </message>
 </context>
 <context>

@@ -27,9 +27,11 @@
 #include <QDebug>
 #include <DPalette>
 
+#include "programmeritemwidget.h"
+
 DGUI_USE_NAMESPACE
 
-MemoryListWidget::MemoryListWidget(QWidget *parent)
+MemoryListWidget::MemoryListWidget(QWidget *parent, bool isarrowlist)
     : QListWidget(parent)
 {
 //    DPalette pal = this->palette();
@@ -39,7 +41,13 @@ MemoryListWidget::MemoryListWidget(QWidget *parent)
 //    DPalette pal = this->palette();
 //    pal.setColor(DPalette::Light, QColor(248, 248, 248));
 //    this->setPalette(pal);
-    setFocusPolicy(Qt::NoFocus);
+    setFocusPolicy(Qt::NoFocus); //防止内存无内容时被focus
+    setVerticalScrollMode(ScrollPerPixel); //鼠标滚轮滚动一次一个像素
+    m_isarrowlist = isarrowlist;
+    if (isarrowlist) {
+        setMouseTracking(true);
+        installEventFilter(this);
+    }
 }
 
 /**
@@ -48,11 +56,18 @@ MemoryListWidget::MemoryListWidget(QWidget *parent)
 void MemoryListWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->buttons() & Qt::LeftButton) {
+        m_mousemovepoint = event->globalPos();
         m_mousepoint = event->pos();
         if (this->itemAt(m_mousepoint)) {
             m_clickrow = this->row(this->itemAt(m_mousepoint));
 //            this->itemAt(mousepoint)->setBackground(QBrush(QColor(0, 0, 0)));
+            emit itempressed(m_clickrow);
         }
+    }
+
+    if (m_isarrowlist) {
+        static_cast<ProgrammerItemWidget *>(itemWidget(currentItem()))->cleanFocusState();
+        emit mousemoving();
     }
 
     QListWidget::mousePressEvent(event);
@@ -64,7 +79,9 @@ void MemoryListWidget::mousePressEvent(QMouseEvent *event)
 void MemoryListWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (this->itemAt(event->pos()) && this->row(this->itemAt(event->pos())) == m_clickrow) {
-        emit itemselected(m_clickrow);
+        emit itemselected(m_clickrow, true);
+    } else {
+        emit itemselected(m_clickrow, false);
     }
     m_clickrow = -1;
     QListWidget::mouseReleaseEvent(event);
@@ -111,8 +128,52 @@ void MemoryListWidget::keyPressEvent(QKeyEvent *e)
 void MemoryListWidget::focusInEvent(QFocusEvent *event)
 {
 //    setCurrentRow(0);
+    //暂定
+//    if (currentRow() == -1)
+//        setCurrentRow(0);
     scrollToItem(this->item(currentRow()));
+    if (m_isarrowlist) {
+        cleanState();
+        static_cast<ProgrammerItemWidget *>(itemWidget(currentItem()))->setFocus();
+    }
     QWidget::focusInEvent(event);
+}
+
+void MemoryListWidget::focusOutEvent(QFocusEvent *event)
+{
+    if (m_isarrowlist) {
+        cleanState(true);
+    }
+    QListWidget::focusOutEvent(event);
+}
+
+bool MemoryListWidget::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::MouseMove && m_isarrowlist) {
+        if (this->hasFocus()) {
+            static_cast<ProgrammerItemWidget *>(itemWidget(currentItem()))->cleanFocusState();
+            emit mousemoving();
+        }
+        return true;
+    }
+    return QListWidget::eventFilter(obj, event);
+}
+
+/**
+ * @brief MemoryListWidget::cleanState
+ * @param isfocus:是否清除的是focus状态
+ * 用于arrowrectangle中的listwidget，清除所有行的当前状态
+ */
+void MemoryListWidget::cleanState(bool isfocus)
+{
+    if (m_isarrowlist) {
+        for (int i = 0; i < 4; i++) {
+            if (isfocus)
+                static_cast<ProgrammerItemWidget *>(itemWidget(item(i)))->cleanFocusState();
+            else
+                static_cast<ProgrammerItemWidget *>(itemWidget(item(i)))->cleanHoverState();
+        }
+    }
 }
 
 MemoryListWidget::~MemoryListWidget()

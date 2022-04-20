@@ -19,6 +19,11 @@
 
 #include "inputedit.h"
 
+#include "../../3rdparty/core/settings.h"
+#include "../../3rdparty/math/floatconfig.h"
+#include "../utils.h"
+#include "../dsettings.h"
+
 #include <QApplication>
 #include <QClipboard>
 #include <QDebug>
@@ -27,8 +32,7 @@
 #include <QStringList>
 #include <DMenu>
 
-#include "src/math/floatconfig.h"
-#include "src/utils.h"
+const QString AtoF = "ABCDEF";
 
 InputEdit::InputEdit(QWidget *parent)
     : QLineEdit(parent)
@@ -41,7 +45,6 @@ InputEdit::InputEdit(QWidget *parent)
     , m_oldText("")
     , m_lastPos(0)
     , m_memoryans(0)
-    , m_percentexp(QString())
 {
     m_evaluator = Evaluator::instance();
     setAttribute(Qt::WA_InputMethodEnabled, false); //禁止中文输入法
@@ -64,16 +67,13 @@ InputEdit::InputEdit(QWidget *parent)
     });
 
     connect(this, &QLineEdit::textChanged, this, &InputEdit::isExpressionEmpty);
+    connect(this, &QLineEdit::textChanged, this, &InputEdit::getCurrentAns);
 
-//    DPalette pl = this->palette();
-    // pl.setColor(DPalette::Text,QColor(48,48,48));
-//    pl.setColor(DPalette::Button, Qt::transparent); //inputedit背景色
-//    pl.setColor(DPalette::Highlight, Qt::transparent); //边框高亮色
-//    pl.setColor(DPalette::HighlightedText, Qt::blue); //全选字体高亮色
-//    this->setPalette(pl);
+    connect(this, &InputEdit::swietThreeSeparate, this, &InputEdit::onSwietThreeSeparateClicked);
+    connect(this, &InputEdit::swietFourSeparate, this, &InputEdit::onswietFourSeparateClicked);
 
-    m_funclist = {"arcsin", "arccos", "arctan", "arccot", "sin", "cos", "tan", "cot"
-                  , "abs", "lg", "ln", "log", "mod", "sqrt", "cbrt", "yroot", "pi", "π"
+    m_funclist = {"and",  "not", "xor", "nand", "nor", "mod", "or",
+                  "shl", "shr", "sal", "sar", "rol", "ror", "rcl", "rcr"
                  };
 }
 
@@ -247,7 +247,8 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
  */
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    Q_UNUSED(e);
+    //fix bug-47162保持触摸屏双击输入框与其他应用一致
+    QLineEdit::mouseDoubleClickEvent(e);
     selectAll();
     m_selected.selected = text();
     /*if (e->button() == Qt::LeftButton) {
@@ -262,7 +263,6 @@ void InputEdit::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton) {
         setFocus();
-        m_selected.selected = "";
         emit setResult(); //expression中m_isResult置为false
         //        qDebug() << m_selected.selected;
     }
@@ -283,13 +283,16 @@ void InputEdit::mouseReleaseEvent(QMouseEvent *event)
  */
 void InputEdit::initAction()
 {
-    m_undo = new QAction(tr("&Undo"), this);
-    m_redo = new QAction(tr("&Redo"), this);
-    m_cut = new QAction(tr("Cu&t"), this);
-    m_copy = new QAction(tr("&Copy"), this);
-    m_paste = new QAction(tr("&Paste"), this);
+    //fix bug-47321
+    m_undo = new QAction(tr("Undo"), this);
+    m_redo = new QAction(tr("Redo"), this);
+    m_cut = new QAction(tr("Cut"), this);
+    m_copy = new QAction(tr("Copy"), this);
+    m_paste = new QAction(tr("Paste"), this);
     m_delete = new QAction(tr("Delete"), this);
     m_select = new QAction(tr("Select All"), this);
+    m_threeSeparate = new QAction(tr("Use thousands separator"), this);
+    m_fourSeparate = new QAction(tr("Use ten-thousands separator"), this);
 
     connect(m_undo, &QAction::triggered, this, &InputEdit::undo);
     connect(m_redo, &QAction::triggered, this, &InputEdit::redo);
@@ -298,6 +301,8 @@ void InputEdit::initAction()
     connect(m_paste, &QAction::triggered, this, &InputEdit::paste);
     connect(m_delete, &QAction::triggered, this, &InputEdit::deleteText);
     connect(m_select, &QAction::triggered, this, &InputEdit::selectAllText);
+    connect(m_threeSeparate, &QAction::triggered, this, &InputEdit::swietThreeSeparate);
+    connect(m_fourSeparate, &QAction::triggered, this, &InputEdit::swietFourSeparate);
 
     m_undo->setEnabled(false);
     m_redo->setEnabled(false);
@@ -305,24 +310,6 @@ void InputEdit::initAction()
     m_copy->setEnabled(false);
     m_delete->setEnabled(false);
     m_select->setEnabled(false);
-}
-
-/**
- * @brief 更新右键菜单状态
- */
-void InputEdit::updateAction()
-{
-    if (this->text().isEmpty()) {
-        m_select->setEnabled(false);
-        m_delete->setEnabled(false);
-        m_copy->setEnabled(false);
-        m_cut->setEnabled(false);
-    } else {
-        m_select->setEnabled(true);
-        m_delete->setEnabled(true);
-        m_copy->setEnabled(false);
-        m_cut->setEnabled(true);
-    }
 }
 
 /**
@@ -422,6 +409,45 @@ void InputEdit::themetypechanged(int type)
 }
 
 /**
+ * @brief InputEdit::valueChangeFromProSyskeypad
+ * @param num:二进制数字
+ * 点击位键盘时，对应修改光标位置的数字
+ */
+void InputEdit::valueChangeFromProSyskeypad(const QString num)
+{
+//    qDebug() << "change";
+    QString text = this->text();
+    int pos = this->cursorPosition();
+    int numstart = pos, numend = pos;
+    QString number = formatBinaryNumber(num);
+//    qDebug() << "changenumber:" << number;
+    if (text == QString()) {
+        text = number;
+    } else {
+        while (numstart != 0 && (isNumber(text.at(numstart - 1)) ||
+                                 (text.length() > 1 && numstart == 1 && isNumber(text.at(1)) && text.at(0) == QString::fromUtf8("－")))) {
+            numstart--;
+        }
+        while (numend < text.length() && isNumber(text.at(numend))) {
+            numend++;
+        }
+        if (numstart > 0 && !isNumber(text.at(numstart - 1)) && number.at(0) == "-") {
+            text.remove(numstart, numend - numstart).insert(numstart, "(" + number);
+            numstart += 2;
+        } else
+            text.remove(numstart, numend - numstart).insert(numstart, number);
+    }
+    this->setText(text);
+    //重新找到numend
+    numend = numstart < 0 ? 0 : numstart;
+    while (numend < this->text().length() && (isNumber(this->text().at(numend)) ||
+                                              ((numend == 0) && isNumber(text.at(1)) && text.at(0) == "-"))) {
+        numend++;
+    }
+    this->setCursorPosition(numend);
+}
+
+/**
  * @brief 输入框textchange时触发
  */
 void InputEdit::handleTextChanged(const QString &text)
@@ -449,7 +475,6 @@ void InputEdit::handleTextChanged(const QString &text)
         return;
     }
 
-
     int ansEnd = m_ansStartPos + m_ansLength;
 
     m_oldText = text;
@@ -461,18 +486,21 @@ void InputEdit::handleTextChanged(const QString &text)
     m_ansVaild = /*m_ansLength > 10 &&*/ m_ansLength > 0 && (m_ansStartPos == 0 || !text[m_ansStartPos - 1].isDigit()) &&
                                          (ansEnd == text.length() || !text[ansEnd].isDigit());
     int oldPosition = this->cursorPosition();
-    QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
+    QString reformatStr = QString();
+    if (Settings::instance()->programmerBase == 0)
+        reformatStr = Utils::reformatSeparators(QString(text).remove(','));
+    else
+        reformatStr = Utils::reformatSeparatorsPro(QString(text).remove(',').remove(" "), Settings::instance()->programmerBase);
     reformatStr = reformatStr.replace('+', QString::fromUtf8("＋"))
                   .replace('-', QString::fromUtf8("－"))
                   .replace("_", QString::fromUtf8("－"))
                   .replace('*', QString::fromUtf8("×"))
                   .replace(QString::fromUtf8("＊"), QString::fromUtf8("×"))
 //                  .replace('/', QString::fromUtf8("÷"))
-                  .replace('x', QString::fromUtf8("×"))
+//                  .replace('x', QString::fromUtf8("×"))
                   .replace('X', QString::fromUtf8("×"))
                   .replace(QString::fromUtf8("（"), "(")
                   .replace(QString::fromUtf8("）"), ")")
-                  .replace(QString::fromUtf8("。"), ".")
                   .replace(QString::fromUtf8("——"), QString::fromUtf8("－"))
                   .replace(QString::fromUtf8("％"), "%");
 
@@ -482,7 +510,6 @@ void InputEdit::handleTextChanged(const QString &text)
     //    reformatStr = symbolFaultTolerance(reformatStr);
     setText(reformatStr);
     autoZoomFontSize();
-    updateAction(); //textchanged时更新右键菜单状态
 
     // reformat text.
     int oldLength = text.length();
@@ -499,6 +526,115 @@ void InputEdit::handleTextChanged(const QString &text)
     m_selected.oldText = this->text(); //选中输入情况下清空被选部分
     m_selected.selected = selectedText();
     m_selected.curpos = selectionStart() < selectionEnd() ? selectionStart() : selectionEnd();
+}
+
+/**
+ * @brief InputEdit::radixChanged
+ * 当进制表切换时，输入栏中对应的值需要同步切换
+ */
+void InputEdit::radixChanged(int baseori, int basedest)
+{
+    this->setText(scanAndExec(baseori, basedest));
+}
+
+QString InputEdit::scanAndExec(int baseori, int basedest)
+{
+    m_numvec.clear();
+    m_opvec.clear();
+    m_textorder = QString();
+    QString oldtext = this->text();
+    oldtext.remove("，").remove(" ");
+    for (int i = 0; i < oldtext.length();) {
+        if (isNumber(oldtext.at(i))) {
+            for (int j = 0; j < oldtext.length() - i; j++) {
+                if (i + j == oldtext.length() - 1) {
+                    if (isNumber(oldtext.at(i + j))) {
+                        m_numvec.append(oldtext.mid(i, j + 1));
+                        m_textorder += "0";
+                        i += j + 1;
+                    } else {
+                        m_numvec.append(oldtext.mid(i, j));
+                        m_textorder += "0";
+                        i += j;
+                    }
+                    break;
+                }
+                if (!isNumber(oldtext.at(i + j))) {
+                    m_numvec.append(oldtext.mid(i, j));
+                    m_textorder += "0";
+                    i += j;
+                    break;
+                }
+            }
+        } else {
+            if (oldtext.at(i).isLower()) {
+                if (oldtext.at(i) == 'n' && oldtext.at(i + 1) == 'a') {
+                    m_opvec.append(oldtext.mid(i, 4));
+                    m_textorder += "1";
+                    i += 4;
+                } else if (oldtext.at(i) == 'o') {
+                    m_opvec.append(oldtext.mid(i, 2));
+                    m_textorder += "1";
+                    i += 2;
+                } else {
+                    m_opvec.append(oldtext.mid(i, 3));
+                    m_textorder += "1";
+                    i += 3;
+                }
+            } else if ((i == 0 || !isNumber(oldtext.at(i - 1))) && oldtext.at(i) == QString::fromUtf8("－")
+                       && oldtext.length() > i + 1 && isNumber(oldtext.at(i + 1))) {
+                i++;
+                for (int j = 0; j < oldtext.length() - i; j++) {
+                    if (!isNumber(oldtext.at(i + j))) {
+                        m_numvec.append(oldtext.mid(i - 1, j + 1));
+                        m_textorder += "0";
+                        i += j;
+                        break;
+                    }
+                    if (i + j == oldtext.length() - 1) {
+                        m_numvec.append(oldtext.mid(i - 1, j + 2));
+                        m_textorder += "0";
+                        i += j + 1;
+                        break;
+                    }
+                }
+            } else {
+                m_opvec.append(oldtext.at(i));
+                m_textorder += "1";
+                i++;
+            }
+        }
+    }
+    for (int i = 0; i < m_numvec.size(); i++) {
+        QString num = formatExpression(baseori, m_numvec.at(i));
+        Quantity ans(HNumber(num.toLatin1().data()));
+        switch (basedest) {
+        case 16:
+            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
+            break;
+        case 8:
+            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Octal()).remove("0o");
+            break;
+        case 2:
+            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
+            break;
+        default:
+            num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
+            break;
+        }
+        m_numvec.replace(i, num);
+    }
+    QString newtext = QString();
+    for (int i = 0; i < m_textorder.length(); i++) {
+        if (m_textorder.at(i) == "0") {
+            newtext.append(m_numvec.first());
+            m_numvec.pop_front();
+        } else {
+            newtext.append(m_opvec.first());
+            m_opvec.pop_front();
+        }
+    }
+    return newtext;
 }
 
 /**
@@ -592,7 +728,7 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
         //e后非＋／－
         if (newText.length() > expPos + 1 && newText.at(expPos + 1) != QString::fromUtf8("－") && newText.at(expPos + 1) != QString::fromUtf8("＋")
                 && newText.at(expPos + 1) != "-" && newText.at(expPos + 1) != "+") {
-            while (newText.at(expPos + 1) == "(" || newText.at(expPos + 1) == ")") {
+            while (newText.length() > expPos + 1 && (newText.at(expPos + 1) == "(" || newText.at(expPos + 1) == ")")) {
                 newText.remove(expPos + 1, 1); //避免e后可输入()情况
             }
             return newText;
@@ -654,6 +790,7 @@ void InputEdit::handleCursorPositionChanged(int oldPos, int newPos)
         m_currentOnAnsLeft = false;
     }
     m_lastPos = newPos;
+    getCurrentCursorPositionNumber(newPos);
 }
 
 /**
@@ -728,6 +865,28 @@ void InputEdit::showTextEditMenu()
     menu->addAction(m_paste);
     menu->addAction(m_delete);
     menu->addSeparator();
+
+    int separate = 3;
+    switch (DSettingsAlt::instance()->getOption("mode").toInt()) {
+        case 0: separate = DSettingsAlt::instance()->getStandardSeparate();
+        break;
+    case 1: separate = DSettingsAlt::instance()->getScientificSeparate();
+        break;
+    case 2:
+        if (Settings::instance()->programmerBase == 10) {
+            separate = DSettingsAlt::instance()->getProgrammerSeparate();
+        } else {
+            separate = -1;
+        }
+        break;
+    }
+
+    if (separate == 3) {
+        menu->addAction(m_fourSeparate);
+    } else if (separate == 4) {
+        menu->addAction(m_threeSeparate);
+    }
+
     menu->addAction(m_select);
 
     if (QApplication::clipboard()->text().isEmpty())
@@ -735,10 +894,22 @@ void InputEdit::showTextEditMenu()
     else
         m_paste->setEnabled(true);
 
-    if (this->selectedText().isEmpty())
+    if (this->selectedText().isEmpty()) {
         m_cut->setEnabled(false);
-    else
+        m_copy->setEnabled(false);
+        m_delete->setEnabled(false);
+    } else {
         m_cut->setEnabled(true);
+        m_copy->setEnabled(true);
+        m_delete->setEnabled(true);
+    }
+
+    //全选需要有内容
+    if (this->text() != QString()) {
+        m_select->setEnabled(true);
+    } else {
+        m_select->setEnabled(false);
+    }
 
     menu->move(cursor().pos());
     menu->exec();
@@ -758,6 +929,28 @@ void InputEdit::showTextEditMenuByAltM()
     menu->addAction(m_paste);
     menu->addAction(m_delete);
     menu->addSeparator();
+
+    int separate = 3;
+    switch (DSettingsAlt::instance()->getOption("mode").toInt()) {
+        case 0: separate = DSettingsAlt::instance()->getStandardSeparate();
+        break;
+    case 1: separate = DSettingsAlt::instance()->getScientificSeparate();
+        break;
+    case 2:
+        if (Settings::instance()->programmerBase == 10) {
+            separate = DSettingsAlt::instance()->getProgrammerSeparate();
+        } else {
+            separate = -1;
+        }
+        break;
+    }
+
+    if (separate == 3) {
+        menu->addAction(m_fourSeparate);
+    } else if (separate == 4) {
+        menu->addAction(m_threeSeparate);
+    }
+
     menu->addAction(m_select);
 
     if (QApplication::clipboard()->text().isEmpty())
@@ -765,10 +958,22 @@ void InputEdit::showTextEditMenuByAltM()
     else
         m_paste->setEnabled(true);
 
-    if (this->selectedText().isEmpty())
+    if (this->selectedText().isEmpty()) {
         m_cut->setEnabled(false);
-    else
+        m_copy->setEnabled(false);
+        m_delete->setEnabled(false);
+    } else {
         m_cut->setEnabled(true);
+        m_copy->setEnabled(true);
+        m_delete->setEnabled(true);
+    }
+
+    //全选需要有内容
+    if (this->text() != QString()) {
+        m_select->setEnabled(true);
+    } else {
+        m_select->setEnabled(false);
+    }
 
     menu->move(mapToGlobal(cursorRect().bottomRight()));
     menu->exec();
@@ -776,15 +981,68 @@ void InputEdit::showTextEditMenuByAltM()
 }
 
 /**
+ * @brief InputEdit::formatAns
+ * 按进制返回计算结果
+ */
+QString InputEdit::formatAns(const QString &text)
+{
+    QString num = formatExpression(2, text);
+    Quantity ans(HNumber(num.toLatin1().data()));
+    switch (Settings::instance()->programmerBase) {
+    case 16:
+        num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
+        break;
+    case 8:
+        num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o");
+        break;
+    case 2:
+        num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
+        break;
+    default:
+        num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
+        break;
+    }
+    return num;
+}
+
+/**
+ * @brief InputEdit::getCurrentAns
+ * 输入时获取当前输入栏中的结果
+ */
+QPair<bool, Quantity> InputEdit::getCurrentAns()
+{
+    QPair<bool, Quantity> pair;
+    QString expression;
+    if (Settings::instance()->programmerBase == 8 || Settings::instance()->programmerBase == 16) {
+        expression = InputEdit::formatExpression(2, scanAndExec(Settings::instance()->programmerBase, 2));
+    } else {
+        expression = InputEdit::formatExpression(Settings::instance()->programmerBase, text());
+    }
+    QString exp1 = symbolComplement(expression);
+    m_evaluator->setExpression(exp1);
+    Quantity ans = m_evaluator->evalUpdateAns();
+
+    if (m_evaluator->error().isEmpty()) {
+        if (ans.isNan() && !m_evaluator->isUserFunctionAssign()) {
+            pair.first = false;
+            pair.second = Quantity(0);
+        } else {
+            pair.first = true;
+            pair.second = ans;
+        }
+    } else {
+        pair.first = false;
+        pair.second = Quantity(0);
+    }
+    emit prolistAns(pair);
+    return pair;
+}
+
+/**
  * @brief 选中改变的槽
  */
 void InputEdit::selectionChangedSlot()
 {
-    if (this->selectedText().isEmpty()) { //无选中项时关闭右键复制
-        m_copy->setEnabled(false);
-    } else {
-        m_copy->setEnabled(true);
-    }
     if (!hasFocus())
         return; //只有选中被改变情况下给m_selected赋值,选中输入不会改变;选中输入后优先级高于cursorchanged，去掉return无意义
     m_selected.oldText = text();
@@ -873,6 +1131,179 @@ QString InputEdit::symbolComplement(const QString exp)
     return text;
 }
 
+/**
+ * @brief InputEdit::CurrentCursorPositionNumber
+ * 用于修改位键盘
+ */
+QString InputEdit::CurrentCursorPositionNumber(const int pos, const int base)
+{
+    QString text = this->text();
+    if (text.isEmpty()) {
+        return "";
+    }
+    QString currentnum = QString();
+    int numstart = pos, numend = pos;
+    while (numstart != 0 && (isNumber(text.at(numstart - 1)) ||
+                             (text.length() > 1 && numstart == 1 && isNumber(text.at(1)) && text.at(0) == QString::fromUtf8("－")))) {
+        numstart--;
+    }
+    while (numend < text.length() && isNumber(text.at(numend))) {
+        numend++;
+    }
+    currentnum = text.mid(numstart, numend - numstart);
+    currentnum = formatExpression(Settings::instance()->programmerBase, currentnum);
+    Quantity ans(HNumber(currentnum.toLatin1().data()));
+    if (ans.isNan())
+        return "";
+    switch (base) {
+    case 16:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
+        break;
+    case 8:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o");
+        break;
+    case 2:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
+        break;
+    default:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
+        break;
+    }
+    return currentnum;
+}
+
+/**
+ * @brief InputEdit::CurrentCursorPositionNumber
+ * 获取当前光标前后的整个数字，光标前是符号则返回后面的数字
+ */
+QString InputEdit::CurrentCursorPositionNumber(const int pos)
+{
+    QString text = this->text();
+    if (text.isEmpty()) {
+        return "";
+    }
+    QString currentnum = QString();
+    int numstart = pos - 1, numend = pos - 1;
+    if (numstart >= 0 && isNumber(text.at(numstart))) {
+        while (numstart > 0 && (isNumber(text.at(numstart - 1)) ||
+                                ((numstart == 1) && isNumber(text.at(1)) && text.at(0) == QString::fromUtf8("－")))) {
+            numstart--;
+        }
+        while (numend < text.length() && isNumber(text.at(numend))) {
+            numend++;
+        }
+        currentnum = text.mid(numstart, numend - numstart);
+    }
+    currentnum = formatExpression(Settings::instance()->programmerBase, currentnum);
+    Quantity ans(HNumber(currentnum.toLatin1().data()));
+    if (ans.isNan())
+        return "";
+    switch (Settings::instance()->programmerBase) {
+    case 16:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x");
+        break;
+    case 8:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o");
+        break;
+    case 2:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Binary()).remove("0b");
+        break;
+    default:
+        currentnum = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Precision(65));
+        break;
+    }
+    return currentnum;
+}
+
+/**
+ * @brief InputEdit::getCurrentCursorPositionNumber
+ * @param pos:当前光标位置
+ * 获取当前光标所在位置对应的数字，用于修改位键盘
+ */
+void InputEdit::getCurrentCursorPositionNumber(const int pos)
+{
+    QString currentnum = CurrentCursorPositionNumber(pos, 2);
+    if (currentnum == "") {
+        emit cursorPositionNumberChanged("0");
+    } else {
+        emit cursorPositionNumberChanged(currentnum);
+    }
+//    qDebug() << "currentnum" << currentnum;
+}
+
+bool InputEdit::isNumber(QChar a)
+{
+    if (a.isDigit() || a == " " || a == "," || AtoF.contains(a))
+        return true;
+    else
+        return false;
+}
+
+QString InputEdit::formatBinaryNumber(const QString num)
+{
+    QString str;
+    for (int i = 0; i < num.length(); i++) {
+        if (num.at(i) == '1') {
+            str = num.right(num.length() - i);
+            str = formatAns(str);
+            return str;
+        }
+        if (i == num.length() - 1 && num.at(num.length() - 1) != '1') {
+            str = "0";
+            return str;
+        }
+    }
+    return "0";
+}
+
+/**
+ * @brief InputEdit::formatExpression
+ * @param text:格式化前的内容
+ * @return 格式化后的text
+ * 用于进制转换时和计算时插入进制标志
+ */
+QString InputEdit::formatExpression(const int &probase, const QString &text)
+{
+    QString formattext = text;
+    formattext.replace(QString::fromUtf8("＋"), "+")
+    .replace(QString::fromUtf8("－"), "-")
+    .replace(QString::fromUtf8("×"), "*")
+    .replace(QString::fromUtf8("÷"), "/")
+    .replace(QString::fromUtf8(","), "")
+    .replace(QString::fromUtf8(" "), "")
+    .replace("%", "mod");
+
+    QString base = QString();
+    switch (probase) {
+    case 16:
+        base = "0x";
+        break;
+    case 8:
+        base = "0o";
+        break;
+    case 2:
+        base = "0b";
+        break;
+    default:
+        break;
+    }
+    if (base != QString()) {
+        for (int i = 0; i < formattext.length();) {
+            if ((i == 0) && isNumber(formattext.at(i))) {
+                formattext.insert(i, base);
+                i += 3;
+                continue;
+            } else if ((i < formattext.length() - 1) && !isNumber(formattext.at(i)) && isNumber(formattext.at(i + 1))) {
+                formattext.insert(i + 1, base);
+                i += 3;
+                continue;
+            }
+            i++;
+        }
+    }
+    return formattext;
+}
+
 void InputEdit::focusInEvent(QFocusEvent *event)
 {
     int curtemp = cursorPosition();
@@ -881,4 +1312,27 @@ void InputEdit::focusInEvent(QFocusEvent *event)
         setCursorPosition(curtemp);
     }
 }
+
+/**
+ * @brief onSwietThreeSeparateClicked
+ * 切换为千分位菜单点击事件
+ */
+void InputEdit::onSwietThreeSeparateClicked()
+{
+    DSettingsAlt::instance()->setSeparate(3);
+    handleTextChanged(m_oldText);   //更新input中的算式
+    emit separateChange();  //发送更新信号
+}
+
+/**
+ * @brief onswietFourSeparateClicked
+ * 切换为万分位菜单点击事件
+ */
+void InputEdit::onswietFourSeparateClicked()
+{
+    DSettingsAlt::instance()->setSeparate(4);
+    handleTextChanged(m_oldText);   //更新input中的算式
+    emit separateChange();  //发送更新信号
+}
+
 

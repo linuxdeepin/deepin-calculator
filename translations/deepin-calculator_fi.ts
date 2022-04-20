@@ -20,26 +20,6 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>Kumoa (&amp;U)</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>Toista (&amp;R)</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>Leikkaa (&amp;T)</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>Kopioi (&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>Liitä (&amp;P)</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Poista</translation>
     </message>
@@ -47,16 +27,32 @@
         <source>Select All</source>
         <translation>Valitse kaikki</translation>
     </message>
+    <message>
+        <source>Undo</source>
+        <translation>Kumoa</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Toista</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Leikkaa</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopioi</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Liitä</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
         <translation>Laskin</translation>
-    </message>
-    <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Laskin on helppokäyttöinen työpöytälaskin, joka tukee vakio- ja tieteellisiä tiloja.</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -67,12 +63,16 @@
         <translation>Tieteellinen</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Historia</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Moodi</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation>Laskin on helppokäyttöinen laskin, joka tukee tavallista, tieteellistä ja ohjelmointi tilaa.</translation>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation>Ohjelmoija</translation>
     </message>
 </context>
 <context>
@@ -138,6 +138,58 @@
     <message>
         <source>Nothing saved in memory</source>
         <translation>Ei mitään muistissa</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Lausekkeen virhe</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Kopioi</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Aritmeettinen</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Looginen</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Ympyrä</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Pyöritä pyöreän siirron läpi</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Aritmeettinen</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Looginen</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Ympyrä</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Pyöritä pyöreän siirron läpi</translation>
     </message>
 </context>
 <context>

@@ -20,32 +20,32 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>Zpět (&amp;U)</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>Znovu (&amp;R)</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>Vyjmout (&amp;T)</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>Kopírovat (&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>Vložit (&amp;P)</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
     <message>
         <source>Select All</source>
         <translation>Vybrat vše</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>Zpět</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Znovu</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Vyjmout</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Zkopírovat</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Vložit</translation>
     </message>
 </context>
 <context>
@@ -55,24 +55,24 @@
         <translation>Kalkulačka</translation>
     </message>
     <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>Kalkulačka je jednoduchá a snadno použitelná. Podporuje standardní a vědecké režimy.</translation>
-    </message>
-    <message>
         <source>Standard</source>
         <translation>Standardní</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>History</source>
-        <translation type="unfinished"/>
+        <translation>Vědecký</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation type="unfinished"/>
+        <translation>Režim</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation>Kalkulačka je jednoduchá a snadno použitelná. Podporuje standardní a vědecký a programátorský režim.</translation>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation>Programátorské</translation>
     </message>
 </context>
 <context>
@@ -141,6 +141,58 @@
     </message>
 </context>
 <context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Chyba ve výrazu</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Zkopírovat</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Aritmetický posuv</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Logický posuv</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Kruhový posuv</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Otočit bitovou rotací</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Aritmetický posuv</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Logický posuv</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Kruhový posuv</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Otočit bitovou rotací</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
@@ -158,7 +210,7 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation type="unfinished"/>
+        <translation>Historie</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -176,7 +228,7 @@
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation type="unfinished"/>
+        <translation>Žádná historie</translation>
     </message>
 </context>
 <context>

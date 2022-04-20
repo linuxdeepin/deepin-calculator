@@ -20,26 +20,6 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <source>&amp;Undo</source>
-        <translation>&amp;Скасувати</translation>
-    </message>
-    <message>
-        <source>&amp;Redo</source>
-        <translation>&amp;Повторити</translation>
-    </message>
-    <message>
-        <source>Cu&amp;t</source>
-        <translation>Виріза&amp;ти</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>&amp;Копіювати</translation>
-    </message>
-    <message>
-        <source>&amp;Paste</source>
-        <translation>&amp;Вставити</translation>
-    </message>
-    <message>
         <source>Delete</source>
         <translation>Вилучити</translation>
     </message>
@@ -47,16 +27,32 @@
         <source>Select All</source>
         <translation>Позначити все</translation>
     </message>
+    <message>
+        <source>Undo</source>
+        <translation>Скасувати</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Повторити</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Вирізати</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Копіювати</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Вставити</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
         <translation>Калькулятор</translation>
-    </message>
-    <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>«Калькулятор» є простим у користуванні комп&apos;ютерним калькулятором. Передбачено підтримку стандартного та наукового режимів.</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -67,12 +63,16 @@
         <translation>Науковий</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Журнал</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Режим</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation>«Калькулятор» є простим у користуванні комп&apos;ютерним калькулятором. Передбачено підтримку стандартного, наукового та програмістського режимів.</translation>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation>Програмістський</translation>
     </message>
 </context>
 <context>
@@ -138,6 +138,58 @@
     <message>
         <source>Nothing saved in memory</source>
         <translation>У пам&apos;яті нічого не збережено</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Помилка у виразі</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Копіювати</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Арифметичний зсув</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Логічний зсув</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Циклічний зсув</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Циклічний зсув, обертання з перенесенням</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Арифметичний зсув</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Логічний зсув</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Циклічний зсув</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Циклічний зсув, обертання з перенесенням</translation>
     </message>
 </context>
 <context>

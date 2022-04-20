@@ -34,25 +34,23 @@ class EqualButton : public DSuggestButton
     Q_OBJECT
 public:
     EqualButton(const QString &text = QString(), QWidget *parent = nullptr);
-    ~EqualButton();
+    ~EqualButton() override;
 
     void init();
     //void showShadow();
     //void hideShadow();
     void animate(bool isspace = false, int msec = 100);
 signals:
-    void moveLeft();
-    void moveRight();
     void focus(int direction); //direction 0-上　1-下　2-左　3-右
     void space();
 
 public:
-    void mousePressEvent(QMouseEvent *);
-    void mouseReleaseEvent(QMouseEvent *);
-    void enterEvent(QEvent *);
-    void leaveEvent(QEvent *);
-    void paintEvent(QPaintEvent *e);
-    void keyPressEvent(QKeyEvent *e);
+    void mousePressEvent(QMouseEvent *) override;
+    void mouseReleaseEvent(QMouseEvent *) override;
+    void enterEvent(QEvent *) override;
+    void leaveEvent(QEvent *) override;
+    void paintEvent(QPaintEvent *e) override;
+    void keyPressEvent(QKeyEvent *e) override;
 
 private:
     QGraphicsDropShadowEffect *m_effect;

@@ -4,6 +4,7 @@ if (NOT DEFINED VERSION)
     set(VERSION 1.2.2)
 endif ()
 
+#最外层一个工程，单项目中不添加工程，只添加执行文件
 project(deepin-calculator)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
@@ -12,19 +13,38 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wl,--as-needed -fPIE")
 set(QT_MINIMUM_VERSION "5.7.1")
+set(CMAKE_EXE_LINKER_FLAGS "-pie")
+
+#add_definitions(-DQT_NO_DEBUG_OUTPUT)
 
 if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "sw_64")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mieee")
 endif ()
 
+if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "mips64")
+    message(STATUS "this system is mips64=========")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,--as-needed")
+endif()
+
 if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 
-    execute_process(COMMAND bash "translate_generation.sh"
-                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+    execute_process(COMMAND bash "${CMAKE_CURRENT_LIST_DIR}/translate_generation.sh"
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/)
 endif ()
+
+set(CMAKE_SAFETYTEST "${CMAKE_SAFETYTEST_ARG}")
+if(CMAKE_SAFETYTEST STREQUAL "")
+    set(CMAKE_SAFETYTEST "CMAKE_SAFETYTEST_ARG_OFF")
+endif()
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D${CMAKE_SAFETYTEST}")
+if(CMAKE_SAFETYTEST STREQUAL "CMAKE_SAFETYTEST_ARG_ON")
+  #安全测试选项
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -fsanitize=undefined,address -O2")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fsanitize=undefined,address -O2")
+endif()
 
 configure_file(src/environments.h.in environments.h @ONLY)
 
@@ -64,51 +84,27 @@ set(LINK_LIBS
     ${DFrameworkDBus_LIBRARIES}
 )
 
-file(GLOB_RECURSE CAL_H ${CMAKE_CURRENT_LIST_DIR}/src/*.h)
-
-file(GLOB_RECURSE CAL_C ${CMAKE_CURRENT_LIST_DIR}/src/*.c)
-
-file(GLOB_RECURSE CAL_CPP ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
-#file(GLOB_RECURSE CAL_TEST ${CMAKE_CURRENT_LIST_DIR}/tests/*.cpp)
-include_directories(third_party)                           #一下三行添加包含以便测试用例代码的编写
-include_directories(third_party/googlemock/include)
-include_directories(third_party/googletest/include)
-add_subdirectory(third_party)                              #添加googletest库
+file(GLOB_RECURSE CAL_SRCH ${CMAKE_CURRENT_LIST_DIR}/src/*.h)
+file(GLOB_RECURSE CAL_SRCC ${CMAKE_CURRENT_LIST_DIR}/src/*.c)
+file(GLOB_RECURSE CAL_SRCCPP ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
+file(GLOB_RECURSE CAL_3rdH ${CMAKE_CURRENT_LIST_DIR}/3rdparty/*.h)
+file(GLOB_RECURSE CAL_3rdC ${CMAKE_CURRENT_LIST_DIR}/3rdparty/*.c)
+file(GLOB_RECURSE CAL_3rdCPP ${CMAKE_CURRENT_LIST_DIR}/3rdparty/*.cpp)
 
 set (DC_QRC_FILES
     src/deepin-calculator.qrc
 )
 
 add_executable (${EXE_NAME}
-    ${CAL_H}
-    ${CAL_C}
-    ${CAL_CPP}
+    ${CAL_SRCH}
+    ${CAL_SRCC}
+    ${CAL_SRCCPP}
+    ${CAL_3rdH}
+    ${CAL_3rdC}
+    ${CAL_3rdCPP}
     ${DC_QRC_FILES}
-    "main.cpp"
 )
-set(PROJECT_NAME_TEST
-    ${PROJECT_NAME}_test)
-FILE (GLOB allTestSource
-    "./tests/*.cpp" "./tests/src/*.cpp" "./tests/src/*.h"
-    "./tests/src/control/*.cpp" "./tests/src/control/*.h"
-    "./tests/src/widgets/*.cpp" "./tests/src/widgets/*.h"
-    "./tests/src/views/*.cpp" "./tests/src/views/*.h")
 
-# 生成测试可执行程序
-add_executable(${PROJECT_NAME_TEST} ${CAL_H} ${CAL_C} ${CAL_CPP} ${allTestSource})
-
-# 生成测试可执行程序的依赖库
-target_link_libraries(${PROJECT_NAME_TEST} gmock gmock_main gtest gtest_main)
-
-target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${Qt5Widgets_LIBRARIES}
-                                              ${Qt5DBus_LIBRARIES}
-                                              ${Qt5TestLib_LIBRARIES}
-                                              ${PROJECT_BINARY_DIR}
-                                              ${DtkWidget_INCLUDE_DIRS}
-                                              ${DtkCore_LIBRARIES}
-                                              ${DtkGUI_INCLUDE_DIRS}
-                                              ${DFrameworkDBus_INCLUDE_DIRS})
-target_link_libraries (${PROJECT_NAME_TEST} ${LINK_LIBS})
 target_include_directories(${EXE_NAME} PUBLIC ${Qt5Widgets_LIBRARIES}
                                               ${Qt5DBus_LIBRARIES}
                                               ${Qt5TestLib_LIBRARIES}
@@ -123,48 +119,22 @@ target_link_libraries (${EXE_NAME} ${LINK_LIBS})
 set(CMAKE_INSTALL_PREFIX /usr)
 
 install(TARGETS deepin-calculator DESTINATION bin)
-file(GLOB QM_FILES "translations/*.qm")
+file(GLOB QM_FILES "${CMAKE_CURRENT_LIST_DIR}/translations/*.qm")
 install(FILES ${QM_FILES} DESTINATION share/deepin-calculator/translations)
-install(FILES deepin-calculator.desktop
+install(FILES ${CMAKE_CURRENT_LIST_DIR}/deepin-calculator.desktop
         DESTINATION share/applications/)
-install(FILES src/assets/images/deepin-calculator.svg
+install(FILES ${CMAKE_CURRENT_LIST_DIR}/src/assets/images/deepin-calculator.svg
             DESTINATION share/icons/hicolor/scalable/apps/)
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src/assets/deepin-calculator
+                DESTINATION /usr/share/deepin-manual/manual-assets/application/)
 
-#------------------------------ 创建'make test'指令---------------------------------------
-add_custom_target(test
-    COMMAND mkdir -p coverageResult
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+#if (NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "loongarch64")
+add_subdirectory(tests)  #tests为ut测试文件夹名
+#endif ()
 
-add_custom_command(TARGET test
-    COMMAND echo " =================== CREAT LCOV REPROT BEGIN ==================== "
 
-    #1.清理原先的gcov信息
-    COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME_TEST}.dir --zerocounters
-    COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME}.dir --zerocounters
-    COMMAND ./${PROJECT_NAME_TEST}
-
-    #2.收集gcov信息到.info文件中
-    COMMAND lcov --directory . --capture --output-file ./coverageResult/${PROJECT_NAME}_Coverage.info
-
-    #3.过滤一些我们不感兴趣的文件的覆盖率信息
-    COMMAND echo " =================== do filter begin ==================== "
-    COMMAND lcov --remove ./coverageResult/${PROJECT_NAME}_Coverage.info
-    '*/${PROJECT_NAME_TEST}_autogen/*' '*/${PROJECT_NAME}_autogen/*' '*/tests/*' '*/googletest/*' '*/usr/include/*' '*/src/bak/*' '*/src/core/*' '*/src/math/*'
-    -o ./coverageResult/${PROJECT_NAME}_Coverage.info
-    COMMAND echo " =================== do filter end ==================== "
-
-    #3.将.info信息生成报告到reprot文件夹中
-    COMMAND genhtml -o ./coverageResult/report ./coverageResult/${PROJECT_NAME}_Coverage.info
-
-    COMMAND echo " =================== CREAT LCOV REPROT END ==================== "
-
-    COMMAND echo " Coverage files have been output to ${CMAKE_BINARY_DIR}/coverageResult/report "
-
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    )
-
-#'make test'命令依赖与我们的测试程序
-add_dependencies(test ${PROJECT_NAME_TEST})
-
-# 设置添加gocv相关信息的输出
-set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+#代码覆盖率开关
+if(CMAKE_COVERAGE_ARG STREQUAL "CMAKE_COVERAGE_ARG_ON")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall -fprofile-arcs -ftest-coverage")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -fprofile-arcs -ftest-coverage")
+endif()

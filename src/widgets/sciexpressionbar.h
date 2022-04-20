@@ -22,20 +22,19 @@
 #ifndef SCIEXPRESSIONBAR_H
 #define SCIEXPRESSIONBAR_H
 
+#include "../../3rdparty/core/evaluator.h"
+#include "inputedit.h"
+#include "../views/simplelistdelegate.h"
+#include "../views/simplelistmodel.h"
+#include "../views/simplelistview.h"
+
+#include <DWidget>
 #include <QKeyEvent>
 #include <QPair>
 #include <QVBoxLayout>
 #include <QVector>
 #include <QWidget>
 #include <QToolTip>
-
-#include <DWidget>
-
-#include "src/core/evaluator.h"
-#include "src/widgets/inputedit.h"
-#include "src/views/simplelistdelegate.h"
-#include "src/views/simplelistmodel.h"
-#include "src/views/simplelistview.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -47,7 +46,7 @@ class SciExpressionBar : public DWidget
     Q_OBJECT
 
 public:
-    SciExpressionBar(QWidget *parent = nullptr);
+    explicit SciExpressionBar(QWidget *parent = nullptr);
     ~SciExpressionBar();
 
     void mouseMoveEvent(QMouseEvent *e);
@@ -71,57 +70,28 @@ public slots:
     void enterClearEvent();
     void enterEqualEvent();
     void enterPercentEvent();
-    void enterLeftBracketsEvent();
-    void enterRightBracketsEvent();
     void enterDegEvent(int mod);
-    void enterSinEvent();
     void enterFEEvent(bool isdown);
-    void enterPIEvent();
-    void enterEulerEvent(); //无理数e
-    void enterModEvent();
-    void enterx2Event();
-    void enterDerivativeEvent(); //导数
-    void enterFactorialsEvent(); //阶乘
-    void enterExpEvent();
-    void enterCosEvent();
-    void enterx3Event();
-    void enterTanEvent();
-    void enterxyEvent();
-    void enterCotEvent();
-    void enter10xEvent();
-    void enterModulusEvent(); //模(绝对值)
-    void enterLogEvent();
     void enterRandEvent();
-    void enterLnEvent();
-    void enterArcsinEvent();
-    void enterSqrtEvent();
-    void enterArccosEvent();
-    void enterCbrtEvent();
-    void enterArctanEvent();
-    void enterYrootEvent();
-    void enterArccotEvent();
-    void enter2xEvent();
-    void enterlogyxEvent();
-    void enterexEvent();
-    void enterOppositeEvent(); //相反数
+
+    //replace
+    void enterOperatorEvent(const QString &text); //运算符类：x A y;
+    void enterFunctionEvent(const QString &text); //函数类：A(x),A(x,y);
+    void enterConstantEvent(const QString &text); //常数类：e,pi,aˣ
+    void enterBracketEvent(const int &type); //括号:0-(),1-(,2-)
+    void enterSpecialFuncEvent(const QString &text); //倒数、绝对值、相反数
+
     void moveLeft();
     void moveRight();
     void copyResultToClipboard();
     void copyClipboard2Result();
     void allElection();
     void shear();
-//    void computationalResults(const QString &expression, QString &result);
-//    void historicalLinkage(int index, QString newValue);
-//    void clearLinkageCache(const QString &text, bool isequal);
-//    void setLinkState(const QModelIndex index);
-//    void settingLinkage(const QModelIndex &index);
-//    void settingLinkage();
+    void deleteText();
     void Undo();
     void addUndo();
     void Redo();
     void initTheme(int type);
-//    void setSelection();
-//    void getSelection();
     void setResultFalse();
     void replaceSelection(QString text);
     InputEdit *getInputEdit();
@@ -131,21 +101,25 @@ public slots:
 
 private slots:
     void handleTextChanged(const QString &text);
-
+    /**
+     * @brief pointCheckAfterDelete
+     * 删除内容后5秒钟清理多余的小数点
+     * @param curpos
+     * 光标位置
+     */
+    void pointCheckAfterDelete();
+    void onSeparateChange();//数字将位数发生改变
 
 private:
     bool cursorPosAtEnd();
     QString formatExpression(const QString &text);
-//    QString completedBracketsCalculation(QString &text);
     bool isOperator(const QString &text);
-//    bool cancelLink(int index);
-//    void judgeLinkageAgain();
     void initConnect();
     QString symbolComplement(const QString exp);
-//    QString pasteFaultTolerance(QString exp);
     QString pointFaultTolerance(const QString &text);
-//    void clearSelectSymbol();
     void expressionCheck();
+    bool isnumber(QChar a);
+    bool expressionInFunc(QString &text);
 
 private:
     Evaluator *m_evaluator;
@@ -154,14 +128,11 @@ private:
     SimpleListModel *m_listModel;
     InputEdit *m_inputEdit;
 
-    QString m_unfinishedExp;  //未完成表达式
     bool m_isContinue;
     bool m_isAllClear;
     bool m_isResult;           //计算结果
-    bool m_isAutoComputation;  //自动计算
     bool m_inputNumber;        //输入数字
     bool m_isUndo;
-    QString m_selection;
     QVector<QString> m_undo;
     QVector<QString> m_redo;
 

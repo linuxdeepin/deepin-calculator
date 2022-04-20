@@ -20,20 +20,21 @@
 #ifndef BASICMODULE_H
 #define BASICMODULE_H
 
-#include <QStackedLayout>
-#include <QGridLayout>
-#include <QTimer>
+#include "inputedit.h"
+#include "expressionbar.h"
+#include "../control/textbutton.h"
+#include "../control/iconbutton.h"
+#include "../control/basickeypad.h"
+#include "../control/memorykeypad.h"
+#include "../views/memorywidget.h"
+#include "../memorypublic.h"
+
 #include <DWidget>
 #include <DGuiApplicationHelper>
 
-#include "src/control/textbutton.h"
-#include "src/control/iconbutton.h"
-#include "src/control/basickeypad.h"
-#include "src/control/memorykeypad.h"
-#include "src/widgets/inputedit.h"
-#include "expressionbar.h"
-#include "src/views/memorywidget.h"
-#include "src/memorypublic.h"
+#include <QStackedWidget>
+#include <QGridLayout>
+#include <QTimer>
 
 DGUI_USE_NAMESPACE
 DWIDGET_USE_NAMESPACE
@@ -43,7 +44,7 @@ class BasicModule : public DWidget
     Q_OBJECT
 
 public:
-    BasicModule(QWidget *parent = nullptr);
+    explicit BasicModule(QWidget *parent = nullptr);
     ~BasicModule();
 
     void setKeyPress(QKeyEvent *e);
@@ -55,6 +56,7 @@ public slots:
     void mAvailableEvent();
     void mUnAvailableEvent();
     void showListWidget();
+    void closeListWidget();
 private slots:
     void initTheme(int type);
 private:
@@ -62,6 +64,7 @@ private:
     void handleKeypadButtonPress(int);
     void handleKeypadButtonPressByspace(int);
     void handleClearStateChanged(bool isAllClear);
+    void setBasicTabOrder();
 
 protected:
     //void paintEvent(QPaintEvent *);
@@ -70,7 +73,7 @@ private:
     ExpressionBar *m_expressionBar;
     BasicKeypad *m_basicKeypad;
     MemoryKeypad *m_memoryKeypad;
-    QStackedLayout *m_keypadLayout;
+    QStackedWidget *m_keypadLayout;
     MemoryWidget *m_memorylistwidget;
     bool m_insidewidget;
     bool m_avail = false; //内存中有数据

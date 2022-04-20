@@ -20,16 +20,17 @@
 #ifndef BASICKEYPAD_H
 #define BASICKEYPAD_H
 
-#include <QWidget>
-#include <QGridLayout>
-#include <QSignalMapper>
-#include <DGuiApplicationHelper>
-#include <DSuggestButton>
-
 #include "textbutton.h"
 #include "iconbutton.h"
 #include "memorybutton.h"
 #include "equalbutton.h"
+
+#include <DGuiApplicationHelper>
+#include <DSuggestButton>
+
+#include <QWidget>
+#include <QGridLayout>
+#include <QSignalMapper>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -50,12 +51,13 @@ public:
         Key_0, Key_Point, Key_Brackets, Key_Equals //0, ., (), =
     };
 
-    BasicKeypad(QWidget *parent = nullptr);
-    ~BasicKeypad();
+    explicit BasicKeypad(QWidget *parent = nullptr);
+    ~BasicKeypad() override;
 
-    void mouseMoveEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e) override;
 
     DPushButton *button(Buttons key);
+    DPushButton *button(int key);
     void animate(Buttons key, bool isspace = false);
     bool buttonHasFocus();
 
@@ -75,8 +77,6 @@ signals:
     void buttonPressed(int);
     void buttonPressedbySpace(int);
     void equalPressed();
-    void moveLeft();
-    void moveRight();
 
 private:
     void initUI();
