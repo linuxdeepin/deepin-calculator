@@ -1,3 +1,9 @@
+deepin-calculator (1.0.0) unstable; urgency=medium
+
+  * New version 1.0.0.
+
+ -- xiepengfei <xiepengfei@uniontech.com>  Thur, 14 Jul 2022 14:27:00 +0800
+
 deepin-calculator (0.1-1) unstable; urgency=medium
 
   * Initial Release.
