@@ -4,13 +4,13 @@ Deepin calculator is an easy to use calculator for ordinary users.
 
 ## Dependencies
 
-* sudo apt install libdtkwidget-dev libqt5svg5-dev qttools5-dev-tools
+* sudo apt install libdtkwidget-dev libqt5svg5-dev qttools5-dev-tools cmake
 
 ## Installation
 
 * mkdir build
 * cd build
-* qmake ..
+* cmake ..
 * make
 
 ## Usage
