@@ -10,9 +10,17 @@ Deepin calculator is an easy to use calculator for ordinary users.
 
 * mkdir build
 * cd build
-* cmake ..
+* cmake .. -DBUILD_TESTING=OFF
 * make
 
+## Test
+
+* sudo apt install libgtest-dev googletest libgmock-dev
+* mkdir build
+* camke ..
+* cd tests
+* make
+* ./deepin-calculator-test
 ## Usage
 
 * ./deepin-calculator
