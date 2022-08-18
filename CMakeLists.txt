@@ -7,6 +7,8 @@ endif ()
 #最外层一个工程，单项目中不添加工程，只添加执行文件
 project(deepin-calculator)
 
+include(GNUInstallDirs)
+
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
 
 set(CMAKE_CXX_STANDARD 11)
@@ -108,17 +110,19 @@ target_include_directories(${EXE_NAME} PUBLIC ${Qt5Widgets_LIBRARIES}
 
 target_link_libraries (${EXE_NAME} ${LINK_LIBS})
 
-set(CMAKE_INSTALL_PREFIX /usr)
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX /usr)
+endif ()
 
-install(TARGETS deepin-calculator DESTINATION bin)
+install(TARGETS deepin-calculator DESTINATION ${CMAKE_INSTALL_BINDIR})
 file(GLOB QM_FILES "${CMAKE_CURRENT_LIST_DIR}/translations/*.qm")
-install(FILES ${QM_FILES} DESTINATION share/deepin-calculator/translations)
+install(FILES ${QM_FILES} DESTINATION ${CMAKE_INSTALL_DATADIR}/deepin-calculator/translations)
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/deepin-calculator.desktop
-        DESTINATION share/applications/)
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/applications/)
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/src/assets/images/deepin-calculator.svg
-            DESTINATION share/icons/hicolor/scalable/apps/)
+            DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps/)
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src/assets/deepin-calculator
-                DESTINATION /usr/share/deepin-manual/manual-assets/application/)
+                DESTINATION ${CMAKE_INSTALL_DATADIR}/deepin-manual/manual-assets/application/)
 
 #if (NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "loongarch64")
 option (BUILD_TESTING "" ON)
