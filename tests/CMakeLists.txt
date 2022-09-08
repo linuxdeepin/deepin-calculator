@@ -45,19 +45,11 @@ endif ()
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../src/environments.h.in environments.h @ONLY)
 
 # Find the library
+find_package(Qt5 REQUIRED Core Gui Widgets DBus Xml Svg Test)
 find_package(PkgConfig REQUIRED)
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5DBus REQUIRED)
-find_package(Qt5Xml REQUIRED)
-find_package(Qt5Svg REQUIRED)
-find_package(Qt5Test REQUIRED)
-
-find_package(DtkWidget REQUIRED dtkwidget)
-find_package(DtkGui REQUIRED dtkgui)
-find_package(DtkCore REQUIRED dtkcore)
-#find_package(DFrameworkDbus REQUIRED dframeworkdbus)
+pkg_check_modules(DtkWidget REQUIRED dtkwidget)
+pkg_check_modules(DtkGui REQUIRED dtkgui)
+pkg_check_modules(DtkCore REQUIRED dtkcore)
 pkg_check_modules(DFrameworkDBus REQUIRED dframeworkdbus)
 
 include_directories(${DtkWidget_INCLUDE_DIRS})
