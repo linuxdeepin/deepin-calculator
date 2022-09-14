@@ -28,6 +28,14 @@
         <translation>Vybrat vše</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation>Použít oddělovač tisíců</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>Použít oddělovač desetitisíců</translation>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Zpět</translation>
     </message>

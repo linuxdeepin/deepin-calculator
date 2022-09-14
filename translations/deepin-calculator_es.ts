@@ -28,6 +28,14 @@
         <translation>Seleccionar todo</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation>Usar separador de miles</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>Usar separador de decenas de miles</translation>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Deshacer</translation>
     </message>
