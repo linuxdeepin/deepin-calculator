@@ -28,6 +28,14 @@
         <translation>Выбрать все</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation>Использовать разделитель для тысячных</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>Используйте разделитель для десятитысячных</translation>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Отменить</translation>
     </message>

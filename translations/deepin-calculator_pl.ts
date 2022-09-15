@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Nieprawidłowe wyrażenie</translation>
+        <translation>Błąd wyrażenia</translation>
     </message>
 </context>
 <context>
@@ -29,11 +29,11 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>Użyj separatora tysięcy</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>Użyj separatora dziesiątek tysięcy</translation>
     </message>
     <message>
         <source>Undo</source>
@@ -95,7 +95,7 @@
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Przywołanie pamięci</translation>
+        <translation>Przywróć z pamięci</translation>
     </message>
     <message>
         <source>Add to memory item</source>
@@ -103,7 +103,7 @@
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Dodaj pamięć</translation>
+        <translation>Dodaj do pamięci</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
@@ -111,11 +111,11 @@
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Odejmowanie pamięci</translation>
+        <translation>Odejmij z pamięci</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Sklep z pamięcią</translation>
+        <translation>Zachowaj do pamięci</translation>
     </message>
     <message>
         <source>Memory</source>
