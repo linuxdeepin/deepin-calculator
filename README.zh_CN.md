@@ -44,5 +44,5 @@
 
 ## 开源许可证
 
-Deepin Calculator is licensed under [GPLv3](LICENSE) or any later version.
+Deepin Calculator根据[GPL-3.0-only]（许可证）或任何更高版本获得许可。
 
