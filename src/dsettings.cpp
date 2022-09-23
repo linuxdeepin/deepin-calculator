@@ -1,5 +1,4 @@
 // Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -29,7 +28,7 @@ DSettingsAlt *DSettingsAlt::instance()
 }
 
 /**
- * @brief 相关信息保存在config.config文件中
+ * @brief  相关信息保存在config.config文件中
  */
 DSettingsAlt::DSettingsAlt(QObject *parent)
     : QObject(parent),
