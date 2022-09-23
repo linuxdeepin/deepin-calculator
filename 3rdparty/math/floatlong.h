@@ -2,7 +2,6 @@
 
 // Copyright (C) 2007, 2008 Wolf Lammen.
 //
-//
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #ifndef FLOATLONG_H

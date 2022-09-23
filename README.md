@@ -43,5 +43,5 @@ We encourage you to report issues and contribute changes
 
 ## License
 
-Deepin Calculator is licensed under [ GPL-3.0-only](LICENSE) or any later version.
+Deepin Calculator is licensed under [GPL-3.0-only](LICENSE) or any later version.
 

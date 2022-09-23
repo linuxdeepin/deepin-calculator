@@ -68,7 +68,7 @@ Copyright: 2007 Ariya Hidayat <ariya@kde.org>
            2014 Tey <teyut@free.fr>
            2015 Pol Welter <polwelter@gmail.com>
            2015-2016 Hadrien Theveneau <theveneau@gmail.com>
-License: GPL-3.0-or-later
+License: GPL-2+
 
 # 3rdparty/math
 Files: 3rdparty/math/*
@@ -76,7 +76,7 @@ Copyright: 2007 Wolf Lammen.
            2013, 2015-2016 Hadrien Theveneau <theveneau@gmail.com>.
            2015-2016 Pol Welter.
            2016 @heldercorreia
-License: GPL-3.0-or-later
+License: GPL-2+
 
 # com.deepin.Calculator.service
 Files: com.deepin.Calculator.service
