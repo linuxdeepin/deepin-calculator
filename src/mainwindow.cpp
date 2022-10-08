@@ -148,6 +148,9 @@ void MainWindow::initModule()
     case 2:
         m_programmerModule = new ProgramModule(this);
         m_mainLayout->addWidget(m_programmerModule);
+        connect(m_programmerModule, &ProgramModule::activateWindow, [=](){
+            titlebar()->setFocus();
+        });
         m_programmerAction->setChecked(true);
         switchToProgrammerMode();
         break;
@@ -202,6 +205,9 @@ void MainWindow::switchToProgrammerMode()
     if (!m_programmerModule) {
         m_programmerModule = new ProgramModule(this);
         m_mainLayout->addWidget(m_programmerModule);
+        connect(m_programmerModule, &ProgramModule::activateWindow, [=](){
+            titlebar()->setFocus();
+        });
         emit DGuiApplicationHelper::instance()->themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
     }
     if (m_settings->getOption("mode") != 2 || m_isinit) {
