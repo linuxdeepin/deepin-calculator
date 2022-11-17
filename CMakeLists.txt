@@ -125,9 +125,11 @@ install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src/assets/deepin-calculator
                 DESTINATION ${CMAKE_INSTALL_DATADIR}/deepin-manual/manual-assets/application/)
 
 #if (NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "loongarch64")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 option (BUILD_TESTING "" ON)
 if (BUILD_TESTING)
 add_subdirectory(tests)  #tests为ut测试文件夹名
+endif ()
 endif ()
 #endif ()
 
