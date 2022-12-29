@@ -28,14 +28,6 @@
         <translation>Selectează tot</translation>
     </message>
     <message>
-        <source>Use thousands separator</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Undo</source>
         <translation>Anulare</translation>
     </message>

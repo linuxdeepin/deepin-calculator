@@ -28,14 +28,6 @@
         <translation>Selecionar tudo</translation>
     </message>
     <message>
-        <source>Use thousands separator</source>
-        <translation>Usar separador de milhar</translation>
-    </message>
-    <message>
-        <source>Use ten-thousands separator</source>
-        <translation>Usar separador de dezena de milhar</translation>
-    </message>
-    <message>
         <source>Undo</source>
         <translation>Anular</translation>
     </message>

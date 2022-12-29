@@ -45,16 +45,29 @@ endif ()
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../src/environments.h.in environments.h @ONLY)
 
 # Find the library
-find_package(Qt5 REQUIRED Core Gui Widgets DBus Xml Svg Test)
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(DtkWidget REQUIRED dtkwidget)
-pkg_check_modules(DtkGui REQUIRED dtkgui)
-pkg_check_modules(DtkCore REQUIRED dtkcore)
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
+find_package(Qt5DBus REQUIRED)
+find_package(Qt5Xml REQUIRED)
+find_package(Qt5Svg REQUIRED)
+find_package(Qt5Test REQUIRED)
+
+find_package(DtkWidget REQUIRED dtkwidget)
+find_package(DtkGui REQUIRED dtkgui)
+find_package(DtkCore REQUIRED dtkcore)
+#find_package(DFrameworkDbus REQUIRED dframeworkdbus)
 pkg_check_modules(DFrameworkDBus REQUIRED dframeworkdbus)
 
 include_directories(${DtkWidget_INCLUDE_DIRS})
 include_directories(${DtkGui_INCLUDE_DIRS})
 include_directories(${DtkCore_INCLUDE_DIRS})
+
+pkg_check_modules(GTEST REQUIRED
+    gtest
+    gmock
+    )
 
 set (EXE_NAME deepin-calculator)
 
@@ -93,7 +106,7 @@ list(REMOVE_ITEM CAL_CPP "${CMAKE_CURRENT_LIST_DIR}/../src/main.cpp")
 file(GLOB_RECURSE CAL_TEST ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
 file(GLOB_RECURSE CAL_TESTH ${CMAKE_CURRENT_LIST_DIR}/src/*.h)
 
-find_package(GTest REQUIRED)
+#find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 set (DC_QRC_FILES
@@ -121,7 +134,12 @@ target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${Qt5Widgets_LIBRARIES}
                                               ${HEAD})
 target_link_libraries (${PROJECT_NAME_TEST} ${LINK_LIBS})
 
-set(CMAKE_INSTALL_PREFIX /usr)
+#set(CMAKE_INSTALL_PREFIX /usr)
+if(DEFINED ENV{PREFIX})
+    set(CMAKE_INSTALL_PREFIX $ENV{PREFIX})
+else()
+    set(CMAKE_INSTALL_PREFIX /usr)
+endif()
 
 install(TARGETS deepin-calculator DESTINATION bin)
 file(GLOB QM_FILES "${CMAKE_CURRENT_LIST_DIR}/../translations/*.qm")
