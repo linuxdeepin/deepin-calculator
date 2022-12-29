@@ -28,14 +28,6 @@
         <translation>Përzgjidhi Krejt</translation>
     </message>
     <message>
-        <source>Use thousands separator</source>
-        <translation>Përdor ndarës mijëshesh</translation>
-    </message>
-    <message>
-        <source>Use ten-thousands separator</source>
-        <translation>Përdor ndarës dhjetëmijëshesh</translation>
-    </message>
-    <message>
         <source>Undo</source>
         <translation>Zhbëje</translation>
     </message>

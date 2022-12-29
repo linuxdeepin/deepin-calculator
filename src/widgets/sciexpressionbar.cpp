@@ -1252,10 +1252,10 @@ QString SciExpressionBar::pointFaultTolerance(const QString &text)
                           .replace(CN_Underscore, CN_MIN)
                           .replace(CN_Percent, EN_Percent)
                           /*.replace('/', QString::fromUtf8("÷"))*/; //对内容进行英替中
-    QStringList list = reformatStr.split(QRegExp("[＋－×÷/^/(y]")); //20200717去掉),否则下方)小数点容错无法进入
+    QStringList list = reformatStr.split(QRegExp("[＋－×÷/(]")); //20200717去掉),否则下方)小数点容错无法进入
     QStringList symbollist;
     for (int i = 0; i < reformatStr.size(); ++i) {
-        if (QRegExp("[＋－×÷/^/(y]").exactMatch(reformatStr.at(i)))
+        if (QRegExp("[＋－×÷/(]").exactMatch(reformatStr.at(i)))
             symbollist << reformatStr.at(i);
     }
     reformatStr.clear();

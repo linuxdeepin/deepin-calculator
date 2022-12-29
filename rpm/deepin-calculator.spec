@@ -77,6 +77,9 @@ popd
 %{_datadir}/deepin-manual/manual-assets/application/deepin-calculator/calculator/*
 
 %changelog
+* Tue Jun 14 2022 zhangzhong <zhangzhong@uniontech.com> - 5.7.21-1
+- init spec for euler
+
 * Mon Apr 19 2021 zhangdingwen <zhangdingwen@uniontech.com> - 5.7.1.1-1
 - init spec for euler
 

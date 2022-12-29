@@ -28,14 +28,6 @@
         <translation>Selecciona-ho tot</translation>
     </message>
     <message>
-        <source>Use thousands separator</source>
-        <translation>Usa el separador de milers</translation>
-    </message>
-    <message>
-        <source>Use ten-thousands separator</source>
-        <translation>Usa el separador de deu mil</translation>
-    </message>
-    <message>
         <source>Undo</source>
         <translation>Desfés</translation>
     </message>

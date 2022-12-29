@@ -9,7 +9,5 @@ Homepage: http://www.deepin.org
 Package: deepin-calculator
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Recommends: uos-reporter, deepin-event-log
 Description: Calculator for UOS
  Calculator is a simple and easy-to-use desktop calculator. It supports addition, subtraction, multiplication and division with keyboard input perfectly matched, as well as symbolic fault-tolerant computing and calculation result linkage.
-

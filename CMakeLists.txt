@@ -7,8 +7,6 @@ endif ()
 #最外层一个工程，单项目中不添加工程，只添加执行文件
 project(deepin-calculator)
 
-include(GNUInstallDirs)
-
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
 
 set(CMAKE_CXX_STANDARD 11)
@@ -51,11 +49,19 @@ endif()
 configure_file(src/environments.h.in environments.h @ONLY)
 
 # Find the library
-find_package(Qt5 REQUIRED Core Gui Widgets DBus Xml Svg Test)
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(DtkWidget REQUIRED dtkwidget)
-pkg_check_modules(DtkGui REQUIRED dtkgui)
-pkg_check_modules(DtkCore REQUIRED dtkcore)
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
+find_package(Qt5DBus REQUIRED)
+find_package(Qt5Xml REQUIRED)
+find_package(Qt5Svg REQUIRED)
+find_package(Qt5Test REQUIRED)
+
+pkg_search_module(DtkWidget REQUIRED dtkwidget)
+pkg_search_module(DtkGui REQUIRED dtkgui)
+pkg_search_module(DtkCore REQUIRED dtkcore)
+#find_package(DFrameworkDbus REQUIRED dframeworkdbus)
 pkg_check_modules(DFrameworkDBus REQUIRED dframeworkdbus)
 
 include_directories(${DtkWidget_INCLUDE_DIRS})
@@ -110,26 +116,26 @@ target_include_directories(${EXE_NAME} PUBLIC ${Qt5Widgets_LIBRARIES}
 
 target_link_libraries (${EXE_NAME} ${LINK_LIBS})
 
-if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+#set(CMAKE_INSTALL_PREFIX /usr)
+if(DEFINED ENV{PREFIX})
+    set(CMAKE_INSTALL_PREFIX $ENV{PREFIX})
+else()
     set(CMAKE_INSTALL_PREFIX /usr)
-endif ()
+endif()
 
-install(TARGETS deepin-calculator DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS deepin-calculator DESTINATION bin)
 file(GLOB QM_FILES "${CMAKE_CURRENT_LIST_DIR}/translations/*.qm")
-install(FILES ${QM_FILES} DESTINATION ${CMAKE_INSTALL_DATADIR}/deepin-calculator/translations)
+install(FILES ${QM_FILES} DESTINATION share/deepin-calculator/translations)
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/deepin-calculator.desktop
-        DESTINATION ${CMAKE_INSTALL_DATADIR}/applications/)
+        DESTINATION share/applications/)
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/src/assets/images/deepin-calculator.svg
-            DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps/)
+            DESTINATION share/icons/hicolor/scalable/apps/)
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src/assets/deepin-calculator
-                DESTINATION ${CMAKE_INSTALL_DATADIR}/deepin-manual/manual-assets/application/)
+                DESTINATION share/deepin-manual/manual-assets/application/)
 
 #if (NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "loongarch64")
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-option (BUILD_TESTING "" ON)
-if (BUILD_TESTING)
 add_subdirectory(tests)  #tests为ut测试文件夹名
-endif ()
 endif ()
 #endif ()
 
