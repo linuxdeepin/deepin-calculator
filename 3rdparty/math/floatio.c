@@ -79,10 +79,21 @@ _setstr(
   {
     if (src == NULL)
       *(dest->buf) = '\0';
-    else if (dest->sz < (int)strlen(src) + 1)
-      return 0;
     else
-      strcpy(dest->buf, src);
+    {
+      size_t src_len = strlen(src);
+      
+      // Check for integer overflow
+      if (src_len == SIZE_MAX)
+      {
+        return 0;
+      }
+      
+      if (dest->sz < src_len + 1)
+        return 0;
+      else
+        strcpy(dest->buf, src);
+    }
   }
   return 1;
 }
