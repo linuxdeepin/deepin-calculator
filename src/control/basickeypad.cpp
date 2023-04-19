@@ -11,12 +11,14 @@
 
 #include "dthememanager.h"
 
-const int KEYPAD_HEIGHT = 316; //键盘界面高度
-const int KEYPAD_SPACING = 3; //键盘按键间距,按钮比ui大2pix,此处小2pix
+const QSize STANDARD_TEXTBTNSIZE = QSize(79, 58); //标准模式按钮大小，为画边框比ui大2pix
+const int STANDARD_WIDTH = 352; //标准模式宽度
+const int KEYPAD_SPACING = 4; //键盘按键间距
+const int KEYPAD_HEIGHT = STANDARD_TEXTBTNSIZE.height() * 5 + KEYPAD_SPACING * 4; //键盘界面高度, 306
+const int KEYPAD_WIDTH = STANDARD_TEXTBTNSIZE.width() * 4 + KEYPAD_SPACING * 3; //键盘界面宽度, 328
 const int LEFT_MARGIN = 12; //键盘左边距
-const int RIGHT_MARGIN = 13; //键盘右边距
-const int BOTTOM_MARGIN = 11; //键盘下边距
-const QSize STANDARD_TEXTBTNSIZE = QSize(78, 58); //标准模式按钮大小，为画边框比ui大2pix
+//const int RIGHT_MARGIN = 12; //键盘右边距
+//const int BOTTOM_MARGIN = 11; //键盘下边距
 
 const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
 //    {"MC", Key_MC, 1, 0, 1, 2},       {"MR", Key_MR, 1, 2, 1, 2},
@@ -68,12 +70,14 @@ const BasicKeypad::KeyDescription BasicKeypad::keyDescriptions[] = {
 
 BasicKeypad::BasicKeypad(QWidget *parent)
     : DWidget(parent),
-      m_layout(new QGridLayout(this)),
+      //m_layout(new QGridLayout(this)),
       m_mapper(new QSignalMapper(this))
 {
-    this->setFixedHeight(KEYPAD_HEIGHT);
+    QWidget* grid_container = new QWidget(this);
+    grid_container->setGeometry(LEFT_MARGIN, 0, KEYPAD_WIDTH, KEYPAD_HEIGHT);
+    grid_container->setFixedSize(KEYPAD_WIDTH, KEYPAD_HEIGHT);
+    m_layout = new QGridLayout(grid_container);
     m_layout->setMargin(0);
-    m_layout->setSpacing(KEYPAD_SPACING);
     m_layout->setContentsMargins(0, 0, 0, 0);
 //    setFocusPolicy(Qt::StrongFocus);
 
@@ -172,9 +176,8 @@ void BasicKeypad::initButtons()
             }
         }
 
-        button->setFixedSize(STANDARD_TEXTBTNSIZE);
-        m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
-                            Qt::AlignHCenter | Qt::AlignVCenter);
+        button->setMaximumSize(STANDARD_TEXTBTNSIZE);
+        m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
@@ -197,7 +200,10 @@ void BasicKeypad::initUI()
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
 
-    this->setContentsMargins(LEFT_MARGIN, 0, RIGHT_MARGIN, BOTTOM_MARGIN);
+    m_layout->setVerticalSpacing(KEYPAD_SPACING);
+    m_layout->setHorizontalSpacing(KEYPAD_SPACING);
+
+    //this->setContentsMargins(LEFT_MARGIN, 0, RIGHT_MARGIN, BOTTOM_MARGIN);
 }
 
 /**

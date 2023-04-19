@@ -8,8 +8,8 @@
 #include <QDebug>
 #include "../../3rdparty/core/settings.h"
 
-const QSize SYSTEMKEYPADSIZE = QSize(451, 279);
-const int LEFT_MARGIN = 10; //键盘左边距
+const QSize SYSTEMKEYPADSIZE = QSize(453, 279);
+const int LEFT_MARGIN = 12; //键盘左边距
 const int BOTTOM_MARGIN = 14; //键盘下边距
 
 ProSystemKeypad::ProSystemKeypad(QWidget *parent)

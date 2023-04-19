@@ -5,12 +5,13 @@
 
 #include "programmerkeypad.h"
 
-const int KEYPAD_HEIGHT = 279; //键盘界面高度
-const int KEYPAD_SPACING = 3; //键盘按键间距,按钮比ui大2pix,此处小2pix
-const int LEFT_MARGIN = 10; //键盘左边距,按钮比ui大2pix,此处小2pix
-const int RIGHT_MARGIN = 10; //键盘右边距,按钮比ui大2pix,此处小2pix
-const int BOTTOM_MARGIN = 10; //键盘下边距,按钮比ui大2pix,此处小2pix
 const QSize STANDARD_TEXTBTNSIZE = QSize(69, 42); //程序员模式按钮大小，为画边框比ui大2pix
+const int KEYPAD_HEIGHT = 267; //键盘界面高度
+const int KEYPAD_WIDTH = 429; //键盘界面高度
+const int KEYPAD_SPACING = 3; //键盘按键间距,按钮比ui大2pix,此处小2pix
+const int LEFT_MARGIN = 12; //键盘左边距,按钮比ui大2pix,此处小2pix
+//const int RIGHT_MARGIN = 12; //键盘右边距,按钮比ui大2pix,此处小2pix
+//const int BOTTOM_MARGIN = 10; //键盘下边距,按钮比ui大2pix,此处小2pix
 
 const ProgrammerKeypad::KeyDescription ProgrammerKeypad::keyDescriptions[] = {
     {"AND", Key_AND, 0, 0},         {"A", Key_A, 0, 1},             {"<<", Key_moveL, 0, 2},
@@ -34,14 +35,18 @@ const ProgrammerKeypad::KeyDescription ProgrammerKeypad::keyDescriptions[] = {
 
 ProgrammerKeypad::ProgrammerKeypad(QWidget *parent)
     : DWidget(parent),
-      m_layout(new QGridLayout(this)),
+      //m_layout(new QGridLayout(this)),
       m_mapper(new QSignalMapper(this)),
       m_leftBracket(new DLabel(this)),
       m_rightBracket(new DLabel(this))
 {
-    this->setFixedHeight(KEYPAD_HEIGHT);
+    QWidget* grid_container = new QWidget(this);
+    grid_container->setGeometry(LEFT_MARGIN, 0, KEYPAD_WIDTH, KEYPAD_HEIGHT);
+    grid_container->setFixedSize(KEYPAD_WIDTH, KEYPAD_HEIGHT);
+    m_layout = new QGridLayout(grid_container);
+
+
     m_layout->setMargin(0);
-    m_layout->setSpacing(KEYPAD_SPACING);
     m_layout->setContentsMargins(0, 0, 0, 0);
 //    setFocusPolicy(Qt::StrongFocus);
     m_leftBracket->setFixedSize(24, 14);
@@ -151,10 +156,10 @@ void ProgrammerKeypad::initButtons()
         }
 
         if (desc->text == "=")
-            button->setFixedSize(69, 43);
+            button->setMaximumSize(69, 43);
         else
-            button->setFixedSize(STANDARD_TEXTBTNSIZE);
-        m_layout->addWidget(button, desc->row, desc->column, Qt::AlignHCenter | Qt::AlignVCenter);
+            button->setMaximumSize(STANDARD_TEXTBTNSIZE);
+        m_layout->addWidget(button, desc->row, desc->column);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
@@ -365,5 +370,8 @@ void ProgrammerKeypad::initUI()
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
 
-    this->setContentsMargins(LEFT_MARGIN, 0, RIGHT_MARGIN, BOTTOM_MARGIN);
+    m_layout->setVerticalSpacing(3);
+    m_layout->setHorizontalSpacing(3);
+
+    //this->setContentsMargins(LEFT_MARGIN, 0, RIGHT_MARGIN, BOTTOM_MARGIN);
 }

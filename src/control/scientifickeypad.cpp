@@ -12,8 +12,14 @@
 
 #include "dthememanager.h"
 
-const int KEYPADHEIGHT = 350; //整体键盘的高度
 const QSize BUTTON_SIZE = QSize(69, 46); //科学模式的固定大小
+const int SCIENTIFIC_WIDTH = 453; //科学模式宽度
+const int KEYPAD_SPACING = 3; //键盘按键间距
+const int KEYPAD_HEIGHT = BUTTON_SIZE.height() * 7 + KEYPAD_SPACING * 6; //键盘界面高度, 340
+const int KEYPAD_WIDTH = BUTTON_SIZE.width() * 6 + KEYPAD_SPACING * 5; //键盘界面宽度, 429
+const int LEFT_MARGIN = 12; //键盘左边距
+//const int RIGHT_MARGIN = 12; //键盘右边距
+//const int BOTTOM_MARGIN = 11; //键盘下边距
 
 const ScientificKeyPad::KeyDescription ScientificKeyPad::keyDescriptions[] = {
     {"", Key_deg, 2, 0, 1, 1}, {"2ⁿᵈ", Key_page, 2, 1, 1, 1}, {"π", Key_PI, 2, 2, 1, 1},
@@ -94,7 +100,7 @@ const ScientificKeyPad::KeyDescription1 ScientificKeyPad::keyDescriptions1[] = {
 
 ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     : DWidget(parent)
-    , m_gridlayout1(new QGridLayout(this))
+    //, m_gridlayout1(new QGridLayout(this))
     , m_mapper(new QSignalMapper(this))
     , m_leftBracket(new DLabel(this))
     , m_rightBracket(new DLabel(this))
@@ -109,16 +115,15 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     , m_logyxwidget(new QStackedWidget(this))
     , m_exwidget(new QStackedWidget(this))
 {
-    this->setFixedHeight(KEYPADHEIGHT);
-    m_leftBracket->setFixedSize(24, 14);
-    m_rightBracket->setFixedSize(24, 14);
+    QWidget* grid_container = new QWidget(this);
+    grid_container->setGeometry(LEFT_MARGIN, 0, KEYPAD_WIDTH, KEYPAD_HEIGHT);
+    grid_container->setFixedSize(KEYPAD_WIDTH, KEYPAD_HEIGHT);
+    m_gridlayout1 = new QGridLayout(grid_container);
+    m_gridlayout1->setMargin(0);
+    m_gridlayout1->setContentsMargins(0, 0, 0, 0);
 
     initButtons();
     initUI();
-    m_gridlayout1->setMargin(0);
-    m_gridlayout1->setSpacing(3); //按钮比ui大2pix,此处小2pix
-    m_gridlayout1->setContentsMargins(0, 0, 0, 0);
-    this->setLayout(m_gridlayout1);
 
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
     connect(this, &ScientificKeyPad::buttonPressed, this,
@@ -228,6 +233,8 @@ void ScientificKeyPad::initButtons()
             }
         }
 
+        button->setMinimumSize(BUTTON_SIZE);
+
         //stackwidget中按钮初始化
         if ((i / 6 > 0) && (i % 6 == 0 || i % 6 == 1) && i != 30 && i != 36) {
             DPushButton *pagebutton;
@@ -274,14 +281,13 @@ void ScientificKeyPad::initButtons()
                 initStackWidget(m_exwidget, button, pagebutton, desc1);
             }
 
-            pagebutton->setFixedSize(BUTTON_SIZE);
+            pagebutton->setMaximumSize(BUTTON_SIZE);
+            button->setMaximumSize(BUTTON_SIZE);
             connect(static_cast<TextButton *>(pagebutton), &TextButton::focus, this, &ScientificKeyPad::getFocus); //获取上下左右键
         } else {
-            m_gridlayout1->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
-                                     Qt::AlignCenter/* | Qt::AlignTop*/);
+            m_gridlayout1->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount);
         }
 
-        button->setFixedSize(BUTTON_SIZE);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
 
@@ -345,7 +351,10 @@ void ScientificKeyPad::initUI()
     button(Key_Min)->setObjectName("SymbolButton");
     button(Key_Plus)->setObjectName("SymbolButton");
 
-    this->setContentsMargins(12, 0, 12, 12);
+    m_gridlayout1->setHorizontalSpacing(KEYPAD_SPACING);
+    m_gridlayout1->setVerticalSpacing(KEYPAD_SPACING);
+
+    //this->setContentsMargins(12, 0, 12, 12);
 }
 
 /**
@@ -361,9 +370,8 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
     widget->addWidget(button);
     widget->addWidget(pagebutton);
     widget->setCurrentIndex(0);
-    widget->setFixedSize(BUTTON_SIZE.width(), BUTTON_SIZE.height() + 4); //预留４pix给阴影
-    m_gridlayout1->addWidget(widget, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,
-                             Qt::AlignCenter/* | Qt::AlignTop*/);
+    widget->setMinimumSize(BUTTON_SIZE.width(), BUTTON_SIZE.height() + 4); //预留４pix给阴影
+    m_gridlayout1->addWidget(widget, desc1->row, desc1->column, desc1->rowcount, desc1->columncount);
     const QPair<DPushButton *, const KeyDescription1 *> hashValue1(pagebutton, desc1);
     m_keys1.insert(desc1->button, hashValue1); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription1 *
     connect(pagebutton, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
