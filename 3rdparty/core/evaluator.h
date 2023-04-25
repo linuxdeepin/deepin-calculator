@@ -65,7 +65,7 @@ public:
 
     static const Token null;
 
-    Token(Type = stxUnknown, const QString & = QString::null, int pos = -1,
+    Token(Type = stxUnknown, const QString & = QString(), int pos = -1,
           int size = -1);
     Token(const Token &);
 

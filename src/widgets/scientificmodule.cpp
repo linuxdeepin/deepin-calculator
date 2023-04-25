@@ -15,6 +15,7 @@
 #include <QPainter>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QtGlobal>
 
 const int EXPRESSIONBAR_HEIGHT = 100;
 
@@ -1086,7 +1087,11 @@ void scientificModule::hideMemHisWidget()
 void scientificModule::clickListView(const QModelIndex &index)
 {
     QString text = index.data(SimpleListModel::ExpressionWithOutTip).toString();
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
+#else
+    QStringList historic = text.split("＝", Qt::SkipEmptyParts);
+#endif
     //历史记录中无内容不继续执行
     if (historic.size() != 2)
         return;

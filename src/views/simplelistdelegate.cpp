@@ -11,6 +11,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <DGuiApplicationHelper>
+#include <QtGlobal>
 
 #include "dthememanager.h"
 #include "simplelistmodel.h"
@@ -148,7 +149,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
             font.setPixelSize(i);
 
             QFontMetrics fm(font);
-            int fontWidth = fm.width(expression);
+            int fontWidth = fm.horizontalAdvance(expression);
             int editWidth = rect.width() - 24;
 
             if (fontWidth < editWidth)
@@ -158,12 +159,12 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
         QStringList splitList = expression.split("＝");
         QString resultStr = splitList.last();
-        int resultWidth = painter->fontMetrics().width(resultStr);
+        int resultWidth = painter->fontMetrics().horizontalAdvance(resultStr);
 
         if (resultWidth > rect.width() / 1.4) {
             resultStr = painter->fontMetrics().elidedText(resultStr, Qt::ElideRight,
                                                           int(rect.width() / 1.4) + PADDING);
-            resultWidth = painter->fontMetrics().width(resultStr);
+            resultWidth = painter->fontMetrics().horizontalAdvance(resultStr);
         }
 
         if (m_type == 1) {
@@ -187,7 +188,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
             }
         }
 
-        int equalStrWidth = painter->fontMetrics().width(" ＝ ");
+        int equalStrWidth = painter->fontMetrics().horizontalAdvance(" ＝ ");
         QString expStr = painter->fontMetrics().elidedText(
                              splitList.first(), Qt::ElideLeft, rect.width() - resultWidth - PADDING * 2 - equalStrWidth);
         // QString expStr = splitList.first();
@@ -247,7 +248,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                     painter->setPen(QColor(linkColor)); //判断第一个数是否是被联动项,如果是，设置字体颜色为高亮
             }
 
-            int expWidth = painter->fontMetrics().width(exp);
+            int expWidth = painter->fontMetrics().horizontalAdvance(exp);
             painter->drawText(QRect(rect.x() + PADDING, rect.y(),
                                     rect.width() - resultWidth - expWidth - PADDING * 2, rect.height()),
                               Qt::AlignVCenter | Qt::AlignRight, linkNum);
@@ -276,9 +277,9 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         QString exp = splitList.first() + " ＝ ";
 
         int expHeight;
-        int expline = (painter->fontMetrics().width(exp) % (rect.width() - PADDING * 2)) ?
-                      (painter->fontMetrics().width(exp) / (rect.width() - PADDING * 2) + 1) :
-                      (painter->fontMetrics().width(exp) / (rect.width() - PADDING * 2));
+        int expline = (painter->fontMetrics().horizontalAdvance(exp) % (rect.width() - PADDING * 2)) ?
+                      (painter->fontMetrics().horizontalAdvance(exp) / (rect.width() - PADDING * 2) + 1) :
+                      (painter->fontMetrics().horizontalAdvance(exp) / (rect.width() - PADDING * 2));
         expHeight = painter->fontMetrics().height() * expline;
 
         if (m_type == 1) {
@@ -317,9 +318,9 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
                 exp, textoption); //exp与上方空隙5pix
             painter->setFont(fontresult);
             int resultHeight;
-            int resultline = (painter->fontMetrics().width(resultStr) % (rect.width() - PADDING * 2 - 1)) ?
-                             (painter->fontMetrics().width(resultStr) / (rect.width() - PADDING * 2 - 1) + 1) :
-                             (painter->fontMetrics().width(resultStr) / (rect.width() - PADDING * 2 - 1)); //由于结果字体较大，暂以此避免
+            int resultline = (painter->fontMetrics().horizontalAdvance(resultStr) % (rect.width() - PADDING * 2 - 1)) ?
+                             (painter->fontMetrics().horizontalAdvance(resultStr) / (rect.width() - PADDING * 2 - 1) + 1) :
+                             (painter->fontMetrics().horizontalAdvance(resultStr) / (rect.width() - PADDING * 2 - 1)); //由于结果字体较大，暂以此避免
             resultHeight = painter->fontMetrics().height() * resultline;
             if (resultStr == tr("Expression error")) {
                 painter->setPen(QColor(errorFontColor));
@@ -388,14 +389,14 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
         fontresult.setPixelSize(30);
         QFontMetrics fmresult(fontresult);
         int expHeight;
-        int expline = (fmexp.width(exp) % (rectwidth - PADDING * 2)) ?
-                      (fmexp.width(exp) / (rectwidth - PADDING * 2) + 1) :
-                      (fmexp.width(exp) / (rectwidth - PADDING * 2));
+        int expline = (fmexp.horizontalAdvance(exp) % (rectwidth - PADDING * 2)) ?
+                      (fmexp.horizontalAdvance(exp) / (rectwidth - PADDING * 2) + 1) :
+                      (fmexp.horizontalAdvance(exp) / (rectwidth - PADDING * 2));
         expHeight = fmexp.height() * expline;
         int resultHeight;
-        int resultline = (fmresult.width(resultStr) % (rectwidth - PADDING * 2 - 1)) ?
-                         (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 1) + 1) :
-                         (fmresult.width(resultStr) / (rectwidth - PADDING * 2 - 1)); //由于结果字体较大，暂以此避免
+        int resultline = (fmresult.horizontalAdvance(resultStr) % (rectwidth - PADDING * 2 - 1)) ?
+                         (fmresult.horizontalAdvance(resultStr) / (rectwidth - PADDING * 2 - 1) + 1) :
+                         (fmresult.horizontalAdvance(resultStr) / (rectwidth - PADDING * 2 - 1)); //由于结果字体较大，暂以此避免
         resultHeight = fmresult.height() * resultline;
         return QSize(HISWIDTH, expHeight + resultHeight + 25); //多出25pix空隙
     } else
@@ -424,7 +425,11 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
 {
     QString exp = text;
     QStringList list;
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     list = exp.split(QRegExp("[＋－×÷/()]"), QString::SkipEmptyParts);
+#else
+    list = exp.split(QRegularExpression("[＋－×÷/()]"), Qt::SkipEmptyParts);
+#endif
     if (list.isEmpty() || list.size() == 1) {
         linkNum = "";
         expStr = exp;

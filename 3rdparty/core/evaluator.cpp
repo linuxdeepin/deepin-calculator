@@ -595,7 +595,7 @@ void TokenStack::reduce(QList<Token> tokens, Token &&top, int minPrecedence)
     }
 #endif // EVALUATOR_DEBUG
 
-    qSort(tokens.begin(), tokens.end(), tokenPositionCompare);
+    std::sort(tokens.begin(), tokens.end(), tokenPositionCompare);
 
     bool computeMinPrec = (minPrecedence == INVALID_PRECEDENCE);
     int min_prec = computeMinPrec ? MAX_PRECEDENCE : minPrecedence;
