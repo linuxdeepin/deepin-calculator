@@ -12,6 +12,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <DGuiApplicationHelper>
+#include <QtGlobal>
 
 const int STANDPREC = 15;
 const int WIDGET_FIXHEIGHT = 147;
@@ -984,7 +985,11 @@ void ExpressionBar::revisionResults(const QModelIndex &index)
 {
     clearLinkageCache(m_inputEdit->text(), false);
     QString text = index.data(SimpleListModel::ExpressionRole).toString();
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
+#else
+    QStringList historic = text.split("＝", Qt::SkipEmptyParts);
+#endif
     if (historic.size() != 2)
         return;
     QString expression = historic.at(0);

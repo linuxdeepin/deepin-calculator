@@ -14,6 +14,8 @@
 #include <QDebug>
 #include <QTimer>
 #include <DGuiApplicationHelper>
+#include <QRandomGenerator>
+#include <QtGlobal>
 
 const int SCIPREC = 31; //科学计算器精度
 const int LIST_HEIGHT = 35; //输入栏上方表达式的高度
@@ -571,8 +573,9 @@ void SciExpressionBar::enterRandEvent()
     m_isResult = false;
     m_isUndo = false;
     QString str;
+    QRandomGenerator* randGen = QRandomGenerator::system();
     for (int i = 0; i < SCIPREC; i++) {
-        int n = qrand() % 10;
+        int n = randGen->generate() % 10;
         str.append(QString::number(n));
     }
     str = "0." + str;
@@ -1095,7 +1098,11 @@ void SciExpressionBar::revisionResults(const QModelIndex &index)
 {
 //    clearLinkageCache(m_inputEdit->text(), false);
     QString text = index.data(SimpleListModel::ExpressionRole).toString();
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     QStringList historic = text.split(QString("＝"), QString::SkipEmptyParts);
+#else
+    QStringList historic = text.split("＝", Qt::SkipEmptyParts);
+#endif
     if (historic.size() != 2)
         return;
     QString expression = historic.at(0);

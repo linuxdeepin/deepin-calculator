@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
     DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
     DApplicationSettings savetheme(&app);
     if (oldversion == true) {
-        DGuiApplicationHelper::instance()->setThemeType(oldpalette);
+        DGuiApplicationHelper::instance()->setPaletteType(oldpalette);
     }
 
     // 20200330 主题记忆更改为规范代码

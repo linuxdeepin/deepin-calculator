@@ -341,7 +341,7 @@ QString MemoryWidget::programmerWrap(QString result)
         block = 4;
 
     while (r < result.length()) {
-        if (fm.width(result.mid(l, r - l)) < validwidth)
+        if (fm.horizontalAdvance(result.mid(l, r - l)) < validwidth)
             ++r;
         else {
             while (result.at(r) != QLatin1String(" ") && result.at(r) != QLatin1String(",")) {
