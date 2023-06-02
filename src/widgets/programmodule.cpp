@@ -982,7 +982,7 @@ void ProgramModule::initArrowRectangle()
     m_byteArrowRectangle->setArrowHeight(21);
     m_byteArrowRectangle->setContent(m_byteArrowListWidget);
     m_byteArrowListWidget->installEventFilter(m_byteArrowRectangle);
-    m_byteArrowRectangle->move(this->rect().x() + 200, this->rect().y() + 238);//在module的138，238位置，x多出150原因未找出
+    m_byteArrowRectangle->setGeometry(QRect(83, 238, m_byteArrowRectangle->width(), m_byteArrowRectangle->height()));
     m_byteArrowListWidget->move(m_byteArrowRectangle->rect().x() + 15,
                                 m_byteArrowRectangle->rect().y() + m_byteArrowRectangle->arrowHeight() + 11);
 
