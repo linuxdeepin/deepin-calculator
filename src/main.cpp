@@ -7,6 +7,7 @@
 #include "environments.h"
 #include "utils.h"
 
+#include <QCommandLineParser>
 #include <QDBusInterface>
 #include <QDate>
 #include <QDebug>
