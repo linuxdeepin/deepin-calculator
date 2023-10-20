@@ -178,6 +178,7 @@ void ProgramModule::mousePressEvent(QMouseEvent *event)
     static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setBtnPressing(false);
     closeListWidget();
     setwidgetAttribute(false);
+    emit activateWindow();
     DWidget::mousePressEvent(event);
 }
 
@@ -642,6 +643,7 @@ void ProgramModule::shiftArrowListWidgetItemClicked(int row, bool isselect)
         m_shiftArrowRectangle->setHidden(true);
         static_cast<IconButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_Option))->setBtnPressing(false);
         setwidgetAttribute(false);
+        emit activateWindow();
 
         //计算方式选项按钮图标跟随选项改变
         switch (m_shiftArrowListWidget->currentRow()) {
@@ -703,6 +705,7 @@ void ProgramModule::byteArrowListWidgetItemClicked(int row, bool isselect)
         m_byteArrowRectangle->setHidden(true);
         static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setBtnPressing(false);
         setwidgetAttribute(false);
+        emit activateWindow();
 
         int oldsystem;
         switch (m_byteArrowCurrentRow) {

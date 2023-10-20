@@ -66,6 +66,9 @@ public slots:
     void showListWidget();
     void closeListWidget();
 
+signals:
+    void activateWindow();
+
 private:
     void initArrowRectangle();
     void handleEditKeyPress(QKeyEvent *);
