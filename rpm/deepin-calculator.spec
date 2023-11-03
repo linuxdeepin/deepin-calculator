@@ -22,7 +22,6 @@ BuildRequires: qt5-devel
 BuildRequires: pkgconfig(dtkcore)
 BuildRequires: pkgconfig(dtkwidget)
 BuildRequires: pkgconfig(dtkgui)
-BuildRequires: pkgconfig(dframeworkdbus)
 
 
 # BuildRequires: pkgconfig(Qt5Widgets)

@@ -14,7 +14,6 @@
 #include <DLabel>
 #include <DGuiApplicationHelper>
 #include <DSuggestButton>
-#include <com_deepin_daemon_appearance.h>
 
 #include <QWidget>
 #include <QGridLayout>

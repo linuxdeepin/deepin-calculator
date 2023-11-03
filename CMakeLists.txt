@@ -63,8 +63,6 @@ find_package(Qt5Test REQUIRED)
 pkg_search_module(DtkWidget REQUIRED dtkwidget)
 pkg_search_module(DtkGui REQUIRED dtkgui)
 pkg_search_module(DtkCore REQUIRED dtkcore)
-#find_package(DFrameworkDbus REQUIRED dframeworkdbus)
-pkg_check_modules(DFrameworkDBus REQUIRED dframeworkdbus)
 
 include_directories(${DtkWidget_INCLUDE_DIRS})
 include_directories(${DtkGui_INCLUDE_DIRS})
