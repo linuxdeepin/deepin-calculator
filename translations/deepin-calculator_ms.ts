@@ -28,6 +28,14 @@
         <translation>Pilih Semua</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation>Guna tanda pemisah ribu</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>Guna tanda pemisah sepuluh ribu</translation>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Buat asal</translation>
     </message>
@@ -68,7 +76,7 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>Kalkulator ialah sebuah kalkulator atas meja yang ringkas dan mudah digunakan. Ia menyokong mod-mod piawai, saintifik dan pengatur cara</translation>
+        <translation>Kalkulator ialah sebuah kalkulator atas meja yang ringkas dan mudah digunakan. Ia menyokong mod piawai, saintifik dan pengatur cara</translation>
     </message>
     <message>
         <source>Programmer</source>
