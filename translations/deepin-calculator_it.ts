@@ -28,6 +28,14 @@
         <translation>Seleziona tutti</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation>Usa il separatore delle migliaia</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>Usa il separatore dei diecimila</translation>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Annulla</translation>
     </message>
