@@ -99,7 +99,7 @@
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Adicionar à memória</translation>
+        <translation>Adicionar item à memória</translation>
     </message>
     <message>
         <source>Memory add</source>
@@ -107,11 +107,11 @@
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Remover da memória</translation>
+        <translation>Remover item da memória</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Subtrair memória</translation>
+        <translation>Remover da memória</translation>
     </message>
     <message>
         <source>Memory store</source>
