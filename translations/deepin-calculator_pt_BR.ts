@@ -33,7 +33,7 @@
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation>Utilizar o separador de dez mil</translation>
+        <translation>Use o separador de dez mil</translation>
     </message>
     <message>
         <source>Undo</source>
@@ -76,7 +76,7 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>A Calculadora é uma ferramenta de cálculo, fácil de usar e com suporte aos modos padrão, científico e de programador.</translation>
+        <translation>A Calculadora é uma ferramenta de fácil utilização, com suporte aos modos padrão, científico e programador.</translation>
     </message>
     <message>
         <source>Programmer</source>
@@ -87,7 +87,7 @@
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Limpar da memória</translation>
+        <translation>Limpar item da memória</translation>
     </message>
     <message>
         <source>Clear all memory</source>
