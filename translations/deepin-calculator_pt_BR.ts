@@ -115,7 +115,7 @@
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Gravar na memória</translation>
+        <translation>Armazenar na memória</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -130,15 +130,15 @@
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Limpar da memória</translation>
+        <translation>Limpar item da memória</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Adicionar à memória</translation>
+        <translation>Adicionar item à memória</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Remover da memória</translation>
+        <translation>Remover item da memória</translation>
     </message>
 </context>
 <context>
