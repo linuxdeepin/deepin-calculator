@@ -103,7 +103,7 @@
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Adicionar memória</translation>
+        <translation>Adicionar à memória</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
@@ -236,7 +236,7 @@
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>Nenhum histórico</translation>
+        <translation>Não há histórico</translation>
     </message>
 </context>
 <context>
