@@ -29,7 +29,7 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation>Utilizar o separador de milhares</translation>
+        <translation>Use o separador de milhar</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
