@@ -28,6 +28,14 @@
         <translation>Позначити все</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation>Роздільник тисяч</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>Роздільник десятків тисяч</translation>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Скасувати</translation>
     </message>
