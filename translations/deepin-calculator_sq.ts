@@ -95,7 +95,7 @@
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>MR</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to memory item</source>
