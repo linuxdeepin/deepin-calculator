@@ -26,8 +26,8 @@
 const int STANDARD_MWIDGET_HEIGHT = 260; //标准模式memorywidget高度
 const int SCIENTIFIC_MWIDGET_HEIGHT = 302; //科学模式memorywidget高度
 const int PROGRAMMER_MWIDGET_HEIGHT = 230; //程序猿模式memorywidget高度
-const int STANDARD_ITEM_WIDTH = 344; //标准模式宽度
-const int PRO_SCI_ITEM_WIDTH = 451; //科学-程序猿模式最小宽度
+const int STANDARD_ITEM_WIDTH = 352; //标准模式宽度
+const int PRO_SCI_ITEM_WIDTH = 453; //科学-程序猿模式最小宽度
 const int STANDARD_FORMAT_PREC = 15; //标准模式科学计数位数
 const int SCIENTIFIC_FORMAT_PREC = 31; //科学模式科学计数位数
 const int MAXSIZE = 500; //内存保存最大数
