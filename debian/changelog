@@ -1,3 +1,24 @@
+deepin-calculator (6.0.1) unstable; urgency=medium
+
+  * fix: project adaptation
+  * chore(CI): add OBS workflows
+  * fix: 修复了一系列build warning
+    Thanks to hongsheng
+  * chore: Sync by https://github.com/linuxdeepin/.github/commit/2e5e092ba3f86b16d1aabbabcf0bfd2ae65b19c8(Influence: none)
+  * fix: 修复焦点异常问题(Bug: 162597)
+  * chore: Sync by https://github.com/linuxdeepin/.github/commit/559e91167d4919644f37bbcf123eb0651c1528ea(Influence: none)
+  * chore(CI): Update obs tag build workflow (#106)
+    Thanks to hudeng-go
+  * Fix: integer overflow in '_setstr' functions.
+    Thanks to Like_rm
+  * Fix: integer overflow in '_setstr' functions.
+    Thanks to Like_rm
+  * fix: remove unused dframeworkdbus (#109)
+    Thanks to Felix Yan
+  * fix: The icon display incorrectly in deepin-manual(Bug: 251243)
+
+ -- myml <wurongjie@deepin.org>  Thu, 18 Apr 2024 17:26:42 +0800
+
 deepin-calculator (6.0.0) unstable; urgency=medium
 
   * v23 changlog
