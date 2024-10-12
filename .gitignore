@@ -5,3 +5,6 @@ moc_*.cpp
 *.qm
 build/
 *.pro.user
+
+#linglong building dir
+linglong
