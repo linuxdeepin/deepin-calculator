@@ -26,7 +26,7 @@ void BitButton::init()
     m_font.setPixelSize(18);
     m_font.setFamily("Noto Sans");
     m_font.setStyleName("Light");
-    m_font.setWeight(2);
+    m_font.setWeight(QFont::Light);
 }
 
 void BitButton::animate(bool isspace, int msec)
@@ -90,7 +90,7 @@ void BitButton::mouseReleaseEvent(QMouseEvent *e)
     DPushButton::mouseReleaseEvent(e);
 }
 
-void BitButton::enterEvent(QEvent *e)
+void BitButton::enterEvent(QEnterEvent *e)
 {
     m_isHover = true;
     DPushButton::enterEvent(e);

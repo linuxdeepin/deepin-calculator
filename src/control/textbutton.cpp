@@ -83,7 +83,7 @@ void TextButton::init()
         m_font.setPixelSize(18);
     m_font.setFamily("Noto Sans");
     m_font.setStyleName("Light");
-    m_font.setWeight(2);
+    m_font.setWeight(QFont::Light);
 }
 
 /**
@@ -172,7 +172,7 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
     DPushButton::mouseReleaseEvent(e);
 }
 
-void TextButton::enterEvent(QEvent *e)
+void TextButton::enterEvent(QEnterEvent *e)
 {
     if (text() == "Rand")
         m_font.setPixelSize(17);
@@ -268,7 +268,7 @@ void TextButton::paintEvent(QPaintEvent *e)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true); //反锯齿
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true); //光滑的象素映射变换算法
-    painter.setRenderHint(QPainter::HighQualityAntialiasing);
+    painter.setRenderHint(QPainter::Antialiasing);
     painter.setFont(m_font);
     QRectF textRect = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                          Qt::AlignCenter, this->text());

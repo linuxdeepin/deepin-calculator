@@ -51,7 +51,7 @@ ProgramModule::ProgramModule(QWidget *parent)
     vlay->addWidget(m_checkBtnKeypad);
     vlay->addWidget(m_stackWidget);
     vlay->setSpacing(0);
-    vlay->setMargin(0);
+   // vlay->setMargin(0);
     vlay->setContentsMargins(0, 0, 0, 0);
 
     //主题变换事件
@@ -391,9 +391,9 @@ void ProgramModule::handleKeypadButtonPress(int key)
     int right = 0;
     QString text = m_proExpressionBar->getInputEdit()->text();
     for (int i = 0; i < text.length(); i++) {
-        if (text[i] == "(")
+        if (text[i] == QChar('('))
             left ++;
-        else if (text[i] == ")") {
+        else if (text[i] == QChar(')')) {
             if (left > 0)
                 left--;
             else
@@ -609,9 +609,9 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
     int right = 0;
     QString text = m_proExpressionBar->getInputEdit()->text();
     for (int i = 0; i < text.length(); i++) {
-        if (text[i] == "(")
+        if (text[i] == QChar('('))
             left ++;
-        else if (text[i] == ")") {
+        else if (text[i] == QChar(')')) {
             if (left > 0)
                 left--;
             else
@@ -890,7 +890,7 @@ void ProgramModule::initArrowRectangle()
     m_shiftArrowListWidget->setAttribute(Qt::WA_TranslucentBackground, true);
     QFont font;
     font.setPixelSize(14);
-    font.setWeight(2);
+    font.setWeight(QFont::Light);
     QFontMetrics fm(font);
     int width = fm.boundingRect(tr("Rotate through carry circular shift")).width();
     int itemwidth = width > 170 ? (width + 80) : 250;
@@ -1341,9 +1341,9 @@ void ProgramModule::handleEditKeyPress(QKeyEvent *e)
     int right = 0;
     QString text = m_proExpressionBar->getInputEdit()->text();
     for (int i = 0; i < text.length(); i++) {
-        if (text[i] == "(")
+        if (text[i] == QChar('('))
             left ++;
-        else if (text[i] == ")") {
+        else if (text[i] == QChar(')')) {
             if (left > 0)
                 left--;
             else
@@ -1387,7 +1387,7 @@ void ProgramModule::resetArrowWidth()
 {
     QFont font;
     font.setPixelSize(14);
-    font.setWeight(2);
+    font.setWeight(QFont::Light);
     QFontMetrics fm(font);
     int width = fm.boundingRect(tr("Rotate through carry circular shift")).width();
     int itemwidth = width > 170 ? (width + 90) : 250;

@@ -55,18 +55,6 @@ void Units::pushUnit(Quantity q, QString name)
     m_matchLookup.insert(q.getDimension(), u);
 }
 
-unsigned int qHash(QMap<QString, Rational> dimension)
-{
-    QStringList keyList(dimension.keys());
-    QString blob("");
-    keyList.sort();
-    for (int i = 0; i < keyList.size(); ++i) {
-        keyList[i].append(dimension[keyList[i]].toString());
-        blob.append(keyList[i]);
-    }
-    return qHash(blob);
-}
-
 /*
  * initialize the lookup table for automatic matching
  */

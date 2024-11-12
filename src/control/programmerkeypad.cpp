@@ -40,7 +40,6 @@ ProgrammerKeypad::ProgrammerKeypad(QWidget *parent)
       m_rightBracket(new DLabel(this))
 {
     this->setFixedHeight(KEYPAD_HEIGHT);
-    m_layout->setMargin(0);
     m_layout->setSpacing(KEYPAD_SPACING);
     m_layout->setContentsMargins(0, 0, 0, 0);
 //    setFocusPolicy(Qt::StrongFocus);

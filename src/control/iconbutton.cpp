@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <QToolTip>
+#include <QFile>
 
 const QSize HISTORY_WIDGET_CLEARBUTTONSIZE = QSize(36, 36); //历史记录区垃圾桶大小
 const qreal BLURRADIUS = 12; //阴影模糊半径
@@ -197,7 +198,7 @@ void IconButton::mouseReleaseEvent(QMouseEvent *e)
     TextButton::mouseReleaseEvent(e);
 }
 
-void IconButton::enterEvent(QEvent *e)
+void IconButton::enterEvent(QEnterEvent *e)
 {
     m_currentUrl = m_hoverUrl;
     m_buttonStatus = 1;

@@ -26,7 +26,7 @@ class MemoryItemWidget : public QWidget
 public:
     explicit MemoryItemWidget(QWidget *parent = nullptr);
     ~MemoryItemWidget() override;
-    void enterEvent(QEvent *event) override;
+    void enterEvent(QEnterEvent *event) override;
     void leaveEvent(QEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;

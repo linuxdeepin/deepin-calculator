@@ -58,7 +58,6 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     QHBoxLayout *layH = new QHBoxLayout();
 
     lay->setSpacing(0);
-    lay->setMargin(0);
     lay->addWidget(m_listwidget);
 
     m_listwidget->setFrameShape(QFrame::NoFrame); //设置边框类型，无边框
