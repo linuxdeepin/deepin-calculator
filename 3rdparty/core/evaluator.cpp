@@ -32,6 +32,7 @@
 #include <QRegularExpression>
 #include <QStack>
 #include <QDebug>
+#include <QRegularExpression>
 
 #define ALLOW_IMPLICIT_MULT
 
@@ -687,15 +688,19 @@ bool Evaluator::isRadixChar(const QChar &ch)
 // Helper function: return true for valid thousand separator characters.
 bool Evaluator::isSeparatorChar(const QChar &ch)
 {
-    // Match everything that is not alphanumeric or an operator or NUL.
-    static const QRegExp s_separatorRE(
-        "[^a-zA-Z0-9\\+\\-−\\*×⋅÷/\\^;\\(\\)%!=\\\\&\\|<>\\?#\\x0000]"
-    );
-
+    // 仅当字符不是 radix 字符时，才执行正则匹配
     if (isRadixChar(ch))
         return false;
 
-    return s_separatorRE.exactMatch(ch);
+    static const QRegularExpression s_separatorRE(
+        "[^a-zA-Z0-9\\+\\-−\\*×⋅÷/\\^;\\(\\)%!=\\\\&\\|<>\\?#\\x0000]"
+        );
+
+    // 使用 match() 方法来匹配单个字符
+    QRegularExpressionMatch match = s_separatorRE.match(QString(ch));
+
+    // 如果 match.hasMatch() 返回 true，说明该字符是分隔符
+    return match.hasMatch();
 }
 
 QString Evaluator::fixNumberRadix(const QString &number)
@@ -1588,8 +1593,10 @@ void Evaluator::compile(const Tokens &tokens)
                     case Token::BitwiseLogicalXOR:
                         m_codes.append(Opcode::BXor);
                         break;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                     case Token::UnitConversion: {
-                        static const QRegExp unitNameNumberRE(
+
+                        static const QRegularExpression unitNameNumberRE(
                             "(^[0-9e\\+\\-\\.,]|[0-9e\\.,]$)",
                             Qt::CaseInsensitive);
                         QString unitName =
@@ -1607,6 +1614,7 @@ void Evaluator::compile(const Tokens &tokens)
                         m_codes.append(Opcode(Opcode::Conv, unitName));
                         break;
                     }
+#endif
                     default: break;
                     };
                     syntaxStack.reduce(3);
@@ -2532,18 +2540,18 @@ static void replaceSuperscriptPowersWithCaretEquivalent(QString &expr)
         "(\\x{207B})?[\\x{2070}¹²³\\x{2074}-\\x{2079}]+"
     );
     static const QHash<QChar, QChar> s_superscriptPowersHash {
-        {L'\u207B', '-'},
-        {L'\u2070', '0'},
-        {L'\u00B9', '1'},
-        {L'\u00B2', '2'},
-        {L'\u00B3', '3'},
-        {L'\u2074', '4'},
-        {L'\u2075', '5'},
-        {L'\u2076', '6'},
-        {L'\u2077', '7'},
-        {L'\u2078', '8'},
-        {L'\u2079', '9'},
-    };
+                                                             {QChar(0x207B), '-'},  // Replace L'\u207B' with QChar(0x207B)
+                                                             {QChar(0x2070), '0'},
+                                                             {QChar(0x00B9), '1'},
+                                                             {QChar(0x00B2), '2'},
+                                                             {QChar(0x00B3), '3'},
+                                                             {QChar(0x2074), '4'},
+                                                             {QChar(0x2075), '5'},
+                                                             {QChar(0x2076), '6'},
+                                                             {QChar(0x2077), '7'},
+                                                             {QChar(0x2078), '8'},
+                                                             {QChar(0x2079), '9'},
+                                                             };
 
     int offset = 0;
     while (true) {
@@ -2552,9 +2560,10 @@ static void replaceSuperscriptPowersWithCaretEquivalent(QString &expr)
             break;
 
         QString power = match.captured();
+        // Replace superscript characters with normal numbers/characters
         for (int pos = power.size() - 1; pos >= 0; --pos) {
             QChar c = power.at(pos);
-            power.replace(pos, 1, s_superscriptPowersHash.value(c, c));
+            power.replace(pos, 1, s_superscriptPowersHash.value(c, c));  // Replace using the hash
         }
 
         bool isNegative = match.capturedStart(1) != -1;
@@ -2563,6 +2572,7 @@ static void replaceSuperscriptPowersWithCaretEquivalent(QString &expr)
         else
             power = "^" + power;
 
+        // Replace the matched substring with the new expression
         expr.replace(match.capturedStart(), match.capturedLength(), power);
         offset = match.capturedStart() + power.size();
     }

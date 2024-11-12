@@ -30,7 +30,6 @@ ProBitWidget::ProBitWidget(QWidget *parent)
     hlay->addSpacing(1);
     hlay->addWidget(m_fourthbtn);
     hlay->addSpacing(1);
-    hlay->setMargin(0);
     hlay->setSpacing(4);
     hlay->setContentsMargins(0, 0, 0, 0);
     m_label->setFixedSize(70, 20);
@@ -42,7 +41,6 @@ ProBitWidget::ProBitWidget(QWidget *parent)
     m_label->setFont(font);
     vlay->addLayout(hlay);
     vlay->addWidget(m_label);
-    vlay->setMargin(0);
     vlay->setSpacing(0);
     vlay->setContentsMargins(0, 0, 0, 0);
 }

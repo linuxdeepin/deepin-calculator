@@ -6,7 +6,6 @@
 #include "dsettings.h"
 
 #include <QDir>
-#include <QDesktopWidget>
 #include <QDebug>
 #include <DApplication>
 

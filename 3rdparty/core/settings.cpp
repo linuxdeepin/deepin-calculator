@@ -288,8 +288,16 @@ void Settings::save()
 
 char Settings::radixCharacter() const
 {
-    if (isRadixCharacterAuto() || isRadixCharacterBoth())
-        return QLocale().decimalPoint().toLatin1();
+    if (isRadixCharacterAuto() || isRadixCharacterBoth()) {
+        QByteArray decimalPoint = QLocale().decimalPoint().toLatin1();
+
+        // 确保返回的是第一个字符，如果 QByteArray 为空，返回一个默认的字符（如'.'）
+        if (!decimalPoint.isEmpty()) {
+            return decimalPoint.at(0);  // 返回 QByteArray 中的第一个字符
+        } else {
+            return '.';  // 如果为空，返回默认的十进制分隔符
+        }
+    }
 
     return s_radixCharacter;
 }
@@ -308,7 +316,6 @@ void Settings::setRadixCharacter(char c)
 {
     s_radixCharacter = (c != ',' && c != '.' && c != '*') ? 0 : c;
 }
-
 
 // Settings migration from legacy (0.11 and before) to 0.12 (ConfigVersion 1200).
 static void migrateSettings_legacyTo1200(QSettings *settings, const QString &KEY)

@@ -7,6 +7,7 @@
 
 #include <QPen>
 #include <QDomElement>
+#include <QFile>
 
 ProgrammerItemWidget::ProgrammerItemWidget(QString label, const int width, const QString path, QWidget *parent)
     : QWidget(parent)
@@ -33,12 +34,12 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, const int width, const
     hlayout->addWidget(m_label);
     m_label->setFixedWidth(width - 70);
     QFont font;
-    font.setWeight(2);
+    font.setWeight(QFont::Light);
     font.setPixelSize(14);
     m_label->setFont(font);
     hlayout->addStretch();
     hlayout->addWidget(m_iconbtn);
-    hlayout->setMargin(0);
+    hlayout->setContentsMargins(0, 0, 0, 0);
     hlayout->setContentsMargins(0, 0, 16, 0); //图片比ui大10，此处边框比ui小5
     setLayout(hlayout);
     this->installEventFilter(this);
@@ -71,10 +72,10 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, QWidget *parent)
     hlayout->addSpacing(2);
     hlayout->addWidget(m_label);
     QFont font;
-    font.setWeight(2);
+    font.setWeight(QFont::Light);
     font.setPixelSize(14);
     m_label->setFont(font);
-    hlayout->setMargin(0);
+    hlayout->setContentsMargins(0, 0, 0, 0);
     hlayout->setContentsMargins(0, 0, 21, 0);
     setLayout(hlayout);
     this->installEventFilter(this);
@@ -95,12 +96,21 @@ ProgrammerItemWidget::~ProgrammerItemWidget()
 
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void ProgrammerItemWidget::enterEvent(QEnterEvent *event)
+{
+    m_ishover = true;
+    update();
+    QWidget::enterEvent(event);
+}
+#else
 void ProgrammerItemWidget::enterEvent(QEvent *event)
 {
     m_ishover = true;
     update();
     QWidget::enterEvent(event);
 }
+#endif
 
 void ProgrammerItemWidget::leaveEvent(QEvent *event)
 {
