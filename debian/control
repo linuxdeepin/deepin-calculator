@@ -2,7 +2,21 @@ Source: deepin-calculator
 Section: utils
 Priority: optional
 Maintainer: Deepin Packages Builder <packages@deepin.org>
-Build-Depends: debhelper (>= 9),cmake ,pkg-config, libdtkgui-dev, libdtkwidget-dev, libqt5svg5-dev, qttools5-dev-tools, libgtest-dev, libgmock-dev
+Build-Depends: 
+    debhelper (>= 9),
+    cmake,
+    pkg-config,
+    libdtk6gui-dev,
+    libdtk6widget-dev,
+    qt6-svg-dev,
+    qt6-tools-dev,
+    qt6-tools-dev-tools,
+    libgtest-dev,
+    libgmock-dev,
+    qt6-base-dev,
+    qt6-base-dev-tools,
+    qt6-base-private-dev,
+    qt6-l10n-tools
 Standards-Version: 3.9.8
 Homepage: http://www.deepin.org
 

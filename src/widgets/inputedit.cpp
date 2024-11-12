@@ -121,7 +121,7 @@ QString InputEdit::expressionText()
      */
     if (ans.length() > 17) {
         for (int i = 17; i < ans.length(); i++) {
-            if (ans.at(i) != "0") {
+            if (ans.at(i) != QChar('0')) {
                 longnumber = true;
                 break;
             }
@@ -161,7 +161,7 @@ void InputEdit::setAnswer(const QString &str, const Quantity &ans)
                .replace('-', QString::fromUtf8("－"))
                .replace('*', QString::fromUtf8("×"))
                .replace(QString::fromUtf8("（"), "(")
-               .replace(QString::fromUtf8("）"), ")");
+               .replace(QString::fromUtf8("）"), QChar(')'));
 }
 
 /**
@@ -417,7 +417,7 @@ void InputEdit::valueChangeFromProSyskeypad(const QString num)
         while (numend < text.length() && isNumber(text.at(numend))) {
             numend++;
         }
-        if (numstart > 0 && !isNumber(text.at(numstart - 1)) && number.at(0) == "-") {
+        if (numstart > 0 && !isNumber(text.at(numstart - 1)) && number.at(0) == QChar('-')) {
             text.remove(numstart, numend - numstart).insert(numstart, "(" + number);
             numstart += 2;
         } else
@@ -427,7 +427,7 @@ void InputEdit::valueChangeFromProSyskeypad(const QString num)
     //重新找到numend
     numend = numstart < 0 ? 0 : numstart;
     while (numend < this->text().length() && (isNumber(this->text().at(numend)) ||
-                                              ((numend == 0) && isNumber(text.at(1)) && text.at(0) == "-"))) {
+                                              ((numend == 0) && isNumber(text.at(1)) && text.at(0) == QChar('-')))) {
         numend++;
     }
     this->setCursorPosition(numend);
@@ -486,12 +486,12 @@ void InputEdit::handleTextChanged(const QString &text)
 //                  .replace('x', QString::fromUtf8("×"))
                   .replace('X', QString::fromUtf8("×"))
                   .replace(QString::fromUtf8("（"), "(")
-                  .replace(QString::fromUtf8("）"), ")")
+                  .replace(QString::fromUtf8("）"), QChar(')'))
                   .replace(QString::fromUtf8("——"), QString::fromUtf8("－"))
-                  .replace(QString::fromUtf8("％"), "%");
+                  .replace(QString::fromUtf8("％"), QChar('%'));
 
     multipleArithmetic(reformatStr);
-//    reformatStr.remove(QRegExp("[^0-9＋－×÷,.%()e]"));
+//    reformatStr.remove(QRegularExpression("[^0-9＋－×÷,.%()e]"));
     // reformatStr = pointFaultTolerance(reformatStr);
     //    reformatStr = symbolFaultTolerance(reformatStr);
     setText(reformatStr);
@@ -612,7 +612,7 @@ QString InputEdit::scanAndExec(int baseori, int basedest)
     }
     QString newtext = QString();
     for (int i = 0; i < m_textorder.length(); i++) {
-        if (m_textorder.at(i) == "0") {
+        if (m_textorder.at(i) == QChar('0')) {
             newtext.append(m_numvec.first());
             m_numvec.pop_front();
         } else {
@@ -630,7 +630,7 @@ QString InputEdit::pointFaultTolerance(const QString &text)
 {
     QString exp = text;
     QString oldText = text;
-    QStringList list = exp.split(QRegExp("[＋－×÷/()]"));
+    QStringList list = exp.split(QRegularExpression("[＋－×÷/()]"));
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];
         int firstPoint = item.indexOf(".");
@@ -641,7 +641,7 @@ QString InputEdit::pointFaultTolerance(const QString &text)
             ++firstPoint;
             // oldText.replace(list[i], item);
         } else {
-            if (item.at(firstPoint - 1) == ")" || item.at(firstPoint - 1) == "%") {
+            if (item.at(firstPoint - 1) == QChar(')') || item.at(firstPoint - 1) == QChar('%')) {
                 item.remove(firstPoint, 1); //原定义)及%右侧不能添加.，现在小数点输入事件中进行过补0操作,不会进入此判断
                 oldText.replace(list[i], item);
             }
@@ -713,8 +713,8 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
     if (expPos > 0) {
         //e后非＋／－
         if (newText.length() > expPos + 1 && newText.at(expPos + 1) != QString::fromUtf8("－") && newText.at(expPos + 1) != QString::fromUtf8("＋")
-                && newText.at(expPos + 1) != "-" && newText.at(expPos + 1) != "+") {
-            while (newText.length() > expPos + 1 && (newText.at(expPos + 1) == "(" || newText.at(expPos + 1) == ")")) {
+                && newText.at(expPos + 1) != QChar('-') && newText.at(expPos + 1) != QChar('+')) {
+            while (newText.length() > expPos + 1 && (newText.at(expPos + 1) == QChar('(') || newText.at(expPos + 1) == QChar(')'))) {
                 newText.remove(expPos + 1, 1); //避免e后可输入()情况
             }
             return newText;
@@ -724,9 +724,9 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
             while (newText.length() > expPos + 2 && newText.at(expPos + 2).isNumber() == false) {
                 newText.remove(expPos + 2, 1); //e+/e-和数字间不可以插入非数字
             }
-            int nextsymbolpos = newText.indexOf(QRegExp("[＋－×÷/()]"), expPos + 2); //e+/e-右侧第一个符号
+            int nextsymbolpos = newText.indexOf(QRegularExpression("[＋－×÷/()]"), expPos + 2); //e+/e-右侧第一个符号
             for (int i = expPos; i < (nextsymbolpos == -1 ? newText.length() : nextsymbolpos); i++) {
-                if (newText.at(i) == "." || newText.at(i) == QString::fromUtf8("。"))
+                if (newText.at(i) == QChar('.') || newText.at(i) == QString::fromUtf8("。"))
                     newText.remove(i, 1); //去除从e到下一个运算符中的小数点
             }
         }
@@ -789,15 +789,15 @@ void InputEdit::BracketCompletion(QKeyEvent *e)
     int curs = this->cursorPosition();
     int right = oldText.length() - curs;
     int leftLeftParen = oldText.left(curs).count("(");
-    int leftRightParen = oldText.left(curs).count(")");
+    int leftRightParen = oldText.left(curs).count(QChar(')'));
     int rightLeftParen = oldText.right(right).count("(");
-    int rightrightParen = oldText.right(right).count(")");
+    int rightrightParen = oldText.right(right).count(QChar(')'));
     //左右括号总数是否相等
-    if (oldText.count("(") != oldText.count(")")) {
+    if (oldText.count("(") != oldText.count(QChar(')'))) {
         //光标左侧左括号大于右括号
         if (leftLeftParen > leftRightParen) {
             if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) > 0) {
-                oldText.insert(curs, ")");
+                oldText.insert(curs, QChar(')'));
             } else if (leftLeftParen - leftRightParen + (rightLeftParen - rightrightParen) < 0) {
                 oldText.insert(curs, "(");
             } else {
@@ -832,7 +832,7 @@ void InputEdit::multipleArithmetic(QString &text)
             index = text.indexOf("\n", i);
             if (index == 0)
                 continue;
-            if (text.at(index - 1) == ")" || text.at(index - 1) == "%")
+            if (text.at(index - 1) == QChar(')') || text.at(index - 1) == QChar('%'))
                 text.replace(index, 1, "×");
         }
     }
@@ -1046,7 +1046,7 @@ QPair<bool, Quantity> InputEdit::getMemoryAnswer()
     QPair<bool, Quantity> pair;
     QString expression;
     expression = symbolComplement(expressionText()).replace(QString::fromUtf8("＋"), "+")
-                 .replace(QString::fromUtf8("－"), "-")
+                 .replace(QString::fromUtf8("－"), QChar('-'))
                  .replace(QString::fromUtf8("×"), "*")
                  .replace(QString::fromUtf8("÷"), "/")
                  .replace(QString::fromUtf8(","), "");
@@ -1105,14 +1105,14 @@ QString InputEdit::symbolComplement(const QString exp)
         ++index;
         index = text.indexOf("(", index);
     }
-    index = text.indexOf(")", 0);
+    index = text.indexOf(QChar(')'), 0);
     while (index != -1) {
         if (index < text.length() - 1 && text.at(index + 1).isNumber()) {
             text.insert(index + 1, "×");
             ++index;
         }
         ++index;
-        index = text.indexOf(")", index);
+        index = text.indexOf(QChar(')'), index);
     }
     return text;
 }
@@ -1219,7 +1219,7 @@ void InputEdit::getCurrentCursorPositionNumber(const int pos)
 
 bool InputEdit::isNumber(QChar a)
 {
-    if (a.isDigit() || a == " " || a == "," || AtoF.contains(a))
+    if (a.isDigit() || a == QChar(' ') || a == QChar(',') || AtoF.contains(a))
         return true;
     else
         return false;
@@ -1252,12 +1252,12 @@ QString InputEdit::formatExpression(const int &probase, const QString &text)
 {
     QString formattext = text;
     formattext.replace(QString::fromUtf8("＋"), "+")
-    .replace(QString::fromUtf8("－"), "-")
+    .replace(QString::fromUtf8("－"), QChar('-'))
     .replace(QString::fromUtf8("×"), "*")
     .replace(QString::fromUtf8("÷"), "/")
     .replace(QString::fromUtf8(","), "")
     .replace(QString::fromUtf8(" "), "")
-    .replace("%", "mod");
+    .replace(QChar('%'), "mod");
 
     QString base = QString();
     switch (probase) {

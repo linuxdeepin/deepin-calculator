@@ -255,3 +255,15 @@ double Rational::toDouble() const
 {
     return double(m_num) / m_denom;
 }
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+unsigned int qHash(const Rational& key)
+{
+    return qHash(key.numerator()) ^ qHash(key.denominator());
+}
+#else
+size_t qHash(const Rational& key, size_t seed) noexcept
+{
+    return qHash(key.numerator(), seed) ^ qHash(key.denominator(), seed);
+}
+#endif

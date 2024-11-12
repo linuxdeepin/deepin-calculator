@@ -7,7 +7,7 @@
 
 #include <QTimer>
 #include <DPalette>
-#include <DImageButton>
+// #include <DImageButton>
 #include <DGuiApplicationHelper>
 
 #include "dthememanager.h"
@@ -115,7 +115,6 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
 
     initButtons();
     initUI();
-    m_gridlayout1->setMargin(0);
     m_gridlayout1->setSpacing(3); //按钮比ui大2pix,此处小2pix
     m_gridlayout1->setContentsMargins(0, 0, 0, 0);
     this->setLayout(m_gridlayout1);

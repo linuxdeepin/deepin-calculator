@@ -6,7 +6,7 @@
 #include "memoryitemdelegate.h"
 
 #include <DStyleHelper>
-#include <DApplicationHelper>
+#include <DGuiApplicationHelper>
 
 MemoryItemDelegate::MemoryItemDelegate(QObject *parent)
     : QStyledItemDelegate(parent)

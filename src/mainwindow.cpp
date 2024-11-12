@@ -19,9 +19,9 @@
 #include <QDebug>
 #include <QShortcut>
 #include <QProcess>
-#include <QDesktopWidget>
 #include <QApplication>
 #include <QPropertyAnimation>
+#include <qactiongroup.h>
 
 DGUI_USE_NAMESPACE
 
