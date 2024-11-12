@@ -96,7 +96,7 @@ void EqualButton::mouseReleaseEvent(QMouseEvent *e)
     DPushButton::mouseReleaseEvent(e);
 }
 
-void EqualButton::enterEvent(QEvent *e)
+void EqualButton::enterEvent(QEnterEvent *e)
 {
     //m_font.setPixelSize(20);
     //m_font.setStyleName("");
@@ -123,7 +123,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true); //反锯齿
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true); //光滑的象素映射变换算法
-    painter.setRenderHint(QPainter::HighQualityAntialiasing);
+    painter.setRenderHint(QPainter::Antialiasing);
     painter.setFont(m_font);
     QRectF textRect = painter.fontMetrics().boundingRect("=");
     textRect.moveCenter(rect.center());

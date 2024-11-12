@@ -19,10 +19,8 @@ MemoryKeypad::MemoryKeypad(QWidget *parent)
       m_mapper(new QSignalMapper(this))
 {
     this->setFixedHeight(35);
-    m_layout->setMargin(0);
     m_layout->setSpacing(2);  //按钮比ui大2pix,此处比ui小2pix
     m_layout->setContentsMargins(0, 0, 0, 0);
-
     initButtons();
     this->setContentsMargins(12, 0, 13, 0);
 

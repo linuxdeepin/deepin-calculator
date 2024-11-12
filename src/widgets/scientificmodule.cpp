@@ -466,9 +466,9 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
     int right = 0;
     QString text = m_sciexpressionBar->getInputEdit()->text();
     for (int i = 0; i < text.length(); i++) {
-        if (text[i] == "(")
+        if (text[i] == QChar('('))
             left ++;
-        else if (text[i] == ")") {
+        else if (text[i] == QChar(')')) {
             if (left > 0)
                 left--;
             else
@@ -694,9 +694,9 @@ void scientificModule::handleKeypadButtonPress(int key)
     int right = 0;
     QString text = m_sciexpressionBar->getInputEdit()->text();
     for (int i = 0; i < text.length(); i++) {
-        if (text[i] == "(")
+        if (text[i] == QChar('('))
             left ++;
-        else if (text[i] == ")") {
+        else if (text[i] == QChar(')')) {
             if (left > 0)
                 left--;
             else
@@ -922,9 +922,9 @@ void scientificModule::handleKeypadButtonPressByspace(int key)
     int right = 0;
     QString text = m_sciexpressionBar->getInputEdit()->text();
     for (int i = 0; i < text.length(); i++) {
-        if (text[i] == "(")
+        if (text[i] == QChar('('))
             left ++;
-        else if (text[i] == ")") {
+        else if (text[i] == QChar(')')) {
             if (left > 0)
                 left--;
             else

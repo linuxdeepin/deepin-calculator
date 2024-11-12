@@ -14,8 +14,9 @@
 #include <QDir>
 #include <QIcon>
 #include <QSettings>
+#include <qactiongroup.h>
+
 #include <DApplication>
-#include <DApplicationSettings>
 #include <DGuiApplicationHelper>
 #include <DLog>
 #include <DWidgetUtil>
@@ -124,13 +125,10 @@ int main(int argc, char *argv[])
     }
 
     DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
-    DApplicationSettings savetheme(&app);
     if (oldversion == true) {
         DGuiApplicationHelper::instance()->setPaletteType(oldpalette);
     }
 
-    // 20200330 主题记忆更改为规范代码
-//    DApplicationSettings savetheme(&app);
     // Register debus service.
     dbus.registerObject("/com/deepin/calculator", &window, QDBusConnection::ExportScriptableSlots);
     window.show();

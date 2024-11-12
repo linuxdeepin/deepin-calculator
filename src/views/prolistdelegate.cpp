@@ -41,7 +41,7 @@ void ProListDelegate::currentfocusindex(QModelIndex index)
 
 void ProListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    painter->setRenderHint(QPainter::HighQualityAntialiasing, true);
+    painter->setRenderHint(QPainter::Antialiasing, true);
     const QString expression = index.data(ProListModel::ExpressionRole).toString();
     ProListView *listview = qobject_cast<ProListView *>(option.styleObject);
     QRect selectrect(option.rect.x() + LEFT_MARGIN, option.rect.y() + 2, 3, option.rect.height() - 4);  //被选中行选中标记

@@ -35,7 +35,6 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     lay->addWidget(m_btnclean);
     lay->addWidget(m_btnplus);
     lay->addWidget(m_btnminus);
-    layV->setMargin(0);
     layV->addWidget(m_label);
     layV->addStretch();
     QFont font;
@@ -62,7 +61,7 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
 //    m_font.setPixelSize(18);
 }
 
-void MemoryItemWidget::enterEvent(QEvent *event)
+void MemoryItemWidget::enterEvent(QEnterEvent *event)
 {
     m_ishover = true;
     m_btnplus->setHidden(false); //进入时显示按钮

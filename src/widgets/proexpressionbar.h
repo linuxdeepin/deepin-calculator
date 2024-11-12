@@ -72,7 +72,7 @@ private:
     void expressionCheck();
     QString symbolFaultTolerance(const QString &text);
     bool isNumberOutOfRange(const QString &text);
-    void selectedPartDelete(const QRegExp &rx);
+    void selectedPartDelete(const QRegularExpression &rx);
     bool curposInNumber(int curpos);
     void onSeparateChange();//数字将位数发生改变
 

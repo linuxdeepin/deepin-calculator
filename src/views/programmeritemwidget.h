@@ -28,7 +28,7 @@ public:
     ProgrammerItemWidget(QString label, const int width, const QString path, QWidget *parent = nullptr);
     ProgrammerItemWidget(QString label, QWidget *parent = nullptr);
     ~ProgrammerItemWidget() override;
-    void enterEvent(QEvent *event) override;
+    void enterEvent(QEnterEvent *event) override;
     void leaveEvent(QEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;

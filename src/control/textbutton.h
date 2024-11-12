@@ -41,7 +41,7 @@ signals:
 public:
     void mousePressEvent(QMouseEvent *) override;
     void mouseReleaseEvent(QMouseEvent *) override;
-    void enterEvent(QEvent *) override;
+    void enterEvent(QEnterEvent *) override;
     void leaveEvent(QEvent *) override;
     void paintEvent(QPaintEvent *e) override;
     void focusOutEvent(QFocusEvent *) override;

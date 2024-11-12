@@ -37,7 +37,7 @@ BasicModule::BasicModule(QWidget *parent)
     m_keypadLayout->addWidget(m_memorylistwidget);
 
     layout->setSpacing(0);
-    layout->setMargin(0);
+    //layout->setMargin(0);
     layout->setContentsMargins(0, 0, 0, 0);
 
     setMouseTracking(true);

@@ -18,7 +18,6 @@ MemHisKeypad::MemHisKeypad(QWidget *parent)
       m_mapper(new QSignalMapper(this))
 {
     this->setFixedHeight(41);
-    m_layout->setMargin(0);
     m_layout->setSpacing(3);  //按钮比ui大2pix,此处比ui小2pix
     m_layout->setContentsMargins(0, 0, 0, 0);
 
