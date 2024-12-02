@@ -7,7 +7,7 @@ version: '1'
 package:
   id: org.deepin.calculator
   name: deepin-calculator
-  version: 6.5.1.1
+  version: 6.5.2.1
   kind: app
   description: |
     Calculator for UOS
@@ -16,7 +16,7 @@ command:
   - deepin-calculator
 
 base: org.deepin.base/23.1.0/arm64
-runtime: org.deepin.runtime.dtk/23.1.0/arm64
+runtime: org.deepin.runtime.dtk/23.2.0/arm64
 
 build: |
   VERSION=$(head -1 debian/changelog | awk -F'[()]' '{print $2}')
