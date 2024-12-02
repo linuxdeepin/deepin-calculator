@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Erreur d&apos;expression</translation>
+        <translation>Formule erronée </translation>
     </message>
 </context>
 <context>
@@ -26,6 +26,14 @@
     <message>
         <source>Select All</source>
         <translation>Tout sélectionner</translation>
+    </message>
+    <message>
+        <source>Use thousands separator</source>
+        <translation>Utiliser le séparateur des milliers</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>Utiliser le séparateur des dizaines de milliers</translation>
     </message>
     <message>
         <source>Undo</source>
@@ -203,7 +211,7 @@
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Erreur d&apos;expression</translation>
+        <translation>Formule erronée </translation>
     </message>
 </context>
 <context>
@@ -221,7 +229,7 @@
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>Erreur d&apos;expression</translation>
+        <translation>Formule erronée </translation>
     </message>
 </context>
 <context>

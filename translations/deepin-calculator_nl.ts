@@ -28,6 +28,14 @@
         <translation>Alles selecteren</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation>Duizendtallen scheiden</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>Tienduizendtallen scheiden</translation>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Ongedaan maken</translation>
     </message>

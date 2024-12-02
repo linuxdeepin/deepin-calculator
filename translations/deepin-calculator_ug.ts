@@ -29,11 +29,11 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>مىڭلىق ئۈلۈشلەر خانىسىغا ئالماشتۇرۇش</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>تۈمەنلىك ئۈلۈشلەر خانىسىغا ئالماشتۇرۇش</translation>
     </message>
     <message>
         <source>Undo</source>
@@ -130,11 +130,11 @@
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>خاتېرە تۈرلىرىنى ئۆچۈرۈش</translation>
+        <translation>ساقلانما تۈرلىرىنى ئۆچۈرۈش</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>خاتېرە تۈرى قوشۇش</translation>
+        <translation>ساقلانما تۈرى قوشۇش</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
@@ -211,7 +211,7 @@
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>ئىپادىلەش خاتا</translation>
+        <translation>ئىپادە خاتا</translation>
     </message>
 </context>
 <context>
@@ -229,7 +229,7 @@
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>ئىپادىلەش خاتا</translation>
+        <translation>ئىپادە خاتا</translation>
     </message>
 </context>
 <context>
