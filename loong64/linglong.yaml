@@ -15,8 +15,8 @@ package:
 command:
   - deepin-calculator
 
-base: org.deepin.base/23.1.0/arm64
-runtime: org.deepin.runtime.dtk/23.1.0/arm64
+base: org.deepin.base/23.1.0/loong64
+runtime: org.deepin.runtime.dtk/23.1.0/loong64
 
 build: |
   VERSION=$(head -1 debian/changelog | awk -F'[()]' '{print $2}')
