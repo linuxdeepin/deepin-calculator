@@ -23,7 +23,7 @@ MemHisKeypad::MemHisKeypad(QWidget *parent)
     m_layout->setContentsMargins(0, 0, 0, 0);
 
     initButtons();
-    this->setContentsMargins(12, 0, 13, 0);
+    this->setContentsMargins(12, 0, 12, 0);
 
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
 }
