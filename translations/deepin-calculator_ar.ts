@@ -3,18 +3,18 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>خطأ في الصيغة</translation>
+        <translation>خطأ التعبير</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>مسح كل الذاكرة</translation>
+        <translation>مسح الذاكرة بالكامل</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation>مسح التاريخ</translation>
+        <translation>مسح السجل</translation>
     </message>
 </context>
 <context>
@@ -25,23 +25,23 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation>اختر الكل</translation>
+        <translation>تحديد الكل</translation>
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation>استخدم فاصل الآلاف</translation>
+        <translation>استخدام الفاصل العائد ألف</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation>استخدم فاصل عشرة آلاف</translation>
+        <translation>استخدام الفاصل العائد عشرة آلاف</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation>تراجع</translation>
+        <translation>الغاء</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation>إعادة التراجع</translation>
+        <translation>اعادة</translation>
     </message>
     <message>
         <source>Cut</source>
@@ -53,34 +53,34 @@
     </message>
     <message>
         <source>Paste</source>
-        <translation>لصق</translation>
+        <translation>صق</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>الحاسبة</translation>
+        <translation>حاسبة</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>القياسي</translation>
+        <translation>معيار</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>العلمي</translation>
+        <translation>علمي</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>الوضع</translation>
+        <translation>وضع</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>الآلة الحاسبة هي آلة حاسبة مكتبية سهلة الاستخدام، تدعم الأوضاع القياسية والعلمية والتطويرية.</translation>
+        <translation>الحاسبة هي حاسبة سطح مكتب سهلة الاستخدام تدعم الوضع القياسي والعلمي ووضع المبرمج.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation>التطويرية</translation>
+        <translation>مبرمج</translation>
     </message>
 </context>
 <context>
@@ -91,11 +91,11 @@
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>مسح كل الذاكرة</translation>
+        <translation>مسح الذاكرة بالكامل</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>استدعاء الذاكرة</translation>
+        <translation>استرجاع الذاكرة</translation>
     </message>
     <message>
         <source>Add to memory item</source>
@@ -103,15 +103,15 @@
     </message>
     <message>
         <source>Memory add</source>
-        <translation>عملية جمع الذاكرة</translation>
+        <translation>إضافة إلى الذاكرة</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>عملية طرح من الذاكرة</translation>
+        <translation>طرح من عنصر الذاكرة</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>عملية طرح الذاكرة</translation>
+        <translation>طرح من الذاكرة</translation>
     </message>
     <message>
         <source>Memory store</source>
