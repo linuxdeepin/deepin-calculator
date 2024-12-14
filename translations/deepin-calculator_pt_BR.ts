@@ -25,7 +25,15 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation>Selecionar Tudo</translation>
+        <translation>Selecionar tudo</translation>
+    </message>
+    <message>
+        <source>Use thousands separator</source>
+        <translation>Use o separador de milhar</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>Use o separador de dez mil</translation>
     </message>
     <message>
         <source>Undo</source>
@@ -68,7 +76,7 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>A Calculadora é uma ferramenta de cálculo, fácil de usar e compatível com os modos científico e programador.</translation>
+        <translation>A Calculadora é uma ferramenta de fácil utilização, com suporte aos modos padrão, científico e programador.</translation>
     </message>
     <message>
         <source>Programmer</source>
@@ -95,19 +103,19 @@
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Adicionar memória</translation>
+        <translation>Adicionar à memória</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Subtrair item da memória</translation>
+        <translation>Remover item da memória</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Subtrair memória</translation>
+        <translation>Remover da memória</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Gravar na memória</translation>
+        <translation>Armazenar na memória</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -130,14 +138,14 @@
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Subtrair item da memória</translation>
+        <translation>Remover item da memória</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>Nada gravado na memória</translation>
+        <translation>Não há nada salvo na memória</translation>
     </message>
 </context>
 <context>
@@ -228,7 +236,7 @@
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>Nenhum histórico</translation>
+        <translation>Não há histórico</translation>
     </message>
 </context>
 <context>

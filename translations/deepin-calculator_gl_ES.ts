@@ -28,16 +28,24 @@
         <translation>Seleccionar todo</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation>Usar o separador de miles</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>Usar o separador de dez mil</translation>
+    </message>
+    <message>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Dersfacer</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>Refacer</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"/>
+        <translation>Cortar</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -45,7 +53,7 @@
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>Pegar</translation>
     </message>
 </context>
 <context>
@@ -53,10 +61,6 @@
     <message>
         <source>Calculator</source>
         <translation>Calculadora</translation>
-    </message>
-    <message>
-        <source>Calculator is an easy to use desktop calculator, supporting standard and scientific modes.</source>
-        <translation>A calculadora é unha calculadora de escritorio fácil de usar, soportando modos estándar e científicos.</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -67,12 +71,16 @@
         <translation>Científico</translation>
     </message>
     <message>
-        <source>History</source>
-        <translation>Historial</translation>
-    </message>
-    <message>
         <source>Mode</source>
         <translation>Modo</translation>
+    </message>
+    <message>
+        <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
+        <translation>Calculator é unha calculadora de escritorio fácil de usar, que admite os modos estándar, científico e programador.</translation>
+    </message>
+    <message>
+        <source>Programmer</source>
+        <translation>Programador</translation>
     </message>
 </context>
 <context>
@@ -138,6 +146,58 @@
     <message>
         <source>Nothing saved in memory</source>
         <translation>No hai nada gardado na memoria</translation>
+    </message>
+</context>
+<context>
+    <name>ProExpressionBar</name>
+    <message>
+        <source>Expression error</source>
+        <translation>Erro na expresión</translation>
+    </message>
+</context>
+<context>
+    <name>ProListView</name>
+    <message>
+        <source>Copy</source>
+        <translation>Copiar</translation>
+    </message>
+</context>
+<context>
+    <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Cambio aritmético</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Cambio lóxico</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Cambio circular</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Xirar a través de facer o cambio circular</translation>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation>Cambio aritmético</translation>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation>Cambio lóxico</translation>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation>Cambio circular</translation>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation>Xirar a través de facer o cambio circular</translation>
     </message>
 </context>
 <context>
