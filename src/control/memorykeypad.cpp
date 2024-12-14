@@ -5,7 +5,7 @@
 
 #include "memorykeypad.h"
 
-const QSize MEMORYBUTTON_SIZE = QSize(52, 32); //标准模式大小，为画边框比ui大2pix
+const QSize MEMORYBUTTON_SIZE = QSize(53, 32); //标准模式大小，为画边框比ui大2pix
 
 const MemoryKeypad::KeyDescription MemoryKeypad::keyDescriptions[] = {
     {"MC", Key_MC, 1, 0, 1, 1},       {"MR", Key_MR, 1, 1, 1, 1},
@@ -24,7 +24,7 @@ MemoryKeypad::MemoryKeypad(QWidget *parent)
     m_layout->setContentsMargins(0, 0, 0, 0);
 
     initButtons();
-    this->setContentsMargins(12, 0, 13, 0);
+    this->setContentsMargins(12, 0, 12, 0);
 
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
 }

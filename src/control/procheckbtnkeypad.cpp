@@ -20,11 +20,11 @@ ProCheckBtnKeypad::ProCheckBtnKeypad(QWidget *parent)
 {
     this->setFixedHeight(45);
     m_layout->setMargin(0);
-    m_layout->setSpacing(2);  //按钮比ui大2pix,此处比ui小2pix
+    m_layout->setSpacing(3);  //按钮比ui大2pix,此处比ui小2pix
     m_layout->setContentsMargins(0, 0, 0, 0);
 
     initButtons();
-    this->setContentsMargins(10, 0, 10, 0);
+    this->setContentsMargins(12, 0, 12, 0);
 
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
 }
