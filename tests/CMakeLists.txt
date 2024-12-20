@@ -3,8 +3,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 #源程序cmakelists再添加上ut相关环境搭建
-#ut相关环境搭建详情见
-#https://wikidev.uniontech.com/index.php?title=UT_%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA#.E7.94.A8.E4.BE.8B.E7.BC.96.E5.86.99_.7C_UT_Case
 
 cmake_minimum_required(VERSION 3.9.5)
 
