@@ -28,6 +28,14 @@
         <translation>Selectează tot</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Anulare</translation>
     </message>
@@ -118,11 +126,11 @@
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation>Copiază</translation>
+        <translation>Copiere</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Ștergeți elementul din memorie</translation>
+        <translation>Golește memoria</translation>
     </message>
     <message>
         <source>Add to memory item</source>
@@ -196,7 +204,7 @@
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>Calculator</translation>
+        <translation>Calculator </translation>
     </message>
 </context>
 <context>
@@ -235,7 +243,7 @@
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation>Copiază</translation>
+        <translation>Copiere</translation>
     </message>
     <message>
         <source>Delete</source>

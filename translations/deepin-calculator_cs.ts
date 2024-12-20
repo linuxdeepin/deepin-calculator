@@ -28,6 +28,14 @@
         <translation>Vybrat vše</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation>Použít oddělovač tisíců</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>Použít oddělovač desetitisíců</translation>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Zpět</translation>
     </message>
@@ -72,7 +80,7 @@
     </message>
     <message>
         <source>Programmer</source>
-        <translation>Programátorské</translation>
+        <translation>Programátorský</translation>
     </message>
 </context>
 <context>
@@ -83,7 +91,7 @@
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>Vymazat paměť kalkulačky</translation>
+        <translation>Vymazat celou paměť kalkulačky</translation>
     </message>
     <message>
         <source>Memory recall</source>
@@ -126,7 +134,7 @@
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Přidat položku do paměti</translation>
+        <translation>Přidat položku do paměti kalkulačky</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
