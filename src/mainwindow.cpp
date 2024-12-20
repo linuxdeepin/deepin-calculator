@@ -25,9 +25,9 @@
 
 DGUI_USE_NAMESPACE
 
-const QSize STANDARD_SIZE = QSize(344, 545); //标准模式的固定大小
-const QSize SCIENTIFIC_MIN_SIZE = QSize(451, 542); //科学模式的最小size
-const QSize PROGRAMM_SIZE = QSize(451, 574); //程序员模式固定大小
+const QSize STANDARD_SIZE = QSize(352, 548); //标准模式的固定大小
+const QSize SCIENTIFIC_MIN_SIZE = QSize(453, 542); //科学模式的最小size
+const QSize PROGRAMM_SIZE = QSize(453, 574); //程序员模式固定大小
 
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent)

@@ -41,7 +41,7 @@ ProgramModule::ProgramModule(QWidget *parent)
     m_stackWidget->addWidget(m_proSystemKeypad);
     m_stackWidget->addWidget(m_memorylistwidget);
     m_stackWidget->setCurrentWidget(m_programmerKeypad);
-    m_stackWidget->setFixedSize(451, 279);
+    m_stackWidget->setFixedSize(453, 279);
 
     initArrowRectangle();
 
