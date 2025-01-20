@@ -1,3 +1,9 @@
+deepin-calculator (6.5.5) unstable; urgency=medium
+
+  * New tag
+
+ -- Liu zheng <liuzheng@uniontech.com>  Mon, 20 Jan 2025 14:12:52 +0800
+
 deepin-calculator (6.5.4) unstable; urgency=medium
 
   * chore: New version 6.5.4.
