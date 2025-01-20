@@ -43,7 +43,11 @@ public:
 protected:
     void mousePressEvent(QMouseEvent *) override;
     void mouseReleaseEvent(QMouseEvent *) override;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    void enterEvent(QEnterEvent *) override;
+#else
     void enterEvent(QEvent *) override;
+#endif
     void leaveEvent(QEvent *) override;
     void paintEvent(QPaintEvent *) override;
     void keyPressEvent(QKeyEvent *e) override;

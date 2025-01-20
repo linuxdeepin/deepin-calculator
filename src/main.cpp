@@ -14,12 +14,17 @@
 #include <QDir>
 #include <QIcon>
 #include <QSettings>
+#include <qactiongroup.h>
+
 #include <DApplication>
-#include <DApplicationSettings>
 #include <DGuiApplicationHelper>
 #include <DLog>
 #include <DWidgetUtil>
 #include <DWindowManagerHelper>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <DApplicationSettings>
+#endif
 
 DWIDGET_USE_NAMESPACE
 static QString g_appPath;  //全局路径
@@ -122,15 +127,17 @@ int main(int argc, char *argv[])
     } else {
         window.move(m_dsettings->getOption("windowX").toInt() + 10, m_dsettings->getOption("windowY").toInt() + 10);
     }
+    
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    DApplicationSettings::setThemeType(DGuiApplicationHelper::ColorType::LightType);
+#endif
 
     DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
-    DApplicationSettings savetheme(&app);
+
     if (oldversion == true) {
         DGuiApplicationHelper::instance()->setPaletteType(oldpalette);
     }
 
-    // 20200330 主题记忆更改为规范代码
-//    DApplicationSettings savetheme(&app);
     // Register debus service.
     dbus.registerObject("/com/deepin/calculator", &window, QDBusConnection::ExportScriptableSlots);
     window.show();

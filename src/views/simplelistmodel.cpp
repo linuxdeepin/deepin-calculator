@@ -311,7 +311,7 @@ void SimpleListModel::radixChanged(int baseori, int basedest)
     }
     QString newtext = QString();
     for (int i = 0; i < m_textorder.length(); i++) {
-        if (m_textorder.at(i) == "0") {
+        if (m_textorder.at(i) == QChar('0')) {
             newtext.append(m_numvec.first());
             m_numvec.pop_front();
         } else {
@@ -332,7 +332,7 @@ void SimpleListModel::radixChanged(int baseori, int basedest)
 
 bool SimpleListModel::isNumber(QChar a)
 {
-    if (a.isDigit() || a == " " || a == "," || AtoF.contains(a))
+    if (a.isDigit() || a == QChar(' ') || a == QChar(',') || AtoF.contains(a))
         return true;
     else
         return false;

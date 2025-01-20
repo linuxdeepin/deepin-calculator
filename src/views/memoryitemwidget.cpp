@@ -35,7 +35,7 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     lay->addWidget(m_btnclean);
     lay->addWidget(m_btnplus);
     lay->addWidget(m_btnminus);
-    layV->setMargin(0);
+    lay->setContentsMargins(0, 0, 0, 0);
     layV->addWidget(m_label);
     layV->addStretch();
     QFont font;
@@ -62,7 +62,8 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
 //    m_font.setPixelSize(18);
 }
 
-void MemoryItemWidget::enterEvent(QEvent *event)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void MemoryItemWidget::enterEvent(QEnterEvent *event)
 {
     m_ishover = true;
     m_btnplus->setHidden(false); //进入时显示按钮
@@ -73,6 +74,17 @@ void MemoryItemWidget::enterEvent(QEvent *event)
 //    this->setStyleSheet("background-color: rgb(245,245,245)");
     QWidget::enterEvent(event);
 }
+#else
+void MemoryItemWidget::enterEvent(QEvent *event)
+{
+    m_ishover = true;
+    m_btnplus->setHidden(false); //进入时显示按钮
+    m_btnminus->setHidden(false);
+    m_btnclean->setHidden(false);
+    update();
+    QWidget::enterEvent(event);
+}
+#endif
 
 void MemoryItemWidget::leaveEvent(QEvent *event)
 {

@@ -6,7 +6,7 @@
 #include "programmerarrowdelegate.h"
 
 #include <DStyleHelper>
-#include <DApplicationHelper>
+#include <DGuiApplicationHelper>
 #include "memorylistwidget.h"
 #include "programmeritemwidget.h"
 

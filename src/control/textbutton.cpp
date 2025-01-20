@@ -83,7 +83,7 @@ void TextButton::init()
         m_font.setPixelSize(18);
     m_font.setFamily("Noto Sans");
     m_font.setStyleName("Light");
-    m_font.setWeight(2);
+    m_font.setWeight(QFont::Light);
 }
 
 /**
@@ -172,6 +172,46 @@ void TextButton::mouseReleaseEvent(QMouseEvent *e)
     DPushButton::mouseReleaseEvent(e);
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void TextButton::enterEvent(QEnterEvent *e)
+{
+    if (text() == "Rand")
+        m_font.setPixelSize(17);
+    else if (text() == "logᵧx") {
+        m_font.setPixelSize(16);
+    } else if (text() == "log") {
+        m_font.setPixelSize(18);
+    } else if (text() == "|x|") {
+        m_font.setPixelSize(16);
+    } else if (text() == "Mod") {
+        m_font.setPixelSize(16);
+    } else if (text() == "exp") {
+        m_font.setPixelSize(18);
+    } else if (text() == "sin") {
+        m_font.setPixelSize(18);
+    } else if (text() == "cos") {
+        m_font.setPixelSize(18);
+    } else if (text() == "tan") {
+        m_font.setPixelSize(18);
+    } else if (text() == "cot") {
+        m_font.setPixelSize(18);
+    } else if (text() == "+/-") {
+        m_font.setPixelSize(22);
+    } else if (text() == "QWORD" || text() == "DWORD" || text() == "WORD" || text() == "BYTE"
+               || text() == "AND" || text() == "OR" || text() == "NOT" || text() == "NAND" || text() == "NOR" || text() == "XOR") {
+        m_font.setPixelSize(16);
+    } else if (text() == "A" || text() == "B" || text() == "C" || text() == "D"
+               || text() == "E" || text() == "F") {
+        m_font.setPixelSize(19);
+    } else if (text() == "arcsin" || text() == "arccos" || text() == "arctan" || text() == "arccot") {
+        m_font.setPixelSize(18);
+    } else
+        m_font.setPixelSize(20);
+    m_font.setStyleName("");
+    m_isHover = true;
+    DPushButton::enterEvent(e);
+}
+#else
 void TextButton::enterEvent(QEvent *e)
 {
     if (text() == "Rand")
@@ -210,6 +250,7 @@ void TextButton::enterEvent(QEvent *e)
     m_isHover = true;
     DPushButton::enterEvent(e);
 }
+#endif
 
 void TextButton::leaveEvent(QEvent *e)
 {
@@ -268,7 +309,7 @@ void TextButton::paintEvent(QPaintEvent *e)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true); //反锯齿
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true); //光滑的象素映射变换算法
-    painter.setRenderHint(QPainter::HighQualityAntialiasing);
+    painter.setRenderHint(QPainter::Antialiasing);
     painter.setFont(m_font);
     QRectF textRect = painter.fontMetrics().boundingRect(0, 0, int(rect.width()), int(rect.height()),
                                                          Qt::AlignCenter, this->text());
