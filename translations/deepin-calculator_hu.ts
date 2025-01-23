@@ -28,6 +28,14 @@
         <translation>Összes kijelölése</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation>Ezres csoportosítás használata</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>Tízezres csoportosítás használata</translation>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Vissza</translation>
     </message>

@@ -10,7 +10,7 @@
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>Počisti ves pomnilnik</translation>
+        <translation>Počisti ves pomnilnikI</translation>
     </message>
     <message>
         <source>Clear history</source>
@@ -26,6 +26,14 @@
     <message>
         <source>Select All</source>
         <translation>Izberi vse</translation>
+    </message>
+    <message>
+        <source>Use thousands separator</source>
+        <translation>Uporabi ločilo za tisočice</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>uporabi ločilo za desettisočice</translation>
     </message>
     <message>
         <source>Undo</source>
@@ -126,11 +134,11 @@
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Dodaj predmetu pomnilnika</translation>
+        <translation>Prištej predmetu v pomnilniku</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Odštej od predata v pomnilniku</translation>
+        <translation>Odštej od predmeta v pomnilniku</translation>
     </message>
 </context>
 <context>
