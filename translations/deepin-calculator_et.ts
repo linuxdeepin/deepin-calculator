@@ -28,6 +28,14 @@
         <translation>Vali kõik</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Võta tagasi</translation>
     </message>
@@ -156,6 +164,25 @@
 </context>
 <context>
     <name>ProgramModule</name>
+    <message>
+        <source>Arithmetic shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Logical shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate through carry circular shift</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
         <translation type="unfinished"/>

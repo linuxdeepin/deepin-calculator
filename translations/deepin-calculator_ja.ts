@@ -1,253 +1,253 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ja" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Erro de expressão</translation>
+        <translation>式が無効です</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>Limpar toda a memória</translation>
+        <translation>メモリをすべてクリア</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation>Limpar histórico</translation>
+        <translation>履歴をクリア</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>削除</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Selecionar tudo</translation>
+        <translation>全て選択</translation>
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation>Usar separador de milhar</translation>
+        <translation>千区切りを使用</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation>Usar separador de dezena de milhar</translation>
+        <translation>万区切りを使用</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation>Anular</translation>
+        <translation>元に戻す</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation>Refazer</translation>
+        <translation>やり直し</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>Cortar</translation>
+        <translation>切り取り</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>コピー</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Colar</translation>
+        <translation>貼り付け</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>Calculadora</translation>
+        <translation>電卓</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>Padrão</translation>
+        <translation>標準</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>Científico</translation>
+        <translation>関数電卓</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>Modo</translation>
+        <translation>モード</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>Calculadora é uma aplicação para o computador que é fácil de usar, compatível com os modos padrão, científico e de programador.</translation>
+        <translation>電卓は、標準モードに加え関数電卓やプログラマーモードをサポートする使いやすいデスクトップ計算機です。</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation>Programador</translation>
+        <translation>プログラマー</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Limpar item da memória</translation>
+        <translation>メモリ項目のクリア</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>Limpar toda a memória</translation>
+        <translation>メモリをすべてクリア</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Recuperar memória</translation>
+        <translation>メモリ呼び出し</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Adicionar item à memória</translation>
+        <translation>メモリ項目に加算</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Adicionar memória</translation>
+        <translation>メモリ加算</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Subtrair item da memória</translation>
+        <translation>メモリ項目に減算</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Subtrair memória</translation>
+        <translation>メモリ減算</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Armazenar na memória</translation>
+        <translation>メモリ保存</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Memória</translation>
+        <translation>メモリ</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>コピー</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Limpar item da memória</translation>
+        <translation>メモリ項目のクリア</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Adicionar item à memória</translation>
+        <translation>メモリ項目に加算</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Subtrair item da memória</translation>
+        <translation>メモリ項目に減算</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>Nada guardado na memória</translation>
+        <translation>メモリに何も保存されていません</translation>
     </message>
 </context>
 <context>
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Erro de expressão</translation>
+        <translation>式が無効です</translation>
     </message>
 </context>
 <context>
     <name>ProListView</name>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>コピー</translation>
     </message>
 </context>
 <context>
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>Mudança aritmética</translation>
+        <translation>算術シフト</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>Mudança lógica</translation>
+        <translation>論理シフト</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Mudança circular</translation>
+        <translation>循環シフト</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Rodar através da mudança circular</translation>
+        <translation>キャリー循環シフトで回転</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>Mudança aritmética</translation>
+        <translation>算術シフト</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>Mudança lógica</translation>
+        <translation>論理シフト</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Mudança circular</translation>
+        <translation>循環シフト</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Rodar através da mudança circular</translation>
+        <translation>キャリー循環シフトで回転</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>Calculadora</translation>
+        <translation>電卓</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Erro de expressão</translation>
+        <translation>式が無効です</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Histórico</translation>
+        <translation>履歴</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Memória</translation>
+        <translation>メモリー</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>Erro de expressão</translation>
+        <translation>式が無効です</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>Sem histórico</translation>
+        <translation>履歴はありません</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>コピー</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>削除</translation>
     </message>
 </context>
 </TS>
