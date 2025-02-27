@@ -1,3 +1,9 @@
+deepin-calculator (6.5.8) unstable; urgency=medium
+
+  * Bump version to 6.5.8
+
+ -- wangrong <wangrong@uniontech.com>  Thu, 27 Feb 2025 19:25:28 +0800
+
 deepin-calculator (6.5.7) unstable; urgency=medium
 
   * Update version to 6.5.7
