@@ -71,7 +71,7 @@ void SimpleListModel::appendText(const QString &text, bool sci)
 
     const int size = m_expressionList.size();
 
-    if (sci) {
+    if (sci && size) {
         beginRemoveRows(QModelIndex(), 0, 0);
         m_expressionList.removeAt(0);
         endRemoveRows();

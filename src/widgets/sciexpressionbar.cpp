@@ -117,9 +117,12 @@ void SciExpressionBar::enterNumberEvent(const QString &text)
     QString sRegNum1 = "[πe]";
     QRegularExpression rx1;
     rx1.setPattern(sRegNum1);
-    QRegularExpressionMatch match = rx1.match(exp.at(curpos - 1));
-    if (curpos > 0 && match.hasMatch()) {
-        m_inputEdit->insert("×" + text);
+    if (curpos > 0 ) {
+        QRegularExpressionMatch match = rx1.match(exp.at(curpos - 1));
+        if(match.hasMatch())
+           m_inputEdit->insert("×" + text);
+        else
+           m_inputEdit->insert(text);
     } else
         m_inputEdit->insert(text);
 //    m_inputEdit->insert(text);
@@ -221,8 +224,7 @@ void SciExpressionBar::enterPercentEvent()
     QString sRegNum = "[＋－×÷/(^!%E]";
     QRegularExpression rx;
     rx.setPattern(sRegNum);
-    QRegularExpressionMatch match = rx.match(exp.at(curpos - 1));
-    if (curpos == 0 ||match.hasMatch()) {
+    if (curpos == 0 || rx.match(exp.at(curpos - 1)).hasMatch()) {
         m_inputEdit->insert("");
         diff = -1;
     } else
@@ -368,9 +370,8 @@ void SciExpressionBar::enterBackspaceEvent()
             m_inputEdit->setCursorPosition(cur - 2);
         } else {
             //退函数
-            //光标不在开头且光标左侧是字母
-            QRegularExpressionMatch match = rx.match(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1));
-            if (m_inputEdit->cursorPosition() > 0 && match.hasMatch()) {
+
+            if (m_inputEdit->cursorPosition() > 0 && rx.match(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1)).hasMatch()) {
                 for (i = 0; i < m_funclist.size(); i++) {
                     //记录光标左侧离光标最近的函数位
                     funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], m_inputEdit->cursorPosition() - 1);
@@ -1480,9 +1481,8 @@ bool SciExpressionBar::expressionInFunc(QString &text)
             // QRegularExpression latterrx;
             // latterrx.setPattern(sRegNum2);
             QRegularExpression latterrx(sRegNum2);
-            QRegularExpressionMatch match = latterrx.match(m_inputEdit->text().at(operatorpos - 1));
 
-            if (operatorpos > 0 && match.hasMatch()) {
+            if (operatorpos > 0 && latterrx.match(m_inputEdit->text().at(operatorpos - 1)).hasMatch()) {
                 int funpos = -1; //记录函数位
                 int i;
                 for (i = 0; i < m_funclist.size(); i++) {
@@ -1632,8 +1632,7 @@ void SciExpressionBar::moveLeft()
     QString sRegNum = "[A-Za-z]";
     QRegularExpression rx;
     rx.setPattern(sRegNum);
-    QRegularExpressionMatch match = rx.match(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1));
-    if (m_inputEdit->cursorPosition() > 0 && match.hasMatch()) {
+    if (m_inputEdit->cursorPosition() > 0 && rx.match(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1)).hasMatch()) {
         int funpos = -1;
         int i;
         for (i = 0; i < m_funclist.size(); i++) {

@@ -360,7 +360,7 @@ void MemHisWidget::iconChanged(int type, int id)
 void MemHisWidget::historyfilled()
 {
     if (m_isshowH == false)
-        m_listModel->deleteItem(1);
+        m_listModel->deleteItem(0);
     m_listView->listItemFill(true);
     m_listView->setFocusPolicy(Qt::TabFocus);
     m_isshowH = true;

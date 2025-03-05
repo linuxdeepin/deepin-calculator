@@ -511,8 +511,7 @@ void ProExpressionBar::enterNotEvent()
             QString sRegNum2 = "[a-z]";
             QRegularExpression latterrx;
             latterrx.setPattern(sRegNum2);
-            QRegularExpressionMatch match = latterrx.match(m_inputEdit->text().at(operatorpos - 1));
-            if (operatorpos > 0 && match.hasMatch()) {
+            if (operatorpos > 0 && latterrx.match(m_inputEdit->text().at(operatorpos - 1)).hasMatch()) {
                 int funpos = -1; //记录函数位
                 int i;
                 for (i = 0; i < m_funclist.size(); i++) {
@@ -583,8 +582,7 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
     QString sRegNum = "[＋－×÷(]";
     QRegularExpression rx;
     rx.setPattern(sRegNum);
-    QRegularExpressionMatch match = rx.match(exp.at(curpos - 1));
-    if (curpos == 0 || match.hasMatch()) {
+    if (curpos == 0 || rx.match(exp.at(curpos - 1)).hasMatch()) {
         m_inputEdit->insert(zerotext);
         diff = 1;
     } else if (exp.at(curpos - 1).isLower()) {
@@ -710,8 +708,7 @@ void ProExpressionBar::enterOppositeEvent()
             QString sRegNum3 = "[a-z]";
             QRegularExpression latterrx;
             latterrx.setPattern(sRegNum3);
-            QRegularExpressionMatch match = latterrx.match(m_inputEdit->text().at(operatorpos - 1));
-            if (operatorpos > 0 && match.hasMatch()) {
+            if (operatorpos > 0 && latterrx.match(m_inputEdit->text().at(operatorpos - 1)).hasMatch()) {
                 int funpos = -1; //记录函数位
                 int i;
                 for (i = 0; i < m_funclist.size(); i++) {
