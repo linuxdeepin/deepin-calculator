@@ -46,13 +46,6 @@ if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "mips64")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,--as-needed")
 endif()
 
-if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-
-    execute_process(COMMAND bash "${CMAKE_CURRENT_LIST_DIR}/translate_generation.sh"
-                    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/)
-endif ()
-
 set(CMAKE_SAFETYTEST "${CMAKE_SAFETYTEST_ARG}")
 if(CMAKE_SAFETYTEST STREQUAL "")
     set(CMAKE_SAFETYTEST "CMAKE_SAFETYTEST_ARG_OFF")
@@ -130,6 +123,15 @@ set (DC_QRC_FILES
     src/deepin-calculator.qrc
 )
 
+if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+
+    find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS LinguistTools)
+    file(GLOB TS LIST_DIRECTORIES false translations/${CMAKE_PROJECT_NAME}*.ts)
+    set_source_files_properties(${TS} PROPERTIES OUTPUT_LOCATION ${PROJECT_SOURCE_DIR}/translations)
+    qt_create_translation(QM ${CAL_SRCH} ${CAL_SRCCPP} ${TS})
+endif ()
+
 add_executable (${EXE_NAME}
     ${CAL_SRCH}
     ${CAL_SRCC}
@@ -138,6 +140,7 @@ add_executable (${EXE_NAME}
     ${CAL_3rdC}
     ${CAL_3rdCPP}
     ${DC_QRC_FILES}
+    ${QM}
 )
 
 target_include_directories(${EXE_NAME} PUBLIC ${Qt6Widgets_LIBRARIES}
@@ -156,8 +159,9 @@ if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif ()
 
 install(TARGETS deepin-calculator DESTINATION ${CMAKE_INSTALL_BINDIR})
-file(GLOB QM_FILES "${CMAKE_CURRENT_LIST_DIR}/translations/*.qm")
-install(FILES ${QM_FILES} DESTINATION ${CMAKE_INSTALL_DATADIR}/deepin-calculator/translations)
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/translations
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/deepin-calculator
+    FILES_MATCHING PATTERN "*.qm")
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/deepin-calculator.desktop
         DESTINATION ${CMAKE_INSTALL_DATADIR}/applications/)
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/src/assets/images/deepin-calculator.svg
