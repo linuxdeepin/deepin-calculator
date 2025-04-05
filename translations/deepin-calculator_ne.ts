@@ -1,253 +1,253 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="vi" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ne" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Lỗi ngoại lệ</translation>
+        <translation>अभिव्यक्ति त्रुटि</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>Xóa bộ nhớ</translation>
+        <translation>सबको याद छुराउ</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation>Xóa lịch sử</translation>
+        <translation>इतिहास छुराउ</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>Delete</source>
-        <translation>Xóa</translation>
+        <translation>हटाउ</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Chọn tất cả</translation>
+        <translation>सब पनि चयन गर्नुहोस्</translation>
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation>Sử dụng dấu phân cách nghìn</translation>
+        <translation>सहशङ्ख्या विभाजक उपयोग गर्नुहोस्</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation>Sử dụng dấu phân cách chục nghìn</translation>
+        <translation>दशशङ्ख्या विभाजक उपयोग गर्नुहोस्</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation>Hoàn tác</translation>
+        <translation>रद्द गर्नुहोस्</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation>Làm lại</translation>
+        <translation>पुनर्व्यवस्थापन गर्नुहोस्</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>Cắt</translation>
+        <translation>काट्नुहोस्</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Sao chép</translation>
+        <translation>कॉपी गर्नुहोस्</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Dán</translation>
+        <translation>पेस्ट गर्नुहोस्</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>Máy tính</translation>
+        <translation>गणितकार</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>Tiêu chuẩn</translation>
+        <translation>सामान्य</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>Khoa học</translation>
+        <translation>वैज्ञानिक</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>Chế độ</translation>
+        <translation>राज्य</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>Calculator là một máy tính bàn dễ sử dụng, hỗ trợ các chế độ tiêu chuẩn, khoa học và lập trình viên.</translation>
+        <translation>गणितकार एउटै वास्तुकाथी उपयोग गर्न सुरुवातील गणना गणितकार, सामान्य, वैज्ञानिक र कार्यक्रम राज्यहरू देखि समर्थन गर्दछ।</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation>Lập trình viên</translation>
+        <translation>कार्यक्रमकारी</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Xóa bộ nhớ</translation>
+        <translation>यादको वस्तु छुराउ</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>Xóa bộ nhớ</translation>
+        <translation>सबको याद छुराउ</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Kiểm tra lại bộ nhớ</translation>
+        <translation>यादको वापर छुराउ</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Thêm vào bộ nhớ</translation>
+        <translation>यादको वस्तुमा जोड्नुहोस्</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Thêm bộ nhớ</translation>
+        <translation>यादको जोडनुहोस्</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Trừ mục bộ nhớ</translation>
+        <translation>यादको वस्तुमा घटाउ</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Trừ bộ nhớ</translation>
+        <translation>यादको घटाउ</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Cửa hàng bộ nhớ</translation>
+        <translation>प्रतिबंध बुक्सँर्टर</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Bộ nhớ</translation>
+        <translation>प्रतिबंध</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation>Sao chép</translation>
+        <translation>कopi</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Xóa bộ nhớ</translation>
+        <translation>प्रतिबंध आइटम खालीलो बनाउन</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Thêm vào bộ nhớ</translation>
+        <translation>प्रतिबंध आइटममध्ये जोडा</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Trừ mục bộ nhớ</translation>
+        <translation>प्रतिबंध आइटममधून घोडा</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>Chưa có gì trong bộ nhớ</translation>
+        <translation>प्रतिबंधमध्ये कुनै भीर नाही</translation>
     </message>
 </context>
 <context>
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Lỗi ngoại lệ</translation>
+        <translation>अभिव्यक्ती त्रुटि</translation>
     </message>
 </context>
 <context>
     <name>ProListView</name>
     <message>
         <source>Copy</source>
-        <translation>Sao chép</translation>
+        <translation>कopi</translation>
     </message>
 </context>
 <context>
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>Đi chuyển số học</translation>
+        <translation>गणितीय अतल</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>Đi chuyển logík</translation>
+        <translation>वाक्यांशिक अतल</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Đi chuyển vòng</translation>
+        <translation>वृत्तीय अतल</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Đi chuyển vòng qua chuyển nhượng</translation>
+        <translation>वापरून घासलेल्या वृत्तीय अतल</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>Đi chuyển số học</translation>
+        <translation>गणितीय अतल</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>Đi chuyển logík</translation>
+        <translation>वाक्यांशिक अतल</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Đi chuyển vòng</translation>
+        <translation>वृत्तीय अतल</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Đi chuyển vòng qua chuyển nhượng</translation>
+        <translation>वापरून घासलेल्या वृत्तीय अतल</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>Máy tính</translation>
+        <translation>कॅलकुलेटर</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Lỗi ngoại lệ</translation>
+        <translation>अभिव्यक्ती त्रुटि</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Lịch sử</translation>
+        <translation>इतिहास</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Bộ nhớ</translation>
+        <translation>प्रतिबंध</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>Lỗi ngoại lệ</translation>
+        <translation>अभिव्यक्ती त्रुटि</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>Không có lịch sử</translation>
+        <translation>इतिहास नाही</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation>Sao chép</translation>
+        <translation>कopi</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Xóa</translation>
+        <translation>हटाउन</translation>
     </message>
 </context>
 </TS>
