@@ -1,253 +1,253 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="he" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="lt" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>שגיאת ביטוי</translation>
+        <translation>Išraiškos klaida</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>ניקוי הזיכרון</translation>
+        <translation>Išvalyti visą atmintį</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation>ניקוי ההיסטוריה</translation>
+        <translation>Išvalyti istoriją</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>Delete</source>
-        <translation>מחיקה</translation>
+        <translation>Istrinti</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>בחירה בהכול</translation>
+        <translation>Pažymėti viską</translation>
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation>השתמש בספריט אלפים</translation>
+        <translation>Naudoti tūkstančių skirtuką</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation>השתמש בספריט עשרת אלפים</translation>
+        <translation>Naudoti dešimt tūkstančių skirtuką</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation>ביטול</translation>
+        <translation>Atšaukti</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation>ביצוע מחדש</translation>
+        <translation>Iš naujo atnešti</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>גזירה</translation>
+        <translation>Iškirpti</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>העתקה</translation>
+        <translation>Kopijuoti</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>הדבקה</translation>
+        <translation>Įklausti</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>מחשבון</translation>
+        <translation>Skaičiavimų užduotis</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>סטנדרטי</translation>
+        <translation>Standartinis</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>מדעי</translation>
+        <translation>Vyrodybinis</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>מצב</translation>
+        <translation>Priežiūra</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>מחשבון הוא מחשבון שולחני קל לשימוש, שמספק רגימים סטנדרטיים, מדעיים ו프로그רימרים.</translation>
+        <translation>Skaičiavimų užduotis yra paprastas asmeninio kompiuterio skaičiavimų programa, kuri priimta standartinio, vyrodybinio ir programmer mode.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation>תכנות</translation>
+        <translation>Programierė</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>אפס פריט זיכרון</translation>
+        <translation>Išvalyti atminties elementą</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>נקה את הזיכרון</translation>
+        <translation>Išvalyti visą atmintį</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>החזרת זיכרון</translation>
+        <translation>Atminties atsiliepimas</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>הוסף לפריט זיכרון</translation>
+        <translation>Pridėti prie atminties elemento</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>הוספת זיכרון</translation>
+        <translation>Atminties pridėti</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>הסר מפריט זיכרון</translation>
+        <translation>Atimti iš atminties elemento</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>הוספת זיכרון</translation>
+        <translation>Atminties atimti</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>שמירת זיכרון</translation>
+        <translation>Paminklo saugykla</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>זיכרון</translation>
+        <translation>Paminklis</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation>העתקה</translation>
+        <translation>Kopijuoti</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>אפס פריט זיכרון</translation>
+        <translation>Išvalyti paminklo elementą</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>הוסף לפריט זיכרון</translation>
+        <translation>Pridėti prie paminklo elemento</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>הסר מפריט זיכרון</translation>
+        <translation>Atimti iš paminklo elemento</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>אין כלום בזיכרון</translation>
+        <translation>Niekas nera saugomas paminklyje</translation>
     </message>
 </context>
 <context>
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>שגיאת ביטוי</translation>
+        <translation>Išraiškos klaida</translation>
     </message>
 </context>
 <context>
     <name>ProListView</name>
     <message>
         <source>Copy</source>
-        <translation>העתקה</translation>
+        <translation>Kopijuoti</translation>
     </message>
 </context>
 <context>
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>היבט אריתמטי</translation>
+        <translation>Aritmetinė perkėlimas</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>היבט לוגי</translation>
+        <translation>Loginė perkėlimas</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>היבט מעגלי</translation>
+        <translation>Ciklinis perkėlimas</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>היבט מעגלי חילוף דרך ספירה</translation>
+        <translation>Perkėlimas per portelį ciklinis perkėlimas</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>היבט אריתמטי</translation>
+        <translation>Aritmetinė perkėlimas</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>היבט לוגי</translation>
+        <translation>Loginė perkėlimas</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>היבט מעגלי</translation>
+        <translation>Ciklinis perkėlimas</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>היבט מעגלי חילוף דרך ספירה</translation>
+        <translation>Perkėlimas per portelį ciklinis perkėlimas</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>מחשבון</translation>
+        <translation>Skaičiavimų įrankis</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>שגיאת ביטוי</translation>
+        <translation>Išraiškos klaida</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>היסטוריה</translation>
+        <translation>Istорija</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>זיכרון</translation>
+        <translation>Paminklis</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>שגיאת ביטוי</translation>
+        <translation>Išraiškos klaida</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>אין היסטוריה</translation>
+        <translation>Nėra istorijos</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation>העתקה</translation>
+        <translation>Kopijuoti</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>מחיקה</translation>
+        <translation>Ištrinti</translation>
     </message>
 </context>
 </TS>

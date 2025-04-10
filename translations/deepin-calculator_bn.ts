@@ -1,253 +1,253 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="he" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="bn" version="2.1">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>שגיאת ביטוי</translation>
+        <translation>বিবৃতি ত্রুটি</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>ניקוי הזיכרון</translation>
+        <translation>সব মেমরি নিষ্ক্রিয় করো</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation>ניקוי ההיסטוריה</translation>
+        <translation>ইতিহাস নিষ্ক্রিয় করো</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>Delete</source>
-        <translation>מחיקה</translation>
+        <translation>মুছে ফেলো</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>בחירה בהכול</translation>
+        <translation>সব নির্বাচন করো</translation>
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation>השתמש בספריט אלפים</translation>
+        <translation>শতকরা বিভাজক ব্যবহার করো</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation>השתמש בספריט עשרת אלפים</translation>
+        <translation>দশকরা বিভাজক ব্যবহার করো</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation>ביטול</translation>
+        <translation>রিভার্স করো</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation>ביצוע מחדש</translation>
+        <translation>পুনরায় করো</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>גזירה</translation>
+        <translation>কাটো</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>העתקה</translation>
+        <translation>কপি করো</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>הדבקה</translation>
+        <translation>পেস্ট করো</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>מחשבון</translation>
+        <translation>ক্যালকুলেটর</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>סטנדרטי</translation>
+        <translation>স্ট্যান্ডার্ড</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>מדעי</translation>
+        <translation>বিজ্ঞানী</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>מצב</translation>
+        <translation>মড</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>מחשבון הוא מחשבון שולחני קל לשימוש, שמספק רגימים סטנדרטיים, מדעיים ו프로그רימרים.</translation>
+        <translation>ক্যালকুলেটর একটি সহজেই ব্যবহার করা যায় ডেস্কটপ ক্যালকুলেটর যা স্ট্যান্ডার্ড, বিজ্ঞানী এবং প্রোগ্রামার মডেল সমর্থন করে।</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation>תכנות</translation>
+        <translation>প্রোগ্রামার</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>אפס פריט זיכרון</translation>
+        <translation>মেমরি ইটেম নিষ্ক্রিয় করো</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>נקה את הזיכרון</translation>
+        <translation>সব মেমরি নিষ্ক্রিয় করো</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>החזרת זיכרון</translation>
+        <translation>মেমরি পুনরায় পাঠানো</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>הוסף לפריט זיכרון</translation>
+        <translation>মেমরি ইটেমে যোগ করো</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>הוספת זיכרון</translation>
+        <translation>মেমরি যোগ</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>הסר מפריט זיכרון</translation>
+        <translation>মেমরি ইটেমে বিয়োগ করো</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>הוספת זיכרון</translation>
+        <translation>মেমরি বিয়োগ</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>שמירת זיכרון</translation>
+        <translation>মেমরি স্টোর</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>זיכרון</translation>
+        <translation>মেমরি</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation>העתקה</translation>
+        <translation>কপি</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>אפס פריט זיכרון</translation>
+        <translation>মেমরি আইটেম শুঃনামকরণ</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>הוסף לפריט זיכרון</translation>
+        <translation>মেমরি আইটেমে যোগ করুন</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>הסר מפריט זיכרון</translation>
+        <translation>মেমরি আইটেম থেকে বিয়োগ করুন</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>אין כלום בזיכרון</translation>
+        <translation>মেমরি এ কিছু সংরক্ষণ করা হয়নি</translation>
     </message>
 </context>
 <context>
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>שגיאת ביטוי</translation>
+        <translation>বিশ্লেষণ ত্রুটি</translation>
     </message>
 </context>
 <context>
     <name>ProListView</name>
     <message>
         <source>Copy</source>
-        <translation>העתקה</translation>
+        <translation>কপি</translation>
     </message>
 </context>
 <context>
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>היבט אריתמטי</translation>
+        <translation>অরিথমেটিক শিফ্ট</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>היבט לוגי</translation>
+        <translation>লোগিকাল শিফ্ট</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>היבט מעגלי</translation>
+        <translation>পরিকর্তিত শিফ্ট</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>היבט מעגלי חילוף דרך ספירה</translation>
+        <translation>প্রতিবন্ধিত পরিকর্তিত শিফ্ট</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>היבט אריתמטי</translation>
+        <translation>অরিথমেটিক শিফ্ট</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>היבט לוגי</translation>
+        <translation>লোগিকাল শিফ্ট</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>היבט מעגלי</translation>
+        <translation>পরিকর্তিত শিফ্ট</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>היבט מעגלי חילוף דרך ספירה</translation>
+        <translation>প্রতিবন্ধিত পরিকর্তিত শিফ্ট</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>מחשבון</translation>
+        <translation>ক্যালকুলেটর</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>שגיאת ביטוי</translation>
+        <translation>বিশ্লেষণ ত্রুটি</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>היסטוריה</translation>
+        <translation>ইতিহাস</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>זיכרון</translation>
+        <translation>মেমরি</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>שגיאת ביטוי</translation>
+        <translation>বিশ্লেষণ ত্রুটি</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>אין היסטוריה</translation>
+        <translation>ইতিহাস নেই</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation>העתקה</translation>
+        <translation>কপি</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>מחיקה</translation>
+        <translation>Ջোঁড়া</translation>
     </message>
 </context>
 </TS>
