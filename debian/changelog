@@ -1,3 +1,9 @@
+deepin-calculator (6.5.11) unstable; urgency=medium
+
+  * Update translations.
+
+ -- renbin <renbin@uniontech.com>  Thu, 17 Apr 2025 09:38:24 +0800
+
 deepin-calculator (6.5.10) unstable; urgency=medium
 
   * chore: New version 6.5.10.
