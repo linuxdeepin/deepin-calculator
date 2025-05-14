@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Ошибка Выражения</translation>
+        <translation>Ошибка выражения</translation>
     </message>
 </context>
 <context>
@@ -26,6 +26,14 @@
     <message>
         <source>Select All</source>
         <translation>Выбрать все</translation>
+    </message>
+    <message>
+        <source>Use thousands separator</source>
+        <translation>Использовать разделитель для тысячных</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>Используйте разделитель для десятитысячных</translation>
     </message>
     <message>
         <source>Undo</source>
@@ -79,7 +87,7 @@
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Удалить элемент из памяти</translation>
+        <translation>Удалить элемент из  памяти</translation>
     </message>
     <message>
         <source>Clear all memory</source>
@@ -203,7 +211,7 @@
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Ошибка Выражения</translation>
+        <translation>Ошибка выражения</translation>
     </message>
 </context>
 <context>
@@ -221,14 +229,14 @@
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>Ошибка Выражения</translation>
+        <translation>Ошибка выражения</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>История не сохранилась</translation>
+        <translation>Нет истории</translation>
     </message>
 </context>
 <context>

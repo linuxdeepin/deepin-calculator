@@ -28,6 +28,14 @@
         <translation>ជ្រើស​យក​ទាំងអស់</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>មិនធ្វើវិញ</translation>
     </message>
@@ -79,7 +87,7 @@
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>សម្អាតធាតុចងចាំ</translation>
+        <translation>សម្អាតធាតុចងចាំសម្អាតធាតុចងចាំ</translation>
     </message>
     <message>
         <source>Clear all memory</source>

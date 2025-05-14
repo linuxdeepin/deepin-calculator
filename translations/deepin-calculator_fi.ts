@@ -28,6 +28,14 @@
         <translation>Valitse kaikki</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation>Käytä tuhansien erotinta</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>Käytä kymmenentuhannen erotinta</translation>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Kumoa</translation>
     </message>

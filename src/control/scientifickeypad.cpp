@@ -7,7 +7,7 @@
 
 #include <QTimer>
 #include <DPalette>
-#include <DImageButton>
+// #include <DImageButton>
 #include <DGuiApplicationHelper>
 
 #include "dthememanager.h"
@@ -115,7 +115,6 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
 
     initButtons();
     initUI();
-    m_gridlayout1->setMargin(0);
     m_gridlayout1->setSpacing(3); //按钮比ui大2pix,此处小2pix
     m_gridlayout1->setContentsMargins(0, 0, 0, 0);
     this->setLayout(m_gridlayout1);
@@ -212,7 +211,7 @@ void ScientificKeyPad::initButtons()
         } else {
             if (desc->text == "=") {
                 button = new EqualButton(desc->text, this);
-                connect(static_cast<EqualButton *>(button), &EqualButton::focus, this, &ScientificKeyPad::getFocus); //获取上下左右键
+                connect(static_cast<EqualButton *>(button), &EqualButton::focus, this, &ScientificKeyPad::getFocus);
                 connect(static_cast<EqualButton *>(button), &EqualButton::space, this, [ = ]() {
                     Buttons spacekey = Key_Equals;
                     emit buttonPressedbySpace(spacekey);
@@ -283,18 +282,19 @@ void ScientificKeyPad::initButtons()
 
         button->setFixedSize(BUTTON_SIZE);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
-        m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
+        m_keys.insert(desc->button, hashValue);
 
         if (desc->text != "=") {
-            connect(static_cast<TextButton *>(button), &TextButton::focus, this, &ScientificKeyPad::getFocus); //获取上下左右键
+            connect(static_cast<TextButton *>(button), &TextButton::focus, this, &ScientificKeyPad::getFocus);
             connect(static_cast<TextButton *>(button), &TextButton::space, this, [ = ]() {
                 Buttons spacekey = m_keys.key(hashValue);
                 emit buttonPressedbySpace(spacekey);
             });
         }
-        connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-        m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
 
+        connect(button, &DPushButton::clicked, this, [this, desc]() {
+            emit buttonPressed(desc->button);
+        });
     }
 }
 
@@ -366,12 +366,13 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
                              Qt::AlignCenter/* | Qt::AlignTop*/);
     const QPair<DPushButton *, const KeyDescription1 *> hashValue1(pagebutton, desc1);
     m_keys1.insert(desc1->button, hashValue1); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription1 *
-    connect(pagebutton, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(pagebutton, &DPushButton::clicked, this, [this, desc1]() {
+        emit buttonPressed(desc1->button);
+    });
     connect(static_cast<TextButton *>(pagebutton), &TextButton::space, this, [ = ]() {
         Buttons spacekey = m_keys1.key(hashValue1);
         emit buttonPressedbySpace(spacekey);
     });
-    m_mapper->setMapping(pagebutton, desc1->button); //多个按钮绑定到一个mapper上
 }
 
 /**

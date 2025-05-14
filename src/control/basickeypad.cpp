@@ -7,7 +7,6 @@
 
 #include <QTimer>
 #include <DPalette>
-#include <DImageButton>
 
 #include "dthememanager.h"
 
@@ -72,17 +71,23 @@ BasicKeypad::BasicKeypad(QWidget *parent)
       m_mapper(new QSignalMapper(this))
 {
     this->setFixedHeight(KEYPAD_HEIGHT);
-    m_layout->setMargin(0);
     m_layout->setSpacing(KEYPAD_SPACING);
     m_layout->setContentsMargins(0, 0, 0, 0);
-//    setFocusPolicy(Qt::StrongFocus);
 
     installEventFilter(this);
 
     initButtons();
     initUI();
 
+    // connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
+    // 使用 lambda 表达式替代 QSignalMapper
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    connect(m_mapper, &QSignalMapper::mappedInt, this, [this](int id) {
+        emit buttonPressed(id);
+    });
+#else
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
+#endif
 }
 
 BasicKeypad::~BasicKeypad()

@@ -19,10 +19,8 @@ MemoryKeypad::MemoryKeypad(QWidget *parent)
       m_mapper(new QSignalMapper(this))
 {
     this->setFixedHeight(35);
-    m_layout->setMargin(0);
     m_layout->setSpacing(2);  //按钮比ui大2pix,此处比ui小2pix
     m_layout->setContentsMargins(0, 0, 0, 0);
-
     initButtons();
     this->setContentsMargins(12, 0, 13, 0);
 
@@ -94,15 +92,16 @@ void MemoryKeypad::initButtons()
         m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
                             Qt::AlignTop);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
-        m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
+        m_keys.insert(desc->button, hashValue);
 
-        connect(static_cast<MemoryButton *>(button), &MemoryButton::focus, this, &MemoryKeypad::getFocus); //获取上下左右键
-        connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+        connect(static_cast<MemoryButton *>(button), &MemoryButton::focus, this, &MemoryKeypad::getFocus);
+        connect(button, &DPushButton::clicked, this, [this, desc]() {
+            emit buttonPressed(desc->button);
+        });
         connect(static_cast<MemoryButton *>(button), &MemoryButton::space, this, [ = ]() {
             Buttons spacekey = m_keys.key(hashValue);
             emit buttonPressedbySpace(spacekey);
         });
-        m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
     }
 }
 

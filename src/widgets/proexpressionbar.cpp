@@ -11,6 +11,7 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <DGuiApplicationHelper>
+#include <QRegularExpression>
 
 const int LIST_HEIGHT = 35; //输入栏上方表达式的高度
 const int INPUTEDIT_HEIGHT = 55;
@@ -47,7 +48,7 @@ ProExpressionBar::ProExpressionBar(QWidget *parent)
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(m_listView);
     layout->addWidget(m_inputEdit);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     initConnect();
 
@@ -84,15 +85,16 @@ bool ProExpressionBar::isnumber(QChar a)
 bool ProExpressionBar::judgeinput()
 {
     QString sRegNum = "[a-z]";
-    QRegExp rx;
+    QRegularExpression rx;
     rx.setPattern(sRegNum);
     SSelection selection = m_inputEdit->getSelection();
 
     if (selection.selected != "") {
         //光标不在开头且光标左侧是字母或者光标右侧是字母
         if ((selection.curpos > 0 &&
-                rx.exactMatch(m_inputEdit->text().at(selection.curpos - 1)))
-                || (selection.curpos + selection.selected.size() < m_inputEdit->text().size() && rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size())))) {
+             rx.match(m_inputEdit->text().at(selection.curpos - 1)).hasMatch())  // 使用 match() 替代 exactMatch()
+            || (selection.curpos + selection.selected.size() < m_inputEdit->text().size() &&
+                rx.match(m_inputEdit->text().at(selection.curpos + selection.selected.size())).hasMatch())) { // 使用 match() 替代 exactMatch()
             int funpos = -1;
             int rightfunpos = -1;
             for (int i = 0; i < m_funclist.size(); i++) {
@@ -111,7 +113,7 @@ bool ProExpressionBar::judgeinput()
         }
         return true;
     } else {
-        if (m_inputEdit->cursorPosition() > 0 && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1))) {
+        if (m_inputEdit->cursorPosition() > 0 && rx.match(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1)).hasMatch()) { // 使用 match() 替代 exactMatch()
             for (int i = 0; i < m_funclist.size(); i++) {
                 //记录光标左侧离光标最近的函数位
                 int funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], m_inputEdit->cursorPosition() - 1);
@@ -122,6 +124,7 @@ bool ProExpressionBar::judgeinput()
         return true;
     }
 }
+
 
 void ProExpressionBar::enterNumberEvent(const QString &text)
 {
@@ -214,12 +217,13 @@ void ProExpressionBar::enterSymbolEvent(const QString &text)
 
             // 2020316修复添加符号后光标问题
             //添加符号后左侧数字不会多分隔符，只需考虑添加符号后输入框光标前的数字与添加前是否一致
-            if (exp.mid(0, curPos).remove(QRegExp("[＋－×÷/,%()\\s]")) ==
-                    m_inputEdit->text().mid(0, curPos).remove(QRegExp("[＋－×÷/,%()\\s]"))) {
+            if (exp.mid(0, curPos).remove(QRegularExpression("[＋－×÷/,%()\\s]")) ==
+                    m_inputEdit->text().mid(0, curPos).remove(QRegularExpression("[＋－×÷/,%()\\s]"))) {
                 QString sRegNum = "[＋－×÷/]";
-                QRegExp rx;
+                QRegularExpression rx;
                 rx.setPattern(sRegNum);
-                rx.exactMatch(m_inputEdit->text().at(curPos))
+                QRegularExpressionMatch match = rx.match(m_inputEdit->text().at(curPos));
+                match.hasMatch()
                 ? m_inputEdit->setCursorPosition(curPos + 1)
                 : m_inputEdit->setCursorPosition(curPos);
                 qDebug() << curPos;
@@ -237,9 +241,10 @@ void ProExpressionBar::enterSymbolEvent(const QString &text)
 
 void ProExpressionBar::enterBackspaceEvent()
 {
-    QString sRegNum = "[a-z]"; //20200811去除大写字母，否则Ｅ将被看作函数
-    QRegExp rx;
+    QString sRegNum = "[a-zA-Z0-9]";  // 匹配字母和数字
+    QRegularExpression rx;
     rx.setPattern(sRegNum);
+
     SSelection selection = m_inputEdit->getSelection();
     if (selection.selected != "") {
         selectedPartDelete(rx);
@@ -249,39 +254,22 @@ void ProExpressionBar::enterBackspaceEvent()
         int funpos = -1;
         int i;
         int Sepold = text.count(",") + text.count(" ");
-        if (text.size() > 0 && cur > 1 && (text[cur - 1] == "," || (text[cur - 1] == " " && !text[cur - 2].isLower()))) {
+
+        if (text.size() > 0 && cur > 1 && (text[cur - 1] == QChar(',') || (text[cur - 1] == QChar(' ') && !text[cur - 2].isLower()))) {
             text.remove(cur - 2, 2);
             m_inputEdit->setText(text);
-            // 20200401 symbolFaultTolerance
             m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
             m_inputEdit->setCursorPosition(cur - 2);
         } else {
-            //退函数
-            //光标不在开头且光标左侧是字母
-            if (m_inputEdit->cursorPosition() > 0 && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1))) {
+            // 退函数
+            if (m_inputEdit->cursorPosition() > 0 && rx.match(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1)).hasMatch()) {
                 for (i = 0; i < m_funclist.size(); i++) {
-                    //记录光标左侧离光标最近的函数位
                     funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], m_inputEdit->cursorPosition() - 1);
-                    if (funpos != -1 && (funpos <= m_inputEdit->cursorPosition())
-                            && (m_inputEdit->cursorPosition() <= funpos + m_funclist[i].length()))
-                        break; //光标在函数开头和函数结尾之间
-                    else
+                    if (funpos != -1 && (funpos <= m_inputEdit->cursorPosition()) && (m_inputEdit->cursorPosition() <= funpos + m_funclist[i].length())) {
+                        break;
+                    } else {
                         funpos = -1;
-                }
-                if (funpos != -1) {
-                    m_inputEdit->setText(m_inputEdit->text().remove(funpos, m_funclist[i].length()));
-                    int Sepnew = m_inputEdit->text().count(",") + m_inputEdit->text().count(" ");
-                    m_inputEdit->setCursorPosition(funpos + Sepnew - Sepold + 1);
-                }
-            } else if (m_inputEdit->cursorPosition() > 1 && (text[cur - 1] == " " && text[cur - 2].isLower())) {
-                for (i = 0; i < m_funclist.size(); i++) {
-                    //记录光标左侧离光标最近的函数位
-                    funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], m_inputEdit->cursorPosition() - 2);
-                    if (funpos != -1 && (funpos <= m_inputEdit->cursorPosition())
-                            && (m_inputEdit->cursorPosition() <= funpos + m_funclist[i].length() + 1))
-                        break; //光标在函数开头和函数结尾之间
-                    else
-                        funpos = -1;
+                    }
                 }
                 if (funpos != -1) {
                     m_inputEdit->setText(m_inputEdit->text().remove(funpos, m_funclist[i].length()));
@@ -292,19 +280,19 @@ void ProExpressionBar::enterBackspaceEvent()
                 int proNumber = text.count(",") + text.count(" ");
                 m_inputEdit->backspace();
                 int separator = proNumber - m_inputEdit->text().count(",") - m_inputEdit->text().count(" ");
-                // 20200401 symbolFaultTolerance
                 m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
                 int newPro = m_inputEdit->text().count(",") + m_inputEdit->text().count(" ");
                 if (cur > 0) {
                     QString sRegNum1 = "[0-9A-F]+";
-                    QRegExp rx1;
+                    QRegularExpression rx1;
                     rx1.setPattern(sRegNum1);
-                    //退数字
-                    if (rx1.exactMatch(text.at(cur - 1)) && proNumber > newPro) {
+                    QRegularExpressionMatch match = rx1.match(text.at(cur - 1));
+                    if (match.hasMatch() && proNumber > newPro) {
                         if (text.mid(cur, text.length() - cur) == m_inputEdit->text().mid(m_inputEdit->text().length() - (text.length() - cur), text.length() - cur)) {
                             m_inputEdit->setCursorPosition(cur - 2);
-                        } else
+                        } else {
                             m_inputEdit->setCursorPosition(cur - 1);
+                        }
                     } else {
                         if (separator < 0) {
                             m_inputEdit->setCursorPosition(cur - 1 - separator);
@@ -316,6 +304,7 @@ void ProExpressionBar::enterBackspaceEvent()
             }
         }
     }
+
     if (m_inputEdit->text().isEmpty() && m_listModel->rowCount(QModelIndex()) != 0) {
         emit clearStateChanged(true);
         m_isAllClear = true;
@@ -329,6 +318,7 @@ void ProExpressionBar::enterBackspaceEvent()
     m_isUndo = false;
     addUndo();
 }
+
 
 void ProExpressionBar::enterClearEvent()
 {
@@ -375,7 +365,7 @@ void ProExpressionBar::enterEqualEvent()
     // 20200407 超过16位小数未科学计数
     qDebug() << "m_evaluator->error()" << m_evaluator->error();
     qDebug() << "ans" << m_inputEdit->expressionText();
-    if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegExp("[a-z＋－×÷,%()\\s]")) != -1)) {
+    if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegularExpression("[a-z＋－×÷,%()\\s]")) != -1)) {
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign()) {
             m_expression = exp + "＝" + tr("Expression error");
             m_listModel->updataList(m_expression, -1, true);
@@ -478,9 +468,10 @@ void ProExpressionBar::enterNotEvent()
     // start edit for task-13519
     //        QString sRegNum1 = "[^0-9,.×÷)]";
     QString sRegNum1 = "[^A-F^0-9,\\s)]";
-    QRegExp rx1;
+    QRegularExpression rx1;
     rx1.setPattern(sRegNum1);
-    if (rx1.exactMatch(exp.at(curPos - 1)))
+    QRegularExpressionMatch match = rx1.match(exp.at(curPos - 1));
+    if (match.hasMatch())
         m_inputEdit->setText(oldText);
     else {
         QString newtext = m_inputEdit->text();
@@ -492,8 +483,8 @@ void ProExpressionBar::enterNotEvent()
          * 1. 负号在表达式的开头，如-1,-120等，视为一个整体的负数
          * 2. 负号在左括号的后一位，如(-1, (-121等，也视为一个整体的负数
          * 其中，当出现(-12)时，光标在右括号右侧时则会优先取到 ")",只有在右括号左侧才满足条件2*/
-        if ((operatorpos == 0 && newtext.at(0) == "－")
-                || (operatorpos > 0 && newtext.at(operatorpos) == "－" && newtext.at(operatorpos - 1) == "("))
+        if ((operatorpos == 0 && newtext.at(0) == QChar(QStringLiteral("－").at(0)))
+                || (operatorpos > 0 && newtext.at(operatorpos) == QChar(QStringLiteral("－").at(0)) && newtext.at(operatorpos - 1) == QChar('(')))
             operatorpos--;
 
         bool nooperator = false;
@@ -518,9 +509,9 @@ void ProExpressionBar::enterNotEvent()
 
             //匹配到的(不在开头且(左侧是字母
             QString sRegNum2 = "[a-z]";
-            QRegExp latterrx;
+            QRegularExpression latterrx;
             latterrx.setPattern(sRegNum2);
-            if (operatorpos > 0 && latterrx.exactMatch(m_inputEdit->text().at(operatorpos - 1))) {
+            if (operatorpos > 0 && latterrx.match(m_inputEdit->text().at(operatorpos - 1)).hasMatch()) {
                 int funpos = -1; //记录函数位
                 int i;
                 for (i = 0; i < m_funclist.size(); i++) {
@@ -589,9 +580,9 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
      */
     int diff = 0; //补数字后光标位移的距离
     QString sRegNum = "[＋－×÷(]";
-    QRegExp rx;
+    QRegularExpression rx;
     rx.setPattern(sRegNum);
-    if (curpos == 0 || rx.exactMatch(exp.at(curpos - 1))) {
+    if (curpos == 0 || rx.match(exp.at(curpos - 1)).hasMatch()) {
         m_inputEdit->insert(zerotext);
         diff = 1;
     } else if (exp.at(curpos - 1).isLower()) {
@@ -601,14 +592,14 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
         exp.replace(curpos - diff, diff, text);
         m_inputEdit->setText(exp);
         isreplace = true;
-    } else if (curpos > 1 && exp.at(curpos - 1) == " " && exp.at(curpos - 2).isLower()) {
+    } else if (curpos > 1 && exp.at(curpos - 1) == QChar(' ') && exp.at(curpos - 2).isLower()) {
         while (diff <= curpos - 2 && exp.at(curpos - 2 - diff).isLower()) {
             diff++;
         }
         exp.replace(curpos - 1 - diff, diff, text);
         m_inputEdit->setText(exp);
         isreplace = true;
-    } else if (exp.at(curpos - 1) == "%") {
+    } else if (exp.at(curpos - 1) == QChar('%')) {
         diff = 1;
         exp.replace(curpos - diff, diff, text);
         m_inputEdit->setText(exp);
@@ -632,7 +623,7 @@ void ProExpressionBar::enterOperatorEvent(const QString &text)
         int newPro = m_inputEdit->text().left(curpos + length).count(",") + m_inputEdit->text().left(curpos + length).count(" ");
         diff += newPro - proNumber;
         if (!isAtEnd) {
-            if (newPro < proNumber && exp.at(curpos) != "," && exp.at(curpos) != " ") {
+            if (newPro < proNumber && exp.at(curpos) != QChar(',') && exp.at(curpos) != QChar(' ')) {
                 m_inputEdit->setCursorPosition(curpos + length - 1 + diff);
             } else {
                 m_inputEdit->setCursorPosition(curpos + length + diff);
@@ -676,14 +667,16 @@ void ProExpressionBar::enterOppositeEvent()
     //        QString sRegNum1 = "[^0-9,.×÷)]";
     QString sRegNum1 = "[^A-F^0-9,\\s)]";
     QString sRegNum2 = "[A-F0-9,]";
-    QRegExp rx1, rx2;
+    QRegularExpression rx1, rx2;
     rx1.setPattern(sRegNum1);
     rx2.setPattern(sRegNum2);
-    if (rx1.exactMatch(exp.at(curPos - 1)))
+    QRegularExpressionMatch match1 = rx1.match(exp.at(curPos - 1));
+    QRegularExpressionMatch match2 = rx2.match(exp.at(curPos - 2));
+    if (match1.hasMatch())
         return;
-    else if (exp.at(curPos - 1) == "0" && (curPos <= 1 || !rx2.exactMatch(exp.at(curPos - 2)))) {
+    else if (exp.at(curPos - 1) == QChar('0') && (curPos <= 1 || !match2.hasMatch())) {
         return;
-    } else if (curPos > 1 && exp.at(curPos - 1) == " " && exp.at(curPos - 2).isLower()) {
+    } else if (curPos > 1 && exp.at(curPos - 1) == QChar(' ')&& exp.at(curPos - 2).isLower()) {
         return;
     } else {
         QString newtext = m_inputEdit->text();
@@ -713,9 +706,9 @@ void ProExpressionBar::enterOppositeEvent()
 
             //匹配到的(不在开头且(左侧是字母
             QString sRegNum3 = "[a-z]";
-            QRegExp latterrx;
+            QRegularExpression latterrx;
             latterrx.setPattern(sRegNum3);
-            if (operatorpos > 0 && latterrx.exactMatch(m_inputEdit->text().at(operatorpos - 1))) {
+            if (operatorpos > 0 && latterrx.match(m_inputEdit->text().at(operatorpos - 1)).hasMatch()) {
                 int funpos = -1; //记录函数位
                 int i;
                 for (i = 0; i < m_funclist.size(); i++) {
@@ -806,7 +799,7 @@ void ProExpressionBar::enterLeftBracketsEvent()
     addUndo();
 
     if (!isAtEnd) {
-        if (newPro < proNumber && exp.at(curpos) != "," && exp.at(curpos) != " ") {
+        if (newPro < proNumber && exp.at(curpos) != QChar(',') && exp.at(curpos) != QChar('.')) {
             m_inputEdit->setCursorPosition(curpos);
         } else {
             m_inputEdit->setCursorPosition(curpos + 1);
@@ -836,7 +829,7 @@ void ProExpressionBar::enterRightBracketsEvent()
     addUndo();
 
     if (!isAtEnd) {
-        if (newPro < proNumber && exp.at(curpos) != "," && exp.at(curpos) != " ") {
+        if (newPro < proNumber && exp.at(curpos) != QChar(',') && exp.at(curpos) != QChar(' ')) {
             m_inputEdit->setCursorPosition(curpos);
         } else {
             m_inputEdit->setCursorPosition(curpos + 1);
@@ -846,55 +839,84 @@ void ProExpressionBar::enterRightBracketsEvent()
 
 void ProExpressionBar::moveLeft()
 {
+    // 定义正则表达式，只匹配小写字母
     QString sRegNum = "[a-z]";
-    QRegExp rx;
-    rx.setPattern(sRegNum);
-    if (m_inputEdit->cursorPosition() > 0 && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1))) {
-        int funpos = -1;
-        int i;
-        for (i = 0; i < m_funclist.size(); i++) {
-            funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], m_inputEdit->cursorPosition() - 1);
-            if (funpos != -1 && funpos + m_funclist[i].length() == m_inputEdit->cursorPosition())
-                break;
-            else
-                funpos = -1;
-        }
-        if (funpos != -1) {
-            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - m_funclist[i].length());
+    QRegularExpression rx(sRegNum);
+
+    // 检查光标是否在文本的起始位置，避免越界
+    if (m_inputEdit->cursorPosition() > 0) {
+        // 获取光标前一个字符
+        QChar prevChar = m_inputEdit->text().at(m_inputEdit->cursorPosition() - 1);
+
+        // 使用正则表达式匹配光标前一个字符
+        if (rx.match(prevChar).hasMatch()) {
+            int funpos = -1;
+            int i;
+
+            // 遍历 m_funclist 查找是否为函数名
+            for (i = 0; i < m_funclist.size(); i++) {
+                funpos = m_inputEdit->text().lastIndexOf(m_funclist[i], m_inputEdit->cursorPosition() - 1);
+                if (funpos != -1 && funpos + m_funclist[i].length() == m_inputEdit->cursorPosition()) {
+                    // 找到函数，移动光标到函数的起始位置
+                    m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - m_funclist[i].length());
+                    break;
+                } else {
+                    funpos = -1;
+                }
+            }
+
+            // 如果没有找到函数名，则光标向左移动一个字符
+            if (funpos == -1) {
+                m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
+            }
         } else {
+            // 如果前一个字符不符合正则，则光标直接向左移动一个字符
             m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
         }
-    } else {
-        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() - 1);
     }
     m_inputEdit->setFocus();
 }
 
 void ProExpressionBar::moveRight()
 {
+    // 定义正则表达式，只匹配小写字母
     QString sRegNum = "[a-z]";
-    QRegExp rx;
-    rx.setPattern(sRegNum);
-    if (!cursorPosAtEnd() && rx.exactMatch(m_inputEdit->text().at(m_inputEdit->cursorPosition()))) {
-        int funpos = -1;
-        int i;
-        for (i = 0; i < m_funclist.size(); i++) {
-            funpos = m_inputEdit->text().indexOf(m_funclist[i], m_inputEdit->cursorPosition());
-            if (funpos != -1 && funpos == m_inputEdit->cursorPosition())
-                break;
-            else
-                funpos = -1;
-        }
-        if (funpos != -1) {
-            m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + m_funclist[i].length());
+    QRegularExpression rx(sRegNum);
+
+    // 检查光标是否已在文本的结尾位置，避免越界
+    if (!cursorPosAtEnd()) {
+        // 获取当前光标位置的字符
+        QChar currChar = m_inputEdit->text().at(m_inputEdit->cursorPosition());
+
+        // 使用正则表达式匹配当前字符
+        if (rx.match(currChar).hasMatch()) {
+            int funpos = -1;
+            int i;
+
+            // 遍历 m_funclist 查找是否为函数名
+            for (i = 0; i < m_funclist.size(); i++) {
+                funpos = m_inputEdit->text().indexOf(m_funclist[i], m_inputEdit->cursorPosition());
+                if (funpos != -1 && funpos == m_inputEdit->cursorPosition()) {
+                    // 找到函数，光标向右移动函数的长度
+                    m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + m_funclist[i].length());
+                    break;
+                } else {
+                    funpos = -1;
+                }
+            }
+
+            // 如果没有找到函数名，则光标向右移动一个字符
+            if (funpos == -1) {
+                m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + 1);
+            }
         } else {
+            // 如果当前字符不符合正则，则光标向右移动一个字符
             m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + 1);
         }
-    } else {
-        m_inputEdit->setCursorPosition(m_inputEdit->cursorPosition() + 1);
     }
     m_inputEdit->setFocus();
 }
+
 
 void ProExpressionBar::initTheme(int type)
 {
@@ -968,19 +990,19 @@ void ProExpressionBar::copyClipboard2Result()
     //根据不同进制，对应不同的筛选规则
     switch (Settings::instance()->programmerBase) {
     case 16:
-        text.remove(QRegExp("[G-Z]"));
-        list = text.split(QRegExp("[A-F0-9＋－×÷()%\\s]"));
+        text.remove(QRegularExpression("[G-Z]"));
+        list = text.split(QRegularExpression("[A-F0-9＋－×÷()%\\s]"));
         break;
     case 8:
-        text.remove(QRegExp("[8-9]"));
-        list = text.split(QRegExp("[0-7＋－×÷()%\\s]"));
+        text.remove(QRegularExpression("[8-9]"));
+        list = text.split(QRegularExpression("[0-7＋－×÷()%\\s]"));
         break;
     case 2:
-        text.remove(QRegExp("[2-9]"));
-        list = text.split(QRegExp("[0-1＋－×÷()%\\s]"));
+        text.remove(QRegularExpression("[2-9]"));
+        list = text.split(QRegularExpression("[0-1＋－×÷()%\\s]"));
         break;
     default:
-        list = text.split(QRegExp("[0-9＋－×÷(),%\\s]"));
+        list = text.split(QRegularExpression("[0-9＋－×÷(),%\\s]"));
         break;
     }
     for (int i = 0; i < list.size(); i++) {
@@ -1035,7 +1057,7 @@ void ProExpressionBar::allElection()
 void ProExpressionBar::shear()
 {
     QString sRegNum = "[a-z]"; //20200811去除大写字母，否则Ｅ将被看作函数
-    QRegExp rx;
+    QRegularExpression rx;
     rx.setPattern(sRegNum);
     QString text = m_inputEdit->text();
     QString selectText = m_inputEdit->selectedText();
@@ -1059,7 +1081,7 @@ void ProExpressionBar::shear()
 void ProExpressionBar::deleteText()
 {
     QString sRegNum = "[a-z]"; //20200811去除大写字母，否则Ｅ将被看作函数
-    QRegExp rx;
+    QRegularExpression rx;
     rx.setPattern(sRegNum);
     selectedPartDelete(rx);
 
@@ -1165,11 +1187,11 @@ void ProExpressionBar::replaceSelection(QString text)
                 selcurPos <= selection.curpos + selection.selected.size())
             selcurPos = selection.curpos;
         // 20200313选中部分光标置位问题修复
-        if (seloldtext.mid(0, selcurPos).remove(QRegExp("[,\\s]")).length() ==
-                m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[,\\s]")).length())
+        if (seloldtext.mid(0, selcurPos).remove(QRegularExpression("[,\\s]")).length() ==
+                m_inputEdit->text().mid(0, selcurPos).remove(QRegularExpression("[,\\s]")).length())
             m_inputEdit->setCursorPosition(selcurPos);
-        else if (seloldtext.mid(0, selcurPos).remove(QRegExp("[,\\s]")).length() >
-                 m_inputEdit->text().mid(0, selcurPos).remove(QRegExp("[,\\s]")).length())
+        else if (seloldtext.mid(0, selcurPos).remove(QRegularExpression("[,\\s]")).length() >
+                 m_inputEdit->text().mid(0, selcurPos).remove(QRegularExpression("[,\\s]")).length())
             m_inputEdit->setCursorPosition(selcurPos + 1);
         else
             m_inputEdit->setCursorPosition(selcurPos - 1);
@@ -1250,7 +1272,7 @@ void ProExpressionBar::expressionCheck()
     int separator = 0;
 
     for (int i = 0; i < exp.size(); ++i) {
-        if (exp[i] == ",") {
+        if (exp[i] == QChar(',')) {
             exp.remove(i, 1);
             --i;
             if (i + 1 < cur) {
@@ -1261,7 +1283,7 @@ void ProExpressionBar::expressionCheck()
     }
     for (int i = 0; i < exp.size(); ++i) {
         while (isnumber(exp[i])) {
-            if (exp[i] == "0" && (i == 0 || !isnumber(exp[i - 1])) && (exp.size() == 1 || isnumber(exp[i + 1]))) {
+            if (exp[i] == QChar('0') && (i == 0 || !isnumber(exp[i - 1])) && (exp.size() == 1 || isnumber(exp[i + 1]))) {
                 exp.remove(i, 1);
                 --i;
                 if (i + 1 < cur)
@@ -1425,16 +1447,20 @@ bool ProExpressionBar::isNumberOutOfRange(const QString &text)
  * @brief ProExpressionBar::selectedPartDelete
  * 选中部分的删除处理
  */
-void ProExpressionBar::selectedPartDelete(const QRegExp &rx)
+void ProExpressionBar::selectedPartDelete(const QRegularExpression &rx)
 {
     SSelection selection = m_inputEdit->getSelection();
     int removepos = 0; //被删除位置
     QString text = m_inputEdit->text();
     QString seloldtext = text;
+
+    // 预处理文本，减少对 exactMatch 的调用
+    QString leftChar = (selection.curpos > 0) ? text.at(selection.curpos - 1) : QString();
+    QString rightChar = (selection.curpos + selection.selected.size() < text.size()) ? text.at(selection.curpos + selection.selected.size()) : QString();
+
     //光标不在开头且光标左侧是字母或者光标右侧是字母
-    if ((selection.curpos > 0 &&
-            rx.exactMatch(m_inputEdit->text().at(selection.curpos - 1)))
-            || (selection.curpos + selection.selected.size() < m_inputEdit->text().size() && rx.exactMatch(m_inputEdit->text().at(selection.curpos + selection.selected.size())))) {
+    if ((selection.curpos > 0 && rx.match(leftChar).hasMatch()) ||
+        (selection.curpos + selection.selected.size() < text.size() && rx.match(rightChar).hasMatch())) {
         int selleftfunlen = 0; //选中左侧一部分函数长度
         int funpos = -1;
         int rightfunpos = -1;
@@ -1481,7 +1507,7 @@ void ProExpressionBar::selectedPartDelete(const QRegExp &rx)
     m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
     // 20200316选中部分光标置位问题修复
     // 选中部分删除后重新设置光标位置，用删除前的光标位置左侧（分隔符新增的只会影响左侧的数字）的数字部分去除分隔符后减去删除后的光标位置左侧数字部分的长度，为光标位置的差。
-    int diff = (seloldtext.mid(0, removepos).remove(QRegExp("[＋－×÷/,%()\\s]")).length()) - m_inputEdit->text().mid(0, removepos).remove(QRegExp("[＋－×÷/,%()\\s]")).length();
+    int diff = (seloldtext.mid(0, removepos).remove(QRegularExpression("[＋－×÷/,%()\\s]")).length()) - m_inputEdit->text().mid(0, removepos).remove(QRegularExpression("[＋－×÷/,%()\\s]")).length();
     if (0 == diff) {
         m_inputEdit->setCursorPosition(removepos);
     } else {
@@ -1501,7 +1527,7 @@ bool ProExpressionBar::curposInNumber(int curpos)
     }
     if (isnumber(m_inputEdit->text().at(curpos))) {
         if (curpos < m_inputEdit->text().length() - 1
-                && m_inputEdit->text().at(curpos) == " " && !isnumber(m_inputEdit->text().at(curpos + 1))) {
+            && m_inputEdit->text().at(curpos) == QChar(' ') && !isnumber(m_inputEdit->text().at(curpos + 1))) {
             return false;
         } else {
             return true;

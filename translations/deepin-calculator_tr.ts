@@ -28,6 +28,14 @@
         <translation>Tümünü Seç</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation>Binlik ayırıcı kullan</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>On binlik ayırıcı kullan</translation>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Geri al</translation>
     </message>
@@ -126,7 +134,7 @@
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Bellek ögesine ekle</translation>
+        <translation>Ögeyi belleğe ekle</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>

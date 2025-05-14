@@ -19,10 +19,8 @@ ProCheckBtnKeypad::ProCheckBtnKeypad(QWidget *parent)
       m_mapper(new QSignalMapper(this))
 {
     this->setFixedHeight(45);
-    m_layout->setMargin(0);
     m_layout->setSpacing(2);  //按钮比ui大2pix,此处比ui小2pix
     m_layout->setContentsMargins(0, 0, 0, 0);
-
     initButtons();
     this->setContentsMargins(10, 0, 10, 0);
 
@@ -92,14 +90,15 @@ void ProCheckBtnKeypad::initButtons()
         button->setFixedSize(BUTTON_SIZE);
         m_layout->addWidget(button, desc->row, desc->column, Qt::AlignTop);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
-        m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
+        m_keys.insert(desc->button, hashValue);
 
-        connect(static_cast<TextButton *>(button), &TextButton::focus, this, &ProCheckBtnKeypad::getFocus); //获取上下左右键
-        connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+        connect(static_cast<TextButton *>(button), &TextButton::focus, this, &ProCheckBtnKeypad::getFocus);
+        connect(button, &DPushButton::clicked, this, [this, desc]() {
+            emit buttonPressed(desc->button);
+        });
         connect(static_cast<TextButton *>(button), &TextButton::space, this, [ = ]() {
             emit buttonPressedbySpace(m_keys.key(hashValue));
         });
-        m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
     }
     static_cast<IconButton *>(button(Key_GeneralKeypad))->setBtnHighlight(true);
 }

@@ -145,7 +145,7 @@
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>内存中没有数据</translation>
+        <translation>未保存数据</translation>
     </message>
 </context>
 <context>

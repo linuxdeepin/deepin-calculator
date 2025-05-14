@@ -435,22 +435,22 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
         expStr = exp;
         return;
     }
-    if (exp.at(0) != "－") {
+    if (exp.at(0) != QChar(QStringLiteral("－").at(0))) {
         int index = 0;
-        while (exp.at(index) == "(") {
+        while (exp.at(index) == QChar('(')) {
             ++index;
             linkNum.append("(");
-            if (exp.at(index) == "－")
+            if (exp.at(index) == QChar(QStringLiteral("－").at(0)))
                 linkNum.append("－");
         }
         linkNum.append(list.at(0));
     } else {
         linkNum.append("－");
-        if (exp.at(1) == "(")
+        if (exp.at(1) == QChar('('))
             linkNum.append("(");
         linkNum.append(list.at(0));
     }
-    if (linkNum.at(linkNum.size() - 1) == "E")
+    if (linkNum.at(linkNum.size() - 1) == QChar('E'))
         linkNum = linkNum + exp.at(exp.indexOf("E") + 1) + list.at(1);
     expStr = text.right(text.length() - linkNum.length());
 }

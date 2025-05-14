@@ -19,6 +19,9 @@
 #ifndef RATIONAL_H
 #define RATIONAL_H
 
+#include <QtGlobal>
+#include <cstddef>
+
 class HNumber;
 class QString;
 
@@ -63,5 +66,11 @@ public:
     HNumber toHNumber( )const;
     double toDouble() const;
 };
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+unsigned int qHash(const Rational& key);
+#else
+size_t qHash(const Rational& key, size_t seed = 0) noexcept;
+#endif
 
 #endif // RATIONAL_H

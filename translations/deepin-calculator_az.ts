@@ -28,6 +28,14 @@
         <translation>Hamısını seçmək</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation>Minlik ayırıcısından istifadə etmək</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>On minlik ayırıcısından istifadə etmək</translation>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Geri qaytarmaq</translation>
     </message>

@@ -35,12 +35,10 @@ const ProgrammerKeypad::KeyDescription ProgrammerKeypad::keyDescriptions[] = {
 ProgrammerKeypad::ProgrammerKeypad(QWidget *parent)
     : DWidget(parent),
       m_layout(new QGridLayout(this)),
-      m_mapper(new QSignalMapper(this)),
       m_leftBracket(new DLabel(this)),
       m_rightBracket(new DLabel(this))
 {
     this->setFixedHeight(KEYPAD_HEIGHT);
-    m_layout->setMargin(0);
     m_layout->setSpacing(KEYPAD_SPACING);
     m_layout->setContentsMargins(0, 0, 0, 0);
 //    setFocusPolicy(Qt::StrongFocus);
@@ -51,8 +49,6 @@ ProgrammerKeypad::ProgrammerKeypad(QWidget *parent)
 
     initButtons();
     initUI();
-
-    connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
 }
 
 ProgrammerKeypad::~ProgrammerKeypad()
@@ -126,7 +122,7 @@ void ProgrammerKeypad::initButtons()
         } else {
             if (desc->text == "=") {
                 button = new EqualButton(desc->text, this);
-                connect(static_cast<EqualButton *>(button), &EqualButton::focus, this, &ProgrammerKeypad::getFocus); //获取上下左右键
+                connect(static_cast<EqualButton *>(button), &EqualButton::focus, this, &ProgrammerKeypad::getFocus);
                 connect(static_cast<EqualButton *>(button), &EqualButton::space, this, [ = ]() {
                     emit buttonPressedbySpace(Key_equal);
                 });
@@ -156,17 +152,19 @@ void ProgrammerKeypad::initButtons()
             button->setFixedSize(STANDARD_TEXTBTNSIZE);
         m_layout->addWidget(button, desc->row, desc->column, Qt::AlignHCenter | Qt::AlignVCenter);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
-        m_keys.insert(desc->button, hashValue); //key为枚举值，value.first为DPushButton *, value.second为const KeyDescription *
+        m_keys.insert(desc->button, hashValue);
 
         if (desc->text != "=") {
-            connect(static_cast<TextButton *>(button), &TextButton::focus, this, &ProgrammerKeypad::getFocus); //获取上下左右键
+            connect(static_cast<TextButton *>(button), &TextButton::focus, this, &ProgrammerKeypad::getFocus);
             connect(static_cast<TextButton *>(button), &TextButton::space, this, [ = ]() {
                 Buttons spacekey = m_keys.key(hashValue);
                 emit buttonPressedbySpace(spacekey);
             });
         }
-        connect(button, &DPushButton::clicked, m_mapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-        m_mapper->setMapping(button, desc->button); //多个按钮绑定到一个mapper上
+
+        connect(button, &DPushButton::clicked, this, [this, desc]() {
+            emit buttonPressed(desc->button);
+        });
     }
     static_cast<TextButton *>(this->button(Key_point))->setButtonGray(true);
     radixChanged(1);

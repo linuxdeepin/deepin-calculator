@@ -66,13 +66,12 @@ MemHisWidget::MemHisWidget(QWidget *parent)
         m_isshowM = true;
     m_Hlayout->addWidget(clearwidget);
     m_Hlayout->addSpacing(10);
-    m_Hlayout->setMargin(0);
+    m_Hlayout->setContentsMargins(0, 0, 0, 0);
     hwidget->setLayout(m_Hlayout);
     hwidget->setFixedHeight(48);
     m_Vlayout->addWidget(m_stackWidget);
     m_Vlayout->addWidget(hwidget);
     m_Vlayout->setSpacing(0);
-    m_Vlayout->setMargin(0);
     m_Vlayout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(m_Vlayout);
     this->setContentsMargins(0, 0, 0, 0);
@@ -361,7 +360,7 @@ void MemHisWidget::iconChanged(int type, int id)
 void MemHisWidget::historyfilled()
 {
     if (m_isshowH == false)
-        m_listModel->deleteItem(1);
+        m_listModel->deleteItem(0);
     m_listView->listItemFill(true);
     m_listView->setFocusPolicy(Qt::TabFocus);
     m_isshowH = true;

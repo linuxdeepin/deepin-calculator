@@ -28,6 +28,14 @@
         <translation>Përzgjidhi Krejt</translation>
     </message>
     <message>
+        <source>Use thousands separator</source>
+        <translation>Përdor ndarës mijëshesh</translation>
+    </message>
+    <message>
+        <source>Use ten-thousands separator</source>
+        <translation>Përdor ndarës dhjetëmijëshesh</translation>
+    </message>
+    <message>
         <source>Undo</source>
         <translation>Zhbëje</translation>
     </message>
@@ -87,7 +95,7 @@
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>MR</translation>
+        <translation>Përcallimin e përzgjedhjes</translation>
     </message>
     <message>
         <source>Add to memory item</source>
@@ -158,38 +166,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Përpikësia aritmetike</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Përpikësia logjike</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Përpikësia krokodale</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Përpikësia krokodale me rotacion per përcaktim</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Përpikësia aritmetike</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Përpikësia logjike</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Përpikësia krokodale</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Përpikësia krokodale me rotacion per përcaktim</translation>
     </message>
 </context>
 <context>
