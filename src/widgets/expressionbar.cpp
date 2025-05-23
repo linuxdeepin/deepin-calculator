@@ -23,6 +23,7 @@ const int HISTORYLINKAGE_MAXSIZE = 10;
 ExpressionBar::ExpressionBar(QWidget *parent)
     : DWidget(parent)
 {
+    qDebug() << "ExpressionBar constructor called";
     m_listView = new SimpleListView(0, this);
     m_listDelegate = new SimpleListDelegate(0, this);
     m_listModel = new SimpleListModel(0, this);
@@ -62,7 +63,10 @@ ExpressionBar::ExpressionBar(QWidget *parent)
     initConnect();
 }
 
-ExpressionBar::~ExpressionBar() {}
+ExpressionBar::~ExpressionBar()
+{
+    qDebug() << "ExpressionBar destructor called";
+}
 
 void ExpressionBar::mouseMoveEvent(QMouseEvent *e)
 {
@@ -77,6 +81,8 @@ void ExpressionBar::mouseMoveEvent(QMouseEvent *e)
  */
 void ExpressionBar::enterNumberEvent(const QString &text)
 {
+    qDebug() << "enterNumberEvent called, text:" << text;
+
     //    if (m_isLinked)
     //        clearLinkageCache();
     if (m_inputNumber && m_hisRevision == -1) {
@@ -121,6 +127,8 @@ void ExpressionBar::enterNumberEvent(const QString &text)
  */
 void ExpressionBar::enterSymbolEvent(const QString &text)
 {
+    qDebug() << "enterSymbolEvent called, text:" << text;
+
     QString symbol = text;
     symbol.replace('/', QString::fromUtf8("÷"));
     QString oldText = m_inputEdit->text();
@@ -220,6 +228,8 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
  */
 void ExpressionBar::enterPointEvent()
 {
+    qDebug() << "enterPointEvent called";
+
     //    if (m_isLinked)
     //        clearLinkageCache();
     replaceSelection(m_inputEdit->text());
@@ -268,6 +278,8 @@ void ExpressionBar::enterPointEvent()
  */
 void ExpressionBar::enterBackspaceEvent()
 {
+    qDebug() << "enterBackspaceEvent called";
+
     //    if (m_isResult)
     //        clearLinkageCache();
     // m_inputEdit->backspace();
@@ -362,6 +374,8 @@ void ExpressionBar::enterBackspaceEvent()
  */
 void ExpressionBar::enterClearEvent()
 {
+    qDebug() << "enterClearEvent called, isAllClear:" << m_isAllClear;
+
     bool need_addundo = !m_inputEdit->text().isEmpty();
     if (m_isAllClear) {
         m_listModel->clearItems();
@@ -398,6 +412,8 @@ void ExpressionBar::enterClearEvent()
  */
 void ExpressionBar::enterEqualEvent()
 {
+    qDebug() << "enterEqualEvent called, expression:" << m_inputEdit->text();
+
     QString oldtext = m_inputEdit->text();
     if (m_inputEdit->text().isEmpty())
         return;
@@ -449,6 +465,7 @@ void ExpressionBar::enterEqualEvent()
     } else {
         // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
         if (!m_evaluator->error().isEmpty()) {
+            qWarning() << "Expression error in evaluation";
             m_listModel->updataList(m_inputEdit->text() + "＝" + tr("Expression error"),
                                     m_hisRevision);
             m_meanexp = false; // 20200409 输入错误表达式后，修改历史记录,再次输入表达式后高亮未取消

@@ -17,6 +17,7 @@ MemHisKeypad::MemHisKeypad(QWidget *parent)
       m_layout(new QGridLayout(this)),
       m_mapper(new QSignalMapper(this))
 {
+    qDebug() << "MemHisKeypad constructor called";
     this->setFixedHeight(41);
     m_layout->setSpacing(3);  //按钮比ui大2pix,此处比ui小2pix
     m_layout->setContentsMargins(0, 0, 0, 0);
@@ -29,6 +30,7 @@ MemHisKeypad::MemHisKeypad(QWidget *parent)
 
 MemHisKeypad::~MemHisKeypad()
 {
+    qDebug() << "MemHisKeypad destructor called";
 }
 
 void MemHisKeypad::mouseMoveEvent(QMouseEvent *e)
@@ -50,6 +52,7 @@ DPushButton *MemHisKeypad::button(Buttons key)
  */
 void MemHisKeypad::animate(Buttons key, bool isspace)
 {
+    qDebug() << "Button animation triggered for key:" << key << "with space:" << isspace;
     MemoryButton *btn = static_cast<MemoryButton *>(button(key));
     btn->animate(isspace);
 }
@@ -71,6 +74,7 @@ bool MemHisKeypad::buttonHasFocus()
  */
 void MemHisKeypad::initButtons()
 {
+    qDebug() << "Initializing memory/history buttons";
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
@@ -109,6 +113,7 @@ void MemHisKeypad::initButtons()
  */
 void MemHisKeypad::getFocus(int direction)
 {
+    qDebug() << "Focus direction changed:" << direction;
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
     while (i.hasNext()) {
         i.next();

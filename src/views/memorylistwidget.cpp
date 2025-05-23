@@ -18,6 +18,8 @@ DGUI_USE_NAMESPACE
 MemoryListWidget::MemoryListWidget(QWidget *parent, bool isarrowlist)
     : QListWidget(parent)
 {
+    qDebug() << "MemoryListWidget constructor, isarrowlist:" << isarrowlist;
+
 //    DPalette pal = this->palette();
 //    pal.setColor(DPalette::Light, QColor(248, 248, 248));
 //    this->setPalette(pal);
@@ -44,6 +46,7 @@ void MemoryListWidget::mousePressEvent(QMouseEvent *event)
         m_mousepoint = event->pos();
         if (this->itemAt(m_mousepoint)) {
             m_clickrow = this->row(this->itemAt(m_mousepoint));
+            qDebug() << "MemoryListWidget item pressed at row:" << m_clickrow;
 //            this->itemAt(mousepoint)->setBackground(QBrush(QColor(0, 0, 0)));
             emit itempressed(m_clickrow);
         }
@@ -63,6 +66,7 @@ void MemoryListWidget::mousePressEvent(QMouseEvent *event)
 void MemoryListWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (this->itemAt(event->pos()) && this->row(this->itemAt(event->pos())) == m_clickrow) {
+        qDebug() << "MemoryListWidget item selected at row:" << m_clickrow;
         emit itemselected(m_clickrow, true);
     } else {
         emit itemselected(m_clickrow, false);
@@ -150,6 +154,8 @@ bool MemoryListWidget::eventFilter(QObject *obj, QEvent *event)
  */
 void MemoryListWidget::cleanState(bool isfocus)
 {
+    qDebug() << "MemoryListWidget cleanState, isfocus:" << isfocus;
+
     if (m_isarrowlist) {
         for (int i = 0; i < 4; i++) {
             if (isfocus)
@@ -162,4 +168,5 @@ void MemoryListWidget::cleanState(bool isfocus)
 
 MemoryListWidget::~MemoryListWidget()
 {
+    qDebug() << "MemoryListWidget destructor";
 }

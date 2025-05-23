@@ -4,10 +4,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "prolistview.h"
+#include <QDebug>
 
 ProListView::ProListView(DWidget *parent)
     : DListView(parent)
 {
+    qDebug() << "ProListView constructor";
+
     setSelectionBehavior(QAbstractItemView::SelectRows); //选中一行
     setSelectionMode(QAbstractItemView::SingleSelection); //选中单个目标
     setFixedSize(451, 106);
@@ -21,11 +24,13 @@ ProListView::ProListView(DWidget *parent)
 
 ProListView::~ProListView()
 {
-
+    qDebug() << "ProListView destructor";
 }
 
 void ProListView::contextMenuEvent(QContextMenuEvent *event)
 {
+    qDebug() << "ProListView contextMenuEvent at pos:" << event->pos();
+
     QMenu *menu = new QMenu(this);
     //缺翻译
     QAction *copy = new QAction(tr("Copy"), menu);
@@ -39,6 +44,8 @@ void ProListView::contextMenuEvent(QContextMenuEvent *event)
 
 void ProListView::showTextEditMenuByAltM(const QModelIndex &index)
 {
+    qDebug() << "ProListView showTextEditMenuByAltM for row:" << index.row();
+
     m_isMenuAltM = true;
     QMenu *menu = new QMenu(this);
     //缺翻译
@@ -83,6 +90,8 @@ void ProListView::itemclicked(const QModelIndex &index, bool isspace)
 
 void ProListView::keyPressEvent(QKeyEvent *e)
 {
+    qDebug() << "ProListView keyPressEvent, key:" << e->key();
+
     bool ispressalt = e->modifiers() == Qt::AltModifier;
     switch (e->key()) {
     case Qt::Key_Up:
