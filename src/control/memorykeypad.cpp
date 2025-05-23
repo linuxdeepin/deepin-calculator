@@ -18,6 +18,7 @@ MemoryKeypad::MemoryKeypad(QWidget *parent)
       m_layout(new QGridLayout(this)),
       m_mapper(new QSignalMapper(this))
 {
+    qDebug() << "MemoryKeypad constructor called";
     this->setFixedHeight(35);
     m_layout->setSpacing(2);  //按钮比ui大2pix,此处比ui小2pix
     m_layout->setContentsMargins(0, 0, 0, 0);
@@ -29,6 +30,7 @@ MemoryKeypad::MemoryKeypad(QWidget *parent)
 
 MemoryKeypad::~MemoryKeypad()
 {
+    qDebug() << "MemoryKeypad destructor called";
 }
 
 void MemoryKeypad::mouseMoveEvent(QMouseEvent *e)
@@ -55,6 +57,7 @@ DPushButton *MemoryKeypad::button(int key)
  */
 void MemoryKeypad::animate(Buttons key, bool isspace)
 {
+    qDebug() << "Button animation triggered for key:" << key << "with space:" << isspace;
     MemoryButton *btn = static_cast<MemoryButton *>(button(key));
     btn->animate(isspace);
 }
@@ -79,6 +82,7 @@ bool MemoryKeypad::buttonHasFocus()
  */
 void MemoryKeypad::initButtons()
 {
+    qDebug() << "Initializing memory keypad buttons";
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;

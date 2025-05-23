@@ -48,6 +48,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     , m_clearbutton(new IconButton(this, 1))
     , m_memoryDelegate(new MemoryItemDelegate(this))
 {
+    qDebug() << "MemoryWidget constructor, mode:" << mode;
     this->setAttribute(Qt::WA_DeleteOnClose);
     m_label = new QLabel(this);
     m_calculatormode = mode;
@@ -124,6 +125,8 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
  */
 void MemoryWidget::generateData(const Quantity answer, bool ismax)
 {
+    qDebug() << "MemoryWidget::generateData, ismax:" << ismax;
+
     m_label->hide();
     if (ismax)
         m_listwidget->takeItem(MAXSIZE - 1);
@@ -270,6 +273,8 @@ void MemoryWidget::keyPressEvent(QKeyEvent *event)
 
 void MemoryWidget::memoryAnsChanged(int row, const Quantity answer)
 {
+    qDebug() << "MemoryWidget::memoryAnsChanged, row:" << row;
+
     QString formatResult = QString();
     if (m_calculatormode == 2) {
         const QString result = programmerResult(answer);
@@ -289,6 +294,8 @@ void MemoryWidget::memoryAnsChanged(int row, const Quantity answer)
  */
 void MemoryWidget::memoryclean()
 {
+    qDebug() << "MemoryWidget::memoryclean";
+
     m_listwidget->setFocusPolicy(Qt::NoFocus); //内存无内容时NoFocus
     m_label->show();
     m_listwidget->clear();
@@ -419,6 +426,8 @@ MemoryListWidget *MemoryWidget::getMemoryWidget()
  */
 QString MemoryWidget::programmerResult(const Quantity answer)
 {
+    qDebug() << "MemoryWidget::programmerResult";
+
     QString result;
     Quantity ans = DMath::integer(answer);
     switch (Settings::instance()->programmerBase) {
@@ -439,6 +448,8 @@ QString MemoryWidget::programmerResult(const Quantity answer)
  */
 void MemoryWidget::resetAllLabelByBase()
 {
+    qDebug() << "MemoryWidget::resetAllLabelByBase";
+
     if (m_memorypublic->isEmpty())
         return;
     QString text;
@@ -459,6 +470,8 @@ void MemoryWidget::resetAllLabelByBase()
  */
 void MemoryWidget::resetLabelBySeparator()
 {
+    qDebug() << "MemoryWidget::resetLabelBySeparator";
+
     if (m_memorypublic->isEmpty())
         return;
     QString text;
@@ -471,6 +484,8 @@ void MemoryWidget::resetLabelBySeparator()
 
 void MemoryWidget::initConnect()
 {
+    qDebug() << "MemoryWidget::initConnect";
+
     connect(m_memorypublic, &MemoryPublic::generateDataSig, this, &MemoryWidget::generateData);
     connect(m_memorypublic, &MemoryPublic::memorycleanSig, this, &MemoryWidget::memoryclean);
     connect(m_memorypublic, &MemoryPublic::memoryAnsSig, this, &MemoryWidget::memoryAnsChanged);

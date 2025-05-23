@@ -7,15 +7,17 @@
 
 #include <DStyleHelper>
 #include <DGuiApplicationHelper>
+#include <QDebug>
 
 MemoryItemDelegate::MemoryItemDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
+    qDebug() << "MemoryItemDelegate constructor";
 }
 
 MemoryItemDelegate::~MemoryItemDelegate()
 {
-
+    qDebug() << "MemoryItemDelegate destructor";
 }
 
 /**

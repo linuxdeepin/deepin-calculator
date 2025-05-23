@@ -23,6 +23,7 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     , m_btnclean(new MemoryButton(QString("MC"), true, this))
     , m_label(new QLabel(this))
 {
+    qDebug() << "MemoryItemWidget constructor";
     setFocusPolicy(Qt::NoFocus);
     QVBoxLayout *layV = new QVBoxLayout(this); //存放四个控件
     QHBoxLayout *lay = new QHBoxLayout(); //存放三个按钮
@@ -65,6 +66,8 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 void MemoryItemWidget::enterEvent(QEnterEvent *event)
 {
+    qDebug() << "MemoryItemWidget enterEvent";
+
     m_ishover = true;
     m_btnplus->setHidden(false); //进入时显示按钮
     m_btnminus->setHidden(false);
@@ -274,6 +277,8 @@ void MemoryItemWidget::themetypechanged(int type)
  */
 void MemoryItemWidget::isexpressionempty(bool b)
 {
+    qDebug() << "MemoryItemWidget expression empty state changed to:" << b;
+
     m_isExpressionEmpty = b;
     if (m_isExpressionEmpty) {
         m_btnplus->setEnabled(false);
@@ -298,4 +303,5 @@ void MemoryItemWidget::setNextItemHover()
 
 MemoryItemWidget::~MemoryItemWidget()
 {
+    qDebug() << "MemoryItemWidget destructor";
 }

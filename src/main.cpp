@@ -80,16 +80,20 @@ DGuiApplicationHelper::ColorType getThemeTypeSetting()
 
 int main(int argc, char *argv[])
 {
+    qInfo() << "Starting deepin-calculator application";
     if (!QString(qgetenv("XDG_CURRENT_DESKTOP")).toLower().startsWith("deepin")) {
+        qDebug() << "Setting XDG_CURRENT_DESKTOP to Deepin";
         setenv("XDG_CURRENT_DESKTOP", "Deepin", 1);
     }
     // DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    qInfo() << "Creating DApplication instance";
     DApplication app(argc, argv);
     app.setAttribute(Qt::AA_UseHighDpiPixmaps);
     g_appPath = QDir::homePath() + QDir::separator() + "." + qApp->applicationName();
     QDir t_appDir;
     t_appDir.mkpath(g_appPath);
+    qDebug() << "Loading application translator";
     app.loadTranslator();
     app.setOrganizationName("deepin");
     app.setApplicationName("deepin-calculator");
@@ -116,15 +120,19 @@ int main(int argc, char *argv[])
     cmdParser.process(app);
 
 
+    qInfo() << "Creating MainWindow instance";
     MainWindow window;
     window.setWindowFlag(Qt::WindowMaximizeButtonHint, false);
     DSettingsAlt *m_dsettings = DSettingsAlt::instance();
     QDBusConnection dbus = QDBusConnection::sessionBus();
+    qInfo() << "Registering DBus service";
     if (dbus.registerService("com.deepin.calculator")) {
+        qInfo() << "DBus service registered successfully";
         Dtk::Widget::moveToCenter(&window);
         m_dsettings->setOption("windowX", window.pos().x());
         m_dsettings->setOption("windowY", window.pos().y());
     } else {
+        qWarning() << "DBus service already registered, using existing instance";
         window.move(m_dsettings->getOption("windowX").toInt() + 10, m_dsettings->getOption("windowY").toInt() + 10);
     }
     
@@ -132,16 +140,22 @@ int main(int argc, char *argv[])
     DApplicationSettings::setThemeType(DGuiApplicationHelper::ColorType::LightType);
 #endif
 
+    qDebug() << "Getting theme type settings";
     DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
+    qInfo() << "Current theme type:" << oldpalette;
 
     if (oldversion == true) {
+        qDebug() << "Applying old theme settings";
         DGuiApplicationHelper::instance()->setPaletteType(oldpalette);
     }
 
     // Register debus service.
+    qDebug() << "Registering DBus object";
     dbus.registerObject("/com/deepin/calculator", &window, QDBusConnection::ExportScriptableSlots);
+    qInfo() << "Showing main window";
     window.show();
     window.switchModeBack();
 
+    qInfo() << "Entering application event loop";
     return app.exec();
 }

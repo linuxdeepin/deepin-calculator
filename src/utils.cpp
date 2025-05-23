@@ -29,10 +29,13 @@ Utils::~Utils()
  */
 QString Utils::getConfigDir()
 {
+    qDebug() << "Enter getConfigDir()";
     QDir dir(QDir(QStandardPaths::standardLocations(QStandardPaths::ConfigLocation).first())
              .filePath(qApp->organizationName()));
-
-    return dir.filePath(qApp->applicationName());
+    
+    QString configPath = dir.filePath(qApp->applicationName());
+    qDebug() << "Exit getConfigDir(), config path:" << configPath;
+    return configPath;
 }
 
 /**
@@ -40,13 +43,18 @@ QString Utils::getConfigDir()
  */
 QString Utils::getQssContent(const QString &filePath)
 {
+    qDebug() << "Enter getQssContent(), filePath:" << filePath;
     QFile file(filePath);
     QString qss = nullptr;
 
     if (file.open(QIODevice::ReadOnly)) {
         qss = file.readAll();
+        qInfo() << "Successfully read QSS content from" << filePath;
+    } else {
+        qWarning() << "Failed to open QSS file:" << filePath << "Error:" << file.errorString();
     }
 
+    qDebug() << "Exit getQssContent()";
     return qss;
 }
 
@@ -55,11 +63,14 @@ QString Utils::getQssContent(const QString &filePath)
  */
 QString Utils::formatThousandsSeparators(const QString &str)
 {
+    qDebug() << "Enter formatThousandsSeparators(), input:" << str;
     int separate = DSettingsAlt::instance()->getSeparate(); //数字分割位数
+    qInfo() << "Current thousand separator setting:" << separate;
 
     QString result = str;
     int startPos = result.indexOf(QRegularExpression("[0-9]"));
     if (startPos >= 0) {
+        qDebug() << "Found number sequence at position:" << startPos;
         int endPos = result.indexOf('.');
 
         if (endPos < 0) {
@@ -81,15 +92,18 @@ QString Utils::formatThousandsSeparators(const QString &str)
  */
 bool Utils::stringIsDigit(const QString &str)
 {
+    qDebug() << "Enter stringIsDigit(), input:" << str;
     bool isDigit = true;
 
     for (auto &ch : str) {
         if (!ch.isDigit() && ch != '.' && ch != ',' && ch != '-') { //非数字条件为非数字小数点分隔符负号
+            qDebug() << "Invalid character found:" << ch;
             isDigit = false;
             break;
         }
     }
 
+    qDebug() << "Exit stringIsDigit(), result:" << isDigit;
     return isDigit;
 }
 
@@ -281,8 +295,10 @@ QString Utils::reformatSeparatorsPro(const QString &exp, const int Base)
 QString Utils::toHalfWidth(const QString &str)
 {
     QString result = str;
-    if (str.length() <= 0)
+    if (str.length() <= 0) {
+        qDebug() << "Empty input string";
         return QString();
+    }
     for (int i = 0; i < result.length(); i++) {
         int charIntValue = result.at(i).unicode();
         if (charIntValue >= 65281 && charIntValue <= 65374) {

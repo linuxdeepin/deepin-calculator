@@ -109,6 +109,7 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
     , m_logyxwidget(new QStackedWidget(this))
     , m_exwidget(new QStackedWidget(this))
 {
+    qDebug() << "ScientificKeyPad constructor called";
     this->setFixedHeight(KEYPADHEIGHT);
     m_leftBracket->setFixedSize(24, 14);
     m_rightBracket->setFixedSize(24, 14);
@@ -128,6 +129,7 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
 
 ScientificKeyPad::~ScientificKeyPad()
 {
+    qDebug() << "ScientificKeyPad destructor called";
 }
 
 void ScientificKeyPad::mouseMoveEvent(QMouseEvent *e)
@@ -197,6 +199,7 @@ bool ScientificKeyPad::buttonHasFocus()
  */
 void ScientificKeyPad::initButtons()
 {
+    qDebug() << "Initializing scientific keypad buttons";
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
 
     for (int i = 0; i < count; ++i) {
@@ -380,6 +383,7 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
  */
 void ScientificKeyPad::buttonThemeChanged(int type)
 {
+    qDebug() << "Button theme changed to:" << (type == 2 ? "dark" : "light");
     m_themetype = type;
     QString path;
     if (type == 2) {
@@ -425,6 +429,7 @@ void ScientificKeyPad::buttonThemeChanged(int type)
  */
 void ScientificKeyPad::turnPage(int key)
 {
+    qDebug() << "Page turned with key:" << key;
     if (key == Key_page) {
         if (m_arcsinwidget->currentIndex() == 0) {
             m_arcsinwidget->setCurrentIndex(1);
@@ -459,6 +464,7 @@ void ScientificKeyPad::turnPage(int key)
  */
 void ScientificKeyPad::getdeg(int deg)
 {
+    qDebug() << "Angle unit changed to:" << (deg == 1 ? "rad" : deg == 2 ? "grad" : "deg");
     m_deg = deg;
     QString path;
     if (m_themetype == 2)

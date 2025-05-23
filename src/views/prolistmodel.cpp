@@ -11,13 +11,20 @@
 ProListModel::ProListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
+    qDebug() << "ProListModel constructor";
+
     clearItems();
 }
 
-ProListModel::~ProListModel() {}
+ProListModel::~ProListModel()
+{
+    qDebug() << "ProListModel destructor";
+}
 
 void ProListModel::refrushModel()
 {
+    qDebug() << "ProListModel::refrushModel";
+
     beginResetModel();
     endResetModel();
 }
@@ -52,6 +59,8 @@ QVariant ProListModel::data(const QModelIndex &index, int role) const
  */
 void ProListModel::clearItems()
 {
+    qDebug() << "ProListModel::clearItems - clearing all items";
+
     m_expressionList.clear();
     beginInsertRows(QModelIndex(), 0, 0);
     m_expressionList << "";
@@ -75,6 +84,8 @@ void ProListModel::clearItems()
  */
 void ProListModel::updataList(const Quantity ans)
 {
+    qInfo() << "ProListModel::updataList - updating list with new data";
+
     m_expressionList.clear();
 
     QString hex, dec, otc, bin;
@@ -121,6 +132,8 @@ void ProListModel::updataList(const Quantity ans)
 
 void ProListModel::copyToClipboard(const int index)
 {
+    qDebug() << "ProListModel::copyToClipboard - copying index:" << index;
+
     QClipboard *clipboard = QApplication::clipboard();
     QString copy = m_expressionList.at(index);
     clipboard->setText(copy.replace(" ", ""));

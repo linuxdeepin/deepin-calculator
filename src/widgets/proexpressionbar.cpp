@@ -27,6 +27,7 @@ const int INPUTEDIT_HEIGHT = 55;
 ProExpressionBar::ProExpressionBar(QWidget *parent)
     : DWidget(parent)
 {
+    qDebug() << "ProExpressionBar constructor called";
     m_evaluator = Evaluator::instance();
     m_listView = new SimpleListView(0, this);
     m_listDelegate = new SimpleListDelegate(0, this);
@@ -59,7 +60,7 @@ ProExpressionBar::ProExpressionBar(QWidget *parent)
 
 ProExpressionBar::~ProExpressionBar()
 {
-
+    qDebug() << "ProExpressionBar destructor called";
 }
 
 void ProExpressionBar::mouseMoveEvent(QMouseEvent *event)
@@ -128,6 +129,7 @@ bool ProExpressionBar::judgeinput()
 
 void ProExpressionBar::enterNumberEvent(const QString &text)
 {
+    qDebug() << "enterNumberEvent called with text:" << text;
     if (!judgeinput())
         return;
     if (m_inputNumber && m_isResult == true) {
@@ -172,6 +174,7 @@ void ProExpressionBar::enterNumberEvent(const QString &text)
 
 void ProExpressionBar::enterSymbolEvent(const QString &text)
 {
+    qDebug() << "enterSymbolEvent called with text:" << text;
     if (!judgeinput())
         return;
     QString oldText = m_inputEdit->text();
@@ -241,6 +244,7 @@ void ProExpressionBar::enterSymbolEvent(const QString &text)
 
 void ProExpressionBar::enterBackspaceEvent()
 {
+    qDebug() << "enterBackspaceEvent called";
     QString sRegNum = "[a-zA-Z0-9]";  // 匹配字母和数字
     QRegularExpression rx;
     rx.setPattern(sRegNum);
@@ -322,6 +326,7 @@ void ProExpressionBar::enterBackspaceEvent()
 
 void ProExpressionBar::enterClearEvent()
 {
+    qDebug() << "enterClearEvent called";
     Settings::instance()->proRotateCarry = "00";
     bool need_addundo = !m_inputEdit->text().isEmpty();
     if (m_isAllClear) {
@@ -347,6 +352,7 @@ void ProExpressionBar::enterClearEvent()
 
 void ProExpressionBar::enterEqualEvent()
 {
+    qDebug() << "enterEqualEvent called";
     QString exp = m_inputEdit->text();
     if (m_inputEdit->text().isEmpty()) {
         return;
@@ -363,10 +369,12 @@ void ProExpressionBar::enterEqualEvent()
     Settings::instance()->proRotateCarry.replace(1, 1, Settings::instance()->proRotateCarry.front());
     // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
     // 20200407 超过16位小数未科学计数
-    qDebug() << "m_evaluator->error()" << m_evaluator->error();
-    qDebug() << "ans" << m_inputEdit->expressionText();
+    qDebug() << "Evaluator error:" << m_evaluator->error();
+    qDebug() << "Current expression:" << m_inputEdit->expressionText();
     if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegularExpression("[a-z＋－×÷,%()\\s]")) != -1)) {
+        qInfo() << "Valid expression evaluated";
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign()) {
+            qWarning() << "Expression evaluation error";
             m_expression = exp + "＝" + tr("Expression error");
             m_listModel->updataList(m_expression, -1, true);
             return;
@@ -422,6 +430,7 @@ void ProExpressionBar::enterEqualEvent()
         m_listModel->updataList(m_expression, -1, true);
     } else {
         if (!m_evaluator->error().isEmpty()) {
+            qCritical() << "Critical evaluation error:" << m_evaluator->error();
             m_expression = exp + "＝" + tr("Expression error");
             m_listModel->updataList(m_expression, -1, true);
         } else {

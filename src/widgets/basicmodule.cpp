@@ -18,6 +18,7 @@
 BasicModule::BasicModule(QWidget *parent)
     : DWidget(parent)
 {
+    qDebug() << "BasicModule constructor called";
     m_keypadLayout = new QStackedWidget(this);
     m_basicKeypad = new BasicKeypad(this);
     m_memoryKeypad = new MemoryKeypad(this);
@@ -136,17 +137,25 @@ BasicModule::BasicModule(QWidget *parent)
     });
     connect(m_memorylistwidget, &MemoryWidget::hideWidget, this, &BasicModule::closeListWidget);
     //获取科学模式内存是否为空，处理分开初始化科学模式下增加内存切到标准模式Mlist不能点击情况
-    if (!m_memoryPublic->isEmpty())
+    if (!m_memoryPublic->isEmpty()) {
+        qInfo() << "Memory is not empty, calling mAvailableEvent";
         mAvailableEvent();
-    else
+    } else {
+        qInfo() << "Memory is empty, calling mUnAvailableEvent";
         mUnAvailableEvent();
+    }
     setBasicTabOrder();
 }
 
-BasicModule::~BasicModule() {}
+BasicModule::~BasicModule()
+{
+    qDebug() << "BasicModule destructor called";
+}
 
 void BasicModule::initTheme(int type)
 {
+    qDebug() << "initTheme called, type:" << type;
+
     m_expressionBar->initTheme(type);
     update();
 }
@@ -156,6 +165,8 @@ void BasicModule::initTheme(int type)
  */
 void BasicModule::handleEditKeyPress(QKeyEvent *e)
 {
+    qDebug() << "handleEditKeyPress called, key:" << e->key();
+
     if (m_keypadLayout->currentIndex() == 1)
         return;
     const bool isPressCtrl = e->modifiers() == Qt::ControlModifier;
@@ -296,6 +307,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         if (isPressCtrl && m_memRCbtn && !m_isallgray) {
             m_memoryKeypad->animate(MemoryKeypad::Key_MC);
             QTimer::singleShot(100, this, [ = ] {
+                qInfo() << "Triggering memory clean operation";
                 m_memoryPublic->memoryclean(); //延迟，让动画效果显示
             });
         }
@@ -329,6 +341,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
             m_memoryKeypad->animate(MemoryKeypad::Key_MS);
             m_expressionBar->settingLinkage();
             if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
+                qInfo() << "Generating memory data";
                 m_memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         }
         break;
@@ -344,6 +357,8 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
  */
 void BasicModule::handleKeypadButtonPress(int key)
 {
+    qDebug() << "handleKeypadButtonPress called, key:" << key;
+
     bool pagefocus = false;
     m_basicKeypad->update();
     //20200414 bug20294鼠标点击取消focus
@@ -412,6 +427,7 @@ void BasicModule::handleKeypadButtonPress(int key)
     case MemoryKeypad::Key_MS:
         m_expressionBar->settingLinkage();
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first) //如果输入栏中可计算出结果
+            qInfo() << "Generating memory data from keypad";
             m_memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         break;
     case MemoryKeypad::Key_MC:
@@ -462,6 +478,8 @@ void BasicModule::handleKeypadButtonPress(int key)
  */
 void BasicModule::handleKeypadButtonPressByspace(int key)
 {
+    qDebug() << "handleKeypadButtonPressByspace called, key:" << key;
+
     m_basicKeypad->update();
     m_memoryKeypad->update();
     //20200414 bug20294鼠标点击取消focus

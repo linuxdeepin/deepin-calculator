@@ -21,21 +21,25 @@ const int LEFT_MARGIN = 12; //prolistview左边距
 ProListDelegate::ProListDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-
+    qDebug() << "ProListDelegate constructor";
 }
 
 ProListDelegate::~ProListDelegate()
 {
-
+    qDebug() << "ProListDelegate destructor";
 }
 
 void ProListDelegate::setThemeType(int type)
 {
+    qDebug() << "ProListDelegate theme type changed to:" << type;
+
     m_themeType = type;
 }
 
 void ProListDelegate::currentfocusindex(QModelIndex index)
 {
+    qDebug() << "ProListDelegate focus index changed to:" << index.row();
+
     m_focusindex = index;
 }
 
@@ -145,6 +149,8 @@ bool ProListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, cons
 
 void ProListDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    qDebug() << "ProListDelegate::updateEditorGeometry";
+
     Q_UNUSED(index);
     editor->setGeometry(option.rect);
 }

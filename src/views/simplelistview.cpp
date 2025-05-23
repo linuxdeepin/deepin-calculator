@@ -20,6 +20,8 @@
 SimpleListView::SimpleListView(int mode, QWidget *parent)
     : DListView(parent)
 {
+    qDebug() << "SimpleListView constructor, mode:" << mode;
+
     m_mode = mode;
 
     setVerticalScrollMode(ScrollPerPixel); //鼠标滚轮滚动一次一个像素
@@ -45,6 +47,7 @@ SimpleListView::SimpleListView(int mode, QWidget *parent)
 
 SimpleListView::~SimpleListView()
 {
+    qDebug() << "SimpleListView destructor";
 }
 
 /**
@@ -52,6 +55,8 @@ SimpleListView::~SimpleListView()
  */
 void SimpleListView::contextMenuEvent(QContextMenuEvent *event)
 {
+    qDebug() << "SimpleListView contextMenuEvent at pos:" << event->pos();
+
     QMenu *menu = new QMenu(this);
     //缺翻译
     QAction *copy = new QAction(tr("Copy"), menu);
@@ -75,11 +80,15 @@ void SimpleListView::contextMenuEvent(QContextMenuEvent *event)
  */
 void SimpleListView::listItemFill(bool itemfill)
 {
+    qDebug() << "SimpleListView listItemFill:" << itemfill;
+
     m_itemfill = itemfill;
 }
 
 void SimpleListView::showTextEditMenuByAltM(const QModelIndex &index)
 {
+    qDebug() << "SimpleListView showTextEditMenuByAltM for row:" << index.row();
+
     QMenu *menu = new QMenu(this);
     //缺翻译
     QAction *copy = new QAction(tr("Copy"), menu);

@@ -18,6 +18,8 @@ const QString AtoF = "ABCDEF";
 SimpleListModel::SimpleListModel(int mode, QObject *parent)
     : QAbstractListModel(parent)
 {
+    qDebug() << "SimpleListModel constructor, mode:" << mode;
+
     m_selectedStatus = false;
     if (mode == 1) {
         m_mode = mode;
@@ -25,7 +27,10 @@ SimpleListModel::SimpleListModel(int mode, QObject *parent)
     }
 }
 
-SimpleListModel::~SimpleListModel() {}
+SimpleListModel::~SimpleListModel()
+{
+    qDebug() << "SimpleListModel destructor";
+}
 
 /**
  * @brief 返回历史记录条数
@@ -67,6 +72,8 @@ QVariant SimpleListModel::data(const QModelIndex &index, int role) const
  */
 void SimpleListModel::appendText(const QString &text, bool sci)
 {
+    qDebug() << "SimpleListModel::appendText, sci:" << sci;
+
     auto expression = text.simplified();
 
     const int size = m_expressionList.size();
@@ -91,6 +98,8 @@ void SimpleListModel::appendText(const QString &text, bool sci)
  */
 void SimpleListModel::clearItems()
 {
+    qDebug() << "SimpleListModel::clearItems - clearing all items";
+
     beginRemoveRows(QModelIndex(), 0, m_expressionList.size());
     m_expressionList.clear();
     endRemoveRows();
@@ -107,6 +116,8 @@ void SimpleListModel::clearItems()
  */
 void SimpleListModel::refrushModel()
 {
+    qDebug() << "SimpleListModel::refrushModel";
+
     beginResetModel();
     endResetModel();
 }
@@ -116,6 +127,8 @@ void SimpleListModel::refrushModel()
  */
 void SimpleListModel::updataList(const QString &text, const int index, bool sci)
 {
+    qDebug() << "SimpleListModel::updataList, index:" << index << "sci:" << sci;
+
     if (m_expressionList.count() == 500) {
         if (sci)
             deleteItem(499);
@@ -148,6 +161,8 @@ void SimpleListModel::updataList(const QString &text, const int index, bool sci)
  */
 void SimpleListModel::updataList(Quantity ans, const QString &text, const int index)
 {
+    qDebug() << "SimpleListModel::updataList with Quantity, index:" << index;
+
     if (m_expressionList.count() == 500) {
         deleteItem(499); //历史记录不超过500条
         m_answerlist.pop_back();
@@ -169,6 +184,8 @@ void SimpleListModel::updataList(Quantity ans, const QString &text, const int in
  */
 void SimpleListModel::deleteItem(const int index)
 {
+    qDebug() << "SimpleListModel::deleteItem, index:" << index;
+
     beginRemoveRows(QModelIndex(), index, index);
     m_expressionList.removeAt(index);
     endRemoveRows();
@@ -184,6 +201,8 @@ void SimpleListModel::deleteItem(const int index)
  */
 void SimpleListModel::copyToClipboard(const int index)
 {
+    qDebug() << "SimpleListModel::copyToClipboard, index:" << index;
+
     QClipboard *clipboard = QApplication::clipboard();
     QString copy = m_expressionList.at(index);
     clipboard->setText(copy.replace(" ", ""));
@@ -201,6 +220,8 @@ Quantity SimpleListModel::getAnswer(const int index)
 
 void SimpleListModel::radixChanged(int baseori, int basedest)
 {
+    qDebug() << "SimpleListModel::radixChanged, from:" << baseori << "to:" << basedest;
+
     if (m_expressionList.count() <= 0)
         return;
     m_numvec.clear();
@@ -422,6 +443,8 @@ void SimpleListModel::expOutofRange()
  */
 void SimpleListModel::updataOfSeparate()
 {
+    qDebug() << "SimpleListModel::updataOfSeparate";
+
     for (int i = 0; i < m_expressionList.count(); ++i) {
         QString expression = m_expressionList.at(i);    //获取原算式
         expression.replace(",", "");   //清空逗号分隔符
