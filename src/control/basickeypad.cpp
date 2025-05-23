@@ -70,6 +70,7 @@ BasicKeypad::BasicKeypad(QWidget *parent)
       m_layout(new QGridLayout(this)),
       m_mapper(new QSignalMapper(this))
 {
+    qDebug() << "BasicKeypad constructor started";
     this->setFixedHeight(KEYPAD_HEIGHT);
     m_layout->setSpacing(KEYPAD_SPACING);
     m_layout->setContentsMargins(0, 0, 0, 0);
@@ -78,6 +79,7 @@ BasicKeypad::BasicKeypad(QWidget *parent)
 
     initButtons();
     initUI();
+    qDebug() << "BasicKeypad UI initialized";
 
     // connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
     // 使用 lambda 表达式替代 QSignalMapper
@@ -92,6 +94,7 @@ BasicKeypad::BasicKeypad(QWidget *parent)
 
 BasicKeypad::~BasicKeypad()
 {
+    qDebug() << "BasicKeypad destructor called";
 }
 
 /**
@@ -121,6 +124,7 @@ DPushButton *BasicKeypad::button(int key)
  */
 void BasicKeypad::animate(Buttons key, bool isspace)
 {
+    qDebug() << "Button animation triggered for key:" << key << "with space:" << isspace;
     if (button(key)->text().isEmpty()) {
         IconButton *btn = static_cast<IconButton *>(button(key));
         btn->animate(isspace);
@@ -155,6 +159,7 @@ bool BasicKeypad::buttonHasFocus()
  */
 void BasicKeypad::initButtons()
 {
+    qDebug() << "Initializing keyboard buttons";
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
@@ -210,6 +215,7 @@ void BasicKeypad::initUI()
  */
 void BasicKeypad::buttonThemeChanged(int type)
 {
+    qInfo() << "Theme changed to" << (type == 2 ? "dark" : "light") << "mode";
     QString path;
     if (type == 2)
         path = QString(":/assets/images/%1/").arg("dark");
@@ -234,6 +240,7 @@ void BasicKeypad::buttonThemeChanged(int type)
  */
 void BasicKeypad::getFocus(int direction)
 {
+    qDebug() << "Focus direction changed:" << direction;
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
     while (i.hasNext()) {
         i.next();

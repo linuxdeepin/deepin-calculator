@@ -21,6 +21,7 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
     , m_effect(new QGraphicsDropShadowEffect(this))
     , m_iconRenderer(new QSvgRenderer(this))
 {
+    qDebug() << "IconButton constructor called with type:" << b << "page:" << page;
     if (b == 1)
         setFixedSize(HISTORY_WIDGET_CLEARBUTTONSIZE);
     m_isHover = false;
@@ -33,6 +34,7 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
 
 IconButton::~IconButton()
 {
+    qDebug() << "IconButton destructor called";
 }
 
 /**
@@ -44,6 +46,10 @@ IconButton::~IconButton()
  */
 void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode)
 {
+    qDebug() << "Setting icon URLs - normal:" << normalFileName
+            << "hover:" << hoverFileName
+            << "press:" << pressFileName
+            << "mode:" << mode;
     m_normalUrl = normalFileName;
     m_hoverUrl = hoverFileName;
     m_pressUrl = pressFileName;
@@ -70,6 +76,7 @@ QStringList IconButton::getIconUrl() const
  */
 void IconButton::animate(bool isspace, int msec)
 {
+    qDebug() << "Button animation triggered with space:" << isspace << "duration:" << msec << "ms";
     if (m_isPress == false) { //edit for bug-20492 20200416
         m_isHover = false;  //edit for bug-20508 20200414
         if (!isspace)

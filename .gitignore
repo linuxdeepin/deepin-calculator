@@ -8,3 +8,11 @@ build/
 
 #linglong building dir
 linglong
+
+# vscode workspace
+.vscode/
+
+# AI configuration files
+.roo/
+.ruru/
+.roomodes

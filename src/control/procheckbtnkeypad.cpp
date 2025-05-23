@@ -18,6 +18,7 @@ ProCheckBtnKeypad::ProCheckBtnKeypad(QWidget *parent)
       m_layout(new QGridLayout(this)),
       m_mapper(new QSignalMapper(this))
 {
+    qDebug() << "ProCheckBtnKeypad constructor called";
     this->setFixedHeight(45);
     m_layout->setSpacing(2);  //按钮比ui大2pix,此处比ui小2pix
     m_layout->setContentsMargins(0, 0, 0, 0);
@@ -29,7 +30,7 @@ ProCheckBtnKeypad::ProCheckBtnKeypad(QWidget *parent)
 
 ProCheckBtnKeypad::~ProCheckBtnKeypad()
 {
-
+    qDebug() << "ProCheckBtnKeypad destructor called";
 }
 
 void ProCheckBtnKeypad::mouseMoveEvent(QMouseEvent *e)
@@ -51,6 +52,7 @@ DPushButton *ProCheckBtnKeypad::button(ProCheckBtnKeypad::Buttons key)
  */
 void ProCheckBtnKeypad::animate(ProCheckBtnKeypad::Buttons key, bool isspace)
 {
+    qDebug() << "Button animation triggered for key:" << key << "with space:" << isspace;
     MemoryButton *btn = static_cast<MemoryButton *>(button(key));
     btn->animate(isspace);
 }
@@ -75,6 +77,7 @@ bool ProCheckBtnKeypad::buttonHasFocus()
  */
 void ProCheckBtnKeypad::initButtons()
 {
+    qDebug() << "Initializing programmer check buttons";
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
@@ -111,6 +114,7 @@ void ProCheckBtnKeypad::initButtons()
  */
 void ProCheckBtnKeypad::buttonThemeChanged(int type)
 {
+    qInfo() << "Button theme changed to:" << (type == 2 ? "dark" : "light");
     QString path;
     if (type == 2)
         path = QString(":/assets/images/%1/").arg("dark");
@@ -138,6 +142,7 @@ void ProCheckBtnKeypad::buttonThemeChanged(int type)
  */
 void ProCheckBtnKeypad::getFocus(int direction)
 {
+    qDebug() << "Focus direction changed:" << direction;
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
     while (i.hasNext()) {
         i.next();

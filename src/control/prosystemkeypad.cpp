@@ -16,6 +16,7 @@ ProSystemKeypad::ProSystemKeypad(QWidget *parent)
     : DWidget(parent),
       m_layout(new QGridLayout(this))
 {
+    qDebug() << "ProSystemKeypad constructor called";
     this->setFocusPolicy(Qt::ClickFocus);
     this->setFixedSize(SYSTEMKEYPADSIZE);
     m_layout->setContentsMargins(LEFT_MARGIN, 0, 0, BOTTOM_MARGIN);
@@ -25,7 +26,7 @@ ProSystemKeypad::ProSystemKeypad(QWidget *parent)
 
 ProSystemKeypad::~ProSystemKeypad()
 {
-
+    qDebug() << "ProSystemKeypad destructor called";
 }
 
 /**
@@ -34,6 +35,7 @@ ProSystemKeypad::~ProSystemKeypad()
  */
 void ProSystemKeypad::setSystem(int system, int oldsystem)
 {
+    qInfo() << "System changed from" << oldsystem << "to" << system << "bit";
     QHashIterator<int, ProBitWidget *> i(m_keys);
     if (system == 64) {
         while (i.hasNext()) {
@@ -141,6 +143,7 @@ void ProSystemKeypad::mouseMoveEvent(QMouseEvent *event)
  */
 void ProSystemKeypad::getFocus(int dir, int key)
 {
+    qDebug() << "Focus direction:" << dir << "for key:" << key;
     switch (dir) {
     case 0:
         if (key < 48 && m_buttons.value(key + 16)->isEnabled())
@@ -240,6 +243,7 @@ void ProSystemKeypad::initconnects()
  */
 void ProSystemKeypad::changeBinaryValue(int i)
 {
+    qDebug() << "Binary value changed at position:" << i;
     if (m_binaryValue.at(63 - i) == '0')
         m_binaryValue.replace(63 - i, 1, '1');
     else

@@ -38,6 +38,7 @@ ProgrammerKeypad::ProgrammerKeypad(QWidget *parent)
       m_leftBracket(new DLabel(this)),
       m_rightBracket(new DLabel(this))
 {
+    qDebug() << "ProgrammerKeypad constructor called";
     this->setFixedHeight(KEYPAD_HEIGHT);
     m_layout->setSpacing(KEYPAD_SPACING);
     m_layout->setContentsMargins(0, 0, 0, 0);
@@ -53,7 +54,7 @@ ProgrammerKeypad::ProgrammerKeypad(QWidget *parent)
 
 ProgrammerKeypad::~ProgrammerKeypad()
 {
-
+    qDebug() << "ProgrammerKeypad destructor called";
 }
 
 /**
@@ -78,6 +79,7 @@ DPushButton *ProgrammerKeypad::button(ProgrammerKeypad::Buttons key)
  */
 void ProgrammerKeypad::animate(ProgrammerKeypad::Buttons key, bool isspace)
 {
+    qDebug() << "Button animation triggered for key:" << key << "with space:" << isspace;
     if (button(key)->text().isEmpty()) {
         IconButton *btn = static_cast<IconButton *>(button(key));
         btn->animate(isspace);
@@ -112,6 +114,7 @@ bool ProgrammerKeypad::buttonHasFocus()
  */
 void ProgrammerKeypad::initButtons()
 {
+    qDebug() << "Initializing programmer keypad buttons";
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
@@ -175,6 +178,7 @@ void ProgrammerKeypad::initButtons()
  */
 void ProgrammerKeypad::buttonThemeChanged(int type)
 {
+    qInfo() << "Button theme changed to:" << (type == 2 ? "dark" : "light");
     m_themetype = type;
     QString path;
     if (type == 2)
@@ -200,6 +204,7 @@ void ProgrammerKeypad::buttonThemeChanged(int type)
  */
 void ProgrammerKeypad::getFocus(int direction)
 {
+    qDebug() << "Focus direction changed:" << direction;
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
     while (i.hasNext()) {
         i.next();
@@ -260,6 +265,7 @@ void ProgrammerKeypad::getFocus(int direction)
  */
 void ProgrammerKeypad::radixChanged(int row)
 {
+    qInfo() << "Radix changed to:" << (row == 0 ? "hex" : row == 1 ? "dec" : row == 2 ? "oct" : "bin");
     switch (row) {
     case 0:
         foreach (TextButton *button, m_bindisable) {

@@ -32,6 +32,7 @@ InputEdit::InputEdit(QWidget *parent)
     , m_lastPos(0)
     , m_memoryans(0)
 {
+    qDebug() << "InputEdit constructor called";
     m_evaluator = Evaluator::instance();
     setAttribute(Qt::WA_InputMethodEnabled, false); //禁止中文输入法
     setAttribute(Qt::WA_TranslucentBackground); //设置窗口透明
@@ -63,7 +64,10 @@ InputEdit::InputEdit(QWidget *parent)
                  };
 }
 
-InputEdit::~InputEdit() {}
+InputEdit::~InputEdit()
+{
+    qDebug() << "InputEdit destructor called";
+}
 
 /**
  * @brief 当对超过17位的数进行百分号处理时，保留超过精度的部分
@@ -109,6 +113,8 @@ InputEdit::~InputEdit() {}
  */
 QString InputEdit::expressionText()
 {
+    qDebug() << "expressionText called, current text:" << text();
+
     QString t = text();
     //    t.remove(",");
     //edit for bug-19653 20200416  当数字长度超过精度范围时，保留小数点最后的数。
@@ -151,6 +157,8 @@ QString InputEdit::expressionText()
  */
 void InputEdit::setAnswer(const QString &str, const Quantity &ans)
 {
+    qDebug() << "setAnswer called, answer:" << str;
+
     m_ans = ans;
     m_ansStartPos = 0;
     m_ansLength = str.length();
@@ -196,6 +204,8 @@ void InputEdit::setAnswer(const QString &str, const Quantity &ans)
  */
 void InputEdit::clear()
 {
+    qDebug() << "clear called";
+
     m_ansLength = 0;
     setText("");
 }
@@ -221,6 +231,8 @@ void InputEdit::setRedoAction(bool state)
  */
 void InputEdit::keyPressEvent(QKeyEvent *e)
 {
+    qDebug() << "keyPressEvent called, key:" << e->key();
+
     if (hasFocus() && e->modifiers() == Qt::AltModifier && e->key() == Qt::Key_M) {
         showTextEditMenuByAltM();
     } else
@@ -233,6 +245,8 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
  */
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
+    qDebug() << "mouseDoubleClickEvent called";
+
     //fix bug-47162保持触摸屏双击输入框与其他应用一致
     QLineEdit::mouseDoubleClickEvent(e);
     selectAll();
@@ -247,6 +261,8 @@ void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 
 void InputEdit::mousePressEvent(QMouseEvent *e)
 {
+    qDebug() << "mousePressEvent called";
+
     if (e->button() == Qt::LeftButton) {
         setFocus();
         emit setResult(); //expression中m_isResult置为false
@@ -257,6 +273,8 @@ void InputEdit::mousePressEvent(QMouseEvent *e)
 
 void InputEdit::mouseReleaseEvent(QMouseEvent *event)
 {
+    qDebug() << "mouseReleaseEvent called";
+
     if (event->button() == Qt::MiddleButton) {
         emit paste();
         return;
@@ -269,6 +287,8 @@ void InputEdit::mouseReleaseEvent(QMouseEvent *event)
  */
 void InputEdit::initAction()
 {
+    qDebug() << "initAction called";
+
     //fix bug-47321
     m_undo = new QAction(tr("Undo"), this);
     m_redo = new QAction(tr("Redo"), this);
@@ -362,6 +382,8 @@ void InputEdit::initAction()
  */
 void InputEdit::autoZoomFontSize()
 {
+    qDebug() << "autoZoomFontSize called";
+
     QFont font;
 
     // the maximum font is 30, minimum font is 15.
@@ -381,6 +403,8 @@ void InputEdit::autoZoomFontSize()
 
 void InputEdit::themetypechanged(int type)
 {
+    qDebug() << "themetypechanged called, type:" << type;
+
     DPalette pl = this->palette();
     //itemwidget字体颜色设置
     if (type == 1) {
@@ -401,6 +425,8 @@ void InputEdit::themetypechanged(int type)
  */
 void InputEdit::valueChangeFromProSyskeypad(const QString num)
 {
+    qDebug() << "valueChangeFromProSyskeypad called, num:" << num;
+
 //    qDebug() << "change";
     QString text = this->text();
     int pos = this->cursorPosition();
@@ -438,6 +464,8 @@ void InputEdit::valueChangeFromProSyskeypad(const QString num)
  */
 void InputEdit::handleTextChanged(const QString &text)
 {
+    qDebug() << "handleTextChanged called, text:" << text;
+
     if (m_currentInAns) {
         m_ansLength = 0; //光标在ans中间且text改变，清空ans
     } else if (m_currentOnAnsLeft && m_oldText.length() != 0) {

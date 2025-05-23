@@ -10,6 +10,7 @@ const QSize PROGRAMMER_BITBTNSIZE = QSize(16, 26);
 BitButton::BitButton(QWidget *parent)
     : DPushButton(parent)
 {
+    qDebug() << "BitButton constructor called";
     setText("0");
     setFlat(true);
     setFixedSize(PROGRAMMER_BITBTNSIZE);
@@ -19,6 +20,7 @@ BitButton::BitButton(QWidget *parent)
 
 BitButton::~BitButton()
 {
+    qDebug() << "BitButton destructor called";
 }
 
 void BitButton::init()
@@ -31,6 +33,7 @@ void BitButton::init()
 
 void BitButton::animate(bool isspace, int msec)
 {
+    qDebug() << "Button animation triggered with space:" << isspace << "duration:" << msec << "ms";
     if (m_isPress == false) { //edit for bug-20492 20200416
         m_isHover = false;  //edit for bug-20508 20200414
         if (!isspace)
