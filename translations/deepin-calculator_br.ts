@@ -14,7 +14,7 @@
     </message>
     <message>
         <source>Clear history</source>
-        <translation type="unfinished"/>
+        <translation>مسح السجل</translation>
     </message>
 </context>
 <context>
@@ -29,23 +29,23 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>استخدم فاصل الآلاف</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>استخدم فاصل العشرين الآلاف</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>الغاء</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>إعادة</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"/>
+        <translation>قص</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -53,7 +53,7 @@
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>لصق</translation>
     </message>
 </context>
 <context>
@@ -64,23 +64,23 @@
     </message>
     <message>
         <source>Standard</source>
-        <translation type="unfinished"/>
+        <translation>النمط القياسي</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation type="unfinished"/>
+        <translation>النمط العلمي</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation type="unfinished"/>
+        <translation>النمط</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>الآلة الحاسبة هي آلة حاسبة سهلة الاستخدام على سطح المكتب، وتدعم الأنماط القياسية والعلمية والبرمجة.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>المبرمج</translation>
     </message>
 </context>
 <context>
@@ -166,38 +166,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>التحول الحسابي</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>التحول المنطقي</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>التحول الدائري</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>الدور عبر حمل التحول الدائري</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>التحول الحسابي</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>التحول المنطقي</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>التحول الدائري</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>الدور عبر حمل التحول الدائري</translation>
     </message>
 </context>
 <context>
@@ -226,7 +226,7 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">السجل</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -244,7 +244,7 @@
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation type="unfinished"/>
+        <translation>لا يوجد سجل</translation>
     </message>
 </context>
 <context>
