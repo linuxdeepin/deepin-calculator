@@ -208,11 +208,11 @@
     </message>
     <message>
         <source>Getting theme type settings</source>
-        <translation type="unfinished"/>
+        <translation>თემატის ტიპის პარამეტრების მიღება</translation>
     </message>
     <message>
         <source>Current theme type:</source>
-        <translation type="unfinished"/>
+        <translation>მიმდინარე თემატის ტიპი:</translation>
     </message>
 </context>
 <context>
