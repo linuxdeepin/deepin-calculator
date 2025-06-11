@@ -140,9 +140,11 @@ int main(int argc, char *argv[])
     DApplicationSettings::setThemeType(DGuiApplicationHelper::ColorType::LightType);
 #endif
 
-    qDebug() << "Getting theme type settings";
+    qDebug() << QObject::tr("Getting theme type settings");
     DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
-    qInfo() << "Current theme type:" << oldpalette;
+    qInfo() << QObject::tr("Current theme type:") << oldpalette;
+
+
 
     if (oldversion == true) {
         qDebug() << "Applying old theme settings";
