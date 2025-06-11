@@ -87,7 +87,7 @@
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulagailuaren elementua ezabatu</translation>
     </message>
     <message>
         <source>Clear all memory</source>
@@ -99,27 +99,27 @@
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulagailuaren elementura gehitu</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulagailuaren gehiketa</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulagailuaren elementura kendu</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulagailuaren kenduketa</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulagailuaren gorde</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulagailuaren</translation>
     </message>
 </context>
 <context>
@@ -130,22 +130,22 @@
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulagailuaren elementua ezabatu</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulagailuaren elementura gehitu</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulagailuaren elementura kendu</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation type="unfinished"/>
+        <translation>Ez da dagoenez kalkulagailuarenetan gorde</translation>
     </message>
 </context>
 <context>
@@ -166,38 +166,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Aritmetikoaren desplazamendua</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Logikoaren desplazamendua</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Zirkularra desplazamendua</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Muga berriko zirkularra desplazamendua</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Aritmetikoaren desplazamendua</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Logikoaren desplazamendua</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Zirkularra desplazamendua</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Muga berriko zirkularra desplazamendua</translation>
     </message>
 </context>
 <context>
@@ -226,11 +226,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Historia</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Kalkulagailuaren</translation>
     </message>
 </context>
 <context>
@@ -244,7 +244,7 @@
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation type="unfinished"/>
+        <translation>Ez da historiaren</translation>
     </message>
 </context>
 <context>
