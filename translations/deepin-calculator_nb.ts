@@ -3,57 +3,57 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>Uttrykk feil</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation type="unfinished"/>
+        <translation>Tøm alle minner</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation type="unfinished"/>
+        <translation>Tøm historikken</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Slett</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Velg alt</translation>
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>Bruk tusenseparator</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>Bruk ti tusenseparator</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Angre</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>Gjør på nytt</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"/>
+        <translation>Klipp</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>Kopier</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>Lim inn</translation>
     </message>
 </context>
 <context>
@@ -64,140 +64,140 @@
     </message>
     <message>
         <source>Standard</source>
-        <translation type="unfinished"/>
+        <translation>Standard</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation type="unfinished"/>
+        <translation>Vitenskapelig</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation type="unfinished"/>
+        <translation>Modus</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulatoren er en enkel å bruke skrivebordskalkulator som støtter standard, vitenskapelig og programmerermodus.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>Programmerer</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation type="unfinished"/>
+        <translation>Tøm minneelement</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation type="unfinished"/>
+        <translation>Minneoppkall</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation type="unfinished"/>
+        <translation>Legg til i minneelement</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation type="unfinished"/>
+        <translation>Minnelegg til</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation type="unfinished"/>
+        <translation>Trekk fra minneelement</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation type="unfinished"/>
+        <translation>Minnetrekk fra</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation type="unfinished"/>
+        <translation>Minnelegg</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation type="unfinished"/>
+        <translation>Minne</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation type="unfinished"/>
+        <translation>Kopier</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>Tøm minneelement</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation type="unfinished"/>
+        <translation>Legg til i minneelement</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation type="unfinished"/>
+        <translation>Trekk fra minneelement</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation type="unfinished"/>
+        <translation>Minnetrekk fra</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation type="unfinished"/>
+        <translation>Ingen oppsparing i minnet</translation>
     </message>
 </context>
 <context>
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>Uttrykksfeil</translation>
     </message>
 </context>
 <context>
     <name>ProListView</name>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>Kopier</translation>
     </message>
 </context>
 <context>
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Aritmetisk skift</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Logisk skift</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Sirkulært skift</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Roter gjennom bærer sirkulært skift</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Aritmetisk skift</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Logisk skift</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Sirkulært skift</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Roter gjennom bærer sirkulært skift</translation>
     </message>
 </context>
 <context>
@@ -208,54 +208,54 @@
     </message>
     <message>
         <source>Getting theme type settings</source>
-        <translation type="unfinished"/>
+        <translation>Henter tema type innstillinger</translation>
     </message>
     <message>
         <source>Current theme type:</source>
-        <translation type="unfinished"/>
+        <translation>Nåværende tema type:</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>Uttrykksfeil</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Historikk</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Minne</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>Uttrykksfeil</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation type="unfinished"/>
+        <translation>Ingen historikk</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>Kopier</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Slett</translation>
     </message>
 </context>
 </TS>
