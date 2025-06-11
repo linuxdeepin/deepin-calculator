@@ -208,11 +208,11 @@
     </message>
     <message>
         <source>Getting theme type settings</source>
-        <translation type="unfinished"/>
+        <translation>थीम प्रकार सेटिंग्स प्राप्त कर रहे हैं</translation>
     </message>
     <message>
         <source>Current theme type:</source>
-        <translation type="unfinished"/>
+        <translation>वर्तमान थीम प्रकार:</translation>
     </message>
 </context>
 <context>
