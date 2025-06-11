@@ -3,57 +3,57 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>ಪ್ರಕಾರ ತಪ್ಪು</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation type="unfinished"/>
+        <translation>ಸಮಸ್ತ ನೋಟಿಸ್ ತೆಗೆದುಹಾಕಿ</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation type="unfinished"/>
+        <translation>ತೆಗೆದುಹಾಕಿ ಇತಿಹಾಸ</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>ಅಪಹರಿಸಿ</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>ಸಮಸ್ತವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ</translation>
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>ತೊಂದರೆ ಸಂಖ್ಯೆಗಳನ್ನು ಬಳಸಿ</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>ಹತ್ತು ಸಾವಿರ ತೊಂದರೆ ಸಂಖ್ಯೆಗಳನ್ನು ಬಳಸಿ</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>ಅದೇ ಕ್ರಮವನ್ನು ಹಿಂಪಡೆಯಿರಿ</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>ಅದೇ ಕ್ರಮವನ್ನು ಮರುಪ್ರಾರಂಭಿಸಿ</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"/>
+        <translation>ಕತ್ತಿರಿಸಿ</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>ನಕಲಿಸಿ</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>ಪೇಸ್ಟ್ ಮಾಡಿ</translation>
     </message>
 </context>
 <context>
@@ -64,140 +64,140 @@
     </message>
     <message>
         <source>Standard</source>
-        <translation type="unfinished"/>
+        <translation>ಪ್ರಮಾಣ</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation type="unfinished"/>
+        <translation>ವಿಜ್ಞಾನಿಕ</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation type="unfinished"/>
+        <translation>ವಿಧಾನ</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>ಕಲಕ್ಯುಲೇಟರ್ ಪ್ರಮಾಣ, ವಿಜ್ಞಾನಿಕ ಮತ್ತು ಪ್ರೋಗ್ರಾಮರ್ ವಿಧಾನಗಳನ್ನು ಬೆಂಬಲಿಸುವ ಸರಳವಾಗಿ ಬಳಸಬಹುದಾದ ಡೆಸ್ಕ್ಟಾಪ್ ಕಲಕ್ಯುಲೇಟರ್</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>ಪ್ರೋಗ್ರಾಮರ್</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation type="unfinished"/>
+        <translation>ನೋಟಿಸ್ ಅಂಶವನ್ನು ತೆಗೆದುಹಾಕಿ</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation type="unfinished"/>
+        <translation>ನೋಟಿಸ್ ಅನ್ನು ನೆನಪಿನಲ್ಲಿ ನೆನಪಿನಿಂದ ಪಡೆಯಿರಿ</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation type="unfinished"/>
+        <translation>ನೋಟಿಸ್ ಅಂಶಕ್ಕೆ ಸೇರಿಸಿ</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation type="unfinished"/>
+        <translation>ನೋಟಿಸ್ ಸೇರಿಸಿ</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation type="unfinished"/>
+        <translation>ನೋಟಿಸ್ ಅಂಶದಿಂದ ಕಡಿಯಿರಿ</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation type="unfinished"/>
+        <translation>ನೋಟಿಸ್ ಕಡಿಯಿರಿ</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation type="unfinished"/>
+        <translation>ನೋಟಿಸ್ ಸಂಗ್ರಹಿಸಿ</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation type="unfinished"/>
+        <translation>ನೋಟಿಸ್</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation type="unfinished"/>
+        <translation>ನಕಲಿಸಿ</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>ನೋಟಿಸ್ ಅಂಶವನ್ನು ತೆಗೆದುಹಾಕಿ</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation type="unfinished"/>
+        <translation>ನೋಟಿಸ್ ಅಂಶಕ್ಕೆ ಸೇರಿಸಿ</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation type="unfinished"/>
+        <translation>ನೋಟಿಸ್ ಅಂಶದಿಂದ ಕಡಿಯಿರಿ</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation type="unfinished"/>
+        <translation>ನೋಟಿಸ್ ಕಡಿಯಿರಿ</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation type="unfinished"/>
+        <translation>ಮೆಮೊರಿಯಲ್ಲಿ ಏನೂ ಸೇವಿಸಲಾಗಿಲ್ಲ</translation>
     </message>
 </context>
 <context>
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>ಸೂತ್ರ ತಪ್ಪು</translation>
     </message>
 </context>
 <context>
     <name>ProListView</name>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>ನಕಲಿಸು</translation>
     </message>
 </context>
 <context>
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>ಅಂಕಿಯ ಸ್ಥಳ ವರ್ಗಾವಣೆ</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>ಲಾಜಿಕಲ್ ಸ್ಥಳ ವರ್ಗಾವಣೆ</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>ಸರಣಿ ಸ್ಥಳ ವರ್ಗಾವಣೆ</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>ಕ್ಯಾರಿ ಸರಣಿ ಸ್ಥಳ ವರ್ಗಾವಣೆಯನ್ನು ಹಿಂಪಾಲಿಸು</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>ಅಂಕಿಯ ಸ್ಥಳ ವರ್ಗಾವಣೆ</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>ಲಾಜಿಕಲ್ ಸ್ಥಳ ವರ್ಗಾವಣೆ</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>ಸರಣಿ ಸ್ಥಳ ವರ್ಗಾವಣೆ</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>ಕ್ಯಾರಿ ಸರಣಿ ಸ್ಥಳ ವರ್ಗಾವಣೆಯನ್ನು ಹಿಂಪಾಲಿಸು</translation>
     </message>
 </context>
 <context>
@@ -208,54 +208,54 @@
     </message>
     <message>
         <source>Getting theme type settings</source>
-        <translation type="unfinished"/>
+        <translation>ಥೀಮ್ ಟೈಪ್ ಸೆಟ್ಟಿಂಗ್ಸ್ ಪಡೆಯುತ್ತಿದೆ</translation>
     </message>
     <message>
         <source>Current theme type:</source>
-        <translation type="unfinished"/>
+        <translation>ವರ್ತಮಾನ ಥೀಮ್ ಟೈಪ್:</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>ಸೂತ್ರ ತಪ್ಪು</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">ಕಾಲಾವಧಿ</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">ಮೆಮೊರಿ</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>ಸೂತ್ರ ತಪ್ಪು</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation type="unfinished"/>
+        <translation>ಕಾಲಾವಧಿ ಇಲ್ಲ</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>ನಕಲಿಸು</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>ಅಪಹರಿಸು</translation>
     </message>
 </context>
 </TS>
