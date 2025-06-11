@@ -208,11 +208,11 @@
     </message>
     <message>
         <source>Getting theme type settings</source>
-        <translation type="unfinished"/>
+        <translation>Hankita aiheen tyyppi asetukset</translation>
     </message>
     <message>
         <source>Current theme type:</source>
-        <translation type="unfinished"/>
+        <translation>Nykyinen aiheen tyyppi:</translation>
     </message>
 </context>
 <context>
