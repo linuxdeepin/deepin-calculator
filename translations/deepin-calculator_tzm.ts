@@ -3,7 +3,7 @@
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>Error في التعبير</translation>
     </message>
 </context>
 <context>
@@ -25,15 +25,15 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>اختر الكل</translation>
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>استخدم فاصل الآلاف</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>استخدم فاصل عشر الآلاف</translation>
     </message>
     <message>
         <source>Undo</source>
@@ -41,7 +41,7 @@
     </message>
     <message>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>إعادة</translation>
     </message>
     <message>
         <source>Cut</source>
@@ -53,7 +53,7 @@
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>لصق</translation>
     </message>
 </context>
 <context>
@@ -72,15 +72,15 @@
     </message>
     <message>
         <source>Mode</source>
-        <translation type="unfinished"/>
+        <translation>الوضع</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>المحسبة هي محسبة سطحية سهلة الاستخدام، تدعم الوضع القياسي والعلمي والبرمجي.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>المبرمج</translation>
     </message>
 </context>
 <context>
@@ -95,7 +95,7 @@
     </message>
     <message>
         <source>Memory recall</source>
-        <translation type="unfinished"/>
+        <translation>استرجاع الذاكرة</translation>
     </message>
     <message>
         <source>Add to memory item</source>
@@ -107,15 +107,15 @@
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation type="unfinished"/>
+        <translation>تقليل من عنصر الذاكرة</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation type="unfinished"/>
+        <translation>تقليل الذاكرة</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation type="unfinished"/>
+        <translation>تخزين الذاكرة</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -138,21 +138,21 @@
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation type="unfinished"/>
+        <translation>تقليل من عنصر الذاكرة</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation type="unfinished"/>
+        <translation>لا شيء محفوظ في الذاكرة</translation>
     </message>
 </context>
 <context>
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>Error في التعبير</translation>
     </message>
 </context>
 <context>
@@ -166,38 +166,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>التحويل الحسابي</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>التحويل المنطقي</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>التحويل الدائري</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>التدور عبر حمل التحويل الدائري</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>التحويل الحسابي</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>التحويل المنطقي</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>التحويل الدائري</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>التدور عبر حمل التحويل الدائري</translation>
     </message>
 </context>
 <context>
@@ -208,18 +208,18 @@
     </message>
     <message>
         <source>Getting theme type settings</source>
-        <translation type="unfinished"/>
+        <translation>الحصول على إعدادات نوع الموضوع</translation>
     </message>
     <message>
         <source>Current theme type:</source>
-        <translation type="unfinished"/>
+        <translation>نوع الموضوع الحالي:</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>Error في التعبير</translation>
     </message>
 </context>
 <context>
@@ -237,7 +237,7 @@
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>Error في التعبير</translation>
     </message>
 </context>
 <context>
