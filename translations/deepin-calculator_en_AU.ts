@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="en_AU" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="en_AU">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,14 @@
         <source>Calculator</source>
         <translation>Calculator</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -222,7 +230,7 @@
     </message>
     <message>
         <source>Memory</source>
-        <translation>Memory</translation>
+        <translation type="vanished">Memory</translation>
     </message>
 </context>
 <context>
