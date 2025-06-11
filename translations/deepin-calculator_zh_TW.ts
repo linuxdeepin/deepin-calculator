@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_TW" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="zh_TW">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,14 @@
         <source>Calculator</source>
         <translation>計算器</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +226,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>歷史記錄</translation>
+        <translation type="vanished">歷史記錄</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>記憶體</translation>
+        <translation type="vanished">記憶體</translation>
     </message>
 </context>
 <context>
