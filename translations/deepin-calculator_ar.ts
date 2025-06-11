@@ -208,11 +208,11 @@
     </message>
     <message>
         <source>Getting theme type settings</source>
-        <translation type="unfinished"/>
+        <translation>استرجاع إعدادات نوع الموضوع</translation>
     </message>
     <message>
         <source>Current theme type:</source>
-        <translation type="unfinished"/>
+        <translation>نوع الموضوع الحالي:</translation>
     </message>
 </context>
 <context>
