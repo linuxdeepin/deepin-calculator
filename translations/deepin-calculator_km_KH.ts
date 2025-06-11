@@ -29,11 +29,11 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>ប្រើសញ្ញាកំណត់ត្រាមួយដែលមានតម្លៃលើសពីមួយដែលមានតម្លៃមួយពាន់ដែលមានតម្លៃមួយពាន់</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>ប្រើសញ្ញាកំណត់ត្រាមួយដែលមានតម្លៃលើសពីមួយដែលមានតម្លៃមួយដែលមានតម្លៃមួយដែលមានតម្លៃដប់ពាន់</translation>
     </message>
     <message>
         <source>Undo</source>
