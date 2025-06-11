@@ -208,11 +208,11 @@
     </message>
     <message>
         <source>Getting theme type settings</source>
-        <translation type="unfinished"/>
+        <translation>تىمى تىپى سىزىملىرىنى كۆرۈش</translation>
     </message>
     <message>
         <source>Current theme type:</source>
-        <translation type="unfinished"/>
+        <translation>ھازىر تىمى تىپى:</translation>
     </message>
 </context>
 <context>
