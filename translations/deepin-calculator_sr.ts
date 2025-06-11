@@ -29,11 +29,11 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>Користите раздвојник за хиљаде</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>Користите раздвојник за десет хиљада</translation>
     </message>
     <message>
         <source>Undo</source>
