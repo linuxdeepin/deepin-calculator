@@ -29,11 +29,11 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>ათასის გამოყოფის საშუალების გამოყენება</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>ათასის ათასის გამოყოფის საშუალების გამოყენება</translation>
     </message>
     <message>
         <source>Undo</source>
