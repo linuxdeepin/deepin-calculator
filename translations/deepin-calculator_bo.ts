@@ -208,11 +208,11 @@
     </message>
     <message>
         <source>Getting theme type settings</source>
-        <translation type="unfinished"/>
+        <translation>གཞོན་གྱི་ଫେଶ୍ ଟାଇପ୍ ଆନ୍ତରଜନ୍ନିକ ନିର୍ଦ୍ଦେଶନା</translation>
     </message>
     <message>
         <source>Current theme type:</source>
-        <translation type="unfinished"/>
+        <translation>ବର୍ତ୍ତମାନ ଗାଥ୍ ଟାଇପ୍:</translation>
     </message>
 </context>
 <context>
