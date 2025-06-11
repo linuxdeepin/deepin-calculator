@@ -166,7 +166,7 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>ජීවිත අංකිත අනුපාතය</translation>
     </message>
     <message>
         <source>Logical shift</source>
@@ -185,7 +185,7 @@
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>ජීවිත අංකිත අනුපාතය</translation>
     </message>
     <message>
         <source>Logical shift</source>
