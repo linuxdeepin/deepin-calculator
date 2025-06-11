@@ -29,11 +29,11 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>हजार के अलग करतार का उपयोग करें</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>दस हजार के अलग करतार का उपयोग करें</translation>
     </message>
     <message>
         <source>Undo</source>
