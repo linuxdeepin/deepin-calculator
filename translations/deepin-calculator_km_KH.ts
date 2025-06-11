@@ -208,11 +208,11 @@
     </message>
     <message>
         <source>Getting theme type settings</source>
-        <translation type="unfinished"/>
+        <translation>ទាញយកការកំណត់ប្រភេទបំណុល</translation>
     </message>
     <message>
         <source>Current theme type:</source>
-        <translation type="unfinished"/>
+        <translation>ប្រភេទបំណុលបច្ចុប្បន្ន៖</translation>
     </message>
 </context>
 <context>
