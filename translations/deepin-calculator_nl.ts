@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Testen van vertalingen met langere zinnen</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Dit is een rekenmachine toepassing die basis rekenkundige bewerkingen ondersteunt</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Wetenschappelijke modus biedt geavanceerde wiskundige functies en constanten</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Programmeermodus biedt binair, octaal, decimaal en hexadecimaal rekenen</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Geschiedenisweergave toont alle vorige berekeningen en hun resultaten</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Geheugenfuncties laten u berekeningsresultaten opslaan en opnieuw ophalen</translation>
     </message>
 </context>
 <context>
