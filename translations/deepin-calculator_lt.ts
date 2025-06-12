@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Testuojami vertimus su ilgesniais sakmenimis</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Šis yra skaičiuotuvas, kuris palaiko pagrindinius aritmetinius veiksmus</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Mokslinės režimo funkcijos suteikia išplėstines matematikos funkcijas ir pastovius skaičius</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Programuotojo režimas suteikia dviejų, aštuonių, dešimties ir šešiolikties sistemos skaičiavimus</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Istorijos peržiūra rodo visus anksčiau atliktus skaičiavimus ir jų rezultatus</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Atminties funkcijos leidžia jums išlaikyti ir atsikviesti skaičiavimų rezultatus</translation>
     </message>
 </context>
 <context>
