@@ -217,27 +217,27 @@ scientific ngan programmer modes.</translation>
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Pangungusap para sa pagbabago ng mga pahayag</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Iniyo ang aplikasyon ng calculator na nagpapalagay sa mga pangunahing operasyon sa arithmetic</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Ang mode ng scientific ay nagpapalagay sa mga pinakamataas na mga function at konstante sa math</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Ang mode ng programmer ay nagbibigay ng mga kalkulasyon sa binary, octal, decimal, at hexadecimal</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Ang view ng history ay nagpapakita ng lahat ng nakaraang kalkulasyon at ang kanilang mga resulta</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Ang mga function ng memory ay nagpapahintulot sa iyo na i-save at i-ibalik ang mga resulta ng kalkulasyon</translation>
     </message>
 </context>
 <context>
