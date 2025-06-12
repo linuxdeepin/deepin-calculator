@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>ტესტირება თარგმნის უსაფრთხოეს წინაპირობებით</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>ეს არის კალკულატორის პროგრამა, რომელიც მხარდაჭერის ბაზის არითმეტიკულ მოქმედებებს</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>მეცნიერული რეჟიმი წარმატებული მათემატიკური ფუნქციებსა და მუდმივებს მოითხოვს</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>პროგრამისტული რეჟიმი შეიძლება ბინარული, ოქტალური, დეციმალური და ჰექსადეციმალური გამოთვლების ჩატვირთვა</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>ისტორიის ხედი ყველა წინა გამოთვლის და მათი შედეგების გამოსახვას აწესებს</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>მეხმარების ფუნქციები თქვენს გამოთვლის შედეგების შენახვასა და დაბრუნებას შესაძლებლობას აძლევს</translation>
     </message>
 </context>
 <context>
