@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Δοκιμαστικές μεταφράσεις με μεγαλύτερες προτάσεις</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Αυτή είναι μια εφαρμογή υπολογιστή που υποστηρίζει βασικές αριθμητικές πράξεις</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Η διατύπωση επιστημονικής λειτουργίας παρέχει προχωρημένες μαθηματικές συναρτήσεις και σταθερές</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Η λειτουργία προγραμματιστή παρέχει υπολογισμούς σε δυαδικό, οκταδικό, δεκαδικό και εξαδικό σύστημα</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Η επισκόπηση ιστορικού εμφανίζει όλους τους προηγούμενους υπολογισμούς και τα αποτελέσματά τους</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Οι λειτουργίες μνήμης σας επιτρέπουν να αποθηκεύετε και να επανακαλέσετε τα αποτελέσματα των υπολογισμών</translation>
     </message>
 </context>
 <context>
