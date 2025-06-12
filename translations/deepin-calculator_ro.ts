@@ -29,11 +29,11 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation>Utilize separator pentru mii</translation>
+        <translation>Utilizare separator de mii</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation>Utilize separator pentru zeci de mii</translation>
+        <translation>Utilizare separator de zece mii</translation>
     </message>
     <message>
         <source>Undo</source>
