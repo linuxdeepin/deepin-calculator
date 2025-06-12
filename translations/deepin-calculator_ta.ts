@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>தொடர்ந்த கூறுகளுடன் பரிமாற்றம் செய்வதை சோதிக்கிறோம்</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>இது ஒரு படிக்கூடம் ஆக்கிரமிப்பு பொருட்களை ஆதரிக்கும் ஆக்கிரமிப்பு பொருட்களுடன் பரிமாற்றம் செய்யும் செயலி</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>அறிவியல் திசை முன்னேற்றம் கணித செயல்கள் மற்றும் மாறிலிகளை வழங்குகிறது</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>புதிய திசை பைனரி, ஓக்டல், டெசிமல் மற்றும் ஹெக்ஸாடெசிமல் கணித செயல்களை வழங்குகிறது</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>வரலாறு காட்சி முந்தைய அனைத்து கணித செயல்களையும் அவற்றின் விளைவுகளையும் காட்டுகிறது</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>நினைவு செயல்கள் உங்கள் கணித விளைவுகளை சேமிக்கவும் மீண்டும் பார்க்கவும் அனுமதிக்கின்றன</translation>
     </message>
 </context>
 <context>
