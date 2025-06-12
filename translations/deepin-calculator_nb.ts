@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Testing translations with longer sentences</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Denne er en kalkulatorapplikasjon som støtter grunnleggende regneoperasjoner</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Vitenskapelig modus gir avanserte matematiske funksjoner og konstanter</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Programmer modus gir beregninger i binær, oktal, desimal og heksadesimal</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Historikkvisning viser alle tidligere beregninger og resultatene</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Hukommelsesfunksjoner lar deg lagre og hente beregningsresultater</translation>
     </message>
 </context>
 <context>
