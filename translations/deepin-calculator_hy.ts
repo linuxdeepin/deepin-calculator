@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Փորձել թարգմանությունը երկար հայտարարություններով</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Սա հաշվիչ ծրագիր է, որը հանգստացնում է հիմնական հանրահաշվական գործողությունները</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Գիտական ռեժիմը տրամադրում է համարական ֆունկցիաներ և հաստատուններ</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Ծրագրավորում ռեժիմը տրամադրում է բինար, օկտալ, սովորական և հեքսադեցիմալ հաշվարկներ</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Ծրագրավորում ռեժիմը տրամադրում է բինար, օկտալ, սովորական և հեքսադեցիմալ հաշվարկներ</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Հիշողության ֆունկցիաները թույլ են տալիս պահել և վերականգնել հաշվարկների արդյունքները</translation>
     </message>
 </context>
 <context>
