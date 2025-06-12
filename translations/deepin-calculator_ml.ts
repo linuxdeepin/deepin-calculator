@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>സാധാരണ വാക്കുകളുടെ പകര്‍ച്ച നീണ്ട വാക്കുകളില്‍ നടത്തുന്നത്</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>ഇത് പ്രാഥമിക അപേക്ഷണാത്മക പ്രവാഹങ്ങൾ പിന്തുണയ്ക്കുന്ന ഒരു കണക്കാക്കൽ പ്രവർത്തനം ആണ്</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>സയൻസിഫിക് മോഡ് പുരോഗ്രസ് ഗണിത ഫംക്ഷനുകളും കോൺസ്റ്റന്റുകളും നല്‍കുന്നു</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>പ്രോഗ്രാമർ മോഡ് ബൈനറി, ഓക്ടല്‍, ഡീസിമല്‍ മാത്രം ഹെക്സ കണക്കാക്കലുകളും നല്‍കുന്നു</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>ചരിത്ര നിര്‍ണയം അതിനുമുമ്പുള്ള എല്ലാ കണക്കാക്കലുകളും അവയുടെ ഫലങ്ങളും കാണിക്കുന്നു</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>മെമ്മറി ഫംക്ഷനുകൾ കണക്കാക്കൽ ഫലങ്ങൾ ഉപയോഗിച്ച് സംഭരിക്കുക മാത്രം അവയെ പുനഃസംഭരിക്കാന്‍ അനുവദിക്കുന്നു</translation>
     </message>
 </context>
 <context>
