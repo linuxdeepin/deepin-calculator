@@ -144,6 +144,13 @@ int main(int argc, char *argv[])
     DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
     qInfo() << QObject::tr("Current theme type:") << oldpalette;
 
+    qDebug() << QObject::tr("Testing translations with longer sentences");
+    qDebug() << QObject::tr("This is a calculator application that supports basic arithmetic operations");
+    qDebug() << QObject::tr("Scientific mode provides advanced mathematical functions and constants");
+    qDebug() << QObject::tr("Programmer mode offers binary, octal, decimal and hexadecimal calculations");
+    qDebug() << QObject::tr("History view shows all previous calculations and their results");
+    qDebug() << QObject::tr("Memory functions allow you to store and recall calculation results");
+
 
 
     if (oldversion == true) {
