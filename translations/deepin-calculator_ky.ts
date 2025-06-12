@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Тестирование ажыртпайын күрсөтүү</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Бул калькулятор үйрөнүү үчүн өсөтөн арифметикалык үзгөртүүлөрдү үзгөртөт</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Таанымдык үзгөртүүлөр үчүн өсөтөн математикалык үзгөртүүлөрдү жана үзгөртүүлөрдү үзгөртөт</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Программист үзгөртүүлөр үчүн бинар, октет, десятич жана шестнадцатерич үзгөртүүлөрдү үзгөртөт</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Тарых үзгөртүүлөрдү көрсөтөт, бардын өлөнөн үзгөртүүлөрдү жана өлөнөн нәтижелерин</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Эмнәр үзгөртүүлөрү үзгөртүүлөрдү сактоо жана аны өлөнөн үзгөртүүлөрдү үзгөртөөгө өйрөнөт</translation>
     </message>
 </context>
 <context>
