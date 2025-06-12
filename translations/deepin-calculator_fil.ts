@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Paggawa ng mga pagsusulit sa pagbabago ng mga pangungusap</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Ito ay isang aplikasyon na kalkulador na nagbibigay ng suporta sa mga pangunahing operasyon sa aritmetika</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Ang mode ng sientipiko ay nagbibigay ng mga napakalangkahang mga pangangalap ng mga matematikal na mga function at mga konstante</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Ang mode ng programmer ay nagbibigay ng mga kalkulasyon sa binary, octal, decimal at hexadecimal</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Ang pananatiling view ay nagpapakita ng lahat ng nakaraang mga kalkulasyon at ang kanilang mga resulta</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Ang mga memory functions ay nagbibigay ng paraan upang i-store at i-ibalik ang mga resulta ng kalkulasyon</translation>
     </message>
 </context>
 <context>
