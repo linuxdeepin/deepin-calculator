@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Хүнсний трансляцийн үргэлжлүүд</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Энэ нь үндэсний арифметик үйлдлүүдийг подлогох үйлдлийн програм бөгөөд</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Хөгжмөөр үүсгэсэн үйлдлүүд болон тогтмол тоонуудыг бүтээдэг</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Програмчлалын үйлдэл нь бит, октет, десимал болон хекса десятлүүдийг ашигладаг</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Түүхийн үзүүлэл нь бүх өмнөх үйлдлүүдийг болон үр дүнг харуулдаг</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Хадгалах болон үр дүнг хуваалцах үйлдлүүдийг ашиглаж болно</translation>
     </message>
 </context>
 <context>
