@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>تست ترنسلاشنز با انجر سينتنس</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>ايس ايس ا Calculation ابليكيشن دات سوپرتس بيسك آرثيمتيك اپيرشن</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>ساينتيفك مود بروفيديس ادفانس ماثيماتيك فانشنز ون كونستانتس</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>بروگرامر مود اوفيرز بائنري، اوكال، دسيمال ون هكسديسيمالي كالكولشنز</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>هستوري فيو شوويس ايل بريفيو كالكولشنز ون هير ارزلتس</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>ميمري فانشنز الوود يو تو ستوور ون ريكال كاليكولشن ارزلتس</translation>
     </message>
 </context>
 <context>
