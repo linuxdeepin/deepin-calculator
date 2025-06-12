@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Đang kiểm tra dịch thuật với các câu dài hơn</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Đây là ứng dụng máy tính hỗ trợ các phép toán đại số cơ bản</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Chế độ khoa học cung cấp các hàm toán học nâng cao và hằng số</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Chế độ lập trình cung cấp các phép tính nhị phân, bát phân, thập phân và thập lục phân</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Giao diện xem lịch sử hiển thị tất cả các phép tính trước đó và kết quả của chúng</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Các chức năng bộ nhớ cho phép bạn lưu trữ và gọi lại kết quả tính toán</translation>
     </message>
 </context>
 <context>
