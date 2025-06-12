@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Тестване на преводите с по-дълги изречения</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Това е приложение за калкулатор, което поддържа основни аритметични операции</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Научният режим предоставя напреднали математически функции и константи</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Режимът за програмисти предлага изчисления в двоична, осмична, десетична и шестнадесетична система</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Изгледът на историята показва всички предишни изчисления и резултатите им</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Функциите за памет ви позволяват да запазите и да повикате резултатите от изчисленията</translation>
     </message>
 </context>
 <context>
