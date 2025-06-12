@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Testîrana kurdîsa bi çareserî pêşkeşî</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulatorê ku bûyekarî pêşkeşî dike ve bi hevî pêşkeşî</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Şîrêkî mode pêşkeşî ku bûyekarî pêşkeşî û pîvanên matematîkî dike</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Pêşkeşî mode ku bûyekarî pêşkeşî, oktal, dekimal û heksadekimal dike</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Bîrîna tîrîn pêşkeşî dike bûyekarî pêşkeşî û nêzîkên wan</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Fînkîsên bûyekarî pêşkeşî dê bêyî pêşkeşî û nêzîkên wan bêyî pêşkeşî</translation>
     </message>
 </context>
 <context>
