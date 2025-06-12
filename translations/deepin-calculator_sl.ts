@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Testiranje prevodov z dolgimi stavki</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>To je kalkulator, ki podpira osnovne aritmetične operacije</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Način znanstvenega računanja omogoča napredne matematične funkcije in konstante</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Način programerja omogoča računanje v binarnem, oktalnem, decimalnem in heksadecimalnem formatu</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Pregled zgodovine prikazuje vse prejšnje računanje in njihove rezultate</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Funkcije pomnilnika omogočajo shranjevanje in ponovno brskanje po rezultatih računanja</translation>
     </message>
 </context>
 <context>
