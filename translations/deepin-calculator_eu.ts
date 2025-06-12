@@ -87,7 +87,7 @@
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Kalkulagailuaren elementua ezabatu</translation>
+        <translation>Garbitu memoria elementua</translation>
     </message>
     <message>
         <source>Clear all memory</source>
@@ -99,27 +99,27 @@
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Kalkulagailuaren elementura gehitu</translation>
+        <translation>Gehitu memoria elementura</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Kalkulagailuaren gehiketa</translation>
+        <translation>Memoria gehitzea</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Kalkulagailuaren elementura kendu</translation>
+        <translation>Kendu memoria elementura</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Kalkulagailuaren kenduketa</translation>
+        <translation>Memoria kendzea</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Kalkulagailuaren gorde</translation>
+        <translation>Memoria gorde</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Kalkulagailuaren</translation>
+        <translation>Memoria</translation>
     </message>
 </context>
 <context>
@@ -130,22 +130,22 @@
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Kalkulagailuaren elementua ezabatu</translation>
+        <translation>Garbitu memoria elementua</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Kalkulagailuaren elementura gehitu</translation>
+        <translation>Gehitu memoria elementura</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Kalkulagailuaren elementura kendu</translation>
+        <translation>Kendu memoria elementura</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>Ez da dagoenez kalkulagailuarenetan gorde</translation>
+        <translation>Ez dago garrantzitsurik memoria-n</translation>
     </message>
 </context>
 <context>
@@ -178,7 +178,7 @@
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Muga berriko zirkularra desplazamendua</translation>
+        <translation>Gorputza bidez zirkularra desplazamendua</translation>
     </message>
 </context>
 <context>
@@ -197,7 +197,7 @@
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Muga berriko zirkularra desplazamendua</translation>
+        <translation>Gorputza bidez zirkularra desplazamendua</translation>
     </message>
 </context>
 <context>
@@ -230,7 +230,7 @@
     </message>
     <message>
         <source>Memory</source>
-        <translation type="vanished">Kalkulagailuaren</translation>
+        <translation type="vanished">Memoria</translation>
     </message>
 </context>
 <context>
@@ -244,7 +244,7 @@
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>Ez da historiaren</translation>
+        <translation>Ez dago historiarik</translation>
     </message>
 </context>
 <context>
