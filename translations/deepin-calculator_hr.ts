@@ -76,7 +76,7 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>Kalkulator je jednostavan za upotrebu računalo za rad na stolici, podržava standardni, znanstveni i programerski način rada.</translation>
+        <translation>Kalkulator je jednostavan i lagan računalo za rad na stolnom računalu, podržava standardni, znanstveni i programerski način rada.</translation>
     </message>
     <message>
         <source>Programmer</source>
@@ -95,7 +95,7 @@
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Povratak memorije</translation>
+        <translation>Pametni povrat</translation>
     </message>
     <message>
         <source>Add to memory item</source>
@@ -103,19 +103,19 @@
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Dodaj memoriju</translation>
+        <translation>Dodaj u pamet</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Oduzmi od stavke memorije</translation>
+        <translation>Oduzmi od pametnog elementa</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Oduzmi iz memorije</translation>
+        <translation>Oduzmi iz pametnog elementa</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Snimi memoriju</translation>
+        <translation>Pametni spremanje</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -138,7 +138,7 @@
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Oduzmi od stavke memorije</translation>
+        <translation>Oduzmi od pametnog elementa</translation>
     </message>
 </context>
 <context>
@@ -174,7 +174,7 @@
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Povrtanje kroz prenos kružni pomak</translation>
+        <translation>Rotacija kroz nosač kružnog pomaka</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
@@ -193,7 +193,7 @@
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Povrtanje kroz prenos kružni pomak</translation>
+        <translation>Rotacija kroz nosač kružnog pomaka</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
