@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>การทดสอบการแปลด้วยประโยคที่ยาวขึ้น</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>นี่คือแอปพลิเคชันเครื่องคิดเลขที่รองรับการดำเนินการคณิตศาสตร์พื้นฐาน</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>โหมดวิทยาศาสตร์ให้ฟังก์ชันและค่าคงที่ทางคณิตศาสตร์ขั้นสูง</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>โหมดโปรแกรมเมอร์ให้การคำนวณในรูปแบบไบนารี ออกเทล เดเซมัล และเฮกซาเดเซมัล</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>การดูประวัติการคำนวณแสดงการคำนวณทั้งหมดในอดีตและผลลัพธ์ของมัน</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>ฟังก์ชันความจำช่วยให้คุณเก็บและเรียกคืนผลลัพธ์การคำนวณ</translation>
     </message>
 </context>
 <context>
