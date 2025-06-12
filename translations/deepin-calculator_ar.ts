@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>اختبار الترجمات مع الجمل الطويلة</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>هذا تطبيق آلة حاسبة يدعم العمليات الحسابية الأساسية</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>وضع الحساب العلمي يوفر وظائف وقيم رياضية متقدمة</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>وضع المبرمج يوفر الحسابات الثنائية والثماني عشرية والعشرية والستماني عشرية</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>عرض السجل يعرض جميع الحسابات السابقة ونتائجها</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>وظائف الذاكرة تتيح لك تخزين ورجوع نتائج الحسابات</translation>
     </message>
 </context>
 <context>
