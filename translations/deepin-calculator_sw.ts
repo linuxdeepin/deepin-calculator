@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Ukumbi kujaribu kuzingia kwa kutazama kwa sentensi mbalimbali</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Hili ni programu ya kalkulatori ambayo inaonyesha hatua mbalimbali ya kamilisha kama kwa kamilisha</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Moyoni ya watendo wa mafunzo ya kamilisha inaonyesha mafunzo ya mafunzo ya mafunzo ya kamilisha na mafunzo ya kamilisha</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Moyoni ya watendo wa mafunzo inaonyesha kamilisha ya binari, oktal, desimal na hexadecimal</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Moyoni ya historia inaonyesha kamilisha ya mafunzo ya kamilisha na matokeo ya kamilisha</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Moyoni ya mafunzo inaonyesha kujaribu kujifunza kamilisha na kujifunza kamilisha ya matokeo ya kamilisha</translation>
     </message>
 </context>
 <context>
