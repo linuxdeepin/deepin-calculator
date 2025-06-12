@@ -37,11 +37,11 @@
     </message>
     <message>
         <source>Undo</source>
-        <translation>Membatalkan</translation>
+        <translation>Batali</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation>Ulang</translation>
+        <translation>Ulangi</translation>
     </message>
     <message>
         <source>Cut</source>
@@ -95,7 +95,7 @@
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Ingat memori</translation>
+        <translation>Ingatkan Memori</translation>
     </message>
     <message>
         <source>Add to memory item</source>
@@ -103,7 +103,7 @@
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Tambah memori</translation>
+        <translation>Tambah Memori</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
@@ -111,11 +111,11 @@
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Kurangi memori</translation>
+        <translation>Kurangi Memori</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Simpan memori</translation>
+        <translation>Simpan Memori</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -145,7 +145,7 @@
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>Tidak ada yang disimpan di memori</translation>
+        <translation>Tidak ada yang disimpan dalam memori</translation>
     </message>
 </context>
 <context>
