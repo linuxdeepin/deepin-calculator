@@ -208,35 +208,35 @@
     </message>
     <message>
         <source>Getting theme type settings</source>
-        <translation type="unfinished"/>
+        <translation>Uzyskiwanie motywu</translation>
     </message>
     <message>
         <source>Current theme type:</source>
-        <translation type="unfinished"/>
+        <translation>Motyw:</translation>
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Testowanie tłumaczeń z dłuższymi zdaniami</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Jest to kalkulator ze wsparciem prostych operacji arytmetycznych</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Tryb naukowy zapewnia zaawansowane funkcje matematyczne i wartości stałe</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Tryb programisty oferuje obliczenia binarne, ósemkowe, dziesiętne i szesnastkowe</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Widok historii pokazuje wszystkie poprzednie obliczenia i ich wyniki</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Funkcje pamięci zezwalają na magazynowanie i przywracanie wartości</translation>
     </message>
 </context>
 <context>
