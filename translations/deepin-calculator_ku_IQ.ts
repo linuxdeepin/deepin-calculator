@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>تەستینگ تەرجیکی کردن بە گەڕاندنەوەیەکی بەسەرەتەل</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>ئەم ئەپە ھەقیقەتە یەک چەکارەتی ھەڵبەت بە چەکارەتی بەسەرەتەل دەستیاندەریت</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>مودە چەنی دەبێتە چەکارەتی چەنی بە نەرخە و نەمەنەکانی چەنی دەستیاندەریت</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>مودە پروگرامر دەبێتە چەکارەتی بىنارى، اکتالى، دېسېمالي و هېکسېدېسېمالي</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>ناونەری تاریخ دەبێتە چەکارەتی هەمە چەکارەتی پێشەکان و نتیجەکانیان</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>چەکارەتی یادداشت دەبێتە چەکارەتی دەستیاندەریت و یادکردنەوەی نتیجەکانی چەکارەتی</translation>
     </message>
 </context>
 <context>
