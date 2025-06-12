@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>अनुवाद के साथ लंबे वाक्यों का परीक्षण करें</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>यह एक कैलकुलेटर एप्लिकेशन है जो बुनियादी अंकगणितीय संचालन समर्थन करता है</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>वैज्ञानिक मोड उन्नत गणितीय कार्यों और स्थिरांक प्रदान करता है</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>प्रोग्रामर मोड बाइनरी, ऑक्टल, डेसिमल और हेक्साडेसिमल संचालन प्रदान करता है</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>इतिहास दृश्य सभी पिछले संचालन और उनके परिणाम दिखाता है</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>मेमोरी कार्य आपको संचालन परिणाम के भंडारण और याद लेने की अनुमति देते हैं</translation>
     </message>
 </context>
 <context>
