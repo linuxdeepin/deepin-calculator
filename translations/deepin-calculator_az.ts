@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Testləmək üçün uzun cümlələr ilə tərcümə edilir</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Bu, məsələn əlavə, çıxma, vurma və bölünmə kimi elementar arifmetik əməliyyatları dəstəkləyən bir kalkulyator tətbiqatıdır</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Tədqiqat rejimi avtomatik matematik funksiyalar və sabitləri təmin edir</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Proqramçı rejimi binar, oktal, decimal və hexadecimal hesablama imkanları təqdim edir</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Tarixi baxış əvvəlki bütün hesablama və nəticələrini göstərir</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Yaddaş funksiyaları hesablama nəticələrini saxlama və təkrar almağa imkan verir</translation>
     </message>
 </context>
 <context>
