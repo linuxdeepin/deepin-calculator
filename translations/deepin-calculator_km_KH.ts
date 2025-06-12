@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>ការពិនិត្យមើលការបកប្រែដោយមានប្រយោគនៃប្រយោល</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>នេះគឺជាកម្មវិធីគណនាមួយដែលផ្តល់នូវការបម្រើបានសម្រាប់ប្រតិបត្តិការគណនាមូលដ្ឋាន</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>ការប្រើប្រាស់ប្រព័ន្ធសំណួរផ្តល់នូវមុខងារនិងថាមពលគណិតវិទ្យាមួយចំនួនដែលមានប្រសិទ្ធភាពខ្ពស់</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>ការប្រើប្រាស់ប្រព័ន្ធសម្គាល់ផ្តល់នូវការគណនាមួយចំនួនដែលរួមមានប៊ីណារី, អក្តារ, ដេសិម៉ល និងហេકស៊ីដេស៊ីម៉ល</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>ការមើលប្រវត្តិបង្ហាញពីការគណនាអាចប្រើបានទៀតនិងលទ្ធផលរបស់ពួកគេទាំងអស់</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>មុខងារផ្ទះអនុញ្ញាតឱ្យអ្នកកំណត់ត្រានិងយកចេញលទ្ធផលគណនាមួយចំនួន</translation>
     </message>
 </context>
 <context>
