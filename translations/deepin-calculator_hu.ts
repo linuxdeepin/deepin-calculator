@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>A hosszabb mondatok fordításának tesztelése</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Ez egy számológép alkalmazás, amely alapvető matematikai műveleteket támogat</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Tudományos mód avancsált matematikai függvényeket és állandókat nyújt</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Programozói mód bináris, oktális, decimális és hexadecimális számításokat kínál</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Történelem nézet megjeleníti az összes korábbi számítást és az eredményeiket</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Memória funkciók engedélyezik a számítási eredmények tárolását és visszakeresését</translation>
     </message>
 </context>
 <context>
