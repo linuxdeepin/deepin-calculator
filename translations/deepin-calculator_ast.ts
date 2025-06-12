@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Probando traducciones con frases más largas</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Esta ye una aplicación de calculadora que soporta operaciones aritméticas básicas</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>El mode científic proporciona funciones y constantes matemáticas avanzadas</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>El mode de programador ofrece cálculos en binariu, octal, decimal y hexadecimal</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>La vista de historial mustra toles cálculos anteriores y los sos resultaos</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Les funciones de memoria permiten almacenar y recuperar los resultaos de los cálculos</translation>
     </message>
 </context>
 <context>
