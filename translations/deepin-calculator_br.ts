@@ -14,7 +14,7 @@
     </message>
     <message>
         <source>Clear history</source>
-        <translation>مسح السجل</translation>
+        <translation>Limpar histórico</translation>
     </message>
 </context>
 <context>
@@ -29,23 +29,23 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation>استخدم فاصل الآلاف</translation>
+        <translation>Usar separador de milhar</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation>استخدم فاصل العشرين الآلاف</translation>
+        <translation>Usar separador de dez milhar</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation>الغاء</translation>
+        <translation>Desfazer</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation>إعادة</translation>
+        <translation>Refazer</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>قص</translation>
+        <translation>Cortar</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -53,7 +53,7 @@
     </message>
     <message>
         <source>Paste</source>
-        <translation>لصق</translation>
+        <translation>Colar</translation>
     </message>
 </context>
 <context>
@@ -64,23 +64,23 @@
     </message>
     <message>
         <source>Standard</source>
-        <translation>النمط القياسي</translation>
+        <translation>Padrão</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>النمط العلمي</translation>
+        <translation>Científico</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>النمط</translation>
+        <translation>Modo</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>الآلة الحاسبة هي آلة حاسبة سهلة الاستخدام على سطح المكتب، وتدعم الأنماط القياسية والعلمية والبرمجة.</translation>
+        <translation>Calculadora é uma calculadora de mesa fácil de usar, que suporta os modos padrão, científico e programador.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation>المبرمج</translation>
+        <translation>Programador</translation>
     </message>
 </context>
 <context>
@@ -166,38 +166,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>التحول الحسابي</translation>
+        <translation>Deslocamento aritmético</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>التحول المنطقي</translation>
+        <translation>Deslocamento lógico</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>التحول الدائري</translation>
+        <translation>Deslocamento circular</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>الدور عبر حمل التحول الدائري</translation>
+        <translation>Rotacionar através do carry circular shift</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>التحول الحسابي</translation>
+        <translation>Deslocamento aritmético</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>التحول المنطقي</translation>
+        <translation>Deslocamento lógico</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>التحول الدائري</translation>
+        <translation>Deslocamento circular</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>الدور عبر حمل التحول الدائري</translation>
+        <translation>Rotacionar através do carry circular shift</translation>
     </message>
 </context>
 <context>
@@ -226,7 +226,7 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation type="vanished">السجل</translation>
+        <translation type="vanished">Histórico</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -244,7 +244,7 @@
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>لا يوجد سجل</translation>
+        <translation>Nenhum histórico</translation>
     </message>
 </context>
 <context>
