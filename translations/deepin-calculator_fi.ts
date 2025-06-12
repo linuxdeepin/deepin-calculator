@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Testataan käännöksiä pitkien lauseiden kanssa</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Tämä on laskinohjelma, joka tukee perusaritmetiikan toimintoja</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Tieteellinen tila tarjoaa edistyneitä matemaattisia toimintoja ja vakioita</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Ohjelmistotila tarjoaa binääri-, oktaali-, desimaali- ja heksadesimaalilaskutoimituksia</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Historiatila näyttää kaikki aiemmat laskut ja niiden tulokset</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Muistitoiminnot antavat mahdollisuuden tallentaa ja hankkia takaisin laskutuloksia</translation>
     </message>
 </context>
 <context>
