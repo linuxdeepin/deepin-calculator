@@ -33,7 +33,7 @@
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation>Use ten-thousands separator</translation>
+        <translation>Use ten-thousand separator</translation>
     </message>
     <message>
         <source>Undo</source>
