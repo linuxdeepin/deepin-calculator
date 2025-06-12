@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Testování překladů s delšími větami</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Toto je kalkulačka, která podporuje základní aritmetické operace</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Režim vědeckého výpočtu poskytuje pokročilé matematické funkce a konstanty</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Režim programátora umožňuje výpočty v binárním, oktalním, desítkovém a hexadecimálním formátu</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Pohled na historii zobrazuje všechny předchozí výpočty a jejich výsledky</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Funkce paměti umožňují ukládání a zpětné načítání výsledků výpočtů</translation>
     </message>
 </context>
 <context>
