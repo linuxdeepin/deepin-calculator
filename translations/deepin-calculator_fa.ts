@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>درایابی ترجمه با جمله‌های طولانی</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>این یک برنامه محاسباتی است که عملیات‌های اصلی حساب را پشتیبانی می‌کند</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>حالت علمی عملکد های پیشرفته ریاضی و ثابت‌ها را ارائه می‌دهد</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>حالت برنامه‌نویسی محاسباتی دودویی، هشت‌الی، ده‌الی و شانزده‌الی را ارائه می‌دهد</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>نمایش تاریخچه تمام محاسبات قبلی و نتایج آنها را نشان می‌دهد</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>وظایف حافظه به شما امکان ذخیره و بازیابی نتایج محاسبات را می‌دهد</translation>
     </message>
 </context>
 <context>
