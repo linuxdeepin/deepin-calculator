@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>긴 문장으로 번역을 테스트합니다</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>기본적인 산술 연산을 지원하는 계산기 애플리케이션입니다</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>과학 모드는 고급 수학 함수와 상수를 제공합니다</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>프로그래머 모드는 이진, 8진, 10진, 16진 계산을 제공합니다</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>히스토리 뷰는 이전 계산 및 그 결과를 모두 표시합니다</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>메모리 기능을 통해 계산 결과를 저장하고 불러올 수 있습니다</translation>
     </message>
 </context>
 <context>
