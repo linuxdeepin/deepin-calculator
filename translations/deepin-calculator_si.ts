@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>නිරීක්ෂණ කිරීම සඳහා අමතර අභියාන්ත්‍ර අවදානම් සම්ප්‍රාප්ත කරන ලදී</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>මෙය අඟුරු අවදානම් සම්ප්‍රාප්ත කරන ලදී අඟුරු සම්ප්‍රාප්ත කරන ලදී අඟුරු අවදානම් සම්ප්‍රාප්ත කරන ලදී අඟුරු සම්ප්‍රාප්ත කරන ලදී අඟුරු අවදානම් සම්ප්‍රාප්ත කරන ලදී අඟුරු සම්ප්‍රාප්ත කරන ලදී අඟුරු අවදානම් සම්ප්‍රාප්ත කරන ලදී අඟුරු සම්ප්‍රාප්ත කරන ලදී අඟුරු අවදානම් සම්ප්‍රාප්ත කරන ලදී අඟුරු සම්ප්‍රාප්ත කරන ලදී අඟුරු අවදානම් සම්ප්‍රාප්ත කරන ලදී අඟුරු සම්ප්‍රාප්ත වීම සඳහා අඟුරු අවදානම් සම්ප්‍රාප්ත කරන ලදී</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>විද්‍යාත්මක අවදානම් සම්ප්‍රාප්ත කරන ලදී ප්‍රගත් විද්‍යාත්මක ක්‍රමානුපාත සහ අගයන් සඳහා අඟුරු සම්ප්‍රාප්ත කරා තිබේ</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>ප්‍රොග්‍රාම්මර අවදානම් සම්ප්‍රාප්ත කරන ලදී දෙමිනාරි අඟුරු සම්ප්‍රාප්ත කරන ලදී අක්ෂරික, දෙමිනාරි, දෙමිනාරි සහ අඟුරු අවදානම් සම්ප්‍රාප්ත කරන ලදී</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>අතික්‍රම අවදානම් සම්ප්‍රාප්ත කරන ලදී අගයන් සහ අවදානම් සම්ප්‍රාප්ත කරන ලදී අගයන් සඳහා අතික්‍රම අවදානම් සම්ප්‍රාප්ත කරන ලදී</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>ස්ත‍රී සම්ප්‍රාප්ත කරන ලදී අඟුරු සම්ප්‍රාප්ත කරන ලදී අගයන් සඳහා අඟුරු සම්ප්‍රාප්ත කරන ලදී අගයන් සඳහා අඟුරු සම්ප්‍රාප්ත කරන ලදී අගයන් සඳහා අඟුරු සම්ප්‍රාප්ත කරන ලදී අගයන් සඳහා අඟුරු සම්ප්‍රාප්ත කරන ලදී අගයන් සඳහා අඟුරු සම්ප්‍රාප්ත කරන ලදී</translation>
     </message>
 </context>
 <context>
