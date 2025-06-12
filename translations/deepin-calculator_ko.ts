@@ -29,11 +29,11 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation>천단위 구분자 사용</translation>
+        <translation>천분위수표 사용</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation>만단위 구분자 사용</translation>
+        <translation>만분위수표 사용</translation>
     </message>
     <message>
         <source>Undo</source>
