@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Testitsevad tõlgete pika laulus</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>See on kalkulaatori rakendus, mis toetab põhivõrrandite tegevusi</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Teaduskäsitlus toob esile täiendavaid matemaatilisi funktsioone ja konstante</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Programmeerimiskäsitlus pakub binääri, oktaani, desimaali ja heksadeerilisi arvutusi</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Ajalugu näitab kõiki eelnevaid arvutusi ja nende tulemusi</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Mälu funktsioonid lubavad sul arvutustulemuste salvestamist ja kuvamist</translation>
     </message>
 </context>
 <context>
