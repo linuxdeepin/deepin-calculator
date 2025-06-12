@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Тестлау үзенә һәм ҙур өсәттәр белән</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Бу калькулятор өсөн үзенә һәм үзәнә һыҙыҡлы арифметик үзәттәрҙе ҡулланыуын өйрәнгән өсәттә</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Табиғи өсәттә үзәнә һәм үзәттәрҙе ҡулланыуын өйрәнгән өсәттә</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Программист өсәттә үзәнә һәм үзәттәрҙе ҡулланыуын өйрәнгән өсәттә</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>История үзәнә һәм үзәттәрҙе ҡулланыуын өйрәнгән өсәттә</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Хәтер үзәнә һәм үзәттәрҙе ҡулланыуын өйрәнгән өсәттә</translation>
     </message>
 </context>
 <context>
