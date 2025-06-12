@@ -216,27 +216,27 @@
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>בדיקה תרגומים עם משפטים ארוכים</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>זה הואложение חשבון שמתאימה לתמיכה באופרטורים החשבוניים בסיסיים</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>המצב מדעי מציע פונקציות מתמטיות מתקדמות וקבועים</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>המצב של מبرمج מציע חישובים ביניים, שושונים, עשרוניים ובינאריים</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>המבט על ההיסטוריה מציג את כל החישובים הקודמים ואת תוצאותיהם</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>פונקציות הזיכרון מאפשרות לך לאחסן ולקרוא מחדש את תוצאות החישובים</translation>
     </message>
 </context>
 <context>
