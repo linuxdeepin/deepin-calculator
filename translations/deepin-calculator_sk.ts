@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sk" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sk">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Kalkulačka</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Získanie nastavení typu tém</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Aktuálny typ tém:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Testovanie prekladov s dlhšimi vety</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Toto je kalkulačka, ktorá podporuje základné aritmetické operácie</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Režim vedecký poskytuje pokročilé matematické funkcie a konštanty</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Režim programátora ponúka výpočty v binárnom, oktálnom, desiatkovom a hexadecimálnom formáte</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Zobrazenie histórie ukazuje všetky predchádzajúce výpočty a ich výsledky</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Funkcie pamäti umožňujú ukladať a opäť zisťovať výsledky výpočtov</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>História</translation>
+        <translation type="vanished">História</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Pamäť</translation>
+        <translation type="vanished">Pamäť</translation>
     </message>
 </context>
 <context>

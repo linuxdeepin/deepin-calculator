@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sl" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sl">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Kalkulator</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Pridobivanje nastavitev tipa teme</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Trenutni tip teme:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Testiranje prevodov z dolgimi stavki</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>To je kalkulator, ki podpira osnovne aritmetične operacije</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Način znanstvenega računanja omogoča napredne matematične funkcije in konstante</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Način programerja omogoča računanje v binarnem, oktalnem, decimalnem in heksadecimalnem formatu</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Pregled zgodovine prikazuje vse prejšnje računanje in njihove rezultate</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Funkcije pomnilnika omogočajo shranjevanje in ponovno brskanje po rezultatih računanja</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Zgodovina</translation>
+        <translation type="vanished">Zgodovina</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Pomnilnik</translation>
+        <translation type="vanished">Pomnilnik</translation>
     </message>
 </context>
 <context>

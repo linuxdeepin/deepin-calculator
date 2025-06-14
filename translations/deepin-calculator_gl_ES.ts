@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="gl_ES" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="gl_ES">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Calculadora</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Obtendo as configuracións do tipo de tema</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Tipo de tema actual:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Probando tradución con frases más longas</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Este é unha aplicación de calculadora que apoia operacións básicas de aritmética</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>O modo científico proporciona funcións matemáticas avanzadas e constantes</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>O modo de programador ofrece cálculos en binario, octal, decimal e hexadecimal</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>A visión de historial mostra todos os cálculos anteriores e os seus resultados</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>As funcións de memoria permíten gardar e recordar os resultados dos cálculos</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Historial</translation>
+        <translation type="vanished">Historial</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Memoria</translation>
+        <translation type="vanished">Memoria</translation>
     </message>
 </context>
 <context>

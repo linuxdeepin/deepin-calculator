@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="he" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="he">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>מחשבון</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>קבלת הגדרות 유형 נושא</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>סוג נושא נוכחי:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>בדיקה תרגומים עם משפטים ארוכים</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>זה הואложение חשבון שמתאימה לתמיכה באופרטורים החשבוניים בסיסיים</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>המצב מדעי מציע פונקציות מתמטיות מתקדמות וקבועים</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>המצב של מبرمج מציע חישובים ביניים, שושונים, עשרוניים ובינאריים</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>המבט על ההיסטוריה מציג את כל החישובים הקודמים ואת תוצאותיהם</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>פונקציות הזיכרון מאפשרות לך לאחסן ולקרוא מחדש את תוצאות החישובים</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>היסטוריה</translation>
+        <translation type="vanished">היסטוריה</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>זיכרון</translation>
+        <translation type="vanished">זיכרון</translation>
     </message>
 </context>
 <context>

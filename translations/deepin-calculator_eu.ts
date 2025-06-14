@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="eu" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="eu">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -87,7 +87,7 @@
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation type="unfinished"/>
+        <translation>Garbitu memoria elementua</translation>
     </message>
     <message>
         <source>Clear all memory</source>
@@ -99,27 +99,27 @@
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation type="unfinished"/>
+        <translation>Gehitu memoria elementura</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation type="unfinished"/>
+        <translation>Memoria gehitzea</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation type="unfinished"/>
+        <translation>Kendu memoria elementura</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation type="unfinished"/>
+        <translation>Memoria kendzea</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation type="unfinished"/>
+        <translation>Memoria gorde</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation type="unfinished"/>
+        <translation>Memoria</translation>
     </message>
 </context>
 <context>
@@ -130,22 +130,22 @@
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation type="unfinished"/>
+        <translation>Garbitu memoria elementua</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation type="unfinished"/>
+        <translation>Gehitu memoria elementura</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation type="unfinished"/>
+        <translation>Kendu memoria elementura</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation type="unfinished"/>
+        <translation>Ez dago garrantzitsurik memoria-n</translation>
     </message>
 </context>
 <context>
@@ -166,38 +166,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Aritmetikoaren desplazamendua</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Logikoaren desplazamendua</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Zirkularra desplazamendua</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Gorputza bidez zirkularra desplazamendua</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Aritmetikoaren desplazamendua</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Logikoaren desplazamendua</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Zirkularra desplazamendua</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Gorputza bidez zirkularra desplazamendua</translation>
     </message>
 </context>
 <context>
@@ -205,6 +205,38 @@
     <message>
         <source>Calculator</source>
         <translation>Kalkulagailua</translation>
+    </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Gainera tema tipoaren ezarpenak</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Tema tipoa:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Testatu tradukioak luzeagoen oierriekin</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Hona da kalkulatzaile aplikazioa, ezarpen ezarpen aritmetiko basikoak onartzen duena</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Zientifiko modua funtzio matematiko gehigarriak eta konstanteak eskaintzen ditu</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Programatzaile modua binario, oktala, desimala eta hexadecimala kalkulazioak eskaintzen ditu</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Historia ikurketa guztira aurretik egin dituzten kalkulazioak eta emaitzak erakusten ditu</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Hitzan funtzioak zure kalkulazio emaitzak gorde eta berreskuratu ahal izatea</translation>
     </message>
 </context>
 <context>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Historia</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Memoria</translation>
     </message>
 </context>
 <context>
@@ -236,7 +268,7 @@
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation type="unfinished"/>
+        <translation>Ez dago historiarik</translation>
     </message>
 </context>
 <context>

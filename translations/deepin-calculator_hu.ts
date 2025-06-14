@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hu">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Számológép</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Témaképzés típusának beállításainak beolvasása</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Jelenlegi témaképzés típusa:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>A hosszabb mondatok fordításának tesztelése</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Ez egy számológép alkalmazás, amely alapvető matematikai műveleteket támogat</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Tudományos mód avancsált matematikai függvényeket és állandókat nyújt</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Programozói mód bináris, oktális, decimális és hexadecimális számításokat kínál</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Történelem nézet megjeleníti az összes korábbi számítást és az eredményeiket</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Memória funkciók engedélyezik a számítási eredmények tárolását és visszakeresését</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Előzmény</translation>
+        <translation type="vanished">Előzmény</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Memória</translation>
+        <translation type="vanished">Memória</translation>
     </message>
 </context>
 <context>

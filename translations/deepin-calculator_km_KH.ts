@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="km_KH" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="km_KH">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -29,11 +29,11 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>ប្រើសញ្ញាកំណត់ត្រាមួយដែលមានតម្លៃលើសពីមួយដែលមានតម្លៃមួយពាន់ដែលមានតម្លៃមួយពាន់</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>ប្រើសញ្ញាកំណត់ត្រាមួយដែលមានតម្លៃលើសពីមួយដែលមានតម្លៃមួយដែលមានតម្លៃមួយដែលមានតម្លៃដប់ពាន់</translation>
     </message>
     <message>
         <source>Undo</source>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>ម៉ាស៊ីនគិតលេខ</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>ទាញយកការកំណត់ប្រភេទបំណុល</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>ប្រភេទបំណុលបច្ចុប្បន្ន៖</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>ការពិនិត្យមើលការបកប្រែដោយមានប្រយោគនៃប្រយោល</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>នេះគឺជាកម្មវិធីគណនាមួយដែលផ្តល់នូវការបម្រើបានសម្រាប់ប្រតិបត្តិការគណនាមូលដ្ឋាន</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>ការប្រើប្រាស់ប្រព័ន្ធសំណួរផ្តល់នូវមុខងារនិងថាមពលគណិតវិទ្យាមួយចំនួនដែលមានប្រសិទ្ធភាពខ្ពស់</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>ការប្រើប្រាស់ប្រព័ន្ធសម្គាល់ផ្តល់នូវការគណនាមួយចំនួនដែលរួមមានប៊ីណារី, អក្តារ, ដេសិម៉ល និងហេકស៊ីដេស៊ីម៉ល</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>ការមើលប្រវត្តិបង្ហាញពីការគណនាអាចប្រើបានទៀតនិងលទ្ធផលរបស់ពួកគេទាំងអស់</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>មុខងារផ្ទះអនុញ្ញាតឱ្យអ្នកកំណត់ត្រានិងយកចេញលទ្ធផលគណនាមួយចំនួន</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>ប្រវត្តិ</translation>
+        <translation type="vanished">ប្រវត្តិ</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>អង្គចងចាំ</translation>
+        <translation type="vanished">អង្គចងចាំ</translation>
     </message>
 </context>
 <context>

@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="nl">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Rekenmachine</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Bezig met ophalen van thema-instellingen</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Huidig thema:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Testen van vertalingen met langere zinnen</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Dit is een rekenmachine toepassing die basis rekenkundige bewerkingen ondersteunt</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Wetenschappelijke modus biedt geavanceerde wiskundige functies en constanten</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Programmeermodus biedt binair, octaal, decimaal en hexadecimaal rekenen</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Geschiedenisweergave toont alle vorige berekeningen en hun resultaten</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Geheugenfuncties laten u berekeningsresultaten opslaan en opnieuw ophalen</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Geschiedenis</translation>
+        <translation type="vanished">Geschiedenis</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Geschiedenis</translation>
+        <translation type="vanished">Geschiedenis</translation>
     </message>
 </context>
 <context>

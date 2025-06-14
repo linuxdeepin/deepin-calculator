@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="lt" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="lt">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Skaičiavimų įrankis</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Gauname temos tipų nustatymus</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Dabartinis temos tipas:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Testuojami vertimus su ilgesniais sakmenimis</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Šis yra skaičiuotuvas, kuris palaiko pagrindinius aritmetinius veiksmus</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Mokslinės režimo funkcijos suteikia išplėstines matematikos funkcijas ir pastovius skaičius</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Programuotojo režimas suteikia dviejų, aštuonių, dešimties ir šešiolikties sistemos skaičiavimus</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Istorijos peržiūra rodo visus anksčiau atliktus skaičiavimus ir jų rezultatus</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Atminties funkcijos leidžia jums išlaikyti ir atsikviesti skaičiavimų rezultatus</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Istорija</translation>
+        <translation type="vanished">Istорija</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Paminklis</translation>
+        <translation type="vanished">Paminklis</translation>
     </message>
 </context>
 <context>

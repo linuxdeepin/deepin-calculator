@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Kalkulačka</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Získávání nastavení typu tématu</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Aktuální typ tématu:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Testování překladů s delšími větami</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Toto je kalkulačka, která podporuje základní aritmetické operace</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Režim vědeckého výpočtu poskytuje pokročilé matematické funkce a konstanty</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Režim programátora umožňuje výpočty v binárním, oktalním, desítkovém a hexadecimálním formátu</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Pohled na historii zobrazuje všechny předchozí výpočty a jejich výsledky</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Funkce paměti umožňují ukládání a zpětné načítání výsledků výpočtů</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Historie</translation>
+        <translation type="vanished">Historie</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Paměť kalkulačky</translation>
+        <translation type="vanished">Paměť kalkulačky</translation>
     </message>
 </context>
 <context>
