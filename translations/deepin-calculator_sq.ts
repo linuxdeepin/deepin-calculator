@@ -95,7 +95,7 @@
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Përcallimin e përzgjedhjes</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to memory item</source>
@@ -166,38 +166,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>Përpikësia aritmetike</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>Përpikësia logjike</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Përpikësia krokodale</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Përpikësia krokodale me rotacion per përcaktim</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>Përpikësia aritmetike</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>Përpikësia logjike</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Përpikësia krokodale</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Përpikësia krokodale me rotacion per përcaktim</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -212,11 +212,11 @@
     </message>
     <message>
         <source>Current theme type:</source>
-        <translation type="unfinished"/>
+        <translation>Lloj teme të tanishme:</translation>
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Po testohen përkthime me togfjalësha më të gjatë</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
