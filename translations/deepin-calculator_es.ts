@@ -68,7 +68,7 @@
     </message>
     <message>
         <source>Scientific</source>
-        <translation>Científica</translation>
+        <translation>Científico</translation>
     </message>
     <message>
         <source>Mode</source>
@@ -236,7 +236,7 @@
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Las funciones de memoria permiten almacenar y recuperar resultados de los cálculos</translation>
     </message>
 </context>
 <context>
