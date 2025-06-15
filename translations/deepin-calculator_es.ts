@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="es">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -68,7 +68,7 @@
     </message>
     <message>
         <source>Scientific</source>
-        <translation>Científica</translation>
+        <translation>Científico</translation>
     </message>
     <message>
         <source>Mode</source>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Calculadora</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Obtener la configuración del tipo de tema</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Tipo de tema actual:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Probar traducciones con frases más largas</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Esta es una calculadora que admite operaciones aritméticas básicas</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>El modo científico proporciona constantes y funciones matemáticas avanzadas</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>El modo programador ofrece cálculos binarios, octales, decimales y hexadecimales</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>La vista de historial muestra todos los cálculos anteriores y sus resultados</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Las funciones de memoria permiten almacenar y recuperar resultados de los cálculos</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Historial</translation>
+        <translation type="vanished">Historial</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Memoria</translation>
+        <translation type="vanished">Memoria</translation>
     </message>
 </context>
 <context>

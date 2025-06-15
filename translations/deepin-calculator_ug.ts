@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ug" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ug">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>ھېسابلىغۇچ</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>تىمى تىپى سىزىملىرىنى كۆرۈش</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>ھازىر تىمى تىپى:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>ئەمەن تەستىنىڭ تەرجىمەسى ئۇزۇن مەزمۇنلىق سۆزلىرى بىلەن</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>بۇ كاىلىۋاتىر ھەققىدە بىر ئەمەن ئۇنىڭ باس مەھسۇلاتلىق ئارىڧمىتىك ئىشلەتىشلىرىنى ئۇيغۇنلاشتۇرۇش</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>ئىقتىسادىي تەرجىمە ئۇنىڭ ئەھمىيەتلىق ماتېماتىك ئىشلەتىشلىرى ۋە كۆرسىتىشلىرىنى ئۇيغۇنلاشتۇرۇش</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>پىرىمەر تەرجىمەسى بىرلىك، سەكىل، دېسىمەل ۋە هېكسيدېساللىق ئىشلەتىشلىرىنى ئۇيغۇنلاشتۇرۇش</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>تەرىخ كۆرۈنۈشى بارلىق ئۆتىدىن كېيىن كىرگەن ئىشلەتىشلىرى ۋە ئۇلارنىڭ نەتىجەلىرىنى كۆرۈش</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>ئادەتلىك ئىشلەتىشلىرىنى ئۇيغۇنلاشتۇرۇش ئۈچۈن ئۇنىڭ نەتىجەنى ساقلاپ چېكىنىشنى بېرىش</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>تارىخىي خاتىرە</translation>
+        <translation type="vanished">تارىخىي خاتىرە</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>ئىچكى ساقلىغۇچ</translation>
+        <translation type="vanished">ئىچكى ساقلىغۇچ</translation>
     </message>
 </context>
 <context>

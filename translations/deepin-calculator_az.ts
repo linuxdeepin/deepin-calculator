@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="az" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="az">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Hesablayıcı</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Tematik tip ayarlarını almaq</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Bərabər tematik tip:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Testləmək üçün uzun cümlələr ilə tərcümə edilir</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Bu, məsələn əlavə, çıxma, vurma və bölünmə kimi elementar arifmetik əməliyyatları dəstəkləyən bir kalkulyator tətbiqatıdır</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Tədqiqat rejimi avtomatik matematik funksiyalar və sabitləri təmin edir</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Proqramçı rejimi binar, oktal, decimal və hexadecimal hesablama imkanları təqdim edir</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Tarixi baxış əvvəlki bütün hesablama və nəticələrini göstərir</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Yaddaş funksiyaları hesablama nəticələrini saxlama və təkrar almağa imkan verir</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Tarixçə</translation>
+        <translation type="vanished">Tarixçə</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Yaddaş</translation>
+        <translation type="vanished">Yaddaş</translation>
     </message>
 </context>
 <context>

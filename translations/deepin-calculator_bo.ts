@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="bo" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="bo">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>རྩིས་ཆས།</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>གཞོན་གྱི་ଫେଶ୍ ଟାଇପ୍ ଆନ୍ତରଜନ୍ନିକ ନିର୍ଦ୍ଦେଶନା</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>ବର୍ତ୍ତମାନ ଗାଥ୍ ଟାଇପ୍:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>ལོ་རྒྱུས་ཟིན་ཐོ།</translation>
+        <translation type="vanished">ལོ་རྒྱུས་ཟིན་ཐོ།</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>ནང་གསོག</translation>
+        <translation type="vanished">ནང་གསོག</translation>
     </message>
 </context>
 <context>

@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="tr">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Hesap Makinesi</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Tematik tür ayarlarını alıyor</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Mevcut tema türü:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Çevirileri uzun cümlelerle test ediyoruz</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Bu, temel aritmetik işlemlere destek olan bir hesap makinesi uygulamasıdır</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Bilimsel mod, gelişmiş matematik fonksiyonlarını ve sabitleri sağlar</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Programcı modu, ikili, sekizlik, ondalık ve onaltılık hesaplamaları sunar</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Tarih görünümü, tüm önceki hesaplamaları ve sonuçlarını gösterir</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Hafıza fonksiyonları, hesaplamaların sonuçlarını saklamayı ve geri çağrımını sağlar</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Geçmiş</translation>
+        <translation type="vanished">Geçmiş</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Bellek</translation>
+        <translation type="vanished">Bellek</translation>
     </message>
 </context>
 <context>
