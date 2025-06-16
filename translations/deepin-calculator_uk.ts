@@ -208,35 +208,35 @@
     </message>
     <message>
         <source>Getting theme type settings</source>
-        <translation type="unfinished"/>
+        <translation>Отримання параметрів типу теми</translation>
     </message>
     <message>
         <source>Current theme type:</source>
-        <translation type="unfinished"/>
+        <translation>Поточний тип теми:</translation>
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation type="unfinished"/>
+        <translation>Тестування перекладів із довшими реченнями</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Це програма-калькулятор, у якій передбачено підтримку основних арифметичних дій</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>У інженерному режимі можна скористатися додатковими математичними функціями та сталими</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>У режимі програмування можна виконувати обчислення у двійковій, вісімковій, десятковій та шістнадцятковій системах числення</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>На панелі журналу буде показано усі попередні обчислення та їхні результати</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>За допомогою можливостей запам&apos;ятовування можна зберігати та відтворювати результати обчислень</translation>
     </message>
 </context>
 <context>
