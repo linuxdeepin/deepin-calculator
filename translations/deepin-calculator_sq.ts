@@ -220,23 +220,23 @@
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation type="unfinished"/>
+        <translation>Ky është një aplikacion makinë llogaritëse që mbulon veprime të thjeshta aritmetike</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation type="unfinished"/>
+        <translation>Mënyra shkencore jep funksione dhe konstante matematike të thelluara</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Mënyra programues ofron llogaritje dyore, tetëshe, dhjetore dhe gjashtëmbëdhjetëshe</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Pamja historik shfaq krejt llogaritjet e mëparshme dhe përfundimet përkatëse</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Funksionet e kujtesës ju lejojnë të depozitoni dhe rimerrni përfundime llogarish</translation>
     </message>
 </context>
 <context>
