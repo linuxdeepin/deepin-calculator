@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pl">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Kalkulator</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Uzyskiwanie motywu</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Motyw:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Testowanie tłumaczeń z dłuższymi zdaniami</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Jest to kalkulator ze wsparciem prostych operacji arytmetycznych</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Tryb naukowy zapewnia zaawansowane funkcje matematyczne i wartości stałe</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Tryb programisty oferuje obliczenia binarne, ósemkowe, dziesiętne i szesnastkowe</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Widok historii pokazuje wszystkie poprzednie obliczenia i ich wyniki</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Funkcje pamięci zezwalają na zapisywanie i przywracanie wartości</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Historia</translation>
+        <translation type="vanished">Historia</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Pamięć</translation>
+        <translation type="vanished">Pamięć</translation>
     </message>
 </context>
 <context>

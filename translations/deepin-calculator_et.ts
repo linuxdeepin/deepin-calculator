@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="et" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="et">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Kalkulaator</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Tüüpide seadistused</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Praegune välimuse tüüp:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Testitsevad tõlgete pika laulus</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>See on kalkulaatori rakendus, mis toetab põhivõrrandite tegevusi</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Teaduskäsitlus toob esile täiendavaid matemaatilisi funktsioone ja konstante</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Programmeerimiskäsitlus pakub binääri, oktaani, desimaali ja heksadeerilisi arvutusi</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Ajalugu näitab kõiki eelnevaid arvutusi ja nende tulemusi</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Mälu funktsioonid lubavad sul arvutustulemuste salvestamist ja kuvamist</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Ajalugu</translation>
+        <translation type="vanished">Ajalugu</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Mälu</translation>
+        <translation type="vanished">Mälu</translation>
     </message>
 </context>
 <context>

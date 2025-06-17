@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ko" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ko">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -29,23 +29,23 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>천분위수표 사용</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>만분위수표 사용</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>실행 취소</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>다시 실행</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"/>
+        <translation>잘라내기</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -53,7 +53,7 @@
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>붙여넣기</translation>
     </message>
 </context>
 <context>
@@ -76,11 +76,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>계산기는 표준, 과학 및 프로그래머 모드를 지원하는 사용하기 쉬운 데스크탑 계산기입니다.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>프로그래머</translation>
     </message>
 </context>
 <context>
@@ -166,38 +166,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>산술 이동</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>논리 이동</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>순환 이동</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>캐리 순환 이동 회전</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>산술 이동</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>논리 이동</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>순환 이동</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>캐리 순환 이동 회전</translation>
     </message>
 </context>
 <context>
@@ -205,6 +205,38 @@
     <message>
         <source>Calculator</source>
         <translation>계산기</translation>
+    </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>테마 유형 설정을 가져옵니다</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>현재 테마 유형:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>긴 문장으로 번역을 테스트합니다</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>기본적인 산술 연산을 지원하는 계산기 애플리케이션입니다</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>과학 모드는 고급 수학 함수와 상수를 제공합니다</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>프로그래머 모드는 이진, 8진, 10진, 16진 계산을 제공합니다</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>히스토리 뷰는 이전 계산 및 그 결과를 모두 표시합니다</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>메모리 기능을 통해 계산 결과를 저장하고 불러올 수 있습니다</translation>
     </message>
 </context>
 <context>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>기록</translation>
+        <translation type="vanished">기록</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>메모리</translation>
+        <translation type="vanished">메모리</translation>
     </message>
 </context>
 <context>

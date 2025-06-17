@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sr" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sr">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -29,11 +29,11 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>Користите раздвојник за хиљаде</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>Користите раздвојник за десет хиљада</translation>
     </message>
     <message>
         <source>Undo</source>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Калкулатор</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Применање поставки типа теме</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Текући тип теме:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Тестирање превода са дужим реченицама</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Ово је калкулатор који подржава основне аритметичке операције</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Научни режим пружа напредне математичке функције и константе</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Режим програмера омогућава израчунавање у бинарној, окталној, децималној и хексадецималној бazi</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Поглед на историју приказује све претходне израчунавања и њихове резултате</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Функције меморије вам омогућавају да сачувате и поновите израчунавања</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Историја</translation>
+        <translation type="vanished">Историја</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Меморија</translation>
+        <translation type="vanished">Меморија</translation>
     </message>
 </context>
 <context>

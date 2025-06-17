@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ka" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ka">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -29,11 +29,11 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>ათასის მიმდევრობის გამოყენება</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>ათასი ათასის მიმდევრობის გამოყენება</translation>
     </message>
     <message>
         <source>Undo</source>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>კალკულატორი</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>თემატის ტიპის პარამეტრების მიღება</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>მიმდინარე თემატის ტიპი:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>ტესტირება თარგმნის უსაფრთხოეს წინაპირობებით</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>ეს არის კალკულატორის პროგრამა, რომელიც მხარდაჭერის ბაზის არითმეტიკულ მოქმედებებს</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>მეცნიერული რეჟიმი წარმატებული მათემატიკური ფუნქციებსა და მუდმივებს მოითხოვს</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>პროგრამისტული რეჟიმი შეიძლება ბინარული, ოქტალური, დეციმალური და ჰექსადეციმალური გამოთვლების ჩატვირთვა</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>ისტორიის ხედი ყველა წინა გამოთვლის და მათი შედეგების გამოსახვას აწესებს</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>მეხმარების ფუნქციები თქვენს გამოთვლის შედეგების შენახვასა და დაბრუნებას შესაძლებლობას აძლევს</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>ისოტირა</translation>
+        <translation type="vanished">ისოტირა</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>მეხსიერება</translation>
+        <translation type="vanished">მეხსიერება</translation>
     </message>
 </context>
 <context>

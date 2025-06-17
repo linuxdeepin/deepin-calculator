@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="vi" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="vi">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Máy tính</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Đang lấy cài đặt loại chủ đề</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Loại chủ đề hiện tại:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Đang kiểm tra dịch thuật với các câu dài hơn</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Đây là ứng dụng máy tính hỗ trợ các phép toán đại số cơ bản</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Chế độ khoa học cung cấp các hàm toán học nâng cao và hằng số</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Chế độ lập trình cung cấp các phép tính nhị phân, bát phân, thập phân và thập lục phân</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Giao diện xem lịch sử hiển thị tất cả các phép tính trước đó và kết quả của chúng</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Các chức năng bộ nhớ cho phép bạn lưu trữ và gọi lại kết quả tính toán</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Lịch sử</translation>
+        <translation type="vanished">Lịch sử</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Bộ nhớ</translation>
+        <translation type="vanished">Bộ nhớ</translation>
     </message>
 </context>
 <context>

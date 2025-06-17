@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hi_IN" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hi_IN">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -29,11 +29,11 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>हजार के स्पर्शक का उपयोग करें</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>दस हजार के स्पर्शक का उपयोग करें</translation>
     </message>
     <message>
         <source>Undo</source>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>गणक</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>थीम प्रकार सेटिंग्स प्राप्त कर रहे हैं</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>वर्तमान थीम प्रकार:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>अनुवाद के साथ लंबे वाक्यों का परीक्षण करें</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>यह एक कैलकुलेटर एप्लिकेशन है जो बुनियादी अंकगणितीय संचालन समर्थन करता है</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>वैज्ञानिक मोड उन्नत गणितीय कार्यों और स्थिरांक प्रदान करता है</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>प्रोग्रामर मोड बाइनरी, ऑक्टल, डेसिमल और हेक्साडेसिमल संचालन प्रदान करता है</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>इतिहास दृश्य सभी पिछले संचालन और उनके परिणाम दिखाता है</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>मेमोरी कार्य आपको संचालन परिणाम के भंडारण और याद लेने की अनुमति देते हैं</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>वृतांत</translation>
+        <translation type="vanished">वृतांत</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>मेमोरी </translation>
+        <translation type="vanished">मेमोरी </translation>
     </message>
 </context>
 <context>

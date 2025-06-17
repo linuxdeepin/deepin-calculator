@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ro" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ro">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -29,11 +29,11 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>Utilizare separator de mii</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>Utilizare separator de zece mii</translation>
     </message>
     <message>
         <source>Undo</source>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Calculator </translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Obținerea setărilor tipului de temă</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Tipul de temă curent:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Testarea traducerilor cu propoziții mai lungi</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Aceasta este o aplicație de calculator care susține operații aritmetice de bază</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Modulul științific oferă funcții matematice avansate și constante</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Modulul programator oferă calcule în binar, octal, zecimal și hexazecimal</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Vizualizarea istorică arată toate calculele anterioare și rezultatele lor</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Funcțiile memoriei vă permit să stocați și să rețineți rezultatele calculelor</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Istoria</translation>
+        <translation type="vanished">Istoria</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Memorie</translation>
+        <translation type="vanished">Memorie</translation>
     </message>
 </context>
 <context>

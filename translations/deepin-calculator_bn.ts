@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="bn" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="bn">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>ক্যালকুলেটর</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>থিম টাইপ সেটিংস পাওয়া</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>বর্তমান থিম টাইপ:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>টেস্টিং অনুবাদ দীর্ঘ বাক্যগুলি সহ করে</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>এটি একটি ক্যালকুলেটর অ্যাপ্লিকেশন যেটি মৌলিক গাণিতিক অপারেশনগুলি সমর্থন করে</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>বিজ্ঞানী মোড অগ্রগত গণিত ফাংশন এবং ধ্বংসাবশেষ প্রদান করে</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>প্রোগ্রামার মোড বাইনারি, অক্টাল, ডেসিমাল এবং হেক্সাডেসিমাল গণনা প্রদান করে</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>ইতিহাস দৃশ্য সমস্ত আগের গণনা এবং তাদের ফলাফল দেখায়</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>মেমরি ফাংশনগুলি আপনাকে গণনার ফলাফল সঞ্চয় এবং আবার স্মরণ করতে দেয়</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>ইতিহাস</translation>
+        <translation type="vanished">ইতিহাস</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>মেমরি</translation>
+        <translation type="vanished">মেমরি</translation>
     </message>
 </context>
 <context>

@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="fi">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Laskin</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Hankita aiheen tyyppi asetukset</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Nykyinen aiheen tyyppi:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Testataan käännöksiä pitkien lauseiden kanssa</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Tämä on laskinohjelma, joka tukee perusaritmetiikan toimintoja</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Tieteellinen tila tarjoaa edistyneitä matemaattisia toimintoja ja vakioita</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Ohjelmistotila tarjoaa binääri-, oktaali-, desimaali- ja heksadesimaalilaskutoimituksia</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Historiatila näyttää kaikki aiemmat laskut ja niiden tulokset</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Muistitoiminnot antavat mahdollisuuden tallentaa ja hankkia takaisin laskutuloksia</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Historia</translation>
+        <translation type="vanished">Historia</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Muisti</translation>
+        <translation type="vanished">Muisti</translation>
     </message>
 </context>
 <context>

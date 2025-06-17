@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ms" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ms">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>Kalkulator</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Mendapatkan tetapan jenis tema</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Jenis tema semasa:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Menguji penerjemahan dengan ayat yang lebih panjang</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Ini adalah aplikasi kalkulator yang menyokong operasi aritmetik asas</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Modus saintifik menyediakan fungsi matematik lanjutan dan pemalar</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Modus penganalisis menyediakan pengiraan biner, oktal, desimal dan heksa</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Paparan sejarah menunjukkan semua pengiraan terdahulu dan keputusan mereka</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Fungsi memori membenarkan anda menyimpan dan mengingat semula keputusan pengiraan</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Sejarah</translation>
+        <translation type="vanished">Sejarah</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Ingatan</translation>
+        <translation type="vanished">Ingatan</translation>
     </message>
 </context>
 <context>

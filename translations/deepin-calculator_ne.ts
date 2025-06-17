@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ne" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ne">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>कॅलकुलेटर</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>थीम प्रकार सेटिंग्स पाउन </translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>सध्य थीम प्रकार:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>तेस्टिंग अनुवादहरू लङ्गर सूचनासहित</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>यो एउटा क्यालकुलेटर अनुप्रयोग हो जसले बेसिक अरिथमेटिक अपरेशनहरू समर्थन गर्दछ</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>वैज्ञानिक मोड अवान्स गणितीय फंक्शनहरू र स्थिरांक प्रदान गर्दछ</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>प्रोग्रामर मोड बाइनरी, ओक्टल, डेसिमल र हेक्साडेसिमल गणना प्रदान गर्दछ</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>इतिहास दृश्य सबै पूर्व क्यालकुलेशन र तिनका परिणाम देखाउँछ</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>मेमोरी फंक्शन तपाईंले क्यालकुलेशन परिणाम संग्रहित गर्न र त्याले फिर्ता लिन अनुमति दिन्छ</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>इतिहास</translation>
+        <translation type="vanished">इतिहास</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>प्रतिबंध</translation>
+        <translation type="vanished">प्रतिबंध</translation>
     </message>
 </context>
 <context>

@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sq" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sq">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -95,7 +95,7 @@
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Përcallimin e përzgjedhjes</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to memory item</source>
@@ -166,38 +166,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>Përpikësia aritmetike</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>Përpikësia logjike</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Përpikësia krokodale</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Përpikësia krokodale me rotacion per përcaktim</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>Përpikësia aritmetike</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>Përpikësia logjike</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Përpikësia krokodale</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Përpikësia krokodale me rotacion per përcaktim</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -205,6 +205,38 @@
     <message>
         <source>Calculator</source>
         <translation>Llogaritës</translation>
+    </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Lloj teme të tanishme:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Po testohen përkthime me togfjalësha më të gjatë</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Ky është një aplikacion makinë llogaritëse që mbulon veprime të thjeshta aritmetike</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Mënyra shkencore jep funksione dhe konstante matematike të thelluara</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Mënyra programues ofron llogaritje dyore, tetëshe, dhjetore dhe gjashtëmbëdhjetëshe</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Pamja historik shfaq krejt llogaritjet e mëparshme dhe përfundimet përkatëse</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Funksionet e kujtesës ju lejojnë të depozitoni dhe rimerrni përfundime llogarish</translation>
     </message>
 </context>
 <context>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Historik</translation>
+        <translation type="vanished">Historik</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Kujtesë</translation>
+        <translation type="vanished">Kujtesë</translation>
     </message>
 </context>
 <context>

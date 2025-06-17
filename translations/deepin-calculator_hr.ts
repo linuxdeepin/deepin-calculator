@@ -1,9 +1,9 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hr" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hr">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>Greška u izrazu</translation>
     </message>
 </context>
 <context>
@@ -29,19 +29,19 @@
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>Koristite razdvojitelj tisuća</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation type="unfinished"/>
+        <translation>Koristite razdvojitelj deset tisuća</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Povuči</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>Ponovi</translation>
     </message>
     <message>
         <source>Cut</source>
@@ -76,11 +76,11 @@
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation type="unfinished"/>
+        <translation>Kalkulator je jednostavan i lagan računalo za rad na stolnom računalu, podržava standardni, znanstveni i programerski način rada.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation type="unfinished"/>
+        <translation>Programer</translation>
     </message>
 </context>
 <context>
@@ -95,7 +95,7 @@
     </message>
     <message>
         <source>Memory recall</source>
-        <translation type="unfinished"/>
+        <translation>Pametni povrat</translation>
     </message>
     <message>
         <source>Add to memory item</source>
@@ -103,19 +103,19 @@
     </message>
     <message>
         <source>Memory add</source>
-        <translation type="unfinished"/>
+        <translation>Dodaj u pamet</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation type="unfinished"/>
+        <translation>Oduzmi od pametnog elementa</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation type="unfinished"/>
+        <translation>Oduzmi iz pametnog elementa</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation type="unfinished"/>
+        <translation>Pametni spremanje</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -138,7 +138,7 @@
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation type="unfinished"/>
+        <translation>Oduzmi od pametnog elementa</translation>
     </message>
 </context>
 <context>
@@ -152,7 +152,7 @@
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>Aritmetički pomak</translation>
     </message>
 </context>
 <context>
@@ -166,38 +166,38 @@
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Logički pomak</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Kružni pomak</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Rotacija kroz nosač kružnog pomaka</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Aritmetički pomak</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation type="unfinished"/>
+        <translation>Logički pomak</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation type="unfinished"/>
+        <translation>Kružni pomak</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Rotacija kroz nosač kružnog pomaka</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation type="unfinished"/>
+        <translation>Greška u izrazu</translation>
     </message>
 </context>
 <context>
@@ -206,30 +206,62 @@
         <source>Calculator</source>
         <translation>Kalkulator</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>Učitavanje postavki tipa teme</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>Trenutni tip teme:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>Testiranje prevoda s dužim rečenicama</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>Ovo je kalkulator aplikacija koja podržava osnovne aritmetičke operacije</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>Način za naučne računaje pruža napredne matematičke funkcije i konstante</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>Način za programere pruža računanje u binarnom, osmokom, dekadskom i heksadecimalnom formatu</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>Pregled istorije prikazuje sve prethodne račune i njihove rezultate</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>Funkcije pamćenja omogućavaju vam pohranjivanje i ponovno učitavanje rezultata računa</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>Greška u izrazu</translation>
     </message>
 </context>
 <context>
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>Povijest</translation>
+        <translation type="vanished">Povijest</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Memorija</translation>
+        <translation type="vanished">Memorija</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation type="unfinished"/>
+        <translation>Greška u izrazu</translation>
     </message>
 </context>
 <context>
