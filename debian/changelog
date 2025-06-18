@@ -1,3 +1,9 @@
+deepin-calculator (6.5.15) unstable; urgency=medium
+
+  * bump version to 6.5.15
+
+ -- dengzhongyuan <dengzhongyuan@uniontech.com>  Wed, 18 Jun 2025 17:51:56 +0800
+
 deepin-calculator (6.5.14) unstable; urgency=medium
 
   * chore: Update deepin-calculator version to 6.5.13.1 in configuration files
