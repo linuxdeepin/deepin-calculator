@@ -236,7 +236,7 @@
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>As funções de memória permitem armazenar e recuperar resultados de cálculos</translation>
     </message>
 </context>
 <context>
