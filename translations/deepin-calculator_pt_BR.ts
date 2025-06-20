@@ -228,11 +228,11 @@
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>O modo programador oferece cálculos em binário, octal, decimal e hexadecimal</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>O histórico exibe todos os cálculos anteriores e seus resultados</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
