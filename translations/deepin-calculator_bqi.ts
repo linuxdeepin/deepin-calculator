@@ -2,8 +2,6 @@
 <context>
     <name>ExpressionBar</name>
     <message>
-        <location filename="../src/widgets/expressionbar.cpp" line="469"/>
-        <location filename="../src/widgets/expressionbar.cpp" line="1095"/>
         <source>Expression error</source>
         <translation>xatāyê goďên</translation>
     </message>
@@ -11,12 +9,10 @@
 <context>
     <name>IconButton</name>
     <message>
-        <location filename="../src/control/iconbutton.cpp" line="110"/>
         <source>Clear all memory</source>
         <translation>roftên poy virga</translation>
     </message>
     <message>
-        <location filename="../src/control/iconbutton.cpp" line="113"/>
         <source>Clear history</source>
         <translation>roftên virgār</translation>
     </message>
@@ -24,47 +20,38 @@
 <context>
     <name>InputEdit</name>
     <message>
-        <location filename="../src/widgets/inputedit.cpp" line="298"/>
         <source>Delete</source>
         <translation>pāk kerdên</translation>
     </message>
     <message>
-        <location filename="../src/widgets/inputedit.cpp" line="299"/>
         <source>Select All</source>
         <translation>pêsandê poy</translation>
     </message>
     <message>
-        <location filename="../src/widgets/inputedit.cpp" line="300"/>
         <source>Use thousands separator</source>
         <translation>joďā konanda hêzārow nê vê kār bovarin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/inputedit.cpp" line="301"/>
         <source>Use ten-thousands separator</source>
         <translation>joďā konanda da&apos; hêzār nê vê kār bovarin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/inputedit.cpp" line="293"/>
         <source>Undo</source>
         <translation>vorgandên</translation>
     </message>
     <message>
-        <location filename="../src/widgets/inputedit.cpp" line="294"/>
         <source>Redo</source>
         <translation>zê nu anjom biďin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/inputedit.cpp" line="295"/>
         <source>Cut</source>
         <translation>jā goro</translation>
     </message>
     <message>
-        <location filename="../src/widgets/inputedit.cpp" line="296"/>
         <source>Copy</source>
         <translation>lefgiri</translation>
     </message>
     <message>
-        <location filename="../src/widgets/inputedit.cpp" line="297"/>
         <source>Paste</source>
         <translation>jā vandên</translation>
     </message>
@@ -72,33 +59,26 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/main.cpp" line="104"/>
-        <location filename="../src/mainwindow.cpp" line="68"/>
         <source>Calculator</source>
         <translation>mâši hêsāv</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="44"/>
         <source>Standard</source>
         <translation>estāndārd</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="45"/>
         <source>Scientific</source>
         <translation>elmi</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="57"/>
         <source>Mode</source>
         <translation>hālat</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="106"/>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
         <translation>mâši hêsāv ya mâši hêsāv rimizi vā estêfāďe āsow hêď ke zê hālatā estāndārd,elmi ow barnome nivisi lādêrâri êkonê.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="46"/>
         <source>Programmer</source>
         <translation>barnome nivis</translation>
     </message>
@@ -106,47 +86,38 @@
 <context>
     <name>MemoryButton</name>
     <message>
-        <location filename="../src/control/memorybutton.cpp" line="103"/>
         <source>Clear memory item</source>
         <translation>roftên āytem virga</translation>
     </message>
     <message>
-        <location filename="../src/control/memorybutton.cpp" line="105"/>
         <source>Clear all memory</source>
         <translation>roftên poy virga</translation>
     </message>
     <message>
-        <location filename="../src/control/memorybutton.cpp" line="107"/>
         <source>Memory recall</source>
         <translation>vir vani virga</translation>
     </message>
     <message>
-        <location filename="../src/control/memorybutton.cpp" line="110"/>
         <source>Add to memory item</source>
         <translation>êzāf kerdên āytem vê virga</translation>
     </message>
     <message>
-        <location filename="../src/control/memorybutton.cpp" line="112"/>
         <source>Memory add</source>
         <translation>êzāf kerdên virga</translation>
     </message>
     <message>
-        <location filename="../src/control/memorybutton.cpp" line="115"/>
         <source>Subtract from memory item</source>
         <translation>zê āytem virga kam ko</translation>
     </message>
     <message>
-        <location filename="../src/control/memorybutton.cpp" line="117"/>
         <source>Memory subtract</source>
         <translation>virga nê kam êkonê</translation>
     </message>
     <message>
-        <location filename="../src/control/memorybutton.cpp" line="119"/>
         <source>Memory store</source>
         <translation>furušgā virga</translation>
     </message>
     <message>
-        <location filename="../src/control/memorybutton.cpp" line="121"/>
         <source>Memory</source>
         <translation>virga</translation>
     </message>
@@ -154,26 +125,18 @@
 <context>
     <name>MemoryItemWidget</name>
     <message>
-        <location filename="../src/views/memoryitemwidget.cpp" line="147"/>
-        <location filename="../src/views/memoryitemwidget.cpp" line="235"/>
         <source>Copy</source>
         <translation>lefgiri</translation>
     </message>
     <message>
-        <location filename="../src/views/memoryitemwidget.cpp" line="148"/>
-        <location filename="../src/views/memoryitemwidget.cpp" line="236"/>
         <source>Clear memory item</source>
         <translation>roftên āytem virga</translation>
     </message>
     <message>
-        <location filename="../src/views/memoryitemwidget.cpp" line="149"/>
-        <location filename="../src/views/memoryitemwidget.cpp" line="237"/>
         <source>Add to memory item</source>
         <translation>êzāf kerdên āytem vê virga</translation>
     </message>
     <message>
-        <location filename="../src/views/memoryitemwidget.cpp" line="150"/>
-        <location filename="../src/views/memoryitemwidget.cpp" line="238"/>
         <source>Subtract from memory item</source>
         <translation>zê āytem virga kam ko</translation>
     </message>
@@ -181,7 +144,6 @@
 <context>
     <name>MemoryWidget</name>
     <message>
-        <location filename="../src/views/memorywidget.cpp" line="102"/>
         <source>Nothing saved in memory</source>
         <translation>hičî mênê virga zaft nîbu</translation>
     </message>
@@ -189,8 +151,6 @@
 <context>
     <name>ProExpressionBar</name>
     <message>
-        <location filename="../src/widgets/proexpressionbar.cpp" line="378"/>
-        <location filename="../src/widgets/proexpressionbar.cpp" line="434"/>
         <source>Expression error</source>
         <translation>xatāyê goďên</translation>
     </message>
@@ -198,8 +158,6 @@
 <context>
     <name>ProListView</name>
     <message>
-        <location filename="../src/views/prolistview.cpp" line="36"/>
-        <location filename="../src/views/prolistview.cpp" line="52"/>
         <source>Copy</source>
         <translation>lefgiri</translation>
     </message>
@@ -207,24 +165,18 @@
 <context>
     <name>ProgramModule</name>
     <message>
-        <location filename="../src/widgets/programmodule.cpp" line="912"/>
         <source>Arithmetic shift</source>
         <translation>jā vê jâyi hêsâvi</translation>
     </message>
     <message>
-        <location filename="../src/widgets/programmodule.cpp" line="918"/>
         <source>Logical shift</source>
         <translation>ālêšte manteqi</translation>
     </message>
     <message>
-        <location filename="../src/widgets/programmodule.cpp" line="924"/>
         <source>Circular shift</source>
         <translation>jā vê jâyi dâyrêyi</translation>
     </message>
     <message>
-        <location filename="../src/widgets/programmodule.cpp" line="909"/>
-        <location filename="../src/widgets/programmodule.cpp" line="930"/>
-        <location filename="../src/widgets/programmodule.cpp" line="1406"/>
         <source>Rotate through carry circular shift</source>
         <translation>ler xardên vā jā goro kerdên dâyrêyi</translation>
     </message>
@@ -232,26 +184,18 @@
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
-        <location filename="../src/views/programmeritemwidget.cpp" line="322"/>
-        <location filename="../src/views/programmeritemwidget.cpp" line="341"/>
         <source>Arithmetic shift</source>
         <translation>jā vê jâyi hêsâvi</translation>
     </message>
     <message>
-        <location filename="../src/views/programmeritemwidget.cpp" line="326"/>
-        <location filename="../src/views/programmeritemwidget.cpp" line="345"/>
         <source>Logical shift</source>
         <translation>ālêšte manteqi</translation>
     </message>
     <message>
-        <location filename="../src/views/programmeritemwidget.cpp" line="330"/>
-        <location filename="../src/views/programmeritemwidget.cpp" line="349"/>
         <source>Circular shift</source>
         <translation>jā vê jâyi dâyrêyi</translation>
     </message>
     <message>
-        <location filename="../src/views/programmeritemwidget.cpp" line="334"/>
-        <location filename="../src/views/programmeritemwidget.cpp" line="353"/>
         <source>Rotate through carry circular shift</source>
         <translation>ler xardên vā jā goro kerdên dâyrêyi</translation>
     </message>
@@ -259,47 +203,38 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="110"/>
         <source>Calculator</source>
         <translation>mâši hêsāv</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="143"/>
         <source>Getting theme type settings</source>
         <translation>تیم تیپ سیتینگز گرن</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="145"/>
         <source>Current theme type:</source>
         <translation>جارن تیم تیپ:</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="147"/>
         <source>Testing translations with longer sentences</source>
         <translation>تست ترنسلاشنز با انجر سينتنس</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="148"/>
         <source>This is a calculator application that supports basic arithmetic operations</source>
         <translation>ايس ايس ا Calculation ابليكيشن دات سوپرتس بيسك آرثيمتيك اپيرشن</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="149"/>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
         <translation>ساينتيفك مود بروفيديس ادفانس ماثيماتيك فانشنز ون كونستانتس</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="150"/>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
         <translation>بروگرامر مود اوفيرز بائنري، اوكال، دسيمال ون هكسديسيمالي كالكولشنز</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="151"/>
         <source>History view shows all previous calculations and their results</source>
         <translation>هستوري فيو شوويس ايل بريفيو كالكولشنز ون هير ارزلتس</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="152"/>
         <source>Memory functions allow you to store and recall calculation results</source>
         <translation>ميمري فانشنز الوود يو تو ستوور ون ريكال كاليكولشن ارزلتس</translation>
     </message>
@@ -307,18 +242,24 @@
 <context>
     <name>SciExpressionBar</name>
     <message>
-        <location filename="../src/widgets/sciexpressionbar.cpp" line="501"/>
-        <location filename="../src/widgets/sciexpressionbar.cpp" line="547"/>
         <source>Expression error</source>
         <translation>xatāyê goďên</translation>
     </message>
 </context>
 <context>
+    <name>SciHistoryWidget</name>
+    <message>
+        <source>History</source>
+        <translation type="vanished">virgār</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation type="vanished">virga</translation>
+    </message>
+</context>
+<context>
     <name>SimpleListDelegate</name>
     <message>
-        <location filename="../src/views/simplelistdelegate.cpp" line="188"/>
-        <location filename="../src/views/simplelistdelegate.cpp" line="254"/>
-        <location filename="../src/views/simplelistdelegate.cpp" line="332"/>
         <source>Expression error</source>
         <translation>xatāyê goďên</translation>
     </message>
@@ -326,7 +267,6 @@
 <context>
     <name>SimpleListModel</name>
     <message>
-        <location filename="../src/views/simplelistmodel.cpp" line="109"/>
         <source>No history</source>
         <translation>bî virgār</translation>
     </message>
@@ -334,14 +274,10 @@
 <context>
     <name>SimpleListView</name>
     <message>
-        <location filename="../src/views/simplelistview.cpp" line="62"/>
-        <location filename="../src/views/simplelistview.cpp" line="94"/>
         <source>Copy</source>
         <translation>lefgiri</translation>
     </message>
     <message>
-        <location filename="../src/views/simplelistview.cpp" line="63"/>
-        <location filename="../src/views/simplelistview.cpp" line="95"/>
         <source>Delete</source>
         <translation>pāk kerdên</translation>
     </message>
