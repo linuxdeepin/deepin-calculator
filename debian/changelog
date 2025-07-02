@@ -1,3 +1,9 @@
+deepin-calculator (6.5.18) unstable; urgency=medium
+
+  * chore: update package URLs and digests in linglong.yaml files for all architectures
+
+ -- dengzhongyuan <dengzhongyuan@uniontech.com>  Wed, 02 Jul 2025 10:49:16 +0800
+
 deepin-calculator (6.5.17) unstable; urgency=medium
 
   * update version to 6.5.17. 
