@@ -77,7 +77,7 @@
             <location filename="../src/main.cpp" line="104"/>
             <location filename="../src/mainwindow.cpp" line="68"/>
             <source>Calculator</source>
-            <translation>計數機</translation>
+            <translation>計算器</translation>
         </message>
         <message>
             <location filename="../src/mainwindow.cpp" line="44"/>
@@ -97,7 +97,7 @@
         <message>
             <location filename="../src/main.cpp" line="106"/>
             <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-            <translation>計數機是一款簡單易用的桌面計算器，支持標準型、科學型、程式員型模式。</translation>
+            <translation>計算器是一款簡單易用的桌面計算器，支持標準型、科學型、程式員型模式。</translation>
         </message>
         <message>
             <location filename="../src/mainwindow.cpp" line="46"/>
@@ -263,7 +263,7 @@
         <message>
             <location filename="../src/main.cpp" line="110"/>
             <source>Calculator</source>
-            <translation>計數機</translation>
+            <translation>計算器</translation>
         </message>
         <message>
             <location filename="../src/main.cpp" line="143"/>
