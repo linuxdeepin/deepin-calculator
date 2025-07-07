@@ -1,276 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ky">
+<TS version="2.1" language="uz">
 <context>
     <name>ExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Инфошоо</translation>
+        <translation>Ifoda xatoli</translation>
     </message>
 </context>
 <context>
     <name>IconButton</name>
     <message>
         <source>Clear all memory</source>
-        <translation>Бардыҡ мәмлекеттәрҙе ҡалыпҡа алыр</translation>
+        <translation>Barcha xotira o&apos;chirish</translation>
     </message>
     <message>
         <source>Clear history</source>
-        <translation>Иҫтәләттән ҡалыпҡа алыр</translation>
+        <translation>Tarixni tozalash</translation>
     </message>
 </context>
 <context>
     <name>InputEdit</name>
     <message>
         <source>Delete</source>
-        <translation>Хәтерләү</translation>
+        <translation>O&apos;chirish</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Барлыҡ таңдау</translation>
+        <translation>Barchasi tanlash</translation>
     </message>
     <message>
         <source>Use thousands separator</source>
-        <translation>Былтырлы ҡушылышҡа ҡына</translation>
+        <translation>Binar separatorini ishlatish</translation>
     </message>
     <message>
         <source>Use ten-thousands separator</source>
-        <translation>Яҡын ҡушылышҡа ҡына</translation>
+        <translation>Oʻn minglik ajratkichdan foydalanish</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation>Кайтарыу</translation>
+        <translation>Bekora qilish</translation>
     </message>
     <message>
         <source>Redo</source>
-        <translation>Яңылтыу</translation>
+        <translation>Qayta qilish</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>Кытыу</translation>
+        <translation>Chiqazish</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Күчереү</translation>
+        <translation>Nusxa qilish</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Яһау</translation>
+        <translation>Yapistash</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Calculator</source>
-        <translation>эсептегич</translation>
+        <translation>Hisobchi</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation>Стандарт</translation>
+        <translation>Standart</translation>
     </message>
     <message>
         <source>Scientific</source>
-        <translation>Ғылыми</translation>
+        <translation>Ilmiy</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation>Төр</translation>
+        <translation>Rejim</translation>
     </message>
     <message>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>Калькулятор ҡатнаштырыу өсөн ҡатырылған ғәҙәти калькулятор, стандарт, ғылыми һәм програмист төрҙәрен дәмдәтә.</translation>
+        <translation>Calculator bu qulay ishlatishga yozilgan desktop kalkulyator hisoblash va ilmiy, dasturchi rejimi qat&apos;iyan taqdim etadi.</translation>
     </message>
     <message>
         <source>Programmer</source>
-        <translation>Програмист</translation>
+        <translation>Dasturchi</translation>
     </message>
 </context>
 <context>
     <name>MemoryButton</name>
     <message>
         <source>Clear memory item</source>
-        <translation>Мәмлекеттән ҡалыпҡа алыр</translation>
+        <translation>Xotira elementini tozalash</translation>
     </message>
     <message>
         <source>Clear all memory</source>
-        <translation>Мәмлекеттән ҡайта ҡушыр</translation>
+        <translation>Barcha xotira ni tozalash</translation>
     </message>
     <message>
         <source>Memory recall</source>
-        <translation>Мәмлекеттән ҡушыр</translation>
+        <translation>Xotirani chaqirish</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Мәмлекеттән ҡушыр</translation>
+        <translation>Xotiraga qo&apos;shish</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Мәмлекеттән алыр</translation>
+        <translation>Xotira qo&apos;shish</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Мәмлекеттән алыр</translation>
+        <translation>Xotiradan ayirish</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Мәмлекеттән сақлау</translation>
+        <translation>Xotiradan ayirish</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Мәмлекет</translation>
+        <translation>Xotiraga saqlash</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>Күчереү</translation>
+        <translation>Xotira</translation>
     </message>
 </context>
 <context>
     <name>MemoryItemWidget</name>
     <message>
         <source>Copy</source>
-        <translation>Мәмлекеттән ҡалыпҡа алыр</translation>
+        <translation>Nusxa</translation>
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Мәмлекеттән ҡушыр</translation>
+        <translation>Xotira elementini tozalash</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Мәмлекеттән алыр</translation>
+        <translation>Xotiraga qo&apos;shish</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Мәмлекеттән алыр</translation>
+        <translation>Xotiradan ayirish</translation>
     </message>
 </context>
 <context>
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>Мәлүмәттәр сақлана әлән</translation>
+        <translation>Xotirada hech qanday ma&apos;lumot saqlanmagan</translation>
     </message>
 </context>
 <context>
     <name>ProExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Ифодада ҡате</translation>
+        <translation>Ifoda xatoli</translation>
     </message>
 </context>
 <context>
     <name>ProListView</name>
     <message>
         <source>Copy</source>
-        <translation>Күчереп</translation>
+        <translation>Nusxa</translation>
     </message>
 </context>
 <context>
     <name>ProgramModule</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>Арифметик үткәрмә</translation>
+        <translation>Ariфmetik kaytirish</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>Логик үткәрмә</translation>
+        <translation>Logik kaytirish</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Туры үткәрмә</translation>
+        <translation>Ayrashli kaytirish</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Күчереп туры үткәрмә</translation>
+        <translation>Birlama-ikkilama almashtirish</translation>
     </message>
 </context>
 <context>
     <name>ProgrammerItemWidget</name>
     <message>
         <source>Arithmetic shift</source>
-        <translation>Арифметик үткәрмә</translation>
+        <translation>Ariфmetik kaytirish</translation>
     </message>
     <message>
         <source>Logical shift</source>
-        <translation>Логик үткәрмә</translation>
+        <translation>Lojik almashtirish</translation>
     </message>
     <message>
         <source>Circular shift</source>
-        <translation>Туры үткәрмә</translation>
+        <translation>Ayrım almashtirish</translation>
     </message>
     <message>
         <source>Rotate through carry circular shift</source>
-        <translation>Күчереп туры үткәрмә</translation>
+        <translation>Birlama-ikkilama almashtirish</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Calculator</source>
-        <translation>эсептегич</translation>
+        <translation>Kalkulyator</translation>
     </message>
     <message>
         <source>Getting theme type settings</source>
-        <translation>Тема төрөнән әйләнә</translation>
+        <translation>Tema tipi sozlamalarni olish</translation>
     </message>
     <message>
         <source>Current theme type:</source>
-        <translation>Бүгۈнгى тема төрү</translation>
+        <translation>Hozirgi tema tipi:</translation>
     </message>
     <message>
         <source>Testing translations with longer sentences</source>
-        <translation>Тестирование ажыртпайын күрсөтүү</translation>
+        <translation>Uzunroq aytilmalar bilan tarjima testi</translation>
     </message>
     <message>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation>Бул калькулятор үйрөнүү үчүн өсөтөн арифметикалык үзгөртүүлөрдү үзгөртөт</translation>
+        <translation>Bu kalkulyator dasturi asosiy hisoblash amallarini qo&apos;llab-quvura oladi</translation>
     </message>
     <message>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation>Таанымдык үзгөртүүлөр үчүн өсөтөн математикалык үзгөртүүлөрдү жана үзгөртүүлөрдү үзгөртөт</translation>
+        <translation>Ilmiy rejim avvalgi matematik funksiyalar va doimiy qiymatlar taqdim etadi</translation>
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation>Программист үзгөртүүлөр үчүн бинар, октет, десятич жана шестнадцатерич үзгөртүүлөрдү үзгөртөт</translation>
+        <translation>Dasturchi rejimi ikkilangan, sakkizlik, asosiy va o&apos;nto&apos;liq hisoblashlarni taqdim etadi</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation>Тарых үзгөртүүлөрдү көрсөтөт, бардын өлөнөн үзгөртүүлөрдү жана өлөнөн нәтижелерин</translation>
+        <translation>Tarix ko&apos;rish barcha avvalgi hisoblashlar va ularning natijalarini ko&apos;rishi mumkin</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation>Эмнәр үзгөртүүлөрү үзгөртүүлөрдү сактоо жана аны өлөнөн үзгөртүүлөрдү үзгөртөөгө өйрөнөт</translation>
+        <translation>Jadvalniy funksiyalar siz hisoblash natijalarini saqlay va ularni qayta chaqirish uchun mo‘ljallangan</translation>
     </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
     <message>
         <source>Expression error</source>
-        <translation>Ифодада ҡате</translation>
+        <translation>Ifoda xatoli</translation>
     </message>
 </context>
 <context>
     <name>SimpleListDelegate</name>
     <message>
         <source>Expression error</source>
-        <translation>Ифодада ҡате</translation>
+        <translation>Ifoda xatoli</translation>
     </message>
 </context>
 <context>
     <name>SimpleListModel</name>
     <message>
         <source>No history</source>
-        <translation>Тарих әлән</translation>
+        <translation>Tarih yo‘q</translation>
     </message>
 </context>
 <context>
     <name>SimpleListView</name>
     <message>
         <source>Copy</source>
-        <translation>Күчереп</translation>
+        <translation>Nusxa</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Узуду</translation>
+        <translation>O&apos;chirish</translation>
     </message>
 </context>
 </TS>

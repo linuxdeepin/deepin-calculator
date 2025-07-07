@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ast">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ast">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -244,17 +246,6 @@
     <message>
         <source>Expression error</source>
         <translation>Error d&apos;expresión</translation>
-    </message>
-</context>
-<context>
-    <name>SciHistoryWidget</name>
-    <message>
-        <source>History</source>
-        <translation type="vanished">Historial</translation>
-    </message>
-    <message>
-        <source>Memory</source>
-        <translation type="vanished">Memoria</translation>
     </message>
 </context>
 <context>

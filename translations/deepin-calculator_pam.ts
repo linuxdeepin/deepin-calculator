@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pam">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="pam">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -245,17 +247,6 @@ scientific ngan programmer modes.</translation>
     <message>
         <source>Expression error</source>
         <translation>Error sa expression</translation>
-    </message>
-</context>
-<context>
-    <name>SciHistoryWidget</name>
-    <message>
-        <source>History</source>
-        <translation type="vanished">History</translation>
-    </message>
-    <message>
-        <source>Memory</source>
-        <translation type="vanished">Memory</translation>
     </message>
 </context>
 <context>
