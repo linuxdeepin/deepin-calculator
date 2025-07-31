@@ -222,6 +222,18 @@ void ProgramModule::handleKeypadButtonPress(int key)
         break;
     case ProCheckBtnKeypad::Key_System:
         static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setBtnPressing(true);
+        {
+            TextButton *qwordButton = static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System));
+            QPoint globalButtonPos = qwordButton->mapToGlobal(QPoint(0, 0));
+            QPoint localButtonPos = this->mapFromGlobal(globalButtonPos);
+
+            int popupX = localButtonPos.x() + qwordButton->width() / 2;
+            int popupY = localButtonPos.y() + qwordButton->height();
+
+            m_byteArrowRectangle->move(popupX, popupY);
+            m_byteArrowListWidget->move(m_byteArrowRectangle->rect().x() + 15,
+                                        m_byteArrowRectangle->rect().y() + m_byteArrowRectangle->arrowHeight() + 11);
+        }
         m_byteArrowRectangle->setHidden(false);
         setwidgetAttribute(true);
         m_byteArrowRectangle->setFocus(Qt::MouseFocusReason);
@@ -450,6 +462,18 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
         break;
     case ProCheckBtnKeypad::Key_System:
         static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setBtnPressing(true);
+        {
+            TextButton *qwordButton = static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System));
+            QPoint globalButtonPos = qwordButton->mapToGlobal(QPoint(0, 0));
+            QPoint localButtonPos = this->mapFromGlobal(globalButtonPos);
+
+            int popupX = localButtonPos.x() + qwordButton->width() / 2;
+            int popupY = localButtonPos.y() + qwordButton->height();
+
+            m_byteArrowRectangle->move(popupX, popupY);
+            m_byteArrowListWidget->move(m_byteArrowRectangle->rect().x() + 15,
+                                        m_byteArrowRectangle->rect().y() + m_byteArrowRectangle->arrowHeight() + 11);
+        }
         m_byteArrowRectangle->setHidden(false);
         setwidgetAttribute(true);
         m_byteArrowRectangle->setFocus(Qt::TabFocusReason);
@@ -996,7 +1020,14 @@ void ProgramModule::initArrowRectangle()
     m_byteArrowRectangle->setArrowHeight(21);
     m_byteArrowRectangle->setContent(m_byteArrowListWidget);
     m_byteArrowListWidget->installEventFilter(m_byteArrowRectangle);
-    m_byteArrowRectangle->move(this->rect().x() + 200, this->rect().y() + 238);//在module的138，238位置，x多出150原因未找出
+    TextButton *qwordButton = static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System));
+    QPoint globalButtonPos = qwordButton->mapToGlobal(QPoint(0, 0));
+    QPoint localButtonPos = this->mapFromGlobal(globalButtonPos);
+
+    int popupX = localButtonPos.x() + qwordButton->width() / 2;
+    int popupY = localButtonPos.y() + qwordButton->height();
+
+    m_byteArrowRectangle->move(popupX, popupY);
     m_byteArrowListWidget->move(m_byteArrowRectangle->rect().x() + 15,
                                 m_byteArrowRectangle->rect().y() + m_byteArrowRectangle->arrowHeight() + 11);
 
