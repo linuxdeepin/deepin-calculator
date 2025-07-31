@@ -245,7 +245,7 @@ void ProExpressionBar::enterSymbolEvent(const QString &text)
 void ProExpressionBar::enterBackspaceEvent()
 {
     qDebug() << "enterBackspaceEvent called";
-    QString sRegNum = "[a-zA-Z0-9]";  // 匹配字母和数字
+    QString sRegNum = "[a-z]";  // 匹配字母和数字
     QRegularExpression rx;
     rx.setPattern(sRegNum);
 
