@@ -1,3 +1,9 @@
+deepin-calculator (6.5.25) unstable; urgency=medium
+
+  * Update version to 6.5.25. 
+
+ -- Tian ShiLin <tianshilin@uniontech.com>  Wed, 27 Aug 2025 11:31:33 +0800
+
 deepin-calculator (6.5.24) unstable; urgency=medium
 
   * chore: Update translations for Lao locale (#166)
