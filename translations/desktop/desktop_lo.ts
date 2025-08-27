@@ -4,12 +4,12 @@
     <message>
         <location filename="Desktop Entry]Comment" line="0"/>
         <source>Calculator</source>
-        <translation>ຄារິculator</translation>
+        <translation>ເຄົາລະເຄີລເຕີ</translation>
     </message>
     <message>
         <location filename="Desktop Entry]Name" line="0"/>
         <source>Deepin Calculator</source>
-        <translation>Deepin Calculator</translation>
+        <translation>ເຄົາລະເຄີລເຕີ Deepin</translation>
     </message>
 </context>
 </TS>

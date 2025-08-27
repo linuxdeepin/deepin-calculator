@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/widgets/expressionbar.cpp" line="469"/>
         <source>Expression error</source>
-        <translation>ຜີ້ນຳໃຊ້ງານປະການສະແບບ</translation>
+        <translation>ຄວາມຜິດພາດໃນການສະແດງອອກ</translation>
     </message>
 </context>
 <context>
@@ -14,12 +14,12 @@
     <message>
         <location filename="../src/control/iconbutton.cpp" line="110"/>
         <source>Clear all memory</source>
-        <translation>ລກງຄວາມສາມາດທັງໆ</translation>
+        <translation>ລຶບຄວາມຈຳທັງໝົດ</translation>
     </message>
     <message>
         <location filename="../src/control/iconbutton.cpp" line="113"/>
         <source>Clear history</source>
-        <translation>ລກງປະ historique</translation>
+        <translation>ລຶບປະຫວັດ</translation>
     </message>
 </context>
 <context>
@@ -27,47 +27,47 @@
     <message>
         <location filename="../src/widgets/inputedit.cpp" line="298"/>
         <source>Delete</source>
-        <translation>ລກງ</translation>
+        <translation>ລຶບ</translation>
     </message>
     <message>
         <location filename="../src/widgets/inputedit.cpp" line="299"/>
         <source>Select All</source>
-        <translation>ເລືອກທັງໆ</translation>
+        <translation>ເລືອກທັງໝົດ</translation>
     </message>
     <message>
         <location filename="../src/widgets/inputedit.cpp" line="300"/>
         <source>Use thousands separator</source>
-        <translation>ນຳໃຊ້ເຄື່ອງ້ອງການແີ້ແລະສ່ວນຫຼາຍ</translation>
+        <translation>ໃຊ້ເຄື່ອງໝາຍຄັ້ນພັນ</translation>
     </message>
     <message>
         <location filename="../src/widgets/inputedit.cpp" line="301"/>
         <source>Use ten-thousands separator</source>
-        <translation>ນຳໃຊ້ເຄື່ອງ້ອງການຫຼ່າຍຫຼາຍຫຼາຍ</translation>
+        <translation>ໃຊ້ເຄື່ອງໝາຍຄັ້ນໝື່ນ</translation>
     </message>
     <message>
         <location filename="../src/widgets/inputedit.cpp" line="293"/>
         <source>Undo</source>
-        <translation>ເຊື້ອງການກັບກັບກັບ</translation>
+        <translation>ຍົກເລີກ</translation>
     </message>
     <message>
         <location filename="../src/widgets/inputedit.cpp" line="294"/>
         <source>Redo</source>
-        <translation>ເຊື້ອງການຄັ້ງໃຫ້</translation>
+        <translation>ເຮັດຄືນ</translation>
     </message>
     <message>
         <location filename="../src/widgets/inputedit.cpp" line="295"/>
         <source>Cut</source>
-        <translation>ດຳເນີນ</translation>
+        <translation>ຕັດ</translation>
     </message>
     <message>
         <location filename="../src/widgets/inputedit.cpp" line="296"/>
         <source>Copy</source>
-        <translation>ຄຳນຳພາ</translation>
+        <translation>ຄັດລອກ</translation>
     </message>
     <message>
         <location filename="../src/widgets/inputedit.cpp" line="297"/>
         <source>Paste</source>
-        <translation>ຕົວອອກແບບ</translation>
+        <translation>ວາງ</translation>
     </message>
 </context>
 <context>
@@ -75,32 +75,32 @@
     <message>
         <location filename="../src/main.cpp" line="104"/>
         <source>Calculator</source>
-        <translation>ຄຳຄຳນຳພາ</translation>
+        <translation>ເຄື່ອງຄິດໄລ່</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="44"/>
         <source>Standard</source>
-        <translation>ຊື່ງຄຳນຳພາ</translation>
+        <translation>ມາດຕະຖານ</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="45"/>
         <source>Scientific</source>
-        <translation>ຊື່ງຄຳນຳພາສື່ງວື່ານື່ງ</translation>
+        <translation>ວິທະຍາສາດ</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="57"/>
         <source>Mode</source>
-        <translation>режим</translation>
+        <translation>ໂໝດ</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="106"/>
         <source>Calculator is an easy to use desktop calculator, supporting standard, scientific and programmer modes.</source>
-        <translation>Calculator ni ek olu desktop calculator, tsaw ke thek kwen lom, tsaw ke thek mode standard, scientific na programmer.</translation>
+        <translation>ເຄື່ອງຄິດໄລ່ແມ່ນເຄື່ອງຄິດໄລ່ເດັສໂທັບທີ່ໃຊ້ງ່າຍ, ຮອງຮັບໂໝດມາດຕະຖານ, ວິທະຍາສາດ ແລະ ໂປຣແກຣມເມີ.</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="46"/>
         <source>Programmer</source>
-        <translation>Программист</translation>
+        <translation>ໂປຣແກຣມເມີ</translation>
     </message>
 </context>
 <context>
@@ -108,47 +108,47 @@
     <message>
         <location filename="../src/control/memorybutton.cpp" line="103"/>
         <source>Clear memory item</source>
-        <translation>Очистка памяти элемента</translation>
+        <translation>ລຶບລາຍການຄວາມຈຳ</translation>
     </message>
     <message>
         <location filename="../src/control/memorybutton.cpp" line="105"/>
         <source>Clear all memory</source>
-        <translation>Очистка всей памяти</translation>
+        <translation>ລຶບຄວາມຈຳທັງໝົດ</translation>
     </message>
     <message>
         <location filename="../src/control/memorybutton.cpp" line="107"/>
         <source>Memory recall</source>
-        <translation>Память вызвать</translation>
+        <translation>ດຶງຄວາມຈຳ</translation>
     </message>
     <message>
         <location filename="../src/control/memorybutton.cpp" line="110"/>
         <source>Add to memory item</source>
-        <translation>Добавить в память элемент</translation>
+        <translation>ເພີ່ມເຂົ້າໃນລາຍການຄວາມຈຳ</translation>
     </message>
     <message>
         <location filename="../src/control/memorybutton.cpp" line="112"/>
         <source>Memory add</source>
-        <translation>Память добавить</translation>
+        <translation>ເພີ່ມຄວາມຈຳ</translation>
     </message>
     <message>
         <location filename="../src/control/memorybutton.cpp" line="115"/>
         <source>Subtract from memory item</source>
-        <translation>Вычесть из памяти элемент</translation>
+        <translation>ລົບອອກຈາກລາຍການຄວາມຈຳ</translation>
     </message>
     <message>
         <location filename="../src/control/memorybutton.cpp" line="117"/>
         <source>Memory subtract</source>
-        <translation>Память вычесть</translation>
+        <translation>ລົບຄວາມຈຳ</translation>
     </message>
     <message>
         <location filename="../src/control/memorybutton.cpp" line="119"/>
         <source>Memory store</source>
-        <translation>Сохранить память</translation>
+        <translation>ເກັບຄວາມຈຳ</translation>
     </message>
     <message>
         <location filename="../src/control/memorybutton.cpp" line="121"/>
         <source>Memory</source>
-        <translation>Память</translation>
+        <translation>ຄວາມຈຳ</translation>
     </message>
 </context>
 <context>
@@ -156,22 +156,22 @@
     <message>
         <location filename="../src/views/memoryitemwidget.cpp" line="147"/>
         <source>Copy</source>
-        <translation>Копировать</translation>
+        <translation>ຄັດລອກ</translation>
     </message>
     <message>
         <location filename="../src/views/memoryitemwidget.cpp" line="148"/>
         <source>Clear memory item</source>
-        <translation>Очистка памяти элемента</translation>
+        <translation>ລຶບລາຍການຄວາມຈຳ</translation>
     </message>
     <message>
         <location filename="../src/views/memoryitemwidget.cpp" line="149"/>
         <source>Add to memory item</source>
-        <translation>Добавить в память элемент</translation>
+        <translation>ເພີ່ມເຂົ້າໃນລາຍການຄວາມຈຳ</translation>
     </message>
     <message>
         <location filename="../src/views/memoryitemwidget.cpp" line="150"/>
         <source>Subtract from memory item</source>
-        <translation>ຈາნියා ഷිිටා ഷිිපා ഷිිපා</translation>
+        <translation>ລົບອອກຈາກລາຍການຄວາມຈຳ</translation>
     </message>
 </context>
 <context>
@@ -179,7 +179,7 @@
     <message>
         <location filename="../src/views/memorywidget.cpp" line="102"/>
         <source>Nothing saved in memory</source>
-        <translation>තුරා ഷිිපා ഷිිපා ഷිිපා</translation>
+        <translation>ບໍ່ມີຫຍັງຖືກເກັບໄວ້ໃນຄວາມຈຳ</translation>
     </message>
 </context>
 <context>
@@ -187,7 +187,7 @@
     <message>
         <location filename="../src/widgets/proexpressionbar.cpp" line="378"/>
         <source>Expression error</source>
-        <translation>඗ිණියා ഷිිපා ഷිිපා</translation>
+        <translation>ຄວາມຜິດພາດໃນການສະແດງອອກ</translation>
     </message>
 </context>
 <context>
@@ -195,7 +195,7 @@
     <message>
         <location filename="../src/views/prolistview.cpp" line="36"/>
         <source>Copy</source>
-        <translation>කාපියා ഷිිපා</translation>
+        <translation>ຄັດລອກ</translation>
     </message>
 </context>
 <context>
@@ -203,22 +203,22 @@
     <message>
         <location filename="../src/widgets/programmodule.cpp" line="912"/>
         <source>Arithmetic shift</source>
-        <translation>හිිියා ഷිිපා</translation>
+        <translation>ການເລື່ອນເລກຄິດ</translation>
     </message>
     <message>
         <location filename="../src/widgets/programmodule.cpp" line="918"/>
         <source>Logical shift</source>
-        <translation>තිිියා ഷිිපා</translation>
+        <translation>ການເລື່ອນເລັກໄລນິກ</translation>
     </message>
     <message>
         <location filename="../src/widgets/programmodule.cpp" line="924"/>
         <source>Circular shift</source>
-        <translation>විවරා ഷිිපා</translation>
+        <translation>ການເລື່ອນວົງກົມ</translation>
     </message>
     <message>
         <location filename="../src/widgets/programmodule.cpp" line="909"/>
         <source>Rotate through carry circular shift</source>
-        <translation>හිිියා ഷිිපා ഷිිපා ഷිිපා</translation>
+        <translation>ເລື່ອນຜ່ານການເຮັຍສຳຄັນວົງກົມ</translation>
     </message>
 </context>
 <context>
@@ -226,22 +226,22 @@
     <message>
         <location filename="../src/views/programmeritemwidget.cpp" line="322"/>
         <source>Arithmetic shift</source>
-        <translation>හිිියා ഷිිපා</translation>
+        <translation>ການເລື່ອນເລກຄິດ</translation>
     </message>
     <message>
         <location filename="../src/views/programmeritemwidget.cpp" line="326"/>
         <source>Logical shift</source>
-        <translation>තිිියා ഷිිපා</translation>
+        <translation>ການເລື່ອນເລັກໄລນິກ</translation>
     </message>
     <message>
         <location filename="../src/views/programmeritemwidget.cpp" line="330"/>
         <source>Circular shift</source>
-        <translation>විවරා ഷිිපා</translation>
+        <translation>ການເລື່ອນວົງກົມ</translation>
     </message>
     <message>
         <location filename="../src/views/programmeritemwidget.cpp" line="334"/>
         <source>Rotate through carry circular shift</source>
-        <translation>හිිියා ഷිිපා ഷිිපා ഷිිපා</translation>
+        <translation>ເລື່ອນຜ່ານການເຮັຍສຳຄັນວົງກົມ</translation>
     </message>
 </context>
 <context>
@@ -249,47 +249,47 @@
     <message>
         <location filename="../src/main.cpp" line="110"/>
         <source>Calculator</source>
-        <translation>හිිියා ഷිිපා</translation>
+        <translation>ເຄື່ອງຄິດໄລ່</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="143"/>
         <source>Getting theme type settings</source>
-        <translation>තුරා ഷිිපා ഷිිපා ഷිිපා</translation>
+        <translation>ກຳລັງໂຫຼດການຕັ້ງຄ່າປະເພດຫົວຂໍ້</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="145"/>
         <source>Current theme type:</source>
-        <translation>හිිියා ഷිිපා ഷිිපා</translation>
+        <translation>ປະເພດຫົວຂໍ້ປັດຈຸບັນ:</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="147"/>
         <source>Testing translations with longer sentences</source>
-        <translation>ກារសាកល្បងការដំឡើងបន្តុផ្សារជាមួយភាសាឆ្លីប</translation>
+        <translation>ກາສທົດສອບການແປໃສຍາວໆ</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="148"/>
         <source>This is a calculator application that supports basic arithmetic operations</source>
-        <translation>Ni calculator application tshi sim sang basic arithmetic operations.</translation>
+        <translation>ນີ້ແມ່ນແອັບພະລິເຄຊັນເຄື່ອງຄິດໄລ່ທີ່ຮອງຮັບການດຳເນີນງານຄິດໄລ່ພື້ນຖານ.</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="149"/>
         <source>Scientific mode provides advanced mathematical functions and constants</source>
-        <translation>មードវិទ្យាសាស្ត្រផ្តល់អនិវត្តគូឡូអ៊ីដ្បែធាតុនិងត្រូវតែ</translation>
+        <translation>ໂໝດວິທະຍາສາດສະໜອງຟັງຊັນຄະນິດສາດຂັ້ນສູງແລະຄ່າຄົງທີ່</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="150"/>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation>មードអ្នកប្រើប្រាស់មានប្រាក់កម្មាល់គំនើមពិនិរැម្ស់</translation>
+        <translation>ໂໝດໂປຣແກຣມເມີມີການຄິດໄລ່ເລກຄູ່, ເລກແປດ, ເລກສິບ ແລະ ເລກສິບຫົກ</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="151"/>
         <source>History view shows all previous calculations and their results</source>
-        <translation>មុតប្រវត្តិការសរុស្តូបនិងល្នេះ</translation>
+        <translation>ມຸມມອງປະຫວັດສະແດງການຄິດໄລ່ທັງໝົດກ່ອນໜ້າແລະຜົນໄດ້ຮັບ</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="152"/>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation>Memory functions ni sim thek store na recall calculation results.</translation>
+        <translation>ຟັງຊັນຄວາມຈຳອະນຸຍາດໃຫ້ທ່ານເກັບແລະດຶງຜົນການຄິດໄລ່.</translation>
     </message>
 </context>
 <context>
@@ -297,7 +297,7 @@
     <message>
         <location filename="../src/widgets/sciexpressionbar.cpp" line="501"/>
         <source>Expression error</source>
-        <translation>ຜີ້ແຜ່ງພາບຜີ້ຜີ້ງພາບ</translation>
+        <translation>ຄວາມຜິດພາດໃນການສະແດງອອກ</translation>
     </message>
 </context>
 <context>
@@ -305,7 +305,7 @@
     <message>
         <location filename="../src/views/simplelistdelegate.cpp" line="188"/>
         <source>Expression error</source>
-        <translation>ຜີ້ແຜ່ງພາບຜີ້ຜີ້ງພາບ</translation>
+        <translation>ຄວາມຜິດພາດໃນການສະແດງອອກ</translation>
     </message>
 </context>
 <context>
@@ -313,7 +313,7 @@
     <message>
         <location filename="../src/views/simplelistmodel.cpp" line="109"/>
         <source>No history</source>
-        <translation>ບໍ່ມີບີ້ນີ້</translation>
+        <translation>ບໍ່ມີປະຫວັດ</translation>
     </message>
 </context>
 <context>
@@ -321,12 +321,12 @@
     <message>
         <location filename="../src/views/simplelistview.cpp" line="62"/>
         <source>Copy</source>
-        <translation>ອົບລົງ</translation>
+        <translation>ຄັດລອກ</translation>
     </message>
     <message>
         <location filename="../src/views/simplelistview.cpp" line="63"/>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>ລຶບ</translation>
     </message>
 </context>
 </TS>
