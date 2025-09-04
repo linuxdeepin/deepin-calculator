@@ -3,14 +3,14 @@ host = https://www.transifex.com
 minimum_perc = 80
 mode = developer
 
-[deepin-calculator.deepin-calculator]
+[o:linuxdeepin:p:deepin-calculator:r:f9fc7f85454d622e25beab062560262e]
 file_filter = translations/deepin-calculator_<lang>.ts
 source_file = translations/deepin-calculator.ts
-source_lang = en
+source_lang = en_US
 type = QT
 
-[deepin-calculator.deepin-calculator-desktop]
+[o:linuxdeepin:p:deepin-calculator:r:2df5a915ee52d366569d5875779c78d3]
 file_filter = translations/desktop/desktop_<lang>.ts
 source_file = translations/desktop/desktop.ts
-source_lang = en
+source_lang = en_US
 type = QT

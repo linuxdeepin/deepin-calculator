@@ -31,6 +31,7 @@ ProgramModule::ProgramModule(QWidget *parent)
     , m_shiftArrowListWidget(new MemoryListWidget(this, true))
     , m_shiftProgrammerArrowDelegate(new ProgrammerArrowDelegate(this))
 {
+    qDebug() << "ProgramModule constructor called";
     m_memoryPublic = MemoryPublic::instance();
     m_memorylistwidget = m_memoryPublic->getwidget(MemoryPublic::programmerleft);
     m_proExpressionBar->setFixedHeight(EXPRESSIONBAR_HEIGHT);
@@ -107,10 +108,13 @@ ProgramModule::ProgramModule(QWidget *parent)
         if (m_proExpressionBar->getInputEdit()->getCurrentAns().first)
             m_memoryPublic->widgetminus(row, m_proExpressionBar->getInputEdit()->getCurrentAns().second);
     });
-    if (!m_memoryPublic->isEmpty())
+    if (!m_memoryPublic->isEmpty()) {
+        qDebug() << "Memory is not empty, triggering available event";
         mAvailableEvent();
-    else
+    } else {
+        qDebug() << "Memory is empty, triggering unavailable event";
         mUnAvailableEvent();
+    }
     connect(m_memorylistwidget, &MemoryWidget::insidewidget, this, [ = ]() {
         m_insidewidget = true;
     });
@@ -154,7 +158,7 @@ ProgramModule::ProgramModule(QWidget *parent)
 
 ProgramModule::~ProgramModule()
 {
-
+    qDebug() << "ProgramModule destructor called";
 }
 
 /**
@@ -184,6 +188,7 @@ void ProgramModule::mousePressEvent(QMouseEvent *event)
 
 void ProgramModule::handleKeypadButtonPress(int key)
 {
+    qDebug() << "handleKeypadButtonPress called with key:" << key;
     QString path;
     if (DGuiApplicationHelper::instance()->themeType() == 2)
         path = QString(":/assets/images/%1/").arg("dark");
@@ -217,6 +222,18 @@ void ProgramModule::handleKeypadButtonPress(int key)
         break;
     case ProCheckBtnKeypad::Key_System:
         static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setBtnPressing(true);
+        {
+            TextButton *qwordButton = static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System));
+            QPoint globalButtonPos = qwordButton->mapToGlobal(QPoint(0, 0));
+            QPoint localButtonPos = this->mapFromGlobal(globalButtonPos);
+
+            int popupX = localButtonPos.x() + qwordButton->width() / 2;
+            int popupY = localButtonPos.y() + qwordButton->height();
+
+            m_byteArrowRectangle->move(popupX, popupY);
+            m_byteArrowListWidget->move(m_byteArrowRectangle->rect().x() + 15,
+                                        m_byteArrowRectangle->rect().y() + m_byteArrowRectangle->arrowHeight() + 11);
+        }
         m_byteArrowRectangle->setHidden(false);
         setwidgetAttribute(true);
         m_byteArrowRectangle->setFocus(Qt::MouseFocusReason);
@@ -242,8 +259,12 @@ void ProgramModule::handleKeypadButtonPress(int key)
         break;
     case ProCheckBtnKeypad::Key_MS:
         m_proExpressionBar->enterEqualEvent();
-        if (m_proExpressionBar->getInputEdit()->getCurrentAns().first)
+        if (m_proExpressionBar->getInputEdit()->getCurrentAns().first) {
+            qDebug() << "Generating memory data from current answer";
             m_memoryPublic->generateData(m_proExpressionBar->getInputEdit()->getCurrentAns().second);
+        } else {
+            qWarning() << "Cannot generate memory data - invalid current answer";
+        }
         break;
     case ProgrammerKeypad::Key_0:
         m_proExpressionBar->enterNumberEvent("0"); //按键0事件
@@ -406,6 +427,7 @@ void ProgramModule::handleKeypadButtonPress(int key)
 
 void ProgramModule::handleKeypadButtonPressByspace(int key)
 {
+    qDebug() << "handleKeypadButtonPressByspace called with key:" << key;
     QString path;
     if (DGuiApplicationHelper::instance()->themeType() == 2)
         path = QString(":/assets/images/%1/").arg("dark");
@@ -440,6 +462,18 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
         break;
     case ProCheckBtnKeypad::Key_System:
         static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System))->setBtnPressing(true);
+        {
+            TextButton *qwordButton = static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System));
+            QPoint globalButtonPos = qwordButton->mapToGlobal(QPoint(0, 0));
+            QPoint localButtonPos = this->mapFromGlobal(globalButtonPos);
+
+            int popupX = localButtonPos.x() + qwordButton->width() / 2;
+            int popupY = localButtonPos.y() + qwordButton->height();
+
+            m_byteArrowRectangle->move(popupX, popupY);
+            m_byteArrowListWidget->move(m_byteArrowRectangle->rect().x() + 15,
+                                        m_byteArrowRectangle->rect().y() + m_byteArrowRectangle->arrowHeight() + 11);
+        }
         m_byteArrowRectangle->setHidden(false);
         setwidgetAttribute(true);
         m_byteArrowRectangle->setFocus(Qt::TabFocusReason);
@@ -462,8 +496,12 @@ void ProgramModule::handleKeypadButtonPressByspace(int key)
         break;
     case ProCheckBtnKeypad::Key_MS:
         m_proExpressionBar->enterEqualEvent();
-        if (m_proExpressionBar->getInputEdit()->getCurrentAns().first)
+        if (m_proExpressionBar->getInputEdit()->getCurrentAns().first) {
+            qDebug() << "Generating memory data from current answer (space press)";
             m_memoryPublic->generateData(m_proExpressionBar->getInputEdit()->getCurrentAns().second);
+        } else {
+            qWarning() << "Cannot generate memory data - invalid current answer (space press)";
+        }
         break;
     case ProgrammerKeypad::Key_0:
         m_proExpressionBar->enterNumberEvent("0"); //按键0事件
@@ -982,7 +1020,14 @@ void ProgramModule::initArrowRectangle()
     m_byteArrowRectangle->setArrowHeight(21);
     m_byteArrowRectangle->setContent(m_byteArrowListWidget);
     m_byteArrowListWidget->installEventFilter(m_byteArrowRectangle);
-    m_byteArrowRectangle->move(this->rect().x() + 200, this->rect().y() + 238);//在module的138，238位置，x多出150原因未找出
+    TextButton *qwordButton = static_cast<TextButton *>(m_checkBtnKeypad->button(ProCheckBtnKeypad::Key_System));
+    QPoint globalButtonPos = qwordButton->mapToGlobal(QPoint(0, 0));
+    QPoint localButtonPos = this->mapFromGlobal(globalButtonPos);
+
+    int popupX = localButtonPos.x() + qwordButton->width() / 2;
+    int popupY = localButtonPos.y() + qwordButton->height();
+
+    m_byteArrowRectangle->move(popupX, popupY);
     m_byteArrowListWidget->move(m_byteArrowRectangle->rect().x() + 15,
                                 m_byteArrowRectangle->rect().y() + m_byteArrowRectangle->arrowHeight() + 11);
 

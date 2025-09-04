@@ -7,18 +7,19 @@
 
 #include <DStyleHelper>
 #include <DGuiApplicationHelper>
+#include <QDebug>
 #include "memorylistwidget.h"
 #include "programmeritemwidget.h"
 
 ProgrammerArrowDelegate::ProgrammerArrowDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-
+    qDebug() << "ProgrammerArrowDelegate constructor";
 }
 
 ProgrammerArrowDelegate::~ProgrammerArrowDelegate()
 {
-
+    qDebug() << "ProgrammerArrowDelegate destructor";
 }
 
 void ProgrammerArrowDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -48,6 +49,8 @@ void ProgrammerArrowDelegate::paint(QPainter *painter, const QStyleOptionViewIte
 
 void ProgrammerArrowDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    qDebug() << "ProgrammerArrowDelegate::updateEditorGeometry";
+
     Q_UNUSED(index);
     editor->setGeometry(option.rect);
 }

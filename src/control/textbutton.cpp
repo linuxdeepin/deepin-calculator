@@ -13,6 +13,7 @@ TextButton::TextButton(const QString &text, bool page, QWidget *parent)
     : DPushButton(text, parent)
     , m_effect(new QGraphicsDropShadowEffect(this))
 {
+    qDebug() << "TextButton constructor called with text:" << text << "page:" << page;
     setFocusPolicy(Qt::TabFocus);
     setObjectName("TextButton");
 
@@ -26,6 +27,7 @@ TextButton::TextButton(const QString &text, bool page, QWidget *parent)
 
 TextButton::~TextButton()
 {
+    qDebug() << "TextButton destructor called";
     // delete m_effect;
 }
 
@@ -92,6 +94,7 @@ void TextButton::init()
  */
 void TextButton::animate(bool isspace, int msec)
 {
+    qDebug() << "Button animation triggered with space:" << isspace << "duration:" << msec << "ms";
     if (m_isPress == false) { //edit for bug-20492 20200416
         m_isHover = false;  //edit for bug-20508 20200414
         if (!isspace)
@@ -449,6 +452,7 @@ void TextButton::focusOutEvent(QFocusEvent *e)
 
 void TextButton::keyPressEvent(QKeyEvent *e)
 {
+    qDebug() << "Key pressed:" << e->key();
     switch (e->key()) {
     case Qt::Key_Up:
         emit focus(0);

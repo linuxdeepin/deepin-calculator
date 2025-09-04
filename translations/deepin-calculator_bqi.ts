@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="bqi" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="bqi">
 <context>
     <name>ExpressionBar</name>
     <message>
@@ -206,6 +206,38 @@
         <source>Calculator</source>
         <translation>mâši hêsāv</translation>
     </message>
+    <message>
+        <source>Getting theme type settings</source>
+        <translation>تیم تیپ سیتینگز گرن</translation>
+    </message>
+    <message>
+        <source>Current theme type:</source>
+        <translation>جارن تیم تیپ:</translation>
+    </message>
+    <message>
+        <source>Testing translations with longer sentences</source>
+        <translation>تست ترنسلاشنز با انجر سينتنس</translation>
+    </message>
+    <message>
+        <source>This is a calculator application that supports basic arithmetic operations</source>
+        <translation>ايس ايس ا Calculation ابليكيشن دات سوپرتس بيسك آرثيمتيك اپيرشن</translation>
+    </message>
+    <message>
+        <source>Scientific mode provides advanced mathematical functions and constants</source>
+        <translation>ساينتيفك مود بروفيديس ادفانس ماثيماتيك فانشنز ون كونستانتس</translation>
+    </message>
+    <message>
+        <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
+        <translation>بروگرامر مود اوفيرز بائنري، اوكال، دسيمال ون هكسديسيمالي كالكولشنز</translation>
+    </message>
+    <message>
+        <source>History view shows all previous calculations and their results</source>
+        <translation>هستوري فيو شوويس ايل بريفيو كالكولشنز ون هير ارزلتس</translation>
+    </message>
+    <message>
+        <source>Memory functions allow you to store and recall calculation results</source>
+        <translation>ميمري فانشنز الوود يو تو ستوور ون ريكال كاليكولشن ارزلتس</translation>
+    </message>
 </context>
 <context>
     <name>SciExpressionBar</name>
@@ -218,11 +250,11 @@
     <name>SciHistoryWidget</name>
     <message>
         <source>History</source>
-        <translation>virgār</translation>
+        <translation type="vanished">virgār</translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation>virga</translation>
+        <translation type="vanished">virga</translation>
     </message>
 </context>
 <context>

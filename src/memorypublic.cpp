@@ -22,7 +22,9 @@ static void s_deletemempub()
  */
 MemoryPublic *MemoryPublic::instance()
 {
+    qDebug() << "MemoryPublic instance requested";
     if (!INSTANCE) {
+        qInfo() << "Creating new MemoryPublic instance";
         INSTANCE = new MemoryPublic;
         qAddPostRoutine(s_deletemempub);
     }
@@ -31,6 +33,7 @@ MemoryPublic *MemoryPublic::instance()
 
 void MemoryPublic::deleteInstance()
 {
+    qDebug() << "Deleting MemoryPublic instance";
     delete INSTANCE;
     INSTANCE = nullptr;
 }
@@ -38,6 +41,7 @@ void MemoryPublic::deleteInstance()
 MemoryPublic::MemoryPublic(QObject *parent)
     : QObject(parent)
 {
+    qDebug() << "Initializing MemoryPublic";
     m_standard_l = new MemoryWidget(0);
     m_scientific_r = new MemoryWidget(1);
     m_programmer_l = new MemoryWidget(2);
@@ -47,6 +51,7 @@ MemoryPublic::MemoryPublic(QObject *parent)
     m_programmer_l->setMemoryPublic(this);
     initconnects();
     memoryclean();
+    qInfo() << "MemoryPublic initialized with 3 memory widgets";
 }
 
 /**
@@ -84,13 +89,16 @@ QList<Quantity> MemoryPublic::getList()
  */
 void MemoryPublic::generateData(Quantity answer)
 {
+    qDebug() << "Generating memory data";
     bool ismax = false;
     if (m_list.count() == MAXSIZE) {
+        qInfo() << "Memory list reached max size (" << MAXSIZE << "), removing oldest entry";
         m_list.pop_back();
         ismax = true;
     }
     emit generateDataSig(answer, ismax);
     m_list.insert(0, answer);
+    qDebug() << "Memory data generated, new list size:" << m_list.count();
 }
 
 /**
@@ -98,13 +106,16 @@ void MemoryPublic::generateData(Quantity answer)
  */
 void MemoryPublic::memoryplus(Quantity answer)
 {
+    qDebug() << "Memory plus operation requested.";
     if (!m_list.isEmpty()) {
         Quantity ans;
         ans = m_list.value(0) + answer;
         emit memoryAnsSig(0, ans);
         m_list.replace(0, ans);
-    } else
+    } else {
+        qDebug() << "Memory list empty, generating new data";
         generateData(answer);
+    }
 }
 
 /**
@@ -112,13 +123,16 @@ void MemoryPublic::memoryplus(Quantity answer)
  */
 void MemoryPublic::memoryminus(Quantity answer)
 {
+    qDebug() << "Memory minus operation requested.";
     if (!m_list.isEmpty()) {
         Quantity ans;
         ans = m_list.value(0) - answer;
         emit memoryAnsSig(0, ans);
         m_list.replace(0, ans);
-    } else
+    } else {
+        qDebug() << "Memory list empty, generating new data";
         generateData(Quantity(-1)*answer);
+    }
 
 }
 
@@ -127,6 +141,7 @@ void MemoryPublic::memoryminus(Quantity answer)
  */
 void MemoryPublic::memoryclean()
 {
+    qInfo() << "Clearing all memory data";
     m_list.clear();
     emit memorycleanSig();
 }
@@ -179,7 +194,9 @@ void MemoryPublic::setThemeType(int type)
  */
 bool MemoryPublic::isEmpty()
 {
-    return m_list.isEmpty();
+    bool empty = m_list.isEmpty();
+    qDebug() << "Memory empty check:" << empty;
+    return empty;
 }
 
 MemoryPublic::~MemoryPublic()
