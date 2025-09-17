@@ -7,7 +7,7 @@ version: '1'
 package:
   id: org.deepin.calculator
   name: deepin-calculator
-  version: 6.5.25.1
+  version: 6.5.26.1
   kind: app
   description: |
     Calculator for UOS
@@ -15,8 +15,8 @@ package:
 command:
   - deepin-calculator
 
-base: org.deepin.base/25.2.0/arm64
-runtime: org.deepin.runtime.dtk/25.2.0/arm64
+base: org.deepin.base/25.2.1/arm64
+runtime: org.deepin.runtime.dtk/25.2.1/arm64
 
 build: |
   bash ./install_dep linglong/sources "$PREFIX"
