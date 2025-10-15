@@ -519,7 +519,9 @@ void InputEdit::handleTextChanged(const QString &text)
                   .replace(QString::fromUtf8("％"), QChar('%'));
 
     multipleArithmetic(reformatStr);
-//    reformatStr.remove(QRegularExpression("[^0-9＋－×÷,.%()e]"));
+    // 过滤非法字符：仅保留数字、英文字母、常用运算符、括号、百分号与分隔符，
+    // 以屏蔽中文及其他不支持字符（含粘贴内容）。
+    reformatStr.remove(QRegularExpression("[^0-9A-Za-z＋－×÷,.%()/]"));
     // reformatStr = pointFaultTolerance(reformatStr);
     //    reformatStr = symbolFaultTolerance(reformatStr);
     setText(reformatStr);
