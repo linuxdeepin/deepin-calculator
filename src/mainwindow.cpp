@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "mainwindow.h"
+#include "calculatorInterface.h"
 
 #include "dtitlebar.h"
 #include "dthememanager.h"
@@ -72,6 +73,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_simpleAction, &QAction::triggered, this, &MainWindow::switchToSimpleMode);
     connect(m_scAction, &QAction::triggered, this, &MainWindow::switchToScientificMode);
     connect(m_programmerAction, &QAction::triggered, this, &MainWindow::switchToProgrammerMode);
+
+    // Create D-Bus interface
+    new CalculatorInterface(this);
 }
 
 MainWindow::~MainWindow()
@@ -264,4 +268,5 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     m_settings->setOption("windowHeight", event->size().height());
     DMainWindow::resizeEvent(event);
 }
+
 

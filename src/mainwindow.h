@@ -40,6 +40,7 @@ protected:
 private:
     void initTheme();
     void initModule();
+public:
     void switchToSimpleMode();
     void switchToScientificMode();
     void switchToProgrammerMode();
@@ -53,6 +54,12 @@ private:
     QAction *m_scAction;
     QAction *m_programmerAction;
     QActionGroup *m_pActionGroup;
+
+public:
+    // Accessor methods for D-Bus interface
+    QAction* simpleAction() const { return m_simpleAction; }
+    QAction* scientificAction() const { return m_scAction; }
+    QAction* programmerAction() const { return m_programmerAction; }
 
     BasicModule *m_basicModule = nullptr;
     scientificModule *m_scientificModule = nullptr;

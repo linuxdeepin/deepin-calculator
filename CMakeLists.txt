@@ -112,7 +112,6 @@ else()
 )
 endif()
 
-
 file(GLOB_RECURSE CAL_SRCH ${CMAKE_CURRENT_LIST_DIR}/src/*.h)
 file(GLOB_RECURSE CAL_SRCC ${CMAKE_CURRENT_LIST_DIR}/src/*.c)
 file(GLOB_RECURSE CAL_SRCCPP ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
@@ -165,6 +164,8 @@ install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/translations
     FILES_MATCHING PATTERN "*.qm")
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/deepin-calculator.desktop
         DESTINATION ${CMAKE_INSTALL_DATADIR}/applications/)
+install(FILES ${CMAKE_CURRENT_LIST_DIR}/com.deepin.Calculator.service
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/dbus-1/services/)
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/src/assets/images/deepin-calculator.svg
             DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps/)
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src/assets/deepin-calculator
