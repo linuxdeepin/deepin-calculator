@@ -158,9 +158,9 @@ int main(int argc, char *argv[])
         DGuiApplicationHelper::instance()->setPaletteType(oldpalette);
     }
 
-    // Register debus service.
+    // Register D-Bus service.
     qDebug() << "Registering DBus object";
-    dbus.registerObject("/com/deepin/calculator", &window, QDBusConnection::ExportScriptableSlots);
+    dbus.registerObject("/com/deepin/calculator", &window);
     qInfo() << "Showing main window";
     window.show();
     window.switchModeBack();
