@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
     DSettingsAlt *m_dsettings = DSettingsAlt::instance();
     QDBusConnection dbus = QDBusConnection::sessionBus();
     qInfo() << "Registering DBus service";
-    if (dbus.registerService("com.deepin.calculator")) {
+    if (dbus.registerService("com.deepin.Calculator")) {
         qInfo() << "DBus service registered successfully";
         Dtk::Widget::moveToCenter(&window);
         m_dsettings->setOption("windowX", window.pos().x());
