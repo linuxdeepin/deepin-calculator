@@ -15,7 +15,7 @@ class MainWindow;
 class CalculatorInterface : public QDBusAbstractAdaptor
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "com.deepin.calculator")
+    Q_CLASSINFO("D-Bus Interface", "com.deepin.Calculator")
 
 public:
     explicit CalculatorInterface(MainWindow *parent);
