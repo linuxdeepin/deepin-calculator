@@ -85,6 +85,11 @@ public:
     QByteArray windowGeometry;
     QByteArray manualWindowGeometry;
 
+    // 区域格式设置接口（系统控制中心同步）
+    QString getSystemDecimalSymbol() const;
+    QString getSystemDigitGroupingSymbol() const;
+    bool getSystemDigitGrouping() const;
+
 private:
     Q_DISABLE_COPY(Settings)
     Settings();

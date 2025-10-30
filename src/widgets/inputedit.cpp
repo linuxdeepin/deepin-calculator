@@ -16,6 +16,7 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QStringList>
+#include <QSignalBlocker>
 #include <DMenu>
 
 const QString AtoF = "ABCDEF";
@@ -465,6 +466,23 @@ void InputEdit::valueChangeFromProSyskeypad(const QString num)
 void InputEdit::handleTextChanged(const QString &text)
 {
     qDebug() << "handleTextChanged called, text:" << text;
+    qInfo() << "handleTextChanged raw text=" << text;
+
+    // 第二阶段：入口规范化（将系统格式转换为内部格式）
+    QString normalizedExpr = text;
+    const auto sys = Settings::instance();
+    const QString decSym = sys->getSystemDecimalSymbol();
+    const QString grpSym = sys->getSystemDigitGroupingSymbol();
+    const QString decimalPlaceholder = QString(QChar(0x1D));
+
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        normalizedExpr.replace(decSym, decimalPlaceholder);
+    if (!grpSym.isEmpty() && grpSym != decSym)
+        normalizedExpr.replace(grpSym, "");
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        normalizedExpr.replace(decimalPlaceholder, QLatin1String("."));
+
+    qInfo() << "InputEdit locale: decSym=" << decSym << "grpSym=" << grpSym << "normalized=" << normalizedExpr;
 
     if (m_currentInAns) {
         m_ansLength = 0; //光标在ans中间且text改变，清空ans
@@ -484,6 +502,7 @@ void InputEdit::handleTextChanged(const QString &text)
     if (text.indexOf("=") != -1) {
         QString exp = text;
         exp.remove(text.indexOf("="), 1);
+        QSignalBlocker blocker(this);
         setText(exp);
         Q_EMIT equal(); //当前外界键盘及计算器键盘中=均不走此；猜测为了复制粘贴等于式；当前粘贴会去除=，也不会走此；暂不删除
         return;
@@ -491,7 +510,6 @@ void InputEdit::handleTextChanged(const QString &text)
 
     int ansEnd = m_ansStartPos + m_ansLength;
 
-    m_oldText = text;
     while (ansEnd > text.length()) {
         --ansEnd;
     }
@@ -502,9 +520,13 @@ void InputEdit::handleTextChanged(const QString &text)
     int oldPosition = this->cursorPosition();
     QString reformatStr = QString();
     if (Settings::instance()->programmerBase == 0)
-        reformatStr = Utils::reformatSeparators(QString(text).remove(','));
-    else
-        reformatStr = Utils::reformatSeparatorsPro(QString(text).remove(',').remove(" "), Settings::instance()->programmerBase);
+        reformatStr = Utils::reformatSeparators(normalizedExpr);
+    else {
+        QString proExpr = normalizedExpr;
+        proExpr.remove(',').remove(" ");
+        reformatStr = Utils::reformatSeparatorsPro(proExpr, Settings::instance()->programmerBase);
+    }
+    qInfo() << "After reformatSeparators=" << reformatStr;
     reformatStr = reformatStr.replace('+', QString::fromUtf8("＋"))
                   .replace('-', QString::fromUtf8("－"))
                   .replace("_", QString::fromUtf8("－"))
@@ -519,12 +541,25 @@ void InputEdit::handleTextChanged(const QString &text)
                   .replace(QString::fromUtf8("％"), QChar('%'));
 
     multipleArithmetic(reformatStr);
-    // 过滤非法字符：仅保留数字、英文字母、常用运算符、括号、百分号与分隔符，
-    // 以屏蔽中文及其他不支持字符（含粘贴内容）。
-    reformatStr.remove(QRegularExpression("[^0-9A-Za-z＋－×÷,.%()/]"));
+    qInfo() << "After multipleArithmetic=" << reformatStr;
+    // 过滤非法字符：仅保留数字、字母、常用运算符、括号、百分号以及系统定义的小数点/分组符
+    const QString allowedStatic = QString::fromUtf8("＋－×÷.,%()/");
+    QString filtered;
+    filtered.reserve(reformatStr.size());
+    for (const QChar &ch : std::as_const(reformatStr)) {
+        if (ch.isDigit() || ch.isLetter() || allowedStatic.contains(ch) || decSym.contains(ch) || grpSym.contains(ch)) {
+            filtered.append(ch);
+        }
+    }
+    reformatStr = filtered;
+    qInfo() << "After filtering=" << reformatStr;
     // reformatStr = pointFaultTolerance(reformatStr);
     //    reformatStr = symbolFaultTolerance(reformatStr);
-    setText(reformatStr);
+    if (reformatStr != text) {
+        QSignalBlocker blocker(this);
+        qInfo() << "setText(" << reformatStr << ")";
+        setText(reformatStr);
+    }
     autoZoomFontSize();
 
     // reformat text.
@@ -542,6 +577,7 @@ void InputEdit::handleTextChanged(const QString &text)
     m_selected.oldText = this->text(); //选中输入情况下清空被选部分
     m_selected.selected = selectedText();
     m_selected.curpos = selectionStart() < selectionEnd() ? selectionStart() : selectionEnd();
+    m_oldText = this->text();
 }
 
 /**
@@ -658,8 +694,17 @@ QString InputEdit::scanAndExec(int baseori, int basedest)
  */
 QString InputEdit::pointFaultTolerance(const QString &text)
 {
-    QString exp = text;
-    QString oldText = text;
+    const auto sys = Settings::instance();
+    QString decSym = sys->getSystemDecimalSymbol();
+    const QString decimalPlaceholder = QString(QChar(0x1D));
+
+    QString workingText = text;
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        workingText.replace(decSym, decimalPlaceholder);
+    workingText.replace(decimalPlaceholder, ".");
+
+    QString exp = workingText;
+    QString oldText = workingText;
     QStringList list = exp.split(QRegularExpression("[＋－×÷/()]"));
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];
@@ -684,7 +729,12 @@ QString InputEdit::pointFaultTolerance(const QString &text)
             setCursorPosition(cur);
         }
     }
-    return oldText;
+    QString result = oldText;
+    if (!decSym.isEmpty() && decSym != QLatin1String(".")) {
+        result.replace(".", decimalPlaceholder);
+        result.replace(decimalPlaceholder, decSym);
+    }
+    return result;
 }
 
 /**
@@ -1281,6 +1331,19 @@ QString InputEdit::formatBinaryNumber(const QString num)
 QString InputEdit::formatExpression(const int &probase, const QString &text)
 {
     QString formattext = text;
+
+    const auto sys = Settings::instance();
+    const QString decSym = sys->getSystemDecimalSymbol();
+    const QString grpSym = sys->getSystemDigitGroupingSymbol();
+    const QString decimalPlaceholder = QString(QChar(0x1D));
+
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        formattext.replace(decSym, decimalPlaceholder);
+    if (!grpSym.isEmpty() && grpSym != decSym)
+        formattext.replace(grpSym, "");
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        formattext.replace(decimalPlaceholder, QLatin1String("."));
+
     formattext.replace(QString::fromUtf8("＋"), "+")
     .replace(QString::fromUtf8("－"), QChar('-'))
     .replace(QString::fromUtf8("×"), "*")

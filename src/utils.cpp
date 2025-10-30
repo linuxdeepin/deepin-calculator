@@ -5,6 +5,7 @@
 
 #include "utils.h"
 #include "dsettings.h"
+#include "../3rdparty/core/settings.h"
 
 #include <QRegularExpression>
 #include <QStandardPaths>
@@ -64,26 +65,55 @@ QString Utils::getQssContent(const QString &filePath)
 QString Utils::formatThousandsSeparators(const QString &str)
 {
     qDebug() << "Enter formatThousandsSeparators(), input:" << str;
-    int separate = DSettingsAlt::instance()->getSeparate(); //数字分割位数
-    qInfo() << "Current thousand separator setting:" << separate;
 
-    QString result = str;
-    int startPos = result.indexOf(QRegularExpression("[0-9]"));
-    if (startPos >= 0) {
-        qDebug() << "Found number sequence at position:" << startPos;
-        int endPos = result.indexOf('.');
+    const auto sys = Settings::instance();
+    const QString decSym = sys->getSystemDecimalSymbol();
+    const QString grpSym = sys->getSystemDigitGroupingSymbol();
+    const bool groupingEnabled = sys->getSystemDigitGrouping();
+    const int separate = DSettingsAlt::instance()->getSeparate();
 
-        if (endPos < 0) {
-            endPos = result.indexOf('E');
-            if (endPos < 0)
-                endPos = result.length();
-        }
+    qInfo() << "formatThousandsSeparators settings decSym=" << decSym << "grpSym=" << grpSym << "grouping=" << groupingEnabled;
 
-        for (int i = endPos - separate; i >= startPos + 1; i -= separate) {
-            result.insert(i, ",");
+    QString input = str;
+    QString sign;
+    if (!input.isEmpty() && (input.at(0) == QChar('+') || input.at(0) == QChar('-'))) {
+        sign = input.left(1);
+        input.remove(0, 1);
+    }
+
+    QString exponent;
+    int eIndex = input.indexOf('E');
+    if (eIndex >= 0) {
+        exponent = input.mid(eIndex);
+        input = input.left(eIndex);
+    }
+
+    QString fractional;
+    bool hasDecimalPoint = false;
+    int dotIndex = input.indexOf('.');
+    if (dotIndex >= 0) {
+        hasDecimalPoint = true;
+        fractional = input.mid(dotIndex + 1);
+        input = input.left(dotIndex);
+    }
+
+    QString integerPart = input;
+    QString groupedInteger = integerPart;
+    if (groupingEnabled && !grpSym.isEmpty() && separate > 0 && integerPart.length() > separate) {
+        for (int i = groupedInteger.length() - separate; i > 0; i -= separate) {
+            groupedInteger.insert(i, grpSym);
         }
     }
 
+    QString result = sign + groupedInteger;
+    if (hasDecimalPoint) {
+        QString displayDecimal = decSym.isEmpty() ? QStringLiteral(".") : decSym;
+        result += displayDecimal;
+        result += fractional;
+    }
+    result += exponent;
+
+    qDebug() << "Exit formatThousandsSeparators(), output:" << result;
     return result;
 }
 
@@ -164,14 +194,7 @@ QString Utils::formatThousandsSeparatorsPro(const QString &str, const int Base)
         }
         break;
     case 10:
-        if (startPos >= 0) {
-            int endPos  = result.length();
-            int separate = DSettingsAlt::instance()->getSeparate(); //数字分割位数
-            for (int i = endPos - separate; i >= startPos + 1; i -= separate) {
-                result.insert(i, ",");
-            }
-        }
-        break;
+        return formatThousandsSeparators(str);
     case 8:
         if (startPos >= 0) {
             int endPos  = result.length();
