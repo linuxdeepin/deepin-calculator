@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "programmerkeypad.h"
+#include "../../3rdparty/core/settings.h"
 
 const int KEYPAD_HEIGHT = 279; //键盘界面高度
 const int KEYPAD_SPACING = 3; //键盘按键间距,按钮比ui大2pix,此处小2pix
@@ -171,6 +172,15 @@ void ProgrammerKeypad::initButtons()
     }
     static_cast<TextButton *>(this->button(Key_point))->setButtonGray(true);
     radixChanged(1);
+
+    // 初始化时同步十进制下的小数点按钮文字
+    {
+        const auto sys = Settings::instance();
+        QString decSym = sys->getSystemDecimalSymbol();
+        if (decSym.isEmpty())
+            decSym = QStringLiteral(".");
+        static_cast<TextButton *>(this->button(Key_point))->setText(decSym);
+    }
 }
 
 /**
@@ -284,6 +294,14 @@ void ProgrammerKeypad::radixChanged(int row)
                 button->setEnabled(false);
         }
         m_currentBase = 10;
+        // 十进制下同步小数点按钮文字
+        {
+            const auto sys = Settings::instance();
+            QString decSym = sys->getSystemDecimalSymbol();
+            if (decSym.isEmpty())
+                decSym = QStringLiteral(".");
+            static_cast<TextButton *>(this->button(Key_point))->setText(decSym);
+        }
         break;
     case 2:
         foreach (TextButton *button, m_bindisable) {
@@ -312,6 +330,14 @@ void ProgrammerKeypad::radixChanged(int row)
                 button->setEnabled(false);
         }
         m_currentBase = 10;
+        // 十进制下同步小数点按钮文字
+        {
+            const auto sys = Settings::instance();
+            QString decSym = sys->getSystemDecimalSymbol();
+            if (decSym.isEmpty())
+                decSym = QStringLiteral(".");
+            static_cast<TextButton *>(this->button(Key_point))->setText(decSym);
+        }
         break;
     }
 }

@@ -27,6 +27,8 @@
 #include <QLocale>
 #include <QSettings>
 #include <QApplication>
+#include <QDBusInterface>
+#include <QDBusConnection>
 #include <QFont>
 #include <QtCore/QStandardPaths>
 
@@ -394,4 +396,91 @@ QSettings *createQSettings(const QString &KEY)
     }
     settings->setValue("ConfigVersion", ConfigVersion);
     return settings;
+}
+
+// 区域格式设置接口实现
+QString Settings::getSystemDecimalSymbol() const
+{
+    // 尝试从 D-Bus 获取控制中心设置
+    QDBusInterface interface("org.deepin.dde.Timedate1",
+                             "/org/deepin/dde/Format1",
+                             "org.deepin.dde.Format1",
+                             QDBusConnection::sessionBus());
+    
+    if (interface.isValid()) {
+        QVariant variant = interface.property("DecimalSymbol");
+        QString result = qvariant_cast<QString>(variant);
+        if (!result.isEmpty()) {
+            qInfo() << "getSystemDecimalSymbol from D-Bus:" << result;
+            return result;
+        }
+    }
+    
+    // 如果 D-Bus 失败，回退到 QLocale
+    QString fallback = QLocale().decimalPoint();
+    qInfo() << "getSystemDecimalSymbol from QLocale:" << fallback;
+    return fallback;
+}
+
+QString Settings::getSystemDigitGroupingSymbol() const
+{
+    // 尝试从 D-Bus 获取控制中心设置
+    QDBusInterface interface("org.deepin.dde.Timedate1",
+                             "/org/deepin/dde/Format1",
+                             "org.deepin.dde.Format1",
+                             QDBusConnection::sessionBus());
+    
+    auto normalizeSpace = [](const QString &s) -> QString {
+        if (s.isEmpty()) return s;
+        const QString t = s.trimmed();
+        // 任何Unicode空白（含全角/窄空格/NBSP等）→ 单个ASCII空格
+        bool allSpace = !t.isEmpty();
+        for (auto ch : t) { if (!ch.isSpace()) { allSpace = false; break; } }
+        if (allSpace) return QStringLiteral(" ");
+        // 仅允许明确的三种分组符，其余文案（如“空格”“Space”等）一律归一为空格
+        if (t == QStringLiteral(",") || t == QStringLiteral(".") || t == QStringLiteral("'"))
+            return t;
+        return QStringLiteral(" ");
+    };
+    
+    if (interface.isValid()) {
+        QVariant variant = interface.property("DigitGroupingSymbol");
+        QString result = qvariant_cast<QString>(variant);
+        if (!result.isEmpty()) {
+            result = normalizeSpace(result);
+            qInfo() << "getSystemDigitGroupingSymbol from D-Bus:" << result;
+            return result;
+        }
+    }
+    
+    // 如果 D-Bus 失败，回退到 QLocale
+    QString fallback = QLocale().groupSeparator();
+    fallback = normalizeSpace(fallback);
+    qInfo() << "getSystemDigitGroupingSymbol from QLocale:" << fallback;
+    return fallback;
+}
+
+bool Settings::getSystemDigitGrouping() const
+{
+    // 尝试从 D-Bus 获取控制中心设置
+    QDBusInterface interface("org.deepin.dde.Timedate1",
+                             "/org/deepin/dde/Format1",
+                             "org.deepin.dde.Format1",
+                             QDBusConnection::sessionBus());
+    
+    if (interface.isValid()) {
+        QVariant variant = interface.property("DigitGrouping");
+        QString result = qvariant_cast<QString>(variant);
+        if (!result.isEmpty()) {
+            // DigitGrouping 返回示例格式，如 "123,456,789"，如果包含分隔符说明启用
+            bool groupingEnabled = result.contains(",") || result.contains(".") || 
+                                  result.contains(" ") || result.contains("'");
+            qInfo() << "getSystemDigitGrouping from D-Bus:" << groupingEnabled;
+            return groupingEnabled;
+        }
+    }
+    
+    // 如果 D-Bus 失败，默认启用分组
+    qInfo() << "getSystemDigitGrouping from D-Bus failed, using default (true)";
+    return true;
 }

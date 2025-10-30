@@ -6,6 +6,7 @@
 #include "expressionbar.h"
 
 #include "../utils.h"
+#include "../../3rdparty/core/settings.h"
 
 #include <QApplication>
 #include <QClipboard>
@@ -230,37 +231,48 @@ void ExpressionBar::enterPointEvent()
 {
     qDebug() << "enterPointEvent called";
 
-    //    if (m_isLinked)
-    //        clearLinkageCache();
+    const auto sys = Settings::instance();
+    QString decSym = sys->getSystemDecimalSymbol();
+    if (decSym.isEmpty())
+        decSym = QStringLiteral(".");
+    QString grpSym = sys->getSystemDigitGroupingSymbol();
+    const QString decInsert = decSym;
+    const QString grpClass = grpSym.isEmpty() ? QString() : QRegularExpression::escape(grpSym);
+    const QString digitsPattern = grpSym.isEmpty() ? QStringLiteral("[0-9]+")
+                                                   : QStringLiteral("[0-9%1]+").arg(grpClass);
+    const QString notDigitsPattern = grpSym.isEmpty() ? QStringLiteral("[^0-9]")
+                                                       : QStringLiteral("[^0-9%1]").arg(grpClass);
+
     replaceSelection(m_inputEdit->text());
     QString exp = m_inputEdit->text();
     int curpos = m_inputEdit->cursorPosition();
+
     if (curpos == 0) {
-        m_inputEdit->insert("0.");
+        m_inputEdit->insert(QStringLiteral("0") + decInsert);
     } else {
-        if (exp.at(curpos - 1) == QChar('.'))
+        if (curpos >= decInsert.length() && exp.mid(curpos - decInsert.length(), decInsert.length()) == decInsert)
             return;
-        //20200716修改在)及%后小数点不可输入问题
-//        if (exp.at(curpos - 1) != ")" && exp.at(curpos - 1) != "%") {
-        QString sRegNum = "[0-9,]+";
-        QRegularExpression rx;
-        rx.setPattern(sRegNum);
-        QRegularExpressionMatch match = rx.match(exp.at(curpos - 1));
-        if (match.hasMatch()) {
-            int index = exp.indexOf(QRegularExpression("[^0-9,]"), curpos);
+
+        QRegularExpression rx(digitsPattern);
+        QString prevChar = exp.mid(curpos - 1, 1);
+        if (rx.match(prevChar).hasMatch()) {
+            QRegularExpression notDigits(notDigitsPattern);
+            int index = exp.indexOf(notDigits, curpos);
+            if (index < 0)
+                index = exp.length();
             QString cut = exp.mid(curpos, index - curpos);
-            int aftercurpos = cut.count(",");
-            int before = exp.count(",");
-            m_inputEdit->insert(".");
-            int after = m_inputEdit->text().count(",");
-            if (before - aftercurpos == after) {
-                m_inputEdit->setCursorPosition(curpos + 1);
+            int aftercurpos = grpSym.isEmpty() ? 0 : cut.count(grpSym);
+            int before = grpSym.isEmpty() ? 0 : exp.count(grpSym);
+            m_inputEdit->insert(decInsert);
+            int after = grpSym.isEmpty() ? 0 : m_inputEdit->text().count(grpSym);
+            if (grpSym.isEmpty() || before - aftercurpos == after) {
+                m_inputEdit->setCursorPosition(curpos + decInsert.length());
             } else {
                 m_inputEdit->setCursorPosition(curpos);
             }
-        } else
-            m_inputEdit->insert("0.");
-//        }
+        } else {
+            m_inputEdit->insert(QStringLiteral("0") + decInsert);
+        }
     }
     exp = pointFaultTolerance(m_inputEdit->text());
     exp = m_inputEdit->symbolFaultTolerance(exp);
@@ -989,7 +1001,21 @@ bool ExpressionBar::cursorPosAtEnd()
  */
 QString ExpressionBar::formatExpression(const QString &text)
 {
-    return QString(text)
+    QString t = text;
+
+    const auto sys = Settings::instance();
+    const QString decSym = sys->getSystemDecimalSymbol();
+    const QString grpSym = sys->getSystemDigitGroupingSymbol();
+    const QString decimalPlaceholder = QString(QChar(0x1D));
+
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        t.replace(decSym, decimalPlaceholder);
+    if (!grpSym.isEmpty() && grpSym != decSym)
+        t.replace(grpSym, "");
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        t.replace(decimalPlaceholder, QLatin1String("."));
+
+    return QString(t)
            .replace(QString::fromUtf8("＋"), "+")
            .replace(QString::fromUtf8("－"), "-")
            .replace(QString::fromUtf8("×"), "*")
@@ -1230,7 +1256,21 @@ QString ExpressionBar::symbolComplement(const QString exp)
  */
 QString ExpressionBar::pointFaultTolerance(const QString &text)
 {
-    QString oldText = text;
+    const auto sys = Settings::instance();
+    QString decSym = sys->getSystemDecimalSymbol();
+    QString grpSym = sys->getSystemDigitGroupingSymbol();
+    const QString decimalPlaceholder = QString(QChar(0x1D));
+    const QString groupingPlaceholder = QString(QChar(0x1C));
+
+    QString workingText = text;
+    if (!grpSym.isEmpty() && grpSym != QLatin1String(","))
+        workingText.replace(grpSym, groupingPlaceholder);
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        workingText.replace(decSym, decimalPlaceholder);
+    workingText.replace(groupingPlaceholder, ",");
+    workingText.replace(decimalPlaceholder, ".");
+
+    QString oldText = workingText;
     // QString reformatStr = Utils::reformatSeparators(QString(text).remove(','));
     QString reformatStr = oldText.replace('+', QString::fromUtf8("＋"))
                           .replace('-', QString::fromUtf8("－"))
@@ -1298,16 +1338,53 @@ QString ExpressionBar::pointFaultTolerance(const QString &text)
         }
     }
 
-    return reformatStr;
+    for (int i = 0; i < reformatStr.size(); ++i) {
+        if (reformatStr.at(i) == QChar('＋') || reformatStr.at(i) == QChar('－') || reformatStr.at(i) == QChar('×') || reformatStr.at(i) == QChar('÷')) {
+            if (i == 0)
+                continue;
+            QString leftitem = reformatStr.left(i);
+            QString rightitem = reformatStr.mid(i);
+            QString faulttolerance = m_inputEdit->symbolFaultTolerance(leftitem);
+            if (faulttolerance != leftitem)
+                reformatStr.replace(0, i, faulttolerance);
+            faulttolerance = m_inputEdit->symbolFaultTolerance(rightitem);
+            if (faulttolerance != rightitem)
+                reformatStr.replace(i, reformatStr.length() - i, faulttolerance);
+        }
+    }
+    QString result = reformatStr;
+    if (!grpSym.isEmpty() && grpSym != QLatin1String(","))
+        result.replace(",", groupingPlaceholder);
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        result.replace(".", decimalPlaceholder);
+    if (!grpSym.isEmpty() && grpSym != QLatin1String(","))
+        result.replace(groupingPlaceholder, grpSym);
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        result.replace(decimalPlaceholder, decSym);
+    return result;
 }
 
 void ExpressionBar::expressionCheck()
 {
-    QString exp = m_inputEdit->text();
+    const auto sys = Settings::instance();
+    QString decSym = sys->getSystemDecimalSymbol();
+    QString grpSym = sys->getSystemDigitGroupingSymbol();
+    const QString decimalPlaceholder = QString(QChar(0x1D));
+    const QString groupingPlaceholder = QString(QChar(0x1C));
+
+    QString expDisplay = m_inputEdit->text();
     int cur = m_inputEdit->cursorPosition();
-    int n = m_inputEdit->cursorPosition();
-    int length = exp.length() - n;//原表达式光标右长度
+    int n = cur;
+    int length = expDisplay.length() - n;//原表达式光标右长度
     int sum = 0;
+
+    QString exp = expDisplay;
+    if (!grpSym.isEmpty() && grpSym != QLatin1String(","))
+        exp.replace(grpSym, groupingPlaceholder);
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        exp.replace(decSym, decimalPlaceholder);
+    exp.replace(groupingPlaceholder, ",");
+    exp.replace(decimalPlaceholder, ".");
 
     for (int i = 0; i < exp.size(); ++i) {
         if (exp[i] == QChar(',')) {
@@ -1345,7 +1422,18 @@ void ExpressionBar::expressionCheck()
                 ++cur;
         }
     }
-    m_inputEdit->setText(exp);
+
+    QString result = exp;
+    if (!grpSym.isEmpty() && grpSym != QLatin1String(","))
+        result.replace(",", groupingPlaceholder);
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        result.replace(".", decimalPlaceholder);
+    if (!grpSym.isEmpty() && grpSym != QLatin1String(","))
+        result.replace(groupingPlaceholder, grpSym);
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        result.replace(decimalPlaceholder, decSym);
+
+    m_inputEdit->setText(result);
 //    m_inputEdit->setCursorPosition(cur + separator);
     m_inputEdit->setCursorPosition(m_inputEdit->text().length() - (length - sum)); //20200525数字前有0时容错删除0光标错位
 }

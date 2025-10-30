@@ -11,6 +11,7 @@
 #include <DGuiApplicationHelper>
 
 #include "dthememanager.h"
+#include "../3rdparty/core/settings.h"
 
 const int KEYPADHEIGHT = 350; //整体键盘的高度
 const QSize BUTTON_SIZE = QSize(69, 46); //科学模式的固定大小
@@ -228,6 +229,13 @@ void ScientificKeyPad::initButtons()
                     button = new TextButton(desc->text, false, this);
                 }
             }
+        }
+
+        if (desc->button == Key_Point) {
+            QString decSym = Settings::instance()->getSystemDecimalSymbol();
+            if (decSym.isEmpty())
+                decSym = QStringLiteral(".");
+            button->setText(decSym);
         }
 
         //stackwidget中按钮初始化

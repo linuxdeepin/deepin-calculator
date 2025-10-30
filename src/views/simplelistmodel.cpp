@@ -362,6 +362,19 @@ bool SimpleListModel::isNumber(QChar a)
 QString SimpleListModel::formatExpression(const int &probase, const QString &text)
 {
     QString formattext = text;
+
+    const auto sys = Settings::instance();
+    const QString decSym = sys->getSystemDecimalSymbol();
+    const QString grpSym = sys->getSystemDigitGroupingSymbol();
+    const QString decimalPlaceholder = QString(QChar(0x1D));
+
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        formattext.replace(decSym, decimalPlaceholder);
+    if (!grpSym.isEmpty() && grpSym != decSym)
+        formattext.replace(grpSym, "");
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        formattext.replace(decimalPlaceholder, QLatin1String("."));
+
     formattext.replace(CN_ADD, EN_ADD)
     .replace(CN_MIN, EN_MIN)
     .replace(CN_MUL, EN_MUL)
