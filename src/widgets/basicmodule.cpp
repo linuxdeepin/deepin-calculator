@@ -426,9 +426,11 @@ void BasicModule::handleKeypadButtonPress(int key)
         break;
     case MemoryKeypad::Key_MS:
         m_expressionBar->settingLinkage();
-        if (m_expressionBar->getInputEdit()->getMemoryAnswer().first) //如果输入栏中可计算出结果
+        // 仅当输入栏存在可计算结果时才执行MS存储，避免将无效表达式（如未完结的“89×”）错误存为0
+        if (m_expressionBar->getInputEdit()->getMemoryAnswer().first) { // 如果输入栏中可计算出结果
             qInfo() << "Generating memory data from keypad";
             m_memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
+        }
         break;
     case MemoryKeypad::Key_MC:
         m_memoryPublic->memoryclean();
