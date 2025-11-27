@@ -473,7 +473,7 @@ void InputEdit::handleTextChanged(const QString &text)
     const auto sys = Settings::instance();
     const QString decSym = sys->getSystemDecimalSymbol();
     const QString grpSym = sys->getSystemDigitGroupingSymbol();
-    const QString decimalPlaceholder = QString(QChar(0x1D));
+    const QString decimalPlaceholder = QStringLiteral("__DEC_PLACEHOLDER__");
 
     if (!decSym.isEmpty() && decSym != QLatin1String("."))
         normalizedExpr.replace(decSym, decimalPlaceholder);
@@ -696,7 +696,7 @@ QString InputEdit::pointFaultTolerance(const QString &text)
 {
     const auto sys = Settings::instance();
     QString decSym = sys->getSystemDecimalSymbol();
-    const QString decimalPlaceholder = QString(QChar(0x1D));
+    const QString decimalPlaceholder = QStringLiteral("__DEC_PLACEHOLDER__");
 
     QString workingText = text;
     if (!decSym.isEmpty() && decSym != QLatin1String("."))
@@ -1128,8 +1128,23 @@ QPair<bool, Quantity> InputEdit::getMemoryAnswer()
     expression = symbolComplement(expressionText()).replace(QString::fromUtf8("＋"), "+")
                  .replace(QString::fromUtf8("－"), QChar('-'))
                  .replace(QString::fromUtf8("×"), "*")
-                 .replace(QString::fromUtf8("÷"), "/")
-                 .replace(QString::fromUtf8(","), "");
+                 .replace(QString::fromUtf8("÷"), "/");
+    
+    // 正确清理表达式：使用系统小数符/分组符规范化，而非直接删除","
+    // 直接 .replace(",", "") 会把系统小数符（如","）误删，导致"11.111,04"变成"11.11104"
+    const auto sys = Settings::instance();
+    const QString decSym = sys->getSystemDecimalSymbol();
+    const QString grpSym = sys->getSystemDigitGroupingSymbol();
+    // 使用明确的合成字符串作为占位符，避免与用户输入或粘贴内容冲突
+    const QString decimalPlaceholder = QStringLiteral("__DEC_PLACEHOLDER__");
+    
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        expression.replace(decSym, decimalPlaceholder);
+    if (!grpSym.isEmpty() && grpSym != decSym)
+        expression.replace(grpSym, "");
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        expression.replace(decimalPlaceholder, QLatin1String("."));
+    
     m_evaluator->setExpression(expression);
     m_memoryans = m_evaluator->evalUpdateAns();
     if (m_evaluator->error().isEmpty()) {
@@ -1335,7 +1350,7 @@ QString InputEdit::formatExpression(const int &probase, const QString &text)
     const auto sys = Settings::instance();
     const QString decSym = sys->getSystemDecimalSymbol();
     const QString grpSym = sys->getSystemDigitGroupingSymbol();
-    const QString decimalPlaceholder = QString(QChar(0x1D));
+    const QString decimalPlaceholder = QStringLiteral("__DEC_PLACEHOLDER__");
 
     if (!decSym.isEmpty() && decSym != QLatin1String("."))
         formattext.replace(decSym, decimalPlaceholder);
