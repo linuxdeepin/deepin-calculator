@@ -474,11 +474,21 @@ void MemoryWidget::resetLabelBySeparator()
 
     if (m_memorypublic->isEmpty())
         return;
-    QString text;
+    // 从底层 Quantity 重新格式化，避免在已本地化的显示文本上操作导致小数符被误删
+    // 旧代码：textLabel().remove(",") 会把系统小数符（如","或"，"）也删除，导致"11.111,04"变成"11.11104"
     for (int i = 0; i < m_listwidget->count(); i++) {
+        QString formatted;
+        if (m_calculatormode == 2) {
+            const QString result = programmerResult(m_memorypublic->getList().at(i));
+            formatted = Utils::formatThousandsSeparatorsPro(result, Settings::instance()->programmerBase);
+        } else {
+            const Quantity ans = m_memorypublic->getList().at(i);
+            const QString result = DMath::format(ans, Quantity::Format::General() + Quantity::Format::Precision(m_precision));
+            formatted = Utils::formatThousandsSeparators(result);
+        }
+        formatted = setitemwordwrap(formatted, i);
         auto wgt = static_cast<MemoryItemWidget *>(m_listwidget->itemWidget(m_listwidget->item(i)));
-        text = Utils::formatThousandsSeparators(wgt->textLabel().remove(","));
-        wgt->setTextLabel(text);
+        wgt->setTextLabel(formatted);
     }
 }
 

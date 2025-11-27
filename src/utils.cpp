@@ -88,16 +88,35 @@ QString Utils::formatThousandsSeparators(const QString &str)
         input = input.left(eIndex);
     }
 
+    // 使用系统小数符优先定位小数点；若无则回退'.'。切分后仅清理整数部分已有分组符，小数部分保持不变
     QString fractional;
     bool hasDecimalPoint = false;
-    int dotIndex = input.indexOf('.');
-    if (dotIndex >= 0) {
-        hasDecimalPoint = true;
-        fractional = input.mid(dotIndex + 1);
-        input = input.left(dotIndex);
-    }
-
     QString integerPart = input;
+    {
+        int decIdx = -1;
+        // 如果系统小数符不是'.'，优先查找系统小数符
+        if (!decSym.isEmpty() && decSym != QLatin1String(".")) {
+            decIdx = input.lastIndexOf(decSym);
+        }
+        // 未找到系统小数符，或系统小数符就是'.'，则查找'.'
+        if (decIdx < 0) {
+            decIdx = input.lastIndexOf(QLatin1Char('.'));
+        }
+        if (decIdx >= 0) {
+            hasDecimalPoint = true;
+            fractional = input.mid(decIdx + 1);
+            integerPart = input.left(decIdx);
+        }
+        // 仅清理整数部分中可能已存在的分组符号（'.'、','、全角'，'、空格、系统分组符），小数部分完全保持原样
+        const QChar fullWidthComma(0xFF0C);
+        if (!grpSym.isEmpty())
+            integerPart.remove(grpSym);
+        integerPart.remove(QLatin1Char('.'));
+        integerPart.remove(QLatin1Char(','));
+        integerPart.remove(fullWidthComma);
+        integerPart.remove(QLatin1Char(' '));
+    }
+    
     QString groupedInteger = integerPart;
     if (groupingEnabled && !grpSym.isEmpty() && separate > 0 && integerPart.length() > separate) {
         for (int i = groupedInteger.length() - separate; i > 0; i -= separate) {
