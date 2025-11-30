@@ -9,7 +9,7 @@
 #include <DPalette>
 
 #include "dthememanager.h"
-#include "../3rdparty/core/settings.h"
+#include "../../3rdparty/core/settings.h"
 
 const int KEYPAD_HEIGHT = 316; //键盘界面高度
 const int KEYPAD_SPACING = 3; //键盘按键间距,按钮比ui大2pix,此处小2pix

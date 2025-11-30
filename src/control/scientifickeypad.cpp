@@ -11,7 +11,7 @@
 #include <DGuiApplicationHelper>
 
 #include "dthememanager.h"
-#include "../3rdparty/core/settings.h"
+#include "../../3rdparty/core/settings.h"
 
 const int KEYPADHEIGHT = 350; //整体键盘的高度
 const QSize BUTTON_SIZE = QSize(69, 46); //科学模式的固定大小
