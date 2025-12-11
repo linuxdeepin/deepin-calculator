@@ -1,3 +1,11 @@
+deepin-calculator (6.5.31) unstable; urgency=medium
+
+  * chore: Update version to 6.5.31
+  * chore: Adapt dbus for linglong
+  * fix: wrong include paths (#186)
+
+ -- zhanghongyuan <zhanghongyuan@uniontech.com>  Thu, 11 Dec 2025 18:49:45 +0800
+
 deepin-calculator (6.5.30) unstable; urgency=medium
 
   * Update version to 6.5.30. 
