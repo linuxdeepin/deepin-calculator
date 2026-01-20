@@ -228,15 +228,15 @@
     </message>
     <message>
         <source>Programmer mode offers binary, octal, decimal and hexadecimal calculations</source>
-        <translation type="unfinished"/>
+        <translation>Programmierer-Modus ermöglicht Berechnungen im binären, oktalen, dezimalen und hexadezimalen Zahlensystem</translation>
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation type="unfinished"/>
+        <translation>Chronik-Modus zeigt alle vorherigen Berechnungen und Ergebnisse</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation type="unfinished"/>
+        <translation>Speicher-Modus ermöglicht das Abspeichern und Aufrufen von Rechenergebnissen</translation>
     </message>
 </context>
 <context>
