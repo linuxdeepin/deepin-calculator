@@ -130,15 +130,15 @@
     </message>
     <message>
         <source>Clear memory item</source>
-        <translation>Speicherelement löschen</translation>
+        <translation>Gespeichertes löschen</translation>
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Zu Speicherelement hinzufügen</translation>
+        <translation>Zu Gespeichertem hinzufügen</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Von Speicherelement subtrahieren</translation>
+        <translation>Vom Gespeicherten subtrahieren</translation>
     </message>
 </context>
 <context>
