@@ -2181,7 +2181,7 @@ Quantity Evaluator::exec(const QVector<Opcode> &opcodes,
             default:
                 val2 = Quantity(1);
             }
-            val1 = checkOperatorResult(val2 * (val1 * HNumber("0.01")));
+            val1 = checkOperatorResult(/*val2 * */(val1 * HNumber("0.01"))); // 10%的计算不应该依赖其之前的数值，用户期望：10%+10%=0.2
             m_standardPercent = val1;
             stack.push(val1);
             break;
