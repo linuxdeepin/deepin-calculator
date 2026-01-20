@@ -99,23 +99,23 @@
     </message>
     <message>
         <source>Add to memory item</source>
-        <translation>Zu Speicherelement hinzufügen</translation>
+        <translation>Zum Gespeicherten hinzufügen</translation>
     </message>
     <message>
         <source>Memory add</source>
-        <translation>Speicher hinzufügen</translation>
+        <translation>Gespeichertes hinzufügen</translation>
     </message>
     <message>
         <source>Subtract from memory item</source>
-        <translation>Von Speicherelement subtrahieren</translation>
+        <translation>Vom Gespeicherten subtrahieren</translation>
     </message>
     <message>
         <source>Memory subtract</source>
-        <translation>Speicher subtrahieren</translation>
+        <translation>Gespeichertes subtrahieren</translation>
     </message>
     <message>
         <source>Memory store</source>
-        <translation>Speicher speichern</translation>
+        <translation>Speicher abspeichern</translation>
     </message>
     <message>
         <source>Memory</source>
@@ -145,7 +145,7 @@
     <name>MemoryWidget</name>
     <message>
         <source>Nothing saved in memory</source>
-        <translation>Nichts im Speicher gespeichert</translation>
+        <translation>Nichts im Speicher abgespeichert</translation>
     </message>
 </context>
 <context>
@@ -232,11 +232,11 @@
     </message>
     <message>
         <source>History view shows all previous calculations and their results</source>
-        <translation>Chronik-Modus zeigt alle vorherigen Berechnungen und Ergebnisse</translation>
+        <translation>Verlaufs-Modus zeigt alle vorherigen Berechnungen und Ergebnisse</translation>
     </message>
     <message>
         <source>Memory functions allow you to store and recall calculation results</source>
-        <translation>Speicher-Modus ermöglicht das Abspeichern und Aufrufen von Rechenergebnissen</translation>
+        <translation>Speicher-Funktion ermöglicht das Abspeichern und Aufrufen von Rechenergebnissen</translation>
     </message>
 </context>
 <context>
