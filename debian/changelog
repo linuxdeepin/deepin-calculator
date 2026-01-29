@@ -1,3 +1,9 @@
+deepin-calculator (6.5.33) unstable; urgency=medium
+
+  * fix: Fix build fail for invalid compiler flags
+
+ -- wangrong <wangrong@uniontech.com>  Thu, 29 Jan 2026 09:21:04 +0800
+
 deepin-calculator (6.5.32) unstable; urgency=medium
 
   * chore: Update compiler flags for security enhancements
