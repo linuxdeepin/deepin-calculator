@@ -542,12 +542,14 @@ void InputEdit::handleTextChanged(const QString &text)
 
     multipleArithmetic(reformatStr);
     qInfo() << "After multipleArithmetic=" << reformatStr;
-    // 过滤非法字符：仅保留数字、字母、常用运算符、括号、百分号以及系统定义的小数点/分组符
+    // 过滤非法字符：仅保留数字、英文字母、常用运算符、括号、百分号以及系统定义的小数点/分组符
+    // 注意：不能使用 ch.isLetter()，因为它会匹配中文字符
     const QString allowedStatic = QString::fromUtf8("＋－×÷.,%()/:^!");
     QString filtered;
     filtered.reserve(reformatStr.size());
     for (const QChar &ch : std::as_const(reformatStr)) {
-        if (ch.isDigit() || ch.isLetter() || allowedStatic.contains(ch) || decSym.contains(ch) || grpSym.contains(ch)) {
+        bool isEnglishLetter = (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z');
+        if (ch.isDigit() || isEnglishLetter || allowedStatic.contains(ch) || decSym.contains(ch) || grpSym.contains(ch)) {
             filtered.append(ch);
         }
     }
