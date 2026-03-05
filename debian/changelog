@@ -1,3 +1,9 @@
+deepin-calculator (6.5.34) unstable; urgency=medium
+
+  * chore: Unify linglong.yaml
+
+ -- wangrong <wangrong@uniontech.com>  Thu, 05 Mar 2026 19:18:34 +0800
+
 deepin-calculator (6.5.33) unstable; urgency=medium
 
   * fix: Fix build fail for invalid compiler flags
