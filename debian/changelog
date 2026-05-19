@@ -1,3 +1,12 @@
+deepin-calculator (6.5.35) unstable; urgency=medium
+
+  * [skip CI] Translate deepin-calculator.ts in ru (#197)
+  * fix: Calculators prohibit input of Chinese text.
+  * chore: Automatically translate updated .desktop files
+  * chore(CI): add debian check workflow
+
+ -- Wang Yu <wangyu@uniontech.com>  Tue, 19 May 2026 21:09:47 +0800
+
 deepin-calculator (6.5.34) unstable; urgency=medium
 
   * chore: Unify linglong.yaml
