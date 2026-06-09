@@ -974,6 +974,11 @@ void FunctionRepo::createFunctions()
     FUNCTION_INSERT(ieee754_quad_encode);
 }
 
+Function::Function()
+    : m_error(Success)
+{
+}
+
 FunctionRepo *FunctionRepo::instance()
 {
     if (!s_FunctionRepoInstance) {

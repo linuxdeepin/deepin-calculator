@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include "qt6_compat.h"
 #include "ut_memorypublic.h"
 
 #include "../../src/memorypublic.h"
@@ -86,10 +87,10 @@ TEST_F(Ut_MemoryPublic, setThemeType)
     MemoryPublic *m_memoryPublic = MemoryPublic::instance();
     MemoryWidget *memorywidget = m_memoryPublic->getwidget(MemoryPublic::memorymode::scientificright);
     m_memoryPublic->m_list.clear();
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_memoryPublic->setThemeType(0);
     EXPECT_EQ(memorywidget->m_clearbutton->m_currentUrl, ":/assets/images/light/empty_normal.svg");
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_memoryPublic->setThemeType(0);
     EXPECT_EQ(memorywidget->m_clearbutton->m_currentUrl, ":/assets/images/dark/empty_normal.svg");
 }

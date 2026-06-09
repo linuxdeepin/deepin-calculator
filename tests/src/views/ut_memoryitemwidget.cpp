@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include "qt6_compat.h"
 #include "ut_memoryitemwidget.h"
 #include "../../src/views/memoryitemwidget.h"
 #include "../../src/dsettings.h"
@@ -27,7 +28,7 @@ TEST_F(Ut_MemoryItemWidget, connects)
 TEST_F(Ut_MemoryItemWidget, enterEvent)
 {
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
-    QEvent *e = new QEvent(QEvent::Type::MouseMove);
+    QEnterEvent *e = createEnterEvent();
     m_memoryItemWidget->enterEvent(e);
     EXPECT_TRUE(m_memoryItemWidget->m_ishover);
     EXPECT_FALSE(m_memoryItemWidget->m_btnplus->isHidden());
@@ -52,7 +53,7 @@ TEST_F(Ut_MemoryItemWidget, leaveEvent)
 
 TEST_F(Ut_MemoryItemWidget, mousePressEvent)
 {
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
     QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
                                      m_memoryItemWidget->pos(), Qt::MouseButton::RightButton,
@@ -70,7 +71,7 @@ TEST_F(Ut_MemoryItemWidget, mousePressEvent)
 
 TEST_F(Ut_MemoryItemWidget, mouseReleaseEvent)
 {
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
     QMouseEvent *m = new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
                                      m_memoryItemWidget->pos(), Qt::MouseButton::LeftButton,
@@ -126,13 +127,13 @@ TEST_F(Ut_MemoryItemWidget, paintEvent)
 {
     MemoryItemWidget *m_memoryItemWidget = new MemoryItemWidget;
     QPaintEvent *event = new QPaintEvent(m_memoryItemWidget->rect());
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::UnknownType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_memoryItemWidget->m_ishover = true;
     m_memoryItemWidget->m_ispress = true;
     m_memoryItemWidget->paintEvent(event);
     m_memoryItemWidget->update();
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_memoryItemWidget->paintEvent(event);
     delete event;
     //paintevent无assert

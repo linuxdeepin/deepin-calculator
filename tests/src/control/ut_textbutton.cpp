@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include "qt6_compat.h"
 #include "ut_textbutton.h"
 #include "../../src/control/textbutton.h"
 
@@ -72,7 +73,7 @@ TEST_F(Ut_TextButton, mouseReleaseEvent)
 TEST_F(Ut_TextButton, enterEvent)
 {
     TextButton *m_textbutton = new TextButton;
-    QEvent *e = new QEvent(QEvent::Type::Enter);
+    QEnterEvent *e = createEnterEvent();
     m_textbutton->setText("Rand");
     m_textbutton->enterEvent(e);
     EXPECT_EQ(m_textbutton->m_font.pixelSize(), 17);
@@ -113,7 +114,7 @@ TEST_F(Ut_TextButton, enterEvent)
 TEST_F(Ut_TextButton, leaveEvent)
 {
     TextButton *m_textbutton = new TextButton;
-    QEvent *e = new QEvent(QEvent::Type::Leave);
+    QEvent *e = createLeaveEvent();
     m_textbutton->setText("Rand");
     m_textbutton->leaveEvent(e);
     EXPECT_EQ(m_textbutton->m_font.pixelSize(), 15);
@@ -160,12 +161,12 @@ TEST_F(Ut_TextButton, paintEvent)
 {
     TextButton *m_textbutton = new TextButton("1");
     QPaintEvent *event = new QPaintEvent(m_textbutton->rect());
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_textbutton->m_isHover = true;
     m_textbutton->m_isPress = false;
     m_textbutton->paintEvent(event);
     m_textbutton->update();
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_textbutton->m_isHover = false;
     m_textbutton->m_isPress = true;
     m_textbutton->paintEvent(event);

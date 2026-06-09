@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include "qt6_compat.h"
 #include "ut_mainwindow.h"
 
 #include "../../src/mainwindow.h"
@@ -17,11 +18,11 @@ TestCala::TestCala()
 TEST_F(TestCala, initTheme)
 {
     MainWindow *m_mainwindow = new MainWindow;
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::UnknownType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_mainwindow->initTheme();
     EXPECT_EQ(m_mainwindow->titlebar()->palette().color(DPalette::Light), QColor(240, 240, 240));
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_mainwindow->initTheme();
     QColor color(0, 0, 0);
     color.setAlphaF(0.1);

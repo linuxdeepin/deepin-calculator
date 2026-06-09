@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -87,7 +87,7 @@ TEST_F(Ut_ProListDelegate, paintnofocus)
     Stub stub;
     stub.set(ADDR(ProListView, hasFocus), stub_focus_prolistdelegateF);
     QStyleOptionViewItem option;
-    option.init(m_prolistview1);
+    option.initFrom(m_prolistview1);
     Stub stub1;
     stub1.set(ADDR(ProListView, currentIndex), stub_index_prolistdelegate3);
     m_proListDelegate1->m_themeType = 0;

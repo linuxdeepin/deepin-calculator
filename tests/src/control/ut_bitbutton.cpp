@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include "qt6_compat.h"
 #include "ut_bitbutton.h"
 #include "../../src/control/bitbutton.h"
 
@@ -71,7 +72,7 @@ TEST_F(Ut_BitButton, mouseReleaseEvent)
 TEST_F(Ut_BitButton, enterEvent)
 {
     BitButton *m_bitbutton = new BitButton;
-    QEvent *q = new QEvent(QEvent::Type::Enter);
+    QEnterEvent *q = createEnterEvent();
 
     m_bitbutton->enterEvent(q);
     delete q;
@@ -82,7 +83,7 @@ TEST_F(Ut_BitButton, enterEvent)
 TEST_F(Ut_BitButton, leaveEvent)
 {
     BitButton *m_bitbutton = new BitButton;
-    QEvent *q = new QEvent(QEvent::Type::Leave);
+    QEvent *q = createLeaveEvent();
 
     m_bitbutton->leaveEvent(q);
     delete q;
@@ -129,13 +130,13 @@ TEST_F(Ut_BitButton, paintEvent)
 {
     BitButton *m_bitbutton = new BitButton;
     QPaintEvent *event = new QPaintEvent(m_bitbutton->rect());
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::UnknownType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_bitbutton->m_isHover = true;
     m_bitbutton->m_isPress = true;
     m_bitbutton->paintEvent(event);
     m_bitbutton->update();
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_bitbutton->paintEvent(event);
     delete event;
     //paintevent,无ASSERT

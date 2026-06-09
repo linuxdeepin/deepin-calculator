@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -153,7 +153,7 @@ TEST_F(Ut_SimpleListDelegate, paintnofocus)
     Stub stub;
     stub.set(ADDR(SimpleListView, hasFocus), stub_focus_simpledelegateF);
     QStyleOptionViewItem option;
-    option.init(m_simplelistview);
+    option.initFrom(m_simplelistview);
     QWidget wid;
     wid.setFixedWidth(10);
     option.widget = &wid;
@@ -180,7 +180,7 @@ TEST_F(Ut_SimpleListDelegate, paint1nofocus)
     Stub stub;
     stub.set(ADDR(SimpleListView, hasFocus), stub_focus_simpledelegateF);
     QStyleOptionViewItem option;
-    option.init(m_simplelistview);
+    option.initFrom(m_simplelistview);
     QWidget wid;
     wid.setFixedWidth(10);
     option.widget = &wid;

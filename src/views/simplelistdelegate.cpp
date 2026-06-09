@@ -433,6 +433,11 @@ QSize SimpleListDelegate::sizeHint(const QStyleOptionViewItem &option,
 void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString &expStr)
 {
     QString exp = text;
+    if (exp.isEmpty()) {
+        linkNum = "";
+        expStr = "";
+        return;
+    }
     QStringList list;
 #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     list = exp.split(QRegExp("[＋－×÷/()]"), QString::SkipEmptyParts);
@@ -446,22 +451,29 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
     }
     if (exp.at(0) != QChar(QStringLiteral("－").at(0))) {
         int index = 0;
-        while (exp.at(index) == QChar('(')) {
+        while (index < exp.size() && exp.at(index) == QChar('(')) {
             ++index;
             linkNum.append("(");
-            if (exp.at(index) == QChar(QStringLiteral("－").at(0)))
+            if (index < exp.size() && exp.at(index) == QChar(QStringLiteral("－").at(0))) {
                 linkNum.append("－");
+            }
         }
         linkNum.append(list.at(0));
     } else {
         linkNum.append("－");
-        if (exp.at(1) == QChar('('))
+        if (exp.size() > 1 && exp.at(1) == QChar('('))
             linkNum.append("(");
         linkNum.append(list.at(0));
     }
-    if (linkNum.at(linkNum.size() - 1) == QChar('E'))
-        linkNum = linkNum + exp.at(exp.indexOf("E") + 1) + list.at(1);
-    expStr = text.right(text.length() - linkNum.length());
+    if (linkNum.at(linkNum.size() - 1) == QChar('E')) {
+        int eIdx = exp.indexOf("E");
+        if (eIdx >= 0 && eIdx + 1 < exp.size() && list.size() > 1)
+            linkNum = linkNum + exp.at(eIdx + 1) + list.at(1);
+    }
+    if (text.length() >= linkNum.length())
+        expStr = text.right(text.length() - linkNum.length());
+    else
+        expStr = "";
 }
 
 /**

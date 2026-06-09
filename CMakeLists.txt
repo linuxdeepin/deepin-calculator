@@ -181,15 +181,16 @@ install(FILES ${CMAKE_CURRENT_LIST_DIR}/src/assets/images/deepin-calculator.svg
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src/assets/deepin-calculator
                 DESTINATION ${CMAKE_INSTALL_DATADIR}/deepin-manual/manual-assets/application/)
 
-#if (NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "loongarch64")
-# 禁用测试
-# if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-# option (BUILD_TESTING "" ON)
-# if (BUILD_TESTING)
-# add_subdirectory(tests)  #tests为ut测试文件夹名
-# endif ()
-# endif ()
-#endif ()
+# 启用单元测试 (Debug 模式下)
+if (NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "loongarch64")
+  if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    option (BUILD_TESTING "" ON)
+    if (BUILD_TESTING)
+      enable_testing()
+      add_subdirectory(tests)  # tests 为 ut 测试文件夹名
+    endif ()
+  endif ()
+endif ()
 
 #代码覆盖率开关
 if(CMAKE_COVERAGE_ARG STREQUAL "CMAKE_COVERAGE_ARG_ON")

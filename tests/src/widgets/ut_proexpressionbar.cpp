@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -502,8 +502,7 @@ TEST_F(Ut_ProexpressionBar, selectedPartDelete)
     select1.selected = "1an";
     m_proexpressionBar->m_inputEdit->setSelection(select1);
     QString sRegNum = "[a-z]";
-    QRegExp rx;
-    rx.setPattern(sRegNum);
+    QRegularExpression rx(sRegNum);
     m_proexpressionBar->selectedPartDelete(rx);
     EXPECT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "1,122");
 

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -120,11 +120,11 @@ TEST_F(Ut_ExpressionBar, enterEqualEvent)
     m_expressionBar->findChild<InputEdit *>()->setText("1＋");
     historicalLinkageIndex his;
     his.linkageTerm = 0;
-    his.linkageValue = 3;
+    his.linkageValue = QString::number(3);
     his.linkedItem = 1;
     m_expressionBar->m_hisLink.append(his);
     his.linkageTerm = 1;
-    his.linkageValue = 3;
+    his.linkageValue = QString::number(3);
     his.linkedItem = 2;
     m_expressionBar->m_hisLink.append(his);
     m_expressionBar->m_hisRevision = -1;
@@ -292,13 +292,13 @@ TEST_F(Ut_ExpressionBar, clearLinkageCache)
     ExpressionBar *m_expressionBar = new ExpressionBar;
     historicalLinkageIndex his;
     his.linkageTerm = 0;
-    his.linkageValue = 3;
+    his.linkageValue = QString::number(3);
     his.linkedItem = 1;
     m_expressionBar->m_hisLink.append(his);
     m_expressionBar->clearLinkageCache("1＋2＝3", true);
     historicalLinkageIndex his1;
     his1.linkageTerm = 0;
-    his1.linkageValue = 3;
+    his1.linkageValue = QString::number(3);
     his1.linkedItem = 1;
     m_expressionBar->m_hisLink.append(his1);
     m_expressionBar->m_hisLink.last().linkedItem = -1;
@@ -313,7 +313,7 @@ TEST_F(Ut_ExpressionBar, settingLinkage)
     ExpressionBar *m_expressionBar = new ExpressionBar;
     historicalLinkageIndex his;
     his.linkageTerm = 0;
-    his.linkageValue = 3;
+    his.linkageValue = QString::number(3);
     his.linkedItem = 1;
     m_expressionBar->m_hisLink.append(his);
     m_expressionBar->m_hisRevision = 0;
@@ -321,7 +321,7 @@ TEST_F(Ut_ExpressionBar, settingLinkage)
     EXPECT_EQ(m_expressionBar->m_hisLink.count(), 1);
     m_expressionBar->m_hisLink.clear();
     his.linkageTerm = 1;
-    his.linkageValue = 3;
+    his.linkageValue = QString::number(3);
     his.linkedItem = 0;
     m_expressionBar->m_hisLink.append(his);
     m_expressionBar->m_hisRevision = 0;
@@ -364,7 +364,7 @@ TEST_F(Ut_ExpressionBar, cancelLink)
     m_expressionBar->findChild<InputEdit *>()->setText("1＋2");
     historicalLinkageIndex his;
     his.linkageTerm = 0;
-    his.linkageValue = 3;
+    his.linkageValue = QString::number(3);
     his.linkedItem = 1;
     m_expressionBar->m_hisLink.append(his);
     m_expressionBar->m_hisRevision = 1;

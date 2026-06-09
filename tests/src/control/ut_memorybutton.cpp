@@ -1,9 +1,10 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "ut_memorybutton.h"
 #include "../../src/control/memorybutton.h"
+#include "qt6_compat.h"
 
 Ut_MemoryButton::Ut_MemoryButton()
 {
@@ -132,7 +133,7 @@ TEST_F(Ut_MemoryButton, mouseReleaseEvent)
 TEST_F(Ut_MemoryButton, enterEvent)
 {
     MemoryButton *m_memorybutton = new MemoryButton;
-    QEvent *q = new QEvent(QEvent::Type::Enter);
+    QEnterEvent *q = createEnterEvent();
     m_memorybutton->enterEvent(q);
     EXPECT_TRUE(m_memorybutton->m_isHover);
     EXPECT_EQ(m_memorybutton->m_font.pixelSize(), 17);
@@ -143,7 +144,7 @@ TEST_F(Ut_MemoryButton, enterEvent)
 TEST_F(Ut_MemoryButton, leaveEvent)
 {
     MemoryButton *m_memorybutton = new MemoryButton;
-    QEvent *q = new QEvent(QEvent::Type::Leave);
+    QEvent *q = createLeaveEvent();
     m_memorybutton->leaveEvent(q);
     EXPECT_FALSE(m_memorybutton->m_isHover);
     EXPECT_EQ(m_memorybutton->m_font.pixelSize(), 16);
@@ -170,14 +171,14 @@ TEST_F(Ut_MemoryButton, paintEvent)
 {
     MemoryButton *m_memorybutton = new MemoryButton;
     QPaintEvent *event = new QPaintEvent(m_memorybutton->rect());
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_memorybutton->setText("MH˅");
     m_memorybutton->setEnabled(true);
     m_memorybutton->m_isHover = true;
     m_memorybutton->m_isPress = false;
     m_memorybutton->paintEvent(event);
     m_memorybutton->update();
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_memorybutton->setEnabled(false);
     m_memorybutton->m_isHover = false;
     m_memorybutton->m_isPress = false;
@@ -210,14 +211,14 @@ TEST_F(Ut_MemoryButton, paintEvent2)
 {
     MemoryButton *m_memorybutton = new MemoryButton;
     QPaintEvent *event = new QPaintEvent(m_memorybutton->rect());
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_memorybutton->setText("MH˄");
     m_memorybutton->setEnabled(true);
     m_memorybutton->m_isHover = true;
     m_memorybutton->m_isPress = false;
     m_memorybutton->paintEvent(event);
     m_memorybutton->update();
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_memorybutton->setEnabled(false);
     m_memorybutton->m_isHover = false;
     m_memorybutton->m_isPress = false;
@@ -250,13 +251,13 @@ TEST_F(Ut_MemoryButton, paintEvent3)
 {
     MemoryButton *m_memorybutton = new MemoryButton(QString("M+"), true);
     QPaintEvent *event = new QPaintEvent(m_memorybutton->rect());
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_memorybutton->setEnabled(true);
     m_memorybutton->m_isHover = true;
     m_memorybutton->m_isPress = false;
     m_memorybutton->paintEvent(event);
     m_memorybutton->update();
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_memorybutton->setEnabled(false);
     m_memorybutton->m_isHover = false;
     m_memorybutton->m_isPress = false;

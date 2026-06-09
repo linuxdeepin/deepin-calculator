@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include "qt6_compat.h"
 #include "ut_programmeritemwidget.h"
 #include "../../src/views/programmeritemwidget.h"
 #include "../../src/dsettings.h"
@@ -16,7 +17,7 @@ Ut_ProgrammerItemWidget::Ut_ProgrammerItemWidget()
 TEST_F(Ut_ProgrammerItemWidget, enterEvent)
 {
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
-    QEvent *e = new QEvent(QEvent::Type::MouseMove);
+    QEnterEvent *e = createEnterEvent();
     m_programmerItemWidget->enterEvent(e);
     EXPECT_TRUE(m_programmerItemWidget->m_ishover);
     delete e;
@@ -26,7 +27,7 @@ TEST_F(Ut_ProgrammerItemWidget, enterEvent)
 TEST_F(Ut_ProgrammerItemWidget, leaveEvent)
 {
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
-    QEvent *e = new QEvent(QEvent::Type::MouseMove);
+    QEvent *e = createLeaveEvent();
     m_programmerItemWidget->leaveEvent(e);
     EXPECT_FALSE(m_programmerItemWidget->m_ishover);
     delete e;
@@ -100,44 +101,44 @@ TEST_F(Ut_ProgrammerItemWidget, initMark)
 TEST_F(Ut_ProgrammerItemWidget, themetypechanged)
 {
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_programmerItemWidget->themetypechanged(2);
     EXPECT_EQ(m_programmerItemWidget->m_label->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Text).name(),
               "#ffffff");
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_programmerItemWidget->themetypechanged(1);
     EXPECT_EQ(m_programmerItemWidget->m_label->palette().color(QPalette::ColorGroup::Active, QPalette::ColorRole::Text).name(),
               "#000000");
 
     ProgrammerItemWidget *m_programmerItemWidget1 = new ProgrammerItemWidget("Circular shift", 50, ":/assets/images/dark/icon_as_normal.svg");
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_programmerItemWidget1->themetypechanged(2);
     EXPECT_EQ(m_programmerItemWidget1->m_normalUrl, ":/assets/images/dark/icon_ro_normal.svg");
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_programmerItemWidget1->themetypechanged(1);
     EXPECT_EQ(m_programmerItemWidget1->m_normalUrl, ":/assets/images/light/icon_ro_normal.svg");
 
     ProgrammerItemWidget *m_programmerItemWidget2 = new ProgrammerItemWidget("Arithmetic shift", 50, ":/assets/images/dark/icon_as_normal.svg");
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_programmerItemWidget2->themetypechanged(2);
     EXPECT_EQ(m_programmerItemWidget2->m_normalUrl, ":/assets/images/dark/icon_as_normal.svg");
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_programmerItemWidget2->themetypechanged(1);
     EXPECT_EQ(m_programmerItemWidget2->m_normalUrl, ":/assets/images/light/icon_as_normal.svg");
 
     ProgrammerItemWidget *m_programmerItemWidget3 = new ProgrammerItemWidget("Logical shift", 50, ":/assets/images/dark/icon_as_normal.svg");
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_programmerItemWidget3->themetypechanged(2);
     EXPECT_EQ(m_programmerItemWidget3->m_normalUrl, ":/assets/images/dark/icon_ls_normal.svg");
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_programmerItemWidget3->themetypechanged(1);
     EXPECT_EQ(m_programmerItemWidget3->m_normalUrl, ":/assets/images/light/icon_ls_normal.svg");
 
     ProgrammerItemWidget *m_programmerItemWidget4 = new ProgrammerItemWidget("Rotate through carry circular shift", 50, ":/assets/images/dark/icon_as_normal.svg");
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_programmerItemWidget4->themetypechanged(2);
     EXPECT_EQ(m_programmerItemWidget4->m_normalUrl, ":/assets/images/dark/icon_rc_normal.svg");
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_programmerItemWidget4->themetypechanged(1);
     EXPECT_EQ(m_programmerItemWidget4->m_normalUrl, ":/assets/images/light/icon_rc_normal.svg");
 
@@ -160,14 +161,14 @@ TEST_F(Ut_ProgrammerItemWidget, paintEvent)
 {
     ProgrammerItemWidget *m_programmerItemWidget = new ProgrammerItemWidget("WORD");
     QPaintEvent *event = new QPaintEvent(m_programmerItemWidget->rect());
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::UnknownType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_programmerItemWidget->m_ispress = true;
     m_programmerItemWidget->m_ishover = false;
     m_programmerItemWidget->paintEvent(event);
     m_programmerItemWidget->update();
     ProgrammerItemWidget *m_programmerItemWidget1 = new ProgrammerItemWidget("Circular shift", 50, ":/assets/images/dark/icon_as_normal.svg");
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_programmerItemWidget1->m_isMarkHide = false;
     m_programmerItemWidget1->m_isshift = true;
     m_programmerItemWidget1->m_ispress = false;

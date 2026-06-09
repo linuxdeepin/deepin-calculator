@@ -1,9 +1,10 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "ut_iconbutton.h"
 #include "../../src/control/iconbutton.h"
+#include "qt6_compat.h"
 
 Ut_IconButton::Ut_IconButton()
 {
@@ -126,7 +127,7 @@ TEST_F(Ut_IconButton, enterEvent)
 {
     IconButton *m_iconButton = new IconButton;
     m_iconButton->setIconUrl("a", "b", "c", 1);
-    QEvent *e = new QEvent(QEvent::Type::Enter);
+    QEnterEvent *e = createEnterEvent();
     m_iconButton->enterEvent(e);
     EXPECT_TRUE(m_iconButton->m_isHover);
     EXPECT_EQ(m_iconButton->m_buttonStatus, 1);
@@ -139,7 +140,7 @@ TEST_F(Ut_IconButton, leaveEvent)
 {
     IconButton *m_iconButton = new IconButton;
     m_iconButton->setIconUrl("a", "b", "c", 1);
-    QEvent *e = new QEvent(QEvent::Type::Leave);
+    QEvent *e = createLeaveEvent();
     m_iconButton->leaveEvent(e);
     EXPECT_FALSE(m_iconButton->m_isHover);
     EXPECT_EQ(m_iconButton->m_buttonStatus, 0);
@@ -158,14 +159,14 @@ TEST_F(Ut_IconButton, paintEvent)
 {
     IconButton *m_iconButton = new IconButton;
     QPaintEvent *event = new QPaintEvent(m_iconButton->rect());
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::UnknownType);
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::UnknownType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_iconButton->m_isHover = true;
     m_iconButton->m_isPress = false;
     m_iconButton->m_isEmptyBtn = false;
     m_iconButton->paintEvent(event);
     m_iconButton->update();
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_iconButton->m_isHover = false;
     m_iconButton->m_isPress = true;
     m_iconButton->m_isEmptyBtn = false;
@@ -210,7 +211,7 @@ TEST_F(Ut_IconButton, paintEvent)
     m_iconButton->m_isPress = false;
     m_iconButton->paintEvent(event);
     m_iconButton->update();
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_iconButton->m_isHover = false;
     m_iconButton->m_isPress = true;
     m_iconButton->m_isEmptyBtn = false;

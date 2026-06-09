@@ -680,7 +680,9 @@ void ProExpressionBar::enterOppositeEvent()
     rx1.setPattern(sRegNum1);
     rx2.setPattern(sRegNum2);
     QRegularExpressionMatch match1 = rx1.match(exp.at(curPos - 1));
-    QRegularExpressionMatch match2 = rx2.match(exp.at(curPos - 2));
+    QRegularExpressionMatch match2;
+    if (curPos >= 2)
+        match2 = rx2.match(exp.at(curPos - 2));
     if (match1.hasMatch())
         return;
     else if (exp.at(curPos - 1) == QChar('0') && (curPos <= 1 || !match2.hasMatch())) {

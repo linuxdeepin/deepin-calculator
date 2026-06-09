@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -49,7 +49,8 @@ TEST_F(Ut_SimpleListModel, updataList1)
     m_simpleListModel->updataList("2", 500, true);
     m_simpleListModel->updataList("3", 500, false);
     m_simpleListModel->updataList("3x3", 500, false);
-    EXPECT_EQ(m_simpleListModel->m_expressionList.count(), 500);
+    // sci=true: delete(499)+insert=500; sci=false: delete(0)+replace=499; sci=false: replace=499
+    EXPECT_EQ(m_simpleListModel->m_expressionList.count(), 499);
 }
 
 TEST_F(Ut_SimpleListModel, updataList2)

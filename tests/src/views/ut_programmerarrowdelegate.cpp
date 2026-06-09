@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include "qt6_compat.h"
 #include "ut_programmerarrowdelegate.h"
 
 #include "../../src/views/programmeritemwidget.h"
@@ -54,9 +55,9 @@ TEST_F(Ut_ProgrammerArrowDelegate, paint)
     stub.set(ADDR(MemoryListWidget, hasFocus), stub_focus_proarrowdelegateF);
 //    Stub stub1;
 //    stub1.set(ADDR(MemoryListWidget, rect), stub_rect_memdelegate);
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_memoryItemDelegate->paint(painter, option, index);
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_memoryItemDelegate->paint(painter, option, index);
     delete painter;
     //paint函数，无assert

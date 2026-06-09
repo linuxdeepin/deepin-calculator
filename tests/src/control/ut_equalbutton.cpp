@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include "qt6_compat.h"
 #include "ut_equalbutton.h"
 #include "../../src/control/equalbutton.h"
 
@@ -50,7 +51,7 @@ TEST_F(Ut_EqualButton, mouseReleaseEvent)
 TEST_F(Ut_EqualButton, enterEvent)
 {
     EqualButton *m_equalButton = new EqualButton;
-    QEvent *e = new QEvent(QEvent::Type::Enter);
+    QEnterEvent *e = createEnterEvent();
     m_equalButton->enterEvent(e);
     delete e;
     EXPECT_TRUE(m_equalButton->m_isHover);
@@ -60,7 +61,7 @@ TEST_F(Ut_EqualButton, enterEvent)
 TEST_F(Ut_EqualButton, leaveEvent)
 {
     EqualButton *m_equalButton = new EqualButton;
-    QEvent *e = new QEvent(QEvent::Type::Leave);
+    QEvent *e = createLeaveEvent();
     m_equalButton->leaveEvent(e);
     delete e;
     EXPECT_FALSE(m_equalButton->m_isHover);
@@ -76,13 +77,13 @@ TEST_F(Ut_EqualButton, paintEvent)
 {
     EqualButton *m_equalButton = new EqualButton();
     QPaintEvent *event = new QPaintEvent(m_equalButton->rect());
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::LightType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::LightType);
     m_equalButton->setEnabled(true);
     m_equalButton->m_isHover = true;
     m_equalButton->m_isPress = false;
     m_equalButton->paintEvent(event);
     m_equalButton->update();
-    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::ColorType::DarkType);
+    DTK_SET_THEME_TYPE(DGuiApplicationHelper::ColorType::DarkType);
     m_equalButton->paintEvent(event);
     m_equalButton->m_isHover = false;
     m_equalButton->m_isPress = true;

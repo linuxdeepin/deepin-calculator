@@ -144,14 +144,25 @@ void SimpleListModel::updataList(const QString &text, const int index, bool sci)
         appendText(exp, sci); //科学模式上方历史记录区
     } else {
         if (sci) {
-            beginInsertRows(QModelIndex(), index, index);
-            m_expressionList.insert(index, exp);
+            // 删除元素后列表缩小，确保插入位置不越界
+            int insertIdx = qMin(index, m_expressionList.count());
+            beginInsertRows(QModelIndex(), insertIdx, insertIdx);
+            m_expressionList.insert(insertIdx, exp);
             endInsertRows();
         } else {
-            beginRemoveRows(QModelIndex(), index, index);
-            m_expressionList.removeAt(index);
-            m_expressionList.insert(index, exp);
-            endRemoveRows();
+            if (m_expressionList.isEmpty()) {
+                // 列表为空时无法替换，直接追加
+                beginInsertRows(QModelIndex(), 0, 0);
+                m_expressionList << exp;
+                endInsertRows();
+            } else {
+                // 替换已有元素，确保索引在有效范围内
+                int replaceIdx = qMin(index, m_expressionList.count() - 1);
+                beginRemoveRows(QModelIndex(), replaceIdx, replaceIdx);
+                m_expressionList.removeAt(replaceIdx);
+                m_expressionList.insert(replaceIdx, exp);
+                endRemoveRows();
+            }
         }
     }
 }
@@ -173,8 +184,10 @@ void SimpleListModel::updataList(Quantity ans, const QString &text, const int in
           .replace(EN_MIN, CN_MIN)
           .replace(EN_MUL, CN_MUL);
 
-    beginInsertRows(QModelIndex(), index, index);
-    m_expressionList.insert(index, exp);
+    // 删除元素后列表缩小，确保插入位置不越界
+    int insertIdx = qMin(index, m_expressionList.count());
+    beginInsertRows(QModelIndex(), insertIdx, insertIdx);
+    m_expressionList.insert(insertIdx, exp);
     endInsertRows();
     m_answerlist.insert(0, ans);
 }
