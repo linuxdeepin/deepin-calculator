@@ -16,12 +16,19 @@
 const int LIST_HEIGHT = 35; //输入栏上方表达式的高度
 const int INPUTEDIT_HEIGHT = 55;
 
+enum ProgrammerBase {
+    BaseBin = 2,
+    BaseOct = 8,
+    BaseDec = 10,
+    BaseHex = 16
+};
+
 #define BASE_TAG(basetag) \
-    if (Settings::instance()->programmerBase == 16) \
+    if (Settings::instance()->programmerBase == BaseHex) \
         basetag = "0x"; \
-    else if (Settings::instance()->programmerBase == 8) \
+    else if (Settings::instance()->programmerBase == BaseOct) \
         basetag = "0o"; \
-    else if (Settings::instance()->programmerBase == 2) \
+    else if (Settings::instance()->programmerBase == BaseBin) \
         basetag = "0b"; \
 
 ProExpressionBar::ProExpressionBar(QWidget *parent)
@@ -157,7 +164,7 @@ void ProExpressionBar::enterNumberEvent(const QString &text)
     QString oldtext = m_inputEdit->text();
     int oldcurpos = m_inputEdit->cursorPosition();
     // 20200401 修改symbolFaultTolerance执行位置
-    if (isNumberOutOfRange(text)) {
+    if (isNumberOutOfRange(text) && Settings::instance()->programmerBase == BaseDec) {
         m_inputEdit->setText(oldtext);
         m_inputEdit->setCursorPosition(oldcurpos);
     } else {
@@ -167,6 +174,27 @@ void ProExpressionBar::enterNumberEvent(const QString &text)
         m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
         //    m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
         m_inputEdit->setCursorPosition(nowcur);
+        //截断非十进制模式下超proBitLength的输入
+        if (Settings::instance()->programmerBase != BaseDec) {
+            QString t = m_inputEdit->text().remove(" ").remove(",");
+            QString expr = InputEdit::formatExpression(Settings::instance()->programmerBase, t);
+            Quantity ans(HNumber(expr.toLatin1().data(), true));
+            if (!ans.isNan()) {
+                QString bin = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary() + Quantity::Format::NCut()).remove("0b");
+                if (bin.length() > Settings::instance()->proBitLength) {
+                    Quantity trunc(HNumber(("0b" + bin.right(Settings::instance()->proBitLength)).toLatin1().data(), true));
+                    int base = Settings::instance()->programmerBase;
+                    QString fmt = base == BaseHex ? DMath::format(trunc, Quantity::Format::Complement() + Quantity::Format::Hexadecimal()).remove("0x")
+                                : base == BaseOct ? DMath::format(trunc, Quantity::Format::Complement() + Quantity::Format::Precision(65) + Quantity::Format::Octal()).remove("0o")
+                                :              DMath::format(trunc, Quantity::Format::Complement() + Quantity::Format::Binary()).remove("0b");
+                    QSignalBlocker b(m_inputEdit);
+                    m_inputEdit->setText(fmt);
+                    if (nowcur > fmt.length())
+                        nowcur = fmt.length();
+                    m_inputEdit->setCursorPosition(nowcur);
+                }
+            }
+        }
     }
     addUndo();
     emit clearStateChanged(false);
@@ -358,7 +386,7 @@ void ProExpressionBar::enterEqualEvent()
         return;
     }
     QString expression = QString();
-    if (Settings::instance()->programmerBase == 8 || Settings::instance()->programmerBase == 16) {
+    if (Settings::instance()->programmerBase == BaseOct || Settings::instance()->programmerBase == BaseHex) {
         expression = InputEdit::formatExpression(2, m_inputEdit->scanAndExec(Settings::instance()->programmerBase, 2));
     } else {
         expression = InputEdit::formatExpression(Settings::instance()->programmerBase, m_inputEdit->text());
@@ -743,7 +771,7 @@ void ProExpressionBar::enterOppositeEvent()
         }
         if (exptext.count("(") == exptext.count(")")) {
             m_inputEdit->setCursorPosition(curPos - exptext.length());
-            if (Settings::instance()->programmerBase == 10) {
+            if (Settings::instance()->programmerBase == BaseDec) {
                 m_inputEdit->insert("(-");
                 int afterinsertpos = m_inputEdit->cursorPosition();
                 m_inputEdit->setCursorPosition(afterinsertpos + exptext.length());
@@ -1413,7 +1441,7 @@ bool ProExpressionBar::isNumberOutOfRange(const QString &text)
         if (ans.isNan())
             return true;
         num = DMath::format(ans, Quantity::Format::Complement() + Quantity::Format::Binary() + Quantity::Format::NCut()).remove("0b");
-        if (Settings::instance()->programmerBase == 10) {
+        if (Settings::instance()->programmerBase == BaseDec) {
             Quantity posans;
             Quantity negans;
             switch (Settings::instance()->proBitLength) {
