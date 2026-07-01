@@ -164,7 +164,7 @@ void ProExpressionBar::enterNumberEvent(const QString &text)
     QString oldtext = m_inputEdit->text();
     int oldcurpos = m_inputEdit->cursorPosition();
     // 20200401 修改symbolFaultTolerance执行位置
-    if (isNumberOutOfRange(text) && Settings::instance()->programmerBase == BaseDec) {
+    if (isNumberOutOfRange(text) && Settings::instance()->programmerBase != BaseBin) {
         m_inputEdit->setText(oldtext);
         m_inputEdit->setCursorPosition(oldcurpos);
     } else {
@@ -174,8 +174,8 @@ void ProExpressionBar::enterNumberEvent(const QString &text)
         m_inputEdit->setText(symbolFaultTolerance(m_inputEdit->text()));
         //    m_inputEdit->setText(pointFaultTolerance(m_inputEdit->text()));
         m_inputEdit->setCursorPosition(nowcur);
-        //截断非十进制模式下超proBitLength的输入
-        if (Settings::instance()->programmerBase != BaseDec) {
+        //二进制模式下截断超proBitLength的输入
+        if (Settings::instance()->programmerBase == BaseBin) {
             QString t = m_inputEdit->text().remove(" ").remove(",");
             QString expr = InputEdit::formatExpression(Settings::instance()->programmerBase, t);
             Quantity ans(HNumber(expr.toLatin1().data(), true));
