@@ -7,7 +7,7 @@ version: '1'
 package:
   id: org.deepin.calculator
   name: deepin-calculator
-  version: 6.5.35.1
+  version: 6.5.36.1
   kind: app
   description: |
     Calculator for UOS
@@ -16,7 +16,7 @@ command:
   - deepin-calculator
 
 base: org.deepin.base/25.2.2
-runtime: org.deepin.runtime.dtk/25.2.2
+runtime: org.deepin.runtime.dtk/6.7.0
 
 build: |
   # 下载和安装依赖

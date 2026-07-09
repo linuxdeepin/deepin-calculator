@@ -1,3 +1,11 @@
+deepin-calculator (6.5.36) unstable; urgency=medium
+
+  * chore: Update version to 6.5.36
+  * fix: DWORD binary mode blocks input beyond 32-bit limit
+  * fix: resolve Qt6 assertion crashes in unit tests
+
+ -- zhanghongyuan <zhanghongyuan@uniontech.com>  Thu, 09 Jul 2026 11:46:18 +0800
+
 deepin-calculator (6.5.35) unstable; urgency=medium
 
   * [skip CI] Translate deepin-calculator.ts in ru (#197)
