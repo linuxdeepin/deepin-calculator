@@ -1,3 +1,10 @@
+deepin-calculator (6.5.37) unstable; urgency=medium
+
+  * chore: Update version to 6.5.37
+  * fix: keep operators during point tolerance cleanup
+
+ -- zhanghongyuan <zhanghongyuan@uniontech.com>  Fri, 10 Jul 2026 11:39:08 +0800
+
 deepin-calculator (6.5.36) unstable; urgency=medium
 
   * chore: Update version to 6.5.36
