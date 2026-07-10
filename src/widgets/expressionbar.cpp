@@ -1346,13 +1346,13 @@ QString ExpressionBar::pointFaultTolerance(const QString &text)
             if (i == 0)
                 continue;
             QString leftitem = reformatStr.left(i);
-            QString rightitem = reformatStr.mid(i);
+            QString rightitem = reformatStr.mid(i + 1);
             QString faulttolerance = m_inputEdit->symbolFaultTolerance(leftitem);
             if (faulttolerance != leftitem)
                 reformatStr.replace(0, i, faulttolerance);
             faulttolerance = m_inputEdit->symbolFaultTolerance(rightitem);
             if (faulttolerance != rightitem)
-                reformatStr.replace(i, reformatStr.length() - i, faulttolerance);
+                reformatStr.replace(i + 1, reformatStr.length() - i - 1, faulttolerance);
         }
     }
     QString result = reformatStr;
