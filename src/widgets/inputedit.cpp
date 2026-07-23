@@ -469,7 +469,7 @@ void InputEdit::handleTextChanged(const QString &text)
     qInfo() << "handleTextChanged raw text=" << text;
 
     // 第二阶段：入口规范化（将系统格式转换为内部格式）
-    QString normalizedExpr = text;
+    QString normalizedExpr = pointFaultTolerance(text);
     const auto sys = Settings::instance();
     const QString decSym = sys->getSystemDecimalSymbol();
     const QString grpSym = sys->getSystemDigitGroupingSymbol();
@@ -698,44 +698,57 @@ QString InputEdit::pointFaultTolerance(const QString &text)
 {
     const auto sys = Settings::instance();
     QString decSym = sys->getSystemDecimalSymbol();
-    const QString decimalPlaceholder = QStringLiteral("__DEC_PLACEHOLDER__");
+    QString grpSym = sys->getSystemDigitGroupingSymbol();
+    const QString decimalPlaceholder = QString(QChar(0x1D));
+    const QString groupingPlaceholder = QString(QChar(0x1C));
 
     QString workingText = text;
+    if (!grpSym.isEmpty() && grpSym != QLatin1String(","))
+        workingText.replace(grpSym, groupingPlaceholder);
     if (!decSym.isEmpty() && decSym != QLatin1String("."))
         workingText.replace(decSym, decimalPlaceholder);
+    workingText.replace(groupingPlaceholder, ",");
     workingText.replace(decimalPlaceholder, ".");
+    workingText.replace(QString::fromUtf8("。"), ".");
 
     QString exp = workingText;
-    QString oldText = workingText;
-    QStringList list = exp.split(QRegularExpression("[＋－×÷/()]"));
+    const QRegularExpression separatorExpression("[＋－×÷+*/()\\-]");
+    QStringList list = exp.split(separatorExpression);
+    QStringList separators;
+    QRegularExpressionMatchIterator matches = separatorExpression.globalMatch(exp);
+    while (matches.hasNext())
+        separators.append(matches.next().captured());
+
+    QString oldText;
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];
         int firstPoint = item.indexOf(".");
-        if (firstPoint == -1)
-            continue;
-        if (firstPoint == 0) {
-            item.insert(firstPoint, "0"); //小数点在第一位补0操作，此处存在若无多小数点情况不会补零，虚在其余地方进行操作
-            ++firstPoint;
-            // oldText.replace(list[i], item);
-        } else {
-            if (item.at(firstPoint - 1) == QChar(')') || item.at(firstPoint - 1) == QChar('%')) {
+        if (firstPoint != -1) {
+            if (firstPoint == 0) {
+                item.insert(firstPoint, "0");
+                ++firstPoint;
+            } else if (item.at(firstPoint - 1) == QChar(')') || item.at(firstPoint - 1) == QChar('%')) {
                 item.remove(firstPoint, 1); //原定义)及%右侧不能添加.，现在小数点输入事件中进行过补0操作,不会进入此判断
-                oldText.replace(list[i], item);
+            }
+            if (item.count(".") > 1) { //多小数点只保留第一位小数点
+                item.remove(".");
+                item.insert(firstPoint, ".");
             }
         }
-        if (item.count(".") > 1) { //多小数点只保留第一位小数点
-            int cur = cursorPosition();
-            item.remove(".");
-            item.insert(firstPoint, ".");
-            oldText.replace(list[i], item);
-            setCursorPosition(cur);
-        }
+        oldText.append(item);
+        if (i < separators.size())
+            oldText.append(separators[i]);
     }
     QString result = oldText;
+    if (!grpSym.isEmpty() && grpSym != QLatin1String(","))
+        result.replace(",", groupingPlaceholder);
     if (!decSym.isEmpty() && decSym != QLatin1String(".")) {
         result.replace(".", decimalPlaceholder);
-        result.replace(decimalPlaceholder, decSym);
     }
+    if (!grpSym.isEmpty() && grpSym != QLatin1String(","))
+        result.replace(groupingPlaceholder, grpSym);
+    if (!decSym.isEmpty() && decSym != QLatin1String("."))
+        result.replace(decimalPlaceholder, decSym);
     return result;
 }
 
@@ -1430,5 +1443,3 @@ void InputEdit::onswietFourSeparateClicked()
     handleTextChanged(m_oldText);   //更新input中的算式
     emit separateChange();  //发送更新信号
 }
-
-
