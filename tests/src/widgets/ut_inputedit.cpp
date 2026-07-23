@@ -125,9 +125,28 @@ TEST_F(Ut_InputEdit, pointFaultTolerance)
     InputEdit *m_inputEdit = new InputEdit;
 
     EXPECT_EQ(m_inputEdit->pointFaultTolerance("1"), "1");
-    EXPECT_EQ(m_inputEdit->pointFaultTolerance(".1"), ".1");
+    EXPECT_EQ(m_inputEdit->pointFaultTolerance(".1"), "0.1");
     EXPECT_EQ(m_inputEdit->pointFaultTolerance("%.1"), "%1");
     EXPECT_EQ(m_inputEdit->pointFaultTolerance("0.1.1"), "0.11");
+    delete m_inputEdit;
+}
+
+TEST_F(Ut_InputEdit, normalizeDecimalPoints)
+{
+    InputEdit *m_inputEdit = new InputEdit;
+
+    m_inputEdit->setText("1.11.2");
+    EXPECT_EQ(m_inputEdit->text(), "1.112");
+
+    m_inputEdit->setText("1.21.34");
+    EXPECT_EQ(m_inputEdit->text(), "1.2134");
+
+    m_inputEdit->setText(QString::fromUtf8("0。3+3"));
+    EXPECT_EQ(m_inputEdit->text(), QString::fromUtf8("0.3＋3"));
+
+    m_inputEdit->setText(QString::fromUtf8("。1。 + 2.2。"));
+    EXPECT_EQ(m_inputEdit->text(), QString::fromUtf8("0.1＋2.2"));
+
     delete m_inputEdit;
 }
 

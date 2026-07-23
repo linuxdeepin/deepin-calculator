@@ -380,3 +380,21 @@ TEST_F(Ut_ExpressionBar, pointFaultTolerance)
     EXPECT_EQ(m_expressionBar->pointFaultTolerance(".123321"), "0.123321");
     delete m_expressionBar;
 }
+
+TEST_F(Ut_ExpressionBar, pasteDecimalPoints)
+{
+    ExpressionBar *m_expressionBar = new ExpressionBar;
+
+    QApplication::clipboard()->setText(QString::fromUtf8("0。3+3"));
+    m_expressionBar->copyClipboard2Result();
+    EXPECT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), QString::fromUtf8("0.3＋3"));
+    m_expressionBar->enterEqualEvent();
+    EXPECT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), "3.3");
+
+    m_expressionBar->enterClearEvent();
+    QApplication::clipboard()->setText(QString::fromUtf8("。1。 + 2.2。"));
+    m_expressionBar->copyClipboard2Result();
+    EXPECT_EQ(m_expressionBar->findChild<InputEdit *>()->text(), QString::fromUtf8("0.1＋2.2"));
+
+    delete m_expressionBar;
+}
