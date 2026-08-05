@@ -1,4 +1,4 @@
-// Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+// Copyright (C) 2017 ~ 2026 Deepin Technology Co., Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -190,6 +190,19 @@ void BasicKeypad::initButtons()
         }
 
         button->setFixedSize(STANDARD_TEXTBTNSIZE);
+        // Set accessible name for each button
+        if (desc->text.isEmpty()) {
+            switch (desc->button) {
+            case Key_Backspace: button->setAccessibleName(tr("Backspace")); break;
+            case Key_Div:       button->setAccessibleName(tr("Divide")); break;
+            case Key_Mult:      button->setAccessibleName(tr("Multiply")); break;
+            case Key_Min:       button->setAccessibleName(tr("Minus")); break;
+            case Key_Plus:      button->setAccessibleName(tr("Plus")); break;
+            default:            button->setAccessibleName(desc->text); break;
+            }
+        } else {
+            button->setAccessibleName(desc->text);
+        }
         m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
                             Qt::AlignHCenter | Qt::AlignVCenter);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);

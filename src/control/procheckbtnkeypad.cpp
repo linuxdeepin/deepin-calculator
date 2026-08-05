@@ -1,4 +1,4 @@
-// Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+// Copyright (C) 2020 ~ 2026 Uniontech Software Technology Co.,Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -91,6 +91,17 @@ void ProCheckBtnKeypad::initButtons()
         }
 
         button->setFixedSize(BUTTON_SIZE);
+        // Set accessible name for each button
+        if (desc->text.isEmpty()) {
+            switch (desc->button) {
+            case Key_GeneralKeypad: button->setAccessibleName(tr("General Keypad")); break;
+            case Key_BinaryKeypad:  button->setAccessibleName(tr("Binary Keypad")); break;
+            case Key_Option:        button->setAccessibleName(tr("Option")); break;
+            default:                button->setAccessibleName(desc->text); break;
+            }
+        } else {
+            button->setAccessibleName(desc->text);
+        }
         m_layout->addWidget(button, desc->row, desc->column, Qt::AlignTop);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue);

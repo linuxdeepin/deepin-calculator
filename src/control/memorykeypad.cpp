@@ -1,4 +1,4 @@
-// Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
+// Copyright (C) 2019 ~ 2026 Uniontech Software Technology Co.,Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -93,6 +93,7 @@ void MemoryKeypad::initButtons()
         button->setFont(font);
 
         button->setFixedSize(MEMORYBUTTON_SIZE);
+        button->setAccessibleName(desc->text);
         m_layout->addWidget(button, desc->row, desc->column, desc->rowcount, desc->columncount,
                             Qt::AlignTop);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);

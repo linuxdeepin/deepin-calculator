@@ -1,4 +1,4 @@
-// Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+// Copyright (C) 2020 ~ 2026 Uniontech Software Technology Co.,Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -35,16 +35,21 @@ ProgramModule::ProgramModule(QWidget *parent)
     m_memoryPublic = MemoryPublic::instance();
     m_memorylistwidget = m_memoryPublic->getwidget(MemoryPublic::programmerleft);
     m_proExpressionBar->setFixedHeight(EXPRESSIONBAR_HEIGHT);
+    m_proExpressionBar->setAccessibleName(tr("Programmer Expression Bar"));
     m_proListView->setModel(m_proListModel);
     m_proListView->setItemDelegate(m_proListDelegate);
+    m_proListView->setAccessibleName(tr("Radix List"));
     m_proListView->setCurrentIndex(m_proListModel->index(1, 0));
     m_stackWidget->addWidget(m_programmerKeypad);
+    m_programmerKeypad->setAccessibleName(tr("Programmer Keypad"));
     m_stackWidget->addWidget(m_proSystemKeypad);
+    m_proSystemKeypad->setAccessibleName(tr("Binary System Keypad"));
     m_stackWidget->addWidget(m_memorylistwidget);
     m_stackWidget->setCurrentWidget(m_programmerKeypad);
     m_stackWidget->setFixedSize(451, 279);
 
     initArrowRectangle();
+    m_checkBtnKeypad->setAccessibleName(tr("Check Button Keypad"));
 
     QVBoxLayout *vlay = new QVBoxLayout(this);
     vlay->addWidget(m_proExpressionBar);

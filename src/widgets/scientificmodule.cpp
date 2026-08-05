@@ -1,4 +1,4 @@
-// Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
+// Copyright (C) 2019 ~ 2026 Uniontech Software Technology Co.,Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -25,8 +25,11 @@ scientificModule::scientificModule(QWidget *parent)
     qDebug() << "scientificModule constructor called";
     m_stackWidget = new QStackedWidget(this);
     m_sciexpressionBar = new SciExpressionBar(this);
+    m_sciexpressionBar->setAccessibleName(tr("Scientific Expression Bar"));
     m_memhiskeypad = new MemHisKeypad(this);
+    m_memhiskeypad->setAccessibleName(tr("Memory History Keypad"));
     m_scikeypadwidget = new ScientificKeyPad(this);
+    m_scikeypadwidget->setAccessibleName(tr("Scientific Keypad"));
     m_memhiswidget = new MemHisWidget(this);
     m_memCalbtn = false;
     m_memRCbtn = false;

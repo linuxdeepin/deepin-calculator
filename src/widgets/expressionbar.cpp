@@ -1,4 +1,4 @@
-// Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+// Copyright (C) 2017 ~ 2026 Deepin Technology Co., Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -45,6 +45,7 @@ ExpressionBar::ExpressionBar(QWidget *parent)
     m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT);
     m_inputEdit->setAlignment(Qt::AlignRight);
     m_inputEdit->setTextMargins(10, 0, 10, 6);
+    m_inputEdit->setAccessibleName(tr("Input Field"));
 //    m_inputEdit->setFocus();
 
     m_listView->setModel(m_listModel);

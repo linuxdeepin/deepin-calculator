@@ -1,4 +1,4 @@
-// Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+// Copyright (C) 2017 ~ 2026 Deepin Technology Co., Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -67,6 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
     initTheme();
 
     setWindowTitle(tr("Calculator"));
+    setAccessibleName(tr("Calculator"));
     qInfo() << "MainWindow initialized successfully";
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &MainWindow::initTheme);
@@ -148,18 +149,21 @@ void MainWindow::initModule()
     switch (mode) {
     case 0:
         m_basicModule = new BasicModule(this);
+        m_basicModule->setAccessibleName(tr("Standard"));
         m_mainLayout->addWidget(m_basicModule);
         m_simpleAction->setChecked(true);
         switchToSimpleMode();
         break;
     case 1:
         m_scientificModule = new scientificModule(this);
+        m_scientificModule->setAccessibleName(tr("Scientific"));
         m_mainLayout->addWidget(m_scientificModule);
         m_scAction->setChecked(true);
         switchToScientificMode();
         break;
     case 2:
         m_programmerModule = new ProgramModule(this);
+        m_programmerModule->setAccessibleName(tr("Programmer"));
         m_mainLayout->addWidget(m_programmerModule);
         connect(m_programmerModule, &ProgramModule::activateWindow, [=](){
             titlebar()->setFocus();

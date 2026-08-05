@@ -1,4 +1,4 @@
-// Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
+// Copyright (C) 2019 ~ 2026 Uniontech Software Technology Co.,Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -44,6 +44,7 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
     m_inputEdit->setFixedHeight(INPUTEDIT_HEIGHT);
     m_inputEdit->setAlignment(Qt::AlignRight);
     m_inputEdit->setTextMargins(10, 0, 10, 6);
+    m_inputEdit->setAccessibleName(tr("Scientific Input Field"));
 
     DPalette pl1 = this->palette();
     pl1.setColor(DPalette::Button, Qt::transparent);

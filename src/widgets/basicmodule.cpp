@@ -1,4 +1,4 @@
-// Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+// Copyright (C) 2017 ~ 2026 Deepin Technology Co., Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -22,19 +22,23 @@ BasicModule::BasicModule(QWidget *parent)
     m_keypadLayout = new QStackedWidget(this);
     m_basicKeypad = new BasicKeypad(this);
     m_memoryKeypad = new MemoryKeypad(this);
+    m_memoryKeypad->setAccessibleName(tr("Memory Keypad"));
     m_insidewidget = false;
     m_memCalbtn = false;
     m_memRCbtn = false;
     m_isallgray = false;
     m_memoryPublic = MemoryPublic::instance();
     m_memorylistwidget = m_memoryPublic->getwidget(MemoryPublic::standardleft);
+    m_memorylistwidget->setAccessibleName(tr("Memory List"));
     QVBoxLayout *layout = new QVBoxLayout(this);
     m_expressionBar = new ExpressionBar(this);
+    m_expressionBar->setAccessibleName(tr("Expression Bar"));
     layout->addWidget(m_expressionBar);
     layout->addWidget(m_memoryKeypad);
     layout->addSpacing(1); //按钮边框多1pix
     layout->addWidget(m_keypadLayout);
     m_keypadLayout->addWidget(m_basicKeypad);
+    m_basicKeypad->setAccessibleName(tr("Basic Keypad"));
     m_keypadLayout->addWidget(m_memorylistwidget);
 
     layout->setSpacing(0);

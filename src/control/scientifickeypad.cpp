@@ -1,4 +1,4 @@
-// Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
+// Copyright (C) 2019 ~ 2026 Uniontech Software Technology Co.,Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -238,6 +238,21 @@ void ScientificKeyPad::initButtons()
             button->setText(decSym);
         }
 
+        // Set accessible name for each button
+        if (desc->text.isEmpty()) {
+            switch (desc->button) {
+            case Key_deg:       button->setAccessibleName(tr("Angle Unit")); break;
+            case Key_Backspace: button->setAccessibleName(tr("Backspace")); break;
+            case Key_Div:       button->setAccessibleName(tr("Divide")); break;
+            case Key_Mult:      button->setAccessibleName(tr("Multiply")); break;
+            case Key_Min:       button->setAccessibleName(tr("Minus")); break;
+            case Key_Plus:      button->setAccessibleName(tr("Plus")); break;
+            default:            button->setAccessibleName(desc->text); break;
+            }
+        } else {
+            button->setAccessibleName(desc->text);
+        }
+
         //stackwidget中按钮初始化
         if ((i / 6 > 0) && (i % 6 == 0 || i % 6 == 1) && i != 30 && i != 36) {
             DPushButton *pagebutton;
@@ -371,6 +386,17 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
 {
     widget->addWidget(button);
     widget->addWidget(pagebutton);
+    // Set accessible name for page-2 button
+    if (pagebutton->text().isEmpty()) {
+        switch (desc1->button) {
+        case Key_sqrt2:  pagebutton->setAccessibleName(tr("Square Root")); break;
+        case Key_sqrt3:  pagebutton->setAccessibleName(tr("Cube Root")); break;
+        case Key_ysqrtx: pagebutton->setAccessibleName(tr("Y Root")); break;
+        default:         pagebutton->setAccessibleName(desc1->text); break;
+        }
+    } else {
+        pagebutton->setAccessibleName(pagebutton->text());
+    }
     widget->setCurrentIndex(0);
     widget->setFixedSize(BUTTON_SIZE.width(), BUTTON_SIZE.height() + 4); //预留４pix给阴影
     m_gridlayout1->addWidget(widget, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,
