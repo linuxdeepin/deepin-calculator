@@ -1520,10 +1520,11 @@ void SciExpressionBar::expressionCheck()
 
     m_inputEdit->setText(result);
     int finalPos = qMax(0, cur + separator);
-    if (finalPos <= result.length())
+    int actualLen = m_inputEdit->text().length();
+    if (finalPos <= actualLen)
         m_inputEdit->setCursorPosition(finalPos);
     else
-        m_inputEdit->setCursorPosition(result.length());
+        m_inputEdit->setCursorPosition(actualLen);
 }
 
 bool SciExpressionBar::isnumber(QChar a)
