@@ -1,5 +1,5 @@
-// Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// Copyright (C) 2020 ~ 2026 Uniontech Software Technology Co.,Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -154,6 +154,17 @@ void ProgrammerKeypad::initButtons()
             button->setFixedSize(69, 43);
         else
             button->setFixedSize(STANDARD_TEXTBTNSIZE);
+        // Set accessible name for icon-only buttons
+        if (desc->text.isEmpty()) {
+            switch (desc->button) {
+            case Key_Backspace: button->setAccessibleName(tr("Backspace")); break;
+            case Key_Div:       button->setAccessibleName(tr("Divide")); break;
+            case Key_Mult:      button->setAccessibleName(tr("Multiply")); break;
+            case Key_Min:       button->setAccessibleName(tr("Minus")); break;
+            case Key_Plus:      button->setAccessibleName(tr("Plus")); break;
+            default:            break;
+            }
+        }
         m_layout->addWidget(button, desc->row, desc->column, Qt::AlignHCenter | Qt::AlignVCenter);
         const QPair<DPushButton *, const KeyDescription *> hashValue(button, desc);
         m_keys.insert(desc->button, hashValue);

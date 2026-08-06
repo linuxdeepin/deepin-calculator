@@ -238,6 +238,20 @@ void ScientificKeyPad::initButtons()
             button->setText(decSym);
         }
 
+        button->setFixedSize(BUTTON_SIZE);
+        // Set accessible name for icon-only buttons
+        if (desc->text.isEmpty()) {
+            switch (desc->button) {
+            case Key_deg:       button->setAccessibleName(tr("AngleUnit")); break;
+            case Key_Backspace: button->setAccessibleName(tr("Backspace")); break;
+            case Key_Div:       button->setAccessibleName(tr("Divide")); break;
+            case Key_Mult:      button->setAccessibleName(tr("Multiply")); break;
+            case Key_Min:       button->setAccessibleName(tr("Minus")); break;
+            case Key_Plus:      button->setAccessibleName(tr("Plus")); break;
+            default:            break;
+            }
+        }
+
         //stackwidget中按钮初始化
         if ((i / 6 > 0) && (i % 6 == 0 || i % 6 == 1) && i != 30 && i != 36) {
             DPushButton *pagebutton;
@@ -371,6 +385,15 @@ void ScientificKeyPad::initStackWidget(QStackedWidget *widget, DPushButton *butt
 {
     widget->addWidget(button);
     widget->addWidget(pagebutton);
+    // Set accessible name for page-2 icon buttons
+    if (pagebutton->text().isEmpty()) {
+        switch (desc1->button) {
+        case Key_sqrt2:  pagebutton->setAccessibleName(tr("SquareRoot")); break;
+        case Key_sqrt3:  pagebutton->setAccessibleName(tr("CubeRoot")); break;
+        case Key_ysqrtx: pagebutton->setAccessibleName(tr("YRoot")); break;
+        default:         break;
+        }
+    }
     widget->setCurrentIndex(0);
     widget->setFixedSize(BUTTON_SIZE.width(), BUTTON_SIZE.height() + 4); //预留４pix给阴影
     m_gridlayout1->addWidget(widget, desc1->row, desc1->column, desc1->rowcount, desc1->columncount,
