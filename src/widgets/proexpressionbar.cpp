@@ -31,6 +31,35 @@ enum ProgrammerBase {
     else if (Settings::instance()->programmerBase == BaseBin) \
         basetag = "0b"; \
 
+/**
+ * @brief 判断单个十六进制数字字符是否在当前进制允许范围内
+ * @param text 待校验的输入（期望为单个数字字符）
+ * @param base 当前进制（2/8/10/16）
+ * @return true 允许输入；false 该数字超出当前进制范围
+ *
+ * 外接键盘等路径绕过软键盘的进制禁用态，统一在此拦截越界数字。
+ * 非单字符输入不在本守卫范围，保持原行为。
+ */
+static bool isDigitAllowedForBase(const QString &text, int base)
+{
+    if (text.size() != 1)
+        return true;
+    // 仅程序员模式合法进制（2/8/10/16）下生效；base 为 0 表示非程序员模式
+    // （默认值或切出程序员模式，见 settings 默认与 MainWindow::switchToSimpleMode），
+    // 此时守卫不应限制输入，否则会拦截全部数字。
+    if (base != BaseBin && base != BaseOct && base != BaseDec && base != BaseHex)
+        return true;
+    QChar c = text.at(0).toUpper();
+    int value = 0;
+    if (c >= QLatin1Char('0') && c <= QLatin1Char('9'))
+        value = c.toLatin1() - '0';
+    else if (c >= QLatin1Char('A') && c <= QLatin1Char('F'))
+        value = c.toLatin1() - 'A' + 10;
+    else
+        return true; // 非数字字符不在本守卫范围
+    return value < base;
+}
+
 ProExpressionBar::ProExpressionBar(QWidget *parent)
     : DWidget(parent)
 {
@@ -137,6 +166,9 @@ bool ProExpressionBar::judgeinput()
 void ProExpressionBar::enterNumberEvent(const QString &text)
 {
     qDebug() << "enterNumberEvent called with text:" << text;
+    // 进制校验：外接键盘等路径绕过软键盘禁用态，统一在此拦截越界数字
+    if (!isDigitAllowedForBase(text, Settings::instance()->programmerBase))
+        return;
     if (!judgeinput())
         return;
     if (m_inputNumber && m_isResult == true) {
