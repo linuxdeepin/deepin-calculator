@@ -268,8 +268,9 @@ HNumber::HNumber(const char *str)
     : d(new HNumberPrivate)
 {
     t_itokens tokens;
+    const char *buffer = str ? str : "";
 
-    if ((d->error = parse(&tokens, &str)) == Success && *str == 0)
+    if ((d->error = parse(&tokens, &buffer)) == Success && *buffer == 0)
         d->error = float_in(&d->fnum, &tokens, Settings::instance()->proBitLength, 1);
     float_geterror();
 }
@@ -284,8 +285,9 @@ HNumber::HNumber(const char *str, bool b)
     : d(new HNumberPrivate)
 {
     t_itokens tokens;
+    const char *buffer = str ? str : "";
 
-    if ((d->error = parse(&tokens, &str)) == Success && *str == 0) {
+    if ((d->error = parse(&tokens, &buffer)) == Success && *buffer == 0) {
         if (b)
             d->error = float_in(&d->fnum, &tokens, Settings::instance()->proBitLength, -1);
         else
