@@ -1,11 +1,5 @@
 deepin-calculator (6.5.38) unstable; urgency=medium
 
-  * Update version to 6.5.39. 
-
- -- Tian ShiLin <tianshilin@uniontech.com>  Thu, 13 Aug 2026 20:43:41 +0800
-
-deepin-calculator (6.5.38) unstable; urgency=medium
-
   * chore: Update version to 6.5.38
   * fix: normalize decimal point input
   * fix: allow cppcheck checkout fork PR
