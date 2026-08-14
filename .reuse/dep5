@@ -85,3 +85,8 @@ License: CC-BY-4.0
 Files: deepin-calculator.desktop
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC-BY-4.0
+
+# test/at/spi
+Files: test/at/spi/*
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-3.0-or-later
