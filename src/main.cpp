@@ -1,5 +1,4 @@
-// Copyright (C) 2017 ~ 2017 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2017 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -135,10 +134,6 @@ int main(int argc, char *argv[])
         qWarning() << "DBus service already registered, using existing instance";
         window.move(m_dsettings->getOption("windowX").toInt() + 10, m_dsettings->getOption("windowY").toInt() + 10);
     }
-    
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    DApplicationSettings::setThemeType(DGuiApplicationHelper::ColorType::LightType);
-#endif
 
     qDebug() << QObject::tr("Getting theme type settings");
     DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
@@ -155,7 +150,11 @@ int main(int argc, char *argv[])
 
     if (oldversion == true) {
         qDebug() << "Applying old theme settings";
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        DGuiApplicationHelper::instance()->setThemeType(oldpalette);
+#else
         DGuiApplicationHelper::instance()->setPaletteType(oldpalette);
+#endif
     }
 
     // Register D-Bus service.

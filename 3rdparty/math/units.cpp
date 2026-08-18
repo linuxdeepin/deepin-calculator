@@ -44,6 +44,22 @@
         return m_cache[#name]; \
     }
 
+// 为 QMap<QString, Rational> 提供 qHash 重载，使其可作为 QHash 的键
+// Qt5 未为 QMap 提供 qHash，Qt6 已内置，这里用版本判断兼容两者
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+unsigned int qHash(QMap<QString, Rational> dimension)
+{
+    QStringList keyList(dimension.keys());
+    QString blob("");
+    keyList.sort();
+    for (int i = 0; i < keyList.size(); ++i) {
+        keyList[i].append(dimension[keyList[i]].toString());
+        blob.append(keyList[i]);
+    }
+    return qHash(blob);
+}
+#endif
+
 QHash<QMap<QString, Rational>, Unit> Units::m_matchLookup;
 QMap<QString, Quantity> Units::m_cache;
 
