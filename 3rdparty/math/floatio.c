@@ -152,6 +152,8 @@ _scandigits(
   const char* result;
 
   result = *buf;
+  if (result == NULL)
+    return NULL;
   p = result - 1;
   while (_ascii2digit(*++p) < base);
   *buf = p;
@@ -798,6 +800,8 @@ parse(
   expbegin = "(";
   expend = ")";
   p = *buffer;
+  if (p == NULL)
+    p = "";
   tokens->sign = _parsesign(&p);
   base = _parsebase(&p, _getdefaultbase());
   params = getioparams(base);
