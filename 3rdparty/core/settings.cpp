@@ -31,6 +31,7 @@
 #include <QDBusConnection>
 #include <QFont>
 #include <QtCore/QStandardPaths>
+#include <QDebug>
 
 #ifdef Q_OS_WIN
 # define WIN32_LEAN_AND_MEAN
@@ -291,7 +292,7 @@ void Settings::save()
 char Settings::radixCharacter() const
 {
     if (isRadixCharacterAuto() || isRadixCharacterBoth()) {
-        QByteArray decimalPoint = QLocale().decimalPoint().toLatin1();
+        QByteArray decimalPoint = QString(QLocale().decimalPoint()).toLatin1();
 
         // 确保返回的是第一个字符，如果 QByteArray 为空，返回一个默认的字符（如'.'）
         if (!decimalPoint.isEmpty()) {

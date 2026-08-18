@@ -46,11 +46,14 @@ inline QEvent *createLeaveEvent()
 #else
 
 // Qt5 compat - these are the original patterns
+#include <QEnterEvent>
 #include <QEvent>
+#include <QPointF>
 
-inline QEvent *createEnterEvent()
+inline QEnterEvent *createEnterEvent(const QPointF &localPos = QPointF(),
+                                     const QPointF &globalPos = QPointF())
 {
-    return new QEvent(QEvent::Type::Enter);
+    return new QEnterEvent(localPos, localPos, globalPos);
 }
 
 inline QEvent *createLeaveEvent()

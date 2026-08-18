@@ -31,22 +31,17 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,relro -Wl,-z,now")
 endif()
 
-# Find the Qt library
-find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core)
+# Find the Qt version
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 message("Using Qt version: ${QT_VERSION_MAJOR}")
 
-#qt5    
-#find_package(Qt5 COMPONENTS Core REQUIRED)
 # Select major DTK version.
-if(QT_VERSION_MAJOR EQUAL "6")
-    set(BUILD_WITH_QT6 ON)
+if(QT_VERSION_MAJOR MATCHES 6)
     set(DTK_VERSION_MAJOR 6)
 else()
     set(DTK_VERSION_MAJOR "")
 endif()
 message("Using dtk version: ${DTK_VERSION_MAJOR}")
-
-#add_definitions(-DQT_NO_DEBUG_OUTPUT)
 
 if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "sw_64")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mieee")
@@ -72,55 +67,23 @@ configure_file(src/environments.h.in environments.h @ONLY)
 
 # Find the library
 find_package(PkgConfig REQUIRED)
-find_package(Qt6 REQUIRED COMPONENTS Widgets Core Gui DBus Xml Svg Test)
-
-#qt5
-#find_package(Qt5 REQUIRED COMPONENTS Widgets Core Gui DBus Xml Svg Test)
-
-# 替换 pkg_search_module 为 find_package
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core Gui DBus Xml Svg Test)
 find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Widget Gui Core)
-
-include_directories(${DtkWidget_INCLUDE_DIRS})
-include_directories(${DtkGui_INCLUDE_DIRS})
-include_directories(${DtkCore_INCLUDE_DIRS})
-
-message(STATUS "DtkGui Include Directories111: ${DtkGui_INCLUDE_DIRS}")
-message(STATUS "DtkCore Include Directories11: ${DtkCore_INCLUDE_DIRS}")
-message(STATUS "DtkWidget Include Directories111: ${DtkWidget_INCLUDE_DIRS}")
 
 set (EXE_NAME deepin-calculator)
 
-if (Qt6_FOUND)
-    # Qt6 environment
-    set(LINK_LIBS
-    Qt6::Core
-    Qt6::DBus
-    Qt6::Widgets
-    Qt6::Xml
-    Qt6::Svg
-    Qt6::Test
-
-    Dtk${DTK_VERSION_MAJOR}::Widget
-    Dtk${DTK_VERSION_MAJOR}::Gui
-    Dtk${DTK_VERSION_MAJOR}::Core
+set(LINK_LIBS
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::DBus
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Xml
+    Qt${QT_VERSION_MAJOR}::Svg
+    Qt${QT_VERSION_MAJOR}::Test
+    ${DtkWidget_LIBRARIES}
+    ${DtkGui_LIBRARIES}
+    ${DtkCore_LIBRARIES}
     ${DFrameworkDBus_LIBRARIES}
 )
-else()
-    # Qt5 environment
-    set(LINK_LIBS
-    Qt5::Core
-    Qt5::DBus
-    Qt5::Widgets
-    Qt5::Xml
-    Qt5::Svg
-    Qt5::Test
-
-    Dtk${DTK_VERSION_MAJOR}::Widget
-    Dtk${DTK_VERSION_MAJOR}::Gui
-    Dtk${DTK_VERSION_MAJOR}::Core
-    ${DFrameworkDBus_LIBRARIES}
-)
-endif()
 
 file(GLOB_RECURSE CAL_SRCH ${CMAKE_CURRENT_LIST_DIR}/src/*.h)
 file(GLOB_RECURSE CAL_SRCC ${CMAKE_CURRENT_LIST_DIR}/src/*.c)
@@ -139,7 +102,11 @@ if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
     find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS LinguistTools)
     file(GLOB TS LIST_DIRECTORIES false translations/${CMAKE_PROJECT_NAME}*.ts)
     set_source_files_properties(${TS} PROPERTIES OUTPUT_LOCATION ${PROJECT_SOURCE_DIR}/translations)
-    qt_create_translation(QM ${CAL_SRCH} ${CAL_SRCCPP} ${TS})
+    if (QT_VERSION_MAJOR MATCHES 6)
+        qt_create_translation(QM ${CAL_SRCH} ${CAL_SRCCPP} ${TS})
+    else()
+        qt5_create_translation(QM ${CAL_SRCH} ${CAL_SRCCPP} ${TS})
+    endif()
 endif ()
 
 add_executable (${EXE_NAME}
@@ -153,12 +120,9 @@ add_executable (${EXE_NAME}
     ${QM}
 )
 
-target_include_directories(${EXE_NAME} PUBLIC ${Qt6Widgets_LIBRARIES}
-                                              ${Qt6DBus_LIBRARIES}
-                                              ${Qt6TestLib_LIBRARIES}
-                                              ${PROJECT_BINARY_DIR}
+target_include_directories(${EXE_NAME} PUBLIC ${PROJECT_BINARY_DIR}
                                               ${DtkWidget_INCLUDE_DIRS}
-                                              ${DtkCore_LIBRARIES}
+                                              ${DtkCore_INCLUDE_DIRS}
                                               ${DtkGui_INCLUDE_DIRS}
                                               ${DFrameworkDBus_INCLUDE_DIRS})
 

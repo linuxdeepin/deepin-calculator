@@ -1,5 +1,4 @@
-// Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2019 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -1388,7 +1387,7 @@ QString SciExpressionBar::pointFaultTolerance(const QString &text)
 
     // 遍历字符串并匹配符号
     for (int i = 0; i < reformatStr.length(); ++i) {
-        if (re.match(reformatStr[i]).hasMatch()) {
+        if (re.match(QString(reformatStr[i])).hasMatch()) {
             symbollist << reformatStr.at(i);
         }
     }
