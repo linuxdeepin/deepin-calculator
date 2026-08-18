@@ -5,6 +5,7 @@ moc_*.cpp
 *.qm
 build/
 *.pro.user
+CMakeLists.txt.user
 
 #linglong building dir
 linglong
