@@ -1,3 +1,13 @@
+deepin-calculator (6.5.40) unstable; urgency=medium
+
+  * fix: guard null pointer in HNumber string parsing
+  * fix: support both Qt5 and Qt6 build environments
+  * chore: Sync by
+    https://github.com/linuxdeepin/.github/commit/a300f8523d4876677112ed
+    ab6a0772f7ad112976
+
+ -- liuzheng <liuzheng@uniontech.com>  Wed, 26 Aug 2026 20:14:04 +0800
+
 deepin-calculator (6.5.39) unstable; urgency=medium
 
   * Update version to 6.5.39. 
