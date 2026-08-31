@@ -1,4 +1,4 @@
-// Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+// Copyright (C) 2017 - 2026 Deepin Technology Co., Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -27,9 +27,13 @@ ExpressionBar::ExpressionBar(QWidget *parent)
 {
     qDebug() << "ExpressionBar constructor called";
     m_listView = new SimpleListView(0, this);
+    m_listView->setObjectName("ExpressionBarListView");
+    m_listView->setAccessibleName("ExpressionBarListView");
     m_listDelegate = new SimpleListDelegate(0, this);
     m_listModel = new SimpleListModel(0, this);
     m_inputEdit = new InputEdit(this);
+    m_inputEdit->setObjectName("ExpressionBarInputEdit");
+    m_inputEdit->setAccessibleName("ExpressionBarInputEdit");
     m_evaluator = Evaluator::instance();
     m_isContinue = true;
     m_isAllClear = false;

@@ -1,4 +1,4 @@
-// Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+// Copyright (C) 2020 - 2026 Uniontech Software Technology Co.,Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -66,9 +66,13 @@ ProExpressionBar::ProExpressionBar(QWidget *parent)
     qDebug() << "ProExpressionBar constructor called";
     m_evaluator = Evaluator::instance();
     m_listView = new SimpleListView(0, this);
+    m_listView->setObjectName("ProExpressionBarListView");
+    m_listView->setAccessibleName("ProExpressionBarListView");
     m_listDelegate = new SimpleListDelegate(0, this);
     m_listModel = new SimpleListModel(0, this);
     m_inputEdit = new InputEdit(this);
+    m_inputEdit->setObjectName("ProExpressionBarInputEdit");
+    m_inputEdit->setAccessibleName("ProExpressionBarInputEdit");
     m_isContinue = true;
     m_isAllClear = false;
     m_isResult = false;

@@ -26,9 +26,13 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
     qDebug() << "SciExpressionBar constructor called";
 
     m_listView = new SimpleListView(0, this);
+    m_listView->setObjectName("SciExpressionBarListView");
+    m_listView->setAccessibleName("SciExpressionBarListView");
     m_listDelegate = new SimpleListDelegate(0, this);
     m_listModel = new SimpleListModel(0, this);
     m_inputEdit = new InputEdit(this);
+    m_inputEdit->setObjectName("SciExpressionBarInputEdit");
+    m_inputEdit->setAccessibleName("SciExpressionBarInputEdit");
     m_evaluator = Evaluator::instance();
     m_isContinue = true;
     m_isAllClear = false;

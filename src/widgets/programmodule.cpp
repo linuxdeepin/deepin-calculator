@@ -1,4 +1,4 @@
-// Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+// Copyright (C) 2020 - 2026 Uniontech Software Technology Co.,Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -31,6 +31,12 @@ ProgramModule::ProgramModule(QWidget *parent)
     , m_shiftArrowListWidget(new MemoryListWidget(this, true))
     , m_shiftProgrammerArrowDelegate(new ProgrammerArrowDelegate(this))
 {
+    m_proListView->setObjectName("ProgramModuleProListView");
+    m_proListView->setAccessibleName("ProgramModuleProListView");
+    m_byteArrowListWidget->setObjectName("ProgramModuleByteArrowListWidget");
+    m_byteArrowListWidget->setAccessibleName("ProgramModuleByteArrowListWidget");
+    m_shiftArrowListWidget->setObjectName("ProgramModuleShiftArrowListWidget");
+    m_shiftArrowListWidget->setAccessibleName("ProgramModuleShiftArrowListWidget");
     qDebug() << "ProgramModule constructor called";
     m_memoryPublic = MemoryPublic::instance();
     m_memorylistwidget = m_memoryPublic->getwidget(MemoryPublic::programmerleft);

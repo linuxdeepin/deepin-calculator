@@ -1,4 +1,4 @@
-// Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
+// Copyright (C) 2019 - 2026 Uniontech Software Technology Co.,Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -48,6 +48,8 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     , m_clearbutton(new IconButton(this, 1))
     , m_memoryDelegate(new MemoryItemDelegate(this))
 {
+    m_listwidget->setObjectName("MemoryWidgetListwidget");
+    m_listwidget->setAccessibleName("MemoryWidgetListwidget");
     qDebug() << "MemoryWidget constructor, mode:" << mode;
     this->setAttribute(Qt::WA_DeleteOnClose);
     m_label = new QLabel(this);

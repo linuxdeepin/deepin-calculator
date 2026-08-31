@@ -1,4 +1,4 @@
-// Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+// Copyright (C) 2017 - 2026 Deepin Technology Co., Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -37,6 +37,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_settings = DSettingsAlt::instance();
     m_mainLayout = new QStackedLayout();
     m_tbMenu = new DMenu(this);
+    m_tbMenu->setObjectName("MainWindowTbMenu");
+    m_tbMenu->setAccessibleName("MainWindowTbMenu");
     QIcon t_icon = QIcon::fromTheme("deepin-calculator");
     titlebar()->setIcon(t_icon);
     titlebar()->setMenu(m_tbMenu);
@@ -45,8 +47,12 @@ MainWindow::MainWindow(QWidget *parent)
     m_simpleAction = new QAction(tr("Standard"), this);
     m_scAction = new QAction(tr("Scientific"), this);
     m_programmerAction = new QAction(tr("Programmer"), this);
+    m_simpleAction->setObjectName("MainWindowSimpleAction");
+    m_scAction->setObjectName("MainWindowScAction");
+    m_programmerAction->setObjectName("MainWindowProgrammerAction");
 
     m_pActionGroup = new QActionGroup(this); //实现互斥checked
+    m_pActionGroup->setObjectName("MainWindowPActionGroup");
     m_pActionGroup->addAction(m_simpleAction);
     m_pActionGroup->addAction(m_scAction);
     m_pActionGroup->addAction(m_programmerAction);
@@ -56,6 +62,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 #ifdef ENABLE_SCIENTIFIC
     m_modeshowmenu = new DMenu(tr("Mode"), this);
+    m_modeshowmenu->setObjectName("MainWindowModeshowmenu");
+    m_modeshowmenu->setAccessibleName("MainWindowModeshowmenu");
     m_tbMenu->addSeparator(); //添加分隔符
     m_modeshowmenu->addAction(m_simpleAction);
     m_modeshowmenu->addAction(m_scAction);

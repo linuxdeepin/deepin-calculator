@@ -1,4 +1,4 @@
-// Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+// Copyright (C) 2020 - 2026 Uniontech Software Technology Co.,Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -16,6 +16,8 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, const int width, const
     , m_label(new QLabel(label))
     , m_iconRenderer(new QSvgRenderer(this))
 {
+    m_iconbtn->setObjectName("ProgrammerItemWidgetIconbtn");
+    m_iconbtn->setAccessibleName("ProgrammerItemWidgetIconbtn");
     qDebug() << "ProgrammerItemWidget constructor, label:" << label << "width:" << width;
     m_width = width;
     setMouseTracking(true);

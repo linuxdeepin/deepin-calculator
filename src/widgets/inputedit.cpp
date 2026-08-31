@@ -300,6 +300,15 @@ void InputEdit::initAction()
     m_select = new QAction(tr("Select All"), this);
     m_threeSeparate = new QAction(tr("Use thousands separator"), this);
     m_fourSeparate = new QAction(tr("Use ten-thousands separator"), this);
+    m_undo->setObjectName("InputEditUndo");
+    m_redo->setObjectName("InputEditRedo");
+    m_cut->setObjectName("InputEditCut");
+    m_copy->setObjectName("InputEditCopy");
+    m_paste->setObjectName("InputEditPaste");
+    m_delete->setObjectName("InputEditDelete");
+    m_select->setObjectName("InputEditSelect");
+    m_threeSeparate->setObjectName("InputEditThreeSeparate");
+    m_fourSeparate->setObjectName("InputEditFourSeparate");
 
     connect(m_undo, &QAction::triggered, this, &InputEdit::undo);
     connect(m_redo, &QAction::triggered, this, &InputEdit::redo);

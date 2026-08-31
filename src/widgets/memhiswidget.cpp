@@ -1,4 +1,4 @@
-// Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
+// Copyright (C) 2019 - 2026 Uniontech Software Technology Co.,Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -24,6 +24,12 @@ MemHisWidget::MemHisWidget(QWidget *parent)
 , m_historyBtn(new DButtonBoxButton(QIcon(), {}, this))
 , m_clearButton(new IconButton(this, 1))
 {
+    m_listView->setObjectName("MemHisWidgetListView");
+    m_listView->setAccessibleName("MemHisWidgetListView");
+    m_buttonBox->setObjectName("MemHisWidgetButtonBox");
+    m_buttonBox->setAccessibleName("MemHisWidgetButtonBox");
+    m_historyBtn->setObjectName("MemHisWidgetHistoryBtn");
+    m_historyBtn->setAccessibleName("MemHisWidgetHistoryBtn");
     qDebug() << "MemHisWidget constructor called";
     m_memoryPublic = MemoryPublic::instance();
     m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::scientificright);
@@ -37,6 +43,7 @@ MemHisWidget::MemHisWidget(QWidget *parent)
     m_buttonBox->setFixedSize(60, 26);
     m_buttonBox->setFocusPolicy(Qt::NoFocus);
     m_memoryBtn->setObjectName("mButtonBoxButton");
+    m_memoryBtn->setAccessibleName("MemHisWidgetMemoryBtn");
     m_memoryBtn->setFixedSize(31, 27);
     m_memoryBtn->setIconSize(QSize(30, 26));
     m_historyBtn->setFixedSize(28, 26);

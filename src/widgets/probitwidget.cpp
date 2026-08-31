@@ -1,4 +1,4 @@
-// Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+// Copyright (C) 2020 - 2026 Uniontech Software Technology Co.,Ltd.
 // SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -20,6 +20,14 @@ ProBitWidget::ProBitWidget(QWidget *parent)
       m_fourthbtn(new BitButton(this)),
       m_label(new DLabel(this))
 {
+    m_firstbtn->setObjectName("ProBitWidgetFirstbtn");
+    m_firstbtn->setAccessibleName("ProBitWidgetFirstbtn");
+    m_secondbtn->setObjectName("ProBitWidgetSecondbtn");
+    m_secondbtn->setAccessibleName("ProBitWidgetSecondbtn");
+    m_thirdbtn->setObjectName("ProBitWidgetThirdbtn");
+    m_thirdbtn->setAccessibleName("ProBitWidgetThirdbtn");
+    m_fourthbtn->setObjectName("ProBitWidgetFourthbtn");
+    m_fourthbtn->setAccessibleName("ProBitWidgetFourthbtn");
     qDebug() << "ProBitWidget constructor called";
     setFixedSize(SIZE);
     QHBoxLayout *hlay = new QHBoxLayout();
