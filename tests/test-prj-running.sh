@@ -6,6 +6,8 @@
 
 builddir=build-test
 reportdir=build-ut
+# 本脚本所在目录（tests/），供调用同目录下的 gen-ut-summary.py（须在 cd 前解析）
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 rm -r $builddir 2>/dev/null || true
 rm -r ../$builddir 2>/dev/null || true
 rm -r $reportdir 2>/dev/null || true
@@ -42,6 +44,26 @@ cp -r html ../$reportdir/ 2>/dev/null || true
 cp -r report ../$reportdir/ 2>/dev/null || true
 cp asan*.log* ../$reportdir/asan_deepin-calculator.log 2>/dev/null || true
 
-echo "测试完成！报告已生成到: ../$reportdir"
+# 生成 ut-summary.json（测试 + 覆盖率格式化汇总，含 per-suite / per-file 明细）
+# 汇总逻辑独立在 tests/gen-ut-summary.py，本脚本仅传参调用
+report_dir_abs=$(cd ../$reportdir && pwd)
+project_root=$(cd "$workdir/.." && pwd)
+if command -v python3 >/dev/null 2>&1; then
+    python3 "$SCRIPT_DIR/gen-ut-summary.py" \
+        --xml-dir "$workdir/report" \
+        --coverage-info "$workdir/coverage.info" \
+        --project-root "$project_root" \
+        --output "$report_dir_abs/ut-summary.json"
+else
+    echo "[警告] 未检测到 python3，跳过 ut-summary.json 生成"
+fi
+
+if [ -s "$report_dir_abs/ut-summary.json" ]; then
+    echo "ut-summary.json 已生成: $report_dir_abs/ut-summary.json"
+else
+    echo "[警告] ut-summary.json 未生成（请检查上方 python3 输出）"
+fi
+
+echo "测试完成！报告已生成到: ../$reportdir （含 ut-summary.json）"
 
 exit 0
