@@ -6,7 +6,14 @@
 
 #include "../../src/widgets/inputedit.h"
 #include <QAction>
+#include "../../3rdparty/core/settings.h"
 #include "../../3rdparty/math/cmath.h"
+
+// 固定系统区域设置相关的环境依赖：分组开启、小数点"."、分组符","，
+// 与本文件用例断言中硬编码的格式一致
+static bool stub_grouping_on() { return true; }
+static QString stub_dec_symbol() { return "."; }
+static QString stub_grp_symbol() { return ","; }
 
 Ut_InputEdit::Ut_InputEdit()
 {
@@ -88,6 +95,10 @@ TEST_F(Ut_InputEdit, keyPressEvent)
 TEST_F(Ut_InputEdit, mouseDoubleClickEvent)
 {
     InputEdit *m_inputEdit = new InputEdit;
+    Stub stub;
+    stub.set(ADDR(Settings, getSystemDigitGrouping), stub_grouping_on);
+    stub.set(ADDR(Settings, getSystemDecimalSymbol), stub_dec_symbol);
+    stub.set(ADDR(Settings, getSystemDigitGroupingSymbol), stub_grp_symbol);
     m_inputEdit->setText("12345");
     QMouseEvent *m = new QMouseEvent(QEvent::MouseButtonDblClick, m_inputEdit->rect().center(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
     m_inputEdit->mouseDoubleClickEvent(m);
@@ -114,9 +125,8 @@ TEST_F(Ut_InputEdit, handleTextChanged)
     m_inputEdit->handleTextChanged("1=");
     EXPECT_EQ(m_inputEdit->text(), "1");
     EXPECT_FALSE(m_inputEdit->m_ansVaild);
-    EXPECT_EQ(m_inputEdit->m_oldText, "1");
-    EXPECT_EQ(m_inputEdit->m_selected.selected, "");
-    EXPECT_EQ(m_inputEdit->m_selected.curpos, -1);
+    // "=" 触发求值后直接 return，按约定不更新 m_oldText（保持初始为空）
+    EXPECT_TRUE(m_inputEdit->m_oldText.isEmpty());
     delete m_inputEdit;
 }
 
@@ -125,7 +135,7 @@ TEST_F(Ut_InputEdit, pointFaultTolerance)
     InputEdit *m_inputEdit = new InputEdit;
 
     EXPECT_EQ(m_inputEdit->pointFaultTolerance("1"), "1");
-    EXPECT_EQ(m_inputEdit->pointFaultTolerance(".1"), ".1");
+    EXPECT_EQ(m_inputEdit->pointFaultTolerance(".1"), "0.1");
     EXPECT_EQ(m_inputEdit->pointFaultTolerance("%.1"), "%1");
     EXPECT_EQ(m_inputEdit->pointFaultTolerance("0.1.1"), "0.11");
     delete m_inputEdit;

@@ -36,12 +36,16 @@ inline QEvent *createLeaveEvent()
 }
 
 /**
- * @brief Compatibility macro for Dtk6 setThemeType
+ * @brief Compatibility macro for Dtk6 theme switching
  *
- * In Dtk6, setThemeType() is removed. The theme is controlled by system settings.
- * This macro provides a no-op to make tests compile with Dtk6.
+ * In Dtk6, DGuiApplicationHelper::setThemeType() was replaced by
+ * setPaletteType(ColorType) (LightType/DarkType). Probe-verified on DTK6:
+ * setPaletteType drives the application palette the way Dtk5's
+ * setThemeType did, so tests can still force dark/light themes.
  */
-#define DTK_SET_THEME_TYPE(type) ((void)0)
+#include <DGuiApplicationHelper>
+DGUI_USE_NAMESPACE
+#define DTK_SET_THEME_TYPE(type) DGuiApplicationHelper::instance()->setPaletteType(type)
 
 #else
 

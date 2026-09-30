@@ -61,9 +61,11 @@ TEST_F(Ut_SimpleListView, showTextEditMenuByAltM)
     m_simpleListModel->updataList("11", 0);
     m_simpleListModel->updataList("22", 1);
     m_simpleListModel->updataList("33", 2);
-    m_simpleListModel->appendText("1", true);
-    m_simpleListModel->appendText("2", true);
-    m_simpleListModel->appendText("3", true);
+    // appendText(sci=true) 会先移除第 0 行再尾插，净增 0 行，导致 index(1,0) 无效；
+    // 用纯追加形态准备数据，保证至少 6 行，index(1,0) 有效
+    m_simpleListModel->appendText("1", false);
+    m_simpleListModel->appendText("2", false);
+    m_simpleListModel->appendText("3", false);
     m_simpleListView->setModel(m_simpleListModel);
     m_simpleListView->setCurrentIndex(m_simpleListModel->index(1, 0));
     Stub stub;
@@ -162,9 +164,11 @@ TEST_F(Ut_SimpleListView, keyPressEvent)
     m_simpleListModel->updataList("11", 0);
     m_simpleListModel->updataList("22", 1);
     m_simpleListModel->updataList("33", 2);
-    m_simpleListModel->appendText("1", true);
-    m_simpleListModel->appendText("2", true);
-    m_simpleListModel->appendText("3", true);
+    // appendText(sci=true) 会先移除第 0 行再尾插，净增 0 行，导致 index(1,0) 无效；
+    // 用纯追加形态准备数据，保证至少 6 行，index(1,0) 有效
+    m_simpleListModel->appendText("1", false);
+    m_simpleListModel->appendText("2", false);
+    m_simpleListModel->appendText("3", false);
     m_simpleListView->setModel(m_simpleListModel);
     m_simpleListView->setItemDelegate(m_simpleListDelegate);
     m_simpleListView->setCurrentIndex(m_simpleListModel->index(1, 0));
