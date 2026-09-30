@@ -4,6 +4,15 @@
 
 #include "ut_simplelistmodel.h"
 #include <QClipboard>
+#include "../../3rdparty/core/settings.h"
+#include "../stub.h"
+
+// 固定系统区域设置相关的环境依赖：分组开启、小数点"."、分组符","，
+// 与本文件用例断言中硬编码的格式一致（SimpleListModel 路径无非法字符过滤器，
+// 16/8/2 进制的空格分组由 formatThousandsSeparatorsPro 直接呈现）
+static bool stub_grouping_on() { return true; }
+static QString stub_dec_symbol() { return "."; }
+static QString stub_grp_symbol() { return ","; }
 
 Ut_SimpleListModel::Ut_SimpleListModel()
 {
@@ -87,6 +96,10 @@ TEST_F(Ut_SimpleListModel, getAnswer)
 
 TEST_F(Ut_SimpleListModel, radixChanged)
 {
+    Stub stub;
+    stub.set(ADDR(Settings, getSystemDigitGrouping), stub_grouping_on);
+    stub.set(ADDR(Settings, getSystemDecimalSymbol), stub_dec_symbol);
+    stub.set(ADDR(Settings, getSystemDigitGroupingSymbol), stub_grp_symbol);
     m_simpleListModel->m_expressionList.append("123＋321 ＝ 444");
     m_simpleListModel->radixChanged(16, 10);
     EXPECT_EQ(m_simpleListModel->m_expressionList.at(0), "291＋801＝1,092");

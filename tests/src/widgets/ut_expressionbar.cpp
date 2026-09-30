@@ -7,6 +7,14 @@
 #include <QClipboard>
 
 #include "../../src/widgets/expressionbar.h"
+#include "../../3rdparty/core/settings.h"
+#include "../stub.h"
+
+// 固定系统区域设置相关的环境依赖：分组开启、小数点"."、分组符","，
+// 与本文件用例断言中硬编码的格式一致
+static bool stub_grouping_on() { return true; }
+static QString stub_dec_symbol() { return "."; }
+static QString stub_grp_symbol() { return ","; }
 
 Ut_ExpressionBar::Ut_ExpressionBar()
 {
@@ -77,6 +85,10 @@ TEST_F(Ut_ExpressionBar, enterPointEvent)
 TEST_F(Ut_ExpressionBar, enterBackspaceEvent)
 {
     ExpressionBar *m_expressionBar = new ExpressionBar;
+    Stub stub;
+    stub.set(ADDR(Settings, getSystemDigitGrouping), stub_grouping_on);
+    stub.set(ADDR(Settings, getSystemDecimalSymbol), stub_dec_symbol);
+    stub.set(ADDR(Settings, getSystemDigitGroupingSymbol), stub_grp_symbol);
     m_expressionBar->findChild<InputEdit *>()->setText("1＋1");
     m_expressionBar->allElection();
     m_expressionBar->enterBackspaceEvent();
@@ -326,7 +338,9 @@ TEST_F(Ut_ExpressionBar, settingLinkage)
     m_expressionBar->m_hisLink.append(his);
     m_expressionBar->m_hisRevision = 0;
     m_expressionBar->settingLinkage();
-    EXPECT_EQ(m_expressionBar->m_hisLink.count(), 1);
+    // m_meanexp 构造时即为 true（0446584），纯数字表达式默认保留联动记录，
+    // settingLinkage 走 push_back 而非 pop_back，联动项数量变为 2
+    EXPECT_EQ(m_expressionBar->m_hisLink.count(), 2);
     delete m_expressionBar;
 }
 

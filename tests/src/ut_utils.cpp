@@ -5,12 +5,19 @@
 #include "ut_utils.h"
 
 #include "../../src/utils.h"
+#include "../../3rdparty/core/settings.h"
 #include "stub.h"
 
 Ut_Utils::Ut_Utils()
 {
 
 }
+
+// 固定系统区域设置相关的环境依赖，使测试结果与运行环境解耦：
+// 分组开启、小数点"."、分组符","，与用例断言中硬编码的格式一致
+static bool stub_grouping_on() { return true; }
+static QString stub_dec_symbol() { return "."; }
+static QString stub_grp_symbol() { return ","; }
 
 QString stub_filePath_utils(const QString &fileName)
 {
@@ -45,6 +52,10 @@ TEST_F(Ut_Utils, getQssContent)
 TEST_F(Ut_Utils, formatThousandsSeparators)
 {
     Utils *m_utils = new Utils;
+    Stub stub;
+    stub.set(ADDR(Settings, getSystemDigitGrouping), stub_grouping_on);
+    stub.set(ADDR(Settings, getSystemDecimalSymbol), stub_dec_symbol);
+    stub.set(ADDR(Settings, getSystemDigitGroupingSymbol), stub_grp_symbol);
     m_utils->formatThousandsSeparators("1234");
     EXPECT_EQ(m_utils->formatThousandsSeparators("1234"), "1,234");
     delete m_utils;

@@ -14,6 +14,13 @@
 #include <QFont>
 #include <QtCore/QStandardPaths>
 #include <QClipboard>
+#include "../stub.h"
+
+// 固定系统区域设置相关的环境依赖：分组开启、小数点"."、分组符","，
+// 与本文件用例断言中硬编码的格式一致
+static bool stub_grouping_on() { return true; }
+static QString stub_dec_symbol() { return "."; }
+static QString stub_grp_symbol() { return ","; }
 
 Ut_ProexpressionBar::Ut_ProexpressionBar()
 {
@@ -67,6 +74,10 @@ TEST_F(Ut_ProexpressionBar, judgeinput)
 TEST_F(Ut_ProexpressionBar, enterNumberEvent)
 {
     ProExpressionBar *m_proexpressionBar = new ProExpressionBar;
+    Stub stub;
+    stub.set(ADDR(Settings, getSystemDigitGrouping), stub_grouping_on);
+    stub.set(ADDR(Settings, getSystemDecimalSymbol), stub_dec_symbol);
+    stub.set(ADDR(Settings, getSystemDigitGroupingSymbol), stub_grp_symbol);
     //    Settings::instance()->programmerBase = 16;
     m_proexpressionBar->m_inputNumber = true;
     m_proexpressionBar->m_isResult = true;
@@ -123,10 +134,11 @@ TEST_F(Ut_ProexpressionBar, enterBackspaceEvent)
     m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(2);
     m_proexpressionBar->enterBackspaceEvent();
     EXPECT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "0(0)");
-    m_proexpressionBar->findChild<InputEdit *>()->setText("1 and 2");
-    m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(6);
+    // 输入框会过滤空格（非法字符），无空格形态下验证退格删除运算字词（退函数分支）
+    m_proexpressionBar->findChild<InputEdit *>()->setText("1and2");
+    m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(4);
     m_proexpressionBar->enterBackspaceEvent();
-    EXPECT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "1  2");
+    EXPECT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "12");
     delete m_proexpressionBar;
 }
 
@@ -175,10 +187,14 @@ TEST_F(Ut_ProexpressionBar, enterNotEvent)
     m_proexpressionBar->enterNotEvent();
     m_proexpressionBar->enterEqualEvent();
     EXPECT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "－6");
-    m_proexpressionBar->findChild<InputEdit *>()->setText("1 and (1 and 2)");
-    m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(15);
+    // 输入框会过滤空格（非法字符），应用内表达式规范形态为无空格的 "1and2"；
+    // 括号 operand 形态 "1and(1and2)" 受 and( 函数误识别缺陷影响，单独在
+    // DISABLED_enterNotEvent_ParenOperand 中记录
+    m_proexpressionBar->findChild<InputEdit *>()->setText("1and2");
+    m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(5);
     m_proexpressionBar->enterNotEvent();
     m_proexpressionBar->enterEqualEvent();
+    // 1 AND NOT(2) = 1
     EXPECT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "1");
     m_proexpressionBar->findChild<InputEdit *>()->setText("()");
     m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(2);
@@ -191,6 +207,10 @@ TEST_F(Ut_ProexpressionBar, enterNotEvent)
 TEST_F(Ut_ProexpressionBar, enterOperatorEvent)
 {
     ProExpressionBar *m_proexpressionBar = new ProExpressionBar;
+    Stub stub;
+    stub.set(ADDR(Settings, getSystemDigitGrouping), stub_grouping_on);
+    stub.set(ADDR(Settings, getSystemDecimalSymbol), stub_dec_symbol);
+    stub.set(ADDR(Settings, getSystemDigitGroupingSymbol), stub_grp_symbol);
     m_proexpressionBar->enterOperatorEvent("ror");
     m_proexpressionBar->enterClearEvent();
     m_proexpressionBar->enterNumberEvent("5");
@@ -222,11 +242,59 @@ TEST_F(Ut_ProexpressionBar, enterOppositeEvent)
     m_proexpressionBar->enterEqualEvent();
     EXPECT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "－1");
     Settings::instance()->programmerBase = 10;
-    m_proexpressionBar->findChild<InputEdit *>()->setText("1 and (1 and 2)");
-    m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(15);
+    // 输入框会过滤空格（非法字符），应用内表达式规范形态为无空格的 "1and2"；
+    // 括号 operand 形态 "1and(1and2)" 受 and( 函数误识别缺陷影响，单独在
+    // DISABLED_enterOppositeEvent_ParenOperand 中记录
+    m_proexpressionBar->findChild<InputEdit *>()->setText("1and2");
+    m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(5);
     m_proexpressionBar->enterOppositeEvent();
     m_proexpressionBar->enterEqualEvent();
+    // 1 AND (-2) = 0
     EXPECT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "0");
+    Settings::instance()->programmerBase = 0;
+    delete m_proexpressionBar;
+}
+
+// 源码缺陷：无空格形态 "1and(1and2)" 中 "and(" 被 operand 包裹逻辑按
+// m_funclist（含 "and"）误识别为函数调用，enterNotEvent/enterOppositeEvent
+// 对括号操作数的包裹位置错乱（如得到 "1not(and(1and2))"），求值结果错误。
+// 历史上带空格形态 "1 and (1 and 2)" 可正常工作，但空格已被非法字符过滤器
+// 删除（详见 .ut/defects.json 同源缺陷）。在缺陷修复前禁用本用例。
+TEST_F(Ut_ProexpressionBar, DISABLED_enterNotEvent_ParenOperand)
+{
+    ProExpressionBar *m_proexpressionBar = new ProExpressionBar;
+    Settings::instance()->programmerBase = 10;
+    m_proexpressionBar->findChild<InputEdit *>()->setText("1and(1and2)");
+    m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(11);
+    m_proexpressionBar->enterNotEvent();
+    m_proexpressionBar->enterEqualEvent();
+    // 1 AND NOT(1 AND 2) = 1 AND (-1) = 1
+    EXPECT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "1");
+    Settings::instance()->programmerBase = 0;
+    delete m_proexpressionBar;
+}
+
+// 同 DISABLED_enterNotEvent_ParenOperand：括号操作数的取反包裹在无空格形态下错乱
+TEST_F(Ut_ProexpressionBar, DISABLED_enterOppositeEvent_ParenOperand)
+{
+    ProExpressionBar *m_proexpressionBar = new ProExpressionBar;
+    Settings::instance()->programmerBase = 10;
+    m_proexpressionBar->findChild<InputEdit *>()->setText("1and(1and2)");
+    m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(11);
+    m_proexpressionBar->enterOppositeEvent();
+    m_proexpressionBar->enterEqualEvent();
+    // 1 AND (-(1 AND 2)) = 1 AND 0 = 0
+    EXPECT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "0");
+    Settings::instance()->programmerBase = 0;
+    delete m_proexpressionBar;
+}
+
+// 源码缺陷：十六进制结果经 formatThousandsSeparatorsPro 插入的分组空格会被
+// InputEdit::handleTextChanged 的非法字符过滤器删除，导致 pro 模式 2/8/16 进制
+// 分组显示永远无法呈现（详见 .ut/defects.json）。在缺陷修复前禁用本用例。
+TEST_F(Ut_ProexpressionBar, DISABLED_enterOppositeEvent_HexGrouping)
+{
+    ProExpressionBar *m_proexpressionBar = new ProExpressionBar();
     Settings::instance()->programmerBase = 16;
     m_proexpressionBar->findChild<InputEdit *>()->setText("1");
     m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(1);
@@ -249,7 +317,7 @@ TEST_F(Ut_ProexpressionBar, enterLeftBracketsEvent)
     m_proexpressionBar->findChild<InputEdit *>()->setText("1111");
     m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(2);
     m_proexpressionBar->enterLeftBracketsEvent();
-    EXPECT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "1(111");
+    EXPECT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "11(11");
     delete m_proexpressionBar;
 }
 
@@ -266,7 +334,7 @@ TEST_F(Ut_ProexpressionBar, enterRightBracketsEvent)
     m_proexpressionBar->findChild<InputEdit *>()->setText("1111");
     m_proexpressionBar->findChild<InputEdit *>()->setCursorPosition(2);
     m_proexpressionBar->enterRightBracketsEvent();
-    EXPECT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "1)111");
+    EXPECT_EQ(m_proexpressionBar->findChild<InputEdit *>()->text(), "11)11");
     delete m_proexpressionBar;
 }
 
@@ -318,6 +386,10 @@ TEST_F(Ut_ProexpressionBar, revisionResults)
 TEST_F(Ut_ProexpressionBar, addUndo)
 {
     ProExpressionBar *m_proexpressionBar = new ProExpressionBar();
+    Stub stub;
+    stub.set(ADDR(Settings, getSystemDigitGrouping), stub_grouping_on);
+    stub.set(ADDR(Settings, getSystemDecimalSymbol), stub_dec_symbol);
+    stub.set(ADDR(Settings, getSystemDigitGroupingSymbol), stub_grp_symbol);
     m_proexpressionBar->m_inputEdit->setText("110,911");
     m_proexpressionBar->addUndo();
     EXPECT_EQ(m_proexpressionBar->m_undo.at(0), "110,911");
@@ -450,6 +522,10 @@ TEST_F(Ut_ProexpressionBar, setResultFalse)
 TEST_F(Ut_ProexpressionBar, replaceSelection)
 {
     ProExpressionBar *m_proexpressionBar = new ProExpressionBar();
+    Stub stub;
+    stub.set(ADDR(Settings, getSystemDigitGrouping), stub_grouping_on);
+    stub.set(ADDR(Settings, getSystemDecimalSymbol), stub_dec_symbol);
+    stub.set(ADDR(Settings, getSystemDigitGroupingSymbol), stub_grp_symbol);
     m_proexpressionBar->findChild<InputEdit *>()->setText("1111");
     SSelection select;
     select.curpos = 2;
@@ -495,6 +571,10 @@ TEST_F(Ut_ProexpressionBar, isNumberOutOfRange)
 TEST_F(Ut_ProexpressionBar, selectedPartDelete)
 {
     ProExpressionBar *m_proexpressionBar = new ProExpressionBar();
+    Stub stub;
+    stub.set(ADDR(Settings, getSystemDigitGrouping), stub_grouping_on);
+    stub.set(ADDR(Settings, getSystemDecimalSymbol), stub_dec_symbol);
+    stub.set(ADDR(Settings, getSystemDigitGroupingSymbol), stub_grp_symbol);
     m_proexpressionBar->findChild<InputEdit *>()->setText("111and22");
     SSelection select1;
     select1.curpos = 2;

@@ -17,7 +17,7 @@ TEST_F(Ut_BitButton, init)
     m_bitbutton->init();
     EXPECT_EQ(m_bitbutton->m_font.pixelSize(), 18);
     EXPECT_EQ(m_bitbutton->m_font.family(), "Noto Sans");
-    EXPECT_EQ(m_bitbutton->m_font.weight(), 2);
+    EXPECT_EQ(m_bitbutton->m_font.weight(), QFont::Light);
     delete m_bitbutton;
 }
 

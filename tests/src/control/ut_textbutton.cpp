@@ -20,7 +20,7 @@ TEST_F(Ut_TextButton, init)
     EXPECT_EQ(m_textbutton->m_font.pixelSize(), 20);
     EXPECT_EQ(m_textbutton->m_font.family(), "Noto Sans");
     EXPECT_EQ(m_textbutton->m_font.styleName(), "Light");
-    EXPECT_EQ(m_textbutton->m_font.weight(), 2);
+    EXPECT_EQ(m_textbutton->m_font.weight(), QFont::Light);
     delete m_textbutton;
 }
 
