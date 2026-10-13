@@ -553,7 +553,7 @@ void InputEdit::handleTextChanged(const QString &text)
     qInfo() << "After multipleArithmetic=" << reformatStr;
     // 过滤非法字符：仅保留数字、英文字母、常用运算符、括号、百分号以及系统定义的小数点/分组符
     // 注意：不能使用 ch.isLetter()，因为它会匹配中文字符
-    const QString allowedStatic = QString::fromUtf8("＋－×÷.,%()/:^!");
+    const QString allowedStatic = QString::fromUtf8("＋－×÷.,%()/:^!π");
     QString filtered;
     filtered.reserve(reformatStr.size());
     for (const QChar &ch : std::as_const(reformatStr)) {
