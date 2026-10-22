@@ -80,6 +80,7 @@ BasicKeypad::BasicKeypad(QWidget *parent)
 
     initButtons();
     initUI();
+    buttonThemeChanged(DGuiApplicationHelper::instance()->themeType());
     qDebug() << "BasicKeypad UI initialized";
 
     // connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
