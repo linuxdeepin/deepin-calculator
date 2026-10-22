@@ -20,6 +20,7 @@
 // Boston, MA 02110-1301, USA.
 
 #include "settings.h"
+#include "../../src/ddlog.h"
 
 #include "../math/floatconfig.h"
 
@@ -412,14 +413,14 @@ QString Settings::getSystemDecimalSymbol() const
         QVariant variant = interface.property("DecimalSymbol");
         QString result = qvariant_cast<QString>(variant);
         if (!result.isEmpty()) {
-            qInfo() << "getSystemDecimalSymbol from D-Bus:" << result;
+            qCInfo(appLog) << "getSystemDecimalSymbol from D-Bus:" << result;
             return result;
         }
     }
     
     // 如果 D-Bus 失败，回退到 QLocale
     QString fallback = QLocale().decimalPoint();
-    qInfo() << "getSystemDecimalSymbol from QLocale:" << fallback;
+    qCInfo(appLog) << "getSystemDecimalSymbol from QLocale:" << fallback;
     return fallback;
 }
 
@@ -449,7 +450,7 @@ QString Settings::getSystemDigitGroupingSymbol() const
         QString result = qvariant_cast<QString>(variant);
         if (!result.isEmpty()) {
             result = normalizeSpace(result);
-            qInfo() << "getSystemDigitGroupingSymbol from D-Bus:" << result;
+            qCInfo(appLog) << "getSystemDigitGroupingSymbol from D-Bus:" << result;
             return result;
         }
     }
@@ -457,7 +458,7 @@ QString Settings::getSystemDigitGroupingSymbol() const
     // 如果 D-Bus 失败，回退到 QLocale
     QString fallback = QLocale().groupSeparator();
     fallback = normalizeSpace(fallback);
-    qInfo() << "getSystemDigitGroupingSymbol from QLocale:" << fallback;
+    qCInfo(appLog) << "getSystemDigitGroupingSymbol from QLocale:" << fallback;
     return fallback;
 }
 
@@ -476,12 +477,12 @@ bool Settings::getSystemDigitGrouping() const
             // DigitGrouping 返回示例格式，如 "123,456,789"，如果包含分隔符说明启用
             bool groupingEnabled = result.contains(",") || result.contains(".") || 
                                   result.contains(" ") || result.contains("'");
-            qInfo() << "getSystemDigitGrouping from D-Bus:" << groupingEnabled;
+            qCInfo(appLog) << "getSystemDigitGrouping from D-Bus:" << groupingEnabled;
             return groupingEnabled;
         }
     }
     
     // 如果 D-Bus 失败，默认启用分组
-    qInfo() << "getSystemDigitGrouping from D-Bus failed, using default (true)";
+    qCInfo(appLog) << "getSystemDigitGrouping from D-Bus failed, using default (true)";
     return true;
 }

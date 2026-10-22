@@ -1,9 +1,10 @@
 // Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "memhiswidget.h"
+#include "../ddlog.h"
 #include <QDebug>
 
 #include "dthememanager.h"
@@ -24,7 +25,7 @@ MemHisWidget::MemHisWidget(QWidget *parent)
 , m_historyBtn(new DButtonBoxButton(QIcon(), {}, this))
 , m_clearButton(new IconButton(this, 1))
 {
-    qDebug() << "MemHisWidget constructor called";
+    qCDebug(appLog) << "MemHisWidget constructor called";
     m_memoryPublic = MemoryPublic::instance();
     m_memoryWidget = m_memoryPublic->getwidget(MemoryPublic::scientificright);
     m_memoryWidget->setFocusPolicy(Qt::TabFocus);
@@ -165,7 +166,7 @@ MemHisWidget::MemHisWidget(QWidget *parent)
 
 MemHisWidget::~MemHisWidget()
 {
-    qDebug() << "MemHisWidget destructor called";
+    qCDebug(appLog) << "MemHisWidget destructor called";
 }
 
 /**
@@ -173,7 +174,7 @@ MemHisWidget::~MemHisWidget()
  */
 void MemHisWidget::focusOnButtonbox(Qt::FocusReason Reason)
 {
-    qDebug() << "focusOnButtonbox called, reason:" << Reason;
+    qCDebug(appLog) << "focusOnButtonbox called, reason:" << Reason;
 
     if (m_stackWidget->currentWidget() == m_memoryWidget) {
         m_buttonBox->button(0)->setChecked(true);
@@ -188,7 +189,7 @@ void MemHisWidget::focusOnButtonbox(Qt::FocusReason Reason)
  */
 void MemHisWidget::memoryFunctions(MemHisWidget::memOperate operate, Quantity answer, int row)
 {
-    qDebug() << "memoryFunctions called, operation:" << operate << "row:" << row;
+    qCDebug(appLog) << "memoryFunctions called, operation:" << operate << "row:" << row;
 
     switch (operate) {
     case memoryplus:
@@ -214,7 +215,7 @@ void MemHisWidget::memoryFunctions(MemHisWidget::memOperate operate, Quantity an
 
 void MemHisWidget::resetFocus()
 {
-    qDebug() << "resetFocus called, showH:" << m_isshowH << "showM:" << m_isshowM;
+    qCDebug(appLog) << "resetFocus called, showH:" << m_isshowH << "showM:" << m_isshowM;
 
     m_isshowH ? m_listView->setFocusPolicy(Qt::TabFocus) : m_listView->setFocusPolicy(Qt::NoFocus);
     m_isshowM ? m_memoryWidget->setFocusPolicy(Qt::TabFocus) : m_memoryWidget->setFocusPolicy(Qt::NoFocus);
@@ -230,7 +231,7 @@ void MemHisWidget::mouseMoveEvent(QMouseEvent *e)
  */
 void MemHisWidget::keyPressEvent(QKeyEvent *e)
 {
-    qDebug() << "keyPressEvent called, key:" << e->key();
+    qCDebug(appLog) << "keyPressEvent called, key:" << e->key();
 
     if (e->key() == Qt::Key_Left && (m_historyBtn->hasFocus() ||  m_memoryBtn->hasFocus())) {
 //        focusNextChild();//焦点移动
@@ -311,7 +312,7 @@ bool MemHisWidget::eventFilter(QObject *obj, QEvent *event)
 
 void MemHisWidget::focusInEvent(QFocusEvent *event)
 {
-    qDebug() << "focusInEvent called, reason:" << event->reason();
+    qCDebug(appLog) << "focusInEvent called, reason:" << event->reason();
 
     if (event->reason() == Qt::TabFocusReason) {
         if (m_stackWidget->currentWidget() == m_memoryWidget) {
@@ -328,7 +329,7 @@ void MemHisWidget::focusInEvent(QFocusEvent *event)
  */
 void MemHisWidget::themeChanged(int type)
 {
-    qDebug() << "themeChanged called, type:" << type;
+    qCDebug(appLog) << "themeChanged called, type:" << type;
 
     QString path;
     int typeIn = type;
@@ -354,7 +355,7 @@ void MemHisWidget::themeChanged(int type)
  */
 void MemHisWidget::iconChanged(int type, int id)
 {
-    qDebug() << "iconChanged called, type:" << type << "id:" << id;
+    qCDebug(appLog) << "iconChanged called, type:" << type << "id:" << id;
 
     QString path;
     if (type == 2)
@@ -375,7 +376,7 @@ void MemHisWidget::iconChanged(int type, int id)
  */
 void MemHisWidget::historyfilled()
 {
-    qDebug() << "historyfilled called";
+    qCDebug(appLog) << "historyfilled called";
 
     if (m_isshowH == false)
         m_listModel->deleteItem(0);
@@ -389,7 +390,7 @@ void MemHisWidget::historyfilled()
 
 MemoryWidget *MemHisWidget::getMemoryWiget()
 {
-    qDebug() << "getMemoryWiget called";
+    qCDebug(appLog) << "getMemoryWiget called";
 
     return m_memoryWidget;
 }
@@ -397,7 +398,7 @@ MemoryWidget *MemHisWidget::getMemoryWiget()
 
 SimpleListModel* MemHisWidget::getSimpleListModel()
 {
-    qDebug() << "getSimpleListModel called";
+    qCDebug(appLog) << "getSimpleListModel called";
 
     return m_listModel;
 }

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "sciexpressionbar.h"
+#include "../ddlog.h"
 
 #include "../utils.h"
 #include "../globaldefine.h"
@@ -23,7 +24,7 @@ const int INPUTEDIT_HEIGHT = 55;
 SciExpressionBar::SciExpressionBar(QWidget *parent)
     : DWidget(parent)
 {
-    qDebug() << "SciExpressionBar constructor called";
+    qCDebug(appLog) << "SciExpressionBar constructor called";
 
     m_listView = new SimpleListView(0, this);
     m_listDelegate = new SimpleListDelegate(0, this);
@@ -66,7 +67,7 @@ SciExpressionBar::SciExpressionBar(QWidget *parent)
 
 SciExpressionBar::~SciExpressionBar()
 {
-    qDebug() << "SciExpressionBar destructor called";
+    qCDebug(appLog) << "SciExpressionBar destructor called";
 }
 
 void SciExpressionBar::mouseMoveEvent(QMouseEvent *e)
@@ -89,7 +90,7 @@ Quantity SciExpressionBar::getanswer()
 
 void SciExpressionBar::enterNumberEvent(const QString &text)
 {
-    qDebug() << "enterNumberEvent called with text:" << text;
+    qCDebug(appLog) << "enterNumberEvent called with text:" << text;
     if (!judgeinput())
         return;
     if (m_inputNumber && m_isResult == true) {
@@ -141,7 +142,7 @@ void SciExpressionBar::enterNumberEvent(const QString &text)
 
 void SciExpressionBar::enterSymbolEvent(const QString &text)
 {
-    qDebug() << "enterSymbolEvent called with text:" << text;
+    qCDebug(appLog) << "enterSymbolEvent called with text:" << text;
     if (!judgeinput())
         return;
     QString oldText = m_inputEdit->text();
@@ -217,7 +218,7 @@ void SciExpressionBar::enterSymbolEvent(const QString &text)
 
 void SciExpressionBar::enterPercentEvent()
 {
-    qDebug() << "enterPercentEvent called";
+    qCDebug(appLog) << "enterPercentEvent called";
     if (!judgeinput())
         return;
     if (m_inputEdit->text().isEmpty()) {
@@ -263,7 +264,7 @@ void SciExpressionBar::enterPercentEvent()
 
 void SciExpressionBar::enterPointEvent()
 {
-    qDebug() << "enterPointEvent called";
+    qCDebug(appLog) << "enterPointEvent called";
     if (!judgeinput())
         return;
 
@@ -320,7 +321,7 @@ void SciExpressionBar::enterPointEvent()
 
 void SciExpressionBar::enterBackspaceEvent()
 {
-    qDebug() << "enterBackspaceEvent called";
+    qCDebug(appLog) << "enterBackspaceEvent called";
     QString sRegNum = "[a-z]"; //20200811去除大写字母，否则Ｅ将被看作函数
     QRegularExpression rx;
     rx.setPattern(sRegNum);
@@ -476,7 +477,7 @@ void SciExpressionBar::enterBackspaceEvent()
 
 void SciExpressionBar::enterClearEvent()
 {
-    qDebug() << "enterClearEvent called";
+    qCDebug(appLog) << "enterClearEvent called";
     bool need_addundo = !m_inputEdit->text().isEmpty();
     if (m_isAllClear) {
         m_listModel->clearItems();
@@ -503,7 +504,7 @@ void SciExpressionBar::enterClearEvent()
 
 void SciExpressionBar::enterEqualEvent()
 {
-    qDebug() << "enterEqualEvent called";
+    qCDebug(appLog) << "enterEqualEvent called";
 //    m_evaluator->setVariable(QLatin1String("e"), DMath::e(), Variable::BuiltIn);
     QString exp = m_inputEdit->text();
     if (m_inputEdit->text().isEmpty()) {
@@ -516,12 +517,12 @@ void SciExpressionBar::enterEqualEvent()
     Quantity ans = m_evaluator->evalUpdateAns();
     // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
     // 20200407 超过16位小数未科学计数
-    qDebug() << "Evaluator error:" << m_evaluator->error();
-    qDebug() << "Current expression:" << m_inputEdit->expressionText();
+    qCDebug(appLog) << "Evaluator error:" << m_evaluator->error();
+    qCDebug(appLog) << "Current expression:" << m_inputEdit->expressionText();
     if (m_evaluator->error().isEmpty() && (exp.indexOf(QRegularExpression("[a-z＋－×÷/.,%()πe^!]")) != -1)) {
-        qDebug() << "Valid expression evaluated";
+        qCDebug(appLog) << "Valid expression evaluated";
         if (ans.isNan() && !m_evaluator->isUserFunctionAssign()) {
-            qWarning() << "Expression evaluation error";
+            qCWarning(appLog) << "Expression evaluation error";
             m_pair.first = false;
             m_expression = exp + "＝" + tr("Expression error");
             m_listModel->updataList(m_expression, -1, true);
@@ -924,7 +925,7 @@ void SciExpressionBar::copyClipboard2Result()
     if (m_inputEdit->text() == exp) {
         m_inputEdit->setText(oldText);
         m_inputEdit->setCursorPosition(curpos);
-        qDebug() << "Invalid content"; //提示是否复制了无效内容,复制的内容全是字母等
+        qCDebug(appLog) << "Invalid content"; //提示是否复制了无效内容,复制的内容全是字母等
     }
 
     if (!m_inputEdit->text().isEmpty())

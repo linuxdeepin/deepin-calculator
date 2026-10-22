@@ -1,9 +1,10 @@
 // Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "textbutton.h"
+#include "../ddlog.h"
 
 const qreal BLURRADIUS = 12; //阴影模糊半径
 const qreal ROUND_XRADIUS = 8; //按钮圆角x轴半径
@@ -13,7 +14,7 @@ TextButton::TextButton(const QString &text, bool page, QWidget *parent)
     : DPushButton(text, parent)
     , m_effect(new QGraphicsDropShadowEffect(this))
 {
-    qDebug() << "TextButton constructor called with text:" << text << "page:" << page;
+    qCDebug(appLog) << "TextButton constructor called with text:" << text << "page:" << page;
     setFocusPolicy(Qt::TabFocus);
     setObjectName("TextButton");
 
@@ -27,7 +28,7 @@ TextButton::TextButton(const QString &text, bool page, QWidget *parent)
 
 TextButton::~TextButton()
 {
-    qDebug() << "TextButton destructor called";
+    qCDebug(appLog) << "TextButton destructor called";
     // delete m_effect;
 }
 
@@ -94,7 +95,7 @@ void TextButton::init()
  */
 void TextButton::animate(bool isspace, int msec)
 {
-    qDebug() << "Button animation triggered with space:" << isspace << "duration:" << msec << "ms";
+    qCDebug(appLog) << "Button animation triggered with space:" << isspace << "duration:" << msec << "ms";
     if (m_isPress == false) { //edit for bug-20492 20200416
         m_isHover = false;  //edit for bug-20508 20200414
         if (!isspace)
@@ -452,7 +453,7 @@ void TextButton::focusOutEvent(QFocusEvent *e)
 
 void TextButton::keyPressEvent(QKeyEvent *e)
 {
-    qDebug() << "Key pressed:" << e->key();
+    qCDebug(appLog) << "Key pressed:" << e->key();
     switch (e->key()) {
     case Qt::Key_Up:
         emit focus(0);

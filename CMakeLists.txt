@@ -145,6 +145,19 @@ install(FILES ${CMAKE_CURRENT_LIST_DIR}/src/assets/images/deepin-calculator.svg
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src/assets/deepin-calculator
                 DESTINATION ${CMAKE_INSTALL_DATADIR}/deepin-manual/manual-assets/application/)
 
+# 安装 DConfig 配置文件（调试模式动态日志规则）
+set(DCONFIG_APPID org.deepin.calculator)
+file(GLOB DCONFIG_FILES "${CMAKE_SOURCE_DIR}/assets/configs/*.json")
+if(DEFINED DSG_DATA_DIR)
+    if (DTK_VERSION_MAJOR EQUAL 6)
+        dtk_add_config_meta_files(APPID ${DCONFIG_APPID} FILES ${DCONFIG_FILES})
+    else()
+        install(FILES ${DCONFIG_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/dsg/configs/${DCONFIG_APPID})
+    endif()
+else()
+    install(FILES ${DCONFIG_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/dsg/configs/${DCONFIG_APPID})
+endif()
+
 # 启用单元测试 (Debug 模式下)
 if (NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "loongarch64")
   if (CMAKE_BUILD_TYPE STREQUAL "Debug")

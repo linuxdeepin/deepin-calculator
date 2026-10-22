@@ -1,9 +1,10 @@
 // Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "memorywidget.h"
+#include "../ddlog.h"
 
 #include <QDebug>
 #include <QFont>
@@ -48,7 +49,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
     , m_clearbutton(new IconButton(this, 1))
     , m_memoryDelegate(new MemoryItemDelegate(this))
 {
-    qDebug() << "MemoryWidget constructor, mode:" << mode;
+    qCDebug(appLog) << "MemoryWidget constructor, mode:" << mode;
     this->setAttribute(Qt::WA_DeleteOnClose);
     m_label = new QLabel(this);
     m_calculatormode = mode;
@@ -125,7 +126,7 @@ MemoryWidget::MemoryWidget(int mode, QWidget *parent)
  */
 void MemoryWidget::generateData(const Quantity answer, bool ismax)
 {
-    qDebug() << "MemoryWidget::generateData, ismax:" << ismax;
+    qCDebug(appLog) << "MemoryWidget::generateData, ismax:" << ismax;
 
     m_label->hide();
     if (ismax)
@@ -273,7 +274,7 @@ void MemoryWidget::keyPressEvent(QKeyEvent *event)
 
 void MemoryWidget::memoryAnsChanged(int row, const Quantity answer)
 {
-    qDebug() << "MemoryWidget::memoryAnsChanged, row:" << row;
+    qCDebug(appLog) << "MemoryWidget::memoryAnsChanged, row:" << row;
 
     QString formatResult = QString();
     if (m_calculatormode == 2) {
@@ -294,7 +295,7 @@ void MemoryWidget::memoryAnsChanged(int row, const Quantity answer)
  */
 void MemoryWidget::memoryclean()
 {
-    qDebug() << "MemoryWidget::memoryclean";
+    qCDebug(appLog) << "MemoryWidget::memoryclean";
 
     m_listwidget->setFocusPolicy(Qt::NoFocus); //内存无内容时NoFocus
     m_label->show();
@@ -426,7 +427,7 @@ MemoryListWidget *MemoryWidget::getMemoryWidget()
  */
 QString MemoryWidget::programmerResult(const Quantity answer)
 {
-    qDebug() << "MemoryWidget::programmerResult";
+    qCDebug(appLog) << "MemoryWidget::programmerResult";
 
     QString result;
     Quantity ans = DMath::integer(answer);
@@ -448,7 +449,7 @@ QString MemoryWidget::programmerResult(const Quantity answer)
  */
 void MemoryWidget::resetAllLabelByBase()
 {
-    qDebug() << "MemoryWidget::resetAllLabelByBase";
+    qCDebug(appLog) << "MemoryWidget::resetAllLabelByBase";
 
     if (m_memorypublic->isEmpty())
         return;
@@ -470,7 +471,7 @@ void MemoryWidget::resetAllLabelByBase()
  */
 void MemoryWidget::resetLabelBySeparator()
 {
-    qDebug() << "MemoryWidget::resetLabelBySeparator";
+    qCDebug(appLog) << "MemoryWidget::resetLabelBySeparator";
 
     if (m_memorypublic->isEmpty())
         return;
@@ -494,7 +495,7 @@ void MemoryWidget::resetLabelBySeparator()
 
 void MemoryWidget::initConnect()
 {
-    qDebug() << "MemoryWidget::initConnect";
+    qCDebug(appLog) << "MemoryWidget::initConnect";
 
     connect(m_memorypublic, &MemoryPublic::generateDataSig, this, &MemoryWidget::generateData);
     connect(m_memorypublic, &MemoryPublic::memorycleanSig, this, &MemoryWidget::memoryclean);

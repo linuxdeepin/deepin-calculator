@@ -1,9 +1,10 @@
 // Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "expressionbar.h"
+#include "../ddlog.h"
 
 #include "../utils.h"
 #include "../globaldefine.h"
@@ -25,7 +26,7 @@ const int HISTORYLINKAGE_MAXSIZE = 10;
 ExpressionBar::ExpressionBar(QWidget *parent)
     : DWidget(parent)
 {
-    qDebug() << "ExpressionBar constructor called";
+    qCDebug(appLog) << "ExpressionBar constructor called";
     m_listView = new SimpleListView(0, this);
     m_listDelegate = new SimpleListDelegate(0, this);
     m_listModel = new SimpleListModel(0, this);
@@ -67,7 +68,7 @@ ExpressionBar::ExpressionBar(QWidget *parent)
 
 ExpressionBar::~ExpressionBar()
 {
-    qDebug() << "ExpressionBar destructor called";
+    qCDebug(appLog) << "ExpressionBar destructor called";
 }
 
 void ExpressionBar::mouseMoveEvent(QMouseEvent *e)
@@ -83,7 +84,7 @@ void ExpressionBar::mouseMoveEvent(QMouseEvent *e)
  */
 void ExpressionBar::enterNumberEvent(const QString &text)
 {
-    qDebug() << "enterNumberEvent called, text:" << text;
+    qCDebug(appLog) << "enterNumberEvent called, text:" << text;
 
     //    if (m_isLinked)
     //        clearLinkageCache();
@@ -129,7 +130,7 @@ void ExpressionBar::enterNumberEvent(const QString &text)
  */
 void ExpressionBar::enterSymbolEvent(const QString &text)
 {
-    qDebug() << "enterSymbolEvent called, text:" << text;
+    qCDebug(appLog) << "enterSymbolEvent called, text:" << text;
 
     QString symbol = text;
     symbol.replace('/', QString::fromUtf8("÷"));
@@ -230,7 +231,7 @@ void ExpressionBar::enterSymbolEvent(const QString &text)
  */
 void ExpressionBar::enterPointEvent()
 {
-    qDebug() << "enterPointEvent called";
+    qCDebug(appLog) << "enterPointEvent called";
 
     const auto sys = Settings::instance();
     QString decSym = sys->getSystemDecimalSymbol();
@@ -291,7 +292,7 @@ void ExpressionBar::enterPointEvent()
  */
 void ExpressionBar::enterBackspaceEvent()
 {
-    qDebug() << "enterBackspaceEvent called";
+    qCDebug(appLog) << "enterBackspaceEvent called";
 
     //    if (m_isResult)
     //        clearLinkageCache();
@@ -387,7 +388,7 @@ void ExpressionBar::enterBackspaceEvent()
  */
 void ExpressionBar::enterClearEvent()
 {
-    qDebug() << "enterClearEvent called, isAllClear:" << m_isAllClear;
+    qCDebug(appLog) << "enterClearEvent called, isAllClear:" << m_isAllClear;
 
     bool need_addundo = !m_inputEdit->text().isEmpty();
     if (m_isAllClear) {
@@ -425,7 +426,7 @@ void ExpressionBar::enterClearEvent()
  */
 void ExpressionBar::enterEqualEvent()
 {
-    qDebug() << "enterEqualEvent called, expression:" << m_inputEdit->text();
+    qCDebug(appLog) << "enterEqualEvent called, expression:" << m_inputEdit->text();
 
     QString oldtext = m_inputEdit->text();
     if (m_inputEdit->text().isEmpty())
@@ -478,7 +479,7 @@ void ExpressionBar::enterEqualEvent()
     } else {
         // 20200403 bug-18971 表达式错误时输数字加等于再重新输入表达式历史记录错误表达式未被替换
         if (!m_evaluator->error().isEmpty()) {
-            qWarning() << "Expression error in evaluation";
+            qCWarning(appLog) << "Expression error in evaluation";
             m_listModel->updataList(m_inputEdit->text() + "＝" + tr("Expression error"),
                                     m_hisRevision);
             m_meanexp = false; // 20200409 输入错误表达式后，修改历史记录,再次输入表达式后高亮未取消
@@ -882,7 +883,7 @@ void ExpressionBar::copyClipboard2Result()
     if (m_inputEdit->text() == exp) {
         m_inputEdit->setText(oldText);
         m_inputEdit->setCursorPosition(curpos);
-        qDebug() << "Invalid content"; //提示是否复制了无效内容,复制的内容全是字母等
+        qCDebug(appLog) << "Invalid content"; //提示是否复制了无效内容,复制的内容全是字母等
     }
     if (!m_inputEdit->text().isEmpty())
         emit clearStateChanged(false);

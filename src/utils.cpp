@@ -1,9 +1,10 @@
 // Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "utils.h"
+#include "ddlog.h"
 #include "dsettings.h"
 #include "../3rdparty/core/settings.h"
 
@@ -30,12 +31,12 @@ Utils::~Utils()
  */
 QString Utils::getConfigDir()
 {
-    qDebug() << "Enter getConfigDir()";
+    qCDebug(appLog) << "Enter getConfigDir()";
     QDir dir(QDir(QStandardPaths::standardLocations(QStandardPaths::ConfigLocation).first())
              .filePath(qApp->organizationName()));
     
     QString configPath = dir.filePath(qApp->applicationName());
-    qDebug() << "Exit getConfigDir(), config path:" << configPath;
+    qCDebug(appLog) << "Exit getConfigDir(), config path:" << configPath;
     return configPath;
 }
 
@@ -44,18 +45,18 @@ QString Utils::getConfigDir()
  */
 QString Utils::getQssContent(const QString &filePath)
 {
-    qDebug() << "Enter getQssContent(), filePath:" << filePath;
+    qCDebug(appLog) << "Enter getQssContent(), filePath:" << filePath;
     QFile file(filePath);
     QString qss = nullptr;
 
     if (file.open(QIODevice::ReadOnly)) {
         qss = file.readAll();
-        qInfo() << "Successfully read QSS content from" << filePath;
+        qCInfo(appLog) << "Successfully read QSS content from" << filePath;
     } else {
-        qWarning() << "Failed to open QSS file:" << filePath << "Error:" << file.errorString();
+        qCWarning(appLog) << "Failed to open QSS file:" << filePath << "Error:" << file.errorString();
     }
 
-    qDebug() << "Exit getQssContent()";
+    qCDebug(appLog) << "Exit getQssContent()";
     return qss;
 }
 
@@ -64,7 +65,7 @@ QString Utils::getQssContent(const QString &filePath)
  */
 QString Utils::formatThousandsSeparators(const QString &str)
 {
-    qDebug() << "Enter formatThousandsSeparators(), input:" << str;
+    qCDebug(appLog) << "Enter formatThousandsSeparators(), input:" << str;
 
     const auto sys = Settings::instance();
     const QString decSym = sys->getSystemDecimalSymbol();
@@ -72,7 +73,7 @@ QString Utils::formatThousandsSeparators(const QString &str)
     const bool groupingEnabled = sys->getSystemDigitGrouping();
     const int separate = DSettingsAlt::instance()->getSeparate();
 
-    qInfo() << "formatThousandsSeparators settings decSym=" << decSym << "grpSym=" << grpSym << "grouping=" << groupingEnabled;
+    qCInfo(appLog) << "formatThousandsSeparators settings decSym=" << decSym << "grpSym=" << grpSym << "grouping=" << groupingEnabled;
 
     QString input = str;
     QString sign;
@@ -132,7 +133,7 @@ QString Utils::formatThousandsSeparators(const QString &str)
     }
     result += exponent;
 
-    qDebug() << "Exit formatThousandsSeparators(), output:" << result;
+    qCDebug(appLog) << "Exit formatThousandsSeparators(), output:" << result;
     return result;
 }
 
@@ -141,18 +142,18 @@ QString Utils::formatThousandsSeparators(const QString &str)
  */
 bool Utils::stringIsDigit(const QString &str)
 {
-    qDebug() << "Enter stringIsDigit(), input:" << str;
+    qCDebug(appLog) << "Enter stringIsDigit(), input:" << str;
     bool isDigit = true;
 
     for (auto &ch : str) {
         if (!ch.isDigit() && ch != '.' && ch != ',' && ch != '-') { //非数字条件为非数字小数点分隔符负号
-            qDebug() << "Invalid character found:" << ch;
+            qCDebug(appLog) << "Invalid character found:" << ch;
             isDigit = false;
             break;
         }
     }
 
-    qDebug() << "Exit stringIsDigit(), result:" << isDigit;
+    qCDebug(appLog) << "Exit stringIsDigit(), result:" << isDigit;
     return isDigit;
 }
 
@@ -338,7 +339,7 @@ QString Utils::toHalfWidth(const QString &str)
 {
     QString result = str;
     if (str.length() <= 0) {
-        qDebug() << "Empty input string";
+        qCDebug(appLog) << "Empty input string";
         return QString();
     }
     for (int i = 0; i < result.length(); i++) {

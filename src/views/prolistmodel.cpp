@@ -1,29 +1,30 @@
 // Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <QDebug>
 
 #include "prolistmodel.h"
+#include "../ddlog.h"
 #include "../utils.h"
 
 ProListModel::ProListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    qDebug() << "ProListModel constructor";
+    qCDebug(appLog) << "ProListModel constructor";
 
     clearItems();
 }
 
 ProListModel::~ProListModel()
 {
-    qDebug() << "ProListModel destructor";
+    qCDebug(appLog) << "ProListModel destructor";
 }
 
 void ProListModel::refrushModel()
 {
-    qDebug() << "ProListModel::refrushModel";
+    qCDebug(appLog) << "ProListModel::refrushModel";
 
     beginResetModel();
     endResetModel();
@@ -59,7 +60,7 @@ QVariant ProListModel::data(const QModelIndex &index, int role) const
  */
 void ProListModel::clearItems()
 {
-    qDebug() << "ProListModel::clearItems - clearing all items";
+    qCDebug(appLog) << "ProListModel::clearItems - clearing all items";
 
     m_expressionList.clear();
     beginInsertRows(QModelIndex(), 0, 0);
@@ -84,7 +85,7 @@ void ProListModel::clearItems()
  */
 void ProListModel::updataList(const Quantity ans)
 {
-    qInfo() << "ProListModel::updataList - updating list with new data";
+    qCInfo(appLog) << "ProListModel::updataList - updating list with new data";
 
     m_expressionList.clear();
 
@@ -132,7 +133,7 @@ void ProListModel::updataList(const Quantity ans)
 
 void ProListModel::copyToClipboard(const int index)
 {
-    qDebug() << "ProListModel::copyToClipboard - copying index:" << index;
+    qCDebug(appLog) << "ProListModel::copyToClipboard - copying index:" << index;
 
     QClipboard *clipboard = QApplication::clipboard();
     QString copy = m_expressionList.at(index);

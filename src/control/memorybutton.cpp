@@ -1,9 +1,10 @@
 // Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "memorybutton.h"
+#include "../ddlog.h"
 
 #include <QMouseEvent>
 #include <QPainter>
@@ -21,7 +22,7 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
     , m_effect(new QGraphicsDropShadowEffect(this))
     , m_isallgray(false)
 {
-    qDebug() << "MemoryButton constructor called with text:" << text << "listwidgetbtn:" << listwidgetbtn;
+    qCDebug(appLog) << "MemoryButton constructor called with text:" << text << "listwidgetbtn:" << listwidgetbtn;
     m_settings = DSettingsAlt::instance();
     setObjectName("MemoryButton");
     m_widgetbtn = listwidgetbtn; //是否是内存列表按键
@@ -35,7 +36,7 @@ MemoryButton::MemoryButton(const QString &text, bool listwidgetbtn, QWidget *par
 
 MemoryButton::~MemoryButton()
 {
-    qDebug() << "MemoryButton destructor called";
+    qCDebug(appLog) << "MemoryButton destructor called";
     // delete m_effect;
 }
 
@@ -56,7 +57,7 @@ void MemoryButton::init()
  */
 void MemoryButton::animate(bool isspace, int msec)
 {
-    qDebug() << "Button animation triggered with space:" << isspace << "duration:" << msec << "ms";
+    qCDebug(appLog) << "Button animation triggered with space:" << isspace << "duration:" << msec << "ms";
     if (m_isPress == false) { //edit for bug-20492 20200416
         m_isHover = false;  //edit for bug-20508 20200414
         if (!isspace)
@@ -77,7 +78,7 @@ void MemoryButton::animate(bool isspace, int msec)
  */
 void MemoryButton::setbtnlight(bool light)
 {
-    qInfo() << "Button light state changed to:" << light;
+    qCInfo(appLog) << "Button light state changed to:" << light;
     int mode = m_settings->getOption("mode").toInt();
     if (mode != 1) {
         if (light == true)

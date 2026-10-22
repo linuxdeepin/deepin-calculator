@@ -1,9 +1,10 @@
 // Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "programmerkeypad.h"
+#include "../ddlog.h"
 #include "../../3rdparty/core/settings.h"
 
 const int KEYPAD_HEIGHT = 279; //键盘界面高度
@@ -39,7 +40,7 @@ ProgrammerKeypad::ProgrammerKeypad(QWidget *parent)
       m_leftBracket(new DLabel(this)),
       m_rightBracket(new DLabel(this))
 {
-    qDebug() << "ProgrammerKeypad constructor called";
+    qCDebug(appLog) << "ProgrammerKeypad constructor called";
     this->setFixedHeight(KEYPAD_HEIGHT);
     m_layout->setSpacing(KEYPAD_SPACING);
     m_layout->setContentsMargins(0, 0, 0, 0);
@@ -55,7 +56,7 @@ ProgrammerKeypad::ProgrammerKeypad(QWidget *parent)
 
 ProgrammerKeypad::~ProgrammerKeypad()
 {
-    qDebug() << "ProgrammerKeypad destructor called";
+    qCDebug(appLog) << "ProgrammerKeypad destructor called";
 }
 
 /**
@@ -80,7 +81,7 @@ DPushButton *ProgrammerKeypad::button(ProgrammerKeypad::Buttons key)
  */
 void ProgrammerKeypad::animate(ProgrammerKeypad::Buttons key, bool isspace)
 {
-    qDebug() << "Button animation triggered for key:" << key << "with space:" << isspace;
+    qCDebug(appLog) << "Button animation triggered for key:" << key << "with space:" << isspace;
     if (button(key)->text().isEmpty()) {
         IconButton *btn = static_cast<IconButton *>(button(key));
         btn->animate(isspace);
@@ -115,7 +116,7 @@ bool ProgrammerKeypad::buttonHasFocus()
  */
 void ProgrammerKeypad::initButtons()
 {
-    qDebug() << "Initializing programmer keypad buttons";
+    qCDebug(appLog) << "Initializing programmer keypad buttons";
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
@@ -188,7 +189,7 @@ void ProgrammerKeypad::initButtons()
  */
 void ProgrammerKeypad::buttonThemeChanged(int type)
 {
-    qInfo() << "Button theme changed to:" << (type == 2 ? "dark" : "light");
+    qCInfo(appLog) << "Button theme changed to:" << (type == 2 ? "dark" : "light");
     m_themetype = type;
     QString path;
     if (type == 2)
@@ -214,7 +215,7 @@ void ProgrammerKeypad::buttonThemeChanged(int type)
  */
 void ProgrammerKeypad::getFocus(int direction)
 {
-    qDebug() << "Focus direction changed:" << direction;
+    qCDebug(appLog) << "Focus direction changed:" << direction;
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
     while (i.hasNext()) {
         i.next();
@@ -275,7 +276,7 @@ void ProgrammerKeypad::getFocus(int direction)
  */
 void ProgrammerKeypad::radixChanged(int row)
 {
-    qInfo() << "Radix changed to:" << (row == 0 ? "hex" : row == 1 ? "dec" : row == 2 ? "oct" : "bin");
+    qCInfo(appLog) << "Radix changed to:" << (row == 0 ? "hex" : row == 1 ? "dec" : row == 2 ? "oct" : "bin");
     switch (row) {
     case 0:
         foreach (TextButton *button, m_bindisable) {

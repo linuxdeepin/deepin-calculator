@@ -1,9 +1,10 @@
 // Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "programmeritemwidget.h"
+#include "../ddlog.h"
 
 #include <QPen>
 #include <QDomElement>
@@ -16,7 +17,7 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, const int width, const
     , m_label(new QLabel(label))
     , m_iconRenderer(new QSvgRenderer(this))
 {
-    qDebug() << "ProgrammerItemWidget constructor, label:" << label << "width:" << width;
+    qCDebug(appLog) << "ProgrammerItemWidget constructor, label:" << label << "width:" << width;
     m_width = width;
     setMouseTracking(true);
     setFocusPolicy(Qt::NoFocus);
@@ -63,7 +64,7 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, QWidget *parent)
     : QWidget(parent)
     , m_label(new QLabel(label))
 {
-    qDebug() << "ProgrammerItemWidget simple constructor, label:" << label;
+    qCDebug(appLog) << "ProgrammerItemWidget simple constructor, label:" << label;
     setFixedSize(QSize(250, 34));
     setFocusPolicy(Qt::NoFocus);
     setAttribute(Qt::WA_TranslucentBackground, true);
@@ -96,13 +97,13 @@ ProgrammerItemWidget::ProgrammerItemWidget(QString label, QWidget *parent)
 
 ProgrammerItemWidget::~ProgrammerItemWidget()
 {
-    qDebug() << "ProgrammerItemWidget destructor";
+    qCDebug(appLog) << "ProgrammerItemWidget destructor";
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 void ProgrammerItemWidget::enterEvent(QEnterEvent *event)
 {
-    qDebug() << "ProgrammerItemWidget enterEvent";
+    qCDebug(appLog) << "ProgrammerItemWidget enterEvent";
     m_ishover = true;
     update();
     QWidget::enterEvent(event);
@@ -313,7 +314,7 @@ void ProgrammerItemWidget::drawIcon(QPainter *painter) const
 
 void ProgrammerItemWidget::themetypechanged(int type)
 {
-    qDebug() << "ProgrammerItemWidget theme changed to:" << type;
+    qCDebug(appLog) << "ProgrammerItemWidget theme changed to:" << type;
 
     //主题改变时切换悬浮框图片
     QString path;
@@ -371,7 +372,7 @@ void ProgrammerItemWidget::themetypechanged(int type)
 
 void ProgrammerItemWidget::setFocus()
 {
-    qDebug() << "ProgrammerItemWidget setFocus";
+    qCDebug(appLog) << "ProgrammerItemWidget setFocus";
 
     m_isfocus = true;
     update();

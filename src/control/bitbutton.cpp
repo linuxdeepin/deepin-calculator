@@ -1,16 +1,17 @@
 // Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "bitbutton.h"
+#include "../ddlog.h"
 
 const QSize PROGRAMMER_BITBTNSIZE = QSize(16, 26);
 
 BitButton::BitButton(QWidget *parent)
     : DPushButton(parent)
 {
-    qDebug() << "BitButton constructor called";
+    qCDebug(appLog) << "BitButton constructor called";
     setText("0");
     setFlat(true);
     setFixedSize(PROGRAMMER_BITBTNSIZE);
@@ -20,7 +21,7 @@ BitButton::BitButton(QWidget *parent)
 
 BitButton::~BitButton()
 {
-    qDebug() << "BitButton destructor called";
+    qCDebug(appLog) << "BitButton destructor called";
 }
 
 void BitButton::init()
@@ -33,7 +34,7 @@ void BitButton::init()
 
 void BitButton::animate(bool isspace, int msec)
 {
-    qDebug() << "Button animation triggered with space:" << isspace << "duration:" << msec << "ms";
+    qCDebug(appLog) << "Button animation triggered with space:" << isspace << "duration:" << msec << "ms";
     if (m_isPress == false) { //edit for bug-20492 20200416
         m_isHover = false;  //edit for bug-20508 20200414
         if (!isspace)
