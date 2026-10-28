@@ -3,7 +3,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "mainwindow.h"
+#include "ddlog.h"
 #include "environments.h"
+#include "logger.h"
 #include "utils.h"
 
 #include <QCommandLineParser>
@@ -79,20 +81,25 @@ DGuiApplicationHelper::ColorType getThemeTypeSetting()
 
 int main(int argc, char *argv[])
 {
-    qInfo() << "Starting deepin-calculator application";
+    // set log format and register console appender
+    Dtk::Core::DLogManager::registerConsoleAppender();
+
+    MLogger();   // 日志处理要放在app之前，否则QApplication内部可能进行了日志打印，导致环境变量设置不生效
+
+    qCInfo(appLog) << "Starting deepin-calculator application";
     if (!QString(qgetenv("XDG_CURRENT_DESKTOP")).toLower().startsWith("deepin")) {
-        qDebug() << "Setting XDG_CURRENT_DESKTOP to Deepin";
+        qCDebug(appLog) << "Setting XDG_CURRENT_DESKTOP to Deepin";
         setenv("XDG_CURRENT_DESKTOP", "Deepin", 1);
     }
     // DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-    qInfo() << "Creating DApplication instance";
+    qCInfo(appLog) << "Creating DApplication instance";
     DApplication app(argc, argv);
     app.setAttribute(Qt::AA_UseHighDpiPixmaps);
     g_appPath = QDir::homePath() + QDir::separator() + "." + qApp->applicationName();
     QDir t_appDir;
     t_appDir.mkpath(g_appPath);
-    qDebug() << "Loading application translator";
+    qCDebug(appLog) << "Loading application translator";
     app.loadTranslator();
     app.setOrganizationName("deepin");
     app.setApplicationName("deepin-calculator");
@@ -110,7 +117,7 @@ int main(int argc, char *argv[])
     // app.setStyle("chameleon");
 
     using namespace Dtk::Core;
-    Dtk::Core::DLogManager::registerConsoleAppender();
+    // register file appender must after Application instance created
     Dtk::Core::DLogManager::registerFileAppender();
     QCommandLineParser cmdParser;
     cmdParser.setApplicationDescription("deepin-calculator");
@@ -119,37 +126,37 @@ int main(int argc, char *argv[])
     cmdParser.process(app);
 
 
-    qInfo() << "Creating MainWindow instance";
+    qCInfo(appLog) << "Creating MainWindow instance";
     MainWindow window;
     window.setWindowFlag(Qt::WindowMaximizeButtonHint, false);
     DSettingsAlt *m_dsettings = DSettingsAlt::instance();
     QDBusConnection dbus = QDBusConnection::sessionBus();
-    qInfo() << "Registering DBus service";
+    qCInfo(appLog) << "Registering DBus service";
     if (dbus.registerService("com.deepin.Calculator")) {
-        qInfo() << "DBus service registered successfully";
+        qCInfo(appLog) << "DBus service registered successfully";
         Dtk::Widget::moveToCenter(&window);
         m_dsettings->setOption("windowX", window.pos().x());
         m_dsettings->setOption("windowY", window.pos().y());
     } else {
-        qWarning() << "DBus service already registered, using existing instance";
+        qCWarning(appLog) << "DBus service already registered, using existing instance";
         window.move(m_dsettings->getOption("windowX").toInt() + 10, m_dsettings->getOption("windowY").toInt() + 10);
     }
 
-    qDebug() << QObject::tr("Getting theme type settings");
+    qCDebug(appLog) << QObject::tr("Getting theme type settings");
     DGuiApplicationHelper::ColorType oldpalette = getThemeTypeSetting();
-    qInfo() << QObject::tr("Current theme type:") << oldpalette;
+    qCInfo(appLog) << QObject::tr("Current theme type:") << oldpalette;
 
-    qDebug() << QObject::tr("Testing translations with longer sentences");
-    qDebug() << QObject::tr("This is a calculator application that supports basic arithmetic operations");
-    qDebug() << QObject::tr("Scientific mode provides advanced mathematical functions and constants");
-    qDebug() << QObject::tr("Programmer mode offers binary, octal, decimal and hexadecimal calculations");
-    qDebug() << QObject::tr("History view shows all previous calculations and their results");
-    qDebug() << QObject::tr("Memory functions allow you to store and recall calculation results");
+    qCDebug(appLog) << QObject::tr("Testing translations with longer sentences");
+    qCDebug(appLog) << QObject::tr("This is a calculator application that supports basic arithmetic operations");
+    qCDebug(appLog) << QObject::tr("Scientific mode provides advanced mathematical functions and constants");
+    qCDebug(appLog) << QObject::tr("Programmer mode offers binary, octal, decimal and hexadecimal calculations");
+    qCDebug(appLog) << QObject::tr("History view shows all previous calculations and their results");
+    qCDebug(appLog) << QObject::tr("Memory functions allow you to store and recall calculation results");
 
 
 
     if (oldversion == true) {
-        qDebug() << "Applying old theme settings";
+        qCDebug(appLog) << "Applying old theme settings";
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         DGuiApplicationHelper::instance()->setThemeType(oldpalette);
 #else
@@ -158,12 +165,12 @@ int main(int argc, char *argv[])
     }
 
     // Register D-Bus service.
-    qDebug() << "Registering DBus object";
+    qCDebug(appLog) << "Registering DBus object";
     dbus.registerObject("/com/deepin/calculator", &window);
-    qInfo() << "Showing main window";
+    qCInfo(appLog) << "Showing main window";
     window.show();
     window.switchModeBack();
 
-    qInfo() << "Entering application event loop";
+    qCInfo(appLog) << "Entering application event loop";
     return app.exec();
 }
