@@ -1,9 +1,10 @@
 // Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "scientificmodule.h"
+#include "../ddlog.h"
 
 #include "dthememanager.h"
 #include "../utils.h"
@@ -22,7 +23,7 @@ const int EXPRESSIONBAR_HEIGHT = 100;
 scientificModule::scientificModule(QWidget *parent)
     : DWidget(parent)
 {
-    qDebug() << "scientificModule constructor called";
+    qCDebug(appLog) << "scientificModule constructor called";
     m_stackWidget = new QStackedWidget(this);
     m_sciexpressionBar = new SciExpressionBar(this);
     m_memhiskeypad = new MemHisKeypad(this);
@@ -82,19 +83,19 @@ scientificModule::scientificModule(QWidget *parent)
         //点击键盘按键上的m+,m-是先进行计算，若有计算结果放入内存中
         m_sciexpressionBar->enterEqualEvent();
         if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first) {
-            qDebug() << "Performing memory plus operation";
+            qCDebug(appLog) << "Performing memory plus operation";
             m_memhiswidget->memoryFunctions(MemHisWidget::widgetplus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second, row);
         } else {
-            qWarning() << "Cannot perform memory plus - invalid memory answer";
+            qCWarning(appLog) << "Cannot perform memory plus - invalid memory answer";
         }
     });
     connect(m_memhiswidget->findChild<MemoryWidget *>(), &MemoryWidget::widgetminus, this, [ = ](int row) {
         m_sciexpressionBar->enterEqualEvent();
         if (m_sciexpressionBar->getInputEdit()->getMemoryAnswer().first) {
-            qDebug() << "Performing memory minus operation";
+            qCDebug(appLog) << "Performing memory minus operation";
             m_memhiswidget->memoryFunctions(MemHisWidget::widgetminus, m_sciexpressionBar->getInputEdit()->getMemoryAnswer().second, row);
         } else {
-            qWarning() << "Cannot perform memory minus - invalid memory answer";
+            qCWarning(appLog) << "Cannot perform memory minus - invalid memory answer";
         }
     });
     connect(m_memoryPublic, &MemoryPublic::memorycleanSig, this, &scientificModule::mUnAvailableEvent);
@@ -158,10 +159,10 @@ scientificModule::scientificModule(QWidget *parent)
     });
 
     if (!m_memoryPublic->isEmpty()) {
-        qDebug() << "Memory is not empty, triggering available event";
+        qCDebug(appLog) << "Memory is not empty, triggering available event";
         mAvailableEvent();
     } else {
-        qDebug() << "Memory is empty, triggering unavailable event";
+        qCDebug(appLog) << "Memory is empty, triggering unavailable event";
         mUnAvailableEvent();
     }
 //    setScientificTabOrder();
@@ -169,7 +170,7 @@ scientificModule::scientificModule(QWidget *parent)
 
 scientificModule::~scientificModule()
 {
-    qDebug() << "scientificModule destructor called";
+    qCDebug(appLog) << "scientificModule destructor called";
 }
 
 void scientificModule::initTheme(int type)
@@ -183,7 +184,7 @@ void scientificModule::initTheme(int type)
  */
 void scientificModule::handleEditKeyPress(QKeyEvent *e)
 {
-    qDebug() << "handleEditKeyPress called with key:" << e->key();
+    qCDebug(appLog) << "handleEditKeyPress called with key:" << e->key();
     const bool isPressCtrl = e->modifiers() == Qt::ControlModifier; //ctrl是否按下
     const bool isPressShift = e->modifiers() == Qt::ShiftModifier; //shift是否按下
 
@@ -251,7 +252,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
         m_sciexpressionBar->enterEqualEvent();
         m_scikeypadwidget->animate(ScientificKeyPad::Key_Equals);
         if (m_sciexpressionBar->getexpression().first) {
-            qDebug() << "Updating history list with new calculation";
+            qCDebug(appLog) << "Updating history list with new calculation";
             m_memhiswidget->findChild<SimpleListModel *>()->updataList(m_sciexpressionBar->getanswer(), m_sciexpressionBar->getexpression().second, 0);
             m_memhiswidget->historyfilled();
             m_memhiswidget->findChild<SimpleListView *>()->scrollToTop();
@@ -501,7 +502,7 @@ void scientificModule::handleEditKeyPress(QKeyEvent *e)
  */
 void scientificModule::handleKeypadButtonPress(int key)
 {
-    qDebug() << "handleKeypadButtonPress called with key:" << key;
+    qCDebug(appLog) << "handleKeypadButtonPress called with key:" << key;
 
     bool pagefocus = false;
     m_scikeypadwidget->update();

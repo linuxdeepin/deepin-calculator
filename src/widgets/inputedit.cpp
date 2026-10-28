@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "inputedit.h"
+#include "../ddlog.h"
 
 #include "../../3rdparty/core/settings.h"
 #include "../../3rdparty/math/floatconfig.h"
@@ -33,7 +34,7 @@ InputEdit::InputEdit(QWidget *parent)
     , m_lastPos(0)
     , m_memoryans(0)
 {
-    qDebug() << "InputEdit constructor called";
+    qCDebug(appLog) << "InputEdit constructor called";
     m_evaluator = Evaluator::instance();
     setAttribute(Qt::WA_InputMethodEnabled, false); //禁止中文输入法
     setAttribute(Qt::WA_TranslucentBackground); //设置窗口透明
@@ -67,7 +68,7 @@ InputEdit::InputEdit(QWidget *parent)
 
 InputEdit::~InputEdit()
 {
-    qDebug() << "InputEdit destructor called";
+    qCDebug(appLog) << "InputEdit destructor called";
 }
 
 /**
@@ -114,7 +115,7 @@ InputEdit::~InputEdit()
  */
 QString InputEdit::expressionText()
 {
-    qDebug() << "expressionText called, current text:" << text();
+    qCDebug(appLog) << "expressionText called, current text:" << text();
 
     QString t = text();
     //    t.remove(",");
@@ -149,7 +150,7 @@ QString InputEdit::expressionText()
     //        t.remove(m_ansStartPos, m_ansLength);
     //        t.insert(m_ansStartPos, ans);
     //    }
-    //    qDebug() << t;
+    //    qCDebug(appLog) << t;
     return t;
 }
 
@@ -158,7 +159,7 @@ QString InputEdit::expressionText()
  */
 void InputEdit::setAnswer(const QString &str, const Quantity &ans)
 {
-    qDebug() << "setAnswer called, answer:" << str;
+    qCDebug(appLog) << "setAnswer called, answer:" << str;
 
     m_ans = ans;
     m_ansStartPos = 0;
@@ -205,7 +206,7 @@ void InputEdit::setAnswer(const QString &str, const Quantity &ans)
  */
 void InputEdit::clear()
 {
-    qDebug() << "clear called";
+    qCDebug(appLog) << "clear called";
 
     m_ansLength = 0;
     setText("");
@@ -232,7 +233,7 @@ void InputEdit::setRedoAction(bool state)
  */
 void InputEdit::keyPressEvent(QKeyEvent *e)
 {
-    qDebug() << "keyPressEvent called, key:" << e->key();
+    qCDebug(appLog) << "keyPressEvent called, key:" << e->key();
 
     if (hasFocus() && e->modifiers() == Qt::AltModifier && e->key() == Qt::Key_M) {
         showTextEditMenuByAltM();
@@ -246,7 +247,7 @@ void InputEdit::keyPressEvent(QKeyEvent *e)
  */
 void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    qDebug() << "mouseDoubleClickEvent called";
+    qCDebug(appLog) << "mouseDoubleClickEvent called";
 
     //fix bug-47162保持触摸屏双击输入框与其他应用一致
     QLineEdit::mouseDoubleClickEvent(e);
@@ -262,19 +263,19 @@ void InputEdit::mouseDoubleClickEvent(QMouseEvent *e)
 
 void InputEdit::mousePressEvent(QMouseEvent *e)
 {
-    qDebug() << "mousePressEvent called";
+    qCDebug(appLog) << "mousePressEvent called";
 
     if (e->button() == Qt::LeftButton) {
         setFocus();
         emit setResult(); //expression中m_isResult置为false
-        //        qDebug() << m_selected.selected;
+        //        qCDebug(appLog) << m_selected.selected;
     }
     QLineEdit::mousePressEvent(e);
 }
 
 void InputEdit::mouseReleaseEvent(QMouseEvent *event)
 {
-    qDebug() << "mouseReleaseEvent called";
+    qCDebug(appLog) << "mouseReleaseEvent called";
 
     if (event->button() == Qt::MiddleButton) {
         emit paste();
@@ -288,7 +289,7 @@ void InputEdit::mouseReleaseEvent(QMouseEvent *event)
  */
 void InputEdit::initAction()
 {
-    qDebug() << "initAction called";
+    qCDebug(appLog) << "initAction called";
 
     //fix bug-47321
     m_undo = new QAction(tr("Undo"), this);
@@ -392,7 +393,7 @@ void InputEdit::initAction()
  */
 void InputEdit::autoZoomFontSize()
 {
-    qDebug() << "autoZoomFontSize called";
+    qCDebug(appLog) << "autoZoomFontSize called";
 
     QFont font;
 
@@ -413,7 +414,7 @@ void InputEdit::autoZoomFontSize()
 
 void InputEdit::themetypechanged(int type)
 {
-    qDebug() << "themetypechanged called, type:" << type;
+    qCDebug(appLog) << "themetypechanged called, type:" << type;
 
     DPalette pl = this->palette();
     //itemwidget字体颜色设置
@@ -435,14 +436,14 @@ void InputEdit::themetypechanged(int type)
  */
 void InputEdit::valueChangeFromProSyskeypad(const QString num)
 {
-    qDebug() << "valueChangeFromProSyskeypad called, num:" << num;
+    qCDebug(appLog) << "valueChangeFromProSyskeypad called, num:" << num;
 
-//    qDebug() << "change";
+//    qCDebug(appLog) << "change";
     QString text = this->text();
     int pos = this->cursorPosition();
     int numstart = pos, numend = pos;
     QString number = formatBinaryNumber(num);
-//    qDebug() << "changenumber:" << number;
+//    qCDebug(appLog) << "changenumber:" << number;
     if (text == QString()) {
         text = number;
     } else {
@@ -474,8 +475,8 @@ void InputEdit::valueChangeFromProSyskeypad(const QString num)
  */
 void InputEdit::handleTextChanged(const QString &text)
 {
-    qDebug() << "handleTextChanged called, text:" << text;
-    qInfo() << "handleTextChanged raw text=" << text;
+    qCDebug(appLog) << "handleTextChanged called, text:" << text;
+    qCInfo(appLog) << "handleTextChanged raw text=" << text;
 
     // 第二阶段：入口规范化（将系统格式转换为内部格式）
     QString normalizedExpr = pointFaultTolerance(text);
@@ -491,7 +492,7 @@ void InputEdit::handleTextChanged(const QString &text)
     if (!decSym.isEmpty() && decSym != QLatin1String("."))
         normalizedExpr.replace(decimalPlaceholder, QLatin1String("."));
 
-    qInfo() << "InputEdit locale: decSym=" << decSym << "grpSym=" << grpSym << "normalized=" << normalizedExpr;
+    qCInfo(appLog) << "InputEdit locale: decSym=" << decSym << "grpSym=" << grpSym << "normalized=" << normalizedExpr;
 
     if (m_currentInAns) {
         m_ansLength = 0; //光标在ans中间且text改变，清空ans
@@ -535,7 +536,7 @@ void InputEdit::handleTextChanged(const QString &text)
         proExpr.remove(',').remove(" ");
         reformatStr = Utils::reformatSeparatorsPro(proExpr, Settings::instance()->programmerBase);
     }
-    qInfo() << "After reformatSeparators=" << reformatStr;
+    qCInfo(appLog) << "After reformatSeparators=" << reformatStr;
     reformatStr = reformatStr.replace('+', QString::fromUtf8("＋"))
                   .replace('-', QString::fromUtf8("－"))
                   .replace("_", QString::fromUtf8("－"))
@@ -550,7 +551,7 @@ void InputEdit::handleTextChanged(const QString &text)
                   .replace(QString::fromUtf8("％"), QChar('%'));
 
     multipleArithmetic(reformatStr);
-    qInfo() << "After multipleArithmetic=" << reformatStr;
+    qCInfo(appLog) << "After multipleArithmetic=" << reformatStr;
     // 过滤非法字符：仅保留数字、英文字母、常用运算符、括号、百分号以及系统定义的小数点/分组符
     // 注意：不能使用 ch.isLetter()，因为它会匹配中文字符
     const QString allowedStatic = QString::fromUtf8("＋－×÷.,%()/:^!π");
@@ -563,12 +564,12 @@ void InputEdit::handleTextChanged(const QString &text)
         }
     }
     reformatStr = filtered;
-    qInfo() << "After filtering=" << reformatStr;
+    qCInfo(appLog) << "After filtering=" << reformatStr;
     // reformatStr = pointFaultTolerance(reformatStr);
     //    reformatStr = symbolFaultTolerance(reformatStr);
     if (reformatStr != text) {
         QSignalBlocker blocker(this);
-        qInfo() << "setText(" << reformatStr << ")";
+        qCInfo(appLog) << "setText(" << reformatStr << ")";
         setText(reformatStr);
     }
     autoZoomFontSize();
@@ -804,7 +805,7 @@ QString InputEdit::symbolFaultTolerance(const QString &text)
             continue;
         }
     }
-//    qDebug() << symbolList << " a " << newText;
+//    qCDebug(appLog) << symbolList << " a " << newText;
     if (!symbolList.isEmpty() /*&& !newText.isEmpty()*/) { //防止输入栏中只有符号可输入*/+;暂未屏蔽%
         if ((newText.isEmpty() && symbolList.contains("－"))) {
             newText.append("－");
@@ -1333,7 +1334,7 @@ void InputEdit::getCurrentCursorPositionNumber(const int pos)
     } else {
         emit cursorPositionNumberChanged(currentnum);
     }
-//    qDebug() << "currentnum" << currentnum;
+//    qCDebug(appLog) << "currentnum" << currentnum;
 }
 
 bool InputEdit::isNumber(QChar a)

@@ -1,9 +1,10 @@
 // Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "basicmodule.h"
+#include "../ddlog.h"
 
 #include "dthememanager.h"
 #include "../utils.h"
@@ -18,7 +19,7 @@
 BasicModule::BasicModule(QWidget *parent)
     : DWidget(parent)
 {
-    qDebug() << "BasicModule constructor called";
+    qCDebug(appLog) << "BasicModule constructor called";
     m_keypadLayout = new QStackedWidget(this);
     m_basicKeypad = new BasicKeypad(this);
     m_memoryKeypad = new MemoryKeypad(this);
@@ -138,10 +139,10 @@ BasicModule::BasicModule(QWidget *parent)
     connect(m_memorylistwidget, &MemoryWidget::hideWidget, this, &BasicModule::closeListWidget);
     //获取科学模式内存是否为空，处理分开初始化科学模式下增加内存切到标准模式Mlist不能点击情况
     if (!m_memoryPublic->isEmpty()) {
-        qInfo() << "Memory is not empty, calling mAvailableEvent";
+        qCInfo(appLog) << "Memory is not empty, calling mAvailableEvent";
         mAvailableEvent();
     } else {
-        qInfo() << "Memory is empty, calling mUnAvailableEvent";
+        qCInfo(appLog) << "Memory is empty, calling mUnAvailableEvent";
         mUnAvailableEvent();
     }
     setBasicTabOrder();
@@ -149,12 +150,12 @@ BasicModule::BasicModule(QWidget *parent)
 
 BasicModule::~BasicModule()
 {
-    qDebug() << "BasicModule destructor called";
+    qCDebug(appLog) << "BasicModule destructor called";
 }
 
 void BasicModule::initTheme(int type)
 {
-    qDebug() << "initTheme called, type:" << type;
+    qCDebug(appLog) << "initTheme called, type:" << type;
 
     m_expressionBar->initTheme(type);
     update();
@@ -165,7 +166,7 @@ void BasicModule::initTheme(int type)
  */
 void BasicModule::handleEditKeyPress(QKeyEvent *e)
 {
-    qDebug() << "handleEditKeyPress called, key:" << e->key();
+    qCDebug(appLog) << "handleEditKeyPress called, key:" << e->key();
 
     if (m_keypadLayout->currentIndex() == 1)
         return;
@@ -307,7 +308,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
         if (isPressCtrl && m_memRCbtn && !m_isallgray) {
             m_memoryKeypad->animate(MemoryKeypad::Key_MC);
             QTimer::singleShot(100, this, [ = ] {
-                qInfo() << "Triggering memory clean operation";
+                qCInfo(appLog) << "Triggering memory clean operation";
                 m_memoryPublic->memoryclean(); //延迟，让动画效果显示
             });
         }
@@ -341,7 +342,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
             m_memoryKeypad->animate(MemoryKeypad::Key_MS);
             m_expressionBar->settingLinkage();
             if (m_expressionBar->getInputEdit()->getMemoryAnswer().first)
-                qInfo() << "Generating memory data";
+                qCInfo(appLog) << "Generating memory data";
                 m_memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         }
         break;
@@ -357,7 +358,7 @@ void BasicModule::handleEditKeyPress(QKeyEvent *e)
  */
 void BasicModule::handleKeypadButtonPress(int key)
 {
-    qDebug() << "handleKeypadButtonPress called, key:" << key;
+    qCDebug(appLog) << "handleKeypadButtonPress called, key:" << key;
 
     bool pagefocus = false;
     m_basicKeypad->update();
@@ -428,7 +429,7 @@ void BasicModule::handleKeypadButtonPress(int key)
         m_expressionBar->settingLinkage();
         // 仅当输入栏存在可计算结果时才执行MS存储，避免将无效表达式（如未完结的“89×”）错误存为0
         if (m_expressionBar->getInputEdit()->getMemoryAnswer().first) { // 如果输入栏中可计算出结果
-            qInfo() << "Generating memory data from keypad";
+            qCInfo(appLog) << "Generating memory data from keypad";
             m_memoryPublic->generateData(m_expressionBar->getInputEdit()->getMemoryAnswer().second);
         }
         break;
@@ -480,7 +481,7 @@ void BasicModule::handleKeypadButtonPress(int key)
  */
 void BasicModule::handleKeypadButtonPressByspace(int key)
 {
-    qDebug() << "handleKeypadButtonPressByspace called, key:" << key;
+    qCDebug(appLog) << "handleKeypadButtonPressByspace called, key:" << key;
 
     m_basicKeypad->update();
     m_memoryKeypad->update();

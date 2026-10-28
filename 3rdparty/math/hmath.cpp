@@ -19,6 +19,7 @@
 // Boston, MA 02110-1301, USA.
 
 #include "hmath.h"
+#include "../../src/ddlog.h"
 
 #include "floatcommon.h"
 #include "floatconst.h"
@@ -2157,11 +2158,11 @@ HNumber HMath::rcsh(const HNumber &val, const HNumber &bits)
         str.push_front("0");
     }
     str.push_front(Settings::instance()->proRotateCarry.front());
-    qDebug() << Settings::instance()->proRotateCarry.front();
+    qCDebug(appLog) << Settings::instance()->proRotateCarry.front();
     if (shift <= 0) {
         shift = -shift;
         str = str.right(str.length() - shift) + str.left(shift);
-        qDebug() << str;
+        qCDebug(appLog) << str;
         Settings::instance()->proRotateCarry.front() = str.front();
         str = "0b" + str.right(Settings::instance()->proBitLength);
         HNumber result(str.toLatin1().data());
