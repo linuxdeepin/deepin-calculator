@@ -56,6 +56,7 @@ BasicModule::BasicModule(QWidget *parent)
             m_basicKeypad, &BasicKeypad::buttonThemeChanged);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_memoryPublic, &MemoryPublic::setThemeType);
+    m_basicKeypad->buttonThemeChanged(DGuiApplicationHelper::instance()->themeType());
     connect(m_expressionBar, &ExpressionBar::keyPress, this, &BasicModule::handleEditKeyPress);
     connect(m_expressionBar, &ExpressionBar::clearStateChanged, this,
             &BasicModule::handleClearStateChanged);
