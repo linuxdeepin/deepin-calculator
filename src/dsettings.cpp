@@ -1,9 +1,10 @@
 // Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "dsettings.h"
+#include "ddlog.h"
 
 #include <QDir>
 #include <QDebug>
@@ -19,9 +20,9 @@ static DSettingsAlt *INSTANCE = nullptr;
  */
 DSettingsAlt *DSettingsAlt::instance()
 {
-    qDebug() << "Requesting DSettingsAlt instance";
+    qCDebug(appLog) << "Requesting DSettingsAlt instance";
     if (!INSTANCE) {
-        qInfo() << "Creating new DSettingsAlt instance";
+        qCInfo(appLog) << "Creating new DSettingsAlt instance";
         INSTANCE = new DSettingsAlt();
         qAddPostRoutine(deleteInstance);
     }
@@ -36,10 +37,10 @@ DSettingsAlt::DSettingsAlt(QObject *parent)
     : QObject(parent),
       m_settings(new QSettings(QDir(Utils::getConfigDir()).filePath("config.config"), QSettings::IniFormat, this))
 {
-    qDebug() << "Initializing DSettingsAlt with config file:" << m_settings->fileName();
+    qCDebug(appLog) << "Initializing DSettingsAlt with config file:" << m_settings->fileName();
     initConfig();
     loadConfig();
-    qInfo() << "DSettingsAlt initialized successfully";
+    qCInfo(appLog) << "DSettingsAlt initialized successfully";
 }
 
 DSettingsAlt::~DSettingsAlt()
@@ -50,57 +51,57 @@ DSettingsAlt::~DSettingsAlt()
 
 void DSettingsAlt::loadConfig()
 {
-    qDebug() << "Loading configuration";
+    qCDebug(appLog) << "Loading configuration";
     m_standardSeparate = m_settings->value("standardSeparate", 3).toInt();  //默认3位
     m_scientificSeparate = m_settings->value("scientificSeparate", 3).toInt();
     m_programmerSeparate = m_settings->value("programmerSeparate", 3).toInt();
-    qInfo() << "Loaded separators - Standard:" << m_standardSeparate
+    qCInfo(appLog) << "Loaded separators - Standard:" << m_standardSeparate
             << "Scientific:" << m_scientificSeparate
             << "Programmer:" << m_programmerSeparate;
 }
 
 void DSettingsAlt::saveConfig()
 {
-    qDebug() << "Saving configuration";
+    qCDebug(appLog) << "Saving configuration";
     m_settings->setValue("standardSeparate", m_standardSeparate);
     m_settings->setValue("scientificSeparate", m_scientificSeparate);
     m_settings->setValue("programmerSeparate", m_programmerSeparate);
-    qInfo() << "Saved separators - Standard:" << m_standardSeparate
+    qCInfo(appLog) << "Saved separators - Standard:" << m_standardSeparate
             << "Scientific:" << m_scientificSeparate
             << "Programmer:" << m_programmerSeparate;
 }
 
 void DSettingsAlt::initConfig()
 {
-    qDebug() << "Initializing default configuration";
+    qCDebug(appLog) << "Initializing default configuration";
     if (m_settings->value("theme").toString().isEmpty()) {
-        qInfo() << "Setting default theme: light";
+        qCInfo(appLog) << "Setting default theme: light";
         setOption("theme", "light"); //主题初始化为浅色
     }
 
     if (m_settings->value("mode").toString().isEmpty()) {
-        qInfo() << "Setting default mode: standard (0)";
+        qCInfo(appLog) << "Setting default mode: standard (0)";
         setOption("mode", 0); //模式初始化为标准模式
     }
 
     if (m_settings->value("history").toString().isEmpty()) {
-        qInfo() << "Setting default history: disabled (0)";
+        qCInfo(appLog) << "Setting default history: disabled (0)";
         setOption("history", 0); //历史记录初始化关闭
     }
     if (m_settings->value("windowX").toString().isEmpty()) {
-        qDebug() << "Setting default windowX: 0";
+        qCDebug(appLog) << "Setting default windowX: 0";
         setOption("windowX", 0);  //保存当前打开位置x
     }
     if (m_settings->value("windowY").toString().isEmpty()) {
-        qDebug() << "Setting default windowY: 0";
+        qCDebug(appLog) << "Setting default windowY: 0";
         setOption("windowY", 0); //保存当前打开位置y
     }
     if (m_settings->value("windowWidth").toString().isEmpty()) {
-        qDebug() << "Setting default windowWidth: 0";
+        qCDebug(appLog) << "Setting default windowWidth: 0";
         setOption("windowWidth", 0); //保存窗口width
     }
     if (m_settings->value("windowHeight").toString().isEmpty()) {
-        qDebug() << "Setting default windowHeight: 0";
+        qCDebug(appLog) << "Setting default windowHeight: 0";
         setOption("windowHeight", 0); //保存窗口height
     }
 }
@@ -110,7 +111,7 @@ void DSettingsAlt::initConfig()
  */
 QVariant DSettingsAlt::getOption(const QString &key)
 {
-    qDebug() << "Getting option:" << key;
+    qCDebug(appLog) << "Getting option:" << key;
     return m_settings->value(key);
 }
 
@@ -121,13 +122,13 @@ QVariant DSettingsAlt::getOption(const QString &key)
  */
 void DSettingsAlt::setOption(const QString &key, const QVariant &value)
 {
-    qInfo() << "Setting option:" << key << "=" << value;
+    qCInfo(appLog) << "Setting option:" << key << "=" << value;
     m_settings->setValue(key, value);
 }
 
 void DSettingsAlt::deleteInstance()
 {
-    qDebug() << "Deleting DSettingsAlt instance";
+    qCDebug(appLog) << "Deleting DSettingsAlt instance";
     delete INSTANCE;
     INSTANCE = nullptr;
 }
@@ -138,7 +139,7 @@ void DSettingsAlt::deleteInstance()
  */
 int DSettingsAlt::getSeparate()
 {
-    qDebug() << "Getting separator for current mode";
+    qCDebug(appLog) << "Getting separator for current mode";
     int separate = 3;   //数字分割位数
     switch (m_settings->value("mode", 0).toInt()) {
     case 0: separate = getStandardSeparate();
@@ -151,10 +152,10 @@ int DSettingsAlt::getSeparate()
 
     //间隔位数小于1时转为3，防止发生一些意外情况
     if (separate < 1) {
-        qWarning() << "Invalid separator value:" << separate << ", resetting to 3";
+        qCWarning(appLog) << "Invalid separator value:" << separate << ", resetting to 3";
         separate = 3;
     }
-    qDebug() << "Current separator:" << separate;
+    qCDebug(appLog) << "Current separator:" << separate;
     return separate;
 }
 
@@ -165,7 +166,7 @@ int DSettingsAlt::getSeparate()
  */
 void DSettingsAlt::setSeparate(int separate)
 {
-    qInfo() << "Setting separator:" << separate << "for current mode";
+    qCInfo(appLog) << "Setting separator:" << separate << "for current mode";
     switch (m_settings->value("mode", 0).toInt()) {
     case 0: setStandardSeparate(separate);
         break;
