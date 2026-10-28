@@ -1,9 +1,10 @@
 // Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "equalbutton.h"
+#include "../ddlog.h"
 
 #include <QTimer>
 #include <QPainter>
@@ -21,7 +22,7 @@ EqualButton::EqualButton(const QString &text, QWidget *parent)
     : DSuggestButton(text, parent),
       m_effect(new QGraphicsDropShadowEffect(this))
 {
-    qDebug() << "EqualButton constructor called with text:" << text;
+    qCDebug(appLog) << "EqualButton constructor called with text:" << text;
     setFocusPolicy(Qt::TabFocus);
     setObjectName("TextButton");
 
@@ -33,7 +34,7 @@ EqualButton::EqualButton(const QString &text, QWidget *parent)
 
 EqualButton::~EqualButton()
 {
-    qDebug() << "EqualButton destructor called";
+    qCDebug(appLog) << "EqualButton destructor called";
 }
 
 /**
@@ -52,7 +53,7 @@ void EqualButton::init()
  */
 void EqualButton::animate(bool isspace, int msec)
 {
-    qDebug() << "Button animation triggered with space:" << isspace << "duration:" << msec << "ms";
+    qCDebug(appLog) << "Button animation triggered with space:" << isspace << "duration:" << msec << "ms";
     if (m_isPress == false) { //edit for bug-20492 20200416
         m_isHover = false;  //edit for bug-20508 20200414
         if (!isspace)
@@ -262,7 +263,7 @@ void EqualButton::paintEvent(QPaintEvent *e)
 
 void EqualButton::keyPressEvent(QKeyEvent *e)
 {
-    qDebug() << "Key pressed:" << e->key();
+    qCDebug(appLog) << "Key pressed:" << e->key();
     switch (e->key()) {
     case Qt::Key_Up:
         emit focus(0);

@@ -1,9 +1,10 @@
 // Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "iconbutton.h"
+#include "../ddlog.h"
 
 #include <QGridLayout>
 #include <QDebug>
@@ -21,7 +22,7 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
     , m_effect(new QGraphicsDropShadowEffect(this))
     , m_iconRenderer(new QSvgRenderer(this))
 {
-    qDebug() << "IconButton constructor called with type:" << b << "page:" << page;
+    qCDebug(appLog) << "IconButton constructor called with type:" << b << "page:" << page;
     if (b == 1)
         setFixedSize(HISTORY_WIDGET_CLEARBUTTONSIZE);
     m_isHover = false;
@@ -34,7 +35,7 @@ IconButton::IconButton(QWidget *parent, int b, bool page)
 
 IconButton::~IconButton()
 {
-    qDebug() << "IconButton destructor called";
+    qCDebug(appLog) << "IconButton destructor called";
 }
 
 /**
@@ -46,7 +47,7 @@ IconButton::~IconButton()
  */
 void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverFileName, const QString &pressFileName, int mode)
 {
-    qDebug() << "Setting icon URLs - normal:" << normalFileName
+    qCDebug(appLog) << "Setting icon URLs - normal:" << normalFileName
             << "hover:" << hoverFileName
             << "press:" << pressFileName
             << "mode:" << mode;
@@ -76,7 +77,7 @@ QStringList IconButton::getIconUrl() const
  */
 void IconButton::animate(bool isspace, int msec)
 {
-    qDebug() << "Button animation triggered with space:" << isspace << "duration:" << msec << "ms";
+    qCDebug(appLog) << "Button animation triggered with space:" << isspace << "duration:" << msec << "ms";
     if (m_isPress == false) { //edit for bug-20492 20200416
         m_isHover = false;  //edit for bug-20508 20200414
         if (!isspace)
