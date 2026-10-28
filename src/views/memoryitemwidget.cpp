@@ -1,9 +1,10 @@
 // Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "memoryitemwidget.h"
+#include "../ddlog.h"
 
 #include <QPainter>
 #include <QDebug>
@@ -23,7 +24,7 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
     , m_btnclean(new MemoryButton(QString("MC"), true, this))
     , m_label(new QLabel(this))
 {
-    qDebug() << "MemoryItemWidget constructor";
+    qCDebug(appLog) << "MemoryItemWidget constructor";
     setFocusPolicy(Qt::NoFocus);
     QVBoxLayout *layV = new QVBoxLayout(this); //存放四个控件
     QHBoxLayout *lay = new QHBoxLayout(); //存放三个按钮
@@ -66,7 +67,7 @@ MemoryItemWidget::MemoryItemWidget(QWidget *parent)
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 void MemoryItemWidget::enterEvent(QEnterEvent *event)
 {
-    qDebug() << "MemoryItemWidget enterEvent";
+    qCDebug(appLog) << "MemoryItemWidget enterEvent";
 
     m_ishover = true;
     m_btnplus->setHidden(false); //进入时显示按钮
@@ -277,7 +278,7 @@ void MemoryItemWidget::themetypechanged(int type)
  */
 void MemoryItemWidget::isexpressionempty(bool b)
 {
-    qDebug() << "MemoryItemWidget expression empty state changed to:" << b;
+    qCDebug(appLog) << "MemoryItemWidget expression empty state changed to:" << b;
 
     m_isExpressionEmpty = b;
     if (m_isExpressionEmpty) {
@@ -303,5 +304,5 @@ void MemoryItemWidget::setNextItemHover()
 
 MemoryItemWidget::~MemoryItemWidget()
 {
-    qDebug() << "MemoryItemWidget destructor";
+    qCDebug(appLog) << "MemoryItemWidget destructor";
 }

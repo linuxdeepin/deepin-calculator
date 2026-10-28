@@ -1,9 +1,10 @@
 // Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "memoryitemdelegate.h"
+#include "../ddlog.h"
 
 #include <DStyleHelper>
 #include <DGuiApplicationHelper>
@@ -12,12 +13,12 @@
 MemoryItemDelegate::MemoryItemDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-    qDebug() << "MemoryItemDelegate constructor";
+    qCDebug(appLog) << "MemoryItemDelegate constructor";
 }
 
 MemoryItemDelegate::~MemoryItemDelegate()
 {
-    qDebug() << "MemoryItemDelegate destructor";
+    qCDebug(appLog) << "MemoryItemDelegate destructor";
 }
 
 /**

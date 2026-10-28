@@ -1,9 +1,10 @@
 // Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "memorykeypad.h"
+#include "../ddlog.h"
 
 const QSize MEMORYBUTTON_SIZE = QSize(52, 32); //标准模式大小，为画边框比ui大2pix
 
@@ -18,7 +19,7 @@ MemoryKeypad::MemoryKeypad(QWidget *parent)
       m_layout(new QGridLayout(this)),
       m_mapper(new QSignalMapper(this))
 {
-    qDebug() << "MemoryKeypad constructor called";
+    qCDebug(appLog) << "MemoryKeypad constructor called";
     this->setFixedHeight(35);
     m_layout->setSpacing(2);  //按钮比ui大2pix,此处比ui小2pix
     m_layout->setContentsMargins(0, 0, 0, 0);
@@ -30,7 +31,7 @@ MemoryKeypad::MemoryKeypad(QWidget *parent)
 
 MemoryKeypad::~MemoryKeypad()
 {
-    qDebug() << "MemoryKeypad destructor called";
+    qCDebug(appLog) << "MemoryKeypad destructor called";
 }
 
 void MemoryKeypad::mouseMoveEvent(QMouseEvent *e)
@@ -57,7 +58,7 @@ DPushButton *MemoryKeypad::button(int key)
  */
 void MemoryKeypad::animate(Buttons key, bool isspace)
 {
-    qDebug() << "Button animation triggered for key:" << key << "with space:" << isspace;
+    qCDebug(appLog) << "Button animation triggered for key:" << key << "with space:" << isspace;
     MemoryButton *btn = static_cast<MemoryButton *>(button(key));
     btn->animate(isspace);
 }
@@ -82,7 +83,7 @@ bool MemoryKeypad::buttonHasFocus()
  */
 void MemoryKeypad::initButtons()
 {
-    qDebug() << "Initializing memory keypad buttons";
+    qCDebug(appLog) << "Initializing memory keypad buttons";
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;

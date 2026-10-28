@@ -1,9 +1,10 @@
 // Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "prosystemkeypad.h"
+#include "../ddlog.h"
 
 #include <QDebug>
 #include "../../3rdparty/core/settings.h"
@@ -16,7 +17,7 @@ ProSystemKeypad::ProSystemKeypad(QWidget *parent)
     : DWidget(parent),
       m_layout(new QGridLayout(this))
 {
-    qDebug() << "ProSystemKeypad constructor called";
+    qCDebug(appLog) << "ProSystemKeypad constructor called";
     this->setFocusPolicy(Qt::ClickFocus);
     this->setFixedSize(SYSTEMKEYPADSIZE);
     m_layout->setContentsMargins(LEFT_MARGIN, 0, 0, BOTTOM_MARGIN);
@@ -26,7 +27,7 @@ ProSystemKeypad::ProSystemKeypad(QWidget *parent)
 
 ProSystemKeypad::~ProSystemKeypad()
 {
-    qDebug() << "ProSystemKeypad destructor called";
+    qCDebug(appLog) << "ProSystemKeypad destructor called";
 }
 
 /**
@@ -35,7 +36,7 @@ ProSystemKeypad::~ProSystemKeypad()
  */
 void ProSystemKeypad::setSystem(int system, int oldsystem)
 {
-    qInfo() << "System changed from" << oldsystem << "to" << system << "bit";
+    qCInfo(appLog) << "System changed from" << oldsystem << "to" << system << "bit";
     QHashIterator<int, ProBitWidget *> i(m_keys);
     if (system == 64) {
         while (i.hasNext()) {
@@ -115,7 +116,7 @@ void ProSystemKeypad::setSystem(int system, int oldsystem)
                 emit valuechanged(m_binaryValue);
         }
     }
-    //    qDebug() << m_binaryValue;
+    //    qCDebug(appLog) << m_binaryValue;
 }
 
 bool ProSystemKeypad::buttonHasFocus()
@@ -143,7 +144,7 @@ void ProSystemKeypad::mouseMoveEvent(QMouseEvent *event)
  */
 void ProSystemKeypad::getFocus(int dir, int key)
 {
-    qDebug() << "Focus direction:" << dir << "for key:" << key;
+    qCDebug(appLog) << "Focus direction:" << dir << "for key:" << key;
     switch (dir) {
     case 0:
         if (key < 48 && m_buttons.value(key + 16)->isEnabled())
@@ -183,7 +184,7 @@ void ProSystemKeypad::setvalue(QString num)
         longBitCut(num);
     } else
         m_binaryValue.fill('0', 64).replace(64 - length, length, num);
-//    qDebug() << m_binaryValue;
+//    qCDebug(appLog) << m_binaryValue;
     for (int i = 0; i < Settings::instance()->proBitLength; i++) {
         if (m_binaryValue.at(63 - i) == '1') {
             m_buttons.value(i)->setButtonState(true);
@@ -243,11 +244,11 @@ void ProSystemKeypad::initconnects()
  */
 void ProSystemKeypad::changeBinaryValue(int i)
 {
-    qDebug() << "Binary value changed at position:" << i;
+    qCDebug(appLog) << "Binary value changed at position:" << i;
     if (m_binaryValue.at(63 - i) == '0')
         m_binaryValue.replace(63 - i, 1, '1');
     else
         m_binaryValue.replace(63 - i, 1, '0');
-//    qDebug() << m_binaryValue;
+//    qCDebug(appLog) << m_binaryValue;
     emit valuechanged(m_binaryValue);
 }
