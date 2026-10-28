@@ -1,9 +1,10 @@
 // Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "programmerarrowdelegate.h"
+#include "../ddlog.h"
 
 #include <DStyleHelper>
 #include <DGuiApplicationHelper>
@@ -14,12 +15,12 @@
 ProgrammerArrowDelegate::ProgrammerArrowDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-    qDebug() << "ProgrammerArrowDelegate constructor";
+    qCDebug(appLog) << "ProgrammerArrowDelegate constructor";
 }
 
 ProgrammerArrowDelegate::~ProgrammerArrowDelegate()
 {
-    qDebug() << "ProgrammerArrowDelegate destructor";
+    qCDebug(appLog) << "ProgrammerArrowDelegate destructor";
 }
 
 void ProgrammerArrowDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -49,7 +50,7 @@ void ProgrammerArrowDelegate::paint(QPainter *painter, const QStyleOptionViewIte
 
 void ProgrammerArrowDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    qDebug() << "ProgrammerArrowDelegate::updateEditorGeometry";
+    qCDebug(appLog) << "ProgrammerArrowDelegate::updateEditorGeometry";
 
     Q_UNUSED(index);
     editor->setGeometry(option.rect);

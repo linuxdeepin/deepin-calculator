@@ -1,9 +1,10 @@
 // Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "prolistdelegate.h"
+#include "../ddlog.h"
 
 #include <QDebug>
 #include <QEvent>
@@ -21,24 +22,24 @@ const int LEFT_MARGIN = 12; //prolistview左边距
 ProListDelegate::ProListDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-    qDebug() << "ProListDelegate constructor";
+    qCDebug(appLog) << "ProListDelegate constructor";
 }
 
 ProListDelegate::~ProListDelegate()
 {
-    qDebug() << "ProListDelegate destructor";
+    qCDebug(appLog) << "ProListDelegate destructor";
 }
 
 void ProListDelegate::setThemeType(int type)
 {
-    qDebug() << "ProListDelegate theme type changed to:" << type;
+    qCDebug(appLog) << "ProListDelegate theme type changed to:" << type;
 
     m_themeType = type;
 }
 
 void ProListDelegate::currentfocusindex(QModelIndex index)
 {
-    qDebug() << "ProListDelegate focus index changed to:" << index.row();
+    qCDebug(appLog) << "ProListDelegate focus index changed to:" << index.row();
 
     m_focusindex = index;
 }
@@ -149,7 +150,7 @@ bool ProListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, cons
 
 void ProListDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    qDebug() << "ProListDelegate::updateEditorGeometry";
+    qCDebug(appLog) << "ProListDelegate::updateEditorGeometry";
 
     Q_UNUSED(index);
     editor->setGeometry(option.rect);

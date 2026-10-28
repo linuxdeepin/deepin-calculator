@@ -1,9 +1,10 @@
 // Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "simplelistview.h"
+#include "../ddlog.h"
 
 #include <QApplication>
 #include <QMouseEvent>
@@ -20,7 +21,7 @@
 SimpleListView::SimpleListView(int mode, QWidget *parent)
     : DListView(parent)
 {
-    qDebug() << "SimpleListView constructor, mode:" << mode;
+    qCDebug(appLog) << "SimpleListView constructor, mode:" << mode;
 
     m_mode = mode;
 
@@ -47,7 +48,7 @@ SimpleListView::SimpleListView(int mode, QWidget *parent)
 
 SimpleListView::~SimpleListView()
 {
-    qDebug() << "SimpleListView destructor";
+    qCDebug(appLog) << "SimpleListView destructor";
 }
 
 /**
@@ -55,7 +56,7 @@ SimpleListView::~SimpleListView()
  */
 void SimpleListView::contextMenuEvent(QContextMenuEvent *event)
 {
-    qDebug() << "SimpleListView contextMenuEvent at pos:" << event->pos();
+    qCDebug(appLog) << "SimpleListView contextMenuEvent at pos:" << event->pos();
 
     QMenu *menu = new QMenu(this);
     //缺翻译
@@ -80,14 +81,14 @@ void SimpleListView::contextMenuEvent(QContextMenuEvent *event)
  */
 void SimpleListView::listItemFill(bool itemfill)
 {
-    qDebug() << "SimpleListView listItemFill:" << itemfill;
+    qCDebug(appLog) << "SimpleListView listItemFill:" << itemfill;
 
     m_itemfill = itemfill;
 }
 
 void SimpleListView::showTextEditMenuByAltM(const QModelIndex &index)
 {
-    qDebug() << "SimpleListView showTextEditMenuByAltM for row:" << index.row();
+    qCDebug(appLog) << "SimpleListView showTextEditMenuByAltM for row:" << index.row();
 
     QMenu *menu = new QMenu(this);
     //缺翻译
