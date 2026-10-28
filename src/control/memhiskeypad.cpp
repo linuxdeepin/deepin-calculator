@@ -1,9 +1,10 @@
 // Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "memhiskeypad.h"
+#include "../ddlog.h"
 
 const MemHisKeypad::KeyDescription MemHisKeypad::keyDescriptions[] = {
     {"F-E", Key_FE, 1, 0, 1, 1},
@@ -17,7 +18,7 @@ MemHisKeypad::MemHisKeypad(QWidget *parent)
       m_layout(new QGridLayout(this)),
       m_mapper(new QSignalMapper(this))
 {
-    qDebug() << "MemHisKeypad constructor called";
+    qCDebug(appLog) << "MemHisKeypad constructor called";
     this->setFixedHeight(41);
     m_layout->setSpacing(3);  //按钮比ui大2pix,此处比ui小2pix
     m_layout->setContentsMargins(0, 0, 0, 0);
@@ -30,7 +31,7 @@ MemHisKeypad::MemHisKeypad(QWidget *parent)
 
 MemHisKeypad::~MemHisKeypad()
 {
-    qDebug() << "MemHisKeypad destructor called";
+    qCDebug(appLog) << "MemHisKeypad destructor called";
 }
 
 void MemHisKeypad::mouseMoveEvent(QMouseEvent *e)
@@ -52,7 +53,7 @@ DPushButton *MemHisKeypad::button(Buttons key)
  */
 void MemHisKeypad::animate(Buttons key, bool isspace)
 {
-    qDebug() << "Button animation triggered for key:" << key << "with space:" << isspace;
+    qCDebug(appLog) << "Button animation triggered for key:" << key << "with space:" << isspace;
     MemoryButton *btn = static_cast<MemoryButton *>(button(key));
     btn->animate(isspace);
 }
@@ -74,7 +75,7 @@ bool MemHisKeypad::buttonHasFocus()
  */
 void MemHisKeypad::initButtons()
 {
-    qDebug() << "Initializing memory/history buttons";
+    qCDebug(appLog) << "Initializing memory/history buttons";
     const int count = sizeof(keyDescriptions) / sizeof(keyDescriptions[0]);
     for (int i = 0; i < count; ++i) {
         const KeyDescription *desc = keyDescriptions + i;
@@ -113,7 +114,7 @@ void MemHisKeypad::initButtons()
  */
 void MemHisKeypad::getFocus(int direction)
 {
-    qDebug() << "Focus direction changed:" << direction;
+    qCDebug(appLog) << "Focus direction changed:" << direction;
     QHashIterator<Buttons, QPair<DPushButton *, const KeyDescription *>> i(m_keys);
     while (i.hasNext()) {
         i.next();

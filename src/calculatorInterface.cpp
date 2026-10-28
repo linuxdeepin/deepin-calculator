@@ -1,9 +1,10 @@
 // Copyright (C) 2017 ~ 2025 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "calculatorInterface.h"
+#include "ddlog.h"
 #include "mainwindow.h"
 #include "dsettings.h"
 
@@ -14,19 +15,19 @@ CalculatorInterface::CalculatorInterface(MainWindow *parent)
     : QDBusAbstractAdaptor(parent)
     , m_mainWindow(parent)
 {
-    qDebug() << "CalculatorInterface created";
+    qCDebug(appLog) << "CalculatorInterface created";
     // Register D-Bus object
     QDBusConnection::sessionBus().registerObject("/", parent, QDBusConnection::ExportAdaptors);
 }
 
 CalculatorInterface::~CalculatorInterface()
 {
-    qDebug() << "CalculatorInterface destroyed";
+    qCDebug(appLog) << "CalculatorInterface destroyed";
 }
 
 bool CalculatorInterface::showWindow()
 {
-    qDebug() << "D-Bus: showWindow() called";
+    qCDebug(appLog) << "D-Bus: showWindow() called";
     if (m_mainWindow) {
         m_mainWindow->show();
         m_mainWindow->raise();
@@ -38,7 +39,7 @@ bool CalculatorInterface::showWindow()
 
 bool CalculatorInterface::hideWindow()
 {
-    qDebug() << "D-Bus: hideWindow() called";
+    qCDebug(appLog) << "D-Bus: hideWindow() called";
     if (m_mainWindow) {
         m_mainWindow->hide();
         return true;
@@ -48,7 +49,7 @@ bool CalculatorInterface::hideWindow()
 
 bool CalculatorInterface::raiseWindow()
 {
-    qDebug() << "D-Bus: raiseWindow() called";
+    qCDebug(appLog) << "D-Bus: raiseWindow() called";
     if (m_mainWindow) {
         m_mainWindow->show();
         m_mainWindow->raise();
@@ -60,7 +61,7 @@ bool CalculatorInterface::raiseWindow()
 
 bool CalculatorInterface::quitWindow()
 {
-    qDebug() << "D-Bus: quitWindow() called";
+    qCDebug(appLog) << "D-Bus: quitWindow() called";
     if (m_mainWindow) {
         m_mainWindow->close();
         return true;
@@ -70,7 +71,7 @@ bool CalculatorInterface::quitWindow()
 
 bool CalculatorInterface::switchToSpecialMode(int mode)
 {
-    qDebug() << "D-Bus: switchToSpecialMode() called with mode:" << mode;
+    qCDebug(appLog) << "D-Bus: switchToSpecialMode() called with mode:" << mode;
     if (m_mainWindow) {
         switch (mode) {
             case 0:
@@ -83,7 +84,7 @@ bool CalculatorInterface::switchToSpecialMode(int mode)
                 switchToProgrammerMode();
                 break;
             default:
-                qWarning() << "D-Bus: Invalid mode:" << mode;
+                qCWarning(appLog) << "D-Bus: Invalid mode:" << mode;
                 return false;
         }
         return true;
@@ -93,7 +94,7 @@ bool CalculatorInterface::switchToSpecialMode(int mode)
 
 bool CalculatorInterface::switchToStandardMode()
 {
-    qDebug() << "D-Bus: switchToStandardMode() called";
+    qCDebug(appLog) << "D-Bus: switchToStandardMode() called";
     if (m_mainWindow) {
         m_mainWindow->switchToSimpleMode();
         // Set the action checked state using accessor method
@@ -108,7 +109,7 @@ bool CalculatorInterface::switchToStandardMode()
 
 bool CalculatorInterface::switchToScientificMode()
 {
-    qDebug() << "D-Bus: switchToScientificMode() called";
+    qCDebug(appLog) << "D-Bus: switchToScientificMode() called";
     if (m_mainWindow) {
         m_mainWindow->switchToScientificMode();
         // Set the action checked state using accessor method
@@ -123,7 +124,7 @@ bool CalculatorInterface::switchToScientificMode()
 
 bool CalculatorInterface::switchToProgrammerMode()
 {
-    qDebug() << "D-Bus: switchToProgrammerMode() called";
+    qCDebug(appLog) << "D-Bus: switchToProgrammerMode() called";
     if (m_mainWindow) {
         m_mainWindow->switchToProgrammerMode();
         // Set the action checked state using accessor method
@@ -138,7 +139,7 @@ bool CalculatorInterface::switchToProgrammerMode()
 
 int CalculatorInterface::getCurrentMode()
 {
-    qDebug() << "D-Bus: getCurrentMode() called";
+    qCDebug(appLog) << "D-Bus: getCurrentMode() called";
     if (m_mainWindow) {
         DSettingsAlt *settings = DSettingsAlt::instance();
         return settings->getOption("mode").toInt();
