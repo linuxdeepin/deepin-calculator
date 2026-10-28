@@ -23,6 +23,7 @@
 // Boston, MA 02110-1301, USA.
 
 #include "evaluator.h"
+#include "../../src/ddlog.h"
 #include "session.h"
 #include "settings.h"
 #include "../math/rational.h"
@@ -589,10 +590,10 @@ void TokenStack::reduce(QList<Token> tokens, Token &&top, int minPrecedence)
 #ifdef EVALUATOR_DEBUG
     {
         const auto &_tokens = tokens;
-        qDebug() << "reduce(" << _tokens.size() << ", " << top.description()
+        qCDebug(appLog) << "reduce(" << _tokens.size() << ", " << top.description()
                  << ", " << minPrecedence << ")";
         for (const auto &t : _tokens)
-            qDebug() << t.description();
+            qCDebug(appLog) << t.description();
     }
 #endif // EVALUATOR_DEBUG
 
@@ -618,7 +619,7 @@ void TokenStack::reduce(QList<Token> tokens, Token &&top, int minPrecedence)
         if (token.pos() == -1 || token.size() == -1) {
 
 #ifdef EVALUATOR_DEBUG
-            qDebug() << "BUG: found token with either pos or size not set, "
+            qCDebug(appLog) << "BUG: found token with either pos or size not set, "
                      "but not both.";
 #endif  // EVALUATOR_DEBUG
             continue;
@@ -630,7 +631,7 @@ void TokenStack::reduce(QList<Token> tokens, Token &&top, int minPrecedence)
 
 #ifdef EVALUATOR_DEBUG
             if (token.pos() != end)
-                qDebug() << "BUG: tokens expressions are not successive.";
+                qCDebug(appLog) << "BUG: tokens expressions are not successive.";
 #endif  // EVALUATOR_DEBUG
 
         }
@@ -646,7 +647,7 @@ void TokenStack::reduce(QList<Token> tokens, Token &&top, int minPrecedence)
     top.setMinPrecedence(min_prec);
 
 #ifdef EVALUATOR_DEBUG
-    qDebug() << "=> " << top.description();
+    qCDebug(appLog) << "=> " << top.description();
 #endif  // EVALUATOR_DEBUG
 
     push(top);
@@ -655,7 +656,7 @@ void TokenStack::reduce(QList<Token> tokens, Token &&top, int minPrecedence)
 #ifdef EVALUATOR_DEBUG
 void Tokens::append(const Token &token)
 {
-    qDebug() << QString("tokens.append: type=%1 text=%2")
+    qCDebug(appLog) << QString("tokens.append: type=%1 text=%2")
              .arg(token.type())
              .arg(token.text());
     QVector<Token>::append(token);
@@ -923,7 +924,7 @@ Tokens Evaluator::scan(const QString &expr) const
     ex.append(QChar());
 
 #ifdef EVALUATOR_DEBUG
-    qDebug() << "Scanning" << ex;
+    qCDebug(appLog) << "Scanning" << ex;
 #endif // EVALUATOR_DEBUG
 
     // Main loop.
@@ -931,7 +932,7 @@ Tokens Evaluator::scan(const QString &expr) const
         QChar ch = ex.at(i);
 
 #ifdef EVALUATOR_DEBUG
-        qDebug() << QString("state=%1 ch=%2 i=%3 tokenText=%4")
+        qCDebug(appLog) << QString("state=%1 ch=%2 i=%3 tokenText=%4")
                  .arg(state).arg(ch).arg(i).arg(tokenText);
 #endif // EVALUATOR_DEBUG
 

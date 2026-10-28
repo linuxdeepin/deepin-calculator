@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "probitwidget.h"
+#include "../ddlog.h"
 #include <QDebug>
 
 #include <QHBoxLayout>
@@ -28,7 +29,7 @@ ProBitWidget::ProBitWidget(QWidget *parent)
     m_thirdbtn->setAccessibleName("ProBitWidgetThirdbtn");
     m_fourthbtn->setObjectName("ProBitWidgetFourthbtn");
     m_fourthbtn->setAccessibleName("ProBitWidgetFourthbtn");
-    qDebug() << "ProBitWidget constructor called";
+    qCDebug(appLog) << "ProBitWidget constructor called";
     setFixedSize(SIZE);
     QHBoxLayout *hlay = new QHBoxLayout();
     QVBoxLayout *vlay = new QVBoxLayout(this);
@@ -57,7 +58,7 @@ ProBitWidget::ProBitWidget(QWidget *parent)
 
 ProBitWidget::~ProBitWidget()
 {
-    qDebug() << "ProBitWidget destructor called";
+    qCDebug(appLog) << "ProBitWidget destructor called";
 }
 
 /**
@@ -66,7 +67,7 @@ ProBitWidget::~ProBitWidget()
  */
 void ProBitWidget::setButtonEnabled(bool enabled)
 {
-    qDebug() << "setButtonEnabled called, enabled:" << enabled;
+    qCDebug(appLog) << "setButtonEnabled called, enabled:" << enabled;
 
     m_firstbtn->setEnabled(enabled);
     m_secondbtn->setEnabled(enabled);
@@ -81,7 +82,7 @@ void ProBitWidget::setButtonEnabled(bool enabled)
  */
 BitButton *ProBitWidget::getbutton(int i)
 {
-    qDebug() << "getbutton called, index:" << i;
+    qCDebug(appLog) << "getbutton called, index:" << i;
 
     switch (i) {
     case 3:
