@@ -1,9 +1,10 @@
 // Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "simplelistdelegate.h"
+#include "../ddlog.h"
 
 #include <QDebug>
 #include <QEvent>
@@ -27,7 +28,7 @@ const int HISWIDTH = 451; //历史记录宽度
 SimpleListDelegate::SimpleListDelegate(int mode, QObject *parent)
     : QStyledItemDelegate(parent)
 {
-    qDebug() << "SimpleListDelegate constructor, mode:" << mode;
+    qCDebug(appLog) << "SimpleListDelegate constructor, mode:" << mode;
 
     m_mode = mode;
     m_selected = false;
@@ -36,7 +37,7 @@ SimpleListDelegate::SimpleListDelegate(int mode, QObject *parent)
 
 SimpleListDelegate::~SimpleListDelegate()
 {
-    qDebug() << "SimpleListDelegate destructor";
+    qCDebug(appLog) << "SimpleListDelegate destructor";
 //    delete m_simpleListDelegate;
 //    m_simpleListDelegate = NULL;
 }
@@ -114,7 +115,7 @@ void SimpleListDelegate::removeHisLinked()
 
 void SimpleListDelegate::setThemeType(int type)
 {
-    qDebug() << "SimpleListDelegate theme type changed to:" << type;
+    qCDebug(appLog) << "SimpleListDelegate theme type changed to:" << type;
 
     m_type = type;
 }
@@ -132,7 +133,7 @@ void SimpleListDelegate::paintback(const QModelIndex &index, int state)
 
 void SimpleListDelegate::currentfocusindex(QModelIndex index)
 {
-    qDebug() << "SimpleListDelegate focus index changed to:" << index.row();
+    qCDebug(appLog) << "SimpleListDelegate focus index changed to:" << index.row();
 
     m_focusindex = index;
 }
@@ -360,7 +361,7 @@ void SimpleListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
  */
 void SimpleListDelegate::drawFocusStatus(QPainter *painter, const QStyleOptionViewItem &option) const
 {
-    qDebug() << "SimpleListDelegate::drawFocusStatus";
+    qCDebug(appLog) << "SimpleListDelegate::drawFocusStatus";
 
     SimpleListView *listview = qobject_cast<SimpleListView *>(option.styleObject);
     if (listview->hasFocus()) {
@@ -481,7 +482,7 @@ void SimpleListDelegate::cutApart(const QString text, QString &linkNum, QString 
  */
 void SimpleListDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    qDebug() << "SimpleListDelegate::updateEditorGeometry";
+    qCDebug(appLog) << "SimpleListDelegate::updateEditorGeometry";
 
     Q_UNUSED(index);
     editor->setGeometry(option.rect);
