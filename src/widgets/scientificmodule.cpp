@@ -58,6 +58,7 @@ scientificModule::scientificModule(QWidget *parent)
             m_scikeypadwidget, &ScientificKeyPad::buttonThemeChanged);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_memhiswidget, &MemHisWidget::themeChanged);
+    m_scikeypadwidget->buttonThemeChanged(DGuiApplicationHelper::instance()->themeType());
     connect(m_sciexpressionBar, &SciExpressionBar::keyPress, this, &scientificModule::handleEditKeyPress);
     connect(m_sciexpressionBar, &SciExpressionBar::clearStateChanged, this,
             &scientificModule::handleClearStateChanged); //判断C/AC
