@@ -1,5 +1,5 @@
 // Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -27,6 +27,9 @@ ProCheckBtnKeypad::ProCheckBtnKeypad(QWidget *parent)
     this->setContentsMargins(10, 0, 10, 0);
 
     connect(m_mapper, SIGNAL(mapped(int)), SIGNAL(buttonPressed(int)));
+
+    // 构造后显式初始化图标路径，防止 themeTypeChanged 信号未触发时图标空白
+    buttonThemeChanged(DGuiApplicationHelper::instance()->themeType());
 }
 
 ProCheckBtnKeypad::~ProCheckBtnKeypad()

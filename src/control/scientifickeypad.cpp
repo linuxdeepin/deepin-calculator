@@ -1,5 +1,5 @@
 // Copyright (C) 2019 ~ 2020 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -125,6 +125,9 @@ ScientificKeyPad::ScientificKeyPad(QWidget *parent)
             &ScientificKeyPad::turnPage); //按下2nd事件
     connect(this, &ScientificKeyPad::buttonPressedbySpace, this,
             &ScientificKeyPad::turnPage);
+
+    // 构造后显式初始化图标路径，防止 themeTypeChanged 信号未触发时图标空白
+    buttonThemeChanged(DGuiApplicationHelper::instance()->themeType());
 }
 
 ScientificKeyPad::~ScientificKeyPad()
