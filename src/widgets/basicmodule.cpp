@@ -1,5 +1,5 @@
 // Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -52,6 +52,7 @@ BasicModule::BasicModule(QWidget *parent)
             &BasicModule::initTheme);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_basicKeypad, &BasicKeypad::buttonThemeChanged);
+    m_basicKeypad->buttonThemeChanged(DGuiApplicationHelper::instance()->themeType());
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_memoryPublic, &MemoryPublic::setThemeType);
     connect(m_expressionBar, &ExpressionBar::keyPress, this, &BasicModule::handleEditKeyPress);

@@ -1,5 +1,5 @@
 // Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -52,6 +52,7 @@ void IconButton::setIconUrl(const QString &normalFileName, const QString &hoverF
     //setIcon(QIcon(m_pixmap));
     //setIconSize(QSize(30,30)*devicePixelRatioF());
     m_mode = mode;
+    update();
 }
 
 QStringList IconButton::getIconUrl() const
