@@ -719,7 +719,6 @@ QString InputEdit::pointFaultTolerance(const QString &text)
         workingText.replace(decSym, decimalPlaceholder);
     workingText.replace(groupingPlaceholder, ",");
     workingText.replace(decimalPlaceholder, ".");
-    workingText.replace(QString::fromUtf8("。"), ".");
 
     QString exp = workingText;
     const QRegularExpression separatorExpression("[＋－×÷+*/()\\-]");
@@ -733,6 +732,13 @@ QString InputEdit::pointFaultTolerance(const QString &text)
     for (int i = 0; i < list.size(); ++i) {
         QString item = list[i];
         int firstPoint = item.indexOf(".");
+        if (item.contains(QString::fromUtf8("。"))) {
+            if (firstPoint >= 0)
+                item.remove(QString::fromUtf8("。"));
+            else
+                item.replace(QString::fromUtf8("。"), ".");
+            firstPoint = item.indexOf(".");
+        }
         if (firstPoint != -1) {
             if (firstPoint == 0) {
                 item.insert(firstPoint, "0");
