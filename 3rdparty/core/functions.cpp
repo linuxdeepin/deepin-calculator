@@ -23,8 +23,8 @@
 #include "functions.h"
 
 #include "settings.h"
-#include "../math/hmath.h"
-#include "../math/cmath.h"
+#include "../../src/math/hmath.h"
+#include "../../src/math/cmath.h"
 
 #include <QCoreApplication>
 #include <QHash>

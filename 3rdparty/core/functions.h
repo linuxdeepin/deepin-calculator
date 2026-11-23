@@ -21,7 +21,7 @@
 #define CORE_FUNCTION_H
 
 #include "errors.h"
-#include "../math/quantity.h"
+#include "../../src/math/quantity.h"
 
 #include <QHash>
 #include <QObject>

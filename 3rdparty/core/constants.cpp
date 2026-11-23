@@ -21,8 +21,8 @@
 
 /*#include "src/core/constants.h"
 
-#include "src/core/numberformatter.h"
-#include "../math/hmath.h"
+#include "numberformatter.h"
+#include "../../src/math/hmath.h"
 
 #include <QCoreApplication>
 

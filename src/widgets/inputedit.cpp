@@ -6,7 +6,7 @@
 #include "../ddlog.h"
 
 #include "../../3rdparty/core/settings.h"
-#include "../../3rdparty/math/floatconfig.h"
+#include "../math/floatconfig.h"
 #include "../utils.h"
 #include "../dsettings.h"
 

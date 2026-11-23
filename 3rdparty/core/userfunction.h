@@ -25,7 +25,7 @@
 #include<QStringList>
 #include<QVector>
 #include "opcode.h"
-#include "../math/quantity.h"
+#include "../../src/math/quantity.h"
 
 class UserFunction
 {

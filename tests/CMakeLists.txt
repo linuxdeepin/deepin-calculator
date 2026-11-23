@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+# SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -53,10 +53,14 @@ find_package(Qt${QT_DESIRED_VERSION} REQUIRED COMPONENTS Widgets Core Gui DBus X
 
 # Find Dtk via CMake (not pkg-config)，自适应 Dtk6/Dtk
 find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Widget Gui Core)
+pkg_check_modules(MPFR REQUIRED mpfr)
+pkg_check_modules(GMP REQUIRED gmp)
 
 include_directories(${DtkWidget_INCLUDE_DIRS})
 include_directories(${DtkGui_INCLUDE_DIRS})
 include_directories(${DtkCore_INCLUDE_DIRS})
+include_directories(${MPFR_INCLUDE_DIRS})
+include_directories(${GMP_INCLUDE_DIRS})
 
 # gtest/gmock
 # 使用 CMake 内置的 FindGTest 模块查找 gtest；
@@ -78,6 +82,8 @@ set(LINK_LIBS
     ${DtkGui_LIBRARIES}
     ${DtkCore_LIBRARIES}
     ${DFrameworkDBus_LIBRARIES}
+    ${MPFR_LIBRARIES}
+    ${GMP_LIBRARIES}
 )
 
 # Head file search path
@@ -85,7 +91,7 @@ SET(HEAD ${CMAKE_CURRENT_LIST_DIR}/../src
          ${CMAKE_CURRENT_LIST_DIR}/../src/bak
          ${CMAKE_CURRENT_LIST_DIR}/../src/control
          ${CMAKE_CURRENT_LIST_DIR}/../3rdparty/core
-         ${CMAKE_CURRENT_LIST_DIR}/../3rdparty/math
+         ${CMAKE_CURRENT_LIST_DIR}/../src/math
          ${CMAKE_CURRENT_LIST_DIR}/../src/views
          ${CMAKE_CURRENT_LIST_DIR}/../src/widgets
          ${CMAKE_CURRENT_LIST_DIR}/src  # For qt6_compat.h

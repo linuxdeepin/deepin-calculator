@@ -16,7 +16,9 @@ Build-Depends:
     qt6-base-dev,
     qt6-base-dev-tools,
     qt6-base-private-dev,
-    qt6-l10n-tools
+    qt6-l10n-tools,
+    libmpfr-dev,
+    libgmp-dev,
 Standards-Version: 3.9.8
 Homepage: http://www.deepin.org
 

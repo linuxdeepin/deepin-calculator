@@ -69,6 +69,8 @@ configure_file(src/environments.h.in environments.h @ONLY)
 find_package(PkgConfig REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core Gui DBus Xml Svg Test)
 find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Widget Gui Core)
+pkg_check_modules(MPFR REQUIRED mpfr)
+pkg_check_modules(GMP REQUIRED gmp)
 
 set (EXE_NAME deepin-calculator)
 
@@ -83,6 +85,8 @@ set(LINK_LIBS
     ${DtkGui_LIBRARIES}
     ${DtkCore_LIBRARIES}
     ${DFrameworkDBus_LIBRARIES}
+    ${MPFR_LIBRARIES}
+    ${GMP_LIBRARIES}
 )
 
 file(GLOB_RECURSE CAL_SRCH ${CMAKE_CURRENT_LIST_DIR}/src/*.h)
@@ -124,8 +128,9 @@ target_include_directories(${EXE_NAME} PUBLIC ${PROJECT_BINARY_DIR}
                                               ${DtkWidget_INCLUDE_DIRS}
                                               ${DtkCore_INCLUDE_DIRS}
                                               ${DtkGui_INCLUDE_DIRS}
-                                              ${DFrameworkDBus_INCLUDE_DIRS})
-
+                                              ${DFrameworkDBus_INCLUDE_DIRS}
+                                              ${MPFR_INCLUDE_DIRS}
+                                              ${GMP_INCLUDE_DIRS})
 target_link_libraries (${EXE_NAME} ${LINK_LIBS})
 
 if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
