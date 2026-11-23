@@ -25,9 +25,9 @@
 #include "variable.h"
 #include "userfunction.h"
 
-#include "../math/hmath.h"
-#include "../math/cmath.h"
-#include "../math/quantity.h"
+#include "../../src/math/hmath.h"
+#include "../../src/math/cmath.h"
+#include "../../src/math/quantity.h"
 
 #include <QHash>
 #include <QObject>

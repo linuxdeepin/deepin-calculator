@@ -22,7 +22,7 @@
 #include "settings.h"
 #include "../../src/ddlog.h"
 
-#include "../math/floatconfig.h"
+#include "../../src/math/floatconfig.h"
 
 #include <QDir>
 #include <QLocale>

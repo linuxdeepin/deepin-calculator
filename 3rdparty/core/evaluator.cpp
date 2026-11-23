@@ -26,8 +26,8 @@
 #include "../../src/ddlog.h"
 #include "session.h"
 #include "settings.h"
-#include "../math/rational.h"
-#include "../math/units.h"
+#include "../../src/math/rational.h"
+#include "../../src/math/units.h"
 
 #include <QCoreApplication>
 #include <QRegularExpression>

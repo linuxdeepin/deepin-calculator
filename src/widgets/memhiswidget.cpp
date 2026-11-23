@@ -9,7 +9,7 @@
 
 #include "dthememanager.h"
 #include "../utils.h"
-#include "../../3rdparty/math/quantity.h"
+#include "../math/quantity.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>

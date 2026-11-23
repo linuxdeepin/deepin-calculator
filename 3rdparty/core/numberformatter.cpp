@@ -20,7 +20,7 @@
 #include "numberformatter.h"
 
 #include "settings.h"
-#include "../math/quantity.h"
+#include "../../src/math/quantity.h"
 
 QString NumberFormatter::format(Quantity q)
 {

@@ -7,7 +7,7 @@
 #include "../../src/widgets/inputedit.h"
 #include <QAction>
 #include "../../3rdparty/core/settings.h"
-#include "../../3rdparty/math/cmath.h"
+#include "../../src/math/cmath.h"
 
 // 固定系统区域设置相关的环境依赖：分组开启、小数点"."、分组符","，
 // 与本文件用例断言中硬编码的格式一致

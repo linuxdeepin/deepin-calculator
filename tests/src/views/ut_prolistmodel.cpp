@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "ut_prolistmodel.h"
 
-#include "../../3rdparty/math/quantity.h"
+#include "../../src/math/quantity.h"
 
 Ut_ProListModel::Ut_ProListModel()
 {
