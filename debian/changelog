@@ -1,3 +1,10 @@
+deepin-calculator (6.5.42) unstable; urgency=medium
+
+  * chore: Update version to 6.5.42
+  * fix: prevent data loss when input contains both 。 and .
+
+ -- zhanghongyuan <zhanghongyuan@uniontech.com>  Wed, 25 Nov 2026 13:21:46 +0800
+
 deepin-calculator (6.5.41) unstable; urgency=medium
 
   * docs(calculator): add Portuguese help manual
