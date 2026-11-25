@@ -73,6 +73,8 @@ ProgramModule::ProgramModule(QWidget *parent)
             m_proExpressionBar, &ProExpressionBar::initTheme);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             m_memoryPublic, &MemoryPublic::setThemeType);
+    m_programmerKeypad->buttonThemeChanged(DGuiApplicationHelper::instance()->themeType());
+    checkBtnKeypadThemeChange(DGuiApplicationHelper::instance()->themeType());
 
     //数字键盘事件--鼠标点击、键盘交互、键盘输入
     connect(m_checkBtnKeypad, &ProCheckBtnKeypad::buttonPressed, this, &ProgramModule::handleKeypadButtonPress);
